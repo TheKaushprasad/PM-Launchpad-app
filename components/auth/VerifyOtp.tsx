@@ -2,14 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { motion } from 'framer-motion';
-import { KeyRound, ArrowRight, Loader2, ArrowLeft, RefreshCw } from 'lucide-react';
+import { KeyRound, ArrowRight, Loader2, ArrowLeft, RefreshCw, AlertCircle } from 'lucide-react';
+import { supabase } from '../../lib/supabaseClient';
 
 export const VerifyOtp: React.FC = () => {
   const [otp, setOtp] = useState('');
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isResending, setIsResending] = useState(false);
-  const { verifyOtp, resendOtp, tempEmail, isLoading } = useAuth();
+  const { verifyOtp, resendOtp, tempEmail } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,19 +31,30 @@ export const VerifyOtp: React.FC = () => {
     
     try {
       const isValid = await verifyOtp(otp);
+      
       if (isValid) {
-        // Validation successful. Check profile status via localStorage (sync)
-        // because state update might be batched.
-        const storedProfile = localStorage.getItem(`profile_${tempEmail}`);
-        if (storedProfile) {
-            navigate('/');
-        } else {
-            navigate('/profile-setup');
+        // Successful verification. Check if profile is complete.
+        // We use direct supabase call here for speed before context updates
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+             const { data: profile } = await supabase
+                .from('profiles')
+                .select('full_name') // Check for a required field
+                .eq('id', user.id)
+                .single();
+             
+             // If profile exists AND has a name, go to dashboard. Otherwise Setup.
+             if (profile && profile.full_name) {
+                 navigate('/');
+             } else {
+                 navigate('/profile-setup');
+             }
         }
       } else {
-        setError('Incorrect code. Please check your alert/console and try again.');
+        setError('Invalid code. Please check your email and try again.');
       }
     } catch (error) {
+      console.error(error);
       setError('An error occurred. Please try again.');
     } finally {
       setIsSubmitting(false);
@@ -54,7 +66,7 @@ export const VerifyOtp: React.FC = () => {
     setError('');
     try {
         await resendOtp();
-        // The context handles the alert/console log for the new code
+        alert(`New code sent to ${tempEmail}`);
     } catch (err) {
         setError('Failed to resend code.');
     } finally {
@@ -87,13 +99,13 @@ export const VerifyOtp: React.FC = () => {
                 </div>
                 <h1 className="text-2xl font-bold text-slate-900">Verify Email</h1>
                 <p className="text-slate-500 mt-2 text-sm">
-                    We've sent a code to <span className="font-semibold text-slate-700">{tempEmail}</span>.
+                    Enter the code sent to <span className="font-semibold text-slate-700">{tempEmail}</span>.
                 </p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-2">
-                    <label htmlFor="otp" className="block text-sm font-semibold text-slate-700">Enter Verification Code</label>
+                    <label htmlFor="otp" className="block text-sm font-semibold text-slate-700">One-Time Password</label>
                     <input 
                         type="text" 
                         id="otp"
@@ -108,6 +120,13 @@ export const VerifyOtp: React.FC = () => {
                         autoFocus
                     />
                     {error && <p className="text-red-500 text-xs font-medium text-center bg-red-50 p-2 rounded">{error}</p>}
+                </div>
+
+                <div className="bg-yellow-50 p-3 rounded-lg border border-yellow-100 flex gap-2">
+                   <AlertCircle className="w-4 h-4 text-yellow-600 flex-shrink-0 mt-0.5" />
+                   <p className="text-xs text-yellow-800 leading-tight">
+                      <strong>Tip:</strong> If you don't see the code in the email, check your Supabase Email Template settings to ensure <code>{`{{ .Token }}`}</code> is included.
+                   </p>
                 </div>
 
                 <button 

@@ -6,9 +6,7 @@ import { LessonDetail } from './components/LessonDetail';
 import { About } from './components/About';
 import { LandingPage } from './components/LandingPage';
 import { Login } from './components/auth/Login';
-import { VerifyOtp } from './components/auth/VerifyOtp';
-import { EmailSent } from './components/auth/EmailSent';
-import { ConfirmEmail } from './components/auth/ConfirmEmail';
+import { Signup } from './components/auth/Signup';
 import { ProfileSetup } from './components/auth/ProfileSetup';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { Menu, X } from 'lucide-react';
@@ -125,9 +123,7 @@ const App: React.FC = () => {
 
             {/* Auth Routes */}
             <Route path="/login" element={<Login />} />
-            <Route path="/otp" element={<VerifyOtp />} />
-            <Route path="/email-sent" element={<EmailSent />} />
-            <Route path="/confirm" element={<ConfirmEmail />} />
+            <Route path="/signup" element={<Signup />} />
             <Route path="/profile-setup" element={<ProfileSetupRouteWrapper />} />
 
             {/* Protected Routes (Fallbacks if accessed directly) */}

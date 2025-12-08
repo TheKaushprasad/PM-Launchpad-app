@@ -1,30 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { motion } from 'framer-motion';
-import { Mail, CheckCircle2, ArrowLeft, ExternalLink } from 'lucide-react';
+import { Mail, CheckCircle2, ArrowLeft } from 'lucide-react';
 
 export const EmailSent: React.FC = () => {
   const { tempEmail } = useAuth();
   const navigate = useNavigate();
-  const [simulatedLink, setSimulatedLink] = useState<string | null>(null);
 
   useEffect(() => {
     if (!tempEmail) {
       navigate('/login');
-      return;
     }
-
-    // SIMULATION: In a real app, the email goes to the inbox. 
-    // Here, we fetch the pending token from localStorage to display the "Simulated Link" 
-    // so the user can actually test the flow.
-    const pendingTokens = JSON.parse(localStorage.getItem('pm_launchpad_pending_tokens') || '{}');
-    const token = Object.keys(pendingTokens).find(key => pendingTokens[key].email === tempEmail);
-    
-    if (token) {
-        setSimulatedLink(`${window.location.origin}/#/confirm?token=${token}`);
-    }
-
   }, [tempEmail, navigate]);
 
   return (
@@ -67,25 +54,6 @@ export const EmailSent: React.FC = () => {
             >
                 Use a different email address
             </button>
-
-            {/* DEV MODE SIMULATION HELPER */}
-            {simulatedLink && (
-                <motion.div 
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 1 }}
-                    className="mt-10 pt-8 border-t border-dashed border-slate-300"
-                >
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Dev Mode: Simulated Email</p>
-                    <a 
-                        href={simulatedLink} 
-                        className="flex items-center justify-center gap-2 w-full py-3 bg-slate-800 hover:bg-slate-900 text-white rounded-xl font-bold transition-all shadow-lg"
-                    >
-                        Click to Confirm Account <ExternalLink className="w-4 h-4" />
-                    </a>
-                </motion.div>
-            )}
-
         </motion.div>
     </div>
   );
