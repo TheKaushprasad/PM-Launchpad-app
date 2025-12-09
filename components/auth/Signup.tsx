@@ -26,16 +26,9 @@ export const Signup: React.FC = () => {
     setError('');
     
     try {
-      const data = await signup(email, password);
-      
-      // If a session exists, the user is logged in (auto-confirm enabled)
-      if (data && data.session) {
-        navigate('/');
-      } else {
-        // If no session, email confirmation is likely required
-        alert('Account created successfully! Please check your email to confirm your account before logging in.');
-        navigate('/login');
-      }
+      await signup(email, password);
+      // Auto login successful, redirect to dashboard or profile setup
+      navigate('/');
     } catch (error: any) {
       console.error(error);
       setError(error.message || 'Failed to sign up. Please try again.');

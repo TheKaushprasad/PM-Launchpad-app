@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { User, UserProfile } from '../types';
-import { supabase } from '../lib/supabaseClient';
 
 interface AuthContextType {
   user: User | null;
@@ -13,135 +12,126 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+const USERS_KEY = 'pm_launchpad_users';
+const SESSION_KEY = 'pm_launchpad_session';
+
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Check active session
-    const checkSession = async () => {
+    // Check for active session in local storage
+    const loadSession = () => {
       try {
-        const { data: { session } } = await supabase.auth.getSession();
-        
-        if (session?.user) {
-          // Fetch profile
-          const { data: profileData } = await supabase
-            .from('profiles')
-            .select('*')
-            .eq('id', session.user.id)
-            .single();
-
-          // Only treat profile as existing if it has a Full Name.
-          const mappedProfile: UserProfile | undefined = (profileData && profileData.full_name) ? {
-            fullName: profileData.full_name,
-            profession: profileData.profession,
-            yearsOfExperience: profileData.years_of_experience,
-            designation: profileData.designation,
-            collegeName: profileData.college_name,
-            degreeName: profileData.degree_name,
-            passOutYear: profileData.pass_out_year
-          } : undefined;
-
+        const storedSession = localStorage.getItem(SESSION_KEY);
+        if (storedSession) {
+          const sessionUser = JSON.parse(storedSession);
           setUser({
-            email: session.user.email!,
+            email: sessionUser.email,
             isAuthenticated: true,
-            profile: mappedProfile
+            profile: sessionUser.profile
           });
         }
       } catch (error) {
-        console.error('Error checking session:', error);
+        console.error('Error loading session:', error);
+        localStorage.removeItem(SESSION_KEY);
       } finally {
         setIsLoading(false);
       }
     };
 
-    checkSession();
-
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
-        if (session?.user) {
-             const { data: profileData } = await supabase
-                .from('profiles')
-                .select('*')
-                .eq('id', session.user.id)
-                .single();
-
-             const mappedProfile: UserProfile | undefined = (profileData && profileData.full_name) ? {
-                fullName: profileData.full_name,
-                profession: profileData.profession,
-                yearsOfExperience: profileData.years_of_experience,
-                designation: profileData.designation,
-                collegeName: profileData.college_name,
-                degreeName: profileData.degree_name,
-                passOutYear: profileData.pass_out_year
-              } : undefined;
-
-            setUser({
-                email: session.user.email!,
-                isAuthenticated: true,
-                profile: mappedProfile
-            });
-            setIsLoading(false);
-        } else {
-            setUser(null);
-            setIsLoading(false);
-        }
-    });
-
-    return () => subscription.unsubscribe();
+    loadSession();
   }, []);
 
   const login = async (email: string, password: string) => {
-    // We do not set isLoading(true) here because onAuthStateChange handles the state update.
-    // Setting it manually can cause race conditions or stuck loading states if the listener is slow or doesn't fire.
-    
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password
-    });
+    setIsLoading(true);
+    // Simulate network delay
+    await new Promise(resolve => setTimeout(resolve, 800));
 
-    if (error) throw error;
-    return data;
+    try {
+        const usersStr = localStorage.getItem(USERS_KEY);
+        const users = usersStr ? JSON.parse(usersStr) : [];
+        const foundUser = users.find((u: any) => u.email === email && u.password === password);
+
+        if (!foundUser) {
+            throw new Error('Invalid email or password');
+        }
+
+        const userObj = {
+            email: foundUser.email,
+            isAuthenticated: true,
+            profile: foundUser.profile
+        };
+
+        localStorage.setItem(SESSION_KEY, JSON.stringify(userObj));
+        setUser(userObj);
+        return { user: userObj };
+    } catch (err) {
+        throw err;
+    } finally {
+        setIsLoading(false);
+    }
   };
 
   const signup = async (email: string, password: string) => {
-    const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-    });
+    setIsLoading(true);
+    // Simulate network delay
+    await new Promise(resolve => setTimeout(resolve, 800));
 
-    if (error) throw error;
-    return data;
+    try {
+        const usersStr = localStorage.getItem(USERS_KEY);
+        const users = usersStr ? JSON.parse(usersStr) : [];
+        
+        if (users.find((u: any) => u.email === email)) {
+            throw new Error('User already exists');
+        }
+
+        const newUser = { email, password, profile: null };
+        users.push(newUser);
+        localStorage.setItem(USERS_KEY, JSON.stringify(users));
+
+        // Auto login after signup
+        const userObj = {
+            email: newUser.email,
+            isAuthenticated: true,
+            profile: null
+        };
+        localStorage.setItem(SESSION_KEY, JSON.stringify(userObj));
+        setUser(userObj);
+
+        return { user: userObj, session: true };
+    } catch (err) {
+        throw err;
+    } finally {
+        setIsLoading(false);
+    }
   };
 
   const updateProfile = async (profile: UserProfile) => {
     setIsLoading(true);
+    await new Promise(resolve => setTimeout(resolve, 500));
+
     try {
-        const { data: { user: authUser } } = await supabase.auth.getUser();
+        const sessionStr = localStorage.getItem(SESSION_KEY);
+        if (!sessionStr) throw new Error("No authenticated user");
         
-        if (!authUser) throw new Error("No authenticated user");
+        const sessionUser = JSON.parse(sessionStr);
+        const email = sessionUser.email;
 
-        const updates = {
-            id: authUser.id,
-            email: authUser.email,
-            full_name: profile.fullName,
-            profession: profile.profession,
-            years_of_experience: profile.yearsOfExperience,
-            designation: profile.designation,
-            college_name: profile.collegeName,
-            degree_name: profile.degreeName,
-            pass_out_year: profile.passOutYear,
-            updated_at: new Date(),
-        };
+        // Update in users array to persist across sessions
+        const usersStr = localStorage.getItem(USERS_KEY);
+        const users = usersStr ? JSON.parse(usersStr) : [];
+        const userIndex = users.findIndex((u: any) => u.email === email);
 
-        const { error } = await supabase.from('profiles').upsert(updates);
-
-        if (error) throw error;
-
-        // Update local state immediately for responsiveness
-        if (user) {
-            setUser({ ...user, profile });
+        if (userIndex !== -1) {
+            users[userIndex].profile = profile;
+            localStorage.setItem(USERS_KEY, JSON.stringify(users));
         }
+
+        // Update current session
+        const updatedUser = { ...sessionUser, profile };
+        localStorage.setItem(SESSION_KEY, JSON.stringify(updatedUser));
+        setUser(updatedUser);
     } catch (error) {
         console.error('Error updating profile:', error);
         throw error;
@@ -150,8 +140,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
-  const logout = async () => {
-    await supabase.auth.signOut();
+  const logout = () => {
+    localStorage.removeItem(SESSION_KEY);
     setUser(null);
   };
 

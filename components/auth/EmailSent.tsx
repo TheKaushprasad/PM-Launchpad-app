@@ -1,18 +1,13 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
+import React from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Mail, CheckCircle2, ArrowLeft } from 'lucide-react';
 
 export const EmailSent: React.FC = () => {
-  const { tempEmail } = useAuth();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!tempEmail) {
-      navigate('/login');
-    }
-  }, [tempEmail, navigate]);
+  const location = useLocation();
+  // Optionally get email from navigation state if passed, otherwise generic
+  const email = location.state?.email || "your email";
 
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4 relative overflow-hidden">
@@ -39,8 +34,8 @@ export const EmailSent: React.FC = () => {
 
             <h1 className="text-3xl font-bold text-slate-900 mb-4">Check Your Inbox</h1>
             <p className="text-slate-500 text-lg mb-8 leading-relaxed">
-                We've sent a magic link to <br/>
-                <span className="font-bold text-slate-800">{tempEmail}</span>
+                We've sent a confirmation link to <br/>
+                <span className="font-bold text-slate-800">{email}</span>
             </p>
 
             <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200 mb-8">
@@ -52,7 +47,7 @@ export const EmailSent: React.FC = () => {
                 onClick={() => navigate('/login')} 
                 className="text-indigo-600 font-semibold text-sm hover:text-indigo-800 transition-colors"
             >
-                Use a different email address
+                Back to Sign In
             </button>
         </motion.div>
     </div>
