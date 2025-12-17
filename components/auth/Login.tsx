@@ -51,9 +51,9 @@ export const Login: React.FC = () => {
     >
         <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-                <label htmlFor="email" className="block text-sm font-semibold text-slate-700">Email Address</label>
+                <label htmlFor="email" className="block text-sm font-semibold text-zinc-700">Email Address</label>
                 <div className="relative">
-                    <Mail className="absolute left-3.5 top-3.5 w-5 h-5 text-slate-400" />
+                    <Mail className="absolute left-3.5 top-3.5 w-5 h-5 text-zinc-400" />
                     <input 
                         type="email" 
                         id="email"
@@ -61,15 +61,15 @@ export const Login: React.FC = () => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="you@example.com"
-                        className="w-full pl-10 pr-4 py-3 bg-white rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all text-slate-800 placeholder:text-slate-400"
+                        className="w-full pl-10 pr-4 py-3 bg-white rounded-xl border border-zinc-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all text-zinc-800 placeholder:text-zinc-400"
                     />
                 </div>
             </div>
 
             <div className="space-y-2">
-                <label htmlFor="password" className="block text-sm font-semibold text-slate-700">Password</label>
+                <label htmlFor="password" className="block text-sm font-semibold text-zinc-700">Password</label>
                 <div className="relative">
-                    <Lock className="absolute left-3.5 top-3.5 w-5 h-5 text-slate-400" />
+                    <Lock className="absolute left-3.5 top-3.5 w-5 h-5 text-zinc-400" />
                     <input 
                         type="password" 
                         id="password"
@@ -77,7 +77,7 @@ export const Login: React.FC = () => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="••••••••"
-                        className="w-full pl-10 pr-4 py-3 bg-white rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all text-slate-800 placeholder:text-slate-400"
+                        className="w-full pl-10 pr-4 py-3 bg-white rounded-xl border border-zinc-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all text-zinc-800 placeholder:text-zinc-400"
                     />
                 </div>
             </div>
@@ -104,7 +104,7 @@ export const Login: React.FC = () => {
         </form>
 
         <div className="mt-8 text-center">
-            <p className="text-sm text-slate-500">
+            <p className="text-sm text-zinc-500">
                 Don't have an account?{' '}
                 <Link to="/signup" className="font-bold text-indigo-600 hover:text-indigo-700 transition-colors">
                     Sign up
