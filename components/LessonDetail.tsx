@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { LESSONS, getCategoryColor, getCategoryIcon } from '../constants';
-import { ArrowLeft, ArrowRight, ExternalLink, FileText, Video, PenTool, ChevronLeft, ChevronRight, BookOpen, Clock, Play, X, CheckCircle } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ExternalLink, Video, PenTool, ChevronLeft, ChevronRight, BookOpen, Clock, Play, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useAuth } from '../contexts/AuthContext';
 
 const getYoutubeEmbedUrl = (url: string) => {
     try {
@@ -20,8 +19,6 @@ export const LessonDetail: React.FC = () => {
   const navigate = useNavigate();
   const topRef = useRef<HTMLDivElement>(null);
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
-  const { user, markLessonComplete } = useAuth();
-  const [markingComplete, setMarkingComplete] = useState(false);
 
   const currentDay = parseInt(id || '0', 10);
   const lesson = LESSONS.find(l => l.day === currentDay);
@@ -32,36 +29,17 @@ export const LessonDetail: React.FC = () => {
   const prevLesson = currentIndex > 0 ? sortedLessons[currentIndex - 1] : null;
   const nextLesson = currentIndex < sortedLessons.length - 1 ? sortedLessons[currentIndex + 1] : null;
 
-  const isCompleted = user?.completedLessons.includes(currentDay);
-
   useEffect(() => {
     topRef.current?.scrollIntoView({ behavior: 'smooth' });
     setActiveVideo(null);
   }, [id]);
-
-  const handleComplete = async () => {
-    if (!lesson) return;
-    setMarkingComplete(true);
-    try {
-        await markLessonComplete(lesson.day);
-        if (nextLesson) {
-            navigate(`/day/${nextLesson.day}`);
-        } else {
-            navigate('/');
-        }
-    } catch (error) {
-        console.error(error);
-    } finally {
-        setMarkingComplete(false);
-    }
-  };
 
   if (!lesson) {
     return (
         <div className="flex flex-col items-center justify-center h-[60vh] text-center">
             <h2 className="text-2xl font-bold text-slate-800 mb-2">Lesson Not Found</h2>
             <p className="text-slate-500 mb-6">The lesson you are looking for doesn't exist.</p>
-            <button onClick={() => navigate('/')} className="px-5 py-2.5 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition-colors">Return Home</button>
+            <button onClick={() => navigate('/dashboard')} className="px-5 py-2.5 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition-colors">Return to Dashboard</button>
         </div>
     );
   }
@@ -78,7 +56,7 @@ export const LessonDetail: React.FC = () => {
       {/* Top Navigation Bar */}
       <div className="sticky top-0 z-20 bg-slate-50/90 backdrop-blur-md py-4 mb-6 flex items-center justify-between border-b border-slate-200/50">
         <button 
-            onClick={() => navigate('/')}
+            onClick={() => navigate('/dashboard')}
             className="flex items-center text-sm font-semibold text-slate-600 hover:text-indigo-600 transition-colors px-3 py-2 rounded-lg hover:bg-white/50"
         >
             <ArrowLeft className="w-4 h-4 mr-2" /> Back to Dashboard
@@ -86,7 +64,7 @@ export const LessonDetail: React.FC = () => {
 
         <div className="flex items-center gap-2 bg-white rounded-lg border border-slate-200 p-1 shadow-sm">
              <button 
-                onClick={() => prevLesson && navigate(`/day/${prevLesson.day}`)}
+                onClick={() => prevLesson && navigate(`/dashboard/day/${prevLesson.day}`)}
                 disabled={!prevLesson}
                 className={`p-2 rounded-md transition-all ${
                     prevLesson 
@@ -101,7 +79,7 @@ export const LessonDetail: React.FC = () => {
                 Day {currentDay}
              </span>
              <button 
-                onClick={() => nextLesson && navigate(`/day/${nextLesson.day}`)}
+                onClick={() => nextLesson && navigate(`/dashboard/day/${nextLesson.day}`)}
                 disabled={!nextLesson}
                 className={`p-2 rounded-md transition-all ${
                     nextLesson 
@@ -128,11 +106,6 @@ export const LessonDetail: React.FC = () => {
                 <span className="flex items-center gap-1.5 text-xs font-semibold text-slate-400">
                     <Clock className="w-3.5 h-3.5" /> 45 min read
                 </span>
-                {isCompleted && (
-                    <span className="flex items-center gap-1.5 text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded-full border border-green-200">
-                        <CheckCircle className="w-3.5 h-3.5" /> Completed
-                    </span>
-                )}
             </div>
             
             <h1 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight tracking-tight">{lesson.title}</h1>
@@ -150,28 +123,6 @@ export const LessonDetail: React.FC = () => {
                 <article className="prose prose-slate prose-lg max-w-none prose-headings:font-bold prose-headings:text-slate-900 prose-p:text-slate-600 prose-a:text-indigo-600 hover:prose-a:text-indigo-500 prose-img:rounded-xl">
                     {lesson.content}
                 </article>
-
-                <div className="mt-12 pt-10 border-t border-slate-100">
-                    <button 
-                        onClick={handleComplete}
-                        disabled={markingComplete || isCompleted}
-                        className={`w-full py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition-all shadow-lg ${
-                            isCompleted 
-                            ? 'bg-green-100 text-green-700 cursor-default shadow-none border border-green-200' 
-                            : 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-indigo-200 hover:translate-y-[-2px]'
-                        }`}
-                    >
-                        {markingComplete ? 'Processing...' : isCompleted ? (
-                            <>
-                                <CheckCircle className="w-6 h-6" /> Lesson Completed
-                            </>
-                        ) : (
-                            <>
-                                Mark as Complete <ArrowRight className="w-5 h-5" />
-                            </>
-                        )}
-                    </button>
-                </div>
              </div>
           </div>
 
@@ -245,7 +196,7 @@ export const LessonDetail: React.FC = () => {
       <div className="border-t border-slate-200 pt-10 mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
         {prevLesson ? (
              <button 
-                onClick={() => navigate(`/day/${prevLesson.day}`)}
+                onClick={() => navigate(`/dashboard/day/${prevLesson.day}`)}
                 className="group flex items-center gap-4 text-left p-6 rounded-2xl border border-slate-200 hover:border-indigo-200 hover:bg-white hover:shadow-lg transition-all bg-slate-50/50"
              >
                 <div className="w-12 h-12 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-400 group-hover:text-indigo-600 group-hover:border-indigo-100 transition-all shadow-sm">
@@ -260,7 +211,7 @@ export const LessonDetail: React.FC = () => {
 
         {nextLesson ? (
              <button 
-                onClick={() => navigate(`/day/${nextLesson.day}`)}
+                onClick={() => navigate(`/dashboard/day/${nextLesson.day}`)}
                 className="group flex items-center justify-end gap-4 text-right p-6 rounded-2xl border border-slate-200 hover:border-indigo-200 hover:bg-white hover:shadow-lg transition-all bg-slate-50/50"
              >
                 <div>

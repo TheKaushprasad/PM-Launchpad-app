@@ -5,11 +5,6 @@ import { Dashboard } from './components/Dashboard';
 import { LessonDetail } from './components/LessonDetail';
 import { About } from './components/About';
 import { LandingPage } from './components/LandingPage';
-import { Login } from './components/auth/Login';
-import { Signup } from './components/auth/Signup';
-import { ProfileSetup } from './components/auth/ProfileSetup';
-import { EmailSent } from './components/auth/EmailSent';
-import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { Menu, X } from 'lucide-react';
 import { AnimatePresence } from 'framer-motion';
 
@@ -48,60 +43,20 @@ const Layout = () => {
     );
 };
 
-const Loading = () => (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50">
-        <div className="animate-spin w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full"></div>
-    </div>
-);
-
-// Guard to determine Root content (Landing Page vs App Layout)
-const RootGuard = () => {
-    const { user, isLoading } = useAuth();
-    const location = useLocation();
-
-    if (isLoading) return <Loading />;
-
-    // If Authenticated, render the App Layout
-    if (user?.isAuthenticated) {
-        if (!user.profile) return <Navigate to="/profile-setup" replace />;
-        return <Layout />;
-    }
-
-    // If Not Authenticated
-    // Allow access to Landing Page only at root "/"
-    if (location.pathname === '/') {
-        return <LandingPage />;
-    }
-
-    // Redirect any other attempt to Login
-    return <Navigate to="/login" state={{ from: location }} replace />;
-};
-
-const ProfileSetupRouteWrapper = () => {
-    const { user, isLoading } = useAuth();
-    if (isLoading) return <Loading />;
-    if (!user || !user.isAuthenticated) return <Navigate to="/login" replace />;
-    if (user.profile) return <Navigate to="/" replace />;
-    return <ProfileSetup />;
-};
-
 const App: React.FC = () => {
   return (
-    <AuthProvider>
       <Router>
          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/email-sent" element={<EmailSent />} />
-            <Route path="/profile-setup" element={<ProfileSetupRouteWrapper />} />
+            {/* Public Landing Page */}
+            <Route path="/" element={<LandingPage />} />
 
-            {/* Root Route acts as a guard/layout switcher */}
-            <Route path="/" element={<RootGuard />}>
+            {/* Main App Layout - No Authentication Required */}
+            <Route path="/dashboard" element={<Layout />}>
                 <Route index element={<Dashboard />} />
                 <Route path="about" element={<About />} />
                 <Route path="day/:id" element={<LessonDetail />} />
                 
-                {/* Category Routes mapped to Dashboard for now */}
+                {/* Category Routes mapped to Dashboard */}
                 <Route path="foundations" element={<Dashboard />} />
                 <Route path="research" element={<Dashboard />} />
                 <Route path="data" element={<Dashboard />} />
@@ -112,7 +67,6 @@ const App: React.FC = () => {
             <Route path="*" element={<Navigate to="/" replace />} />
          </Routes>
       </Router>
-    </AuthProvider>
   );
 };
 

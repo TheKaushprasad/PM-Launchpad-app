@@ -40,7 +40,7 @@ export const About: React.FC = () => {
                 
                 <div className="flex flex-wrap gap-4 pt-4">
                     <button 
-                        onClick={() => navigate('/')}
+                        onClick={() => navigate('/dashboard/day/0')}
                         className="px-8 py-4 bg-white text-indigo-900 rounded-2xl font-bold shadow-xl hover:shadow-2xl hover:bg-indigo-50 transition-all transform hover:-translate-y-1 flex items-center gap-2 group"
                     >
                         Start Learning <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -154,7 +154,7 @@ export const About: React.FC = () => {
                 </div>
 
                 <div className="mt-10 pt-8 border-t border-white/10">
-                    <button onClick={() => navigate('/day/0')} className="w-full py-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-bold transition-all shadow-lg shadow-indigo-900/50 flex items-center justify-center gap-2 group">
+                    <button onClick={() => navigate('/dashboard/day/0')} className="w-full py-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-bold transition-all shadow-lg shadow-indigo-900/50 flex items-center justify-center gap-2 group">
                         Start Day 0 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                     </button>
                 </div>

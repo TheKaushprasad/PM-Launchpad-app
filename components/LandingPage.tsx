@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { motion, AnimatePresence, useScroll } from 'framer-motion';
 import { 
-  ArrowRight, CheckCircle, Zap, BookOpen, Users, 
-  BarChart, Layers, ChevronDown, ChevronUp, Star,
-  Menu, X, Briefcase, GraduationCap, Play, Lock, Trophy
+  ArrowRight, CheckCircle, Zap, Briefcase, Users, 
+  Layers, Menu, X
 } from 'lucide-react';
 
 export const LandingPage: React.FC = () => {
@@ -65,11 +64,8 @@ export const LandingPage: React.FC = () => {
                 animate={{ opacity: 1, x: 0 }}
                 className="flex items-center gap-4 pl-4 border-l border-slate-200"
             >
-                <button onClick={() => navigate('/login')} className="text-sm font-semibold text-slate-600 hover:text-indigo-600 transition-colors">
-                    Sign In
-                </button>
-                <button onClick={() => navigate('/signup')} className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-xl shadow-lg shadow-indigo-200 transition-all hover:-translate-y-0.5">
-                    Start Free
+                <button onClick={() => navigate('/dashboard')} className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-xl shadow-lg shadow-indigo-200 transition-all hover:-translate-y-0.5">
+                    Start Learning
                 </button>
             </motion.div>
           </div>
@@ -101,11 +97,8 @@ export const LandingPage: React.FC = () => {
                     </button>
                 ))}
                 <div className="pt-4 border-t border-slate-100 flex flex-col gap-3">
-                     <button onClick={() => navigate('/login')} className="w-full py-3 rounded-xl border border-slate-200 text-slate-700 font-bold">
-                        Sign In
-                    </button>
-                    <button onClick={() => navigate('/signup')} className="w-full py-3 rounded-xl bg-indigo-600 text-white font-bold">
-                        Start Free Account
+                    <button onClick={() => navigate('/dashboard')} className="w-full py-3 rounded-xl bg-indigo-600 text-white font-bold">
+                        Start Learning
                     </button>
                 </div>
              </div>
@@ -127,7 +120,7 @@ export const LandingPage: React.FC = () => {
             >
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 text-indigo-700 text-sm font-bold mb-6 border border-indigo-100">
                     <Zap className="w-4 h-4 fill-current" />
-                    <span>New Batch Starting Today</span>
+                    <span>Now Open for Everyone</span>
                 </div>
                 <h1 className="text-5xl md:text-7xl font-extrabold text-slate-900 tracking-tight leading-[1.1] mb-6">
                     Launch Your <br/>
@@ -137,7 +130,7 @@ export const LandingPage: React.FC = () => {
                     A structured 45-day interactive roadmap designed to take you from beginner to job-ready Product Manager. 
                 </p>
                 <div className="flex flex-wrap gap-4">
-                    <button onClick={() => navigate('/signup')} className="px-8 py-4 bg-slate-900 hover:bg-slate-800 text-white rounded-2xl font-bold text-lg shadow-xl shadow-slate-200 transition-all hover:-translate-y-1 flex items-center gap-2">
+                    <button onClick={() => navigate('/dashboard')} className="px-8 py-4 bg-slate-900 hover:bg-slate-800 text-white rounded-2xl font-bold text-lg shadow-xl shadow-slate-200 transition-all hover:-translate-y-1 flex items-center gap-2">
                         Start Learning Now <ArrowRight className="w-5 h-5" />
                     </button>
                     <button onClick={() => scrollToSection('curriculum')} className="px-8 py-4 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 rounded-2xl font-bold text-lg transition-all">
@@ -148,216 +141,162 @@ export const LandingPage: React.FC = () => {
                     <div className="flex -space-x-3">
                         {[1,2,3,4].map(i => (
                             <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center overflow-hidden">
-                                <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${i+10}`} alt="User" />
+                                <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${i}`} alt="user" />
                             </div>
                         ))}
                     </div>
-                    <p>Joined by 100+ aspiring PMs</p>
+                    <span>Joined by 10,000+ Aspiring PMs</span>
                 </div>
             </motion.div>
-            
+
             <motion.div 
-                initial={{ opacity: 0, scale: 0.9 }}
+                initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="relative"
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="relative hidden lg:block"
             >
-                 <div className="relative rounded-[2.5rem] bg-slate-900 p-8 shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500">
-                    {/* Simulated App Interface */}
-                    <div className="bg-slate-800 rounded-2xl p-6 mb-6">
-                        <div className="flex justify-between items-center mb-6">
-                            <div className="flex gap-2">
-                                <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                                <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                                <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                            </div>
-                            <div className="h-2 w-20 bg-slate-700 rounded-full"></div>
+                <div className="absolute inset-0 bg-gradient-to-tr from-indigo-600 to-purple-600 rounded-[2.5rem] rotate-3 opacity-20 blur-xl"></div>
+                <div className="bg-slate-900 rounded-[2.5rem] p-8 shadow-2xl relative border border-slate-800">
+                    {/* Mock Dashboard UI */}
+                    <div className="flex items-center justify-between mb-8 border-b border-slate-800 pb-4">
+                        <div className="flex gap-2">
+                            <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div className="w-3 h-3 rounded-full bg-green-500"></div>
                         </div>
+                        <div className="text-slate-500 text-xs font-mono">dashboard.tsx</div>
+                    </div>
+                    
+                    <div className="space-y-6">
                         <div className="flex gap-4">
-                             <div className="w-1/3 space-y-3">
-                                <div className="h-24 bg-indigo-600 rounded-xl"></div>
-                                <div className="h-16 bg-slate-700 rounded-xl"></div>
-                                <div className="h-16 bg-slate-700 rounded-xl"></div>
-                             </div>
-                             <div className="w-2/3 space-y-4">
-                                <div className="h-32 bg-slate-700 rounded-xl p-4 flex flex-col justify-end">
-                                    <div className="w-1/2 h-3 bg-slate-600 rounded-full mb-2"></div>
-                                    <div className="w-3/4 h-3 bg-slate-500 rounded-full"></div>
-                                </div>
-                                <div className="h-48 bg-slate-700 rounded-xl p-4">
-                                     <div className="flex gap-2 mb-4">
-                                         <div className="w-8 h-8 rounded-full bg-slate-600"></div>
-                                         <div className="flex-1 h-8 bg-slate-600 rounded-lg"></div>
-                                     </div>
-                                     <div className="space-y-2">
-                                         <div className="h-2 bg-slate-600 rounded-full w-full"></div>
-                                         <div className="h-2 bg-slate-600 rounded-full w-full"></div>
-                                         <div className="h-2 bg-slate-600 rounded-full w-5/6"></div>
-                                     </div>
-                                </div>
-                             </div>
+                            <div className="w-16 h-16 rounded-2xl bg-indigo-600 flex items-center justify-center text-white">
+                                <Layers className="w-8 h-8" />
+                            </div>
+                            <div>
+                                <div className="h-4 w-32 bg-slate-700 rounded mb-2"></div>
+                                <div className="h-3 w-48 bg-slate-800 rounded"></div>
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                             {[1,2,3,4].map(i => (
+                                 <div key={i} className="bg-slate-800 p-4 rounded-xl border border-slate-700/50">
+                                     <div className="w-8 h-8 bg-slate-700 rounded-lg mb-3"></div>
+                                     <div className="h-3 w-20 bg-slate-700 rounded mb-2"></div>
+                                     <div className="h-2 w-full bg-slate-800 rounded"></div>
+                                 </div>
+                             ))}
+                        </div>
+                        <div className="bg-gradient-to-r from-indigo-900/50 to-purple-900/50 p-4 rounded-xl border border-indigo-500/30">
+                            <div className="flex items-center gap-3">
+                                <CheckCircle className="w-5 h-5 text-green-400" />
+                                <span className="text-slate-300 text-sm">Day 1: Foundations Complete</span>
+                            </div>
                         </div>
                     </div>
-                    {/* Floating Badge */}
-                    <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-2xl shadow-xl flex items-center gap-3">
-                         <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-600">
-                             <CheckCircle className="w-6 h-6" />
-                         </div>
-                         <div>
-                             <p className="text-xs text-slate-400 font-bold uppercase">Status</p>
-                             <p className="font-bold text-slate-800">Job Ready</p>
-                         </div>
-                    </div>
-                 </div>
+                </div>
             </motion.div>
          </div>
       </section>
 
-      {/* Features Grid */}
-      <section id="features" className="py-20 bg-white">
-          <div className="max-w-7xl mx-auto px-6">
-              <div className="text-center max-w-3xl mx-auto mb-16">
-                  <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Everything you need to break into Product</h2>
-                  <p className="text-lg text-slate-500">We stripped away the fluff. This is a practical, rigorous, and project-based curriculum designed for outcomes.</p>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  <FeatureCard 
-                    icon={<Layers className="w-6 h-6 text-indigo-600" />}
-                    title="Structured Roadmap"
-                    desc="45 days of daily lessons, from foundations to advanced strategy. No more random YouTube videos."
-                  />
-                  <FeatureCard 
-                    icon={<Briefcase className="w-6 h-6 text-pink-600" />}
-                    title="Build a Portfolio"
-                    desc="Complete 5 real-world projects including a PRD, a teardown, and a GTM strategy."
-                  />
-                  <FeatureCard 
-                    icon={<Users className="w-6 h-6 text-emerald-600" />}
-                    title="Interview Prep"
-                    desc="Embedded mock interview questions and behavioral answers in every module."
-                  />
-              </div>
-          </div>
-      </section>
-
       {/* Curriculum Preview */}
-      <section id="curriculum" className="py-20 bg-slate-50">
-           <div className="max-w-7xl mx-auto px-6">
-              <div className="flex flex-col md:flex-row items-end justify-between mb-12 gap-6">
-                  <div>
-                      <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">The 45-Day Syllabus</h2>
-                      <p className="text-lg text-slate-500 max-w-xl">A glimpse into your daily learning schedule. Designed to be manageable alongside a full-time job.</p>
-                  </div>
-                  <button onClick={() => navigate('/signup')} className="px-6 py-3 bg-white border border-slate-200 text-slate-700 font-bold rounded-xl hover:border-indigo-300 hover:text-indigo-600 transition-colors">
-                      Full Syllabus →
-                  </button>
-              </div>
+      <section id="curriculum" className="py-24 bg-white">
+         <div className="max-w-7xl mx-auto px-6">
+            <div className="text-center mb-16">
+                <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">What You Will Learn</h2>
+                <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+                    A comprehensive curriculum covering every aspect of modern Product Management.
+                </p>
+            </div>
 
-              <div className="space-y-4">
-                  {[
-                      { week: "Week 1", title: "Product Foundations & Strategy", topics: "Product Sense, Vision, Mission, OKRs, PDLC" },
-                      { week: "Week 2", title: "User Research & Discovery", topics: "User Interviews, Personas, Empathy Mapping, JTBD" },
-                      { week: "Week 3", title: "Design & UX for PMs", topics: "Wireframing, Figma, Design Systems, Usability Testing" },
-                      { week: "Week 4", title: "Data Analytics & SQL", topics: "Metrics, Funnels, Cohorts, A/B Testing, SQL Basics" },
-                      { week: "Week 5", title: "Tech Stack & Engineering", topics: "APIs, System Design, Cloud, working with Engineers" },
-                      { week: "Week 6", title: "Growth & Execution", topics: "GTM Strategy, Launch Planning, Retention Loops" },
-                  ].map((module, i) => (
-                      <div key={i} className="bg-white p-6 rounded-2xl border border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-indigo-300 transition-colors group">
-                          <div className="flex items-start gap-4">
-                              <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center text-slate-500 font-bold group-hover:bg-indigo-600 group-hover:text-white transition-colors">
-                                  {i + 1}
-                              </div>
-                              <div>
-                                  <div className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">{module.week}</div>
-                                  <h3 className="text-lg font-bold text-slate-900">{module.title}</h3>
-                                  <p className="text-slate-500 text-sm">{module.topics}</p>
-                              </div>
-                          </div>
-                          <div className="md:text-right">
-                              <span className="inline-flex items-center justify-center w-8 h-8 rounded-full border border-slate-200 text-slate-400 group-hover:border-indigo-200 group-hover:text-indigo-600">
-                                  <Lock className="w-4 h-4" />
-                              </span>
-                          </div>
-                      </div>
-                  ))}
-              </div>
-           </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {[
+                    { icon: Briefcase, title: 'Foundations', desc: 'Master the role, mindset, and core frameworks used by top PMs.' },
+                    { icon: Users, title: 'User Research', desc: 'Learn to interview users, uncover insights, and define problems.' },
+                    { icon: Layers, title: 'Product Strategy', desc: 'Build roadmaps, define metrics (OKRs), and prioritize features.' }
+                ].map((feature, i) => (
+                    <motion.div 
+                        key={i}
+                        whileHover={{ y: -5 }}
+                        className="p-8 rounded-2xl bg-slate-50 border border-slate-100 hover:border-indigo-100 hover:shadow-xl transition-all"
+                    >
+                        <div className="w-14 h-14 bg-white rounded-xl flex items-center justify-center text-indigo-600 shadow-sm mb-6">
+                            <feature.icon className="w-7 h-7" />
+                        </div>
+                        <h3 className="text-xl font-bold text-slate-900 mb-3">{feature.title}</h3>
+                        <p className="text-slate-600 leading-relaxed">{feature.desc}</p>
+                    </motion.div>
+                ))}
+            </div>
+         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-24">
-           <div className="max-w-5xl mx-auto px-6">
-               <div className="bg-slate-900 rounded-[2.5rem] p-10 md:p-16 text-center relative overflow-hidden">
-                   <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-indigo-900/50 to-slate-900 z-0"></div>
-                   <div className="absolute -top-24 -right-24 w-64 h-64 bg-indigo-500 rounded-full blur-[80px] opacity-30"></div>
-                   <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-pink-500 rounded-full blur-[80px] opacity-30"></div>
-                   
-                   <div className="relative z-10 space-y-8">
-                       <h2 className="text-4xl md:text-5xl font-extrabold text-white tracking-tight">
-                           Ready to become a <br/> Product Manager?
-                       </h2>
-                       <p className="text-xl text-indigo-100 max-w-2xl mx-auto">
-                           Join thousands of students building their future. No credit card required. Free access to the first module.
-                       </p>
-                       <button 
-                           onClick={() => navigate('/signup')} 
-                           className="px-10 py-5 bg-white text-indigo-900 text-xl font-bold rounded-2xl shadow-2xl hover:bg-indigo-50 transition-all transform hover:-translate-y-1 inline-flex items-center gap-2"
-                       >
-                           Start Learning for Free <ArrowRight className="w-6 h-6" />
-                       </button>
-                       <p className="text-sm text-slate-400">Limited spots for the live cohort • Self-paced always open</p>
-                   </div>
-               </div>
-           </div>
+      {/* FAQ / Features Section */}
+      <section id="features" className="py-24 bg-slate-900 text-white relative overflow-hidden">
+         <div className="absolute top-0 left-0 w-full h-full bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
+         
+         <div className="max-w-7xl mx-auto px-6 relative z-10">
+             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                 <div>
+                     <h2 className="text-3xl md:text-5xl font-bold mb-6">Built for Action, <br/> Not Just Reading.</h2>
+                     <p className="text-indigo-200 text-lg mb-8">
+                         Most courses give you theory. We give you a workspace. Complete daily assignments, build a portfolio, and track your progress.
+                     </p>
+                     <ul className="space-y-4">
+                         {['45 Daily Lessons', 'Real-world Assignments', 'Portfolio Builder', 'Interview Prep'].map(item => (
+                             <li key={item} className="flex items-center gap-3 text-lg font-medium">
+                                 <CheckCircle className="w-6 h-6 text-green-400" />
+                                 {item}
+                             </li>
+                         ))}
+                     </ul>
+                 </div>
+                 <div className="relative">
+                     <div className="absolute -inset-4 bg-gradient-to-r from-indigo-500 to-pink-500 rounded-full opacity-30 blur-2xl"></div>
+                     <div className="bg-slate-800 rounded-3xl p-8 border border-slate-700 relative">
+                         <div className="space-y-6">
+                             <div className="flex items-center gap-4 p-4 bg-slate-700/50 rounded-xl border border-slate-600">
+                                 <div className="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center font-bold">1</div>
+                                 <div>
+                                     <h4 className="font-bold">Read the Lesson</h4>
+                                     <p className="text-sm text-slate-400">Deep dive into a core concept.</p>
+                                 </div>
+                             </div>
+                             <div className="flex items-center gap-4 p-4 bg-slate-700/50 rounded-xl border border-slate-600">
+                                 <div className="w-10 h-10 rounded-full bg-pink-500 flex items-center justify-center font-bold">2</div>
+                                 <div>
+                                     <h4 className="font-bold">Complete Assignment</h4>
+                                     <p className="text-sm text-slate-400">Apply what you learned immediately.</p>
+                                 </div>
+                             </div>
+                             <div className="flex items-center gap-4 p-4 bg-slate-700/50 rounded-xl border border-slate-600">
+                                 <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center font-bold">3</div>
+                                 <div>
+                                     <h4 className="font-bold">Build Portfolio</h4>
+                                     <p className="text-sm text-slate-400">Document your work for recruiters.</p>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-slate-200 pt-16 pb-8">
-          <div className="max-w-7xl mx-auto px-6">
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-                  <div className="col-span-1 md:col-span-2">
-                      <div className="flex items-center gap-2 mb-4">
-                          <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">PM</div>
-                          <span className="font-bold text-xl text-slate-900">Launchpad</span>
-                      </div>
-                      <p className="text-slate-500 max-w-xs">
-                          The most practical way to learn Product Management. Built by PMs from Google, Uber, and Notion.
-                      </p>
-                  </div>
-                  <div>
-                      <h4 className="font-bold text-slate-900 mb-4">Platform</h4>
-                      <ul className="space-y-2 text-sm text-slate-600">
-                          <li><a href="#" className="hover:text-indigo-600">Curriculum</a></li>
-                          <li><a href="#" className="hover:text-indigo-600">Mentors</a></li>
-                          <li><a href="#" className="hover:text-indigo-600">Pricing</a></li>
-                          <li><a href="#" className="hover:text-indigo-600">Login</a></li>
-                      </ul>
-                  </div>
-                  <div>
-                      <h4 className="font-bold text-slate-900 mb-4">Legal</h4>
-                      <ul className="space-y-2 text-sm text-slate-600">
-                          <li><a href="#" className="hover:text-indigo-600">Privacy Policy</a></li>
-                          <li><a href="#" className="hover:text-indigo-600">Terms of Service</a></li>
-                      </ul>
-                  </div>
+      <footer className="bg-white py-12 border-t border-slate-200">
+          <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">PM</div>
+                  <span className="font-bold text-slate-800">Launchpad</span>
               </div>
-              <div className="pt-8 border-t border-slate-100 text-center text-sm text-slate-400">
-                  © 2024 PM Launchpad Academy. All rights reserved.
+              <p className="text-slate-500 text-sm">© {new Date().getFullYear()} PM Launchpad. Open Source Education.</p>
+              <div className="flex gap-6">
+                  <a href="#" className="text-slate-400 hover:text-indigo-600 transition-colors">Twitter</a>
+                  <a href="#" className="text-slate-400 hover:text-indigo-600 transition-colors">LinkedIn</a>
+                  <a href="#" className="text-slate-400 hover:text-indigo-600 transition-colors">GitHub</a>
               </div>
           </div>
       </footer>
-
     </div>
   );
 };
-
-const FeatureCard = ({ icon, title, desc }: { icon: any, title: string, desc: string }) => (
-    <div className="p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:border-indigo-100 hover:bg-white hover:shadow-xl transition-all duration-300 group">
-        <div className="w-12 h-12 rounded-2xl bg-white border border-slate-200 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform shadow-sm">
-            {icon}
-        </div>
-        <h3 className="text-xl font-bold text-slate-900 mb-3">{title}</h3>
-        <p className="text-slate-600 leading-relaxed">{desc}</p>
-    </div>
-);

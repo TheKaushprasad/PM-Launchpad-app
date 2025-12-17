@@ -9,6 +9,18 @@ export type Category =
   | 'Strategy'
   | 'Tech';
 
+export type Profession = 'Student' | 'Professional';
+
+export interface UserProfile {
+  fullName: string;
+  profession: Profession;
+  yearsOfExperience?: string;
+  designation?: string;
+  collegeName?: string;
+  degreeName?: string;
+  passOutYear?: string;
+}
+
 export interface Lesson {
   day: number;
   title: string;
@@ -24,25 +36,4 @@ export interface ModuleInfo {
   title: string;
   category: Category;
   description: string;
-}
-
-export type Profession = 'Student' | 'Professional';
-
-export interface UserProfile {
-  fullName: string;
-  profession: Profession;
-  // Professional fields
-  yearsOfExperience?: string;
-  designation?: string;
-  // Student fields
-  collegeName?: string;
-  degreeName?: string;
-  passOutYear?: string;
-}
-
-export interface User {
-  email: string;
-  isAuthenticated: boolean;
-  profile?: UserProfile;
-  completedLessons: number[]; // Array of completed day numbers
 }

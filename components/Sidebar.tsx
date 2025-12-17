@@ -1,8 +1,7 @@
 import React from 'react';
-import { LayoutDashboard, BookOpen, Search, BarChart2, PenTool, Bot, Info, ChevronRight, LogOut } from 'lucide-react';
+import { LayoutDashboard, BookOpen, Search, BarChart2, PenTool, Bot, Info, ChevronRight } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { useAuth } from '../contexts/AuthContext';
 
 interface SidebarProps {
   mobileOpen: boolean;
@@ -10,19 +9,18 @@ interface SidebarProps {
 }
 
 const NAV_ITEMS = [
-  { label: 'Dashboard', icon: LayoutDashboard, path: '/' },
-  { label: 'About Program', icon: Info, path: '/about' },
+  { label: 'Dashboard', icon: LayoutDashboard, path: '/dashboard' },
+  { label: 'About Program', icon: Info, path: '/dashboard/about' },
   { type: 'divider', label: 'Modules' },
-  { label: 'Foundations', icon: BookOpen, path: '/foundations' },
-  { label: 'Research', icon: Search, path: '/research' },
-  { label: 'Data & Analytics', icon: BarChart2, path: '/data' },
-  { label: 'Tech & Design', icon: PenTool, path: '/design' },
-  { label: 'AI & Future', icon: Bot, path: '/ai' },
+  { label: 'Foundations', icon: BookOpen, path: '/dashboard/foundations' },
+  { label: 'Research', icon: Search, path: '/dashboard/research' },
+  { label: 'Data & Analytics', icon: BarChart2, path: '/dashboard/data' },
+  { label: 'Tech & Design', icon: PenTool, path: '/dashboard/design' },
+  { label: 'AI & Future', icon: Bot, path: '/dashboard/ai' },
 ];
 
 export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen }) => {
   const location = useLocation();
-  const { user, logout } = useAuth();
 
   return (
     <>
@@ -69,7 +67,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen }) =
                )
             }
 
-            const isActive = location.pathname === item.path || (item.path !== '/' && location.pathname.startsWith(item.path));
+            // Simple check if path partially matches to keep section highlighted
+            const isActive = location.pathname === item.path;
             const Icon = item.icon as React.ElementType;
             
             return (
@@ -100,32 +99,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen }) =
             );
           })}
         </nav>
-        
-        {/* User Profile Footer */}
-        <div className="p-4 border-t border-slate-100 bg-slate-50/50">
-            <div className="flex items-center gap-3 p-3 rounded-xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition-all group">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm ring-2 ring-white">
-                    {user?.profile?.fullName ? user.profile.fullName.substring(0,2).toUpperCase() : 'PM'}
-                </div>
-                <div className="flex-1 min-w-0">
-                    <p className="text-sm font-bold text-slate-700 truncate group-hover:text-indigo-700">
-                        {user?.profile?.fullName || 'Aspiring PM'}
-                    </p>
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs text-slate-500 font-medium truncate">
-                        {user?.profile?.designation || user?.profile?.degreeName || 'Learner'}
-                      </span>
-                    </div>
-                </div>
-                <button 
-                  onClick={logout}
-                  className="p-1.5 rounded-lg hover:bg-red-50 text-slate-400 hover:text-red-500 transition-colors"
-                  title="Logout"
-                >
-                  <LogOut className="w-4 h-4" />
-                </button>
-            </div>
-        </div>
       </aside>
     </>
   );
