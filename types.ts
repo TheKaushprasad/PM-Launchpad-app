@@ -44,4 +44,5 @@ export interface User {
   email: string;
   isAuthenticated: boolean;
   profile?: UserProfile;
+  completedLessons: number[]; // Array of completed day numbers
 }

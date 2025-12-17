@@ -4,6 +4,7 @@ import { DayCard } from './DayCard';
 import { motion } from 'framer-motion';
 import { TrendingUp, Award, Calendar, ChevronRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
 const container = {
   hidden: { opacity: 0 },
@@ -22,6 +23,17 @@ const item = {
 
 export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
+
+  const completedCount = user?.completedLessons?.length || 0;
+  const totalLessons = LESSONS.length;
+  const progressPercentage = Math.round((completedCount / totalLessons) * 100);
+  
+  // Find next lesson to do (first one not in completed list)
+  const nextLessonDay = LESSONS.find(l => !user?.completedLessons.includes(l.day))?.day ?? 0;
+  
+  // Calculate "Days Left" assuming 1 lesson per day pace or just remaining count
+  const remainingCount = totalLessons - completedCount;
 
   return (
     <motion.div 
@@ -41,16 +53,16 @@ export const Dashboard: React.FC = () => {
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm text-indigo-100 text-xs font-semibold uppercase tracking-wider mb-4">
               <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
-              Day 28 Active
+              Day {nextLessonDay} Active
             </div>
             <h1 className="text-3xl md:text-5xl font-bold mb-4 tracking-tight leading-tight">
-              Keep pushing, PM! 🚀
+              Keep pushing, {user?.profile?.fullName?.split(' ')[0] || 'PM'}! 🚀
             </h1>
             <p className="text-indigo-100 text-lg md:text-xl leading-relaxed max-w-lg">
-              You're on track to master Product Management. Continue your journey with Day 28.
+              You're on track to master Product Management. Continue your journey with Day {nextLessonDay}.
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
-               <button onClick={() => navigate('/day/0')} className="px-6 py-3 bg-white text-indigo-700 rounded-xl font-bold shadow-lg hover:shadow-xl hover:bg-indigo-50 transition-all transform hover:-translate-y-1 flex items-center gap-2">
+               <button onClick={() => navigate(`/day/${nextLessonDay}`)} className="px-6 py-3 bg-white text-indigo-700 rounded-xl font-bold shadow-lg hover:shadow-xl hover:bg-indigo-50 transition-all transform hover:-translate-y-1 flex items-center gap-2">
                   Resume Course <ChevronRight className="w-4 h-4" />
                </button>
                <button onClick={() => navigate('/about')} className="px-6 py-3 bg-indigo-800/50 text-white border border-indigo-400/30 rounded-xl font-medium backdrop-blur-sm hover:bg-indigo-800/70 transition-all">
@@ -59,22 +71,25 @@ export const Dashboard: React.FC = () => {
             </div>
           </div>
           
-          {/* Quick Stats Card - Visual Only */}
+          {/* Quick Stats Card */}
           <div className="hidden md:block bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 w-72">
              <div className="flex items-center justify-between mb-4">
                 <span className="text-indigo-100 font-medium text-sm">Course Progress</span>
-                <span className="text-white font-bold">62%</span>
+                <span className="text-white font-bold">{progressPercentage}%</span>
              </div>
              <div className="w-full bg-black/20 rounded-full h-2 mb-6">
-                <div className="bg-green-400 h-2 rounded-full w-[62%] shadow-[0_0_10px_rgba(74,222,128,0.5)]"></div>
+                <div 
+                    className="bg-green-400 h-2 rounded-full shadow-[0_0_10px_rgba(74,222,128,0.5)] transition-all duration-1000"
+                    style={{ width: `${progressPercentage}%` }}
+                ></div>
              </div>
              <div className="grid grid-cols-2 gap-4">
                 <div>
-                   <div className="text-2xl font-bold text-white">28</div>
+                   <div className="text-2xl font-bold text-white">{completedCount}</div>
                    <div className="text-xs text-indigo-200">Days Done</div>
                 </div>
                  <div>
-                   <div className="text-2xl font-bold text-white">18</div>
+                   <div className="text-2xl font-bold text-white">{remainingCount}</div>
                    <div className="text-xs text-indigo-200">Days Left</div>
                 </div>
              </div>
@@ -92,7 +107,6 @@ export const Dashboard: React.FC = () => {
           {MODULES.map(module => (
             <div key={module.id} className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md hover:border-indigo-100 transition-all cursor-pointer group h-full flex flex-col">
               <div className="mb-4 p-3 bg-slate-50 rounded-xl w-fit group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-colors text-slate-500">
-                  {/* We could dynamically map icons here, static for now */}
                   <Award className="w-6 h-6" />
               </div>
               <h3 className="font-bold text-slate-800 text-sm mb-2 group-hover:text-indigo-700 transition-colors">{module.title}</h3>

@@ -3,7 +3,7 @@ import { Lesson } from '../types';
 import { getCategoryColor, getCategoryIcon } from '../constants';
 import { ArrowRight, Lock, CheckCircle2, PlayCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { useAuth } from '../contexts/AuthContext';
 
 interface DayCardProps {
   lesson: Lesson;
@@ -12,12 +12,19 @@ interface DayCardProps {
 
 export const DayCard: React.FC<DayCardProps> = ({ lesson, index }) => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   
-  // Simulated progress state for visual demo
-  // In a real app, this would come from props or context
-  const isCompleted = lesson.day < 5;
-  const isLocked = lesson.day > 20;
-  const isActive = lesson.day === 5;
+  const completedLessons = user?.completedLessons || [];
+  
+  const isCompleted = completedLessons.includes(lesson.day);
+  
+  // Logic for unlocking:
+  // 1. Day 0 is always unlocked.
+  // 2. Day N is unlocked if Day N-1 is completed.
+  const isLocked = lesson.day > 0 && !completedLessons.includes(lesson.day - 1) && !isCompleted;
+  
+  // Active means it's the next lesson to do (unlocked but not completed)
+  const isActive = !isLocked && !isCompleted;
 
   return (
     <div 

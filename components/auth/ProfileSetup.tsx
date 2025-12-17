@@ -67,7 +67,7 @@ export const ProfileSetup: React.FC = () => {
                             value={formData.fullName}
                             onChange={handleChange}
                             placeholder="John Doe"
-                            className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all"
+                            className="w-full pl-10 pr-4 py-3 bg-white rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all"
                         />
                     </div>
                 </div>
@@ -107,7 +107,7 @@ export const ProfileSetup: React.FC = () => {
                                         value={formData.designation}
                                         onChange={handleChange}
                                         placeholder="Product Analyst"
-                                        className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none"
+                                        className="w-full px-4 py-3 bg-white rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none"
                                     />
                                 </div>
                                 <div className="space-y-2">
@@ -117,7 +117,7 @@ export const ProfileSetup: React.FC = () => {
                                         required
                                         value={formData.yearsOfExperience}
                                         onChange={handleChange}
-                                        className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none bg-white"
+                                        className="w-full px-4 py-3 bg-white rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none"
                                     >
                                         <option value="">Select...</option>
                                         <option value="0-1">0-1 Years</option>
@@ -139,7 +139,7 @@ export const ProfileSetup: React.FC = () => {
                                     value={formData.collegeName}
                                     onChange={handleChange}
                                     placeholder="University of Tech"
-                                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none"
+                                    className="w-full px-4 py-3 bg-white rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none"
                                 />
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -152,7 +152,7 @@ export const ProfileSetup: React.FC = () => {
                                         value={formData.degreeName}
                                         onChange={handleChange}
                                         placeholder="B.Tech CS"
-                                        className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none"
+                                        className="w-full px-4 py-3 bg-white rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none"
                                     />
                                 </div>
                                 <div className="space-y-2">
@@ -164,7 +164,7 @@ export const ProfileSetup: React.FC = () => {
                                         value={formData.passOutYear}
                                         onChange={handleChange}
                                         placeholder="2025"
-                                        className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none"
+                                        className="w-full px-4 py-3 bg-white rounded-xl border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none"
                                     />
                                 </div>
                             </div>

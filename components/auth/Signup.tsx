@@ -74,7 +74,7 @@ export const Signup: React.FC = () => {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder="you@example.com"
-                            className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all text-slate-800 placeholder:text-slate-400"
+                            className="w-full pl-10 pr-4 py-3 bg-white rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all text-slate-800 placeholder:text-slate-400"
                         />
                     </div>
                 </div>
@@ -91,7 +91,7 @@ export const Signup: React.FC = () => {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="Min 6 characters"
-                            className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all text-slate-800 placeholder:text-slate-400"
+                            className="w-full pl-10 pr-4 py-3 bg-white rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all text-slate-800 placeholder:text-slate-400"
                         />
                     </div>
                 </div>
@@ -108,7 +108,7 @@ export const Signup: React.FC = () => {
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             placeholder="Repeat password"
-                            className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all text-slate-800 placeholder:text-slate-400"
+                            className="w-full pl-10 pr-4 py-3 bg-white rounded-xl border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all text-slate-800 placeholder:text-slate-400"
                         />
                     </div>
                 </div>
