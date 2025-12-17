@@ -18,7 +18,7 @@ export const EmailSent: React.FC = () => {
             className="bg-white rounded-3xl p-8 md:p-12 w-full max-w-lg shadow-xl border border-slate-100 text-center relative z-10"
         >
              <button 
-                onClick={() => navigate('/login')}
+                onClick={() => navigate('/login', { state: { email } })}
                 className="absolute top-6 left-6 text-slate-400 hover:text-slate-600 transition-colors"
                 title="Back to Login"
             >
@@ -44,7 +44,7 @@ export const EmailSent: React.FC = () => {
             </div>
 
             <button 
-                onClick={() => navigate('/login')} 
+                onClick={() => navigate('/login', { state: { email } })}
                 className="text-indigo-600 font-semibold text-sm hover:text-indigo-800 transition-colors"
             >
                 Back to Sign In
