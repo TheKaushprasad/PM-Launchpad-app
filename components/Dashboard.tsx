@@ -2,7 +2,7 @@ import React from 'react';
 import { MODULES, LESSONS } from '../constants';
 import { DayCard } from './DayCard';
 import { motion } from 'framer-motion';
-import { TrendingUp, Award, Calendar, ChevronRight } from 'lucide-react';
+import { TrendingUp, Award, Calendar, ChevronRight, PlayCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -35,6 +35,9 @@ export const Dashboard: React.FC = () => {
   // Calculate "Days Left" assuming 1 lesson per day pace or just remaining count
   const remainingCount = totalLessons - completedCount;
 
+  const isNewUser = completedCount === 0;
+  const userName = user?.profile?.fullName?.split(' ')[0] || 'PM';
+
   return (
     <motion.div 
       variants={container}
@@ -52,18 +55,34 @@ export const Dashboard: React.FC = () => {
         <div className="relative z-10 p-8 md:p-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 backdrop-blur-sm text-indigo-100 text-xs font-semibold uppercase tracking-wider mb-4">
-              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
-              Day {nextLessonDay} Active
+              <span className={`w-2 h-2 rounded-full ${isNewUser ? 'bg-blue-400' : 'bg-green-400'} animate-pulse`}></span>
+              {isNewUser ? 'Ready to Launch' : `Day ${nextLessonDay} Active`}
             </div>
+            
             <h1 className="text-3xl md:text-5xl font-bold mb-4 tracking-tight leading-tight">
-              Keep pushing, {user?.profile?.fullName?.split(' ')[0] || 'PM'}! 🚀
+              {isNewUser 
+                ? `Welcome to the Launchpad, ${userName}! 🚀` 
+                : `Keep pushing, ${userName}! 🚀`
+              }
             </h1>
+            
             <p className="text-indigo-100 text-lg md:text-xl leading-relaxed max-w-lg">
-              You're on track to master Product Management. Continue your journey with Day {nextLessonDay}.
+              {isNewUser
+                ? "Your 45-day journey to mastering Product Management begins now. Start your foundation today."
+                : `You're on track to master Product Management. Continue your journey with Day ${nextLessonDay}.`
+              }
             </p>
+            
             <div className="mt-8 flex flex-wrap gap-4">
-               <button onClick={() => navigate(`/day/${nextLessonDay}`)} className="px-6 py-3 bg-white text-indigo-700 rounded-xl font-bold shadow-lg hover:shadow-xl hover:bg-indigo-50 transition-all transform hover:-translate-y-1 flex items-center gap-2">
-                  Resume Course <ChevronRight className="w-4 h-4" />
+               <button 
+                  onClick={() => navigate(`/day/${nextLessonDay}`)} 
+                  className="px-6 py-3 bg-white text-indigo-700 rounded-xl font-bold shadow-lg hover:shadow-xl hover:bg-indigo-50 transition-all transform hover:-translate-y-1 flex items-center gap-2"
+               >
+                  {isNewUser ? (
+                    <>Start Day 0 <PlayCircle className="w-5 h-5" /></>
+                  ) : (
+                    <>Resume Course <ChevronRight className="w-4 h-4" /></>
+                  )}
                </button>
                <button onClick={() => navigate('/about')} className="px-6 py-3 bg-indigo-800/50 text-white border border-indigo-400/30 rounded-xl font-medium backdrop-blur-sm hover:bg-indigo-800/70 transition-all">
                   View Syllabus

@@ -8,6 +8,7 @@ import { LandingPage } from './components/LandingPage';
 import { Login } from './components/auth/Login';
 import { Signup } from './components/auth/Signup';
 import { ProfileSetup } from './components/auth/ProfileSetup';
+import { EmailSent } from './components/auth/EmailSent';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { Menu, X } from 'lucide-react';
 import { AnimatePresence } from 'framer-motion';
@@ -91,6 +92,7 @@ const App: React.FC = () => {
          <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/email-sent" element={<EmailSent />} />
             <Route path="/profile-setup" element={<ProfileSetupRouteWrapper />} />
 
             {/* Root Route acts as a guard/layout switcher */}

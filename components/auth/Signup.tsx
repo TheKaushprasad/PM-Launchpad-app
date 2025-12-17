@@ -26,9 +26,15 @@ export const Signup: React.FC = () => {
     setError('');
     
     try {
-      await signup(email, password);
-      // Auto login successful, redirect to dashboard or profile setup
-      navigate('/');
+      const data = await signup(email, password);
+      
+      // If Supabase returns a user but no session, email verification is required
+      if (data?.user && !data?.session) {
+          navigate('/email-sent', { state: { email } });
+      } else {
+          // Auto login successful (Email verification disabled or implicit)
+          navigate('/');
+      }
     } catch (error: any) {
       console.error(error);
       setError(error.message || 'Failed to sign up. Please try again.');
