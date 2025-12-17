@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence, useScroll } from 'framer-motion';
 import { 
   ArrowRight, CheckCircle, Zap, Briefcase, Users, 
-  Layers, Menu, X
+  Layers, Menu, X, BarChart2, MessageSquare, FileText, CheckSquare
 } from 'lucide-react';
 
 export const LandingPage: React.FC = () => {
@@ -156,42 +156,124 @@ export const LandingPage: React.FC = () => {
                 className="relative hidden lg:block"
             >
                 <div className="absolute inset-0 bg-gradient-to-tr from-indigo-600 to-purple-600 rounded-[2.5rem] rotate-3 opacity-20 blur-xl"></div>
-                <div className="bg-slate-900 rounded-[2.5rem] p-8 shadow-2xl relative border border-slate-800">
-                    {/* Mock Dashboard UI */}
+                <div className="bg-slate-900 rounded-[2.5rem] p-8 shadow-2xl relative border border-slate-800 overflow-hidden">
+                    {/* Header simulating app window */}
                     <div className="flex items-center justify-between mb-8 border-b border-slate-800 pb-4">
                         <div className="flex gap-2">
                             <div className="w-3 h-3 rounded-full bg-red-500"></div>
                             <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
                             <div className="w-3 h-3 rounded-full bg-green-500"></div>
                         </div>
-                        <div className="text-slate-500 text-xs font-mono">dashboard.tsx</div>
+                        <div className="text-slate-500 text-xs font-mono">pm_workspace.app</div>
                     </div>
                     
-                    <div className="space-y-6">
-                        <div className="flex gap-4">
-                            <div className="w-16 h-16 rounded-2xl bg-indigo-600 flex items-center justify-center text-white">
-                                <Layers className="w-8 h-8" />
+                    {/* Animated Workspace Content */}
+                    <div className="space-y-4">
+                        {/* Task 1: Roadmap Progress */}
+                        <motion.div 
+                            initial={{ x: 20, opacity: 0 }}
+                            animate={{ x: 0, opacity: 1 }}
+                            transition={{ delay: 0.5 }}
+                            className="bg-slate-800/50 p-4 rounded-xl border border-slate-700/50"
+                        >
+                            <div className="flex justify-between items-center mb-2">
+                                <div className="flex items-center gap-2">
+                                    <Layers className="w-4 h-4 text-indigo-400" />
+                                    <span className="text-sm font-bold text-slate-200">Q3 Roadmap Launch</span>
+                                </div>
+                                <span className="text-xs text-indigo-300 bg-indigo-500/10 px-2 py-0.5 rounded">In Progress</span>
                             </div>
-                            <div>
-                                <div className="h-4 w-32 bg-slate-700 rounded mb-2"></div>
-                                <div className="h-3 w-48 bg-slate-800 rounded"></div>
+                            <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
+                                <motion.div 
+                                    className="h-full bg-indigo-500"
+                                    initial={{ width: "0%" }}
+                                    animate={{ width: "75%" }}
+                                    transition={{ duration: 2, ease: "easeInOut", repeat: Infinity, repeatType: "reverse", repeatDelay: 1 }}
+                                />
                             </div>
-                        </div>
+                        </motion.div>
+
+                        {/* Task 2: Data Metrics */}
                         <div className="grid grid-cols-2 gap-4">
-                             {[1,2,3,4].map(i => (
-                                 <div key={i} className="bg-slate-800 p-4 rounded-xl border border-slate-700/50">
-                                     <div className="w-8 h-8 bg-slate-700 rounded-lg mb-3"></div>
-                                     <div className="h-3 w-20 bg-slate-700 rounded mb-2"></div>
-                                     <div className="h-2 w-full bg-slate-800 rounded"></div>
+                             <motion.div 
+                                initial={{ y: 20, opacity: 0 }}
+                                animate={{ y: 0, opacity: 1 }}
+                                transition={{ delay: 0.7 }}
+                                className="bg-slate-800/50 p-4 rounded-xl border border-slate-700/50"
+                             >
+                                 <div className="flex items-center gap-2 mb-2">
+                                     <BarChart2 className="w-4 h-4 text-emerald-400" />
+                                     <span className="text-xs text-slate-400">Growth</span>
                                  </div>
-                             ))}
+                                 <div className="text-2xl font-bold text-white flex items-end gap-2">
+                                     +124%
+                                     <motion.span 
+                                         animate={{ y: [0, -4, 0], opacity: [0.5, 1, 0.5] }}
+                                         transition={{ duration: 2, repeat: Infinity }}
+                                         className="w-2 h-2 rounded-full bg-emerald-500 mb-1.5"
+                                     />
+                                 </div>
+                             </motion.div>
+
+                             <motion.div 
+                                initial={{ y: 20, opacity: 0 }}
+                                animate={{ y: 0, opacity: 1 }}
+                                transition={{ delay: 0.8 }}
+                                className="bg-slate-800/50 p-4 rounded-xl border border-slate-700/50"
+                             >
+                                 <div className="flex items-center gap-2 mb-2">
+                                     <Users className="w-4 h-4 text-blue-400" />
+                                     <span className="text-xs text-slate-400">Active Users</span>
+                                 </div>
+                                 <div className="text-2xl font-bold text-white">12.5k</div>
+                             </motion.div>
                         </div>
-                        <div className="bg-gradient-to-r from-indigo-900/50 to-purple-900/50 p-4 rounded-xl border border-indigo-500/30">
-                            <div className="flex items-center gap-3">
-                                <CheckCircle className="w-5 h-5 text-green-400" />
-                                <span className="text-slate-300 text-sm">Day 1: Foundations Complete</span>
-                            </div>
-                        </div>
+
+                        {/* Task 3: PRD Writing Simulation */}
+                        <motion.div 
+                            initial={{ y: 20, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ delay: 0.9 }}
+                            className="bg-slate-800/50 p-4 rounded-xl border border-slate-700/50"
+                        >
+                             <div className="flex items-center justify-between mb-3">
+                                 <div className="flex items-center gap-2">
+                                     <FileText className="w-4 h-4 text-pink-400" />
+                                     <span className="text-sm font-bold text-slate-200">Writing PRD</span>
+                                 </div>
+                                 <div className="flex -space-x-2">
+                                     {[1,2].map(i => (
+                                         <div key={i} className="w-6 h-6 rounded-full border border-slate-800 bg-slate-600 flex items-center justify-center text-[10px] text-white">
+                                             <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${i+5}`} alt="collab" className="w-full h-full rounded-full" />
+                                         </div>
+                                     ))}
+                                 </div>
+                             </div>
+                             <div className="space-y-2">
+                                 <motion.div 
+                                     className="h-2 bg-slate-600 rounded-full"
+                                     animate={{ width: ["20%", "90%"] }}
+                                     transition={{ duration: 2, repeat: Infinity, repeatDelay: 0.5 }}
+                                 />
+                                 <motion.div 
+                                     className="h-2 bg-slate-600 rounded-full"
+                                     animate={{ width: ["20%", "60%"] }}
+                                     transition={{ duration: 2, delay: 0.2, repeat: Infinity, repeatDelay: 0.5 }}
+                                 />
+                             </div>
+                        </motion.div>
+
+                        {/* Task 4: Success Message Pop-up */}
+                        <motion.div 
+                            className="absolute bottom-6 right-6 bg-green-500 text-white px-4 py-3 rounded-xl shadow-lg flex items-center gap-3 z-20"
+                            initial={{ y: 50, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{ delay: 2, duration: 0.5 }}
+                        >
+                             <CheckCircle className="w-5 h-5" />
+                             <div className="text-sm font-bold">Sprint Goal Met!</div>
+                        </motion.div>
+
                     </div>
                 </div>
             </motion.div>
