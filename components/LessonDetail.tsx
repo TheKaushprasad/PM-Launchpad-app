@@ -1,13 +1,24 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { LESSONS, getCategoryColor, getCategoryIcon } from '../constants';
-import { ArrowLeft, ArrowRight, ExternalLink, FileText, Video, PenTool, ChevronLeft, ChevronRight, BookOpen, Clock } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { ArrowLeft, ArrowRight, ExternalLink, FileText, Video, PenTool, ChevronLeft, ChevronRight, BookOpen, Clock, Play, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+
+const getYoutubeEmbedUrl = (url: string) => {
+    try {
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+        const match = url.match(regExp);
+        return (match && match[2].length === 11) ? `https://www.youtube.com/embed/${match[2]}?autoplay=1` : null;
+    } catch (e) {
+        return null;
+    }
+};
 
 export const LessonDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const topRef = useRef<HTMLDivElement>(null);
+  const [activeVideo, setActiveVideo] = useState<string | null>(null);
 
   const currentDay = parseInt(id || '0', 10);
   const lesson = LESSONS.find(l => l.day === currentDay);
@@ -20,6 +31,7 @@ export const LessonDetail: React.FC = () => {
 
   useEffect(() => {
     topRef.current?.scrollIntoView({ behavior: 'smooth' });
+    setActiveVideo(null);
   }, [id]);
 
   if (!lesson) {
@@ -141,19 +153,38 @@ export const LessonDetail: React.FC = () => {
                             Resources
                         </h3>
                         <ul className="space-y-3">
-                            {lesson.resources.map((res, idx) => (
+                            {lesson.resources.map((res, idx) => {
+                                const embedUrl = res.type === 'video' ? getYoutubeEmbedUrl(res.url) : null;
+                                return (
                                 <li key={idx}>
-                                    <a href={res.url} target="_blank" rel="noopener noreferrer" className="flex items-start gap-3 group p-3 rounded-xl hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100">
-                                        <div className="mt-0.5 p-1.5 bg-slate-100 rounded-md text-slate-500 group-hover:text-indigo-600 group-hover:bg-white transition-colors">
-                                            {res.type === 'video' ? <Video className="w-4 h-4" /> : <ExternalLink className="w-4 h-4" />}
-                                        </div>
-                                        <div>
-                                            <span className="block text-sm font-semibold text-slate-700 group-hover:text-indigo-600 transition-colors">{res.title}</span>
-                                            <span className="text-xs text-slate-400 capitalize">{res.type}</span>
-                                        </div>
-                                    </a>
+                                    {embedUrl ? (
+                                        <button 
+                                            onClick={() => setActiveVideo(embedUrl)}
+                                            className="w-full flex items-start gap-3 group p-3 rounded-xl hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100 text-left"
+                                        >
+                                            <div className="mt-0.5 p-1.5 bg-slate-100 rounded-md text-slate-500 group-hover:text-red-600 group-hover:bg-red-50 transition-colors">
+                                                <Video className="w-4 h-4" />
+                                            </div>
+                                            <div>
+                                                <span className="block text-sm font-semibold text-slate-700 group-hover:text-indigo-600 transition-colors">{res.title}</span>
+                                                <span className="text-xs text-slate-400 capitalize flex items-center gap-1">
+                                                    {res.type} <Play className="w-3 h-3 ml-1" />
+                                                </span>
+                                            </div>
+                                        </button>
+                                    ) : (
+                                        <a href={res.url} target="_blank" rel="noopener noreferrer" className="flex items-start gap-3 group p-3 rounded-xl hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100">
+                                            <div className="mt-0.5 p-1.5 bg-slate-100 rounded-md text-slate-500 group-hover:text-indigo-600 group-hover:bg-white transition-colors">
+                                                {res.type === 'video' ? <Video className="w-4 h-4" /> : <ExternalLink className="w-4 h-4" />}
+                                            </div>
+                                            <div>
+                                                <span className="block text-sm font-semibold text-slate-700 group-hover:text-indigo-600 transition-colors">{res.title}</span>
+                                                <span className="text-xs text-slate-400 capitalize">{res.type}</span>
+                                            </div>
+                                        </a>
+                                    )}
                                 </li>
-                            ))}
+                            )})}
                         </ul>
                      </div>
                  )}
@@ -198,6 +229,40 @@ export const LessonDetail: React.FC = () => {
         )}
       </div>
 
+        {/* Video Player Modal */}
+        <AnimatePresence>
+            {activeVideo && (
+                <motion.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/90 backdrop-blur-sm p-4 md:p-8"
+                    onClick={() => setActiveVideo(null)}
+                >
+                    <motion.div 
+                        initial={{ scale: 0.95, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0.95, opacity: 0 }}
+                        className="relative w-full max-w-5xl aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10"
+                        onClick={e => e.stopPropagation()}
+                    >
+                        <button 
+                            onClick={() => setActiveVideo(null)}
+                            className="absolute top-4 right-4 z-10 p-2 bg-black/50 text-white rounded-full hover:bg-black/70 transition-colors backdrop-blur-md"
+                        >
+                            <X className="w-6 h-6" />
+                        </button>
+                        <iframe 
+                            src={activeVideo} 
+                            className="w-full h-full" 
+                            title="Video Player"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowFullScreen
+                        />
+                    </motion.div>
+                </motion.div>
+            )}
+        </AnimatePresence>
     </motion.div>
   );
 };

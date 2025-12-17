@@ -1068,37 +1068,17 @@ export const LESSONS: Lesson[] = [
            <section>
               <h3 className="text-xl font-bold mb-4 flex items-center gap-2"><Youtube className="w-6 h-6 text-red-600"/> Recommended Watch</h3>
               
-              <a 
-                href="https://youtu.be/XmIUg2nrZgw?si=Wm3D1VhUFTDvs31o" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="group block bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300"
-              >
-                <div className="flex flex-col md:flex-row">
-                    <div className="md:w-64 bg-gray-100 flex items-center justify-center relative aspect-video md:aspect-auto">
-                        <img 
-                            src="https://img.youtube.com/vi/XmIUg2nrZgw/mqdefault.jpg" 
-                            alt="AI Product Sense Video Thumbnail" 
-                            className="absolute inset-0 w-full h-full object-cover"
-                        />
-                        <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors"></div>
-                        <div className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center text-white shadow-lg z-10 group-hover:scale-110 transition-transform">
-                            <Play className="w-5 h-5 fill-current" />
-                        </div>
-                    </div>
-                    <div className="p-6 flex-1 flex flex-col justify-center">
-                        <h4 className="font-bold text-lg text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
-                            Interested to learn what is AI product sense?
-                        </h4>
-                        <p className="text-gray-600 text-sm mb-4">
-                            Deep dive into how Product Sense applies to the world of Artificial Intelligence.
-                        </p>
-                        <div className="flex items-center text-sm font-semibold text-blue-600">
-                            Watch on YouTube <ExternalLink className="w-4 h-4 ml-1" />
-                        </div>
-                    </div>
-                </div>
-              </a>
+              <div className="aspect-video w-full rounded-xl overflow-hidden shadow-lg border border-gray-200">
+                <iframe 
+                    width="100%" 
+                    height="100%" 
+                    src="https://www.youtube.com/embed/XmIUg2nrZgw" 
+                    title="AI Product Sense" 
+                    frameBorder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowFullScreen
+                ></iframe>
+              </div>
            </section>
 
         </div>
