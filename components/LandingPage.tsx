@@ -124,7 +124,7 @@ export const LandingPage: React.FC = () => {
                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600">PM Out.</span>
                 </h1>
                 <p className="text-xl text-zinc-600 mb-10 leading-relaxed max-w-lg font-medium tracking-tight">
-                    A structured 45-day interactive roadmap designed to take you from beginner to job-ready Product Manager. 
+                    A structured 45-day interactive course designed to take you from beginner to job-ready Product Manager. 
                 </p>
                 <div className="flex flex-wrap gap-4">
                     <button onClick={() => navigate('/dashboard')} className="px-8 py-4 bg-zinc-900 hover:bg-zinc-800 text-white rounded-2xl font-bold text-lg shadow-xl shadow-zinc-200 transition-all hover:-translate-y-1 flex items-center gap-2 tracking-tight">

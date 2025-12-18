@@ -35,7 +35,7 @@ export const About: React.FC = () => {
                 </h1>
                 
                 <p className="text-indigo-100 text-lg md:text-xl leading-relaxed max-w-xl opacity-90">
-                    A structured 45-day roadmap built by industry experts. Master the skills, build the portfolio, and land the job.
+                    A structured 45-day course built by industry experts. Master the skills, build the portfolio, and land the job.
                 </p>
                 
                 <div className="flex flex-wrap gap-4 pt-4">
@@ -92,7 +92,7 @@ export const About: React.FC = () => {
                         Welcome to <strong>The NooB PM</strong>—a structured, outcome-oriented program designed to help you land your first role in product, whether it’s Product Intern, APM, or Founder’s Office.
                     </p>
                     <p>
-                        This roadmap is built from <span className="text-indigo-600 font-semibold bg-indigo-50 px-1 rounded">real industry experience</span>, shaped by insights from multiple working PMs. Every lesson, assignment, and playbook is tailored to what companies actually expect from an entry-level PM today.
+                        This course is built from <span className="text-indigo-600 font-semibold bg-indigo-50 px-1 rounded">real industry experience</span>, shaped by insights from multiple working PMs. Every lesson, assignment, and playbook is tailored to what companies actually expect from an entry-level PM today.
                     </p>
                 </div>
             </section>
