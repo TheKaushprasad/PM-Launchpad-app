@@ -6,7 +6,8 @@ import {
   Cpu, Rocket, RefreshCw, Play, Wrench, XCircle, Settings, HelpCircle, 
   Youtube, ExternalLink, Compass, ClipboardList, CheckSquare, FileText, 
   Flag, Microscope, ArrowRight, Activity, ShieldCheck, Sparkles, 
-  DatabaseZap, Briefcase, Info, MessageSquare, AlertCircle
+  DatabaseZap, Briefcase, Info, MessageSquare, AlertCircle, ChevronRight,
+  Eye, MousePointer2, Hammer, Send, Repeat
 } from 'lucide-react';
 
 export const getCategoryColor = (category: Category): string => {
@@ -95,6 +96,63 @@ const PMTypeCard = ({ icon, title, subtitle, focus, responsibilities, example, m
                     <span className="text-[10px] font-bold uppercase tracking-widest opacity-60">North Star Metrics</span>
                 </div>
                 <p className="text-xs font-medium text-zinc-700">{metrics}</p>
+            </div>
+        </div>
+    );
+};
+
+const PDLCPhaseCard = ({ phase, title, goal, activities, outputs, example, icon, colorClass }: any) => {
+    return (
+        <div className="bg-white border border-zinc-100 rounded-3xl p-8 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+            <div className={`absolute top-0 right-0 w-32 h-32 ${colorClass} opacity-5 rounded-full -translate-y-1/2 translate-x-1/2 group-hover:scale-110 transition-transform`}></div>
+            <div className="relative z-10">
+                <div className="flex items-center gap-4 mb-6">
+                    <div className={`p-3 rounded-2xl ${colorClass.replace('bg-', 'bg-').replace('-500', '-100')} ${colorClass.replace('bg-', 'text-')}`}>
+                        {icon}
+                    </div>
+                    <div>
+                        <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400 block mb-1">Phase {phase}</span>
+                        <h4 className="text-xl font-bold text-zinc-900 leading-none">{title}</h4>
+                    </div>
+                </div>
+                
+                <div className="mb-6">
+                    <p className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-2">Goal</p>
+                    <p className="text-zinc-700 font-medium leading-relaxed">{goal}</p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div>
+                        <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-3">Activities</p>
+                        <ul className="space-y-2">
+                            {activities.map((act: string, i: number) => (
+                                <li key={i} className="flex items-start gap-2 text-sm text-zinc-600 font-medium">
+                                    <div className="w-1 h-1 rounded-full bg-zinc-300 mt-2"></div>
+                                    <span>{act}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <div>
+                        <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-3">Outputs</p>
+                        <div className="flex flex-wrap gap-1.5">
+                            {outputs.map((out: string, i: number) => (
+                                <span key={i} className="px-2.5 py-1 bg-zinc-50 border border-zinc-100 rounded-lg text-[10px] font-bold text-zinc-500 uppercase tracking-tight">
+                                    {out}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
+                <div className="bg-zinc-50/50 p-4 rounded-2xl border border-zinc-100">
+                    <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-2 flex items-center gap-2">
+                        <Rocket className="w-3 h-3" /> Real Example: Zomato
+                    </p>
+                    <p className="text-sm font-semibold text-zinc-800 italic leading-relaxed">
+                        {example}
+                    </p>
+                </div>
             </div>
         </div>
     );
@@ -590,6 +648,226 @@ export const LESSONS: Lesson[] = [
               </p>
           </div>
       </div>
+    )
+  },
+  {
+    day: 2,
+    title: 'The Product Development Lifecycle (PDLC) 📘',
+    category: 'Foundations',
+    preview: 'Theme: How products move from idea → design → build → launch → iterate.',
+    content: (
+        <div className="space-y-12 text-zinc-800">
+            {/* Learning Objectives */}
+            <section className="bg-blue-50 p-8 rounded-3xl border border-blue-100">
+                <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-blue-900">
+                    <Target className="w-5 h-5" /> Learning Objectives
+                </h3>
+                <p className="mb-4 font-semibold text-blue-800">By the end of today, you will:</p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {[
+                        "Understand the full lifecycle of product development",
+                        "Know what happens at every stage & what PMs contribute",
+                        "Learn common outputs, tools, and real examples",
+                        "Avoid the typical mistakes that junior PMs make"
+                    ].map((item, i) => (
+                        <div key={i} className="flex items-start gap-3 bg-white/50 p-3 rounded-xl border border-blue-200">
+                            <CheckCircle className="w-4 h-4 text-blue-600 mt-1 flex-shrink-0" />
+                            <span className="text-sm text-blue-900 font-medium">{item}</span>
+                        </div>
+                    ))}
+                </div>
+            </section>
+
+            {/* What is PDLC? */}
+            <section>
+                <div className="flex items-center gap-3 mb-6">
+                    <div className="p-2 bg-zinc-100 rounded-lg text-zinc-600"><Settings className="w-6 h-6" /></div>
+                    <h3 className="text-2xl font-bold text-zinc-900">1. What is PDLC?</h3>
+                </div>
+                <p className="text-lg text-zinc-600 mb-8 leading-relaxed">
+                    Product Development Lifecycle (PDLC) is the structured process of taking a product from <strong>problem discovery → launch → continuous improvement</strong>, ensuring decisions are user-driven, data-backed, and business-aligned.
+                </p>
+
+                {/* Visual Flow Component */}
+                <div className="bg-zinc-900 p-8 rounded-[2rem] overflow-x-auto no-scrollbar mb-10">
+                    <div className="flex items-center min-w-[800px] justify-between gap-4">
+                        {[
+                            { label: 'Discovery', color: 'bg-indigo-500' },
+                            { label: 'Definition', color: 'bg-blue-500' },
+                            { label: 'Design', color: 'bg-pink-500' },
+                            { label: 'Development', color: 'bg-cyan-500' },
+                            { label: 'Launch', color: 'bg-emerald-500' },
+                            { label: 'Iteration', color: 'bg-orange-500' }
+                        ].map((step, i) => (
+                            <React.Fragment key={i}>
+                                <div className="flex flex-col items-center gap-3">
+                                    <div className={`w-12 h-12 rounded-2xl ${step.color} flex items-center justify-center text-white shadow-lg`}>
+                                        <span className="font-bold">{i+1}</span>
+                                    </div>
+                                    <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400">{step.label}</span>
+                                </div>
+                                {i < 5 && <ChevronRight className="w-5 h-5 text-zinc-700" />}
+                            </React.Fragment>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="overflow-hidden rounded-2xl border border-zinc-200 shadow-sm bg-white">
+                    <table className="w-full text-left border-collapse">
+                        <thead className="bg-zinc-50 border-b border-zinc-200">
+                            <tr>
+                                <th className="p-4 font-bold text-zinc-700 text-sm">Stage</th>
+                                <th className="p-4 font-bold text-zinc-700 text-sm">Goal</th>
+                                <th className="p-4 font-bold text-zinc-700 text-sm">Key Output</th>
+                            </tr>
+                        </thead>
+                        <tbody className="text-sm">
+                            {[
+                                { s: 'Discovery', g: 'Understand the user problem', o: 'Problem statement, Personas' },
+                                { s: 'Definition', g: 'Scope & prioritize solution', o: 'PRD, success metrics' },
+                                { s: 'Design', g: 'Visualize experience', o: 'Wireframes, Prototype' },
+                                { s: 'Development', g: 'Build & test', o: 'MVP, QA sign-off' },
+                                { s: 'Launch', g: 'Ship product to users', o: 'GTM plan, adoption data' },
+                                { s: 'Iteration', g: 'Improve continuously', o: 'Insights, next roadmap' }
+                            ].map((row, i) => (
+                                <tr key={i} className="border-b border-zinc-100 last:border-0 hover:bg-zinc-50 transition-colors">
+                                    <td className="p-4 font-bold text-zinc-800">{row.s}</td>
+                                    <td className="p-4 text-zinc-600">{row.g}</td>
+                                    <td className="p-4 text-indigo-600 font-bold">{row.o}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            {/* Deep Dive Phases */}
+            <section className="space-y-8">
+                <div className="flex items-center gap-3 mb-6">
+                    <div className="p-2 bg-indigo-50 rounded-lg text-indigo-600"><Layers className="w-6 h-6" /></div>
+                    <h3 className="text-2xl font-bold text-zinc-900">Six Key Stages of PDLC</h3>
+                </div>
+
+                <div className="grid grid-cols-1 gap-8">
+                    <PDLCPhaseCard 
+                        phase="1"
+                        title="Discovery (Find the Right Problem)"
+                        icon={<Eye className="w-6 h-6" />}
+                        colorClass="bg-indigo-500"
+                        goal="“Fall in love with the problem, not the solution.” Understand real user needs and validate the painpoint."
+                        activities={['Market & competitor research', 'User interviews, surveys', 'Data analysis (Mixpanel, SQL)', 'Identify Jobs-to-be-Done (JTBD)']}
+                        outputs={['Problem statement', 'Personas', 'Hypothesis', 'Opportunity sizing']}
+                        example="Zomato observes high checkout drop-offs because of unpredictable surge delivery fees."
+                    />
+
+                    <PDLCPhaseCard 
+                        phase="2"
+                        title="Definition (Scope the Solution)"
+                        icon={<Target className="w-6 h-6" />}
+                        colorClass="bg-blue-500"
+                        goal="Turn insights into an actionable plan. Define what we are building and how we measure success."
+                        activities={['Prioritization (RICE, MoSCoW)', 'Success metrics / OKRs', 'PRD writing', 'Cross-team alignment']}
+                        outputs={['PRD', 'Prioritized roadmap', 'Success metrics']}
+                        example="Test a Flat Delivery Fee Subscription Model to reduce checkout abandonment by 15%."
+                    />
+
+                    <PDLCPhaseCard 
+                        phase="3"
+                        title="Design (Shape the Experience)"
+                        icon={<MousePointer2 className="w-6 h-6" />}
+                        colorClass="bg-pink-500"
+                        goal="Design an intuitive and user-friendly experience for solving the defined problem."
+                        activities={['Wireframes & prototypes (Figma)', 'User testing & usability reviews', 'Accessibility & UI polishing']}
+                        outputs={['Prototype', 'Usability results', 'Design specs']}
+                        example="Prototype for 1-click subscription to Zomato delivery fee waiver."
+                    />
+
+                    <PDLCPhaseCard 
+                        phase="4"
+                        title="Development (Build)"
+                        icon={<Hammer className="w-6 h-6" />}
+                        colorClass="bg-cyan-500"
+                        goal="Build and test the feature until ready for release. Focus on quality and functional alignment."
+                        activities={['Sprint planning & execution (Jira)', 'Daily standups, bug triage', 'QA & UAT testing', 'Feature flag rollout']}
+                        outputs={['Working MVP', 'Release candidate', 'Go/No-Go decision']}
+                        example="Feature toggle rollout to 5% of users in Bangalore to test load performance."
+                    />
+
+                    <PDLCPhaseCard 
+                        phase="5"
+                        title="Launch (Ship & Distribute)"
+                        icon={<Send className="w-6 h-6" />}
+                        colorClass="bg-emerald-500"
+                        goal="“Shipping is a feature.” Release value to users and drive broad adoption."
+                        activities={['GTM strategy (Marketing, Sales)', 'Tutorials & walkthroughs', 'Monitor adoption & sentiment']}
+                        outputs={['GTM docs', 'Release comms', 'Launch dashboard']}
+                        example="Email + push campaign alerting Bangalore users about the new flat fee subscription."
+                    />
+
+                    <PDLCPhaseCard 
+                        phase="6"
+                        title="Iteration (Learn & Improve)"
+                        icon={<Repeat className="w-6 h-6" />}
+                        colorClass="bg-orange-500"
+                        goal="Improve continuously based on real-world data and user feedback."
+                        activities={['Analyze SQL/Mixpanel reports', 'Collect feedback (NPS, CSAT)', 'Identify improvement opportunities']}
+                        outputs={['Insights report', 'Updated roadmap', 'New hypothesis']}
+                        example="Feature adoption = 70%, renewal = 30% → pricing experiment planned to improve retention."
+                    />
+                </div>
+            </section>
+
+            {/* Key Takeaways */}
+            <section className="bg-zinc-900 text-white p-10 rounded-[2.5rem] relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-indigo-900/50 to-transparent"></div>
+                <div className="relative z-10">
+                    <h3 className="text-2xl font-bold mb-8 flex items-center gap-3">
+                        <Zap className="w-6 h-6 text-yellow-400" /> Key Takeaways
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div className="p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
+                            <p className="text-zinc-300 font-bold leading-relaxed italic">"The best PMs don’t build features — they solve problems."</p>
+                        </div>
+                        <div className="p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
+                            <p className="text-zinc-300 font-bold leading-relaxed italic">"PDLC creates structure, clarity, and alignment across the org."</p>
+                        </div>
+                        <div className="p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
+                            <p className="text-zinc-300 font-bold leading-relaxed italic">"Launch is not the end — iteration is where true results come from."</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    ),
+    assignment: (
+        <div className="space-y-6">
+            <h4 className="font-bold text-lg text-zinc-900 flex items-center gap-2">
+                <Target className="w-5 h-5 text-red-500" /> 🎯 Day-2 Mini Assignment
+            </h4>
+            <div className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-sm space-y-4">
+                <p className="text-zinc-700 font-medium">Pick any app (Spotify / Swiggy / Cred / Duolingo / ChatGPT) and describe a new feature across the PDLC:</p>
+                
+                <div className="bg-zinc-50 p-6 rounded-xl border border-zinc-100 space-y-4">
+                    <div className="grid grid-cols-1 gap-2 text-xs md:text-sm text-zinc-600">
+                        <p><span className="font-bold text-zinc-800">Product:</span> ___</p>
+                        <p><span className="font-bold text-zinc-800">Feature Idea:</span> ___</p>
+                        <p><span className="font-bold text-zinc-800">Discovery – Problem & insight:</span> ___</p>
+                        <p><span className="font-bold text-zinc-800">Definition – Hypothesis & metrics:</span> ___</p>
+                        <p><span className="font-bold text-zinc-800">Design – Sketch or description:</span> ___</p>
+                        <p><span className="font-bold text-zinc-800">Development – Dependencies / risks:</span> ___</p>
+                        <p><span className="font-bold text-zinc-800">Launch – Target segment & rollout plan:</span> ___</p>
+                        <p><span className="font-bold text-zinc-800">Iteration – What will you measure?:</span> ___</p>
+                    </div>
+                </div>
+
+                <div className="flex items-start gap-3 bg-indigo-50 p-4 rounded-xl">
+                    <Zap className="w-5 h-5 text-indigo-600 flex-shrink-0" />
+                    <p className="text-xs text-indigo-800 font-medium leading-relaxed">
+                        📌 Expected outcome: You learn to think like a PM end-to-end, considering feasibility, launch, and measurement from day one.
+                    </p>
+                </div>
+            </div>
+        </div>
     )
   }
 ];
