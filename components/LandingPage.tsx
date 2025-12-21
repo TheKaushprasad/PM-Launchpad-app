@@ -43,7 +43,7 @@ export const LandingPage: React.FC = () => {
             onClick={scrollToTop}
           >
              <Logo className="w-9 h-9 drop-shadow-sm group-hover:scale-105 transition-transform" />
-             <span className="font-bold text-xl tracking-tighter text-zinc-900">The NooB PM</span>
+             <span className="font-bold text-xl tracking-tighter text-zinc-900">PM Launchpad</span>
           </motion.div>
 
           {/* Desktop Nav */}
@@ -60,6 +60,17 @@ export const LandingPage: React.FC = () => {
                 {item}
               </motion.button>
             ))}
+            
+            <motion.button 
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                onClick={() => navigate('/dashboard')}
+                className="text-sm font-semibold text-indigo-600 hover:text-indigo-700 transition-colors tracking-tight"
+            >
+                Dashboard
+            </motion.button>
+
             <motion.div 
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -97,6 +108,12 @@ export const LandingPage: React.FC = () => {
                         {item}
                     </button>
                 ))}
+                <button 
+                    onClick={() => navigate('/dashboard')}
+                    className="block w-full text-left text-lg font-semibold text-indigo-600 py-2 tracking-tight"
+                >
+                    Dashboard
+                </button>
                 <div className="pt-4 border-t border-zinc-100 flex flex-col gap-3">
                     <button onClick={() => navigate('/dashboard')} className="w-full py-3 rounded-xl bg-indigo-600 text-white font-bold tracking-tight">
                         Start Learning
@@ -130,8 +147,8 @@ export const LandingPage: React.FC = () => {
                     <button onClick={() => navigate('/dashboard')} className="px-8 py-4 bg-zinc-900 hover:bg-zinc-800 text-white rounded-2xl font-bold text-lg shadow-xl shadow-zinc-200 transition-all hover:-translate-y-1 flex items-center gap-2 tracking-tight">
                         Start Learning Now <ArrowRight className="w-5 h-5" />
                     </button>
-                    <button onClick={() => scrollToSection('curriculum')} className="px-8 py-4 bg-white hover:bg-zinc-50 text-zinc-700 border border-zinc-200 rounded-2xl font-bold text-lg transition-all tracking-tight">
-                        View Curriculum
+                    <button onClick={() => navigate('/dashboard')} className="px-8 py-4 bg-white hover:bg-zinc-50 text-indigo-600 border border-zinc-200 rounded-2xl font-bold text-lg transition-all tracking-tight shadow-sm">
+                        Dashboard
                     </button>
                 </div>
                 <div className="mt-12 flex items-center gap-4 text-sm font-semibold text-zinc-500 tracking-tight">
@@ -366,9 +383,9 @@ export const LandingPage: React.FC = () => {
           <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
               <div className="flex items-center gap-2">
                   <Logo className="w-8 h-8" />
-                  <span className="font-bold text-zinc-900 tracking-tight">The NooB PM</span>
+                  <span className="font-bold text-zinc-900 tracking-tight">PM Launchpad</span>
               </div>
-              <p className="text-zinc-500 text-sm font-medium">© {new Date().getFullYear()} The NooB PM. Open Source Education.</p>
+              <p className="text-zinc-500 text-sm font-medium">© {new Date().getFullYear()} PM Launchpad. Open Source Education.</p>
               <div className="flex gap-6">
                   <a href="#" className="text-zinc-400 hover:text-indigo-600 transition-colors font-medium text-sm">Twitter</a>
                   <a href="#" className="text-zinc-400 hover:text-indigo-600 transition-colors font-medium text-sm">LinkedIn</a>

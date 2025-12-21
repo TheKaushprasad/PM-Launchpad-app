@@ -48,11 +48,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen }) =
       >
         {/* Logo Area */}
         <div className="p-8 pb-6">
-           <Link to="/" className="flex items-center gap-3 group" onClick={() => setMobileOpen(false)}>
+           <Link to="/dashboard" className="flex items-center gap-3 group" onClick={() => setMobileOpen(false)}>
               <Logo className="w-10 h-10 group-hover:scale-105 transition-transform" />
               <div>
-                <span className="block font-bold text-xl text-zinc-800 tracking-tighter leading-none">The NooB PM</span>
-                <span className="text-xs text-zinc-500 font-semibold tracking-widest uppercase">Academy</span>
+                <span className="block font-bold text-xl text-zinc-800 tracking-tighter leading-none uppercase">Launchpad</span>
+                <span className="text-[10px] text-zinc-500 font-black tracking-widest uppercase mt-1 block">PM Academy</span>
               </div>
            </Link>
         </div>
@@ -68,8 +68,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen }) =
                )
             }
 
-            // Simple check if path partially matches to keep section highlighted
-            const isActive = location.pathname === item.path;
+            // Enhanced check for active state
+            const isActive = item.path === '/dashboard' 
+                ? (location.pathname === '/dashboard' || location.pathname.startsWith('/dashboard/day/'))
+                : location.pathname === item.path;
+
             const Icon = item.icon as React.ElementType;
             
             return (
