@@ -7,7 +7,8 @@ import {
   Youtube, ExternalLink, Compass, ClipboardList, CheckSquare, FileText, 
   Flag, Microscope, ArrowRight, Activity, ShieldCheck, Sparkles, 
   DatabaseZap, Briefcase, Info, MessageSquare, AlertCircle, ChevronRight,
-  Eye, MousePointer2, Hammer, Send, Repeat
+  Eye, MousePointer2, Hammer, Send, Repeat, TrendingDown, LifeBuoy, Trash2,
+  Stethoscope, Presentation, Boxes
 } from 'lucide-react';
 
 export const getCategoryColor = (category: Category): string => {
@@ -147,7 +148,7 @@ const PDLCPhaseCard = ({ phase, title, goal, activities, outputs, example, icon,
 
                 <div className="bg-zinc-50/50 p-4 rounded-2xl border border-zinc-100">
                     <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-2 flex items-center gap-2">
-                        <Rocket className="w-3 h-3" /> Real Example: Zomato
+                        <Rocket className="w-3 h-3" /> Industry Case
                     </p>
                     <p className="text-sm font-semibold text-zinc-800 italic leading-relaxed">
                         {example}
@@ -657,6 +658,39 @@ export const LESSONS: Lesson[] = [
     preview: 'Theme: How products move from idea → design → build → launch → iterate.',
     content: (
         <div className="space-y-12 text-zinc-800">
+            {/* Header & Flow Illustration */}
+            <section className="text-center space-y-6">
+                <div className="bg-zinc-100 p-8 rounded-[3rem] overflow-hidden relative">
+                    <div className="absolute inset-0 bg-yellow-200/30"></div>
+                    <div className="relative z-10 space-y-8">
+                        <h3 className="text-3xl font-black text-zinc-900 tracking-tight">The Product Development Lifecycle (PDLC)</h3>
+                        
+                        {/* Custom Arrow Flow CSS-like Tailwind implementation */}
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
+                            {[
+                                { label: 'DISCOVERY', color: 'bg-zinc-400' },
+                                { label: 'DEFINITION', color: 'bg-zinc-400' },
+                                { label: 'DESIGN', color: 'bg-zinc-400' },
+                                { label: 'DEVELOPMENT', color: 'bg-zinc-400' },
+                                { label: 'LAUNCH', color: 'bg-zinc-400' },
+                                { label: 'ITERATION', color: 'bg-zinc-400' }
+                            ].map((step, i) => (
+                                <div key={i} className="relative h-16 group">
+                                    <div className={`absolute inset-0 ${step.color} clip-arrow flex items-center justify-center`}>
+                                        <span className="text-[10px] font-black tracking-widest text-zinc-900">{step.label}</span>
+                                    </div>
+                                    <style>{`
+                                        .clip-arrow {
+                                            clip-path: polygon(0% 0%, 85% 0%, 100% 50%, 85% 100%, 0% 100%, 15% 50%);
+                                        }
+                                    `}</style>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             {/* Learning Objectives */}
             <section className="bg-blue-50 p-8 rounded-3xl border border-blue-100">
                 <h3 className="text-xl font-bold mb-4 flex items-center gap-2 text-blue-900">
@@ -678,7 +712,7 @@ export const LESSONS: Lesson[] = [
                 </div>
             </section>
 
-            {/* What is PDLC? */}
+            {/* 1. What is PDLC? */}
             <section>
                 <div className="flex items-center gap-3 mb-6">
                     <div className="p-2 bg-zinc-100 rounded-lg text-zinc-600"><Settings className="w-6 h-6" /></div>
@@ -687,30 +721,6 @@ export const LESSONS: Lesson[] = [
                 <p className="text-lg text-zinc-600 mb-8 leading-relaxed">
                     Product Development Lifecycle (PDLC) is the structured process of taking a product from <strong>problem discovery → launch → continuous improvement</strong>, ensuring decisions are user-driven, data-backed, and business-aligned.
                 </p>
-
-                {/* Visual Flow Component */}
-                <div className="bg-zinc-900 p-8 rounded-[2rem] overflow-x-auto no-scrollbar mb-10">
-                    <div className="flex items-center min-w-[800px] justify-between gap-4">
-                        {[
-                            { label: 'Discovery', color: 'bg-indigo-500' },
-                            { label: 'Definition', color: 'bg-blue-500' },
-                            { label: 'Design', color: 'bg-pink-500' },
-                            { label: 'Development', color: 'bg-cyan-500' },
-                            { label: 'Launch', color: 'bg-emerald-500' },
-                            { label: 'Iteration', color: 'bg-orange-500' }
-                        ].map((step, i) => (
-                            <React.Fragment key={i}>
-                                <div className="flex flex-col items-center gap-3">
-                                    <div className={`w-12 h-12 rounded-2xl ${step.color} flex items-center justify-center text-white shadow-lg`}>
-                                        <span className="font-bold">{i+1}</span>
-                                    </div>
-                                    <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400">{step.label}</span>
-                                </div>
-                                {i < 5 && <ChevronRight className="w-5 h-5 text-zinc-700" />}
-                            </React.Fragment>
-                        ))}
-                    </div>
-                </div>
 
                 <div className="overflow-hidden rounded-2xl border border-zinc-200 shadow-sm bg-white">
                     <table className="w-full text-left border-collapse">
@@ -743,11 +753,6 @@ export const LESSONS: Lesson[] = [
 
             {/* Deep Dive Phases */}
             <section className="space-y-8">
-                <div className="flex items-center gap-3 mb-6">
-                    <div className="p-2 bg-indigo-50 rounded-lg text-indigo-600"><Layers className="w-6 h-6" /></div>
-                    <h3 className="text-2xl font-bold text-zinc-900">Six Key Stages of PDLC</h3>
-                </div>
-
                 <div className="grid grid-cols-1 gap-8">
                     <PDLCPhaseCard 
                         phase="1"
@@ -755,7 +760,7 @@ export const LESSONS: Lesson[] = [
                         icon={<Eye className="w-6 h-6" />}
                         colorClass="bg-indigo-500"
                         goal="“Fall in love with the problem, not the solution.” Understand real user needs and validate the painpoint."
-                        activities={['Market & competitor research', 'User interviews, surveys', 'Data analysis (Mixpanel, SQL)', 'Identify Jobs-to-be-Done (JTBD)']}
+                        activities={['Market & competitor research', 'User interviews, surveys', 'Data analysis (Mixpanel, GA, SQL)', 'Identify Jobs-to-be-Done (JTBD)']}
                         outputs={['Problem statement', 'Personas', 'Hypothesis', 'Opportunity sizing']}
                         example="Zomato observes high checkout drop-offs because of unpredictable surge delivery fees."
                     />
@@ -766,7 +771,7 @@ export const LESSONS: Lesson[] = [
                         icon={<Target className="w-6 h-6" />}
                         colorClass="bg-blue-500"
                         goal="Turn insights into an actionable plan. Define what we are building and how we measure success."
-                        activities={['Prioritization (RICE, MoSCoW)', 'Success metrics / OKRs', 'PRD writing', 'Cross-team alignment']}
+                        activities={['Prioritization (RICE, MOSCOW, Value-Effort)', 'Success metrics / OKRs', 'PRD writing', 'Align with design & engineering']}
                         outputs={['PRD', 'Prioritized roadmap', 'Success metrics']}
                         example="Test a Flat Delivery Fee Subscription Model to reduce checkout abandonment by 15%."
                     />
@@ -776,8 +781,8 @@ export const LESSONS: Lesson[] = [
                         title="Design (Shape the Experience)"
                         icon={<MousePointer2 className="w-6 h-6" />}
                         colorClass="bg-pink-500"
-                        goal="Design an intuitive and user-friendly experience for solving the defined problem."
-                        activities={['Wireframes & prototypes (Figma)', 'User testing & usability reviews', 'Accessibility & UI polishing']}
+                        goal="Design an intuitive experience for solving the defined problem."
+                        activities={['Wireframes & prototypes in Figma', 'User testing & usability reviews', 'Accessibility & UI polishing']}
                         outputs={['Prototype', 'Usability results', 'Design specs']}
                         example="Prototype for 1-click subscription to Zomato delivery fee waiver."
                     />
@@ -787,7 +792,7 @@ export const LESSONS: Lesson[] = [
                         title="Development (Build)"
                         icon={<Hammer className="w-6 h-6" />}
                         colorClass="bg-cyan-500"
-                        goal="Build and test the feature until ready for release. Focus on quality and functional alignment."
+                        goal="Build and test the feature until ready for release. Focus on functional alignment."
                         activities={['Sprint planning & execution (Jira)', 'Daily standups, bug triage', 'QA & UAT testing', 'Feature flag rollout']}
                         outputs={['Working MVP', 'Release candidate', 'Go/No-Go decision']}
                         example="Feature toggle rollout to 5% of users in Bangalore to test load performance."
@@ -799,9 +804,9 @@ export const LESSONS: Lesson[] = [
                         icon={<Send className="w-6 h-6" />}
                         colorClass="bg-emerald-500"
                         goal="“Shipping is a feature.” Release value to users and drive broad adoption."
-                        activities={['GTM strategy (Marketing, Sales)', 'Tutorials & walkthroughs', 'Monitor adoption & sentiment']}
+                        activities={['GTM strategy (Marketing, Sales, Support)', 'Announcements, tutorials, walkthroughs', 'Monitor adoption & sentiment']}
                         outputs={['GTM docs', 'Release comms', 'Launch dashboard']}
-                        example="Email + push campaign alerting Bangalore users about the new flat fee subscription."
+                        example="Email + push campaign tracking adoption of the new delivery subscription."
                     />
 
                     <PDLCPhaseCard 
@@ -809,8 +814,8 @@ export const LESSONS: Lesson[] = [
                         title="Iteration (Learn & Improve)"
                         icon={<Repeat className="w-6 h-6" />}
                         colorClass="bg-orange-500"
-                        goal="Improve continuously based on real-world data and user feedback."
-                        activities={['Analyze SQL/Mixpanel reports', 'Collect feedback (NPS, CSAT)', 'Identify improvement opportunities']}
+                        goal="Improve continuously based on data. The cycle never truly ends."
+                        activities={['Analyze Mixpanel, GA, SQL reports', 'Collect feedback (NPS, CSAT)', 'Identify improvement opportunities']}
                         outputs={['Insights report', 'Updated roadmap', 'New hypothesis']}
                         example="Feature adoption = 70%, renewal = 30% → pricing experiment planned to improve retention."
                     />
@@ -832,7 +837,7 @@ export const LESSONS: Lesson[] = [
                             <p className="text-zinc-300 font-bold leading-relaxed italic">"PDLC creates structure, clarity, and alignment across the org."</p>
                         </div>
                         <div className="p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
-                            <p className="text-zinc-300 font-bold leading-relaxed italic">"Launch is not the end — iteration is where true results come from."</p>
+                            <p className="text-zinc-300 font-bold leading-relaxed italic">"Launch is not the end — iteration is where results come from."</p>
                         </div>
                     </div>
                 </div>
@@ -862,12 +867,177 @@ export const LESSONS: Lesson[] = [
 
                 <div className="flex items-start gap-3 bg-indigo-50 p-4 rounded-xl">
                     <Zap className="w-5 h-5 text-indigo-600 flex-shrink-0" />
-                    <p className="text-xs text-indigo-800 font-medium leading-relaxed">
-                        📌 Expected outcome: You learn to think like a PM end-to-end, considering feasibility, launch, and measurement from day one.
+                    <p className="text-xs text-indigo-800 font-medium leading-relaxed italic">
+                        📌 Expected outcome: You learn to think like a PM end-to-end, considering everything from feasibility to measurement.
                     </p>
                 </div>
             </div>
         </div>
+    )
+  },
+  {
+    day: 3,
+    title: 'Product Life Cycle (PLC) & PLM 📘',
+    category: 'Foundations',
+    preview: 'Understand how products evolve in the market over time and how companies manage that journey.',
+    content: (
+        <div className="space-y-12 text-zinc-800">
+          {/* 1. What is Product Life Cycle (PLC)? */}
+          <section>
+            <div className="flex items-center gap-3 mb-6">
+               <div className="p-2 bg-indigo-100 rounded-lg text-indigo-600"><Compass className="w-6 h-6" /></div>
+               <h3 className="text-2xl font-bold text-zinc-900">What is Product Life Cycle (PLC)?</h3>
+            </div>
+            <p className="text-lg text-zinc-600 mb-6 leading-relaxed">
+              Product Life Cycle is the journey a product goes through in the market — from the day it is launched to the day it is eventually retired.
+            </p>
+            
+            <h4 className="font-bold text-lg mb-6 text-zinc-800">What Are the 4 Stages of Product Life Cycle?</h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+                {[
+                    { 
+                        title: 'Introduction', 
+                        desc: 'This is when a new product is first introduced to the market. Sales are usually low because customers are just starting to become aware of the product, and marketing efforts are focused on building awareness and generating interest. Companies may be investing heavily in research and development during this stage.',
+                        icon: Rocket, color: 'text-blue-500', bg: 'bg-blue-50' 
+                    },
+                    { 
+                        title: 'Growth', 
+                        desc: 'In this stage, the product starts to gain interest. Sales begin to increase as more customers become aware of the product and start buying it. Marketing efforts now focus on expanding market share and building brand loyalty. Competitors may also start entering the market during this stage.',
+                        icon: TrendingUp, color: 'text-emerald-500', bg: 'bg-emerald-50' 
+                    },
+                    { 
+                        title: 'Maturity', 
+                        desc: 'This is the stage of peak sales. The product has reached its maximum market penetration, and sales growth starts to level off. Competition is usually intense, and companies may need to focus on differentiating their product through added features, improved quality, or competitive pricing.',
+                        icon: CheckCircle, color: 'text-orange-500', bg: 'bg-orange-50' 
+                    },
+                    { 
+                        title: 'Decline', 
+                        desc: 'In the decline stage, sales begin to decline as customer preferences change, new technologies emerge, or market saturation occurs. Companies may choose to discontinue the product or try to extend it via strategies like updates, new marketing, or new segments.',
+                        icon: TrendingDown, color: 'text-rose-500', bg: 'bg-rose-50' 
+                    }
+                ].map((s, i) => (
+                    <div key={i} className={`p-6 rounded-2xl border border-zinc-100 transition-all hover:shadow-md ${s.bg}`}>
+                        <div className="flex items-center gap-3 mb-4">
+                            <s.icon className={`w-6 h-6 ${s.color}`} />
+                            <h5 className="font-bold text-zinc-900">{s.title}</h5>
+                        </div>
+                        <p className="text-sm text-zinc-600 leading-relaxed font-medium">{s.desc}</p>
+                    </div>
+                ))}
+            </div>
+          </section>
+
+          {/* 2. What is Product Lifecycle Management (PLM)? */}
+          <section>
+            <div className="flex items-center gap-3 mb-6">
+                <div className="p-2 bg-zinc-900 rounded-lg text-white"><Settings className="w-6 h-6" /></div>
+                <h3 className="text-2xl font-bold text-zinc-900">What is Product Lifecycle Management (PLM)?</h3>
+            </div>
+            <div className="bg-zinc-50 p-8 rounded-3xl border border-zinc-200 mb-8">
+                <p className="text-lg text-zinc-600 leading-relaxed italic mb-4">
+                    Product Lifecycle Management (PLM) is the practice of managing a product from its initiation to its eventual retirement through a systematic approach.
+                </p>
+                <p className="text-sm text-zinc-500 leading-relaxed">
+                    It's a system that helps manage every step of a product's life, from the initial idea and design to manufacturing, distribution, and even after it's sold. It's a way for companies to keep track of all the details and make sure everyone involved is on the same page throughout the product's journey. So, in simpler terms, PLM is like a guidebook that helps companies manage their products from start to finish.
+                </p>
+            </div>
+
+            <h4 className="font-bold text-lg mb-6 text-zinc-800">Stages of a Product in Product Life Cycle Management (PLM)</h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+                {[
+                    { 
+                        title: 'Concept Stage', 
+                        desc: 'The start of making a new product. Involves initial ideas and planning, market research, identifying customer needs, and determining feasibility. Usually research and development takes the lead.',
+                        icon: Lightbulb, color: 'text-yellow-600' 
+                    },
+                    { 
+                        title: 'Design Stage', 
+                        desc: 'Careful plan for the product, building prototypes, and testing everything. Ensuring the design meets all rules and safety standards. Significant R&D spend happens here.',
+                        icon: PenTool, color: 'text-pink-600' 
+                    },
+                    { 
+                        title: 'Production Stage', 
+                        desc: 'Making the product at scale—getting materials, putting everything together, and quality checks. Design changes should be minimal at this point.',
+                        icon: Hammer, color: 'text-zinc-600' 
+                    },
+                    { 
+                        title: 'Sales Stage', 
+                        desc: 'About telling people about the product and getting them to buy it via advertisements, prices, and special deals. Forecasting is crucial.',
+                        icon: Presentation, color: 'text-indigo-600' 
+                    },
+                    { 
+                        title: 'Support Stage', 
+                        desc: 'Ongoing customer support including customer service, warranties, repairs, and services or training to enhance user experience.',
+                        icon: LifeBuoy, color: 'text-blue-600' 
+                    },
+                    { 
+                        title: 'Retirement Stage', 
+                        desc: 'The life of the product ends due to better products, preference shifts, or tech moves. Includes responsible recycling or find new uses.',
+                        icon: Trash2, color: 'text-rose-600' 
+                    }
+                ].map((s, i) => (
+                    <div key={i} className="p-6 bg-white rounded-2xl border border-zinc-100 flex flex-col gap-3 shadow-sm hover:shadow-md transition-shadow">
+                        <div className="flex items-center gap-3">
+                            <s.icon className={`w-5 h-5 ${s.color}`} />
+                            <span className="font-bold text-zinc-900 tracking-tight">{s.title}</span>
+                        </div>
+                        <p className="text-xs text-zinc-500 font-medium leading-relaxed">{s.desc}</p>
+                    </div>
+                ))}
+            </div>
+          </section>
+
+          {/* Benefits of PLM */}
+          <section className="bg-zinc-900 text-white p-10 rounded-[2.5rem] relative overflow-hidden">
+             <div className="absolute top-0 right-0 p-8 opacity-10"><ShieldCheck className="w-32 h-32" /></div>
+             <h3 className="text-2xl font-bold mb-8 flex items-center gap-3">
+                <Zap className="w-6 h-6 text-yellow-400" /> Benefits of Using a Product Life Cycle Management Approach
+             </h3>
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                 {[
+                    { t: "Improved Collaboration", d: "PLM encourages cross-functional collaboration, ensuring that all stakeholders, from design to sales, work together seamlessly." },
+                    { t: "Enhanced Product Quality", d: "By integrating quality control into each phase, PLM helps identify and rectify potential issues early, resulting in higher-quality products." },
+                    { t: "Efficient Resource Utilization", d: "Streamlines processes, reducing waste and optimizing resource utilization, leading to significant cost savings." },
+                    { t: "Faster Time-to-Market", d: "A structured approach facilitates quicker development cycles, enabling companies to bring products to market more rapidly." },
+                    { t: "Regulatory Compliance", d: "PLM systems assist in ensuring that products meet regulatory standards, minimizing the risk of legal and compliance issues." }
+                 ].map((b, i) => (
+                    <div key={i} className="flex gap-4">
+                        <CheckCircle className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                        <div>
+                            <p className="font-bold text-zinc-100">{b.t}</p>
+                            <p className="text-sm text-zinc-400 leading-relaxed font-medium">{b.d}</p>
+                        </div>
+                    </div>
+                 ))}
+             </div>
+          </section>
+        </div>
+    ),
+    assignment: (
+      <div className="space-y-6">
+          <h4 className="font-bold text-lg text-zinc-900 flex items-center gap-2">
+              <Target className="w-5 h-5 text-red-500" /> 🎯 Day-3 Mini Assignment
+          </h4>
+          <div className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-sm space-y-4">
+             <p className="text-zinc-700 font-medium">Pick any product (Spotify / Swiggy / Cred / Duolingo / ChatGPT) and evaluate its lifecycle:</p>
+             <div className="bg-zinc-50 p-6 rounded-xl border border-zinc-100 space-y-4">
+                <div className="grid grid-cols-1 gap-2 text-xs md:text-sm text-zinc-600">
+                    <p><span className="font-bold text-zinc-800">Product:</span> ___</p>
+                    <p><span className="font-bold text-zinc-800">Current PLC Stage:</span> ___</p>
+                    <p><span className="font-bold text-zinc-800">What signals tell you this stage?:</span> ___</p>
+                    <p><span className="font-bold text-zinc-800">What should PM focus on right now (Strategy)?:</span> ___</p>
+                    <p><span className="font-bold text-zinc-800">One risky decision PM must make at this stage:</span> ___</p>
+                    <p><span className="font-bold text-zinc-800">If it’s declining, how would you extend or sunset it?:</span> ___</p>
+                </div>
+             </div>
+             <div className="flex items-start gap-3 bg-indigo-50 p-4 rounded-xl border border-indigo-100">
+                <Zap className="w-5 h-5 text-indigo-600 flex-shrink-0 mt-0.5" />
+                <p className="text-xs text-indigo-800 font-medium leading-relaxed italic">
+                    📌 Expected outcome: You learn to reason about products strategically over time, adapting your management style (PLM) to the market stage (PLC).
+                </p>
+             </div>
+          </div>
+      </div>
     )
   }
 ];
