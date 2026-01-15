@@ -8,7 +8,8 @@ import {
   Flag, Microscope, ArrowRight, Activity, ShieldCheck, Sparkles, 
   DatabaseZap, Briefcase, Info, MessageSquare, AlertCircle, ChevronRight,
   Eye, MousePointer2, Hammer, Send, Repeat, TrendingDown, LifeBuoy, Trash2,
-  Stethoscope, Presentation, Boxes, Heart, Globe, Footprints, ClipboardCheck
+  Stethoscope, Presentation, Boxes, Heart, Globe, Footprints, ClipboardCheck,
+  Ear, Smile, Map, UserPlus, Filter
 } from 'lucide-react';
 
 export const getCategoryColor = (category: Category): string => {
@@ -1218,6 +1219,159 @@ export const LESSONS: Lesson[] = [
                     Pick a feature from an app you use daily. Write a 1-page "Product Sense Teardown" identifying: 
                     1) The core user problem 2) The hypothesis behind the design 3) One critical trade-off they made.
                 </p>
+             </div>
+          </div>
+      </div>
+    )
+  },
+  {
+    day: 5,
+    title: 'User Empathy 📘',
+    category: 'Foundations',
+    preview: 'Step into their shoes. User empathy is the fundamental driver of human-centered development.',
+    content: (
+        <div className="space-y-12 text-zinc-800">
+          {/* Intro Section */}
+          <section className="bg-rose-900 text-white p-10 rounded-[2.5rem] relative overflow-hidden">
+             <div className="absolute top-0 right-0 p-8 opacity-10"><Heart className="w-40 h-40 fill-current" /></div>
+             <h3 className="text-3xl font-bold mb-4">User Empathy in Product</h3>
+             <p className="text-lg text-rose-100 max-w-2xl leading-relaxed">
+                User empathy is the ability to understand and share the feelings, needs, and perspectives of users by <strong>"stepping into their shoes"</strong> to view the product through their eyes. It drives human-centered development.
+             </p>
+          </section>
+
+          {/* Core Principles */}
+          <section>
+            <div className="flex items-center gap-3 mb-8">
+                <div className="p-2 bg-rose-100 rounded-lg text-rose-600"><Zap className="w-6 h-6" /></div>
+                <h3 className="text-2xl font-bold text-zinc-900">Core Principles of User Empathy</h3>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {[
+                    { t: "Active Listening", d: "Listen without judgment. Encourage open communication and hear what's NOT being said.", i: Ear, color: "text-blue-500", bg: "bg-blue-50" },
+                    { t: "Putting Users First", d: "Prioritize user needs over internal assumptions or ego. Align decisions with their interests.", i: UserPlus, color: "text-rose-500", bg: "bg-rose-50" },
+                    { t: "Deep Connection", d: "Grasp challenges, desires, and emotional motivations of your audience, not just tech specs.", i: Smile, color: "text-orange-500", bg: "bg-orange-50" }
+                ].map((p, idx) => (
+                    <div key={idx} className={`p-8 rounded-3xl border border-transparent hover:border-zinc-200 transition-all ${p.bg}`}>
+                        <p.i className={`w-8 h-8 ${p.color} mb-6`} />
+                        <h4 className="font-bold text-zinc-900 mb-3">{p.t}</h4>
+                        <p className="text-sm text-zinc-600 leading-relaxed font-medium">{p.d}</p>
+                    </div>
+                ))}
+            </div>
+          </section>
+
+          {/* Implementation Process */}
+          <section className="bg-zinc-50 p-8 md:p-12 rounded-[3rem] border border-zinc-200">
+             <h3 className="text-2xl font-bold text-zinc-900 mb-8">Implementation Process for PMs</h3>
+             <div className="space-y-12">
+                 <div className="flex flex-col md:flex-row gap-8">
+                    <div className="w-12 h-12 rounded-full bg-zinc-900 text-white flex items-center justify-center font-bold flex-shrink-0 shadow-lg">1</div>
+                    <div>
+                        <h4 className="text-xl font-bold mb-4">User Research & Personas</h4>
+                        <ul className="space-y-3">
+                            <li className="flex items-center gap-3 text-sm text-zinc-600 font-medium">
+                                <Search className="w-4 h-4 text-indigo-500" /> Research Methods: Interviews, surveys, and usability testing.
+                            </li>
+                            <li className="flex items-center gap-3 text-sm text-zinc-600 font-medium">
+                                <Users className="w-4 h-4 text-indigo-500" /> Personas: Visualize different user groups.
+                            </li>
+                            <li className="flex items-center gap-3 text-sm text-zinc-600 font-medium">
+                                <Map className="w-4 h-4 text-indigo-500" /> Empathy Maps: Map what users think, feel, experience, and do.
+                            </li>
+                        </ul>
+                    </div>
+                 </div>
+
+                 <div className="flex flex-col md:flex-row gap-8">
+                    <div className="w-12 h-12 rounded-full bg-zinc-900 text-white flex items-center justify-center font-bold flex-shrink-0 shadow-lg">2</div>
+                    <div>
+                        <h4 className="text-xl font-bold mb-4">Design Thinking Integration</h4>
+                        <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+                            {['Empathize', 'Define', 'Ideate', 'Prototype', 'Test'].map((step) => (
+                                <div key={step} className="px-4 py-2 bg-white rounded-xl border border-zinc-200 text-[10px] font-black uppercase tracking-widest text-center shadow-sm">
+                                    {step}
+                                </div>
+                            ))}
+                        </div>
+                        <p className="mt-4 text-sm text-zinc-500 font-medium leading-relaxed">
+                            PMs observe interactions, define pain points, ideate solutions, and test prototypes to refine the experience based on feedback.
+                        </p>
+                    </div>
+                 </div>
+
+                 <div className="flex flex-col md:flex-row gap-8">
+                    <div className="w-12 h-12 rounded-full bg-zinc-900 text-white flex items-center justify-center font-bold flex-shrink-0 shadow-lg">3</div>
+                    <div>
+                        <h4 className="text-xl font-bold mb-4">Continuous Feedback Loops</h4>
+                        <p className="text-sm text-zinc-600 font-medium leading-relaxed">
+                            Involve users at every stage, not just at the end. Use <strong>User Acceptance Testing (UAT)</strong> and iterative analysis to evolve with changing user preferences.
+                        </p>
+                    </div>
+                 </div>
+             </div>
+          </section>
+
+          {/* Importance & Success */}
+          <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
+             <div className="p-8 bg-zinc-900 text-white rounded-[2.5rem]">
+                 <h3 className="text-xl font-bold mb-6">Key Tools & Frameworks</h3>
+                 <div className="space-y-4">
+                     {[
+                        { t: "User Journey Mapping", d: "Visualizing the path a user takes." },
+                        { t: "User Stories", d: "Features from the user's perspective." },
+                        { t: "User Flows", d: "Step-by-step task completion." },
+                        { t: "User Segments", d: "Categorizing unique group needs." }
+                     ].map((item, idx) => (
+                        <div key={idx} className="flex gap-4 p-4 bg-white/5 rounded-2xl border border-white/10">
+                            <Filter className="w-5 h-5 text-indigo-400 mt-0.5" />
+                            <div>
+                                <p className="font-bold text-sm">{item.t}</p>
+                                <p className="text-xs text-zinc-400">{item.d}</p>
+                            </div>
+                        </div>
+                     ))}
+                 </div>
+             </div>
+             <div className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm">
+                <h3 className="text-xl font-bold mb-6 text-zinc-900">Real-World Success</h3>
+                <div className="space-y-6">
+                    <div className="p-4 bg-zinc-50 rounded-2xl border border-zinc-100">
+                        <p className="font-bold text-zinc-800 mb-1">Apple</p>
+                        <p className="text-xs text-zinc-500 leading-relaxed">Demonstrates empathy through user-friendly interfaces and seamless experiences that create a loyal base.</p>
+                    </div>
+                    <div className="p-4 bg-zinc-50 rounded-2xl border border-zinc-100">
+                        <p className="font-bold text-zinc-800 mb-1">Airbnb</p>
+                        <p className="text-xs text-zinc-500 leading-relaxed">Achieved success by focusing on the traveler's need for unique and personalized experiences.</p>
+                    </div>
+                </div>
+                <div className="mt-8 p-6 bg-indigo-900 text-white rounded-2xl">
+                    <p className="text-sm font-bold italic leading-relaxed">"Empathy is a core value that ensures products exceed expectations, not just meet them."</p>
+                </div>
+             </div>
+          </section>
+        </div>
+    ),
+    assignment: (
+      <div className="space-y-6">
+          <h4 className="font-bold text-lg text-zinc-900 flex items-center gap-2">
+              <Target className="w-5 h-5 text-red-500" /> 🎯 Day-5 Mini Assignment
+          </h4>
+          <div className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-sm space-y-6">
+             <div className="bg-indigo-50 p-6 rounded-xl border border-indigo-100 space-y-4">
+                <p className="text-xs font-bold text-indigo-900 uppercase tracking-widest">Task</p>
+                <p className="text-sm text-indigo-800 font-medium">
+                    Find out <strong>How did Airbnb use user empathy to drive their success?</strong> Look for specific stories about their "early days" and how they handled user problems.
+                </p>
+             </div>
+             
+             <div className="p-4 bg-zinc-50 rounded-xl border border-zinc-100">
+                <p className="text-xs font-bold text-zinc-400 uppercase tracking-widest mb-3">Reflection Questions:</p>
+                <ul className="list-disc pl-5 text-xs text-zinc-600 space-y-2">
+                    <li>How did they identify the problem travelers faced?</li>
+                    <li>What "unscalable" things did the founders do to empathize with hosts?</li>
+                    <li>How is that empathy reflected in the current app experience?</li>
+                </ul>
              </div>
           </div>
       </div>
