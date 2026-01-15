@@ -43,7 +43,7 @@ export const LandingPage: React.FC = () => {
             onClick={scrollToTop}
           >
              <Logo className="w-9 h-9 drop-shadow-sm group-hover:scale-105 transition-transform" />
-             <span className="font-bold text-xl tracking-tighter text-zinc-900">PM Launchpad</span>
+             <span className="font-bold text-xl tracking-tighter text-zinc-900">The NooB PM</span>
           </motion.div>
 
           {/* Desktop Nav */}
@@ -383,9 +383,9 @@ export const LandingPage: React.FC = () => {
           <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
               <div className="flex items-center gap-2">
                   <Logo className="w-8 h-8" />
-                  <span className="font-bold text-zinc-900 tracking-tight">PM Launchpad</span>
+                  <span className="font-bold text-zinc-900 tracking-tight">The NooB PM</span>
               </div>
-              <p className="text-zinc-500 text-sm font-medium">© {new Date().getFullYear()} PM Launchpad. Open Source Education.</p>
+              <p className="text-zinc-500 text-sm font-medium">© {new Date().getFullYear()} The NooB PM. Open Source Education.</p>
               <div className="flex gap-6">
                   <a href="#" className="text-zinc-400 hover:text-indigo-600 transition-colors font-medium text-sm">Twitter</a>
                   <a href="#" className="text-zinc-400 hover:text-indigo-600 transition-colors font-medium text-sm">LinkedIn</a>

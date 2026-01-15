@@ -51,7 +51,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen }) =
            <Link to="/dashboard" className="flex items-center gap-3 group" onClick={() => setMobileOpen(false)}>
               <Logo className="w-10 h-10 group-hover:scale-105 transition-transform" />
               <div>
-                <span className="block font-bold text-xl text-zinc-800 tracking-tighter leading-none uppercase">Launchpad</span>
+                <span className="block font-bold text-lg text-zinc-800 tracking-tighter leading-none uppercase">The NooB PM</span>
                 <span className="text-[10px] text-zinc-500 font-black tracking-widest uppercase mt-1 block">PM Academy</span>
               </div>
            </Link>
