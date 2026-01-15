@@ -9,7 +9,8 @@ import {
   DatabaseZap, Briefcase, Info, MessageSquare, AlertCircle, ChevronRight,
   Eye, MousePointer2, Hammer, Send, Repeat, TrendingDown, LifeBuoy, Trash2,
   Stethoscope, Presentation, Boxes, Heart, Globe, Footprints, ClipboardCheck,
-  Ear, Smile, Map, UserPlus, Filter
+  Ear, Smile, Map, UserPlus, Filter, DollarSign, PieChart, Scale, ShoppingCart, 
+  Globe2, Building2, Cpu as CpuIcon
 } from 'lucide-react';
 
 export const getCategoryColor = (category: Category): string => {
@@ -1304,7 +1305,7 @@ export const LESSONS: Lesson[] = [
                     <div className="w-12 h-12 rounded-full bg-zinc-900 text-white flex items-center justify-center font-bold flex-shrink-0 shadow-lg">3</div>
                     <div>
                         <h4 className="text-xl font-bold mb-4">Continuous Feedback Loops</h4>
-                        <p className="text-sm text-zinc-600 font-medium leading-relaxed">
+                        <p className="text-sm text-zinc-500 font-medium leading-relaxed">
                             Involve users at every stage, not just at the end. Use <strong>User Acceptance Testing (UAT)</strong> and iterative analysis to evolve with changing user preferences.
                         </p>
                     </div>
@@ -1372,6 +1373,313 @@ export const LESSONS: Lesson[] = [
                     <li>What "unscalable" things did the founders do to empathize with hosts?</li>
                     <li>How is that empathy reflected in the current app experience?</li>
                 </ul>
+             </div>
+          </div>
+      </div>
+    )
+  },
+  {
+    day: 6,
+    title: 'Business Fundamentals for PMs 💰',
+    category: 'Foundations',
+    preview: 'Master the metrics that drive sustainable products. Learn CAC, LTV, and the "Golden Ratio" of business success.',
+    content: (
+        <div className="space-y-12 text-zinc-800">
+          {/* Learning Objectives */}
+          <section className="bg-emerald-900 text-white p-10 rounded-[2.5rem] relative overflow-hidden">
+             <div className="absolute top-0 right-0 p-8 opacity-10"><DollarSign className="w-40 h-40" /></div>
+             <h3 className="text-3xl font-bold mb-4 flex items-center gap-3"><Target className="w-8 h-8" /> Learning Objectives</h3>
+             <p className="text-lg text-emerald-100 mb-6">By the end of Day 6, you will be able to:</p>
+             <ul className="space-y-2 text-emerald-50">
+                <li className="flex items-center gap-3"><CheckCircle className="w-5 h-5 text-emerald-400" /> Understand and calculate key unit economics metrics (CAC, LTV, payback period)</li>
+                <li className="flex items-center gap-3"><CheckCircle className="w-5 h-5 text-emerald-400" /> Identify and analyze different business models and revenue streams</li>
+                <li className="flex items-center gap-3"><CheckCircle className="w-5 h-5 text-emerald-400" /> Evaluate product decisions through a business lens</li>
+                <li className="flex items-center gap-3"><CheckCircle className="w-5 h-5 text-emerald-400" /> Communicate the business impact of product features</li>
+                <li className="flex items-center gap-3"><CheckCircle className="w-5 h-5 text-emerald-400" /> Assess product-market fit using business metrics</li>
+             </ul>
+          </section>
+
+          {/* Section 1: Importance */}
+          <section className="space-y-8">
+            <h3 className="text-2xl font-bold text-zinc-900 border-b-2 border-zinc-100 pb-2">Why Business Fundamentals Matter for PMs</h3>
+            <p className="text-lg text-zinc-600 leading-relaxed font-medium">Product Managers are often called the <strong>"mini-CEO"</strong> of their product. Here's why business knowledge is critical:</p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="p-8 bg-zinc-50 border border-zinc-200 rounded-3xl">
+                    <h4 className="font-bold text-zinc-900 mb-6 flex items-center gap-2 text-lg">What Good PMs Do:</h4>
+                    <ul className="space-y-4">
+                        <li className="flex gap-3 text-zinc-600 font-medium">
+                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-2 flex-shrink-0" />
+                            Balance user value with business value
+                        </li>
+                        <li className="flex gap-3 text-zinc-600 font-medium">
+                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-2 flex-shrink-0" />
+                            Justify investments with ROI calculations
+                        </li>
+                        <li className="flex gap-3 text-zinc-600 font-medium">
+                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-2 flex-shrink-0" />
+                            Speak confidently to executives and stakeholders
+                        </li>
+                        <li className="flex gap-3 text-zinc-600 font-medium">
+                            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-2 flex-shrink-0" />
+                            Understand the full customer lifecycle economics
+                        </li>
+                    </ul>
+                </div>
+                <div className="p-8 bg-red-50/50 border border-red-100 rounded-3xl">
+                    <h4 className="font-bold text-red-900 mb-6 flex items-center gap-2 text-lg">Common PM Mistakes:</h4>
+                    <ul className="space-y-4">
+                        <li className="flex gap-3 text-red-700 font-medium">
+                            <div className="w-1.5 h-1.5 rounded-full bg-red-400 mt-2 flex-shrink-0" />
+                            Building features users love but don't pay for
+                        </li>
+                        <li className="flex gap-3 text-red-700 font-medium">
+                            <div className="w-1.5 h-1.5 rounded-full bg-red-400 mt-2 flex-shrink-0" />
+                            Ignoring customer acquisition costs
+                        </li>
+                        <li className="flex gap-3 text-red-700 font-medium">
+                            <div className="w-1.5 h-1.5 rounded-full bg-red-400 mt-2 flex-shrink-0" />
+                            Focusing on vanity metrics instead of business metrics
+                        </li>
+                        <li className="flex gap-3 text-red-700 font-medium">
+                            <div className="w-1.5 h-1.5 rounded-full bg-red-400 mt-2 flex-shrink-0" />
+                            Making product decisions without considering sustainability
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div className="bg-zinc-900 p-8 rounded-[2rem] text-white">
+                <h4 className="text-xl font-bold mb-6 flex items-center gap-2"><Zap className="w-6 h-6 text-yellow-400" /> Real-World Examples</h4>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div>
+                        <p className="font-black text-indigo-400 mb-2">Twitter/X</p>
+                        <p className="text-xs text-zinc-400 leading-relaxed">Built incredible engagement but struggled with monetization for a decade. Engagement ≠ Business Success.</p>
+                    </div>
+                    <div>
+                        <p className="font-black text-pink-400 mb-2">Instagram</p>
+                        <p className="text-xs text-zinc-400 leading-relaxed">Delayed monetization to focus on growth. Worked because they had Facebook's massive resources.</p>
+                    </div>
+                    <div>
+                        <p className="font-black text-emerald-400 mb-2">Notion</p>
+                        <p className="text-xs text-zinc-400 leading-relaxed">Freemium model carefully designed to convert power users. Model aligned perfectly with user behavior.</p>
+                    </div>
+                </div>
+                <div className="mt-8 pt-6 border-t border-white/10 text-center">
+                    <p className="text-indigo-200 font-bold italic">"Every product decision has business implications."</p>
+                </div>
+            </div>
+          </section>
+
+          {/* Section 2: CAC */}
+          <section className="space-y-6">
+            <div className="flex items-center gap-3">
+                <div className="p-2 bg-indigo-100 rounded-lg text-indigo-600"><DollarSign className="w-6 h-6" /></div>
+                <h3 className="text-2xl font-bold text-zinc-900">Customer Acquisition Cost (CAC)</h3>
+            </div>
+            <div className="bg-white border border-zinc-200 rounded-[2.5rem] p-8 md:p-12 shadow-sm">
+                <h4 className="text-xl font-bold text-zinc-800 mb-4">What is CAC?</h4>
+                <p className="text-zinc-600 mb-8 font-medium leading-relaxed">
+                    Customer Acquisition Cost (CAC) is the total cost to acquire one new customer. This includes all marketing, advertising, and sales expenses.
+                </p>
+                <div className="bg-zinc-900 p-8 rounded-2xl text-center mb-8">
+                    <code className="text-indigo-400 text-xl font-bold">CAC = (Total Marketing + Sales Costs) / # New Customers</code>
+                </div>
+                <div className="p-6 bg-indigo-50 border border-indigo-100 rounded-2xl mb-8">
+                    <h5 className="font-bold text-indigo-900 mb-2">Example Calculation</h5>
+                    <p className="text-sm text-indigo-800">Scenario: $50,000 marketing spend + 500 new customers = <strong>$100 CAC</strong>.</p>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h5 className="font-bold text-zinc-900 mb-4 uppercase tracking-widest text-xs">Factors that INCREASE CAC</h5>
+                        <ul className="space-y-2 text-sm text-zinc-500 font-medium">
+                            <li className="flex items-center gap-2"><ArrowRight className="w-3 h-3 text-red-400" /> Competitive markets with high ad costs</li>
+                            <li className="flex items-center gap-2"><ArrowRight className="w-3 h-3 text-red-400" /> Complex products requiring education</li>
+                            <li className="flex items-center gap-2"><ArrowRight className="w-3 h-3 text-red-400" /> Long sales cycles</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h5 className="font-bold text-zinc-900 mb-4 uppercase tracking-widest text-xs">Factors that DECREASE CAC</h5>
+                        <ul className="space-y-2 text-sm text-zinc-500 font-medium">
+                            <li className="flex items-center gap-2"><CheckCircle className="w-3 h-3 text-emerald-500" /> Strong word-of-mouth & Product-Led Growth</li>
+                            <li className="flex items-center gap-2"><CheckCircle className="w-3 h-3 text-emerald-500" /> Effective onboarding & Clear value prop</li>
+                            <li className="flex items-center gap-2"><CheckCircle className="w-3 h-3 text-emerald-500" /> Strategic partnerships</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+          </section>
+
+          {/* Section 3: LTV */}
+          <section className="space-y-6">
+            <div className="flex items-center gap-3">
+                <div className="p-2 bg-pink-100 rounded-lg text-pink-600"><TrendingUp className="w-6 h-6" /></div>
+                <h3 className="text-2xl font-bold text-zinc-900">Lifetime Value (LTV)</h3>
+            </div>
+            <div className="bg-zinc-900 p-8 md:p-12 rounded-[2.5rem] text-white">
+                <h4 className="text-xl font-bold mb-4">What is LTV?</h4>
+                <p className="text-zinc-400 mb-10 font-medium leading-relaxed max-w-2xl">
+                    Lifetime Value (LTV) is the total revenue you expect from a customer over their entire relationship with your product.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+                    <div className="p-6 bg-white/5 border border-white/10 rounded-2xl">
+                        <p className="text-indigo-400 font-bold mb-2 uppercase tracking-widest text-xs">Method 1: Simple LTV</p>
+                        <code className="text-sm">LTV = ARPU × Avg Customer Lifespan</code>
+                    </div>
+                    <div className="p-6 bg-white/5 border border-white/10 rounded-2xl">
+                        <p className="text-pink-400 font-bold mb-2 uppercase tracking-widest text-xs">Method 2: LTV with Churn</p>
+                        <code className="text-sm">LTV = (ARPU × Gross Margin) / Churn Rate</code>
+                    </div>
+                </div>
+                <div className="p-8 bg-emerald-500/10 border border-emerald-500/20 rounded-3xl">
+                    <h5 className="font-bold text-emerald-400 mb-4 flex items-center gap-2"><Activity className="w-5 h-5" /> The Power of Retention</h5>
+                    <p className="text-sm text-zinc-300 leading-relaxed font-medium">
+                        Critical Insight: Increasing customer lifespan from 12 to 18 months (50% increase) <strong>directly increases LTV by 50%</strong>, without spending more on marketing! This is why retention features are high-ROI.
+                    </p>
+                </div>
+            </div>
+          </section>
+
+          {/* Section 4: Golden Ratio */}
+          <section className="bg-indigo-900 text-white p-10 md:p-16 rounded-[3rem] relative overflow-hidden">
+             <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+             <h3 className="text-3xl font-bold mb-8 flex items-center gap-3">
+                <Scale className="w-8 h-8 text-indigo-400" /> The Golden Ratio: LTV:CAC
+             </h3>
+             <p className="text-indigo-100 text-lg mb-10 max-w-2xl font-medium leading-relaxed">
+                This ratio tells you if your business model is sustainable and efficient.
+             </p>
+             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                 <div className="p-8 rounded-3xl bg-red-500/20 border border-red-500/30">
+                    <p className="text-3xl font-black mb-2">&lt; 1:1</p>
+                    <p className="text-xs font-bold uppercase tracking-widest text-red-200 mb-3">Crisis Mode</p>
+                    <p className="text-xs text-red-100/70 leading-relaxed">Losing money. Reduce CAC or increase LTV urgently.</p>
+                 </div>
+                 <div className="p-8 rounded-3xl bg-emerald-500/20 border border-emerald-500/30 ring-4 ring-emerald-500/20 scale-105">
+                    <p className="text-3xl font-black mb-2">3:1 to 5:1</p>
+                    <p className="text-xs font-bold uppercase tracking-widest text-emerald-200 mb-3">The Sweet Spot</p>
+                    <p className="text-xs text-emerald-100/70 leading-relaxed">Optimal balance. Scalable and healthy business.</p>
+                 </div>
+                 <div className="p-8 rounded-3xl bg-blue-500/20 border border-blue-500/30">
+                    <p className="text-3xl font-black mb-2">&gt; 5:1</p>
+                    <p className="text-xs font-bold uppercase tracking-widest text-blue-200 mb-3">Underinvesting</p>
+                    <p className="text-xs text-blue-100/70 leading-relaxed">Too conservative. Competitors might outgrow you.</p>
+                 </div>
+             </div>
+             <div className="mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row gap-8 items-center justify-between">
+                <div>
+                    <h4 className="font-bold text-indigo-300 text-xl mb-2">Payback Period</h4>
+                    <p className="text-sm text-indigo-100 opacity-70">Time to recover CAC. Healthy target: &lt; 12 months.</p>
+                </div>
+                <div className="px-8 py-4 bg-white/10 rounded-full font-mono text-lg border border-white/20">
+                    CAC / (ARPU × Gross Margin)
+                </div>
+             </div>
+          </section>
+
+          {/* Section 5: Business Models */}
+          <section className="space-y-8">
+            <h3 className="text-2xl font-bold text-zinc-900 border-b-2 border-zinc-100 pb-2">Business Models & Revenue Streams</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {[
+                    { t: "Subscription", d: "Recurring fees (Netflix). Focus: Habit-building, retention, MRR growth.", i: RefreshCw },
+                    { t: "Freemium", d: "Free base + Paid premium (Slack). Focus: Upgrade triggers, feature gating.", i: Zap },
+                    { t: "Marketplace", d: "Commission on transactions (Airbnb). Focus: Supply-demand liquidity, trust.", i: Globe2 },
+                    { t: "Advertising", d: "Attention sales (Google). Focus: User engagement, data targeting.", i: MessageSquare },
+                    { t: "E-commerce", d: "Direct sales markup (Amazon). Focus: Conversion rate, cart abandonment.", i: ShoppingCart },
+                    { t: "Enterprise SaaS", d: "Large B2B contracts (Salesforce). Focus: Org adoption, security, ROI.", i: Building2 },
+                    { t: "Usage-Based", d: "Pay as you go (Stripe). Focus: Volume driving, value alignment.", i: CpuIcon }
+                ].map((model, idx) => (
+                    <div key={idx} className="flex gap-5 p-6 bg-white border border-zinc-100 rounded-2xl shadow-sm hover:border-indigo-200 transition-all hover:shadow-md group">
+                        <div className="p-3 bg-zinc-50 rounded-xl group-hover:bg-indigo-50 transition-colors h-fit">
+                            <model.i className="w-6 h-6 text-zinc-400 group-hover:text-indigo-600" />
+                        </div>
+                        <div>
+                            <h4 className="font-bold text-zinc-900 mb-1">{model.t} Model</h4>
+                            <p className="text-sm text-zinc-500 font-medium leading-relaxed">{model.d}</p>
+                        </div>
+                    </div>
+                ))}
+            </div>
+          </section>
+
+          {/* Hybrid Models & Decision Framework */}
+          <section className="p-8 md:p-12 bg-zinc-900 rounded-[3rem] text-white">
+             <h3 className="text-2xl font-bold mb-8 flex items-center gap-3"><Boxes className="w-8 h-8 text-indigo-400" /> Hybrid Strategy</h3>
+             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                 <div className="space-y-3">
+                    <h4 className="font-bold text-indigo-400">Spotify</h4>
+                    <p className="text-xs text-zinc-400 font-medium leading-relaxed">Freemium (Ads) + Subscription. Free drives adoption, Ads monetize free, Premium is the ultimate experience.</p>
+                 </div>
+                 <div className="space-y-3">
+                    <h4 className="font-bold text-pink-400">LinkedIn</h4>
+                    <p className="text-xs text-zinc-400 font-medium leading-relaxed">Freemium + Subscription + Advertising + Enterprise. Massive multi-stream monetization strategy.</p>
+                 </div>
+                 <div className="space-y-3">
+                    <h4 className="font-bold text-emerald-400">Amazon</h4>
+                    <p className="text-xs text-zinc-400 font-medium leading-relaxed">E-commerce + Subscription (Prime) + Marketplace + Ads + Usage (AWS). The ultimate hybrid giant.</p>
+                 </div>
+             </div>
+             <div className="pt-8 border-t border-white/10">
+                <h4 className="font-bold mb-6 text-xl text-center">How Business Model Affects Your Decisions</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm">
+                    <div className="space-y-2">
+                        <p className="text-indigo-300 font-bold underline">If Subscription:</p>
+                        <p className="text-zinc-400 font-medium">Prioritize engagement & retention. Avoid high-friction flows that cause churn. Measure NRR.</p>
+                    </div>
+                    <div className="space-y-2">
+                        <p className="text-emerald-300 font-bold underline">If Marketplace:</p>
+                        <p className="text-zinc-400 font-medium">Prioritize supply growth & liquidity. Avoid changes hurting one side. Measure GMV.</p>
+                    </div>
+                </div>
+             </div>
+          </section>
+        </div>
+    ),
+    assignment: (
+      <div className="space-y-6">
+          <h4 className="font-bold text-lg text-zinc-900 flex items-center gap-2">
+              <Target className="w-5 h-5 text-red-500" /> 🎯 Day-6 Mini Assignment
+          </h4>
+          <div className="bg-white p-8 rounded-3xl border border-zinc-200 shadow-sm space-y-6">
+             <div className="bg-emerald-50 p-8 rounded-2xl border border-emerald-100 space-y-6">
+                <p className="text-xs font-bold text-emerald-900 uppercase tracking-widest flex items-center gap-2"><DollarSign className="w-4 h-4" /> Unit Economics Problem</p>
+                <div className="space-y-4 text-sm text-emerald-800 font-medium">
+                    <p className="text-lg">A SaaS startup has the following monthly metrics:</p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-white/40 p-6 rounded-xl border border-emerald-200/50">
+                        <ul className="space-y-2">
+                            <li>• Ad Spend: <strong>$30,000</strong></li>
+                            <li>• Sales Team Costs: <strong>$20,000</strong></li>
+                            <li>• New Customers: <strong>250</strong></li>
+                        </ul>
+                        <ul className="space-y-2">
+                            <li>• ARPU: <strong>$40/month</strong></li>
+                            <li>• Avg Lifespan: <strong>10 months</strong></li>
+                            <li>• Gross Margin: <strong>80%</strong></li>
+                        </ul>
+                    </div>
+                    <div className="pt-6">
+                        <p className="font-bold text-emerald-900 text-base mb-4 underline">Calculate:</p>
+                        <ol className="space-y-4">
+                            <li className="flex items-center gap-3">
+                                <span className="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[10px] font-bold">1</span>
+                                <span><strong>CAC</strong> (Total Marketing+Sales / New Customers)</span>
+                            </li>
+                            <li className="flex items-center gap-3">
+                                <span className="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[10px] font-bold">2</span>
+                                <span><strong>LTV</strong> (ARPU × Gross Margin × Lifespan)</span>
+                            </li>
+                            <li className="flex items-center gap-3">
+                                <span className="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[10px] font-bold">3</span>
+                                <span><strong>LTV:CAC Ratio</strong></span>
+                            </li>
+                        </ol>
+                    </div>
+                    <div className="mt-8 p-6 bg-white rounded-xl border border-emerald-200">
+                        <p className="italic text-emerald-900 font-bold">Reflective Strategy:</p>
+                        <p className="text-emerald-700 mt-2">Based on your results, what should the PM prioritize: <strong>Growth</strong> (spend more), <strong>Efficiency</strong> (reduce CAC), or <strong>Retention</strong> (increase lifespan)?</p>
+                    </div>
+                </div>
              </div>
           </div>
       </div>
