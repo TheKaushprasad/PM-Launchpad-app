@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { LESSONS, getCategoryColor, getCategoryIcon } from '../constants';
-import { ArrowLeft, ArrowRight, ExternalLink, Video, PenTool, ChevronLeft, ChevronRight, BookOpen, Clock, Play, X } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ExternalLink, Video, PenTool, ChevronLeft, ChevronRight, BookOpen, Clock, Play, X, Zap } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const getYoutubeEmbedUrl = (url: string) => {
@@ -145,14 +145,17 @@ export const LessonDetail: React.FC = () => {
                      </div>
                  )}
 
-                 {/* Resources Card */}
+                 {/* Resources Card - Renamed to Must Watch */}
                  {lesson.resources && lesson.resources.length > 0 && (
-                     <div className="bg-white rounded-2xl p-6 border border-zinc-200 shadow-sm">
-                        <h3 className="font-bold text-zinc-900 mb-4 flex items-center gap-2 tracking-tight">
-                            <BookOpen className="w-5 h-5 text-indigo-500" />
-                            Resources
+                     <div className="bg-zinc-900 rounded-2xl p-6 border border-zinc-800 shadow-xl overflow-hidden relative group">
+                        <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
+                            <Zap className="w-16 h-16 text-yellow-400" />
+                        </div>
+                        <h3 className="font-bold text-white mb-4 flex items-center gap-2 tracking-tight relative z-10 text-lg">
+                            <Play className="w-5 h-5 text-yellow-400 fill-current" />
+                            Must Watch
                         </h3>
-                        <ul className="space-y-3">
+                        <ul className="space-y-3 relative z-10">
                             {lesson.resources.map((res, idx) => {
                                 const embedUrl = res.type === 'video' ? getYoutubeEmbedUrl(res.url) : null;
                                 return (
@@ -160,26 +163,26 @@ export const LessonDetail: React.FC = () => {
                                     {embedUrl ? (
                                         <button 
                                             onClick={() => setActiveVideo(embedUrl)}
-                                            className="w-full flex items-start gap-3 group p-3 rounded-xl hover:bg-zinc-50 transition-colors border border-transparent hover:border-zinc-100 text-left"
+                                            className="w-full flex items-start gap-3 group p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors border border-white/5 text-left"
                                         >
-                                            <div className="mt-0.5 p-1.5 bg-zinc-100 rounded-md text-zinc-500 group-hover:text-red-600 group-hover:bg-red-50 transition-colors">
+                                            <div className="mt-0.5 p-1.5 bg-white/10 rounded-md text-zinc-400 group-hover:text-red-500 group-hover:bg-white transition-colors">
                                                 <Video className="w-4 h-4" />
                                             </div>
                                             <div>
-                                                <span className="block text-sm font-bold text-zinc-700 group-hover:text-indigo-600 transition-colors tracking-tight">{res.title}</span>
-                                                <span className="text-[10px] text-zinc-400 uppercase tracking-widest font-bold flex items-center gap-1">
+                                                <span className="block text-sm font-bold text-zinc-200 group-hover:text-white transition-colors tracking-tight">{res.title}</span>
+                                                <span className="text-[10px] text-zinc-500 uppercase tracking-widest font-black flex items-center gap-1 mt-1 group-hover:text-yellow-400 transition-colors">
                                                     {res.type} <Play className="w-3 h-3 ml-1" />
                                                 </span>
                                             </div>
                                         </button>
                                     ) : (
-                                        <a href={res.url} target="_blank" rel="noopener noreferrer" className="flex items-start gap-3 group p-3 rounded-xl hover:bg-zinc-50 transition-colors border border-transparent hover:border-zinc-100">
-                                            <div className="mt-0.5 p-1.5 bg-zinc-100 rounded-md text-zinc-500 group-hover:text-indigo-600 group-hover:bg-white transition-colors">
+                                        <a href={res.url} target="_blank" rel="noopener noreferrer" className="flex items-start gap-3 group p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors border border-white/5">
+                                            <div className="mt-0.5 p-1.5 bg-white/10 rounded-md text-zinc-400 group-hover:text-indigo-400 transition-colors">
                                                 {res.type === 'video' ? <Video className="w-4 h-4" /> : <ExternalLink className="w-4 h-4" />}
                                             </div>
                                             <div>
-                                                <span className="block text-sm font-bold text-zinc-700 group-hover:text-indigo-600 transition-colors tracking-tight">{res.title}</span>
-                                                <span className="text-[10px] text-zinc-400 uppercase tracking-widest font-bold">{res.type}</span>
+                                                <span className="block text-sm font-bold text-zinc-200 group-hover:text-white transition-colors tracking-tight">{res.title}</span>
+                                                <span className="text-[10px] text-zinc-500 uppercase tracking-widest font-black mt-1 block">{res.type}</span>
                                             </div>
                                         </a>
                                     )}

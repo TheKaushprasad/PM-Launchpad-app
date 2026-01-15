@@ -10,7 +10,8 @@ import {
   Eye, MousePointer2, Hammer, Send, Repeat, TrendingDown, LifeBuoy, Trash2,
   Stethoscope, Presentation, Boxes, Heart, Globe, Footprints, ClipboardCheck,
   Ear, Smile, Map, UserPlus, Filter, DollarSign, PieChart, Scale, ShoppingCart, 
-  Globe2, Building2, Cpu as CpuIcon
+  Globe2, Building2, Cpu as CpuIcon, Microscope as MicroscopeIcon, ListChecks,
+  UserCircle2, Quote, Sparkle
 } from 'lucide-react';
 
 export const getCategoryColor = (category: Category): string => {
@@ -1547,7 +1548,7 @@ export const LESSONS: Lesson[] = [
                 <Scale className="w-8 h-8 text-indigo-400" /> The Golden Ratio: LTV:CAC
              </h3>
              <p className="text-indigo-100 text-lg mb-10 max-w-2xl font-medium leading-relaxed">
-                This ratio tells you if your business model is sustainable and efficient.
+                This ratio determines if your business model is actually sustainable and efficient at scale.
              </p>
              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
                  <div className="p-8 rounded-3xl bg-red-500/20 border border-red-500/30">
@@ -1680,6 +1681,567 @@ export const LESSONS: Lesson[] = [
                         <p className="text-emerald-700 mt-2">Based on your results, what should the PM prioritize: <strong>Growth</strong> (spend more), <strong>Efficiency</strong> (reduce CAC), or <strong>Retention</strong> (increase lifespan)?</p>
                     </div>
                 </div>
+             </div>
+          </div>
+      </div>
+    )
+  },
+  {
+    day: 7,
+    title: 'Introduction to User & Market Research 🔍',
+    category: 'Foundations',
+    preview: 'Think like a researcher. Learn structured methods to uncover pain points and validate product ideas.',
+    resources: [
+        { title: 'Doing User Research', url: 'https://youtu.be/MxwyGi-3dzY', type: 'video' },
+        { title: 'Market Research', url: 'https://youtu.be/LoJDAeq6i34', type: 'video' }
+    ],
+    content: (
+        <div className="space-y-12 text-zinc-800">
+          {/* Theme Section */}
+          <section className="bg-purple-900 text-white p-10 rounded-[2.5rem] relative overflow-hidden">
+             <div className="absolute top-0 right-0 p-8 opacity-10"><MicroscopeIcon className="w-40 h-40" /></div>
+             <p className="text-lg text-purple-100 max-w-2xl leading-relaxed italic mb-4">
+                “Great products start with deep understanding — of users, their needs, and the market around them.”
+             </p>
+             <p className="text-purple-200 font-medium">
+                Today’s focus is to think like a researcher, not a builder. You’ll learn how to identify who your users are, what they struggle with, and why solving it matters.
+             </p>
+          </section>
+
+          {/* Learning Objectives */}
+          <section>
+            <h3 className="text-2xl font-bold mb-6 flex items-center gap-2 text-zinc-900">
+                <Target className="w-6 h-6 text-purple-500" /> Learning Objectives
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {[
+                    "Explain the difference between user research and market research",
+                    "Identify user pain points using qualitative and quantitative methods",
+                    "Apply basic frameworks — Empathy Map, JTBD, and Segmentation",
+                    "Use AI tools to accelerate research synthesis"
+                ].map((obj, i) => (
+                    <div key={i} className="flex gap-3 p-4 bg-purple-50 rounded-xl border border-purple-100">
+                        <CheckCircle className="w-5 h-5 text-purple-600 flex-shrink-0 mt-0.5" />
+                        <span className="text-sm font-medium text-purple-900">{obj}</span>
+                    </div>
+                ))}
+            </div>
+          </section>
+
+          {/* Section 1: User vs Market */}
+          <section className="space-y-6">
+            <h3 className="text-2xl font-bold text-zinc-900">1. User Research vs Market Research</h3>
+            <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white">
+                <table className="w-full text-left border-collapse">
+                    <thead className="bg-zinc-50 border-b border-zinc-200">
+                        <tr>
+                            <th className="p-4 font-bold text-zinc-700 text-sm">Aspect</th>
+                            <th className="p-4 font-bold text-zinc-700 text-sm">User Research</th>
+                            <th className="p-4 font-bold text-zinc-700 text-sm">Market Research</th>
+                        </tr>
+                    </thead>
+                    <tbody className="text-sm">
+                        <tr className="border-b border-zinc-100">
+                            <td className="p-4 font-bold text-zinc-800 bg-zinc-50/50">Focus</td>
+                            <td className="p-4 text-zinc-600 italic">Individual behaviors & pain points</td>
+                            <td className="p-4 text-zinc-600 italic">Industry, competitors, trends</td>
+                        </tr>
+                        <tr className="border-b border-zinc-100">
+                            <td className="p-4 font-bold text-zinc-800 bg-zinc-50/50">Goal</td>
+                            <td className="p-4 font-bold text-indigo-600">Validate Problem</td>
+                            <td className="p-4 font-bold text-emerald-600">Validate Opportunity</td>
+                        </tr>
+                        <tr className="border-b border-zinc-100">
+                            <td className="p-4 font-bold text-zinc-800 bg-zinc-50/50">Methods</td>
+                            <td className="p-4 text-zinc-600">Interviews, surveys, usability tests</td>
+                            <td className="p-4 text-zinc-600">Desk research, benchmarking</td>
+                        </tr>
+                        <tr>
+                            <td className="p-4 font-bold text-zinc-800 bg-zinc-50/50">Output</td>
+                            <td className="p-4 text-zinc-600 font-medium">Personas, Journey Maps</td>
+                            <td className="p-4 text-zinc-600 font-medium">TAM/SAM/SOM, SWOT</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div className="p-4 bg-amber-50 border-l-4 border-amber-400 rounded-r-xl">
+                <p className="text-sm text-amber-900 font-bold flex items-center gap-2">
+                    <Brain className="w-4 h-4" /> PM Tip: Always start with user research before market research. If users don’t want it, market data doesn’t matter.
+                </p>
+            </div>
+          </section>
+
+          {/* Section 2: Process */}
+          <section className="space-y-8">
+            <h3 className="text-2xl font-bold text-zinc-900">2. The Research Process</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-5 gap-4">
+                {[
+                    { s: "1", t: "Define Objective", d: "“What do I want to learn?”" },
+                    { s: "2", t: "Choose Method", d: "Interviews, surveys, or secondary." },
+                    { s: "3", t: "Recruit Users", d: "Identify your target segments." },
+                    { s: "4", t: "Collect Data", d: "Ask open-ended questions." },
+                    { s: "5", t: "Synthesize", d: "Identify themes and insights." }
+                ].map((step, idx) => (
+                    <div key={idx} className="p-6 bg-zinc-50 rounded-2xl border border-zinc-100 text-center flex flex-col items-center">
+                        <span className="w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center font-bold text-xs mb-4 shadow-md shadow-purple-200">{step.s}</span>
+                        <h4 className="font-bold text-zinc-900 text-sm mb-2 leading-tight">{step.t}</h4>
+                        <p className="text-[11px] text-zinc-500 font-medium">{step.d}</p>
+                    </div>
+                ))}
+            </div>
+          </section>
+
+          {/* Section 3: Frameworks */}
+          <section className="space-y-12">
+            <h3 className="text-2xl font-bold text-zinc-900">3. Research Frameworks</h3>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {/* Empathy Map */}
+                <div className="bg-white p-8 rounded-3xl border border-zinc-100 shadow-sm relative group overflow-hidden">
+                    <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:scale-110 transition-transform"><Ear className="w-24 h-24" /></div>
+                    <h4 className="text-xl font-bold mb-4 flex items-center gap-2"><Brain className="w-5 h-5 text-indigo-500" /> Empathy Map</h4>
+                    <p className="text-sm text-zinc-500 mb-6 font-medium">Map out what users: <strong>Says, Does, Thinks, and Feels.</strong></p>
+                    <div className="grid grid-cols-2 gap-2">
+                        {['SAYS', 'DOES', 'THINKS', 'FEELS'].map(m => (
+                            <div key={m} className="p-4 bg-zinc-50 rounded-xl border border-zinc-100 text-center font-black text-[10px] tracking-widest text-zinc-400 group-hover:text-indigo-400 transition-colors">{m}</div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* JTBD */}
+                <div className="bg-indigo-900 p-8 rounded-3xl text-white shadow-xl">
+                    <h4 className="text-xl font-bold mb-4 flex items-center gap-2"><Lightbulb className="w-5 h-5 text-yellow-400" /> Jobs To Be Done (JTBD)</h4>
+                    <p className="text-sm text-indigo-200 mb-6 font-medium">“People don’t buy products; they hire them to get a job done.”</p>
+                    <div className="bg-white/10 p-5 rounded-xl border border-white/10 italic text-sm space-y-3">
+                        <p><span className="text-indigo-300 font-bold">When I...</span> (situation)</p>
+                        <p><span className="text-indigo-300 font-bold">I want to...</span> (motivation)</p>
+                        <p><span className="text-indigo-300 font-bold">So I can...</span> (desired outcome)</p>
+                    </div>
+                    <p className="mt-6 text-[11px] text-indigo-300 font-bold">Example: hiring Duolingo to feel productive while waiting.</p>
+                </div>
+            </div>
+
+            {/* Segmentation */}
+            <div className="bg-zinc-50 p-8 rounded-[2.5rem] border border-zinc-200">
+                <h4 className="text-xl font-bold mb-8 text-zinc-900 flex items-center gap-2"><Filter className="w-5 h-5 text-purple-600" /> Segmentation Strategies</h4>
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    {[
+                        { t: 'Demographics', d: 'Age, gender, location, income.' },
+                        { t: 'Psychographics', d: 'Motivations, lifestyle, values.' },
+                        { t: 'Behavior', d: 'Usage freq, loyalty, spending.' },
+                        { t: 'Needs-Based', d: 'Specific pain points & goals.' }
+                    ].map((seg, i) => (
+                        <div key={i} className="space-y-2">
+                            <p className="font-bold text-zinc-900 text-sm">{seg.t}</p>
+                            <p className="text-xs text-zinc-500 font-medium leading-relaxed">{seg.d}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+          </section>
+
+          {/* Section 4: Market Basics */}
+          <section className="space-y-6">
+            <h3 className="text-2xl font-bold text-zinc-900">4. Market Research Basics</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="p-6 bg-white border border-zinc-200 rounded-2xl">
+                    <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-2">Trends</p>
+                    <p className="text-sm font-bold text-zinc-700">Monitor space evolution using Google Trends or Statista.</p>
+                </div>
+                <div className="p-6 bg-white border border-zinc-200 rounded-2xl">
+                    <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-2">Competition</p>
+                    <p className="text-sm font-bold text-zinc-700">Scan landscape using Perplexity AI or Crunchbase.</p>
+                </div>
+                <div className="p-6 bg-white border border-zinc-200 rounded-2xl">
+                    <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-2">Sizing</p>
+                    <p className="text-sm font-bold text-zinc-700 italic">TAM → SAM → SOM</p>
+                </div>
+            </div>
+          </section>
+
+          {/* Section 5: Tools */}
+          <section className="space-y-8">
+            <h3 className="text-2xl font-bold text-zinc-900 flex items-center gap-3"><Wrench className="w-6 h-6 text-indigo-500" /> Tools & AI Assistants</h3>
+            <div className="overflow-hidden rounded-2xl border border-zinc-100 bg-white">
+                {[
+                    { p: 'Interview Prep', t: 'ChatGPT', d: '“Generate 10 questions for student productivity challenges.”' },
+                    { p: 'Competitor Scan', t: 'Perplexity AI', d: 'Real-time deep competitive analysis and market data.' },
+                    { p: 'Synthesis', t: 'Notion AI', d: 'Summarize key pain points from long interview transcripts.' },
+                    { p: 'Visualization', t: 'Canva', d: 'Create visually compelling user personas.' }
+                ].map((tool, idx) => (
+                    <div key={idx} className="flex flex-col md:flex-row md:items-center justify-between p-5 border-b border-zinc-50 last:border-0 hover:bg-zinc-50 transition-colors">
+                        <div className="mb-2 md:mb-0">
+                            <span className="text-[10px] font-black uppercase tracking-tight text-indigo-400 block">{tool.p}</span>
+                            <span className="font-bold text-zinc-800">{tool.t}</span>
+                        </div>
+                        <p className="text-xs text-zinc-500 font-medium md:max-w-sm italic">"{tool.d}"</p>
+                    </div>
+                ))}
+            </div>
+          </section>
+
+          {/* Section 6: Example */}
+          <section className="bg-zinc-900 p-10 rounded-[3rem] text-white">
+            <div className="flex items-center gap-4 mb-8">
+                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center"><Rocket className="w-6 h-6 text-zinc-900" /></div>
+                <div>
+                    <p className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Real-World Case</p>
+                    <h4 className="text-2xl font-bold">Zomato: One-Tap Convenience</h4>
+                </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div className="space-y-2">
+                    <p className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest">Pain Point</p>
+                    <p className="text-sm font-medium">“Hungry but don't want to call restaurants or search again.”</p>
+                </div>
+                <div className="space-y-2">
+                    <p className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest">Method</p>
+                    <p className="text-sm font-medium">Surveys & Usage Data Analysis</p>
+                </div>
+                <div className="space-y-2">
+                    <p className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest">Insight</p>
+                    <p className="text-sm font-medium">Users repeat specific orders 60% of the time.</p>
+                </div>
+                <div className="space-y-2">
+                    <p className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest">Outcome</p>
+                    <p className="text-sm font-bold text-emerald-400">1-Tap Reordering feature launched → Orders ↑ 22%</p>
+                </div>
+            </div>
+          </section>
+
+          {/* Section 7: Activity */}
+          <section className="p-8 border-2 border-dashed border-indigo-200 rounded-3xl bg-indigo-50/30">
+            <h4 className="text-xl font-bold text-indigo-900 mb-6 flex items-center gap-2"><Bot className="w-6 h-6" /> Day-7 Research Drill</h4>
+            <div className="space-y-4">
+                <p className="text-sm text-indigo-800 font-medium">1. Use ChatGPT to generate 5 open-ended interview questions for your idea.</p>
+                <p className="text-sm text-indigo-800 font-medium">2. Document these in your workspace and highlight the top 3 themes you expect to uncover.</p>
+                <p className="text-sm text-indigo-800 font-medium italic">Reflect: “What might surprise you about how real users respond vs your assumptions?”</p>
+            </div>
+          </section>
+        </div>
+    ),
+    assignment: (
+      <div className="space-y-6">
+          <h4 className="font-bold text-lg text-zinc-900 flex items-center gap-2">
+              <Target className="w-5 h-5 text-red-500" /> 🎯 Day-7 Comprehensive Assignment
+          </h4>
+          <div className="bg-white p-8 rounded-3xl border border-zinc-200 shadow-sm space-y-6">
+             <div className="bg-purple-50 p-8 rounded-2xl border border-purple-100 space-y-6">
+                <p className="text-xs font-bold text-purple-900 uppercase tracking-widest flex items-center gap-2"><ListChecks className="w-4 h-4" /> Research Task List</p>
+                <div className="space-y-4 text-sm text-purple-800 font-medium">
+                    <ol className="space-y-6">
+                        <li className="flex gap-4">
+                            <span className="w-6 h-6 rounded-full bg-purple-600 text-white flex items-center justify-center text-[10px] font-bold shrink-0">1</span>
+                            <div>
+                                <p className="font-bold">Define Target Segment</p>
+                                <p className="text-xs text-purple-600 mt-1">Identify exactly who you are solving for using demographics and psychographics.</p>
+                            </div>
+                        </li>
+                        <li className="flex gap-4">
+                            <span className="w-6 h-6 rounded-full bg-purple-600 text-white flex items-center justify-center text-[10px] font-bold shrink-0">2</span>
+                            <div>
+                                <p className="font-bold">Pain Point vs. Outcome Table</p>
+                                <p className="text-xs text-purple-600 mt-1">Create a 2x2 table mapping current struggles to desired future states.</p>
+                            </div>
+                        </li>
+                        <li className="flex gap-4">
+                            <span className="w-6 h-6 rounded-full bg-purple-600 text-white flex items-center justify-center text-[10px] font-bold shrink-0">3</span>
+                            <div>
+                                <p className="font-bold">Competitor Scan</p>
+                                <p className="text-xs text-purple-600 mt-1">Use Perplexity AI to find 3 direct or indirect competitors.</p>
+                            </div>
+                        </li>
+                    </ol>
+                    
+                    <div className="mt-8 pt-8 border-t border-purple-200">
+                        <p className="font-black text-[10px] uppercase tracking-widest text-purple-400 mb-4">Final Deliverable (One-Slide Summary)</p>
+                        <div className="grid grid-cols-1 gap-2 bg-white/50 p-6 rounded-xl text-purple-900">
+                            <p>• <strong>The User:</strong> [Who are they?]</p>
+                            <p>• <strong>The Problem:</strong> [What is their core struggle?]</p>
+                            <p>• <strong>The Market:</strong> [Why does this matter right now?]</p>
+                        </div>
+                    </div>
+
+                    <div className="mt-6 flex items-center gap-2 text-purple-600 text-xs font-bold">
+                        <FileText className="w-4 h-4" /> Deliverable: 🗂 User & Market Research Report (Notion / Google Docs)
+                    </div>
+                </div>
+             </div>
+             <p className="text-center text-xs font-black text-zinc-400 uppercase tracking-[0.2em]">Outcome: Readiness for Day 8 User Interviews</p>
+          </div>
+      </div>
+    )
+  },
+  {
+    day: 8,
+    title: 'User Personas & Jobs To Be Done (JTBD) 👥',
+    category: 'Research',
+    preview: '“You don’t design for everyone — you design for someone.” Convert raw feedback into structured user profiles.',
+    resources: [
+        { title: 'Jobs to be Done', url: 'https://youtu.be/dbVN6EYql6k', type: 'video' },
+        { title: 'Creating Personas', url: 'https://youtu.be/u44pBnAn7cM', type: 'video' }
+    ],
+    content: (
+        <div className="space-y-12 text-zinc-800">
+          {/* Header */}
+          <section className="bg-indigo-900 text-white p-10 rounded-[2.5rem] relative overflow-hidden">
+             <div className="absolute top-0 right-0 p-8 opacity-10"><UserCircle2 className="w-40 h-40" /></div>
+             <h3 className="text-3xl font-bold mb-4">Turning Data into Insights</h3>
+             <p className="text-lg text-indigo-100 max-w-2xl leading-relaxed italic mb-4">
+                “You don’t design for everyone — you design for someone.”
+             </p>
+             <p className="text-indigo-200 font-medium">
+                Yesterday we captured raw feedback. Today we turn that data into structured, usable insights using Personas and JTBD frameworks.
+             </p>
+          </section>
+
+          {/* Objectives */}
+          <section>
+            <h3 className="text-2xl font-bold mb-6 flex items-center gap-2 text-zinc-900">
+                <Target className="w-6 h-6 text-indigo-500" /> Learning Objectives
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {[
+                    "Build realistic user personas based on real data",
+                    "Write JTBD statements that reflect true motivations",
+                    "Use personas to guide feature & UX decisions",
+                    "Apply AI tools to accelerate synthesis"
+                ].map((obj, i) => (
+                    <div key={i} className="flex gap-3 p-4 bg-indigo-50 rounded-xl border border-indigo-100">
+                        <CheckCircle className="w-5 h-5 text-indigo-600 flex-shrink-0 mt-0.5" />
+                        <span className="text-sm font-medium text-indigo-900">{obj}</span>
+                    </div>
+                ))}
+            </div>
+          </section>
+
+          {/* Section 1: Research to Personas */}
+          <section className="space-y-6">
+            <h3 className="text-2xl font-bold text-zinc-900">1. From Research → Insights → Personas</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {[
+                    { t: "Clustering", d: "Group similar behaviors and motivations from transcripts." },
+                    { t: "Identification", d: "Find the recurring pain points and primary goals." },
+                    { t: "Narrative", d: "Write a short, human-centric story for each segment." }
+                ].map((item, i) => (
+                    <div key={i} className="p-6 bg-white border border-zinc-100 rounded-2xl shadow-sm">
+                        <p className="font-black text-[10px] uppercase tracking-widest text-indigo-400 mb-2">Step {i+1}</p>
+                        <h4 className="font-bold text-zinc-800 mb-1">{item.t}</h4>
+                        <p className="text-xs text-zinc-500 font-medium leading-relaxed">{item.d}</p>
+                    </div>
+                ))}
+            </div>
+            
+            <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white mt-8 shadow-sm">
+                <div className="p-4 bg-zinc-50 border-b border-zinc-200">
+                    <p className="text-xs font-bold text-zinc-500 uppercase">Example: Mapping Themes to Personas</p>
+                </div>
+                <table className="w-full text-left border-collapse">
+                    <thead className="bg-zinc-50/50">
+                        <tr>
+                            <th className="p-4 text-xs font-bold text-zinc-400">User Quote</th>
+                            <th className="p-4 text-xs font-bold text-zinc-400">Persona Name</th>
+                            <th className="p-4 text-xs font-bold text-zinc-400">Core Insight</th>
+                        </tr>
+                    </thead>
+                    <tbody className="text-sm">
+                        <tr className="border-b border-zinc-50">
+                            <td className="p-4 italic text-zinc-600">“I start strong but can’t stay consistent.”</td>
+                            <td className="p-4 font-bold text-zinc-800">Motivated Starter</td>
+                            <td className="p-4 text-zinc-500 font-medium">Needs daily accountability loops</td>
+                        </tr>
+                        <tr>
+                            <td className="p-4 italic text-zinc-600">“I want data to track my progress.”</td>
+                            <td className="p-4 font-bold text-zinc-800">Data-Driven Achiever</td>
+                            <td className="p-4 text-zinc-500 font-medium">Needs detailed progress visualizations</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+          </section>
+
+          {/* Section 2: Persona Template */}
+          <section className="space-y-6">
+            <h3 className="text-2xl font-bold text-zinc-900">2. The Anatomy of a Persona</h3>
+            <div className="bg-white p-8 rounded-[3rem] border border-zinc-100 shadow-xl relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-10 opacity-5"><Quote className="w-32 h-32" /></div>
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+                    <div className="md:col-span-4 flex flex-col items-center text-center space-y-4">
+                        <div className="w-32 h-32 rounded-3xl bg-indigo-100 flex items-center justify-center">
+                            <UserCircle2 className="w-16 h-16 text-indigo-400" />
+                        </div>
+                        <div>
+                            <h4 className="font-black text-xl text-zinc-800">Rahul Sharma, 27</h4>
+                            <p className="text-xs font-bold text-zinc-400 uppercase tracking-widest">Software Engineer</p>
+                        </div>
+                        <div className="p-4 bg-indigo-50/50 rounded-2xl italic text-xs text-indigo-700 font-medium">
+                            “I need a coach who reminds me daily.”
+                        </div>
+                    </div>
+                    <div className="md:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <p className="text-[10px] font-black text-zinc-400 uppercase mb-1">Bio</p>
+                            <p className="text-xs text-zinc-600 font-medium leading-relaxed">Works long hours; highly motivated to stay fit but misses consistency due to exhaustion.</p>
+                        </div>
+                        <div>
+                            <p className="text-[10px] font-black text-zinc-400 uppercase mb-1">Goals</p>
+                            <p className="text-xs text-zinc-600 font-medium leading-relaxed">Build a long-term habit and see measurable physical results.</p>
+                        </div>
+                        <div>
+                            <p className="text-[10px] font-black text-zinc-400 uppercase mb-1">Frustrations</p>
+                            <p className="text-xs text-zinc-600 font-medium leading-relaxed">Lack of personalized accountability; generalized workout videos don't adapt to his schedule.</p>
+                        </div>
+                        <div>
+                            <p className="text-[10px] font-black text-zinc-400 uppercase mb-1">Tech Comfort</p>
+                            <p className="text-xs text-zinc-600 font-medium leading-relaxed">High. Owns a Garmin smartwatch and uses multiple fitness trackers.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="p-4 bg-amber-50 border-l-4 border-amber-400 rounded-r-xl">
+                <p className="text-sm text-amber-900 font-bold">📍 Tip: Add emotion — Personas should feel human, not just like a collection of data points.</p>
+            </div>
+          </section>
+
+          {/* Section 3: JTBD */}
+          <section className="space-y-6">
+            <h3 className="text-2xl font-bold text-zinc-900">3. Jobs To Be Done (JTBD) Framework</h3>
+            <p className="text-lg text-zinc-600 font-medium leading-relaxed">
+                Users don’t buy products. They <strong>hire them</strong> to get a job done.
+            </p>
+            <div className="bg-zinc-900 p-8 rounded-3xl text-white">
+                <p className="text-xs font-bold text-indigo-400 uppercase tracking-widest mb-6">The Template</p>
+                <div className="text-2xl md:text-3xl font-black tracking-tighter leading-tight space-y-4">
+                    <p className="opacity-50">When I <span className="text-white border-b-2 border-indigo-500 px-2">situation</span>,</p>
+                    <p className="opacity-50">I want to <span className="text-white border-b-2 border-pink-500 px-2">motivation</span>,</p>
+                    <p className="opacity-50 text-indigo-400">So I can <span className="text-indigo-400 border-b-2 border-indigo-400 px-2">desired outcome</span>.</p>
+                </div>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {[
+                    { p: "Duolingo", j: "When I have free time, I want quick practice, so I feel productive." },
+                    { p: "Notion", j: "When I start a project, I want everything in one place, so I stay organized." },
+                    { p: "Swiggy", j: "When I’m tired, I want fast ordering, so I can relax without effort." }
+                ].map((ex, i) => (
+                    <div key={i} className="p-6 bg-zinc-50 rounded-2xl border border-zinc-100 h-full flex flex-col">
+                        <span className="font-black text-[10px] text-zinc-400 uppercase mb-3">{ex.p}</span>
+                        <p className="text-sm text-zinc-700 font-bold leading-relaxed">{ex.j}</p>
+                    </div>
+                ))}
+            </div>
+          </section>
+
+          {/* Section 4: Connecting the Dots */}
+          <section className="space-y-6">
+            <h3 className="text-2xl font-bold text-zinc-900">4. Connecting Personas → JTBD → Features</h3>
+            <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white">
+                <table className="w-full text-left border-collapse">
+                    <thead className="bg-zinc-50">
+                        <tr>
+                            <th className="p-4 text-xs font-black uppercase text-zinc-400">Persona</th>
+                            <th className="p-4 text-xs font-black uppercase text-zinc-400">Job To Be Done</th>
+                            <th className="p-4 text-xs font-black uppercase text-zinc-400">Feature Idea</th>
+                        </tr>
+                    </thead>
+                    <tbody className="text-sm">
+                        <tr className="border-b border-zinc-50">
+                            <td className="p-4 font-bold">Motivated Starter</td>
+                            <td className="p-4 text-zinc-600">Stay consistent even when busy</td>
+                            <td className="p-4 font-bold text-indigo-600">AI habit reminders + streaks</td>
+                        </tr>
+                        <tr className="border-b border-zinc-50">
+                            <td className="p-4 font-bold">Data Achiever</td>
+                            <td className="p-4 text-zinc-600">Track measurable progress</td>
+                            <td className="p-4 font-bold text-pink-600">Analytics dashboard</td>
+                        </tr>
+                        <tr>
+                            <td className="p-4 font-bold">Social Sharer</td>
+                            <td className="p-4 text-zinc-600">Celebrate success publicly</td>
+                            <td className="p-4 font-bold text-emerald-600">Leaderboards & badges</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+          </section>
+
+          {/* Section 5: AI & Spotify Example */}
+          <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
+             <div className="p-8 bg-zinc-50 rounded-[2.5rem] border border-zinc-200">
+                <h4 className="text-xl font-bold mb-6 flex items-center gap-2"><Sparkle className="w-5 h-5 text-indigo-500" /> AI Accelerator</h4>
+                <div className="bg-white p-5 rounded-2xl border border-zinc-100 shadow-sm space-y-4">
+                    <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Prompt Idea</p>
+                    <p className="text-xs text-zinc-600 italic leading-relaxed">
+                        “You are a Product Manager summarizing 10 interview transcripts about study habits. Group user patterns into 2-3 personas and write JTBD statements for each.”
+                    </p>
+                    <div className="pt-4 border-t border-zinc-50 flex items-center gap-4">
+                        <span className="px-3 py-1 bg-zinc-900 text-white rounded-lg font-bold text-[10px]">ChatGPT</span>
+                        <span className="px-3 py-1 bg-zinc-900 text-white rounded-lg font-bold text-[10px]">Notion AI</span>
+                    </div>
+                </div>
+             </div>
+             <div className="p-8 bg-zinc-900 rounded-[2.5rem] text-white">
+                <h4 className="text-xl font-bold mb-6 flex items-center gap-2 text-emerald-400"><Rocket className="w-5 h-5" /> Spotify Case Study</h4>
+                <div className="space-y-4">
+                    <div className="p-4 bg-white/5 border border-white/10 rounded-xl">
+                        <p className="font-bold text-sm text-indigo-300">Persona: Music Explorer</p>
+                        <p className="text-[11px] text-zinc-400 mt-1">JTBD: “Give me music for my mood instantly”</p>
+                        <p className="text-xs font-bold text-emerald-400 mt-2">Feature: Discover Weekly</p>
+                    </div>
+                    <div className="p-4 bg-white/5 border border-white/10 rounded-xl">
+                        <p className="font-bold text-sm text-indigo-300">Persona: Loyal Listener</p>
+                        <p className="text-[11px] text-zinc-400 mt-1">JTBD: “Save songs automatically for later”</p>
+                        <p className="text-xs font-bold text-emerald-400 mt-2">Feature: Liked Songs Library</p>
+                    </div>
+                </div>
+             </div>
+          </section>
+        </div>
+    ),
+    assignment: (
+      <div className="space-y-6">
+          <h4 className="font-bold text-lg text-zinc-900 flex items-center gap-2">
+              <Target className="w-5 h-5 text-red-500" /> 🎯 Day-8: Persona & JTBD Deck
+          </h4>
+          <div className="bg-white p-8 rounded-3xl border border-zinc-200 shadow-sm space-y-6">
+             <div className="bg-indigo-50 p-8 rounded-2xl border border-indigo-100 space-y-6">
+                <p className="text-xs font-black text-indigo-900 uppercase tracking-widest flex items-center gap-2">
+                    <ListChecks className="w-4 h-4" /> Final Deliverables
+                </p>
+                <div className="space-y-4 text-sm text-indigo-800 font-medium">
+                    <ul className="space-y-3">
+                        <li className="flex items-start gap-3">
+                            <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 mt-1.5 flex-shrink-0" />
+                            <span><strong>2 Personas:</strong> Complete with Name, Bio, Goals, Pains, Behavior, and Quote.</span>
+                        </li>
+                        <li className="flex items-start gap-3">
+                            <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 mt-1.5 flex-shrink-0" />
+                            <span><strong>JTBD Statements:</strong> 1 clear statement per persona using the template.</span>
+                        </li>
+                        <li className="flex items-start gap-3">
+                            <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 mt-1.5 flex-shrink-0" />
+                            <span><strong>Feature Linkage:</strong> 1 suggested feature per persona clearly solving their "Job".</span>
+                        </li>
+                    </ul>
+                    
+                    <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="p-4 bg-white rounded-xl border border-indigo-200">
+                            <p className="text-[10px] font-black text-zinc-400 uppercase mb-1">Evaluation Criteria</p>
+                            <p className="text-xs font-bold">Excellent: Deeply human personas + logical feature alignment.</p>
+                        </div>
+                        <div className="p-4 bg-white rounded-xl border border-indigo-200">
+                            <p className="text-[10px] font-black text-zinc-400 uppercase mb-1">Format</p>
+                            <p className="text-xs font-bold">Canva / Notion / Slide Deck</p>
+                        </div>
+                    </div>
+
+                    <div className="mt-6 flex items-center gap-2 text-indigo-600 text-xs font-black uppercase">
+                        <FileText className="w-4 h-4" /> Submission: End of Day-11
+                    </div>
+                </div>
+             </div>
+             <div className="p-6 bg-zinc-50 rounded-2xl border-2 border-dashed border-zinc-200 text-center">
+                <p className="text-zinc-500 text-sm font-bold">👉 Tip: Use Canva’s Persona Templates to make your deck look professional!</p>
              </div>
           </div>
       </div>
