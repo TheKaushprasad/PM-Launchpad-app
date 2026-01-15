@@ -8,7 +8,7 @@ import {
   Flag, Microscope, ArrowRight, Activity, ShieldCheck, Sparkles, 
   DatabaseZap, Briefcase, Info, MessageSquare, AlertCircle, ChevronRight,
   Eye, MousePointer2, Hammer, Send, Repeat, TrendingDown, LifeBuoy, Trash2,
-  Stethoscope, Presentation, Boxes
+  Stethoscope, Presentation, Boxes, Heart, Globe, Footprints, ClipboardCheck
 } from 'lucide-react';
 
 export const getCategoryColor = (category: Category): string => {
@@ -1034,6 +1034,189 @@ export const LESSONS: Lesson[] = [
                 <Zap className="w-5 h-5 text-indigo-600 flex-shrink-0 mt-0.5" />
                 <p className="text-xs text-indigo-800 font-medium leading-relaxed italic">
                     📌 Expected outcome: You learn to reason about products strategically over time, adapting your management style (PLM) to the market stage (PLC).
+                </p>
+             </div>
+          </div>
+      </div>
+    )
+  },
+  {
+    day: 4,
+    title: 'Product Sense Framework 📘',
+    category: 'Foundations',
+    preview: 'Great PMs don’t build features. They solve meaningful problems. Master the "sixth sense" of Product Management.',
+    content: (
+        <div className="space-y-12 text-zinc-800">
+          {/* Header */}
+          <section className="bg-indigo-900 text-white p-10 rounded-[2.5rem] relative overflow-hidden">
+             <div className="absolute top-0 right-0 p-8 opacity-10"><Sparkles className="w-40 h-40" /></div>
+             <h3 className="text-3xl font-bold mb-4">What is Product Sense?</h3>
+             <p className="text-lg text-indigo-100 max-w-2xl leading-relaxed">
+                Product sense is the ability to see through complexity and spot the user needs that matter most. Experts like <strong>Marty Cagan</strong> emphasize that it is एक्चुअली deep product knowledge built through immersion, not an innate gift.
+             </p>
+          </section>
+
+          {/* Pillars of Product Sense */}
+          <section>
+            <div className="flex items-center gap-3 mb-8">
+                <div className="p-2 bg-indigo-100 rounded-lg text-indigo-600"><Layers className="w-6 h-6" /></div>
+                <h3 className="text-2xl font-bold text-zinc-900">The 7 Pillars of Product Sense</h3>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[
+                    { t: "Empathy & Customer Needs", d: "Listening for spoken and unspoken pain points and emotional drivers.", i: Heart },
+                    { t: "Market & Competitive Insight", d: "Analyzing trends and mapping competitor gaps to find unique value.", i: Globe },
+                    { t: "Design & UX Perspective", d: "Recognizing good flows and how design decisions affect engagement.", i: PenTool },
+                    { t: "Problem Framing & Mapping", d: "Distinguishing root causes from symptoms and exploring options.", i: Target },
+                    { t: "Feasibility & Execution", d: "Balancing ambitious ideas with tech constraints, budgets, and timelines.", i: Code },
+                    { t: "Iteration & Validation", d: "Using prototypes and experiments to adjust based on real data.", i: Repeat },
+                    { t: "Domain Immersion", d: "Gaining deep knowledge of a space to predict behaviors and outcomes.", i: Microscope }
+                ].map((p, idx) => (
+                    <div key={idx} className="p-6 bg-white rounded-2xl border border-zinc-100 shadow-sm hover:border-indigo-100 transition-colors">
+                        <p.i className="w-6 h-6 text-indigo-500 mb-4" />
+                        <h4 className="font-bold text-zinc-900 mb-2">{p.t}</h4>
+                        <p className="text-sm text-zinc-500 leading-relaxed font-medium">{p.d}</p>
+                    </div>
+                ))}
+            </div>
+          </section>
+
+          {/* Why Master It */}
+          <section className="bg-zinc-50 p-8 rounded-3xl border border-zinc-200">
+             <h3 className="text-xl font-bold text-zinc-900 mb-6">Why Aspiring PMs Must Master It</h3>
+             <div className="space-y-4">
+                 {[
+                    { t: "A Key Hiring Criterion", d: "Most companies test for product sense during interviews to see if you can analyze products meaningfully." },
+                    { t: "Bridges Strategy and Execution", d: "Ties small features to the 'bigger picture' and strategic goals." },
+                    { t: "Anticipates User Behavior", d: "Sense unarticulated needs before competitors (e.g., Original iPhone, Gmail)." },
+                    { t: "Stakeholder Alignment", d: "Provides the rationale needed to explain trade-offs to engineers and execs." }
+                 ].map((item, i) => (
+                    <div key={i} className="flex gap-4 items-start bg-white p-4 rounded-xl border border-zinc-100">
+                        <CheckCircle className="w-5 h-5 text-emerald-500 mt-0.5 flex-shrink-0" />
+                        <div>
+                            <p className="font-bold text-zinc-800 text-sm">{item.t}</p>
+                            <p className="text-xs text-zinc-500 font-medium leading-relaxed">{item.d}</p>
+                        </div>
+                    </div>
+                 ))}
+             </div>
+          </section>
+
+          {/* Daily Habits */}
+          <section>
+            <h3 className="text-2xl font-bold text-zinc-900 mb-6">Daily Habits to Build Instincts</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                    <div className="flex gap-4 p-5 bg-blue-50 rounded-2xl border border-blue-100">
+                        <Users className="w-6 h-6 text-blue-600 mt-1" />
+                        <div>
+                            <p className="font-bold text-blue-900">Talk to Users Regularly</p>
+                            <p className="text-sm text-blue-700">Read tickets, join sales calls, and observe context surveys miss.</p>
+                        </div>
+                    </div>
+                    <div className="flex gap-4 p-5 bg-purple-50 rounded-2xl border border-purple-100">
+                        <Repeat className="w-6 h-6 text-purple-600 mt-1" />
+                        <div>
+                            <p className="font-bold text-purple-900">Reverse-Engineer Products</p>
+                            <p className="text-sm text-purple-700">Break down apps like Airbnb to understand core needs and trade-offs.</p>
+                        </div>
+                    </div>
+                </div>
+                <div className="space-y-4">
+                    <div className="flex gap-4 p-5 bg-emerald-50 rounded-2xl border border-emerald-100">
+                        <ClipboardCheck className="w-6 h-6 text-emerald-600 mt-1" />
+                        <div>
+                            <p className="font-bold text-emerald-900">Perform Product Drills</p>
+                            <p className="text-sm text-emerald-700">List 3 strengths and 3 weaknesses of a daily-use app with justifications.</p>
+                        </div>
+                    </div>
+                    <div className="flex gap-4 p-5 bg-orange-50 rounded-2xl border border-orange-100">
+                        <XCircle className="w-6 h-6 text-orange-600 mt-1" />
+                        <div>
+                            <p className="font-bold text-orange-900">Embrace Constraints</p>
+                            <p className="text-sm text-orange-700">Design solutions under strict limits (e.g., 30s onboarding) to sharpen judgment.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </section>
+
+          {/* Interview Tips */}
+          <section className="bg-zinc-900 text-white p-10 rounded-[2.5rem]">
+             <h3 className="text-2xl font-bold mb-6">Ace the Product Sense Interview</h3>
+             <p className="text-zinc-400 mb-8 italic">Hiring managers look for clarity, empathy, and reasoning rather than just a "correct" answer.</p>
+             <ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                 <li className="flex gap-3">
+                    <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 mt-2 flex-shrink-0"></div>
+                    <span className="text-sm">Frame the problem clearly before jumping to solutions.</span>
+                 </li>
+                 <li className="flex gap-3">
+                    <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 mt-2 flex-shrink-0"></div>
+                    <span className="text-sm">Identify specific user segments and their unique pains.</span>
+                 </li>
+                 <li className="flex gap-3">
+                    <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 mt-2 flex-shrink-0"></div>
+                    <span className="text-sm">Propose solutions with a rationale, explaining the hypothesis.</span>
+                 </li>
+                 <li className="flex gap-3">
+                    <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 mt-2 flex-shrink-0"></div>
+                    <span className="text-sm">Discuss trade-offs—be prepared to answer, "Who suffers if we cut this feature?".</span>
+                 </li>
+             </ul>
+          </section>
+
+          {/* Pitfalls */}
+          <section className="p-8 border-2 border-dashed border-red-200 rounded-3xl bg-red-50/30">
+             <h3 className="text-xl font-bold text-red-900 mb-6 flex items-center gap-2">
+                <AlertCircle className="w-6 h-6" /> Common Pitfalls to Avoid
+             </h3>
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                 <div>
+                    <p className="font-bold text-zinc-900 mb-1">Over-reliance on "Gut"</p>
+                    <p className="text-sm text-zinc-600">Instincts must be tempered by data; ignoring analytics is dangerous unless honed by experience.</p>
+                 </div>
+                 <div>
+                    <p className="font-bold text-zinc-900 mb-1">The Aesthetic Trap</p>
+                    <p className="text-sm text-zinc-600">Don't mistake polished UI for good product sense; a beautiful design solving the wrong problem is a failure.</p>
+                 </div>
+                 <div>
+                    <p className="font-bold text-zinc-900 mb-1">Domain Overfitting</p>
+                    <p className="text-sm text-zinc-600">Don't assume a playbook from one industry will automatically work in another.</p>
+                 </div>
+                 <div>
+                    <p className="font-bold text-zinc-900 mb-1">Feature Bloat</p>
+                    <p className="text-sm text-zinc-600">Weak sense leads to "copying competitors," resulting in a bloated product that fails real problems.</p>
+                 </div>
+             </div>
+          </section>
+        </div>
+    ),
+    assignment: (
+      <div className="space-y-6">
+          <h4 className="font-bold text-lg text-zinc-900 flex items-center gap-2">
+              <Target className="w-5 h-5 text-red-500" /> 🎯 Day-4 Mini Assignment
+          </h4>
+          <div className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-sm space-y-6">
+             <p className="text-zinc-700 font-medium">Read this expert breakdown of Product Sense and apply it to a feature teardown.</p>
+             
+             <a 
+                href="https://www.parallelhq.com/blog/what-product-sense" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center justify-between p-4 bg-zinc-50 rounded-xl border border-zinc-100 hover:border-indigo-300 transition-all group"
+             >
+                <div className="flex items-center gap-3">
+                    <FileText className="w-5 h-5 text-indigo-500" />
+                    <span className="font-bold text-zinc-800">Reading: What is Product Sense? by Robin Dhanwani</span>
+                </div>
+                <ExternalLink className="w-4 h-4 text-zinc-400 group-hover:text-indigo-600 transition-colors" />
+             </a>
+
+             <div className="bg-indigo-50 p-6 rounded-xl border border-indigo-100 space-y-4">
+                <p className="text-xs font-bold text-indigo-900 uppercase tracking-widest">Task</p>
+                <p className="text-sm text-indigo-800 font-medium">
+                    Pick a feature from an app you use daily. Write a 1-page "Product Sense Teardown" identifying: 
+                    1) The core user problem 2) The hypothesis behind the design 3) One critical trade-off they made.
                 </p>
              </div>
           </div>

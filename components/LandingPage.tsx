@@ -48,7 +48,7 @@ export const LandingPage: React.FC = () => {
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-8">
-            {['Features', 'Curriculum', 'FAQ'].map((item, i) => (
+            {['Features', 'Curriculum'].map((item, i) => (
               <motion.button 
                 key={item}
                 initial={{ opacity: 0, y: -10 }}
@@ -99,7 +99,7 @@ export const LandingPage: React.FC = () => {
             className="fixed top-20 left-0 right-0 bg-white border-b border-zinc-200 z-40 md:hidden overflow-hidden"
           >
              <div className="p-6 space-y-4">
-                {['Features', 'Curriculum', 'FAQ'].map((item) => (
+                {['Features', 'Curriculum'].map((item) => (
                     <button 
                         key={item}
                         onClick={() => scrollToSection(item.toLowerCase())}
@@ -326,7 +326,7 @@ export const LandingPage: React.FC = () => {
          </div>
       </section>
 
-      {/* FAQ / Features Section */}
+      {/* Features Section */}
       <section id="features" className="py-24 bg-zinc-900 text-white relative overflow-hidden">
          <div className="absolute top-0 left-0 w-full h-full bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
          
