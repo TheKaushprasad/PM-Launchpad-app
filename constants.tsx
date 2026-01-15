@@ -11,7 +11,7 @@ import {
   Stethoscope, Presentation, Boxes, Heart, Globe, Footprints, ClipboardCheck,
   Ear, Smile, Map, UserPlus, Filter, DollarSign, PieChart, Scale, ShoppingCart, 
   Globe2, Building2, Cpu as CpuIcon, Microscope as MicroscopeIcon, ListChecks,
-  UserCircle2, Quote, Sparkle
+  UserCircle2, Quote, Sparkle, MessageCircle, Clipboard, SplitSquareVertical
 } from 'lucide-react';
 
 export const getCategoryColor = (category: Category): string => {
@@ -914,7 +914,7 @@ export const LESSONS: Lesson[] = [
                         icon: CheckCircle, color: 'text-orange-500', bg: 'bg-orange-50' 
                     },
                     { 
-                        title: 'Decline', 
+                        title: 'Growth', 
                         desc: 'In the decline stage, sales begin to decline as customer preferences change, new technologies emerge, or market saturation occurs. Companies may choose to discontinue the product or try to extend it via strategies like updates, new marketing, or new segments.',
                         icon: TrendingDown, color: 'text-rose-500', bg: 'bg-rose-50' 
                     }
@@ -1689,7 +1689,7 @@ export const LESSONS: Lesson[] = [
   {
     day: 7,
     title: 'Introduction to User & Market Research 🔍',
-    category: 'Foundations',
+    category: 'Research',
     preview: 'Think like a researcher. Learn structured methods to uncover pain points and validate product ideas.',
     resources: [
         { title: 'Doing User Research', url: 'https://youtu.be/MxwyGi-3dzY', type: 'video' },
@@ -1974,6 +1974,217 @@ export const LESSONS: Lesson[] = [
   },
   {
     day: 8,
+    title: 'User Interviews & Surveys 🎙️',
+    category: 'Research',
+    preview: '“If you listen carefully, your users will write your roadmap for you.” Master structured feedback and real validation.',
+    resources: [
+        { title: 'How To Conduct User Interviews Like A Pro', url: 'https://youtu.be/5tVbFfGDQCk', type: 'video' }
+    ],
+    content: (
+        <div className="space-y-12 text-zinc-800">
+          {/* Header */}
+          <section className="bg-indigo-900 text-white p-10 rounded-[2.5rem] relative overflow-hidden">
+             <div className="absolute top-0 right-0 p-8 opacity-10"><MessageCircle className="w-40 h-40" /></div>
+             <p className="text-lg text-indigo-100 max-w-2xl leading-relaxed italic mb-4">
+                “If you listen carefully, your users will write your roadmap for you.”
+             </p>
+             <p className="text-indigo-200 font-medium">
+                Yesterday we explored target segments. Today we learn how to validate insights through real conversations and structured feedback.
+             </p>
+          </section>
+
+          {/* Objectives */}
+          <section>
+            <h3 className="text-2xl font-bold mb-6 flex items-center gap-2 text-zinc-900">
+                <Target className="w-6 h-6 text-indigo-500" /> Learning Objectives
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {[
+                    "Conduct structured discovery interviews",
+                    "Design clear & unbiased surveys",
+                    "Identify recurring pain themes",
+                    "Synthesize insights using AI tools"
+                ].map((obj, i) => (
+                    <div key={i} className="flex gap-3 p-4 bg-indigo-50 rounded-xl border border-indigo-100">
+                        <CheckCircle className="w-5 h-5 text-indigo-600 flex-shrink-0 mt-0.5" />
+                        <span className="text-sm font-medium text-indigo-900">{obj}</span>
+                    </div>
+                ))}
+            </div>
+          </section>
+
+          {/* Section 1: Why interviews */}
+          <section className="space-y-6">
+            <h3 className="text-2xl font-bold text-zinc-900">1. Why User Interviews Matter</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {[
+                    { t: "Deep 'Why'", d: "Understand user motivation beyond what behavioral data shows." },
+                    { t: "Assumptions", d: "Validate high-risk assumptions early before spending engineering resources." },
+                    { t: "Unspoken Needs", d: "Discover emotional triggers and pain points users didn't mention." },
+                    { t: "Empathy", d: "Build genuine intuition for the user's daily life and environment." }
+                ].map((item, i) => (
+                    <div key={i} className="flex gap-4 p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm">
+                        <Zap className="w-6 h-6 text-amber-500 shrink-0" />
+                        <div>
+                            <p className="font-bold text-zinc-900">{item.t}</p>
+                            <p className="text-xs text-zinc-500 leading-relaxed font-medium">{item.d}</p>
+                        </div>
+                    </div>
+                ))}
+            </div>
+            <div className="bg-zinc-900 p-6 rounded-3xl text-white">
+                <p className="text-xs font-bold text-indigo-400 uppercase mb-2">Example: Insight to Feature</p>
+                <p className="text-sm font-medium italic">"I want to feel progress even if I study for 5 minutes."</p>
+                <p className="text-sm text-zinc-400 mt-2">→ Inspired Duolingo's Streak system, now a core retention driver.</p>
+            </div>
+          </section>
+
+          {/* Section 2: Questions */}
+          <section className="space-y-6">
+            <h3 className="text-2xl font-bold text-zinc-900">2. Types of Interview Questions</h3>
+            <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white">
+                <table className="w-full text-left border-collapse">
+                    <thead className="bg-zinc-50">
+                        <tr>
+                            <th className="p-4 text-xs font-bold text-zinc-400 uppercase">Type</th>
+                            <th className="p-4 text-xs font-bold text-zinc-400 uppercase">Example</th>
+                            <th className="p-4 text-xs font-bold text-zinc-400 uppercase">Purpose</th>
+                        </tr>
+                    </thead>
+                    <tbody className="text-sm">
+                        <tr className="border-b border-zinc-100">
+                            <td className="p-4 font-bold">Behavioral (Past)</td>
+                            <td className="p-4 text-zinc-600">“Tell me about the last time you ordered food.”</td>
+                            <td className="p-4 font-medium text-indigo-600">Habit Analysis</td>
+                        </tr>
+                        <tr className="border-b border-zinc-100">
+                            <td className="p-4 font-bold">Attitudinal (Feelings)</td>
+                            <td className="p-4 text-zinc-600">“What frustrates you most about your current apps?”</td>
+                            <td className="p-4 font-medium text-pink-600">Pain Discovery</td>
+                        </tr>
+                        <tr>
+                            <td className="p-4 font-bold">Aspirational (Future)</td>
+                            <td className="p-4 text-zinc-600">“What would make your experience 10x better?”</td>
+                            <td className="p-4 font-medium text-emerald-600">Ideation</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div className="p-4 bg-rose-50 border-l-4 border-rose-500 rounded-r-xl">
+                <p className="text-sm text-rose-900 font-bold">🧠 Golden Rule: No leading questions. Don't ask "Wouldn't it be better if...?" Ask "How do you feel about...?"</p>
+            </div>
+          </section>
+
+          {/* Section 3: Structure */}
+          <section className="space-y-8">
+            <h3 className="text-2xl font-bold text-zinc-900">3. Interview Structure (15–20 min)</h3>
+            <div className="relative pl-8 space-y-8 border-l-2 border-zinc-100 ml-4">
+                {[
+                    { s: "Intro", g: "Make the user comfortable.", d: "Explain purpose, emphasize there are no wrong answers." },
+                    { s: "Context", g: "Understand background.", d: "Ask about their current tools, role, and daily routine." },
+                    { s: "Core Questions", g: "Explore behaviors & pain.", d: "Deep dive into the specific problem area you're solving." },
+                    { s: "Wrap Up", g: "Final insights & referrals.", d: "Ask if they have anything to add or know someone else to talk to." }
+                ].map((step, idx) => (
+                    <div key={idx} className="relative">
+                        <div className="absolute -left-[41px] top-1 w-4 h-4 rounded-full bg-indigo-500 border-4 border-white shadow-sm"></div>
+                        <h4 className="font-bold text-zinc-900 text-lg">{step.s}</h4>
+                        <p className="text-xs font-black text-indigo-500 uppercase tracking-widest mb-1">{step.g}</p>
+                        <p className="text-sm text-zinc-500 font-medium">{step.d}</p>
+                    </div>
+                ))}
+            </div>
+          </section>
+
+          {/* Section 4 & 5: AI & Surveys */}
+          <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
+             <div className="p-8 bg-zinc-50 rounded-[2.5rem] border border-zinc-200">
+                 <h4 className="text-xl font-bold mb-6 flex items-center gap-2"><Bot className="w-5 h-5 text-indigo-500" /> AI Accelerator</h4>
+                 <div className="space-y-4">
+                    <p className="text-xs font-bold text-zinc-400 uppercase tracking-widest">Synthesis Prompt</p>
+                    <div className="bg-white p-4 rounded-xl border border-zinc-100 italic text-xs text-zinc-600 leading-relaxed shadow-sm">
+                        "Summarize these interview transcripts into 3 distinct pain points and 3 desired outcomes."
+                    </div>
+                 </div>
+             </div>
+             <div className="p-8 bg-white rounded-[2.5rem] border border-zinc-100 shadow-sm">
+                 <h4 className="text-xl font-bold mb-6 flex items-center gap-2"><Clipboard className="w-5 h-5 text-emerald-500" /> Survey Principles</h4>
+                 <ul className="space-y-3">
+                     <li className="flex items-center gap-2 text-xs font-bold text-zinc-600"><CheckCircle className="w-4 h-4 text-emerald-500" /> Ask one thing per question</li>
+                     <li className="flex items-center gap-2 text-xs font-bold text-zinc-600"><CheckCircle className="w-4 h-4 text-emerald-500" /> Avoid biased wording</li>
+                     <li className="flex items-center gap-2 text-xs font-bold text-zinc-600"><CheckCircle className="w-4 h-4 text-emerald-500" /> Mix question types (MCQ + scale)</li>
+                     <li className="flex items-center gap-2 text-xs font-bold text-zinc-600"><CheckCircle className="w-4 h-4 text-emerald-500" /> Keep it under 10 questions</li>
+                 </ul>
+             </div>
+          </section>
+
+          {/* Section 6: Synthesizing Insights */}
+          <section className="space-y-6">
+            <h3 className="text-2xl font-bold text-zinc-900">4. Synthesizing Insights</h3>
+            <p className="text-zinc-600 font-medium">After 5–10 interviews, group similar issues into actionable themes.</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="p-6 bg-indigo-50 rounded-2xl border border-indigo-100">
+                    <Quote className="w-6 h-6 text-indigo-400 mb-3" />
+                    <p className="text-sm font-bold text-indigo-900 leading-relaxed italic">"I forget my fitness goals midweek."</p>
+                    <div className="mt-4 pt-4 border-t border-indigo-200">
+                        <p className="text-[10px] font-black uppercase text-indigo-400">The Pain</p>
+                        <p className="text-xs font-bold">Motivation Drop</p>
+                    </div>
+                </div>
+                <div className="flex flex-col items-center justify-center p-6">
+                    <ArrowRight className="w-8 h-8 text-zinc-300" />
+                </div>
+                <div className="p-6 bg-zinc-900 rounded-2xl border border-zinc-800 text-white">
+                    <Sparkles className="w-6 h-6 text-yellow-400 mb-3" />
+                    <p className="text-[10px] font-black uppercase text-zinc-500">Feature Opportunity</p>
+                    <p className="text-sm font-bold mt-2">AI Reminder Coach</p>
+                    <p className="text-xs text-zinc-400 mt-2">Contextual nudges based on historical low-activity days.</p>
+                </div>
+            </div>
+          </section>
+        </div>
+    ),
+    assignment: (
+      <div className="space-y-6">
+          <h4 className="font-bold text-lg text-zinc-900 flex items-center gap-2">
+              <Target className="w-5 h-5 text-red-500" /> 🎯 Day-8: User Insights Report
+          </h4>
+          <div className="bg-white p-8 rounded-3xl border border-zinc-200 shadow-sm space-y-6">
+             <div className="bg-indigo-50 p-8 rounded-2xl border border-indigo-100 space-y-6">
+                <p className="text-xs font-black text-indigo-900 uppercase tracking-widest flex items-center gap-2"><FileText className="w-4 h-4" /> 1-Page Deliverable</p>
+                <div className="space-y-4 text-sm text-indigo-800 font-medium">
+                    <ul className="space-y-3">
+                        <li className="flex items-center gap-3">
+                            <div className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
+                            <span>Top 3 Pain Points (with supporting user quotes)</span>
+                        </li>
+                        <li className="flex items-center gap-3">
+                            <div className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
+                            <span>Top 3 Desired Outcomes (what users want to achieve)</span>
+                        </li>
+                        <li className="flex items-center gap-3">
+                            <div className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
+                            <span><strong>One Opportunity Statement:</strong> How might we solve for X?</span>
+                        </li>
+                    </ul>
+                    
+                    <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="p-4 bg-white rounded-xl border border-indigo-200">
+                            <p className="text-[10px] font-black text-zinc-400 uppercase mb-1">Evaluation</p>
+                            <p className="text-xs font-bold">Great: 3 strong actionable themes supported by data.</p>
+                        </div>
+                        <div className="p-4 bg-white rounded-xl border border-indigo-200">
+                            <p className="text-[10px] font-black text-zinc-400 uppercase mb-1">Deadline</p>
+                            <p className="text-xs font-bold">End of Day 10</p>
+                        </div>
+                    </div>
+                </div>
+             </div>
+          </div>
+      </div>
+    )
+  },
+  {
+    day: 9,
     title: 'User Personas & Jobs To Be Done (JTBD) 👥',
     category: 'Research',
     preview: '“You don’t design for everyone — you design for someone.” Convert raw feedback into structured user profiles.',
@@ -1991,7 +2202,7 @@ export const LESSONS: Lesson[] = [
                 “You don’t design for everyone — you design for someone.”
              </p>
              <p className="text-indigo-200 font-medium">
-                Yesterday we captured raw feedback. Today we turn that data into structured, usable insights using Personas and JTBD frameworks.
+                Yesterday we captured raw feedback via interviews & surveys. Today we turn that data into structured, usable insights.
              </p>
           </section>
 
@@ -2020,8 +2231,8 @@ export const LESSONS: Lesson[] = [
             <h3 className="text-2xl font-bold text-zinc-900">1. From Research → Insights → Personas</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {[
-                    { t: "Clustering", d: "Group similar behaviors and motivations from transcripts." },
-                    { t: "Identification", d: "Find the recurring pain points and primary goals." },
+                    { t: "Clustering", d: "Group similar behaviors and motivations from Day-8 transcripts." },
+                    { t: "Identification", d: "Find recurring pain points and primary goals across clusters." },
                     { t: "Narrative", d: "Write a short, human-centric story for each segment." }
                 ].map((item, i) => (
                     <div key={i} className="p-6 bg-white border border-zinc-100 rounded-2xl shadow-sm">
@@ -2058,11 +2269,14 @@ export const LESSONS: Lesson[] = [
                     </tbody>
                 </table>
             </div>
+            <div className="p-4 bg-blue-50 border-l-4 border-blue-500 rounded-r-xl">
+                <p className="text-sm text-blue-900 font-bold italic">🧠 Best Practice: 2–3 meaningful personas are better than 8–10 generic ones.</p>
+            </div>
           </section>
 
           {/* Section 2: Persona Template */}
           <section className="space-y-6">
-            <h3 className="text-2xl font-bold text-zinc-900">2. The Anatomy of a Persona</h3>
+            <h3 className="text-2xl font-bold text-zinc-900">2. Persona Template</h3>
             <div className="bg-white p-8 rounded-[3rem] border border-zinc-100 shadow-xl relative overflow-hidden">
                 <div className="absolute top-0 right-0 p-10 opacity-5"><Quote className="w-32 h-32" /></div>
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
@@ -2089,17 +2303,17 @@ export const LESSONS: Lesson[] = [
                         </div>
                         <div>
                             <p className="text-[10px] font-black text-zinc-400 uppercase mb-1">Frustrations</p>
-                            <p className="text-xs text-zinc-600 font-medium leading-relaxed">Lack of personalized accountability; generalized workout videos don't adapt to his schedule.</p>
+                            <p className="text-xs text-zinc-600 font-medium leading-relaxed">Lack of personalized accountability; generalized tools don't adapt to his schedule.</p>
                         </div>
                         <div>
                             <p className="text-[10px] font-black text-zinc-400 uppercase mb-1">Tech Comfort</p>
-                            <p className="text-xs text-zinc-600 font-medium leading-relaxed">High. Owns a Garmin smartwatch and uses multiple fitness trackers.</p>
+                            <p className="text-xs text-zinc-600 font-medium leading-relaxed">High. Owns a Garmin smartwatch and uses multiple trackers.</p>
                         </div>
                     </div>
                 </div>
             </div>
             <div className="p-4 bg-amber-50 border-l-4 border-amber-400 rounded-r-xl">
-                <p className="text-sm text-amber-900 font-bold">📍 Tip: Add emotion — Personas should feel human, not just like a collection of data points.</p>
+                <p className="text-sm text-amber-900 font-bold">📍 Tip: Add emotion — Personas should feel human, not just like data points.</p>
             </div>
           </section>
 
@@ -2118,7 +2332,7 @@ export const LESSONS: Lesson[] = [
                 </div>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
                 {[
                     { p: "Duolingo", j: "When I have free time, I want quick practice, so I feel productive." },
                     { p: "Notion", j: "When I start a project, I want everything in one place, so I stay organized." },
@@ -2201,7 +2415,7 @@ export const LESSONS: Lesson[] = [
     assignment: (
       <div className="space-y-6">
           <h4 className="font-bold text-lg text-zinc-900 flex items-center gap-2">
-              <Target className="w-5 h-5 text-red-500" /> 🎯 Day-8: Persona & JTBD Deck
+              <Target className="w-5 h-5 text-red-500" /> 🎯 Day-9: Persona & JTBD Deck
           </h4>
           <div className="bg-white p-8 rounded-3xl border border-zinc-200 shadow-sm space-y-6">
              <div className="bg-indigo-50 p-8 rounded-2xl border border-indigo-100 space-y-6">
@@ -2212,36 +2426,210 @@ export const LESSONS: Lesson[] = [
                     <ul className="space-y-3">
                         <li className="flex items-start gap-3">
                             <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 mt-1.5 flex-shrink-0" />
-                            <span><strong>2 Personas:</strong> Complete with Name, Bio, Goals, Pains, Behavior, and Quote.</span>
+                            <span><strong>2 Personas:</strong> Name, Bio, Goals, Pains, Behavior, Quote.</span>
                         </li>
                         <li className="flex items-start gap-3">
                             <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 mt-1.5 flex-shrink-0" />
-                            <span><strong>JTBD Statements:</strong> 1 clear statement per persona using the template.</span>
+                            <span><strong>JTBD Statements:</strong> 1 clear statement per persona.</span>
                         </li>
                         <li className="flex items-start gap-3">
                             <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 mt-1.5 flex-shrink-0" />
-                            <span><strong>Feature Linkage:</strong> 1 suggested feature per persona clearly solving their "Job".</span>
+                            <span><strong>1 Feature Suggestion:</strong> Clearly aligned to the "Job".</span>
                         </li>
                     </ul>
                     
                     <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="p-4 bg-white rounded-xl border border-indigo-200">
-                            <p className="text-[10px] font-black text-zinc-400 uppercase mb-1">Evaluation Criteria</p>
-                            <p className="text-xs font-bold">Excellent: Deeply human personas + logical feature alignment.</p>
+                            <p className="text-[10px] font-black text-zinc-400 uppercase mb-1">Format</p>
+                            <p className="text-xs font-bold">Canva / Slides / Notion</p>
                         </div>
                         <div className="p-4 bg-white rounded-xl border border-indigo-200">
-                            <p className="text-[10px] font-black text-zinc-400 uppercase mb-1">Format</p>
-                            <p className="text-xs font-bold">Canva / Notion / Slide Deck</p>
+                            <p className="text-[10px] font-black text-zinc-400 uppercase mb-1">Submission</p>
+                            <p className="text-xs font-bold">End of Day 11</p>
                         </div>
-                    </div>
-
-                    <div className="mt-6 flex items-center gap-2 text-indigo-600 text-xs font-black uppercase">
-                        <FileText className="w-4 h-4" /> Submission: End of Day-11
                     </div>
                 </div>
              </div>
              <div className="p-6 bg-zinc-50 rounded-2xl border-2 border-dashed border-zinc-200 text-center">
-                <p className="text-zinc-500 text-sm font-bold">👉 Tip: Use Canva’s Persona Templates to make your deck look professional!</p>
+                <p className="text-zinc-500 text-sm font-bold">👉 Tip: Use Canva’s Persona Templates to make your deck professional!</p>
+             </div>
+          </div>
+      </div>
+    )
+  },
+  {
+    day: 10,
+    title: 'Competitive & Market Analysis 🧭',
+    category: 'Strategy',
+    preview: '“You can’t build a better product until you understand what already exists.” Master SWOT and feature benchmarking.',
+    resources: [
+        { title: 'Competitive Analysis for Product Managers', url: 'https://youtu.be/UnBL8h8TVX8', type: 'video' }
+    ],
+    content: (
+        <div className="space-y-12 text-zinc-800">
+          {/* Header */}
+          <section className="bg-indigo-900 text-white p-10 rounded-[2.5rem] relative overflow-hidden">
+             <div className="absolute top-0 right-0 p-8 opacity-10"><SplitSquareVertical className="w-40 h-40" /></div>
+             <h3 className="text-3xl font-bold mb-4 italic tracking-tight leading-tight">“You can’t build a better product until you understand what already exists.”</h3>
+             <p className="text-lg text-indigo-200 max-w-2xl leading-relaxed font-medium">
+                Today’s goal is to position your idea intelligently. Learn to identify market gaps — not by copying, but by identifying where competitors fall short.
+             </p>
+          </section>
+
+          {/* Objectives */}
+          <section>
+            <h3 className="text-2xl font-bold mb-6 flex items-center gap-2 text-zinc-900 tracking-tight">
+                <Target className="w-6 h-6 text-indigo-500" /> Learning Objectives
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {[
+                    "Conduct structured competitive benchmarking",
+                    "Perform SWOT analysis for 2–3 competitors",
+                    "Identify feature gaps and differentiators",
+                    "Define your product's unique positioning statement"
+                ].map((obj, i) => (
+                    <div key={i} className="flex gap-3 p-4 bg-indigo-50 rounded-xl border border-indigo-100">
+                        <CheckCircle className="w-5 h-5 text-indigo-600 flex-shrink-0 mt-0.5" />
+                        <span className="text-sm font-medium text-indigo-900 tracking-tight">{obj}</span>
+                    </div>
+                ))}
+            </div>
+          </section>
+
+          {/* Section 1: Types of Competitors */}
+          <section className="space-y-6">
+            <h3 className="text-2xl font-bold text-zinc-900 tracking-tight">1. Mapping the Landscape</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {[
+                    { t: "Direct Competitors", d: "Same product, same target audience.", ex: "Habitica vs Streaks" },
+                    { t: "Indirect Competitors", d: "Solve the same need differently.", ex: "Google Tasks vs Notion" },
+                    { t: "Aspirational", d: "Inspire UX or growth strategies.", ex: "Headspace for UI vibes" }
+                ].map((item, i) => (
+                    <div key={i} className="p-6 bg-white border border-zinc-100 rounded-2xl shadow-sm hover:border-indigo-200 transition-colors">
+                        <h4 className="font-bold text-zinc-800 mb-1 tracking-tight">{item.t}</h4>
+                        <p className="text-xs text-zinc-500 font-medium mb-4 leading-relaxed">{item.d}</p>
+                        <div className="p-2 bg-zinc-50 rounded-lg text-[10px] font-black uppercase text-indigo-600 text-center tracking-widest">{item.ex}</div>
+                    </div>
+                ))}
+            </div>
+            <div className="p-4 bg-purple-50 border-l-4 border-purple-500 rounded-r-xl">
+                <p className="text-sm text-purple-900 font-bold">🧩 AI Hack: Ask Perplexity AI "List top 10 apps competing with [idea], include audience and unique features."</p>
+            </div>
+          </section>
+
+          {/* Section 2: SWOT Framework */}
+          <section className="space-y-6">
+            <h3 className="text-2xl font-bold text-zinc-900 tracking-tight">2. Framework 1: SWOT Analysis</h3>
+            <div className="grid grid-cols-2 gap-4">
+                <div className="p-6 bg-green-50 border border-green-100 rounded-2xl">
+                    <p className="text-xs font-black uppercase text-green-600 mb-2 tracking-widest">Strengths</p>
+                    <p className="text-sm font-bold text-zinc-800">What do they do well?</p>
+                    <p className="text-[11px] text-zinc-500 mt-1 italic">Example: "Beautiful UI, gamified loop"</p>
+                </div>
+                <div className="p-6 bg-red-50 border border-red-100 rounded-2xl">
+                    <p className="text-xs font-black uppercase text-red-600 mb-2 tracking-widest">Weaknesses</p>
+                    <p className="text-sm font-bold text-zinc-800">Where do they fall short?</p>
+                    <p className="text-[11px] text-zinc-500 mt-1 italic">Example: "Limited AI personalization"</p>
+                </div>
+                <div className="p-6 bg-blue-50 border border-blue-100 rounded-2xl">
+                    <p className="text-xs font-black uppercase text-blue-600 mb-2 tracking-widest">Opportunities</p>
+                    <p className="text-sm font-bold text-zinc-800">What can we do better?</p>
+                    <p className="text-[11px] text-zinc-500 mt-1 italic">Example: "Add AI coach habit nudges"</p>
+                </div>
+                <div className="p-6 bg-orange-50 border border-orange-100 rounded-2xl">
+                    <p className="text-xs font-black uppercase text-orange-600 mb-2 tracking-widest">Threats</p>
+                    <p className="text-sm font-bold text-zinc-800">What could hurt us?</p>
+                    <p className="text-[11px] text-zinc-500 mt-1 italic">Example: "Big tech (Apple) entry"</p>
+                </div>
+            </div>
+          </section>
+
+          {/* Section 3: Feature Matrix */}
+          <section className="space-y-6">
+            <h3 className="text-2xl font-bold text-zinc-900 tracking-tight">3. Framework 2: Feature Comparison Matrix</h3>
+            <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
+                <table className="w-full text-left border-collapse">
+                    <thead className="bg-zinc-50">
+                        <tr>
+                            <th className="p-4 text-xs font-black uppercase text-zinc-400">Feature</th>
+                            <th className="p-4 text-xs font-black uppercase text-indigo-600">Us</th>
+                            <th className="p-4 text-xs font-black uppercase text-zinc-400">Comp A</th>
+                            <th className="p-4 text-xs font-black uppercase text-zinc-400">Comp B</th>
+                        </tr>
+                    </thead>
+                    <tbody className="text-sm">
+                        <tr className="border-b border-zinc-50">
+                            <td className="p-4 font-bold">Personalized Dashboard</td>
+                            <td className="p-4">✅</td><td className="p-4">❌</td><td className="p-4">✅</td>
+                        </tr>
+                        <tr className="border-b border-zinc-50">
+                            <td className="p-4 font-bold">AI Habit Coach</td>
+                            <td className="p-4">✅</td><td className="p-4">❌</td><td className="p-4">❌</td>
+                        </tr>
+                        <tr>
+                            <td className="p-4 font-bold">Gamified Streaks</td>
+                            <td className="p-4">✅</td><td className="p-4">✅</td><td className="p-4">✅</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p className="text-center text-xs text-zinc-400 font-bold italic">🧠 Insight: Discover what is "table-stakes" vs "differentiating".</p>
+          </section>
+
+          {/* Section 4: AI & Real Example */}
+          <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
+             <div className="p-8 bg-zinc-900 rounded-[2.5rem] text-white">
+                <h4 className="text-xl font-bold mb-6 flex items-center gap-2"><Sparkles className="w-5 h-5 text-indigo-300" /> AI Prompts for Strategy</h4>
+                <div className="space-y-4">
+                    <div className="p-4 bg-white/5 border border-white/10 rounded-xl text-xs leading-relaxed italic text-zinc-400">
+                        "Create a SWOT analysis for Fitbit and identify two strategic gaps a new product could exploit."
+                    </div>
+                    <div className="p-4 bg-white/5 border border-white/10 rounded-xl text-xs leading-relaxed italic text-zinc-400">
+                        "Summarize the top 5 AI habit tracking apps in 2025, their core features, and pricing."
+                    </div>
+                </div>
+             </div>
+             <div className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm">
+                <h4 className="text-xl font-bold mb-4 text-zinc-800">Zerodha vs Groww</h4>
+                <div className="space-y-4">
+                    <p className="text-xs text-zinc-500 font-medium">Zerodha Strength: <span className="text-zinc-800 font-bold">Advanced tools for Traders.</span></p>
+                    <p className="text-xs text-zinc-500 font-medium">Groww Strength: <span className="text-zinc-800 font-bold">UI simplicity for First-timers.</span></p>
+                    <p className="text-xs font-bold text-indigo-600 bg-indigo-50 p-3 rounded-xl border border-indigo-100 italic">
+                        Design simplicity was the differentiator Groww used to disrupt a market of "complex dashboards."
+                    </p>
+                </div>
+             </div>
+          </section>
+        </div>
+    ),
+    assignment: (
+      <div className="space-y-6">
+          <h4 className="font-bold text-lg text-zinc-900 flex items-center gap-2">
+              <Target className="w-5 h-5 text-red-500" /> 🎯 Day-10: Competitive Report
+          </h4>
+          <div className="bg-white p-8 rounded-3xl border border-zinc-200 shadow-sm space-y-6">
+             <div className="bg-indigo-50 p-8 rounded-2xl border border-indigo-100 space-y-6">
+                <p className="text-xs font-black text-indigo-900 uppercase tracking-widest flex items-center gap-2"><FileText className="w-4 h-4" /> Final Deliverables (2–3 slides)</p>
+                <div className="space-y-4 text-sm text-indigo-800 font-medium">
+                    <ul className="space-y-3">
+                        <li className="flex items-center gap-3">
+                            <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 shrink-0" />
+                            <span><strong>2 SWOT Analyses:</strong> Competitor A & B.</span>
+                        </li>
+                        <li className="flex items-center gap-3">
+                            <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 shrink-0" />
+                            <span><strong>Feature Comparison Matrix:</strong> Us vs others.</span>
+                        </li>
+                        <li className="flex items-center gap-3">
+                            <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 shrink-0" />
+                            <span><strong>Positioning Statement:</strong> “Unlike X and Y, our product [does what] for [whom].”</span>
+                        </li>
+                    </ul>
+                    <div className="mt-6 p-4 bg-white rounded-xl border border-indigo-200 flex items-center justify-between">
+                        <span className="text-[10px] font-black uppercase text-indigo-400">Deadline</span>
+                        <span className="text-xs font-bold">End of Day 12</span>
+                    </div>
+                </div>
              </div>
           </div>
       </div>

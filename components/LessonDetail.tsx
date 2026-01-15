@@ -14,6 +14,12 @@ const getYoutubeEmbedUrl = (url: string) => {
     }
 };
 
+const getYoutubeId = (url: string) => {
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = url.match(regExp);
+    return (match && match[2].length === 11) ? match[2] : null;
+};
+
 export const LessonDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -145,7 +151,7 @@ export const LessonDetail: React.FC = () => {
                      </div>
                  )}
 
-                 {/* Resources Card - Renamed to Must Watch */}
+                 {/* Resources Card - Must Watch */}
                  {lesson.resources && lesson.resources.length > 0 && (
                      <div className="bg-zinc-900 rounded-2xl p-6 border border-zinc-800 shadow-xl overflow-hidden relative group">
                         <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
@@ -155,23 +161,31 @@ export const LessonDetail: React.FC = () => {
                             <Play className="w-5 h-5 text-yellow-400 fill-current" />
                             Must Watch
                         </h3>
-                        <ul className="space-y-3 relative z-10">
+                        <ul className="space-y-4 relative z-10">
                             {lesson.resources.map((res, idx) => {
-                                const embedUrl = res.type === 'video' ? getYoutubeEmbedUrl(res.url) : null;
+                                const youtubeId = res.type === 'video' ? getYoutubeId(res.url) : null;
+                                const embedUrl = youtubeId ? `https://www.youtube.com/embed/${youtubeId}?autoplay=1` : null;
+                                const thumbnailUrl = youtubeId ? `https://img.youtube.com/vi/${youtubeId}/mqdefault.jpg` : null;
+
                                 return (
                                 <li key={idx}>
-                                    {embedUrl ? (
+                                    {youtubeId ? (
                                         <button 
                                             onClick={() => setActiveVideo(embedUrl)}
-                                            className="w-full flex items-start gap-3 group p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors border border-white/5 text-left"
+                                            className="w-full flex flex-col gap-3 group p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all border border-white/5 text-left"
                                         >
-                                            <div className="mt-0.5 p-1.5 bg-white/10 rounded-md text-zinc-400 group-hover:text-red-500 group-hover:bg-white transition-colors">
-                                                <Video className="w-4 h-4" />
+                                            <div className="relative aspect-video rounded-lg overflow-hidden bg-zinc-800 border border-white/10 group-hover:border-white/20 transition-all shadow-sm">
+                                                {thumbnailUrl && <img src={thumbnailUrl} alt={res.title} className="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity" />}
+                                                <div className="absolute inset-0 flex items-center justify-center">
+                                                    <div className="w-10 h-10 rounded-full bg-red-600 flex items-center justify-center text-white shadow-xl transform group-hover:scale-110 transition-transform">
+                                                        <Play className="w-5 h-5 fill-current" />
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div>
-                                                <span className="block text-sm font-bold text-zinc-200 group-hover:text-white transition-colors tracking-tight">{res.title}</span>
+                                                <span className="block text-sm font-bold text-zinc-200 group-hover:text-white transition-colors tracking-tight line-clamp-2">{res.title}</span>
                                                 <span className="text-[10px] text-zinc-500 uppercase tracking-widest font-black flex items-center gap-1 mt-1 group-hover:text-yellow-400 transition-colors">
-                                                    {res.type} <Play className="w-3 h-3 ml-1" />
+                                                    YOUTUBE <ExternalLink className="w-3 h-3 ml-1" />
                                                 </span>
                                             </div>
                                         </button>
