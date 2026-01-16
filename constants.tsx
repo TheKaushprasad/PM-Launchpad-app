@@ -193,7 +193,7 @@ export const LESSONS: Lesson[] = [
                 Why PMs emerge: Company Growth Stages
               </h3>
               <div className="overflow-x-auto border border-zinc-100 rounded-3xl bg-zinc-50/30 shadow-inner">
-                <table className="w-full text-left text-sm border-collapse min-w-[600px]">
+                <table className="w-full text-left text-sm border-collapse min-w-[700px]">
                   <thead className="bg-zinc-100/50 border-b border-zinc-100">
                     <tr>
                       <th className="p-5 font-black uppercase tracking-widest text-[10px] text-zinc-400">Stage</th>
@@ -217,7 +217,7 @@ export const LESSONS: Lesson[] = [
                     </tr>
                     <tr className="hover:bg-white transition-colors">
                       <td className="p-5 font-black text-zinc-900">Large enterprise</td>
-                      <td className="p-5">Product org</td>
+                      <td className="p-5">Product org with PM leaders</td>
                       <td className="p-5">Scale, governance, coordination</td>
                       <td className="p-5">Without PMs: feature bloat, chaos, slow</td>
                     </tr>
@@ -240,7 +240,7 @@ export const LESSONS: Lesson[] = [
                   <p className="text-sm text-zinc-500 font-medium">Self-organized teams</p>
                </div>
                <div className="p-6 bg-zinc-50 border border-zinc-100 rounded-3xl">
-                  <h4 className="font-black text-lg text-zinc-900 mb-1">Stripe (Early)</h4>
+                  <h4 className="font-black text-lg text-zinc-900 mb-1">Early FB / Stripe</h4>
                   <p className="text-sm text-zinc-500 font-medium">Engineer-led decisions</p>
                </div>
             </div>
@@ -283,26 +283,53 @@ export const LESSONS: Lesson[] = [
           </section>
 
           <section className="space-y-6">
-            <h2 className="text-3xl font-black tracking-tight text-zinc-900">5. PM Responsibilities</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {[
-                { t: "User Understanding", d: "Research, interviews, personas, feedback loops.", i: User },
-                { t: "Problem Definition", d: "Insights, hypotheses, opportunity sizing.", i: Target },
-                { t: "Prioritization", d: "Frameworks (RICE, MoSCoW, Kano).", i: Layers },
-                { t: "Strategy & Roadmapping", d: "Vision, goals, milestones, timelines.", i: Compass },
-                { t: "Execution & Delivery", d: "PRDs, user stories, cross-functional collab.", i: Hammer },
-                { t: "Analytics & Learning", d: "KPI tracking, experiments, iterations.", i: BarChart }
-              ].map(res => (
-                <div key={res.t} className="p-6 bg-white border border-zinc-100 rounded-3xl flex items-start gap-5 shadow-sm hover:shadow-md transition-all hover:border-indigo-100 group">
-                   <div className="p-3 bg-zinc-50 rounded-2xl text-zinc-400 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
-                      <res.i className="w-5 h-5" />
-                   </div>
-                   <div>
-                      <h4 className="font-black text-lg text-zinc-900 mb-1 leading-tight">{res.t}</h4>
-                      <p className="text-sm text-zinc-500 font-medium leading-relaxed">{res.d}</p>
-                   </div>
-                </div>
-              ))}
+            <h2 className="text-3xl font-black tracking-tight text-zinc-900">5. The PM Equation</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+               <div className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm">
+                  <div className="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600 mb-4"><Zap className="w-5 h-5" /></div>
+                  <h4 className="font-black text-lg text-zinc-900 mb-2">Business</h4>
+                  <p className="text-sm text-zinc-500 font-medium">Revenue, success metrics, GTM strategy.</p>
+               </div>
+               <div className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm">
+                  <div className="w-10 h-10 bg-pink-50 rounded-xl flex items-center justify-center text-pink-600 mb-4"><Smartphone className="w-5 h-5" /></div>
+                  <h4 className="font-black text-lg text-zinc-900 mb-2">Design</h4>
+                  <p className="text-sm text-zinc-500 font-medium">User experience & usability focus.</p>
+               </div>
+               <div className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm">
+                  <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600 mb-4"><Code className="w-5 h-5" /></div>
+                  <h4 className="font-black text-lg text-zinc-900 mb-2">Tech</h4>
+                  <p className="text-sm text-zinc-500 font-medium">Feasibility & backend system thinking.</p>
+               </div>
+            </div>
+          </section>
+
+          <section className="space-y-6">
+            <h2 className="text-3xl font-black tracking-tight text-zinc-900">6. PM Responsibilities</h2>
+            <div className="overflow-x-auto border border-zinc-100 rounded-3xl">
+                <table className="w-full text-left text-sm border-collapse min-w-[500px]">
+                  <thead className="bg-zinc-50 border-b border-zinc-100">
+                    <tr>
+                      <th className="p-5 font-black uppercase tracking-widest text-[10px] text-zinc-400">Area</th>
+                      <th className="p-5 font-black uppercase tracking-widest text-[10px] text-zinc-400">What it includes</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-zinc-100 text-zinc-600 font-medium">
+                    {[
+                      { a: "User understanding", i: "Research, interviews, personas, feedback" },
+                      { a: "Problem definition", i: "Insights, hypotheses, opportunity sizing" },
+                      { a: "Prioritization", i: "RICE, MoSCoW, Kano frameworks" },
+                      { a: "Strategy & Roadmapping", i: "Vision, goals, milestones, timelines" },
+                      { a: "Execution & Delivery", i: "PRDs, user stories, cross-functional collab" },
+                      { a: "Analytics & Learning", i: "KPI tracking, experiments, iterations" },
+                      { a: "Communication", i: "Stakeholders, presentations, influence" }
+                    ].map(row => (
+                      <tr key={row.a}>
+                         <td className="p-5 font-black text-zinc-900">{row.a}</td>
+                         <td className="p-5">{row.i}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
             </div>
           </section>
 
@@ -316,23 +343,45 @@ export const LESSONS: Lesson[] = [
                  { 
                    role: "Core Product Manager", badge: "The Generalist", 
                    focus: "End-to-end ownership of user-facing product experiences.", 
-                   res: ["Vision & Roadmap", "User Research", "Prioritization", "PRD Writing"],
+                   res: ["Define product vision & roadmap", "User research & problem discovery", "Prioritization & PRD writing", "Collaborate with engineering & design", "Track adoption & engagement metrics"],
                    case: "Swiggy improving checkout conversion from 85% → 92%",
                    metrics: "Retention, Adoption, NPS, DAU"
                  },
                  { 
                    role: "Growth Product Manager", badge: "The Optimizer", 
                    focus: "Driving acquisition, activation, retention & revenue.", 
-                   res: ["Funnel Optimization", "A/B Testing", "Monetization Strategy", "Referral Loops"],
+                   res: ["Funnel optimization & loops", "A/B testing & experimentation", "Work closely with marketing & analytics", "Monetization strategy"],
                    case: "Duolingo improving daily streak feature → +15% retention",
                    metrics: "DAU/MAU, Conversion Rate, LTV, Churn"
                  },
                  { 
                    role: "Platform Product Manager", badge: "The Enabler", 
                    focus: "Internal systems, APIs & developer experience.", 
-                   res: ["Build Scalable Auth/Payments", "Align Engineering Reliability", "Reduce Build Blocks", "Internal Tooling"],
+                   res: ["Build scalable internal platforms (auth, notifications, payments)", "Align engineering teams & reliability goals", "Reduce build time and dependency blocks"],
                    case: "Razorpay building unified payments gateway API",
                    metrics: "API Uptime, Latency, Integration Adoption"
+                 },
+                 { 
+                    role: "Data Product Manager", badge: "The Analyst PM", 
+                    focus: "Data pipelines, dashboards & experimentation framework.", 
+                    res: ["Define tracking & data schemas", "Partner with DS/ML teams", "Ensure data quality & governance", "Enable insight-driven decisions"],
+                    case: "Meesho enabling real-time retention dashboards",
+                    metrics: "Data accuracy, Latency, Dashboard usage"
+                 },
+                 { 
+                    role: "Technical Product Manager", badge: "TPM", 
+                    focus: "Highly technical systems & integrations.", 
+                    res: ["Translate business requirements → architecture requirements", "Manage APIs, backend integrations & scalability", "Balance tech debt & feature delivery"],
+                    case: "Slack launching developer API endpoints",
+                    metrics: "Reliability, Integration success, Performance"
+                 },
+                 { 
+                    role: "AI Product Manager", badge: "The Intelligent Builder", 
+                    focus: "Products powered by machine learning & generative AI.", 
+                    res: ["Identify opportunities for AI impact", "Work with ML engineers on model lifecycle: data → training → deployment", "Ensure responsible, bias-free AI behavior", "Convert technical model metrics → business metrics"],
+                    case: "Netflix personalization engine → +15% viewing time",
+                    metrics: "Model accuracy, Usage, Adoption",
+                    skills: ["ML fundamentals", "Prompt engineering", "Model testing & iteration"]
                  }
                ].map((type, i) => (
                  <div key={type.role} className="relative pl-12 border-l-2 border-zinc-100">
@@ -345,15 +394,32 @@ export const LESSONS: Lesson[] = [
                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                           <div className="space-y-3">
                              <p className="text-zinc-600"><span className="font-black text-zinc-900">Focus:</span> {type.focus}</p>
-                             <ul className="grid grid-cols-2 gap-2">
-                                {type.res.map(r => <li key={r} className="text-xs font-bold text-zinc-500 flex items-center gap-2"><div className="w-1 h-1 bg-indigo-400 rounded-full"></div> {r}</li>)}
-                             </ul>
+                             <div className="space-y-2">
+                                <p className="text-[10px] font-black uppercase text-zinc-400 tracking-widest">Responsibilities</p>
+                                <ul className="grid grid-cols-1 gap-2">
+                                    {type.res.map(r => <li key={r} className="text-xs font-bold text-zinc-500 flex items-start gap-2"><div className="w-1 h-1 bg-indigo-400 rounded-full mt-1.5 shrink-0"></div> {r}</li>)}
+                                </ul>
+                             </div>
+                             {type.skills && (
+                                <div className="pt-2">
+                                    <p className="text-[10px] font-black uppercase text-zinc-400 tracking-widest mb-2">Key Skills</p>
+                                    <div className="flex flex-wrap gap-2">
+                                        {type.skills.map(s => <span key={s} className="px-2 py-0.5 bg-zinc-100 text-zinc-600 text-[9px] font-black rounded uppercase">{s}</span>)}
+                                    </div>
+                                </div>
+                             )}
                           </div>
-                          <div className="p-5 bg-zinc-900 rounded-3xl text-zinc-300 text-sm space-y-3 shadow-xl">
-                             <p className="font-black text-indigo-400 uppercase tracking-widest text-[10px]">Real Example</p>
-                             <p className="font-bold text-white">{type.case}</p>
-                             <div className="pt-2 border-t border-zinc-800">
-                                <p className="font-black text-indigo-400 uppercase tracking-widest text-[10px] mb-1">North Star Metrics</p>
+                          <div className="p-5 bg-zinc-900 rounded-3xl text-zinc-300 text-sm space-y-3 shadow-xl h-fit">
+                             <div className="flex items-center gap-2 mb-1">
+                                <Target className="w-4 h-4 text-indigo-400" />
+                                <p className="font-black text-indigo-400 uppercase tracking-widest text-[10px]">Real Example</p>
+                             </div>
+                             <p className="font-bold text-white leading-relaxed">{type.case}</p>
+                             <div className="pt-3 border-t border-zinc-800">
+                                <div className="flex items-center gap-2 mb-2">
+                                    <Activity className="w-4 h-4 text-indigo-400" />
+                                    <p className="font-black text-indigo-400 uppercase tracking-widest text-[10px]">North Star Metrics</p>
+                                </div>
                                 <p className="text-xs font-medium text-zinc-400">{type.metrics}</p>
                              </div>
                           </div>
@@ -361,6 +427,27 @@ export const LESSONS: Lesson[] = [
                     </div>
                  </div>
                ))}
+            </div>
+          </section>
+
+          <section className="space-y-6">
+            <h2 className="text-3xl font-black tracking-tight text-zinc-900">8. PM Deliverables</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[
+                    { t: "PRD", p: "Clarifies what & why for teams", i: FileEdit },
+                    { t: "Roadmap", p: "Timeline of priorities & goals", i: Calendar },
+                    { t: "User Stories", p: "Smallest unit of work detail", i: MessageSquare },
+                    { t: "Metrics Dashboard", p: "Tracks feature health & success", i: Gauge },
+                    { t: "GTM / Launch Plan", p: "Strategy for market entry", i: Send }
+                ].map(item => (
+                    <div key={item.t} className="p-5 bg-zinc-50 border border-zinc-100 rounded-2xl flex items-start gap-4">
+                        <div className="p-2 bg-white rounded-lg shadow-sm text-indigo-600"><item.i className="w-4 h-4" /></div>
+                        <div>
+                            <h4 className="font-black text-zinc-900 text-sm">{item.t}</h4>
+                            <p className="text-xs text-zinc-500 font-medium">{item.p}</p>
+                        </div>
+                    </div>
+                ))}
             </div>
           </section>
 
@@ -676,7 +763,7 @@ Iteration – What will you measure?: ___
                  { t: "Regulatory Compliance", d: "PLM systems assist in ensuring that products meet regulatory standards, minimizing the risk of legal and compliance issues." }
                ].map(b => (
                  <div key={b.t} className="flex gap-4 p-4 bg-indigo-50/50 rounded-xl border border-indigo-100/50">
-                    <div className="p-2 bg-indigo-600 rounded-lg text-white h-fit shrink-0"><Zap className="w-4 h-4" /></div>
+                    <div className="p-2 bg-indigo-600 rounded-lg text-white shrink-0 h-fit"><Zap className="w-4 h-4" /></div>
                     <div>
                        <h4 className="font-black text-indigo-900 mb-1">{b.t}</h4>
                        <p className="text-sm text-indigo-800 font-medium">{b.d}</p>
@@ -736,7 +823,7 @@ If it’s declining, how would you extend or sunset it?: ___
         <div className="bg-white border border-zinc-200 rounded-[2rem] p-8 md:p-12 shadow-sm space-y-12">
           <section className="space-y-4">
             <h2 className="text-3xl font-black tracking-tight text-zinc-900">What is Product Sense?</h2>
-            <p className="text-lg leading-relaxed text-zinc-600 max-w-[75ch]">Product sense is the ability to see through complexity and spot the user needs that matter most. Experts like Marty Cagan emphasize that it is एक्चुअली deep product knowledge built through immersion, not an innate gift.</p>
+            <p className="text-lg leading-relaxed text-zinc-600 max-w-[75ch]">Product sense is the ability to see through complexity and spot the user needs that matter most. Experts like Marty Cagan emphasize that it is deep product knowledge built through immersion, not an innate gift.</p>
           </section>
 
           <section className="space-y-8">
@@ -852,7 +939,7 @@ If it’s declining, how would you extend or sunset it?: ___
             <p className="text-xl text-zinc-600 font-medium leading-relaxed max-w-2xl">Read this expert breakdown of Product Sense and apply it to a feature teardown.</p>
           </header>
           <div className="mt-8 p-6 bg-zinc-50 border border-zinc-100 rounded-3xl">
-             <p className="font-black text-zinc-900 mb-2">Reading: What is Product Sense? by Robin Dhanwani</p>
+             <p className="font-black text-zinc-900 mb-2">Reading: <a href="https://www.parallelhq.com/blog/what-product-sense" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:underline">What is Product Sense?</a> by Robin Dhanwani</p>
              <div className="space-y-4 mt-6">
                 <p className="text-xs font-black uppercase text-indigo-600 tracking-widest">Task</p>
                 <p className="text-zinc-700 font-medium leading-relaxed">
@@ -1522,8 +1609,8 @@ If it’s declining, how would you extend or sunset it?: ___
       </div>
     ),
     resources: [
-        { title: 'Doing User Research', url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', type: 'video' },
-        { title: 'Market Research 101', url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', type: 'video' }
+      { title: 'Doing User Research', url: 'https://youtu.be/MxwyGi-3dzY?si=AWM6_QJxOvbw0ARn', type: 'video' },
+      { title: 'Market research', url: 'https://youtu.be/LoJDAeq6i34?si=O3IMIfyNvl-USRWv', type: 'video' }
     ]
   },
   {
@@ -1709,7 +1796,7 @@ If it’s declining, how would you extend or sunset it?: ___
         <h3 className="text-3xl font-black tracking-tight text-zinc-900">Assignment</h3>
         <div className="bg-white p-10 md:p-14 border border-zinc-200 rounded-[3rem] shadow-xl shadow-purple-50">
           <header className="space-y-4">
-            <div className="w-16 h-16 bg-purple-600 rounded-2xl flex items-center justify-center text-white shadow-lg">
+            <div className="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-lg">
                <Target className="w-8 h-8" />
             </div>
             <h4 className="text-3xl font-black tracking-tighter text-zinc-900">🎯 Day-8: User Insights Report</h4>
@@ -1739,9 +1826,9 @@ If it’s declining, how would you extend or sunset it?: ___
                    <p className="text-xs font-black uppercase text-indigo-400 tracking-widest">Evaluation</p>
                    <p className="text-zinc-200 font-bold text-lg">Great: 3 strong actionable themes supported by data.</p>
                 </div>
-                <div className="pt-6 border-t border-zinc-800">
-                   <p className="text-xs text-zinc-500 font-black uppercase tracking-widest">Deadline</p>
-                   <p className="text-white font-bold">End of Day 10</p>
+                <div className="pt-6 border-t border-zinc-100 flex items-center gap-3">
+                    <Info className="w-6 h-6 text-indigo-600 shrink-0 mt-1" />
+                    <p className="text-zinc-600 text-lg leading-relaxed font-medium">📌 Deadline: End of Day 10</p>
                 </div>
              </div>
           </div>
@@ -1749,7 +1836,7 @@ If it’s declining, how would you extend or sunset it?: ___
       </div>
     ),
     resources: [
-        { title: 'How To Conduct User Interviews Like A Pro', url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', type: 'video' }
+        { title: 'How To Conduct User Interviews Like A Pro', url: 'https://youtu.be/5tVbFfGDQCk?si=CvBJz1iU7JQ3CKZ8', type: 'video' }
     ]
   },
   {
@@ -2016,8 +2103,8 @@ If it’s declining, how would you extend or sunset it?: ___
       </div>
     ),
     resources: [
-        { title: 'Jobs to be Done', url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', type: 'video' },
-        { title: 'Creating Personas', url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', type: 'video' }
+        { title: 'Jobs to be done', url: 'https://youtu.be/dbVN6EYql6k?si=wsS4tJ8sW1ht-iNr', type: 'video' },
+        { title: 'Creating Personas', url: 'https://youtu.be/u44pBnAn7cM?si=bhAgCUv6FbeME3Nr', type: 'video' }
     ]
   },
   {
@@ -2212,7 +2299,7 @@ If it’s declining, how would you extend or sunset it?: ___
       </div>
     ),
     resources: [
-      { title: 'Competitive Analysis for Product Managers', url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', type: 'video' }
+      { title: 'Competitive Analysis for Product Managers', url: 'https://youtu.be/UnBL8h8TVX8?si=2cNc8UqREUr6V3_R', type: 'video' }
     ]
   }
 ];

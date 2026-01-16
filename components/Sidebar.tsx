@@ -50,12 +50,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen }) =
       >
         <div className="p-8">
            <Link to="/" className="flex items-center gap-3 group">
-              <div className="bg-indigo-600 p-2 rounded-xl shadow-lg shadow-indigo-200 group-hover:rotate-6 transition-transform">
-                <Logo className="w-8 h-8" />
+              <div className="group-hover:rotate-6 transition-transform">
+                <Logo className="w-10 h-10" />
               </div>
               <div>
-                <span className="block font-black text-2xl text-zinc-900 tracking-tighter leading-none">PM Launch</span>
-                <span className="text-[12px] text-indigo-500 font-black tracking-widest uppercase mt-1 block">45-Day Course</span>
+                <span className="block font-black text-2xl text-zinc-900 tracking-tighter leading-none">The NooB PM</span>
+                <span className="text-[10px] text-indigo-500 font-black tracking-widest uppercase mt-1 block">45-Day Course</span>
               </div>
            </Link>
         </div>
