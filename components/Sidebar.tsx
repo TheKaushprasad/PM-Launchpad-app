@@ -1,5 +1,9 @@
+
 import React from 'react';
-import { LayoutDashboard, BookOpen, Search, BarChart2, PenTool, Bot, Info, ChevronRight } from 'lucide-react';
+import { 
+  LayoutDashboard, BookOpen, Search, BarChart2, Smartphone, 
+  Bot, Info, ChevronRight, Sparkles, LogOut, Settings 
+} from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Logo } from './Logo';
@@ -11,13 +15,13 @@ interface SidebarProps {
 
 const NAV_ITEMS = [
   { label: 'Dashboard', icon: LayoutDashboard, path: '/dashboard' },
-  { label: 'About Program', icon: Info, path: '/dashboard/about' },
+  { label: 'Full Syllabus', icon: Info, path: '/dashboard/about' },
   { type: 'divider', label: 'Modules' },
   { label: 'Foundations', icon: BookOpen, path: '/dashboard/foundations' },
-  { label: 'Research', icon: Search, path: '/dashboard/research' },
-  { label: 'Data & Analytics', icon: BarChart2, path: '/dashboard/data' },
-  { label: 'Tech & Design', icon: PenTool, path: '/dashboard/design' },
-  { label: 'AI & Future', icon: Bot, path: '/dashboard/ai' },
+  { label: 'Discovery', icon: Search, path: '/dashboard/research' },
+  { label: 'Data', icon: BarChart2, path: '/dashboard/data' },
+  { label: 'Design', icon: Smartphone, path: '/dashboard/design' },
+  { label: 'AI Strategy', icon: Bot, path: '/dashboard/ai' },
 ];
 
 export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen }) => {
@@ -25,53 +29,49 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen }) =
 
   return (
     <>
-      {/* Mobile Overlay */}
       {mobileOpen && (
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-zinc-900/50 z-30 md:hidden backdrop-blur-sm"
+          className="fixed inset-0 bg-zinc-900/60 z-30 md:hidden backdrop-blur-sm"
           onClick={() => setMobileOpen(false)}
         />
       )}
 
-      {/* Sidebar Container */}
       <aside 
         className={`
           fixed md:static inset-y-0 left-0 z-40
-          bg-white border-r border-zinc-200 
+          bg-white border-r border-zinc-100 
           w-72 h-full flex flex-col
-          transition-transform duration-300 ease-[cubic-bezier(0.25,0.1,0.25,1)]
-          ${mobileOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full md:translate-x-0 md:shadow-none'}
+          transition-all duration-500 ease-[cubic-bezier(0.2,0.8,0.2,1)]
+          ${mobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
         `}
       >
-        {/* Logo Area */}
-        <div className="p-8 pb-6">
-           <Link to="/dashboard" className="flex items-center gap-3 group" onClick={() => setMobileOpen(false)}>
-              <Logo className="w-10 h-10 group-hover:scale-105 transition-transform" />
+        <div className="p-8">
+           <Link to="/" className="flex items-center gap-3 group">
+              <div className="bg-indigo-600 p-2 rounded-xl shadow-lg shadow-indigo-200 group-hover:rotate-6 transition-transform">
+                <Logo className="w-8 h-8" />
+              </div>
               <div>
-                <span className="block font-bold text-lg text-zinc-800 tracking-tighter leading-none uppercase">The NooB PM</span>
-                <span className="text-[10px] text-zinc-500 font-black tracking-widest uppercase mt-1 block">PM Academy</span>
+                <span className="block font-black text-2xl text-zinc-900 tracking-tighter leading-none">PM Launch</span>
+                <span className="text-[12px] text-indigo-500 font-black tracking-widest uppercase mt-1 block">45-Day Course</span>
               </div>
            </Link>
         </div>
 
-        {/* Navigation Items */}
-        <nav className="flex-1 overflow-y-auto px-4 py-2 space-y-1 custom-scrollbar">
+        <nav className="flex-1 overflow-y-auto px-4 py-4 space-y-2 no-scrollbar">
           {NAV_ITEMS.map((item, index) => {
             if (item.type === 'divider') {
                return (
-                 <div key={index} className="px-4 py-4 mt-2">
-                   <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">{item.label}</p>
+                 <div key={index} className="px-4 pt-8 pb-3">
+                   <p className="text-[12px] font-black text-zinc-400 uppercase tracking-[0.2em]">{item.label}</p>
                  </div>
                )
             }
 
-            // Enhanced check for active state
-            const isActive = item.path === '/dashboard' 
-                ? (location.pathname === '/dashboard' || location.pathname.startsWith('/dashboard/day/'))
-                : location.pathname === item.path;
+            const isActive = location.pathname === item.path || 
+              (item.path === '/dashboard' && location.pathname.startsWith('/dashboard/day/'));
 
             const Icon = item.icon as React.ElementType;
             
@@ -81,28 +81,36 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen }) =
                 to={item.path}
                 onClick={() => setMobileOpen(false)}
                 className={`
-                  relative flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200 group
+                  relative flex items-center gap-4 px-5 py-4 rounded-2xl text-[16px] font-bold transition-all duration-300 group
                   ${isActive 
-                    ? 'text-indigo-600 bg-indigo-50/80' 
-                    : 'text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900'}
+                    ? 'text-indigo-600 bg-indigo-50/50' 
+                    : 'text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50'}
                 `}
               >
                 {isActive && (
                   <motion.div
                     layoutId="activeNav"
-                    className="absolute left-0 w-1 h-6 bg-indigo-600 rounded-r-full"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.2 }}
+                    className="absolute inset-0 bg-indigo-50/50 rounded-2xl border border-indigo-100/50"
                   />
                 )}
-                <Icon className={`w-5 h-5 transition-colors ${isActive ? 'text-indigo-600' : 'text-zinc-400 group-hover:text-zinc-600'}`} />
-                <span className="flex-1 tracking-tight">{item.label}</span>
-                {isActive && <ChevronRight className="w-4 h-4 text-indigo-400" />}
+                <Icon className={`w-[20px] h-[20px] relative z-10 ${isActive ? 'text-indigo-600' : 'text-zinc-400 group-hover:text-zinc-700'}`} />
+                <span className="flex-1 relative z-10 tracking-tight">{item.label}</span>
+                {isActive && <ChevronRight className="w-5 h-5 text-indigo-400 relative z-10" />}
               </Link>
             );
           })}
         </nav>
+
+        <div className="p-6 mt-auto">
+          <div className="bg-zinc-950 rounded-3xl p-6 relative overflow-hidden">
+            <div className="absolute top-0 right-0 p-3 opacity-20"><Sparkles className="w-12 h-12 text-indigo-400" /></div>
+            <p className="text-white text-sm font-black uppercase tracking-widest mb-2 relative z-10">Pro Mentorship</p>
+            <p className="text-zinc-400 text-sm leading-relaxed mb-5 relative z-10">Unlock 1-on-1 resume reviews and mock interviews.</p>
+            <button className="w-full py-3 bg-indigo-600 text-white text-[12px] font-black uppercase tracking-widest rounded-xl hover:bg-indigo-500 transition-colors relative z-10 shadow-lg shadow-indigo-600/20">
+              Upgrade
+            </button>
+          </div>
+        </div>
       </aside>
     </>
   );
