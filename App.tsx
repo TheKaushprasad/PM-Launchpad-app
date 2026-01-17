@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate, useLocation, Outlet } from 'react-router-dom';
 import { Sidebar } from './components/Sidebar';
@@ -48,17 +49,23 @@ const App: React.FC = () => {
   return (
       <Router>
          <Routes>
+            {/* Public Landing Page */}
             <Route path="/" element={<LandingPage />} />
+
+            {/* Main App Layout */}
             <Route path="/dashboard" element={<Layout />}>
                 <Route index element={<Dashboard />} />
                 <Route path="about" element={<About />} />
                 <Route path="day/:id" element={<LessonDetail />} />
+                
+                {/* Category Routes mapped to Dashboard */}
                 <Route path="foundations" element={<Dashboard />} />
                 <Route path="research" element={<Dashboard />} />
                 <Route path="data" element={<Dashboard />} />
                 <Route path="design" element={<Dashboard />} />
                 <Route path="ai" element={<Dashboard />} />
             </Route>
+
             <Route path="*" element={<Navigate to="/" replace />} />
          </Routes>
       </Router>
