@@ -1,9 +1,8 @@
-
 import React from 'react';
 import { MODULES, LESSONS } from '../constants';
 import { DayCard } from './DayCard';
 import { motion } from 'framer-motion';
-import { Award, Calendar, PlayCircle, Star, Zap, GraduationCap, Target } from 'lucide-react';
+import { Award, Calendar, PlayCircle, Star, Zap, GraduationCap, Target, RefreshCw } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const container = {
@@ -22,14 +21,28 @@ const item = {
 export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
 
+  const handleRestore = () => {
+    // Simple state refresh logic
+    window.location.reload();
+  };
+
   return (
     <motion.div 
       variants={container}
       initial="hidden"
       animate="show"
-      className="space-y-12 pb-12"
+      className="space-y-12 pb-12 relative"
     >
-      {/* Hero Banner - Tighter Padding */}
+      {/* Restore Button */}
+      <button 
+        onClick={handleRestore}
+        className="fixed bottom-8 right-8 z-[100] bg-zinc-900 text-white px-6 py-3 rounded-2xl font-black text-xs uppercase tracking-widest shadow-2xl flex items-center gap-3 border border-white/10 hover:bg-zinc-800 transition-all hover:scale-105"
+      >
+        <RefreshCw className="w-4 h-4 text-emerald-400" />
+        Restore System
+      </button>
+
+      {/* Hero Banner */}
       <motion.div variants={item} className="relative rounded-3xl overflow-hidden bg-zinc-900 shadow-xl">
         <div className="absolute inset-0 bg-gradient-to-br from-indigo-600/20 via-transparent to-transparent"></div>
         <div className="relative z-10 p-10 md:p-16 flex flex-col md:flex-row items-center gap-10 md:gap-16">
@@ -76,7 +89,7 @@ export const Dashboard: React.FC = () => {
         </div>
       </motion.div>
 
-      {/* Modules Row - Smaller Gap */}
+      {/* Modules Row */}
       <motion.section variants={item}>
         <div className="flex items-center gap-4 mb-8 px-2">
            <Award className="w-8 h-8 text-indigo-600" />
@@ -100,7 +113,7 @@ export const Dashboard: React.FC = () => {
         </div>
       </motion.section>
 
-      {/* Daily Schedule - Balanced spacing */}
+      {/* Daily Schedule */}
       <motion.section variants={item}>
         <div className="flex items-center gap-4 mb-8 px-2">
            <Calendar className="w-8 h-8 text-indigo-600" />
