@@ -6,7 +6,8 @@ import {
   Code, Bot, Layers, Brain, Target, Sparkles, CheckCircle, Smartphone, Zap, Users, MessageSquare, Rocket, Activity, Database, Cpu, X, Box, HelpCircle, Terminal, TrendingUp, Settings2, ShieldCheck,
   FileText, Calendar, Compass, ClipboardList, PenTool, Hammer, Ship, RefreshCcw, Layout, FileEdit, PieChart, Send,
   TrendingDown, Info, Settings, LifeBuoy, Recycle, Users2, Gauge, Timer, ShieldAlert, BookOpen, UserPlus, Milestone,
-  ArrowRight, Briefcase, DollarSign, PieChart as PieChartIcon, TrendingUp as TrendingUpIcon, Landmark, Play, Mic, ClipboardCheck, MessageCircle, User, HeartHandshake, Star
+  ArrowRight, Briefcase, DollarSign, PieChart as PieChartIcon, TrendingUp as TrendingUpIcon, Landmark, Play, Mic, ClipboardCheck, MessageCircle, User, HeartHandshake, Star,
+  Globe, BarChart3, Filter, Table, Network, GitMerge, Binary, Hash, Type, Calculator, CalendarDays, Ghost
 } from 'lucide-react';
 import { Logo } from './components/Logo';
 
@@ -823,7 +824,7 @@ If it’s declining, how would you extend or sunset it?: ___
         <div className="bg-white border border-zinc-200 rounded-[2rem] p-8 md:p-12 shadow-sm space-y-12">
           <section className="space-y-4">
             <h2 className="text-3xl font-black tracking-tight text-zinc-900">What is Product Sense?</h2>
-            <p className="text-lg leading-relaxed text-zinc-600 max-w-[75ch]">Product sense is the ability to see through complexity and spot the user needs that matter most. Experts like Marty Cagan emphasize that it is deep product knowledge built through immersion, not an innate gift.</p>
+            <p className="text-lg leading-relaxed text-zinc-600 max-w-[75ch]">Product sense is the ability to see through complexity and spot the user needs that matter most. Experts like Marty Cagan emphasize that it is actually deep product knowledge built through immersion, not an innate gift.</p>
           </section>
 
           <section className="space-y-8">
@@ -1277,8 +1278,7 @@ If it’s declining, how would you extend or sunset it?: ___
 
           <section className="bg-indigo-50 border border-indigo-100 rounded-[2.5rem] p-10 md:p-14 space-y-8">
             <h3 className="text-2xl font-black text-indigo-900 tracking-tight flex items-center gap-3">
-               <Sparkles className="w-6 h-6 text-indigo-600" />
-               Strategy Insight
+               <span className="text-2xl">✨</span> Strategy Insight
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                <div className="space-y-4">
@@ -1347,7 +1347,7 @@ If it’s declining, how would you extend or sunset it?: ___
                    <span className="text-white underline underline-offset-4 decoration-emerald-500">Efficiency</span> (reduce CAC), or <br/>
                    <span className="text-white underline underline-offset-4 decoration-pink-500">Retention</span> (increase lifespan)?
                 </p>
-                <div className="pt-6 border-t border-zinc-800">
+                <div className="pt-6 border-t border-zinc-100 flex items-start gap-4">
                    <p className="text-zinc-500 text-xs font-medium italic">Hint: Look at the LTV:CAC Ratio Sweet Spot table above.</p>
                 </div>
              </div>
@@ -1468,7 +1468,7 @@ If it’s declining, how would you extend or sunset it?: ___
                          ))}
                       </div>
                    </div>
-                   <div className="p-8 bg-zinc-900 text-white rounded-3xl space-y-4">
+                   <div className="p-8 bg-zinc-950 text-white rounded-3xl space-y-4">
                       <h4 className="font-black text-xl tracking-tight text-indigo-400">Jobs To Be Done (JTBD)</h4>
                       <p className="text-sm text-zinc-400 font-medium italic">“People don’t buy products; they hire them to get a job done.”</p>
                       <div className="space-y-2 font-black text-lg tracking-tight">
@@ -1593,7 +1593,7 @@ If it’s declining, how would you extend or sunset it?: ___
                    <p className="text-zinc-300 font-bold">• The Problem: <span className="text-zinc-500">[What is their core struggle?]</span></p>
                    <p className="text-zinc-300 font-bold">• The Market: <span className="text-zinc-500">[Why does this matter right now?]</span></p>
                 </div>
-                <div className="pt-6 border-t border-zinc-800 space-y-4">
+                <div className="pt-6 border-t border-zinc-100 space-y-4">
                    <div className="flex items-center gap-3">
                       <div className="p-2 bg-purple-500/10 rounded-lg text-purple-400"><ClipboardCheck className="w-4 h-4" /></div>
                       <p className="text-xs text-zinc-300 font-bold">Deliverable: <span className="text-white">User & Market Research Report</span></p>
@@ -2147,7 +2147,7 @@ If it’s declining, how would you extend or sunset it?: ___
                {[
                  { t: "Direct Competitors", d: "Same product, same target audience.", ex: "Habitica vs Streaks" },
                  { t: "Indirect Competitors", d: "Solve the same need differently.", ex: "Google Tasks vs Notion" },
-                 { t: "Aspirational", d: "Inspire UX or growth strategies.", ex: "Headspace for UI vibes" }
+                 { t: "Aspirational", d: "Inspire UX or growth strategies.", i: Globe, ex: "Headspace for UI vibes" }
                ].map(item => (
                  <div key={item.t} className="p-6 bg-zinc-50 border border-zinc-100 rounded-2xl">
                     <h4 className="font-black text-xl text-zinc-900 mb-2">{item.t}</h4>
@@ -2231,7 +2231,7 @@ If it’s declining, how would you extend or sunset it?: ___
             </div>
           </section>
 
-          <section className="bg-zinc-900 text-white p-10 md:p-14 rounded-[2.5rem] shadow-2xl relative overflow-hidden">
+          <section className="bg-zinc-900 text-white p-10 md:p-14 rounded-[3rem] shadow-2xl relative overflow-hidden">
              <h3 className="text-2xl font-black mb-8 flex items-center gap-3 tracking-tight">
                 <Zap className="w-6 h-6 text-indigo-400" />
                 Zerodha vs Groww
@@ -2254,11 +2254,11 @@ If it’s declining, how would you extend or sunset it?: ___
           <section className="flex flex-col sm:flex-row justify-between items-center gap-6 pt-12">
             <div className="text-center sm:text-left">
                <p className="text-zinc-400 font-black uppercase tracking-[0.2em] text-[10px] mb-2">Previous</p>
-               <p className="text-lg font-black text-zinc-900 tracking-tight">User Empathy 📘</p>
+               <p className="text-lg font-black text-zinc-900 tracking-tight">User Personas & JTBD 👥</p>
             </div>
             <div className="text-center sm:text-right">
                <p className="text-zinc-400 font-black uppercase tracking-[0.2em] text-[10px] mb-2">Up Next</p>
-               <p className="text-lg font-black text-indigo-600 tracking-tight">Introduction to User & Market Research 🔍</p>
+               <p className="text-lg font-black text-indigo-600 tracking-tight">Opportunity Sizing (TAM / SAM / SOM) 🧭</p>
             </div>
           </section>
 
@@ -2300,6 +2300,771 @@ If it’s declining, how would you extend or sunset it?: ___
     ),
     resources: [
       { title: 'Competitive Analysis for Product Managers', url: 'https://youtu.be/UnBL8h8TVX8?si=2cNc8UqREUr6V3_R', type: 'video' }
+    ]
+  },
+  {
+    day: 11,
+    title: 'Discovery Phase Conclusion 🏁',
+    category: 'Research',
+    preview: 'Wrapping up your user research and market findings before heading into strategy and opportunity sizing.',
+    content: (
+      <div className="max-w-[1100px] mx-auto space-y-8 text-zinc-800 pb-16">
+        <header className="bg-purple-600 text-white p-10 md:p-14 rounded-[2rem] shadow-xl shadow-purple-100 border border-purple-500">
+          <div className="flex items-center gap-4 mb-6">
+            <span className="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-black uppercase tracking-widest text-white border border-white/20">Research</span>
+            <span className="text-purple-100 text-xs font-bold uppercase tracking-widest">30 min read</span>
+          </div>
+          <h1 className="text-4xl md:text-5xl font-black tracking-tighter mb-6 leading-none">Discovery Phase Conclusion 🏁</h1>
+          <p className="text-xl opacity-90 leading-relaxed max-w-2xl font-medium">Wrapping up your user research and market findings before heading into strategy and opportunity sizing.</p>
+        </header>
+
+        <div className="bg-white border border-zinc-200 rounded-[2rem] p-8 md:p-12 shadow-sm space-y-12">
+          <section className="space-y-6">
+            <h2 className="text-3xl font-black tracking-tight text-zinc-900">Consolidating Discovery</h2>
+            <p className="text-lg leading-relaxed text-zinc-600 max-w-[75ch]">You've interviewed users, built personas, and analyzed competitors. Today is about tying it all together. A PM's job is not just to collect data, but to synthesize it into a compelling narrative.</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+              <div className="p-6 bg-zinc-50 border border-zinc-100 rounded-3xl">
+                <h4 className="font-black text-zinc-900 mb-2">Checklist for Success</h4>
+                <ul className="space-y-2">
+                  {['Clear Problem Statement', '2-3 Validated Personas', 'Feature Gap Analysis', 'Market Positioning'].map(item => (
+                    <li key={item} className="flex items-center gap-2 text-sm font-bold text-zinc-600">
+                      <CheckCircle className="w-4 h-4 text-emerald-500" /> {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="p-6 bg-indigo-50 border border-indigo-100 rounded-3xl">
+                <h4 className="font-black text-indigo-900 mb-2">Discovery Mindset</h4>
+                <p className="text-sm text-indigo-800 leading-relaxed italic">"The goal is not to prove you were right, but to find out what is true about your users."</p>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    ),
+    assignment: (
+      <div className="max-w-[1100px] mx-auto space-y-10">
+        <h3 className="text-3xl font-black tracking-tight text-zinc-900">Assignment</h3>
+        <div className="bg-white p-10 md:p-14 border border-zinc-200 rounded-[2.5rem] shadow-xl shadow-indigo-50">
+          <header className="space-y-4">
+            <div className="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-lg">
+               <ClipboardCheck className="w-8 h-8" />
+            </div>
+            <h4 className="text-3xl font-black tracking-tighter text-zinc-900">🎯 Final Discovery Synthesis</h4>
+            <p className="text-xl text-zinc-600 font-medium leading-relaxed max-w-2xl">Review all your findings from Days 7-10. Refine your Problem Statement one last time based on everything you've learned.</p>
+          </header>
+        </div>
+      </div>
+    )
+  },
+  {
+    day: 12,
+    title: 'Opportunity Sizing (TAM / SAM / SOM) 🧭',
+    category: 'Strategy',
+    preview: 'Learn to estimate market potential using data, frameworks, and AI tools to validate if an idea is worth building.',
+    content: (
+      <div className="max-w-[1100px] mx-auto space-y-8 text-zinc-800 pb-16 font-sans">
+        <header className="bg-indigo-600 text-white p-10 md:p-14 rounded-[2rem] shadow-xl shadow-indigo-100 border border-indigo-500">
+          <div className="flex items-center gap-4 mb-6">
+            <span className="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-black uppercase tracking-widest text-white border border-white/20">Strategy</span>
+            <span className="text-indigo-100 text-xs font-bold uppercase tracking-widest">45 min read</span>
+          </div>
+          <h1 className="text-4xl md:text-5xl font-black tracking-tighter mb-6 leading-none">Opportunity Sizing (TAM, SAM, SOM) 🧭</h1>
+          <p className="text-xl opacity-90 leading-relaxed max-w-2xl font-medium">“A great product solves a real problem — but a great business solves it for a market that’s big enough.”</p>
+        </header>
+
+        <div className="bg-white border border-zinc-200 rounded-[2rem] p-8 md:p-12 shadow-sm space-y-12">
+          
+          <section className="bg-zinc-50 p-8 rounded-[2rem] border border-zinc-100 space-y-4">
+            <h2 className="text-2xl font-black text-zinc-900 tracking-tight flex items-center gap-2"><Globe className="w-6 h-6 text-indigo-600" /> The Theme</h2>
+            <p className="text-lg text-zinc-700 leading-relaxed font-medium">
+              Today you’ll quantify the potential behind your product idea and learn how PMs and founders evaluate market opportunities before investing in them.
+            </p>
+          </section>
+
+          <section className="space-y-6">
+            <h2 className="text-3xl font-black tracking-tight text-zinc-900">🎯 Learning Objectives</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {[
+                "Define TAM, SAM, and SOM clearly and apply them to a product idea.",
+                "Use top-down, bottom-up, and value-based approaches for market sizing.",
+                "Leverage AI + data tools to find reliable market estimates.",
+                "Create a clear Market Opportunity Slide (for PRD or pitch decks)."
+              ].map((obj, i) => (
+                <div key={i} className="flex gap-4 items-start p-5 bg-indigo-50/30 border border-indigo-100 rounded-2xl">
+                   <div className="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center shrink-0 text-xs font-black">{i+1}</div>
+                   <p className="text-zinc-700 font-bold text-sm leading-relaxed">{obj}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="space-y-8">
+            <h2 className="text-3xl font-black tracking-tight text-zinc-900">🧩 1. Key Concepts</h2>
+            <div className="overflow-x-auto border border-zinc-100 rounded-3xl bg-zinc-50/30">
+              <table className="w-full text-left text-sm border-collapse min-w-[600px]">
+                <thead className="bg-zinc-100/50 border-b border-zinc-100">
+                  <tr>
+                    <th className="p-5 font-black uppercase tracking-widest text-[10px] text-zinc-400">Term</th>
+                    <th className="p-5 font-black uppercase tracking-widest text-[10px] text-zinc-400">Meaning</th>
+                    <th className="p-5 font-black uppercase tracking-widest text-[10px] text-zinc-400">Example</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-zinc-100 text-zinc-600 font-medium">
+                  <tr>
+                    <td className="p-5 font-black text-zinc-900 text-lg">TAM</td>
+                    <td className="p-5">Total Addressable Market: Total global demand if everyone bought it.</td>
+                    <td className="p-5 italic">“Global fitness app market = $7B”</td>
+                  </tr>
+                  <tr>
+                    <td className="p-5 font-black text-zinc-900 text-lg">SAM</td>
+                    <td className="p-5">Serviceable Available Market: The portion you can serve based on geography/users.</td>
+                    <td className="p-5 italic">“India’s fitness app market = $1.2B”</td>
+                  </tr>
+                  <tr>
+                    <td className="p-5 font-black text-zinc-900 text-lg">SOM</td>
+                    <td className="p-5">Serviceable Obtainable Market: The share you capture in 2–3 years.</td>
+                    <td className="p-5 italic">“Target 1% of SAM → $12M”</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div className="p-5 bg-zinc-900 text-white rounded-2xl flex items-center gap-4 shadow-lg">
+               <div className="p-3 bg-indigo-600 rounded-xl"><Brain className="w-6 h-6" /></div>
+               <p className="font-bold tracking-tight text-sm">
+                 <span className="text-indigo-400 font-black uppercase tracking-widest block mb-1">Rule of Thumb</span>
+                 TAM shows scale, SAM shows focus, SOM shows realism.
+               </p>
+            </div>
+          </section>
+
+          <section className="space-y-8">
+            <h2 className="text-3xl font-black tracking-tight text-zinc-900">💼 2. Approaches to Estimate Market Size</h2>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+               {[
+                 { t: "Top-Down", s: "Market Reports", d: "Use existing reports from Statista, McKinsey, or Gartner.", i: TrendingUp, ex: "Statista says India EdTech is $5.7B. You target 10% → SAM $570M." },
+                 { t: "Bottom-Up", s: "User-Based", d: "Start from your customer base and scale up via formula.", i: Users, ex: "SOM = (1M Target Users × ₹300/year × 1% capture) = ₹3M." },
+                 { t: "Value-Based", s: "Impact-Based", d: "Estimate based on value created or costs saved.", i: Zap, ex: "Tool saves 5hrs/week × ₹500/hr. If user pays 10% → ₹250/mo." }
+               ].map(approach => (
+                 <div key={approach.t} className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm hover:border-indigo-100 transition-all group">
+                    <div className="w-12 h-12 rounded-2xl bg-zinc-50 flex items-center justify-center text-zinc-400 group-hover:bg-indigo-600 group-hover:text-white transition-colors mb-6 shadow-inner">
+                       <approach.i className="w-6 h-6" />
+                    </div>
+                    <h4 className="text-xs font-black uppercase tracking-[0.2em] text-indigo-600 mb-1">{approach.s}</h4>
+                    <h3 className="text-xl font-black text-zinc-900 mb-4 tracking-tight">{approach.t}</h3>
+                    <p className="text-sm text-zinc-500 font-medium leading-relaxed mb-6">{approach.d}</p>
+                    <div className="p-4 bg-zinc-50 rounded-2xl border border-zinc-100 border-dashed">
+                       <p className="text-[10px] font-black uppercase text-zinc-400 mb-2">Example</p>
+                       <p className="text-xs text-zinc-600 font-bold leading-relaxed">{approach.ex}</p>
+                    </div>
+                 </div>
+               ))}
+            </div>
+          </section>
+
+          <section className="space-y-8 py-10 border-y border-zinc-100">
+            <h2 className="text-3xl font-black tracking-tight text-zinc-900">🤖 3. Using AI Tools for Market Sizing</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+               <div className="space-y-4">
+                  <div className="p-6 bg-white border border-zinc-200 rounded-[2rem] shadow-sm space-y-4">
+                     <div className="flex items-center gap-3">
+                        <div className="p-2 bg-purple-50 text-purple-600 rounded-lg font-black text-[10px]">PERPLEXITY</div>
+                        <h4 className="font-bold text-zinc-800">TAM/SAM Data Fetch</h4>
+                     </div>
+                     <p className="text-sm text-zinc-500 italic leading-relaxed">“Estimate the total addressable market (TAM) for AI-powered personal productivity tools globally and in India for 2025. Include data sources.”</p>
+                  </div>
+                  <div className="p-6 bg-white border border-zinc-200 rounded-[2rem] shadow-sm space-y-4">
+                     <div className="flex items-center gap-3">
+                        <div className="p-2 bg-emerald-50 text-emerald-600 rounded-lg font-black text-[10px]">CHATGPT</div>
+                        <h4 className="font-bold text-zinc-800">Bottom-Up Modeling</h4>
+                     </div>
+                     <p className="text-sm text-zinc-500 italic leading-relaxed">“You’re a Product Manager at a startup building a sleep-tracking AI app. Estimate TAM, SAM, and SOM using a bottom-up model based on smartphone users aged 20–45.”</p>
+                  </div>
+               </div>
+               <div className="bg-zinc-950 rounded-[2.5rem] p-8 md:p-10 border border-zinc-800 flex flex-col justify-center space-y-8">
+                  <h4 className="text-indigo-400 font-black uppercase tracking-widest text-xs">Other Power Tools</h4>
+                  <div className="space-y-6">
+                     <div className="flex gap-4">
+                        <div className="p-3 bg-white/5 rounded-xl border border-white/10 text-white"><Search className="w-5 h-5" /></div>
+                        <div>
+                           <p className="text-white font-bold text-sm">Google Trends</p>
+                           <p className="text-xs text-zinc-500">Identify demand spikes by region or specific search terms.</p>
+                        </div>
+                     </div>
+                     <div className="flex gap-4">
+                        <div className="p-3 bg-white/5 rounded-xl border border-white/10 text-white"><BarChart3 className="w-5 h-5" /></div>
+                        <div>
+                           <p className="text-white font-bold text-sm">Excel / Power BI</p>
+                           <p className="text-xs text-zinc-500">Visualize TAM → SAM → SOM funnel and revenue projections.</p>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+          </section>
+
+          <section className="space-y-8">
+            <h2 className="text-3xl font-black tracking-tight text-zinc-900 text-center">📊 4. Visual Framework</h2>
+            <div className="max-w-md mx-auto py-10 space-y-4">
+               <div className="bg-indigo-600 text-white p-8 rounded-full text-center shadow-xl shadow-indigo-100 flex flex-col items-center justify-center border-4 border-indigo-400">
+                  <span className="font-black text-4xl tracking-tighter">TAM</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest opacity-80">$5B Global Market</span>
+               </div>
+               <div className="flex justify-center"><Filter className="w-6 h-6 text-zinc-200" /></div>
+               <div className="bg-indigo-500 text-white p-6 rounded-full text-center shadow-lg w-[85%] mx-auto flex flex-col items-center justify-center border-4 border-indigo-300">
+                  <span className="font-black text-2xl tracking-tighter">SAM</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest opacity-80">$1B Target Region</span>
+               </div>
+               <div className="flex justify-center"><Filter className="w-6 h-6 text-zinc-200" /></div>
+               <div className="bg-indigo-400 text-white p-4 rounded-full text-center shadow-md w-[65%] mx-auto flex flex-col items-center justify-center border-4 border-indigo-200">
+                  <span className="font-black text-xl tracking-tighter">SOM</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest opacity-80">$50M Realistic Capture</span>
+               </div>
+            </div>
+            <p className="text-center text-sm font-bold text-zinc-500 italic max-w-sm mx-auto">
+               📈 Pro Tip: Investors look for large TAM (>$1B) but realistic SOM (~1–5% of SAM).
+            </p>
+          </section>
+
+          <section className="space-y-8">
+            <h2 className="text-3xl font-black tracking-tight text-zinc-900">💡 5. Example: Zomato (Early Days)</h2>
+            <div className="overflow-x-auto border border-zinc-100 rounded-3xl">
+              <table className="w-full text-left text-sm border-collapse">
+                <thead className="bg-zinc-50 border-b border-zinc-100">
+                  <tr>
+                    <th className="p-5 font-black uppercase tracking-widest text-[10px] text-zinc-400">Metric</th>
+                    <th className="p-5 font-black uppercase tracking-widest text-[10px] text-zinc-400">Estimate</th>
+                    <th className="p-5 font-black uppercase tracking-widest text-[10px] text-zinc-400">Explanation</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-zinc-100 text-zinc-600 font-medium">
+                  <tr>
+                    <td className="p-5 font-black text-zinc-900">TAM</td>
+                    <td className="p-5">$20B</td>
+                    <td className="p-5">Global food delivery market</td>
+                  </tr>
+                  <tr>
+                    <td className="p-5 font-black text-zinc-900">SAM</td>
+                    <td className="p-5">$1.5B</td>
+                    <td className="p-5">Indian food delivery segment</td>
+                  </tr>
+                  <tr>
+                    <td className="p-5 font-black text-zinc-900">SOM</td>
+                    <td className="p-5">$150M</td>
+                    <td className="p-5">10% share targeted in 3 years</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div className="p-6 bg-emerald-50 border border-emerald-100 rounded-[2.5rem] flex items-center gap-6">
+               <div className="w-16 h-16 rounded-3xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-lg"><Star className="w-8 h-8" /></div>
+               <div>
+                  <h4 className="font-black text-emerald-900 text-lg mb-1">Result</h4>
+                  <p className="text-sm text-emerald-800 font-medium leading-relaxed">Large TAM + Strong Focus attracted early investors due to market depth.</p>
+               </div>
+            </div>
+          </section>
+
+          <section className="space-y-6">
+            <h2 className="text-3xl font-black tracking-tight text-zinc-900">🧠 6. Real-World PM Example: Duolingo</h2>
+            <div className="p-8 bg-zinc-50 border border-zinc-100 rounded-[2.5rem] space-y-6">
+               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="p-4 bg-white rounded-2xl border border-zinc-100 shadow-sm">
+                     <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-1">TAM</p>
+                     <p className="text-lg font-black text-zinc-900">$60B</p>
+                     <p className="text-xs text-zinc-500 font-medium">Global EdTech market</p>
+                  </div>
+                  <div className="p-4 bg-white rounded-2xl border border-zinc-100 shadow-sm">
+                     <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-1">SAM</p>
+                     <p className="text-lg font-black text-zinc-900">$8B</p>
+                     <p className="text-xs text-zinc-500 font-medium">App-based learning</p>
+                  </div>
+                  <div className="p-4 bg-white rounded-2xl border border-zinc-100 shadow-sm">
+                     <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-1">SOM</p>
+                     <p className="text-lg font-black text-zinc-900">$160M</p>
+                     <p className="text-xs text-zinc-500 font-medium">2% initial target</p>
+                  </div>
+               </div>
+               <p className="text-sm font-bold text-zinc-600 leading-relaxed italic border-l-4 border-indigo-600 pl-4 bg-indigo-50/50 py-3 rounded-r-xl">
+                 🧩 PM Insight: PMs used this sizing to justify product investment → Duolingo’s monetization strategy followed later.
+               </p>
+            </div>
+          </section>
+
+          <section className="bg-zinc-950 text-white p-10 md:p-14 rounded-[3rem] shadow-2xl relative overflow-hidden">
+             <div className="absolute top-0 right-0 p-8 opacity-10"><Zap className="w-32 h-32" /></div>
+             <h3 className="text-2xl font-black mb-8 flex items-center gap-3 tracking-tight text-indigo-400">
+                <CheckCircle className="w-6 h-6" />
+                End-of-Day Outcomes
+             </h3>
+             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-sm font-bold text-zinc-300">
+                <p>• Estimate market potential using data & logic</p>
+                <p>• Visualize market size (TAM/SAM/SOM)</p>
+                <p>• Support product ideas with quantifiable data</p>
+             </div>
+          </section>
+        </div>
+      </div>
+    ),
+    assignment: (
+      <div className="max-w-[1100px] mx-auto space-y-10">
+        <h3 className="text-3xl font-black tracking-tight text-zinc-900">Assignment</h3>
+        <div className="bg-white p-10 md:p-14 border border-zinc-200 rounded-[3rem] shadow-xl shadow-indigo-50">
+          <header className="space-y-4">
+            <div className="w-16 h-16 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-lg">
+               <Target className="w-8 h-8" />
+            </div>
+            <h4 className="text-3xl font-black tracking-tighter text-zinc-900">🎯 Day-12: Market Sizing Deck</h4>
+            <p className="text-xl text-zinc-600 font-medium leading-relaxed max-w-2xl">Create 1–2 slides showing your market potential.</p>
+          </header>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-10">
+             <div className="space-y-8">
+                <div className="space-y-4">
+                   <p className="text-xs font-black uppercase text-indigo-600 tracking-widest">Slide Requirements</p>
+                   <div className="space-y-4">
+                      {[
+                        { n: "1", t: "Funnel Diagram", d: "Clear visual of TAM → SAM → SOM." },
+                        { n: "2", t: "Data Sources", d: "References for all estimates (reports or logic)." },
+                        { n: "3", t: "Key Assumptions", d: "Pricing, audience, and penetration rate." },
+                        { n: "4", t: "1-Line Insight", d: "“Our product addresses a $500M opportunity...”" }
+                      ].map(step => (
+                        <div key={step.n} className="flex gap-4 items-start group">
+                           <div className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0 font-black text-sm group-hover:bg-indigo-600 group-hover:text-white transition-all">{step.n}</div>
+                           <div>
+                              <p className="font-black text-zinc-900 text-sm mb-1">{step.t}</p>
+                              <p className="text-[11px] text-zinc-500 font-medium leading-relaxed">{step.d}</p>
+                           </div>
+                        </div>
+                      ))}
+                   </div>
+                </div>
+             </div>
+
+             <div className="bg-zinc-950 rounded-[2.5rem] p-10 border border-zinc-800 flex flex-col justify-center space-y-8">
+                <div className="space-y-2 text-center">
+                   <p className="text-xs font-black uppercase text-indigo-400 tracking-widest">Submission Info</p>
+                   <p className="text-white font-black text-xl">End of Day 13</p>
+                   <p className="text-[10px] text-zinc-500 font-black uppercase tracking-widest">Format: Canva / Notion / PPT</p>
+                </div>
+             </div>
+          </div>
+        </div>
+      </div>
+    ),
+    resources: [
+      { title: 'TAM, SAM, SOM Explained', url: 'https://youtu.be/nCYOMU7rKCs?si=cvu8yrnAbxDueKEI', type: 'video' }
+    ]
+  },
+  {
+    day: 13,
+    title: 'Introduction to SQL (SELECT, WHERE, Basics) 📊',
+    category: 'Data',
+    preview: 'Learn the language for communicating with databases to fetch signups, track KPIs, and validate hypotheses independently.',
+    content: (
+      <div className="max-w-[1100px] mx-auto space-y-8 text-zinc-800 pb-16 font-sans">
+        <header className="bg-emerald-600 text-white p-10 md:p-14 rounded-[2rem] shadow-xl shadow-emerald-100 border border-emerald-500">
+          <div className="flex items-center gap-4 mb-6">
+            <span className="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-black uppercase tracking-widest text-white border border-white/20">Data</span>
+            <span className="text-emerald-100 text-xs font-bold uppercase tracking-widest">60 min read</span>
+          </div>
+          <h1 className="text-4xl md:text-5xl font-black tracking-tighter mb-6 leading-none">Introduction to SQL 📊</h1>
+          <p className="text-xl opacity-90 leading-relaxed max-w-2xl font-medium">Communicating with databases to make data-driven decisions independently.</p>
+        </header>
+
+        <div className="bg-white border border-zinc-200 rounded-[2rem] p-8 md:p-12 shadow-sm space-y-12">
+          
+          <section className="space-y-6">
+            <h2 className="text-3xl font-black tracking-tight text-zinc-900">🎯 Learning Objectives</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {[
+                "Understand what SQL is and why PMs need it",
+                "Set up a practice SQL environment",
+                "Write basic SELECT queries to retrieve data",
+                "Filter data using WHERE clauses",
+                "Execute DDL (Data Definition) and DML (Data Manipulation) commands"
+              ].map((obj, i) => (
+                <div key={i} className="flex gap-3 items-start p-4 bg-emerald-50/50 border border-emerald-100 rounded-xl">
+                  <CheckCircle className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
+                  <span className="text-sm font-medium text-zinc-700">{obj}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="space-y-8">
+            <h2 className="text-3xl font-black tracking-tight text-zinc-900">🧩 1. What is SQL and Why PMs Need It</h2>
+            <p className="text-lg text-zinc-600 leading-relaxed">
+              SQL (Structured Query Language) = the language for communicating with databases. 
+              Think of it as asking questions to a spreadsheet on steroids.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+               <div className="space-y-4">
+                  <h4 className="font-black text-zinc-900 uppercase tracking-widest text-xs flex items-center gap-2"><Zap className="w-4 h-4 text-amber-500" /> Life WITHOUT SQL</h4>
+                  <p className="text-sm text-zinc-500 font-medium">You wait for analysts, ask vague questions, and get delayed answers that slow down your product cycle.</p>
+               </div>
+               <div className="space-y-4">
+                  <h4 className="font-black text-emerald-600 uppercase tracking-widest text-xs flex items-center gap-2"><CheckCircle className="w-4 h-4" /> Life WITH SQL</h4>
+                  <p className="text-sm text-zinc-500 font-medium">You validate hypotheses in real-time, track signups, churn, and feature adoption independently.</p>
+               </div>
+            </div>
+          </section>
+
+          <section className="space-y-8">
+            <h2 className="text-3xl font-black tracking-tight text-zinc-900">💡 2. Real PM Use Cases</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+               <div className="p-6 bg-zinc-900 rounded-3xl space-y-4 shadow-xl">
+                  <div className="flex items-center gap-3">
+                     <div className="p-2 bg-indigo-500 rounded-lg"><Activity className="w-4 h-4 text-white" /></div>
+                     <h4 className="text-white font-bold">Feature Adoption</h4>
+                  </div>
+                  <pre className="bg-zinc-800 p-4 rounded-xl font-mono text-[11px] text-indigo-300 overflow-x-auto">
+{`SELECT feature_name, 
+       COUNT(DISTINCT user_id) as users
+FROM feature_usage
+WHERE date >= '2025-01-01'
+GROUP BY feature_name;`}
+                  </pre>
+                  <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">Result: Identify high-usage features</p>
+               </div>
+               <div className="p-6 bg-zinc-900 rounded-3xl space-y-4 shadow-xl">
+                  <div className="flex items-center gap-3">
+                     <div className="p-2 bg-rose-500 rounded-lg"><TrendingDown className="w-4 h-4 text-white" /></div>
+                     <h4 className="text-white font-bold">Churn Analysis</h4>
+                  </div>
+                  <pre className="bg-zinc-800 p-4 rounded-xl font-mono text-[11px] text-rose-300 overflow-x-auto">
+{`SELECT * FROM users
+WHERE last_active_date < '2025-01-01'
+AND signup_date < '2024-12-01';`}
+                  </pre>
+                  <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-widest">Result: Find inactive users (30+ days)</p>
+               </div>
+            </div>
+          </section>
+
+          <section className="bg-zinc-50 rounded-[2.5rem] p-8 md:p-12 border border-zinc-100">
+             <h2 className="text-2xl font-black text-zinc-900 mb-8 tracking-tight flex items-center gap-3"><Play className="w-6 h-6 text-indigo-600" /> Video Learning Path</h2>
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {[
+                   { t: "Intro & Basics", time: "07:38", i: Info },
+                   { t: "Environment Setup", time: "22:33", i: Settings },
+                   { t: "Querying (SELECT)", time: "34:01", i: Search },
+                   { t: "DDL Commands", time: "01:32:31", i: Table },
+                   { t: "DML Commands", time: "01:43:44", i: Terminal }
+                ].map(step => (
+                   <div key={step.t} className="flex items-center justify-between p-4 bg-white rounded-2xl border border-zinc-200 shadow-sm">
+                      <div className="flex items-center gap-3">
+                         <div className="p-2 bg-zinc-100 rounded-lg text-zinc-400"><step.i className="w-4 h-4" /></div>
+                         <span className="font-bold text-zinc-700 text-sm">{step.t}</span>
+                      </div>
+                      <span className="text-[10px] font-black text-indigo-600 bg-indigo-50 px-2 py-1 rounded-md">{step.time}</span>
+                   </div>
+                ))}
+             </div>
+             <p className="mt-8 text-xs text-zinc-500 font-medium italic text-center">Reference Video: "SQL Tutorial for Beginners" (Link in Resources)</p>
+          </section>
+
+        </div>
+      </div>
+    ),
+    assignment: (
+      <div className="max-w-[1100px] mx-auto space-y-10">
+        <h3 className="text-3xl font-black tracking-tight text-zinc-900">Assignment</h3>
+        <div className="bg-white p-10 md:p-14 border border-zinc-200 rounded-[3rem] shadow-xl shadow-indigo-50">
+          <header className="space-y-4">
+            <div className="w-16 h-16 bg-emerald-600 rounded-2xl flex items-center justify-center text-white shadow-lg">
+               <Terminal className="w-8 h-8" />
+            </div>
+            <h4 className="text-3xl font-black tracking-tighter text-zinc-900">🎯 Day-13: SQL Hands-on</h4>
+            <p className="text-xl text-zinc-600 font-medium leading-relaxed max-w-2xl">Complete the topics listed in the video reference and write 3 basic queries for your product idea.</p>
+          </header>
+          
+          <div className="mt-10 p-8 bg-zinc-950 rounded-3xl border border-zinc-800">
+             <p className="font-black text-indigo-400 uppercase tracking-widest text-xs mb-6">Task Checklist</p>
+             <ul className="space-y-4 text-zinc-300 font-medium">
+                <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> Watch video from 00:00 to 01:50:00</li>
+                <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> Write a SELECT query for all users</li>
+                <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> Write a query with WHERE to filter by city</li>
+             </ul>
+          </div>
+        </div>
+      </div>
+    ),
+    resources: [
+      { title: 'SQL Tutorial for Beginners - Full Course', url: 'https://youtu.be/SSKVgrwhzus?si=M8AlYQA1WTxvKdBg', type: 'video' }
+    ]
+  },
+  {
+    day: 14,
+    title: 'Filtering Data & SQL Joins 🔗',
+    category: 'Data',
+    preview: '“Joining tables is where SQL becomes powerful for PMs.” Master advanced filtering and combine data from multiple tables.',
+    content: (
+      <div className="max-w-[1100px] mx-auto space-y-8 text-zinc-800 pb-16 font-sans">
+        <header className="bg-emerald-600 text-white p-10 md:p-14 rounded-[2rem] shadow-xl shadow-emerald-100 border border-emerald-500">
+          <div className="flex items-center gap-4 mb-6">
+            <span className="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-black uppercase tracking-widest text-white border border-white/20">Data</span>
+            <span className="text-emerald-100 text-xs font-bold uppercase tracking-widest">60 min read</span>
+          </div>
+          <h1 className="text-4xl md:text-5xl font-black tracking-tighter mb-6 leading-none">Filtering Data & SQL Joins 🔗</h1>
+          <p className="text-xl opacity-90 leading-relaxed max-w-2xl font-medium">Combine data from multiple tables to answer complex product questions.</p>
+        </header>
+
+        <div className="bg-white border border-zinc-200 rounded-[2rem] p-8 md:p-12 shadow-sm space-y-12">
+          
+          <section className="bg-zinc-50 p-8 rounded-[2rem] border border-zinc-100 space-y-4">
+            <h2 className="text-2xl font-black text-zinc-900 tracking-tight flex items-center gap-2"><Network className="w-6 h-6 text-emerald-600" /> The Theme</h2>
+            <p className="text-lg text-zinc-700 leading-relaxed font-medium">
+              “Joining tables is where SQL becomes powerful for PMs.” 
+              Today you'll master advanced filtering and learn to combine data from multiple tables — essential for real-world product analysis.
+            </p>
+          </section>
+
+          <section className="space-y-6">
+            <h2 className="text-3xl font-black tracking-tight text-zinc-900">🎯 Learning Objectives</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {[
+                "Use advanced WHERE filters (LIKE, IN, BETWEEN)",
+                "Understand database relationships (One-to-One, One-to-Many)",
+                "Perform INNER, LEFT, RIGHT, and FULL JOINS",
+                "Combine data to answer complex PM questions",
+                "Use UNION and other set operators"
+              ].map((obj, i) => (
+                <div key={i} className="flex gap-4 items-start p-5 bg-emerald-50/30 border border-emerald-100 rounded-2xl">
+                   <div className="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0 text-xs font-black">{i+1}</div>
+                   <p className="text-zinc-700 font-bold text-sm leading-relaxed">{obj}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="space-y-8">
+            <h2 className="text-3xl font-black tracking-tight text-zinc-900">🧩 1. Advanced Filtering</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+               {[
+                 { t: "LIKE", d: "Pattern matching for text search.", code: "name LIKE 'User%'" },
+                 { t: "IN", d: "Filter by multiple specific values.", code: "city IN ('NY', 'SF', 'LDN')" },
+                 { t: "BETWEEN", d: "Filter within a numerical/date range.", code: "price BETWEEN 10 AND 50" }
+               ].map(item => (
+                 <div key={item.t} className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm">
+                    <h4 className="font-black text-emerald-600 text-xs uppercase tracking-[0.2em] mb-2">{item.t}</h4>
+                    <p className="text-sm text-zinc-500 font-medium mb-4">{item.d}</p>
+                    <code className="block p-3 bg-zinc-900 text-emerald-400 rounded-xl text-[10px] font-mono">{item.code}</code>
+                 </div>
+               ))}
+            </div>
+          </section>
+
+          <section className="space-y-8">
+            <h2 className="text-3xl font-black tracking-tight text-zinc-900">🔗 2. The Power of Joins</h2>
+            <div className="p-8 bg-zinc-50 border border-zinc-100 rounded-[2.5rem] space-y-8">
+               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="space-y-4">
+                     <h3 className="font-black text-zinc-900 text-xl flex items-center gap-2"><GitMerge className="w-5 h-5 text-indigo-500" /> Inner Join</h3>
+                     <p className="text-sm text-zinc-500 font-medium leading-relaxed">Returns records that have matching values in both tables. Most common join for clean metrics.</p>
+                     <div className="p-4 bg-zinc-900 rounded-2xl">
+                        <code className="text-[10px] text-indigo-300 font-mono">SELECT users.name, orders.amount FROM users INNER JOIN orders ON users.id = orders.user_id;</code>
+                     </div>
+                  </div>
+                  <div className="space-y-4">
+                     <h3 className="font-black text-zinc-900 text-xl flex items-center gap-2"><GitMerge className="w-5 h-5 text-indigo-500" /> Left Join</h3>
+                     <p className="text-sm text-zinc-500 font-medium leading-relaxed">Returns all records from the left table, plus matched records from the right. Great for finding "inactive" users.</p>
+                     <div className="p-4 bg-zinc-900 rounded-2xl">
+                        <code className="text-[10px] text-indigo-300 font-mono">SELECT users.name, orders.id FROM users LEFT JOIN orders ON users.id = orders.user_id;</code>
+                     </div>
+                  </div>
+               </div>
+            </div>
+          </section>
+
+          <section className="bg-zinc-950 rounded-[2.5rem] p-8 md:p-12 border border-zinc-800">
+             <h2 className="text-2xl font-black text-white mb-8 tracking-tight flex items-center gap-3"><Play className="w-6 h-6 text-indigo-400" /> Video Learning Path</h2>
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {[
+                   { t: "Filtering Data", time: "02:08:03", i: Filter },
+                   { t: "Joins Basics", time: "02:47:57", i: GitMerge },
+                   { t: "Joins Advanced", time: "03:27:29", i: Network }
+                ].map(step => (
+                   <div key={step.t} className="flex items-center justify-between p-5 bg-white/5 rounded-2xl border border-white/10 shadow-sm">
+                      <div className="flex items-center gap-3">
+                         <div className="p-2 bg-indigo-500/20 rounded-lg text-indigo-400"><step.i className="w-4 h-4" /></div>
+                         <span className="font-bold text-zinc-100 text-sm">{step.t}</span>
+                      </div>
+                      <span className="text-[10px] font-black text-indigo-400 bg-indigo-400/10 px-2 py-1 rounded-md">{step.time}</span>
+                   </div>
+                ))}
+             </div>
+             <p className="mt-8 text-xs text-zinc-500 font-medium italic text-center">Reference Video: "SQL Full Course" (Link in Resources)</p>
+          </section>
+
+        </div>
+      </div>
+    ),
+    assignment: (
+      <div className="max-w-[1100px] mx-auto space-y-10">
+        <h3 className="text-3xl font-black tracking-tight text-zinc-900">Assignment</h3>
+        <div className="bg-white p-10 md:p-14 border border-zinc-200 rounded-[3rem] shadow-xl shadow-emerald-50">
+          <header className="space-y-4">
+            <div className="w-16 h-16 bg-emerald-600 rounded-2xl flex items-center justify-center text-white shadow-lg">
+               <Terminal className="w-8 h-8" />
+            </div>
+            <h4 className="text-3xl font-black tracking-tighter text-zinc-900">🎯 Day-14: The "Inactive User" Query</h4>
+            <p className="text-xl text-zinc-600 font-medium leading-relaxed max-w-2xl">Use a LEFT JOIN to identify users who signed up in the last 30 days but haven't performed a single action.</p>
+          </header>
+          
+          <div className="mt-10 p-8 bg-zinc-950 rounded-3xl border border-zinc-800">
+             <p className="font-black text-indigo-400 uppercase tracking-widest text-xs mb-6">Task Requirements</p>
+             <ul className="space-y-4 text-zinc-300 font-medium">
+                <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> Use LEFT JOIN between Users and Actions table</li>
+                <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> Filter for Action.id IS NULL</li>
+                <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> Add a date filter for Signup Date</li>
+             </ul>
+          </div>
+        </div>
+      </div>
+    ),
+    resources: [
+      { title: 'SQL Tutorial for Beginners - Filtering & Joins', url: 'https://youtu.be/SSKVgrwhzus?si=M8AlYQA1WTxvKdBg', type: 'video' }
+    ]
+  },
+  {
+    day: 15,
+    title: 'SQL Functions & Data Transformation 🛠️',
+    category: 'Data',
+    preview: '“Transform raw data into insights with SQL functions.” Learn to clean, calculate, and categorize data effectively.',
+    content: (
+      <div className="max-w-[1100px] mx-auto space-y-8 text-zinc-800 pb-16 font-sans">
+        <header className="bg-emerald-600 text-white p-10 md:p-14 rounded-[2rem] shadow-xl shadow-emerald-100 border border-emerald-500">
+          <div className="flex items-center gap-4 mb-6">
+            <span className="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-black uppercase tracking-widest text-white border border-white/20">Data</span>
+            <span className="text-emerald-100 text-xs font-bold uppercase tracking-widest">60 min read</span>
+          </div>
+          <h1 className="text-4xl md:text-5xl font-black tracking-tighter mb-6 leading-none">SQL Functions & Data Transformation 🛠️</h1>
+          <p className="text-xl opacity-90 leading-relaxed max-w-2xl font-medium">Master the tools for data cleaning and conditional analysis.</p>
+        </header>
+
+        <div className="bg-white border border-zinc-200 rounded-[2rem] p-8 md:p-12 shadow-sm space-y-12">
+          
+          <section className="bg-zinc-50 p-8 rounded-[2rem] border border-zinc-100 space-y-4">
+            <h2 className="text-2xl font-black text-zinc-900 tracking-tight flex items-center gap-2"><Binary className="w-6 h-6 text-emerald-600" /> The Theme</h2>
+            <p className="text-lg text-zinc-700 leading-relaxed font-medium">
+              Raw data is messy. Today you'll learn to manipulate and format data using built-in SQL functions — essential for cleaning datasets before they reach your dashboard.
+            </p>
+          </section>
+
+          <section className="space-y-6">
+            <h2 className="text-3xl font-black tracking-tight text-zinc-900">🎯 Learning Objectives</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {[
+                "Use string functions to clean and format text data (CONCAT, LOWER, UPPER)",
+                "Apply numeric functions for calculations (ROUND, CEIL, FLOOR)",
+                "Work with date and time functions for temporal analysis",
+                "Handle NULL values with COALESCE or IFNULL",
+                "Use CASE statements for conditional logic (Categorization)"
+              ].map((obj, i) => (
+                <div key={i} className="flex gap-4 items-start p-5 bg-emerald-50/30 border border-emerald-100 rounded-2xl">
+                   <div className="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0 text-xs font-black">{i+1}</div>
+                   <p className="text-zinc-700 font-bold text-sm leading-relaxed">{obj}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="space-y-8">
+            <h2 className="text-3xl font-black tracking-tight text-zinc-900">🧩 1. The PM Toolset: Common Functions</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+               {[
+                 { t: "String Functions", s: "Text Formatting", d: "LOWER(email), CONCAT(first, last). Great for matching user records.", i: Type },
+                 { t: "Numeric Functions", s: "Math & Stats", d: "ROUND(avg_order, 2). Essential for clean business reporting.", i: Hash },
+                 { t: "Set Operators", s: "Combining Results", d: "UNION and UNION ALL to merge results from different queries.", i: GitMerge }
+               ].map(item => (
+                 <div key={item.t} className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm hover:border-emerald-100 transition-all group">
+                    <div className="w-12 h-12 rounded-2xl bg-zinc-50 flex items-center justify-center text-zinc-400 group-hover:bg-emerald-600 group-hover:text-white transition-colors mb-6 shadow-inner">
+                       <item.i className="w-6 h-6" />
+                    </div>
+                    <h4 className="text-xs font-black uppercase tracking-[0.2em] text-emerald-600 mb-1">{item.s}</h4>
+                    <h3 className="text-xl font-black text-zinc-900 mb-4 tracking-tight">{item.t}</h3>
+                    <p className="text-sm text-zinc-500 font-medium leading-relaxed mb-6">{item.d}</p>
+                 </div>
+               ))}
+            </div>
+          </section>
+
+          <section className="space-y-8">
+            <h2 className="text-3xl font-black tracking-tight text-zinc-900">💡 2. Conditional Logic: CASE Statements</h2>
+            <p className="text-lg text-zinc-600 leading-relaxed">
+              CASE is the "IF-THEN" of SQL. Use it to categorize users based on their behavior metrics.
+            </p>
+            <div className="p-8 bg-zinc-900 rounded-[2.5rem] shadow-xl space-y-6">
+               <div className="flex items-center gap-3">
+                  <div className="p-2 bg-indigo-500 rounded-lg"><CheckCircle className="w-4 h-4 text-white" /></div>
+                  <h4 className="text-white font-bold tracking-tight">User Segmentation Query</h4>
+               </div>
+               <pre className="bg-zinc-800 p-4 rounded-xl font-mono text-[11px] text-indigo-300 overflow-x-auto leading-relaxed">
+{`SELECT user_id,
+       CASE 
+         WHEN order_count > 10 THEN 'Power User'
+         WHEN order_count > 0 THEN 'Active'
+         ELSE 'Churned'
+       END AS user_status
+FROM user_metrics;`}
+               </pre>
+               <div className="p-4 bg-white/5 border border-white/10 rounded-2xl">
+                  <p className="text-[10px] font-black text-zinc-500 uppercase mb-2 tracking-widest">Real Use Case</p>
+                  <p className="text-xs text-zinc-300 font-bold leading-relaxed">Segmenting users for a targeted email campaign based on their usage history.</p>
+               </div>
+            </div>
+          </section>
+
+          <section className="bg-zinc-950 rounded-[2.5rem] p-8 md:p-12 border border-zinc-800">
+             <h2 className="text-2xl font-black text-white mb-8 tracking-tight flex items-center gap-3"><Play className="w-6 h-6 text-indigo-400" /> Video Learning Path (Intermediate)</h2>
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {[
+                   { t: "Set Operators", time: "04:02:09", i: GitMerge },
+                   { t: "SQL Functions Overview", time: "04:47:41", i: Binary },
+                   { t: "String Functions", time: "04:52:58", i: Type },
+                   { t: "Numeric Functions", time: "05:18:44", i: Hash }
+                ].map(step => (
+                   <div key={step.t} className="flex items-center justify-between p-5 bg-white/5 rounded-2xl border border-white/10 shadow-sm">
+                      <div className="flex items-center gap-3">
+                         <div className="p-2 bg-indigo-500/20 rounded-lg text-indigo-400"><step.i className="w-4 h-4" /></div>
+                         <span className="font-bold text-zinc-100 text-sm">{step.t}</span>
+                      </div>
+                      <span className="text-[10px] font-black text-indigo-400 bg-indigo-400/10 px-2 py-1 rounded-md">{step.time}</span>
+                   </div>
+                ))}
+             </div>
+             <p className="mt-8 text-xs text-zinc-500 font-medium italic text-center">Continue with the SQL Full Course reference.</p>
+          </section>
+
+        </div>
+      </div>
+    ),
+    assignment: (
+      <div className="max-w-[1100px] mx-auto space-y-10">
+        <h3 className="text-3xl font-black tracking-tight text-zinc-900">Assignment</h3>
+        <div className="bg-white p-10 md:p-14 border border-zinc-200 rounded-[3rem] shadow-xl shadow-indigo-50">
+          <header className="space-y-4">
+            <div className="w-16 h-16 bg-emerald-600 rounded-2xl flex items-center justify-center text-white shadow-lg">
+               <Terminal className="w-8 h-8" />
+            </div>
+            <h4 className="text-3xl font-black tracking-tighter text-zinc-900">🎯 Day-15: Data Cleaning Pro</h4>
+            <p className="text-xl text-zinc-600 font-medium leading-relaxed max-w-2xl">Use SQL functions to clean a simulated 'Users' table and categorize them by spend.</p>
+          </header>
+          
+          <div className="mt-10 p-8 bg-zinc-950 rounded-3xl border border-zinc-800">
+             <p className="font-black text-indigo-400 uppercase tracking-widest text-xs mb-6">Task Requirements</p>
+             <ul className="space-y-4 text-zinc-300 font-medium">
+                <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> Create a query that combines first and last name into 'Full Name'</li>
+                <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> Use ROUND() to format order amounts to 2 decimal places</li>
+                <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> Implement a CASE statement to label users with >$500 spend as 'VIP'</li>
+             </ul>
+          </div>
+        </div>
+      </div>
+    ),
+    resources: [
+      { title: 'SQL Full Course (Intermediate Sections)', url: 'https://youtu.be/SSKVgrwhzus?si=M8AlYQA1WTxvKdBg', type: 'video' }
     ]
   }
 ];
