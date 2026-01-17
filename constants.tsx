@@ -7,7 +7,7 @@ import {
   FileText, Calendar, Compass, ClipboardList, PenTool, Hammer, Ship, RefreshCcw, Layout, FileEdit, PieChart, Send,
   TrendingDown, Info, Settings, LifeBuoy, Recycle, Users2, Gauge, Timer, ShieldAlert, BookOpen, UserPlus, Milestone,
   ArrowRight, Briefcase, DollarSign, PieChart as PieChartIcon, TrendingUp as TrendingUpIcon, Landmark, Play, Mic, ClipboardCheck, MessageCircle, User, HeartHandshake, Star,
-  Globe, BarChart3, Filter, Table, Network, GitMerge, Binary, Hash, Type, Calculator, CalendarDays, Ghost
+  Globe, BarChart3, Filter, Table, Network, GitMerge, Binary, Hash, Type, Calculator, CalendarDays, Ghost, FileSpreadsheet
 } from 'lucide-react';
 import { Logo } from './components/Logo';
 
@@ -874,7 +874,7 @@ If it’s declining, how would you extend or sunset it?: ___
                 { t: "Talk to Users Regularly", d: "Read tickets, join sales calls, and observe context surveys miss.", i: Users },
                 { t: "Reverse-Engineer Products", d: "Break down apps like Airbnb to understand core needs and trade-offs.", i: RefreshCcw },
                 { t: "Perform Product Drills", d: "List 3 strengths and 3 weaknesses of a daily-use app with justifications.", i: FileEdit },
-                { t: "Embrace Constraints", d: "Design solutions under strict limits (e.g., 30s onboarding) to sharpen judgment.", i: Timer }
+                { t: "Embrace Constraints", d: "Design solutions under strict limits to sharpen judgment.", i: Timer }
               ].map(habit => (
                 <div key={habit.t} className="p-6 bg-white border border-zinc-100 rounded-2xl flex items-start gap-4 shadow-sm">
                   <div className="p-2 bg-indigo-50 rounded-lg shrink-0"><habit.i className="w-4 h-4 text-indigo-600" /></div>
@@ -3065,6 +3065,122 @@ FROM user_metrics;`}
     ),
     resources: [
       { title: 'SQL Full Course (Intermediate Sections)', url: 'https://youtu.be/SSKVgrwhzus?si=M8AlYQA1WTxvKdBg', type: 'video' }
+    ]
+  },
+  {
+    day: 16,
+    title: 'Excel Fundamentals for PMs 📊',
+    category: 'Data',
+    preview: '“Excel is the PM\'s Swiss Army knife — from quick analysis to complex models.” Master formulas, lookups, and logical functions for decision-making.',
+    content: (
+      <div className="max-w-[1100px] mx-auto space-y-8 text-zinc-800 pb-16 font-sans">
+        <header className="bg-emerald-600 text-white p-10 md:p-14 rounded-[2rem] shadow-xl shadow-emerald-100 border border-emerald-500">
+          <div className="flex items-center gap-4 mb-6">
+            <span className="px-3 py-1 bg-white/20 backdrop-blur-md rounded-full text-xs font-black uppercase tracking-widest text-white border border-white/20">Data Mastery</span>
+            <span className="text-emerald-100 text-xs font-bold uppercase tracking-widest">3-Hour Mastery</span>
+          </div>
+          <h1 className="text-4xl md:text-5xl font-black tracking-tighter mb-6 leading-none">Excel Fundamentals for PMs 📊</h1>
+          <p className="text-xl opacity-90 leading-relaxed max-w-2xl font-medium">"Excel is the PM's Swiss Army knife — from quick analysis to complex models."</p>
+        </header>
+
+        <div className="bg-white border border-zinc-200 rounded-[2rem] p-8 md:p-12 shadow-sm space-y-12">
+          
+          <section className="bg-zinc-50 p-8 rounded-[2rem] border border-zinc-100 space-y-4">
+            <h2 className="text-2xl font-black text-zinc-900 tracking-tight flex items-center gap-2"><Sparkles className="w-6 h-6 text-emerald-600" /> The Theme</h2>
+            <p className="text-lg text-zinc-700 leading-relaxed font-medium">
+              Today you'll master Excel basics and essential formulas that PMs use daily for data analysis, reporting, and decision-making. Learn to turn raw data into actionable business insights.
+            </p>
+          </section>
+
+          <section className="space-y-6">
+            <h2 className="text-3xl font-black tracking-tight text-zinc-900">🎯 Learning Objectives</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {[
+                "Navigate Excel efficiently (workbooks, worksheets, Ribbon)",
+                "Write formulas and use essential functions correctly",
+                "Apply logical functions (IF, AND, OR) for conditional analysis",
+                "Use lookup functions (VLOOKUP, XLOOKUP) to merge datasets",
+                "Perform basic statistical analysis and work with dates/text"
+              ].map((obj, i) => (
+                <div key={i} className="flex gap-4 items-start p-5 bg-emerald-50/30 border border-emerald-100 rounded-2xl">
+                   <div className="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0 text-xs font-black">{i+1}</div>
+                   <p className="text-zinc-700 font-bold text-sm leading-relaxed">{obj}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="space-y-8">
+            <h2 className="text-3xl font-black tracking-tight text-zinc-900">🧩 1. Detailed Curriculum Breakdown</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+               {[
+                 { t: "Setup & Intro", time: "0:00:00", i: FileSpreadsheet, d: "Welcome, setup, and understanding what makes Excel powerful for PMs." },
+                 { t: "Interface Mastery", time: "0:22:42", i: Layout, d: "Efficiently managing worksheets, workbooks, and navigating the Ribbon interface." },
+                 { t: "Logic & Formulas", time: "1:06:39", i: Calculator, d: "The engine of Excel. Mastering logical, math, and statistical functions." },
+                 { t: "Data Merging", time: "2:21:28", i: Network, d: "Using Lookup functions to connect disparate product data tables." },
+               ].map(item => (
+                 <div key={item.t} className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm hover:border-emerald-100 transition-all group">
+                    <div className="flex justify-between items-start mb-4">
+                        <div className="w-12 h-12 rounded-2xl bg-zinc-50 flex items-center justify-center text-zinc-400 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                           <item.i className="w-6 h-6" />
+                        </div>
+                        <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 px-2 py-1 rounded-md">{item.time}</span>
+                    </div>
+                    <h3 className="text-lg font-black text-zinc-900 mb-2 tracking-tight">{item.t}</h3>
+                    <p className="text-sm text-zinc-500 font-medium leading-relaxed">{item.d}</p>
+                 </div>
+               ))}
+            </div>
+          </section>
+
+          <section className="bg-zinc-950 rounded-[2.5rem] p-8 md:p-12 border border-zinc-800">
+             <h2 className="text-2xl font-black text-white mb-8 tracking-tight flex items-center gap-3"><Play className="w-6 h-6 text-indigo-400" /> Watch Lesson Highlights</h2>
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {[
+                   { t: "Logical Functions (IF/AND)", time: "01:29:14", i: CheckCircle },
+                   { t: "Lookup Functions (VLOOKUP)", time: "02:21:28", i: Search },
+                   { t: "Text Functions (Cleaning)", time: "02:39:25", i: Type },
+                   { t: "Date & Time Functions", time: "02:53:19", i: CalendarDays }
+                ].map(step => (
+                   <div key={step.t} className="flex items-center justify-between p-5 bg-white/5 rounded-2xl border border-white/10 shadow-sm hover:bg-white/10 transition-colors cursor-pointer">
+                      <div className="flex items-center gap-3">
+                         <div className="p-2 bg-indigo-500/20 rounded-lg text-indigo-400"><step.i className="w-4 h-4" /></div>
+                         <span className="font-bold text-zinc-100 text-sm">{step.t}</span>
+                      </div>
+                      <span className="text-[10px] font-black text-indigo-400 bg-indigo-400/10 px-2 py-1 rounded-md">{step.time}</span>
+                   </div>
+                ))}
+             </div>
+          </section>
+
+        </div>
+      </div>
+    ),
+    assignment: (
+      <div className="max-w-[1100px] mx-auto space-y-10">
+        <h3 className="text-3xl font-black tracking-tight text-zinc-900">Assignment</h3>
+        <div className="bg-white p-10 md:p-14 border border-zinc-200 rounded-[3rem] shadow-xl shadow-indigo-50">
+          <header className="space-y-4">
+            <div className="w-16 h-16 bg-emerald-600 rounded-2xl flex items-center justify-center text-white shadow-lg">
+               <FileSpreadsheet className="w-8 h-8" />
+            </div>
+            <h4 className="text-3xl font-black tracking-tighter text-zinc-900">🎯 Day-16: The Product Analyst</h4>
+            <p className="text-xl text-zinc-600 font-medium leading-relaxed max-w-2xl">Use your Excel mastery to model a new feature's potential impact.</p>
+          </header>
+          
+          <div className="mt-10 p-8 bg-zinc-950 rounded-3xl border border-zinc-800">
+             <p className="font-black text-emerald-400 uppercase tracking-widest text-xs mb-6">Task Requirements</p>
+             <ul className="space-y-4 text-zinc-300 font-medium">
+                <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> Create a cohort sheet using Lookup functions to link signups with revenue.</li>
+                <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> Use IF/AND to flag "Power Users" (Engagement > 10 sessions AND Revenue > $50).</li>
+                <li className="flex items-center gap-3"><div className="w-1.5 h-1.5 rounded-full bg-emerald-500" /> Clean a provided messy text dataset using LEFT/MID/RIGHT text functions.</li>
+             </ul>
+          </div>
+        </div>
+      </div>
+    ),
+    resources: [
+      { title: 'Excel Tutorial for Beginners - Full Course', url: 'https://youtu.be/pCJ15nGFgVg?si=aqGEbVfcwFuLi7fY', type: 'video' }
     ]
   }
 ];
