@@ -40,11 +40,11 @@ export const getCategoryIcon = (category: Category) => {
 };
 
 export const MODULES: ModuleInfo[] = [
-  { id: 'foundations', title: 'Core Foundations', category: 'Foundations', description: 'Mindset, PDLC, PLC, Product Sense, Empathy, and Documentation.' },
-  { id: 'strategy', title: 'Product Strategy', category: 'Strategy', description: 'Stakeholder Management, Business Fundamentals, Competitive Analysis, and Market Sizing.' },
-  { id: 'data', title: 'Data & Analytics', category: 'Data', description: 'SQL Mastery, Advanced Excel, Dashboards, Mixpanel, and GA4.' },
-  { id: 'tech-ai', title: 'Tech & AI Strategy', category: 'AI', description: 'APIs, System Design, Prompt Engineering, Context Engineering, RAG, and AI Agents.' },
-  { id: 'career', title: 'Career & Execution', category: 'Strategy', description: 'Agile/Scrum, Portfolio Building, Case Studies, and Interview Preparation.' },
+  { id: 'foundations', title: 'PM Foundations', category: 'Foundations', description: 'Mindset, PDLC, PLC, Product Sense, and User Empathy.' },
+  { id: 'research', title: 'Research & Strategy', category: 'Research', description: 'User Research, Competitor Analysis, and Market Sizing.' },
+  { id: 'data', title: 'Data Analytics', category: 'Data', description: 'SQL Foundations, Advanced Excel, Power BI, and Mixpanel.' },
+  { id: 'tech-ai', title: 'Tech & AI Engine', category: 'AI', description: 'APIs, System Design, Prompt Engineering, RAG, and AI Agents.' },
+  { id: 'execution', title: 'Execution & Career', category: 'Strategy', description: 'Agile/Scrum, Portfolio Building, and Interview Prep.' },
 ];
 
 export const LESSONS: Lesson[] = [
@@ -54,94 +54,44 @@ export const LESSONS: Lesson[] = [
     category: 'Foundations',
     preview: 'Start Your PM Journey Right 🚀. Before we jump into frameworks, tools, and case studies, today is about building the right mindset.',
     content: (
-      <div className="space-y-12">
-        <section className="bg-zinc-50 p-8 rounded-3xl border border-zinc-200">
-           <div className="flex gap-4 mb-6">
-              <div className="px-4 py-1.5 rounded-full bg-indigo-100 text-indigo-700 text-xs font-black uppercase tracking-widest">Foundations</div>
-              <div className="px-4 py-1.5 rounded-full bg-zinc-200 text-zinc-700 text-xs font-black uppercase tracking-widest">15m read</div>
-           </div>
-           <h2 className="text-3xl font-black mb-4 tracking-tight">Foundation & Mindset</h2>
-           <p className="text-xl text-zinc-600 font-medium leading-relaxed italic">Start Your PM Journey Right 🚀. Before we jump into frameworks, tools, and case studies, today is about building the right mindset.</p>
-        </section>
-
-        <section className="space-y-8">
-           <div className="p-10 bg-white border-2 border-indigo-100 rounded-[3rem] shadow-sm relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-50 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl"></div>
-              <h3 className="text-2xl font-black mb-6 text-zinc-900">Day-0: Foundation & Mindset — Start Your PM Journey Right 🚀</h3>
-              <p className="text-lg text-zinc-700 leading-relaxed mb-8">Welcome to Day-0 of learning Product Management from scratch! Before we jump into frameworks, tools, and case studies, today is about building the right mindset to succeed as a Product Manager.</p>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="space-y-6">
-                  <p className="font-bold text-zinc-900">Product Management is one of the most competitive and rewarding careers today. But breaking into PM without prior experience can feel overwhelming because the role demands:</p>
-                  <ul className="space-y-4">
-                    {['Cross-functional collaboration', 'Strategic thinking & decision-making', 'Problem-solving with ambiguity', 'Understanding of business, design, tech & data'].map(item => (
-                      <li key={item} className="flex items-center gap-4 text-zinc-700 font-bold">
-                        <CheckCircle className="w-5 h-5 text-indigo-500 shrink-0" /> {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="p-8 bg-zinc-900 rounded-[2.5rem] text-white">
-                   <p className="text-indigo-300 font-black uppercase tracking-widest text-[10px] mb-4">Hard Truth</p>
-                   <p className="text-lg font-medium leading-relaxed italic">Many aspiring PMs struggle not because they lack skills, but because they lack clarity of purpose and direction.</p>
-                </div>
-              </div>
-           </div>
-        </section>
-
-        <section className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-           <div className="p-10 bg-indigo-50 rounded-[3rem] space-y-6 border border-indigo-100">
-              <h4 className="text-xl font-black text-indigo-950">Why Day-0 Matters</h4>
-              <p className="text-indigo-900 leading-relaxed font-medium">Before learning “how to be a PM”, you must understand why you want to be a PM. PMs face pressure, ownership, ambiguity, and constant context switching — your motivation will keep you going when it gets hard.</p>
-              <div className="pt-6 border-t border-indigo-200">
-                 <p className="text-sm font-bold text-indigo-800 mb-4 uppercase tracking-widest">Understanding the reality helps evaluate:</p>
-                 <ul className="space-y-3">
-                    {['Is PM role aligned with your strengths & interests?', 'Do you enjoy solving problems and talking to users?', 'Are you comfortable making decisions without perfect data?'].map(q => (
-                       <li key={q} className="flex items-start gap-3 text-sm font-bold text-indigo-950">
-                          <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 mt-1.5"></span> {q}
-                       </li>
-                    ))}
-                 </ul>
-              </div>
-           </div>
-           
-           <div className="p-10 bg-emerald-50 rounded-[3rem] space-y-6 border border-emerald-100">
-              <h4 className="text-xl font-black text-emerald-950">Outcome of Day-0</h4>
-              <p className="text-emerald-900 leading-relaxed font-medium italic">By the end of today, you should have:</p>
-              <ul className="space-y-4">
-                 {['Real understanding of what PM is', 'Motivation aligned with reality', 'Early networking with professionals', 'A clear starting point for the course'].map(item => (
-                    <li key={item} className="flex items-center gap-4 text-emerald-950 font-bold">
-                       <ShieldCheck className="w-5 h-5 text-emerald-600 shrink-0" /> {item}
-                    </li>
-                 ))}
-              </ul>
-           </div>
-        </section>
-
-        <section className="p-10 bg-zinc-950 rounded-[3rem] text-center text-white space-y-8">
-           <h4 className="text-2xl font-black tracking-tight">Reflection Exercise</h4>
-           <p className="text-zinc-400 font-medium">Write answers to these 3 questions:</p>
-           <div className="max-w-xl mx-auto p-8 bg-white/5 border border-white/10 rounded-2xl">
-              <p className="text-xl font-black tracking-tight">1. Why do I want to become a Product Manager?</p>
-           </div>
-           <p className="text-indigo-400 font-black uppercase tracking-[0.3em] text-xs">Clarity today will drive consistency tomorrow.</p>
-        </section>
+      <div className="space-y-6">
+        <h2>Day-0: Foundation & Mindset — Start Your PM Journey Right 🚀</h2>
+        <p>Welcome to Day-0 of learning Product Management from scratch! Before we jump into frameworks, tools, and case studies, today is about building the right mindset to succeed as a Product Manager.</p>
+        <p>Product Management is one of the most competitive and rewarding careers today. But breaking into PM without prior experience can feel overwhelming because the role demands:</p>
+        <ol>
+          <li>Cross-functional collaboration</li>
+          <li>Strategic thinking & decision-making</li>
+          <li>Problem-solving with ambiguity</li>
+          <li>Understanding of business, design, tech & data</li>
+          <li>Many aspiring PMs struggle not because they lack skills, but because they lack clarity of purpose and direction.</li>
+        </ol>
+        <h3>Why Day-0 Matters</h3>
+        <p>Before learning “how to be a PM”, you must understand why you want to be a PM. PMs face pressure, ownership, ambiguity, and constant context switching — your motivation will keep you going when it gets hard.</p>
+        <p>Understanding the reality of the role—not just the glamour—helps you evaluate:</p>
+        <ul>
+          <li>Is the PM role aligned with your strengths & interests?</li>
+          <li>Do you enjoy solving problems and talking to users?</li>
+          <li>Are you comfortable making decisions without perfect data?</li>
+        </ul>
+        <p>The fastest way to answer these questions is to talk to real PMs, understand their challenges, impact, and day-to-day responsibilities.</p>
+        <h3>Reflection Exercise</h3>
+        <p>Write answers to this question: Why do I want to become a Product Manager?</p>
+        <p><strong>Clarity today will drive consistency tomorrow.</strong></p>
+        <h3>Outcome of Day-0</h3>
+        <p>By the end of today, you should have:</p>
+        <ul>
+          <li>Real understanding of what PM is</li>
+          <li>Motivation aligned with reality</li>
+          <li>Early networking with professionals</li>
+          <li>A clear starting point for the course</li>
+        </ul>
       </div>
     ),
     assignment: (
-      <div className="space-y-6">
-        <div className="p-10 bg-white border-2 border-indigo-200 rounded-[3rem] shadow-xl">
-           <div className="flex items-center gap-4 mb-6">
-              <div className="w-12 h-12 bg-indigo-600 rounded-xl flex items-center justify-center text-white shadow-lg"><ClipboardIcon className="w-6 h-6" /></div>
-              <h5 className="text-xl font-black text-zinc-950 tracking-tight uppercase">Task 1 — Must Do Today</h5>
-           </div>
-           <p className="text-2xl font-black text-zinc-950 leading-tight mb-4">Reach out to 5 Product Managers and ask them about their journey & role.</p>
-           <p className="text-zinc-500 font-bold mb-8">Use LinkedIn, alumni networks, or company communities.</p>
-           <div className="bg-zinc-50 p-6 rounded-2xl border border-zinc-100">
-              <p className="text-[10px] font-black uppercase tracking-widest text-indigo-500 mb-2">Goal</p>
-              <p className="text-lg font-bold text-zinc-800">Collect insights and note patterns. This will guide your expectations.</p>
-           </div>
-        </div>
+      <div>
+        <h4>Task 1 — Must Do Today</h4>
+        <p>Reach out to 5 Product Managers and ask them about their journey & role. Use LinkedIn, alumni networks, or company communities.</p>
+        <p><strong>Goal:</strong> Collect insights and note patterns. This will guide your expectations.</p>
       </div>
     )
   },
@@ -151,381 +101,68 @@ export const LESSONS: Lesson[] = [
     category: 'Foundations',
     preview: 'Understand the role, responsibilities, types, and myths about Product Management.',
     content: (
-      <div className="space-y-12">
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
-           <div className="space-y-6">
-              <div className="inline-flex gap-4">
-                 <span className="px-3 py-1 bg-blue-100 text-blue-700 text-[10px] font-black uppercase tracking-widest rounded-lg">Foundations</span>
-                 <span className="px-3 py-1 bg-zinc-100 text-zinc-600 text-[10px] font-black uppercase tracking-widest rounded-lg">45m Read</span>
-              </div>
-              <h2 className="text-4xl font-black tracking-tighter">What is Product Management? 🚀</h2>
-              <p className="text-xl text-zinc-600 font-medium">Understand the role, responsibilities, types, and myths about Product Management.</p>
-           </div>
-           <div className="p-8 bg-zinc-900 rounded-[2.5rem] flex flex-col justify-center border border-zinc-800 shadow-2xl">
-              <p className="text-indigo-400 font-black uppercase tracking-widest text-[10px] mb-4">Core Definition</p>
-              <p className="text-lg text-white font-bold leading-relaxed">1. What is a Product?</p>
-              <p className="text-zinc-400 font-medium">A product is anything that creates value by solving a real user problem or fulfilling a need—whether physical, digital, or service-based.</p>
-              <div className="mt-6 flex flex-wrap gap-2">
-                 {['Uber', 'Spotify', 'iPhone', 'Google Ads', 'ATM', 'WhatsApp'].map(p => (
-                   <span key={p} className="px-3 py-1 bg-white/10 rounded-lg text-[11px] font-black text-white">{p}</span>
-                 ))}
-              </div>
-           </div>
-        </section>
-
-        <section className="space-y-10">
-           <div className="p-10 bg-indigo-50 border border-indigo-100 rounded-[3rem]">
-              <h3 className="text-2xl font-black mb-6">2. Do Companies Need Product Managers?</h3>
-              <p className="text-xl font-black text-indigo-950 mb-8 italic">Short answer: Yes—but the title isn’t always necessary. Product thinking is.</p>
-              
-              <div className="overflow-hidden rounded-2xl border border-indigo-200 bg-white shadow-sm">
-                <table className="w-full text-left">
-                  <thead className="bg-indigo-600 text-white font-black text-xs uppercase tracking-widest">
-                    <tr>
-                      <th className="p-6">Stage</th>
-                      <th className="p-6">Who acts as PM</th>
-                      <th className="p-6">Why it works</th>
-                      <th className="p-6">When it breaks</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-indigo-50 font-bold text-sm text-indigo-900">
-                    <tr>
-                      <td className="p-6 bg-indigo-50/30">Early startup</td>
-                      <td className="p-6">Founder</td>
-                      <td className="p-6">Small team, fast decisions, direct feedback</td>
-                      <td className="p-6">Complexity increases, decisions overload</td>
-                    </tr>
-                    <tr>
-                      <td className="p-6 bg-indigo-50/30">Growth stage</td>
-                      <td className="p-6">Dedicated PMs</td>
-                      <td className="p-6">Align teams, prioritize impact, execution</td>
-                      <td className="p-6">Without PMs: confusion, misalignment</td>
-                    </tr>
-                    <tr>
-                      <td className="p-6 bg-indigo-50/30">Large enterprise</td>
-                      <td className="p-6">Product org with PM leaders</td>
-                      <td className="p-6">Scale, governance, coordination</td>
-                      <td className="p-6">Without PMs: feature bloat, chaos, slow</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-           </div>
-        </section>
-
-        <section className="p-10 bg-zinc-50 border border-zinc-200 rounded-[3rem] space-y-8">
-           <h3 className="text-2xl font-black text-zinc-900">3. Real-World Exceptions</h3>
-           <p className="text-zinc-600 font-bold">Some companies have succeeded without formal PMs:</p>
-           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {[
-                { title: 'Basecamp', desc: 'Design-led product development' },
-                { title: 'Valve', desc: 'Self-organized teams' },
-                { title: 'Early FB / Stripe', desc: 'Engineer-led decisions' }
-              ].map(ex => (
-                <div key={ex.title} className="p-6 bg-white rounded-2xl border border-zinc-100 shadow-sm">
-                  <p className="font-black text-indigo-600 mb-2">{ex.title}</p>
-                  <p className="text-sm font-bold text-zinc-500">{ex.desc}</p>
-                </div>
-              ))}
-           </div>
-           <div className="p-6 bg-white border-4 border-indigo-100 rounded-3xl text-center">
-              <p className="text-lg font-black text-indigo-950">These work only when everyone practices product thinking: user obsession + data + trade-offs + execution focus.</p>
-           </div>
-        </section>
-
-        <section className="space-y-12">
-           <div className="p-10 bg-zinc-950 rounded-[4rem] text-white overflow-hidden relative shadow-2xl">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-[80px]"></div>
-              <h3 className="text-2xl font-black mb-8 border-b border-white/10 pb-6">4. What is Product Management?</h3>
-              <p className="text-xl leading-relaxed text-zinc-300 font-medium mb-12">Product Management is the function responsible for guiding a product from idea → launch → growth → scale by balancing:</p>
-              <div className="text-center py-10 border-y border-white/5 bg-white/5 rounded-3xl mb-12">
-                 <p className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-violet-400 italic leading-tight">
-                    "PMs don’t decide how to build — they decide what to build and why."
-                 </p>
-              </div>
-              <h4 className="text-lg font-black mb-8 tracking-widest uppercase text-indigo-400">5. The PM Equation</h4>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                 <div className="space-y-3">
-                    <p className="font-black text-xl">Business</p>
-                    <p className="text-sm text-zinc-400 font-bold leading-relaxed">Revenue, success metrics, GTM strategy.</p>
-                 </div>
-                 <div className="space-y-3">
-                    <p className="font-black text-xl">Design</p>
-                    <p className="text-sm text-zinc-400 font-bold leading-relaxed">User experience & usability focus.</p>
-                 </div>
-                 <div className="space-y-3">
-                    <p className="font-black text-xl">Tech</p>
-                    <p className="text-sm text-zinc-400 font-bold leading-relaxed">Feasibility & backend system thinking.</p>
-                 </div>
-              </div>
-           </div>
-        </section>
-
-        <section className="space-y-12">
-           <h3 className="text-2xl font-black text-zinc-900 px-4">6. PM Responsibilities</h3>
-           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {[
-                { area: 'User understanding', items: 'Research, interviews, personas, feedback' },
-                { area: 'Problem definition', items: 'Insights, hypotheses, opportunity sizing' },
-                { area: 'Prioritization', items: 'RICE, MoSCoW, Kano frameworks' },
-                { area: 'Strategy & Roadmapping', items: 'Vision, goals, milestones, timelines' },
-                { area: 'Execution & Delivery', items: 'PRDs, user stories, cross-functional collab' },
-                { area: 'Analytics & Learning', items: 'KPI tracking, experiments, iterations' },
-                { area: 'Communication', items: 'Stakeholders, presentations, influence' }
-              ].map((res, i) => (
-                <div key={i} className="p-6 bg-white border-2 border-zinc-50 rounded-2xl hover:border-indigo-100 transition-all shadow-sm">
-                   <p className="text-[10px] font-black uppercase tracking-widest text-indigo-600 mb-2">{res.area}</p>
-                   <p className="text-sm font-bold text-zinc-800 leading-relaxed">{res.items}</p>
-                </div>
-              ))}
-           </div>
-        </section>
-
-        <section className="p-12 bg-white border-4 border-zinc-100 rounded-[4rem] space-y-10 shadow-xl">
-           <h3 className="text-3xl font-black text-zinc-950 tracking-tight">7. Types of Product Managers & Why They Exist 🔍</h3>
-           <p className="text-lg text-zinc-600 font-medium leading-relaxed">As products scale, complexity grows — more users, more data, and deeper specialization needs. While an early-stage PM owns everything, a scaled organization requires specialization for efficiency.</p>
-           
-           <div className="space-y-12">
-             {[
-               { id: '1', title: 'Core Product Manager', subtitle: 'The Generalist', focus: 'End-to-end ownership of user-facing product experiences.', items: ['Define product vision & roadmap', 'User research & problem discovery', 'Prioritization & PRD writing', 'Collaborate with engineering & design', 'Track adoption & engagement metrics'], case: 'Swiggy improving checkout conversion from 85% → 92%', metrics: 'Retention, Adoption, NPS, DAU' },
-               { id: '2', title: 'Growth Product Manager', subtitle: 'The Optimizer', focus: 'Driving acquisition, activation, retention & revenue.', items: ['Funnel optimization & loops', 'A/B testing & experimentation', 'Work closely with marketing & analytics', 'Monetization strategy'], case: 'Duolingo improving daily streak feature → +15% retention', metrics: 'DAU/MAU, Conversion Rate, LTV, Churn' },
-               { id: '3', title: 'Platform Product Manager', subtitle: 'The Enabler', focus: 'Focus: Internal systems, APIs & developer experience.', items: ['Build scalable internal platforms (auth, notifications, payments)', 'Align engineering teams & reliability goals', 'Reduce build time and dependency blocks'], case: 'Razorpay building unified payments gateway API', metrics: 'API Uptime, Latency, Integration Adoption' },
-               { id: '4', title: 'Data Product Manager', subtitle: 'The Analyst PM', focus: 'Data pipelines, dashboards & experimentation framework.', items: ['Define tracking & data schemas', 'Partner with DS/ML teams', 'Ensure data quality & governance', 'Enable insight-driven decisions'], case: 'Meesho enabling real-time retention dashboards', metrics: 'Data accuracy, Latency, Dashboard usage' },
-               { id: '5', title: 'Technical Product Manager', subtitle: 'TPM', focus: 'Highly technical systems & integrations.', items: ['Translate business requirements → architecture requirements', 'Manage APIs, backend integrations & scalability', 'Balance tech debt & feature delivery'], case: 'Slack launching developer API endpoints', metrics: 'Reliability, Integration success, Performance' },
-               { id: '6', title: 'AI Product Manager', subtitle: 'The Intelligent Builder', focus: 'Products powered by machine learning & generative AI.', items: ['Identify opportunities for AI impact', 'Work with ML engineers on model lifecycle: data → training → deployment', 'Ensure responsible, bias-free AI behavior', 'Convert technical model metrics → business metrics'], case: 'Netflix personalization engine → +15% viewing time', metrics: 'Model accuracy, Usage, Adoption' }
-             ].map((type) => (
-               <div key={type.id} className="p-8 bg-zinc-50 border border-zinc-200 rounded-[3rem] space-y-6">
-                 <div className="flex justify-between items-start">
-                   <div>
-                     <span className="text-[10px] font-black text-indigo-500 uppercase tracking-widest">{type.subtitle}</span>
-                     <h4 className="text-2xl font-black text-zinc-900">{type.id}. {type.title}</h4>
-                   </div>
-                   <div className="px-4 py-1.5 bg-white rounded-xl border border-zinc-200 shadow-sm text-xs font-black">Focus: {type.focus}</div>
-                 </div>
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                   <div>
-                     <p className="text-xs font-black uppercase text-zinc-400 tracking-widest mb-4">Responsibilities</p>
-                     <ul className="space-y-2">
-                       {type.items.map(i => <li key={i} className="flex items-center gap-3 text-sm font-bold text-zinc-700"><CheckCircle className="w-4 h-4 text-emerald-500" /> {i}</li>)}
-                     </ul>
-                   </div>
-                   <div className="space-y-6">
-                     <div className="p-6 bg-white rounded-2xl shadow-sm border border-zinc-100">
-                        <p className="text-[10px] font-black uppercase text-indigo-500 tracking-widest mb-2">Real Example</p>
-                        <p className="text-sm font-black text-zinc-900">{type.case}</p>
-                     </div>
-                     <div className="p-6 bg-white rounded-2xl shadow-sm border border-zinc-100">
-                        <p className="text-[10px] font-black uppercase text-indigo-500 tracking-widest mb-2">North Star Metrics</p>
-                        <p className="text-sm font-black text-zinc-900">{type.metrics}</p>
-                     </div>
-                   </div>
-                 </div>
-               </div>
-             ))}
-           </div>
-        </section>
-
-        <section className="p-12 bg-zinc-900 rounded-[4rem] text-white shadow-2xl overflow-hidden relative">
-           <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-[80px]"></div>
-           <h3 className="text-3xl font-black mb-10 tracking-tight text-indigo-400">8. PM Deliverables</h3>
-           <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/5">
-              <table className="w-full text-left">
-                <thead className="bg-indigo-600 text-white font-black text-xs uppercase tracking-widest">
-                  <tr>
-                    <th className="p-6">Deliverable</th>
-                    <th className="p-6">Impact</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-white/5 font-bold text-sm text-zinc-300">
-                  {[
-                    { title: 'PRD', desc: 'Clarifies what & why for teams' },
-                    { title: 'Roadmap', desc: 'Timeline of priorities & goals' },
-                    { title: 'User Stories', desc: 'Smallest unit of work detail' },
-                    { title: 'Metrics Dashboard', desc: 'Tracks feature health & success' },
-                    { title: 'GTM Plan', desc: 'Strategy for market entry' }
-                  ].map((d, i) => (
-                    <tr key={i} className="hover:bg-white/5 transition-colors">
-                      <td className="p-6 text-white font-black">{d.title}</td>
-                      <td className="p-6 italic">{d.desc}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-           </div>
-        </section>
-
-        <section className="bg-rose-50 border-4 border-rose-100 p-12 rounded-[4rem] space-y-10">
-           <h3 className="text-3xl font-black text-rose-950 tracking-tight">Myths vs Reality</h3>
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-             {[
-               { myth: '“PMs are the boss of the team.”', reality: 'PMs have no authority — influence only.' },
-               { myth: '“PMs must know how to code.”', reality: 'Not required, but tech literacy is crucial.' },
-               { myth: '“PMs only build new features.”', reality: 'PMs solve problems. Sometimes by removing features.' },
-               { myth: '“PMs manage timelines.”', reality: 'That\'s project management. PMs define what & why.' }
-             ].map((m, i) => (
-               <div key={i} className="flex flex-col p-6 bg-white rounded-3xl border border-rose-200">
-                  <span className="text-[10px] font-black text-rose-400 uppercase tracking-widest mb-1">Myth</span>
-                  <p className="text-lg font-black text-rose-900 mb-4">{m.myth}</p>
-                  <span className="text-[10px] font-black text-emerald-500 uppercase tracking-widest mb-1">Reality</span>
-                  <p className="text-lg font-black text-emerald-900">{m.reality}</p>
-               </div>
-             ))}
-           </div>
-        </section>
+      <div className="space-y-6">
+        <h2>Day 1: What is Product Management? 🚀</h2>
+        <p>Understand the role, responsibilities, types, and myths about Product Management.</p>
+        <h3>1. What is a Product?</h3>
+        <p>A product is anything that creates value by solving a real user problem or fulfilling a need—whether physical, digital, or service-based.</p>
+        <p>Examples: Uber, Spotify, iPhone, Google Ads, ATM, WhatsApp</p>
+        <h3>2. Do Companies Need Product Managers?</h3>
+        <p>Short answer: Yes—but the title isn’t always necessary. Product thinking is.</p>
+        <p>Why PMs emerge: Company Growth Stages</p>
+        <table>
+          <thead>
+            <tr><th>Stage</th><th>Who acts as PM</th><th>Why it works</th><th>When it breaks</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Early startup</td><td>Founder</td><td>Small team, fast decisions</td><td>Complexity increases</td></tr>
+            <tr><td>Growth stage</td><td>Dedicated PMs</td><td>Align teams, prioritize impact</td><td>Confusion, misalignment</td></tr>
+            <tr><td>Large enterprise</td><td>Product org</td><td>Scale, governance</td><td>Feature bloat, chaos, slow</td></tr>
+          </tbody>
+        </table>
+        <h3>3. Real-World Exceptions</h3>
+        <p>Some companies have succeeded without formal PMs: Basecamp (Design-led), Valve (Self-organized), Early FB / Stripe (Engineer-led).</p>
+        <p>👉 These work only when everyone practices product thinking: user obsession + data + trade-offs + execution focus.</p>
+        <h3>4. What is Product Management?</h3>
+        <p>Product Management is the function responsible for guiding a product from idea → launch → growth → scale by balancing Business, Design, and Tech.</p>
+        <p><em>"PMs don’t decide how to build — they decide what to build and why."</em></p>
       </div>
     ),
     assignment: (
-      <div className="space-y-6">
-        <div className="p-10 bg-white border-2 border-indigo-200 rounded-[3rem] shadow-xl">
-           <h5 className="text-xl font-black mb-8 uppercase tracking-widest text-indigo-600">🎯 Day-1 Mini Assignment</h5>
-           <p className="text-lg font-bold text-zinc-700 mb-6">Pick a product you use daily (e.g., Spotify, Zomato, Notion, Cred) and answer:</p>
-           <div className="p-8 bg-zinc-50 rounded-2xl font-mono text-sm border border-zinc-100 mb-10">
-              Product Name: ___ User Problem: ___ Key Metrics: ___ Improvement Suggestion: ___
-           </div>
-           
-           <h5 className="text-xl font-black mb-6 uppercase tracking-widest text-zinc-900">Reflection Task</h5>
-           <p className="text-lg font-bold text-zinc-700 leading-relaxed italic">Identify which of the 6 PM types excites you the most and why. Does it align with your current background (e.g., Engineer → TPM, Marketing → Growth)?</p>
+        <div>
+            <h4>Day-1 Mini Assignment</h4>
+            <p>Pick a product you use daily (e.g., Spotify, Zomato, Notion, Cred) and answer: Product Name, User Problem, Key Metrics, Improvement Suggestion.</p>
+            <p><strong>Reflection Task:</strong> Identify which of the 6 PM types excites you the most and why.</p>
         </div>
-      </div>
     )
   },
   {
     day: 2,
-    title: 'Product Development Lifecycle (PDLC)',
+    title: 'The Product Development Lifecycle (PDLC)',
     category: 'Foundations',
     preview: 'Theme: How products move from idea → design → build → launch → iterate.',
     content: (
-      <div className="space-y-12">
-        <header className="bg-indigo-600 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
-           <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl"></div>
-           <div className="flex gap-4 mb-6 relative z-10">
-              <span className="px-4 py-1.5 bg-white/20 rounded-lg text-[10px] font-black uppercase tracking-widest">Foundations</span>
-              <span className="px-4 py-1.5 bg-white/20 rounded-lg text-[10px] font-black uppercase tracking-widest">45m read</span>
-           </div>
-           <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none text-white">The Product Development Lifecycle (PDLC) 📘</h1>
-           <p className="text-indigo-100 text-xl font-bold italic">Theme: How products move from idea → design → build → launch → iterate.</p>
-        </header>
-
-        <section className="bg-white p-10 border border-zinc-100 rounded-[3rem] shadow-sm">
-           <h2 className="text-2xl font-black mb-8 tracking-tight">Learning Objectives</h2>
-           <p className="text-lg font-bold text-zinc-500 mb-6 uppercase tracking-widest">By the end of today, you will:</p>
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {['Understand the full lifecycle of product development', 'Know what happens at every stage & what PMs contribute', 'Learn common outputs, tools, and real examples', 'Avoid the typical mistakes that junior PMs make'].map(item => (
-                <div key={item} className="flex items-center gap-4 p-4 bg-zinc-50 rounded-2xl font-bold text-zinc-900 border border-zinc-100">
-                   <CheckCircle className="w-5 h-5 text-indigo-600" /> {item}
-                </div>
-              ))}
-           </div>
-        </section>
-
-        <section className="space-y-10">
-           <h3 className="text-3xl font-black text-zinc-950 px-4">1. What is PDLC?</h3>
-           <p className="text-xl text-zinc-600 font-medium leading-relaxed italic max-w-4xl border-l-4 border-indigo-600 pl-8">
-              Product Development Lifecycle (PDLC) is the structured process of taking a product from problem discovery → launch → continuous improvement, ensuring decisions are user-driven, data-backed, and business-aligned.
-           </p>
-
-           <div className="overflow-hidden rounded-[3rem] border-4 border-zinc-100 bg-white shadow-2xl">
-              <table className="w-full text-left">
-                <thead className="bg-zinc-950 text-white font-black text-xs uppercase tracking-widest">
-                  <tr>
-                    <th className="p-8">Stage</th>
-                    <th className="p-8">Goal</th>
-                    <th className="p-8">Key Output</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-zinc-100 font-bold text-lg">
-                  {[
-                    { s: 'Discovery', g: 'Understand the user problem', o: 'Problem statement, Personas' },
-                    { s: 'Definition', g: 'Scope & prioritize solution', o: 'PRD, success metrics' },
-                    { s: 'Design', g: 'Visualize experience', o: 'Wireframes, Prototype' },
-                    { s: 'Development', g: 'Build & test', o: 'MVP, QA sign-off' },
-                    { s: 'Launch', g: 'Ship product to users', o: 'GTM plan, adoption data' },
-                    { s: 'Iteration', g: 'Improve continuously', o: 'Insights, next roadmap' }
-                  ].map((row, i) => (
-                    <tr key={i} className="hover:bg-zinc-50 transition-colors">
-                       <td className="p-8 text-indigo-600 font-black">{row.s}</td>
-                       <td className="p-8 text-zinc-900">{row.g}</td>
-                       <td className="p-8 text-zinc-500 italic text-sm">{row.o}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-           </div>
-        </section>
-
-        <section className="space-y-12">
-           {[
-             { id: '1', title: 'Phase 1: Discovery', subtitle: 'Find the Right Problem', goal: '“Fall in love with the problem, not the solution.” Understand real user needs and validate the painpoint.', activities: 'Market & competitor research, User interviews, surveys, Data analysis (Mixpanel, GA, SQL), Identify Jobs-to-be-Done (JTBD)', outputs: 'Problem statement, Personas, Hypothesis, Opportunity sizing', case: 'Zomato observes high checkout drop-offs because of unpredictable surge delivery fees.' },
-             { id: '2', title: 'Phase 2: Definition', subtitle: 'Scope the Solution', goal: 'Turn insights into an actionable plan. Define what we are building and how we measure success.', activities: 'Prioritization (RICE, MOSCOW, Value-Effort), Success metrics / OKRs, PRD writing, Align with design & engineering', outputs: 'PRD, Prioritized roadmap, Success metrics', case: 'Test a Flat Delivery Fee Subscription Model to reduce checkout abandonment by 15%.' },
-             { id: '3', title: 'Phase 3: Design', subtitle: 'Shape the Experience', goal: 'Design an intuitive experience for solving the defined problem.', activities: 'Wireframes & prototypes in Figma, User testing & usability reviews, Accessibility & UI polishing', outputs: 'Prototype, Usability results, Design specs', case: 'Prototype for 1-click subscription to Zomato delivery fee waiver.' },
-             { id: '4', title: 'Phase 4: Development', subtitle: 'Build', goal: 'Build and test the feature until ready for release. Focus on functional alignment.', activities: 'Sprint planning & execution (Jira), Daily standups, bug triage, QA & UAT testing, Feature flag rollout', outputs: 'Working MVP, Release candidate, Go/No-Go decision', case: 'Feature toggle rollout to 5% of users in Bangalore to test load performance.' },
-             { id: '5', title: 'Phase 5: Launch', subtitle: 'Ship & Distribute', goal: '“Shipping is a feature.” Release value to users and drive broad adoption.', activities: 'GTM strategy (Marketing, Sales, Support), Announcements, tutorials, walkthroughs, Monitor adoption & sentiment', outputs: 'GTM docs, Release comms, Launch dashboard', case: 'Email + push campaign tracking adoption of the new delivery subscription.' },
-             { id: '6', title: 'Phase 6: Iteration', subtitle: 'Learn & Improve', goal: 'Improve continuously based on data. The cycle never truly ends.', activities: 'Analyze Mixpanel, GA, SQL reports, Collect feedback (NPS, CSAT), Identify improvement opportunities', outputs: 'Insights report, Updated roadmap, New hypothesis', case: 'Feature adoption = 70%, renewal = 30% → pricing experiment planned to improve retention.' }
-           ].map((phase) => (
-             <div key={phase.id} className="p-12 bg-white border-2 border-zinc-100 rounded-[4rem] space-y-8 hover:shadow-xl transition-all relative group">
-                <span className="absolute top-8 right-12 text-[8rem] font-black text-zinc-100 group-hover:text-indigo-50 -z-0 pointer-events-none transition-colors">{phase.id}</span>
-                <div className="relative z-10 space-y-6">
-                   <h4 className="text-3xl font-black text-zinc-950">{phase.title}</h4>
-                   <p className="text-xs font-black uppercase text-indigo-600 tracking-[0.2em]">{phase.subtitle}</p>
-                   <div className="p-6 bg-zinc-50 border-l-4 border-indigo-600 rounded-r-2xl">
-                      <p className="text-lg font-black text-zinc-900 leading-relaxed italic">{phase.goal}</p>
-                   </div>
-                   <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                      <div className="space-y-4">
-                        <p className="text-xs font-black uppercase text-zinc-400 tracking-widest">Activities</p>
-                        <p className="text-sm font-bold text-zinc-700 leading-relaxed">{phase.activities}</p>
-                      </div>
-                      <div className="space-y-4">
-                        <p className="text-xs font-black uppercase text-zinc-400 tracking-widest">Outputs</p>
-                        <p className="text-sm font-black text-indigo-600 leading-relaxed italic">{phase.outputs}</p>
-                      </div>
-                   </div>
-                   <div className="p-8 bg-zinc-900 rounded-3xl text-white">
-                      <div className="flex items-center gap-3 mb-4">
-                         <div className="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-xs">🏢</div>
-                         <p className="text-[10px] font-black uppercase tracking-widest text-indigo-400">Industry Case</p>
-                      </div>
-                      <p className="text-lg font-bold italic text-zinc-200 leading-snug">{phase.case}</p>
-                   </div>
-                </div>
-             </div>
-           ))}
-        </section>
-
-        <section className="bg-emerald-50 p-12 rounded-[4rem] border-4 border-emerald-100 shadow-sm text-center space-y-8">
-           <h3 className="text-3xl font-black text-emerald-950 tracking-tight">Key Takeaways</h3>
-           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="p-8 bg-white rounded-3xl space-y-4 shadow-sm">
-                 <span className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center mx-auto text-emerald-600 font-black">1</span>
-                 <p className="text-lg font-black text-zinc-900">The best PMs don’t build features — they solve problems.</p>
-              </div>
-              <div className="p-8 bg-white rounded-3xl space-y-4 shadow-sm">
-                 <span className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center mx-auto text-emerald-600 font-black">2</span>
-                 <p className="text-lg font-black text-zinc-900">PDLC creates structure, clarity, and alignment across the org.</p>
-              </div>
-              <div className="p-8 bg-white rounded-3xl space-y-4 shadow-sm">
-                 <span className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center mx-auto text-emerald-600 font-black">3</span>
-                 <p className="text-lg font-black text-zinc-900">Launch is not the end — iteration is where results come from.</p>
-              </div>
-           </div>
-        </section>
+      <div className="space-y-6">
+        <h2>Day 2: The Product Development Lifecycle (PDLC) 📘</h2>
+        <p>Theme: How products move from idea → design → build → launch → iterate.</p>
+        <h3>1. What is PDLC?</h3>
+        <p>Product Development Lifecycle (PDLC) is the structured process of taking a product from problem discovery → launch → continuous improvement.</p>
+        <ul>
+          <li><strong>Discovery:</strong> Understand the user problem</li>
+          <li><strong>Definition:</strong> Scope & prioritize solution</li>
+          <li><strong>Design:</strong> Visualize experience</li>
+          <li><strong>Development:</strong> Build & test</li>
+          <li><strong>Launch:</strong> Ship product to users</li>
+          <li><strong>Iteration:</strong> Improve continuously</li>
+        </ul>
+        <h3>SDLC VS PDLC</h3>
+        <p><strong>SDLC:</strong> Building software correctly. Focus on technical implementation.</p>
+        <p><strong>PDLC:</strong> Building the right product. Focus on user & business value.</p>
       </div>
     ),
-    assignment: (
-      <div className="space-y-6">
-        <div className="p-10 bg-white border-2 border-indigo-200 rounded-[3rem] shadow-xl">
-           <h5 className="text-xl font-black mb-8 uppercase tracking-widest text-indigo-600">🎯 Day-2 Mini Assignment</h5>
-           <p className="text-lg font-bold text-zinc-700 mb-8">Pick any app (Spotify / Swiggy / Cred / Duolingo / ChatGPT) and describe a new feature across the PDLC:</p>
-           <div className="p-10 bg-zinc-950 rounded-[2.5rem] font-mono text-xs text-zinc-300 leading-relaxed mb-10 border-4 border-zinc-800">
-              Product: ___ Feature Idea: ___ Discovery – Problem & insight: ___ Definition – Hypothesis & metrics: ___ Design – Sketch or description: ___ Development – Dependencies / risks: ___ Launch – Target segment & rollout plan: ___ Iteration – What will you measure?: ___
-           </div>
-           <div className="p-6 bg-emerald-50 rounded-2xl border border-emerald-100 flex items-center gap-4">
-              <span className="text-2xl">📌</span>
-              <p className="text-lg font-black text-emerald-950 italic">Expected outcome: You learn to think like a PM end-to-end, considering everything from feasibility to measurement.</p>
-           </div>
-        </div>
-      </div>
-    )
+    resources: [
+        { title: 'SDLC Life Cycle for Beginners', url: 'https://youtu.be/kSU2MPeptpM?si=k5ln45xHGIlrPV_o', type: 'video' }
+    ]
   },
   {
     day: 3,
@@ -533,291 +170,54 @@ export const LESSONS: Lesson[] = [
     category: 'Foundations',
     preview: 'Understand how products evolve in the market over time and how companies manage that journey.',
     content: (
-      <div className="space-y-12">
-        <section className="bg-zinc-50 p-12 rounded-[4rem] border border-zinc-200">
-           <div className="flex gap-4 mb-8">
-              <span className="px-4 py-1.5 bg-blue-600 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-full shadow-lg shadow-blue-200">Foundations</span>
-              <span className="px-4 py-1.5 bg-white border border-zinc-200 text-zinc-500 text-[10px] font-black uppercase tracking-[0.2em] rounded-full">45m read</span>
-           </div>
-           <h2 className="text-4xl md:text-6xl font-black tracking-tighter mb-6 leading-tight text-zinc-900">Product Life Cycle (PLC) & PLM 📘</h2>
-           <p className="text-xl text-zinc-600 font-bold leading-relaxed max-w-3xl border-l-4 border-indigo-600 pl-8 italic">
-              Understand how products evolve in the market over time and how companies manage that journey.
-           </p>
-        </section>
-
-        <section className="space-y-12">
-           <div className="p-12 bg-white border-2 border-zinc-100 rounded-[4rem] shadow-sm relative overflow-hidden">
-              <h3 className="text-3xl font-black mb-8 tracking-tight">What is Product Life Cycle (PLC)?</h3>
-              <p className="text-xl text-zinc-900 font-medium leading-relaxed italic mb-12">Product Life Cycle is the journey a product goes through in the market — from the day it is launched to the day it is eventually retired.</p>
-              
-              <h4 className="text-lg font-black uppercase tracking-widest text-indigo-500 mb-10">What Are the 4 Stages of Product Life Cycle?</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                 {[
-                   { title: 'Introduction', icon: '🌱', desc: 'This is when a new product is first introduced to the market. Sales are usually low because customers are just starting to become aware of the product, and marketing efforts are focused on building awareness and generating interest. Companies may be investing heavily in research and development during this stage.' },
-                   { title: 'Growth', icon: '🚀', desc: 'In this stage, the product starts to gain interest. Sales begin to increase as more customers become aware of the product and start buying it. Marketing efforts now focus on expanding market share and building brand loyalty. Competitors may also start entering the market during this stage.' },
-                   { title: 'Maturity', icon: '🏆', desc: 'This is the stage of peak sales. The product has reached its maximum market penetration, and sales growth starts to level off. Competition is usually intense, and companies may need to focus on differentiating their product through added features, improved quality, or competitive pricing.' },
-                   { title: 'Decline', icon: '📉', desc: 'In the decline stage, sales begin to decline as customer preferences change, new technologies emerge, or market saturation occurs. Companies may choose to discontinue the product or try to extend it via strategies like updates, new marketing, or new segments.' }
-                 ].map((stage, i) => (
-                   <div key={i} className="p-8 bg-zinc-50 border border-zinc-200 rounded-[2.5rem] space-y-4 hover:border-indigo-200 transition-all shadow-sm">
-                      <div className="text-4xl">{stage.icon}</div>
-                      <h5 className="text-2xl font-black text-zinc-950">{stage.title}</h5>
-                      <p className="text-sm font-bold text-zinc-600 leading-relaxed">{stage.desc}</p>
-                   </div>
-                 ))}
-              </div>
-           </div>
-        </section>
-
-        <section className="space-y-12">
-           <div className="p-12 bg-zinc-950 rounded-[4rem] text-white shadow-2xl relative overflow-hidden text-white">
-              <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-br from-indigo-600/10 via-transparent to-transparent"></div>
-              <h3 className="text-3xl font-black mb-10 text-indigo-400 tracking-tight relative z-10 text-white">What is Product Lifecycle Management (PLM)?</h3>
-              <p className="text-xl leading-relaxed text-zinc-300 font-medium mb-10 relative z-10 italic">Product Lifecycle Management (PLM) is the practice of managing a product from its initiation to its eventual retirement through a systematic approach.</p>
-              <div className="p-10 bg-white/5 border border-white/10 rounded-[3rem] space-y-6 relative z-10">
-                 <p className="text-lg leading-relaxed font-bold">It's a system that helps manage every step of a product's life, from the initial idea and design to manufacturing, distribution, and even after it's sold. It's a way for companies to keep track of all the details and make sure everyone involved is on the same page throughout the product's journey.</p>
-                 <div className="pt-6 border-t border-white/5 text-center">
-                    <p className="text-2xl font-black italic text-indigo-400">“So, in simpler terms, PLM is like a guidebook that helps companies manage their products from start to finish.”</p>
-                 </div>
-              </div>
-           </div>
-        </section>
-
-        <section className="space-y-12">
-           <h3 className="text-3xl font-black text-zinc-900 px-4">Stages of a Product in PLM</h3>
-           <div className="space-y-6">
-              {[
-                { title: 'Concept Stage', desc: 'The start of making a new product. Involves initial ideas and planning, market research, identifying customer needs, and determining feasibility. Usually R&D takes the lead.' },
-                { title: 'Design Stage', desc: 'Careful plan for the product, building prototypes, and testing everything. Ensuring the design meets all rules and safety standards. Significant R&D spend happens here.' },
-                { title: 'Production Stage', desc: 'Making the product at scale—getting materials, putting everything together, and quality checks. Design changes should be minimal at this point.' },
-                { title: 'Sales Stage', desc: 'About telling people about the product and getting them to buy it via advertisements, prices, and special deals. Forecasting is crucial.' },
-                { title: 'Support Stage', desc: 'Ongoing customer support including customer service, warranties, repairs, and services or training to enhance user experience.' },
-                { title: 'Retirement Stage', desc: 'The life of the product ends due to better products, preference shifts, or tech moves. Includes responsible recycling or find new uses.' }
-              ].map((stage, i) => (
-                <div key={i} className="p-10 bg-white border-2 border-zinc-100 rounded-[2.5rem] flex flex-col md:flex-row gap-8 items-start hover:border-indigo-100 transition-all shadow-sm">
-                   <div className="w-12 h-12 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-600 font-black shrink-0 shadow-sm border border-indigo-100">{i+1}</div>
-                   <div>
-                      <h5 className="text-xl font-black text-zinc-950 mb-3">{stage.title}</h5>
-                      <p className="text-lg text-zinc-600 font-bold leading-relaxed">{stage.desc}</p>
-                   </div>
-                </div>
-              ))}
-           </div>
-        </section>
-
-        <section className="p-12 bg-indigo-50 border-4 border-indigo-100 rounded-[4rem] shadow-sm">
-           <h3 className="text-3xl font-black text-indigo-950 mb-10 tracking-tight text-center text-indigo-950">Benefits of PLM</h3>
-           <div className="overflow-hidden rounded-3xl border border-indigo-200 bg-white shadow-sm mb-12">
-              <table className="w-full text-left">
-                <thead className="bg-indigo-600 text-white font-black text-xs uppercase tracking-widest text-white">
-                  <tr>
-                    <th className="p-6">Benefit</th>
-                    <th className="p-6">Description</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-indigo-50 font-bold text-sm text-indigo-900">
-                  <tr>
-                    <td className="p-6 bg-indigo-50/30 font-black">Improved Collaboration</td>
-                    <td className="p-6">PLM encourages cross-functional collaboration, ensuring that all stakeholders, from design to sales, work together seamlessly.</td>
-                  </tr>
-                  <tr>
-                    <td className="p-6 bg-indigo-50/30 font-black">Enhanced Product Quality</td>
-                    <td className="p-6">By integrating quality control into each phase, PLM helps identify and rectify potential issues early, resulting in higher-quality products.</td>
-                  </tr>
-                  <tr>
-                    <td className="p-6 bg-indigo-50/30 font-black">Efficient Resource Utilization</td>
-                    <td className="p-6">Streamlines processes, reducing waste and optimizing resource utilization, leading to significant cost savings.</td>
-                  </tr>
-                  <tr>
-                    <td className="p-6 bg-indigo-50/30 font-black">Faster Time-to-Market</td>
-                    <td className="p-6">A structured approach facilitates quicker development cycles, enabling companies to bring products to market more rapidly.</td>
-                  </tr>
-                </tbody>
-              </table>
-           </div>
-           <div className="mt-12 p-8 bg-indigo-950 rounded-[2.5rem] text-center">
-              <p className="text-xl font-black text-white italic">“Regulatory Compliance: PLM systems assist in ensuring that products meet regulatory standards, minimizing the risk of legal and compliance issues.”</p>
-           </div>
-        </section>
+      <div className="space-y-6">
+        <h2>Day 3: Product Life Cycle (PLC) & PLM 📈</h2>
+        <h3>What is Product Life Cycle (PLC)?</h3>
+        <p>PLC is the journey a product goes through in the market — from Introduction to Decline.</p>
+        <ol>
+          <li><strong>Introduction:</strong> Low sales, building awareness.</li>
+          <li><strong>Growth:</strong> Increasing interest, expanding market share.</li>
+          <li><strong>Maturity:</strong> Peak sales, intense competition.</li>
+          <li><strong>Decline:</strong> Declining sales, changing preferences.</li>
+        </ol>
+        <h3>What is Product Lifecycle Management (PLM)?</h3>
+        <p>PLM is the practice of managing a product from its initiation to its eventual retirement through a systematic approach.</p>
+        <p>Stages: Concept → Design → Production → Sales → Support → Retirement.</p>
       </div>
     ),
     assignment: (
-      <div className="space-y-6">
-        <div className="p-10 bg-white border-2 border-indigo-200 rounded-[3rem] shadow-xl">
-           <h5 className="text-xl font-black mb-8 uppercase tracking-widest text-indigo-600 text-center">🎯 Day-3 Mini Assignment</h5>
-           <p className="text-lg font-bold text-zinc-700 mb-8 text-center px-12">Pick any product (Spotify / Swiggy / Cred / Duolingo / ChatGPT) and evaluate its lifecycle:</p>
-           <div className="p-10 bg-zinc-950 rounded-[3rem] font-mono text-xs text-indigo-300 leading-relaxed mb-10 border-4 border-zinc-800 shadow-2xl text-indigo-300">
-              Product: ___ <br/>
-              Current PLC Stage: ___ <br/>
-              What signals tell you this stage?: ___ <br/>
-              What should PM focus on right now (Strategy)?: ___ <br/>
-              One risky decision PM must make at this stage: ___ <br/>
-              If it’s declining, how would you extend or sunset it?: ___
-           </div>
-           <div className="p-8 bg-emerald-50 rounded-[2rem] border border-emerald-100 text-center">
-              <p className="text-lg font-black text-emerald-950 italic">📌 Expected outcome: You learn to think like a PM end-to-end, considering everything from feasibility to measurement.</p>
-           </div>
+        <div>
+            <h4>Day-3 Assignment</h4>
+            <p>Pick any product and evaluate its lifecycle stage. What signals tell you this? What should the PM focus on right now?</p>
         </div>
-      </div>
     )
   },
   {
     day: 4,
     title: 'Product Sense Framework',
     category: 'Foundations',
-    preview: 'Great PMs don’t build features. They solve meaningful problems. Master the "sixth sense" of Product Management.',
+    preview: 'Great PMs don’t build features. They solve meaningful problems. Master the "sixth sense".',
     content: (
-      <div className="space-y-12">
-        <section className="bg-zinc-900 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden isolate">
-           <div className="absolute inset-0 bg-gradient-to-br from-indigo-600/30 to-transparent -z-10"></div>
-           <div className="flex gap-4 mb-8">
-              <span className="px-4 py-1.5 bg-indigo-500 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-full">Foundations</span>
-              <span className="px-4 py-1.5 bg-white/10 text-zinc-300 text-[10px] font-black uppercase tracking-[0.2em] rounded-full border border-white/10">15m read</span>
-           </div>
-           <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none text-white">Product Sense Framework 📘</h1>
-           <p className="text-xl text-zinc-300 font-bold leading-relaxed max-w-4xl border-l-4 border-indigo-500 pl-8 italic">
-              Great PMs don’t build features. They solve meaningful problems. Master the "sixth sense" of Product Management.
-           </p>
-        </section>
-
-        <section className="space-y-12">
-           <div className="p-12 bg-white border-2 border-zinc-100 rounded-[4rem] shadow-sm">
-              <h3 className="text-3xl font-black mb-8 tracking-tight text-zinc-900">What is Product Sense?</h3>
-              <p className="text-2xl text-zinc-900 font-black leading-tight italic mb-8 border-b border-zinc-100 pb-12">
-                 Product sense is the ability to see through complexity and spot the user needs that matter most. Experts like Marty Cagan emphasize that it is deep product knowledge built through immersion, not an innate gift.
-              </p>
-              
-              <h4 className="text-lg font-black uppercase tracking-[0.2em] text-indigo-500 mb-10">The 7 Pillars of Product Sense</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                 {[
-                   { title: 'Empathy & Customer Needs', desc: 'Listening for spoken and unspoken window pain points and emotional drivers.' },
-                   { title: 'Market & Competitive Insight', desc: 'Analyzing trends and mapping competitor gaps to find unique value.' },
-                   { title: 'Design & UX Perspective', desc: 'Recognizing good flows and how design decisions affect engagement.' },
-                   { title: 'Problem Framing & Mapping', desc: 'Distinguishing root causes from symptoms and exploring options.' },
-                   { title: 'Feasibility & Execution', desc: 'Balancing ambitious ideas with tech constraints, budgets, and timelines.' },
-                   { title: 'Iteration & Validation', desc: 'Using prototypes and experiments to adjust based on real data.' }
-                 ].map((pillar, i) => (
-                   <div key={i} className="p-8 bg-zinc-50 border border-zinc-100 rounded-3xl space-y-4 hover:border-indigo-200 transition-all shadow-sm">
-                      <h5 className="text-xl font-black text-zinc-950 leading-tight">{pillar.title}</h5>
-                      <p className="text-sm font-bold text-zinc-500 leading-relaxed">{pillar.desc}</p>
-                   </div>
-                 ))}
-                 <div className="p-8 bg-indigo-600 rounded-3xl space-y-4 shadow-xl flex flex-col justify-center text-white">
-                    <h5 className="text-xl font-black leading-tight text-white">Domain Immersion</h5>
-                    <p className="text-sm font-bold text-indigo-100 leading-relaxed">Gaining deep knowledge of a space to predict behaviors and outcomes.</p>
-                 </div>
-              </div>
-           </div>
-        </section>
-
-        <section className="space-y-12">
-           <h3 className="text-3xl font-black text-zinc-950 px-4 tracking-tight text-center">Why Aspiring PMs Must Master It</h3>
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-zinc-900">
-              {[
-                { title: 'A Key Hiring Criterion', desc: 'Most companies test for product sense during interviews to see if you can analyze products meaningfully.' },
-                { title: 'Bridges Strategy and Execution', desc: 'Ties small features to the \'bigger picture\' and strategic goals.' },
-                { title: 'Anticipates User Behavior', desc: 'Sense unarticulated needs before competitors (e.g., Original iPhone, Gmail).' },
-                { title: 'Stakeholder Alignment', desc: 'Provides the rationale needed to explain trade-offs to engineers and execs.' }
-              ].map((item, i) => (
-                <div key={i} className="p-10 bg-white border border-zinc-100 rounded-[3rem] hover:bg-zinc-50 transition-all shadow-sm flex flex-col items-start">
-                   <div className="w-12 h-12 rounded-2xl bg-zinc-100 flex items-center justify-center mb-6 shadow-inner text-2xl font-black text-zinc-300">{i+1}</div>
-                   <h5 className="text-2xl font-black text-zinc-950 mb-4">{item.title}</h5>
-                   <p className="text-lg text-zinc-600 font-bold leading-relaxed italic">{item.desc}</p>
-                </div>
-              ))}
-           </div>
-        </section>
-
-        <section className="space-y-12">
-           <div className="p-12 bg-indigo-50 border border-indigo-100 rounded-[4rem] space-y-10">
-              <h3 className="text-3xl font-black text-indigo-950 tracking-tight text-center text-indigo-950">Daily Habits to Build Instincts</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-10 text-indigo-950">
-                 <div className="p-10 bg-white rounded-[3rem] border border-indigo-100 space-y-6">
-                    <h5 className="text-xl font-black text-rose-900 border-b border-rose-50 pb-4">Talk to Users Regularly</h5>
-                    <p className="text-lg text-indigo-800 font-bold italic leading-relaxed">Read tickets, join sales calls, and observe context surveys miss.</p>
-                    <h5 className="text-xl font-black text-rose-900 border-b border-rose-50 pb-4 mt-12">Reverse-Engineer Products</h5>
-                    <p className="text-lg text-indigo-800 font-bold italic leading-relaxed">Break down apps like Airbnb to understand core needs and trade-offs.</p>
-                 </div>
-                 <div className="p-10 bg-white rounded-[3rem] border border-indigo-100 space-y-6">
-                    <h5 className="text-xl font-black text-rose-900 border-b border-rose-50 pb-4">Perform Product Drills</h5>
-                    <p className="text-lg text-indigo-800 font-bold italic leading-relaxed">List 3 strengths and 3 weaknesses of a daily-use app with justifications.</p>
-                    <h5 className="text-xl font-black text-rose-900 border-b border-rose-50 pb-4 mt-12">Embrace Constraints</h5>
-                    <p className="text-lg text-indigo-800 font-bold italic leading-relaxed">Design solutions under strict limits (e.g., 30s onboarding) to sharpen judgment.</p>
-                 </div>
-              </div>
-           </div>
-        </section>
-
-        <section className="p-12 bg-zinc-950 rounded-[4rem] text-white space-y-12 shadow-2xl">
-           <h3 className="text-3xl font-black mb-10 text-indigo-400 tracking-tight border-b border-white/5 pb-8 text-center text-white">Ace the Product Sense Interview</h3>
-           <p className="text-xl text-zinc-400 font-medium text-center">Hiring managers look for clarity, empathy, and reasoning rather than just a "correct" answer.</p>
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-white">
-              {[
-                { title: 'Frame the problem clearly', desc: 'Before jumping to solutions.' },
-                { title: 'Identify specific user segments', desc: 'And their unique pains.' },
-                { title: 'Propose solutions with a rationale', desc: 'Explaining the hypothesis.' },
-                { title: 'Discuss trade-offs', desc: 'Be prepared to answer, "Who suffers if we cut this feature?".' }
-              ].map((item, i) => (
-                <div key={i} className="flex gap-6 items-start p-8 bg-white/5 rounded-3xl border border-white/10">
-                   <div className="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center shrink-0 shadow-lg text-white font-black text-white">{i+1}</div>
-                   <div>
-                      <p className="text-xl font-black text-white leading-tight mb-2 text-white">{item.title}</p>
-                      <p className="text-sm font-bold text-zinc-500">{item.desc}</p>
-                   </div>
-                </div>
-              ))}
-           </div>
-        </section>
-
-        <section className="bg-rose-50 border-4 border-rose-100 p-12 rounded-[4rem] space-y-10">
-           <h3 className="text-3xl font-black text-rose-950 tracking-tight text-center">Common Pitfalls to Avoid</h3>
-           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-rose-950">
-              <div className="p-10 bg-white rounded-[3rem] border border-rose-200 space-y-4">
-                 <h5 className="text-xl font-black text-rose-900 border-b border-rose-50 pb-4">Over-reliance on "Gut"</h5>
-                 <p className="text-sm font-bold text-rose-900/60 leading-relaxed italic">Instincts must be tempered by data; ignoring analytics is dangerous unless honed by experience.</p>
-              </div>
-              <div className="p-10 bg-white rounded-[3rem] border border-rose-200 space-y-4">
-                 <h5 className="text-xl font-black text-rose-900 border-b border-rose-50 pb-4">The Aesthetic Trap</h5>
-                 <p className="text-sm font-bold text-rose-900/60 leading-relaxed italic">Don't mistake polished UI for good product sense; a beautiful design solving the wrong problem is a failure.</p>
-              </div>
-              <div className="p-10 bg-white rounded-[3rem] border border-rose-200 space-y-4">
-                 <h5 className="text-xl font-black text-rose-900 border-b border-rose-50 pb-4">Domain Overfitting</h5>
-                 <p className="text-sm font-bold text-rose-900/60 leading-relaxed italic">Don't assume a playbook from one industry will automatically work in another.</p>
-              </div>
-           </div>
-           <div className="p-8 bg-rose-950 rounded-[2.5rem] text-center text-white">
-              <p className="text-xl font-black italic text-white">“Feature Bloat: Weak sense leads to 'copying competitors,' resulting in a bloated product that fails real problems.”</p>
-           </div>
-        </section>
+      <div className="space-y-6">
+        <h2>Day 4: Product Sense Framework 🧭</h2>
+        <p>Product sense is the ability to see through complexity and spot the user needs that matter most. Experts like Marty Cagan emphasize that it is deep product knowledge built through immersion.</p>
+        <h3>The 7 Pillars of Product Sense</h3>
+        <ul>
+          <li>Empathy & Customer Needs</li>
+          <li>Market & Competitive Insight</li>
+          <li>Design & UX Perspective</li>
+          <li>Problem Framing & Mapping</li>
+          <li>Feasibility & Execution</li>
+          <li>Iteration & Validation</li>
+          <li>Domain Immersion</li>
+        </ul>
+        <h3>Daily Habits to Build Instincts</h3>
+        <p>Talk to users regularly, reverse-engineer products like Airbnb, perform product drills, and embrace constraints.</p>
       </div>
     ),
-    assignment: (
-      <div className="space-y-6">
-        <div className="p-12 bg-white border-2 border-indigo-200 rounded-[3rem] shadow-xl relative overflow-hidden">
-           <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-50 rounded-full -translate-y-1/2 translate-x-1/2"></div>
-           <h5 className="text-xl font-black mb-8 uppercase tracking-[0.2em] text-indigo-600 text-center">🎯 Day-4 Mini Assignment</h5>
-           <p className="text-lg font-bold text-zinc-700 mb-10 text-center px-12">Read this expert breakdown of Product Sense and apply it to a feature teardown. <br/> <strong className="text-zinc-900"><a href="https://www.parallelhq.com/blog/what-product-sense" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:underline decoration-2 underline-offset-4 transition-all">Reading: What is Product Sense? by Robin Dhanwani</a></strong></p>
-           
-           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-              <div className="p-10 bg-zinc-50 rounded-[3rem] border border-zinc-100 space-y-6">
-                 <h6 className="text-2xl font-black text-zinc-900 border-b border-zinc-200 pb-6">The Task</h6>
-                 <p className="text-lg font-bold text-zinc-700 leading-relaxed">Pick a feature from an app you use daily. Write a 1-page "Product Sense Teardown" identifying:</p>
-                 <ul className="space-y-4 pt-4">
-                    {['1) The core user problem', '2) The hypothesis behind the design', '3) One critical trade-off they made.'].map(step => (
-                      <li key={step} className="flex items-center gap-4 text-lg font-black text-zinc-950 italic">
-                         <span className="w-8 h-8 rounded-full bg-white border border-zinc-200 flex items-center justify-center text-sm font-black shadow-sm text-indigo-600 shrink-0">{step.charAt(0)}</span> {step.substring(2)}
-                      </li>
-                    ))}
-                 </ul>
-              </div>
-              <div className="p-10 bg-indigo-600 rounded-[3rem] text-white flex flex-col justify-center space-y-6 shadow-2xl">
-                 <div className="text-5xl opacity-50">🧭</div>
-                 <h6 className="text-2xl font-black text-white">Strategic Intent</h6>
-                 <p className="text-lg font-bold italic text-indigo-100">“This teardown isn't about UI beauty — it's about the underlying logic of WHY the product works the way it does.”</p>
-              </div>
-           </div>
-        </div>
-      </div>
-    )
+    resources: [
+        { title: 'What is Product Sense? by Robin Dhanwani', url: 'https://www.parallelhq.com/blog/what-product-sense', type: 'article' }
+    ]
   },
   {
     day: 5,
@@ -825,152 +225,28 @@ export const LESSONS: Lesson[] = [
     category: 'Foundations',
     preview: 'Step into their shoes. User empathy is the fundamental driver of human-centered development.',
     content: (
-      <div className="space-y-12">
-        <section className="bg-pink-50 p-12 rounded-[4rem] border border-pink-100">
-           <div className="flex gap-4 mb-8">
-              <span className="px-4 py-1.5 bg-pink-600 text-white text-[10px] font-black uppercase tracking-[0.2em] rounded-full shadow-lg shadow-pink-200">Foundations</span>
-              <span className="px-4 py-1.5 bg-white border border-pink-100 text-pink-500 text-[10px] font-black uppercase tracking-[0.2em] rounded-full">45m read</span>
-           </div>
-           <h2 className="text-4xl md:text-6xl font-black tracking-tighter mb-6 leading-tight text-pink-950">User Empathy 📘</h2>
-           <p className="text-xl text-pink-900 font-bold leading-relaxed max-w-3xl border-l-4 border-pink-600 pl-8 italic">
-              Step into their shoes. User empathy is the fundamental driver of human-centered development.
-           </p>
-        </section>
-
-        <section className="space-y-12">
-           <div className="p-12 bg-white border-2 border-zinc-100 rounded-[4rem] shadow-sm">
-              <h3 className="text-3xl font-black mb-8 tracking-tight">User Empathy in Product</h3>
-              <p className="text-xl text-zinc-900 font-medium leading-relaxed italic mb-12">User empathy is the ability to understand and share the feelings, needs, and perspectives of users by "stepping into their shoes" to view the product through their eyes. It drives human-centered development.</p>
-              
-              <h4 className="text-lg font-black uppercase tracking-widest text-pink-500 mb-10">Core Principles of User Empathy</h4>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                 {[
-                   { title: 'Active Listening', desc: 'Listen without judgment. Encourage open communication and hear what\'s NOT being said.' },
-                   { title: 'Putting Users First', desc: 'Prioritize user needs over internal assumptions or ego. Align decisions with their interests.' },
-                   { title: 'Deep Connection', desc: 'Grasp challenges, desires, and emotional motivations of your audience, not just tech specs.' }
-                 ].map((prince, i) => (
-                   <div key={i} className="p-10 bg-pink-50/30 border border-pink-100 rounded-[3rem] space-y-4 hover:bg-pink-50 transition-all shadow-sm">
-                      <h5 className="text-xl font-black text-pink-950">{prince.title}</h5>
-                      <p className="text-sm font-bold text-pink-900/60 leading-relaxed italic">{prince.desc}</p>
-                   </div>
-                 ))}
-              </div>
-           </div>
-        </section>
-
-        <section className="space-y-12">
-           <h3 className="text-3xl font-black text-zinc-900 px-4">Implementation Process for PMs</h3>
-           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-              <div className="p-12 bg-zinc-950 rounded-[4rem] text-white space-y-10 shadow-2xl relative overflow-hidden text-white">
-                 <div className="absolute top-0 right-0 w-64 h-64 bg-pink-500/10 rounded-full blur-[80px]"></div>
-                 <div className="flex gap-4 items-center">
-                    <span className="w-12 h-12 rounded-full bg-pink-600 flex items-center justify-center font-black shadow-lg">1</span>
-                    <h4 className="text-2xl font-black tracking-tight text-white">User Research & Personas</h4>
-                 </div>
-                 <div className="space-y-6">
-                    <div>
-                       <p className="text-[10px] font-black uppercase text-pink-400 tracking-widest mb-2 text-white text-white">Research Methods</p>
-                       <p className="text-lg font-bold text-zinc-300 italic text-zinc-300">Interviews, surveys, and usability testing.</p>
-                    </div>
-                    <div>
-                       <p className="text-[10px] font-black uppercase text-pink-400 tracking-widest mb-2 text-white text-white">Personas</p>
-                       <p className="text-lg font-bold text-zinc-300 italic text-zinc-300">Visualize different user groups.</p>
-                    </div>
-                    <div>
-                       <p className="text-[10px] font-black uppercase text-pink-400 tracking-widest mb-2 text-white text-white">Empathy Maps</p>
-                       <p className="text-lg font-bold text-zinc-300 italic text-zinc-300">Map what users think, feel, experience, and do.</p>
-                    </div>
-                 </div>
-              </div>
-
-              <div className="p-12 bg-white border-2 border-zinc-100 rounded-[4rem] space-y-10 shadow-sm relative overflow-hidden text-zinc-900">
-                 <div className="flex gap-4 items-center">
-                    <span className="w-12 h-12 rounded-full bg-zinc-900 text-white flex items-center justify-center font-black shadow-lg text-white">2</span>
-                    <h4 className="text-2xl font-black tracking-tight text-zinc-900">Design Thinking Integration</h4>
-                 </div>
-                 <div className="grid grid-cols-2 gap-4">
-                    {['Empathize', 'Define', 'Ideate', 'Prototype', 'Test'].map(step => (
-                      <div key={step} className="p-4 bg-zinc-50 rounded-2xl border border-zinc-100 flex items-center gap-3 font-black text-zinc-900">
-                         <span className="w-2 h-2 rounded-full bg-pink-500 text-white"></span> {step}
-                      </div>
-                    ))}
-                 </div>
-                 <p className="text-lg text-zinc-600 font-bold leading-relaxed italic max-w-md">PMs observe interactions, define pain points, ideate solutions, and test prototypes to refine the experience based on feedback.</p>
-              </div>
-           </div>
-           
-           <div className="p-12 bg-white border-4 border-zinc-100 rounded-[4rem] flex flex-col md:flex-row gap-12 items-center shadow-xl">
-              <div className="w-24 h-24 bg-pink-100 rounded-[2rem] flex items-center justify-center text-5xl shrink-0">♻️</div>
-              <div>
-                 <h4 className="text-2xl font-black text-zinc-950 mb-4">3 Continuous Feedback Loops</h4>
-                 <p className="text-lg text-zinc-600 font-bold leading-relaxed italic max-w-3xl">Involve users at every stage, not just at the end. Use User Acceptance Testing (UAT) and iterative analysis to evolve with changing user preferences.</p>
-              </div>
-           </div>
-        </section>
-
-        <section className="space-y-12">
-           <h3 className="text-3xl font-black text-zinc-900 px-4 text-center">Key Tools & Frameworks</h3>
-           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-zinc-900">
-              {[
-                { title: 'User Journey Mapping', desc: 'Visualizing the path a user takes.' },
-                { title: 'User Stories', desc: 'Features from the user\'s perspective.' },
-                { title: 'User Flows', desc: 'Step-by-step task completion.' },
-                { title: 'User Segments', desc: 'Categorizing unique group needs.' }
-              ].map((item, i) => (
-                <div key={i} className="p-8 bg-zinc-50 border border-zinc-200 rounded-[2.5rem] hover:border-pink-200 transition-all text-center">
-                   <p className="font-black text-zinc-950 mb-2">{item.title}</p>
-                   <p className="text-xs font-bold text-zinc-500 leading-relaxed">{item.desc}</p>
-                </div>
-              ))}
-           </div>
-        </section>
-
-        <section className="space-y-12">
-           <div className="p-12 bg-pink-950 rounded-[4rem] text-white shadow-2xl relative overflow-hidden text-white">
-              <h3 className="text-3xl font-black mb-12 text-pink-400 tracking-tight text-center text-white">Real-World Success</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 text-white">
-                 <div className="space-y-6 text-white">
-                    <div className="p-6 bg-white/5 rounded-3xl border border-white/10 text-white">
-                       <h5 className="text-3xl font-black mb-4 text-white">Apple</h5>
-                       <p className="text-lg text-zinc-300 font-medium italic leading-relaxed text-zinc-300">Demonstrates empathy through user-friendly interfaces and seamless experiences that create a loyal base.</p>
-                    </div>
-                 </div>
-                 <div className="space-y-6 text-white">
-                    <div className="p-6 bg-white/5 rounded-3xl border border-white/10 text-white">
-                       <h5 className="text-3xl font-black mb-4 text-white text-white">Airbnb</h5>
-                       <p className="text-lg text-zinc-300 font-medium italic leading-relaxed text-zinc-300">Achieved success by focusing on the traveler's need for unique and personalized experiences.</p>
-                    </div>
-                 </div>
-              </div>
-              <div className="mt-12 text-center py-10 border-t border-white/5">
-                 <p className="text-3xl font-black italic text-pink-400">“Empathy is a core value that ensures products exceed expectations, not just meet them.”</p>
-              </div>
-           </div>
-        </section>
+      <div className="space-y-6">
+        <h2>Day 5: User Empathy 🤝</h2>
+        <p>User empathy is the ability to understand and share the feelings, needs, and perspectives of users. It drives human-centered development.</p>
+        <h3>Core Principles</h3>
+        <ul>
+          <li>Active Listening: Listen without judgment.</li>
+          <li>Putting Users First: Prioritize needs over internal assumptions.</li>
+          <li>Deep Connection: Grasp emotional motivations.</li>
+        </ul>
+        <h3>Implementation Process</h3>
+        <ol>
+          <li>User Research & Personas</li>
+          <li>Design Thinking Integration (Empathize, Define, Ideate, Prototype, Test)</li>
+          <li>Continuous Feedback Loops</li>
+        </ol>
       </div>
     ),
     assignment: (
-      <div className="space-y-6">
-        <div className="p-12 bg-white border-2 border-pink-200 rounded-[3rem] shadow-xl relative overflow-hidden">
-           <div className="absolute top-0 right-0 w-32 h-32 bg-pink-50 rounded-full -translate-y-1/2 translate-x-1/2"></div>
-           <h5 className="text-xl font-black mb-8 uppercase tracking-[0.2em] text-pink-600 text-center">🎯 Day-5 Mini Assignment</h5>
-           <p className="text-xl font-black text-zinc-900 mb-10 text-center px-12">Find out How did Airbnb use user empathy to drive their success? <br/> <span className="text-zinc-500 text-lg">Look for specific stories about their "early days" and how they handled user problems.</span></p>
-           
-           <h6 className="text-lg font-black uppercase tracking-[0.2em] text-zinc-400 mb-8 text-center text-zinc-400">Reflection Questions</h6>
-           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {[
-                { id: '1', q: 'How did they identify the problem travelers faced?' },
-                { id: '2', q: 'What "unscalable" things did the founders do to empathize with hosts?' },
-                { id: '3', q: 'How is that empathy reflected in the current app experience?' }
-              ].map(item => (
-                <div key={item.id} className="p-8 bg-zinc-50 rounded-[2.5rem] border border-zinc-100 flex flex-col gap-6 hover:shadow-lg transition-all">
-                   <span className="w-10 h-10 rounded-full bg-white flex items-center justify-center font-black text-pink-600 shadow-sm border border-zinc-100 text-pink-600">{item.id}</span>
-                   <p className="text-lg font-black text-zinc-950 italic leading-snug">{item.q}</p>
-                </div>
-              ))}
-           </div>
+        <div>
+            <h4>Task: Find out How did Airbnb use user empathy?</h4>
+            <p>Look for stories about their "early days" and how they handled user problems.</p>
         </div>
-      </div>
     )
   },
   {
@@ -979,322 +255,137 @@ export const LESSONS: Lesson[] = [
     category: 'Foundations',
     preview: 'A Product Manager\'s Complete Guide to PRDs, BRDs, User Stories, and Roadmaps.',
     content: (
-      <div className="space-y-12">
-        <section className="bg-zinc-50 p-8 rounded-3xl border border-zinc-200">
-           <div className="flex gap-4 mb-6">
-              <span className="px-4 py-1.5 bg-indigo-600 text-white text-[10px] font-black uppercase tracking-widest rounded-lg">Foundations</span>
-              <span className="px-4 py-1.5 bg-zinc-200 text-zinc-700 text-[10px] font-black uppercase tracking-widest rounded-lg">45m read</span>
-           </div>
-           <h2 className="text-3xl font-black mb-4 tracking-tight">Essential Product Documentation</h2>
-           <p className="text-xl text-zinc-600 font-medium leading-relaxed italic">"Product managers are professional translators. Documentation is the primary medium for this translation work."</p>
-        </section>
-
-        <section className="bg-white border-2 border-indigo-100 p-8 rounded-[2.5rem] shadow-sm">
-           <h3 className="text-2xl font-black mb-6 text-zinc-900">Learning Objectives</h3>
-           <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {[
-                "Distinguish between document types (PRD, BRD, user stories)",
-                "Create comprehensive PRDs with clear scope boundaries",
-                "Build compelling BRDs with ROI justification",
-                "Write effective user stories and acceptance criteria",
-                "Develop outcome-focused roadmaps",
-                "Maintain decision logs and meeting notes"
-              ].map((obj, i) => (
-                <li key={i} className="flex gap-3 text-zinc-700 font-bold">
-                   <CheckCircle className="w-5 h-5 text-indigo-500 shrink-0" /> {obj}
-                </li>
-              ))}
-           </ul>
-        </section>
-
-        <section className="space-y-8">
-           <div className="p-8 bg-zinc-950 rounded-[3rem] text-white">
-              <h4 className="text-2xl font-black mb-6 text-indigo-400">The PRD: Single Source of Truth</h4>
-              <p className="text-lg text-zinc-300 mb-6">The PRD defines what you're building, why you're building it, and what success looks like. It aligns engineering, design, marketing, and leadership.</p>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                 {['Problem Context', 'User Stories', 'Success Metrics', 'Scope Boundaries'].map(item => (
-                   <div key={item} className="p-4 bg-white/5 border border-white/10 rounded-xl text-xs font-black text-center uppercase tracking-widest">{item}</div>
-                 ))}
-              </div>
-           </div>
-        </section>
+      <div className="space-y-6">
+        <h2>Day 6: Essential Product Documentation 📄</h2>
+        <p>Product managers are professional translators. Documentation is the primary medium for this translation work.</p>
+        <h3>The Product Requirements Document (PRD)</h3>
+        <p>The PRD is the single source of truth that aligns engineering, design, marketing, and leadership.</p>
+        <h3>User Stories and Acceptance Criteria</h3>
+        <p>"As a [user type], I want to [action] so that [benefit]." Acceptance criteria define when a story is complete.</p>
+        <h3>Product Roadmaps</h3>
+        <p>Roadmaps show the big picture—what you're building, when, and why it matters. Best roadmaps are outcome-focused.</p>
       </div>
     ),
+    resources: [
+        { title: 'Product Strategy & Roadmap', url: 'https://youtu.be/cnp6Ck8OIiY?si=eJHw5hzcwuiZZyf0', type: 'video' },
+        { title: 'GTM Strategy', url: 'https://youtu.be/eDVtBleIxag?si=mE-x6s3HPTloD13x', type: 'video' }
+    ],
     assignment: (
-      <div className="space-y-6">
-        <div className="p-10 bg-white border-2 border-indigo-200 rounded-[3rem] shadow-xl">
-           <h5 className="text-xl font-black mb-4 uppercase text-indigo-600">Task: Write Your Own PRD</h5>
-           <p className="text-lg font-bold text-zinc-700 mb-6">Use the AI workspace to generate a draft for a new feature.</p>
-           <a href="https://www.chatprd.ai/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 bg-zinc-900 text-white rounded-xl font-black text-sm uppercase tracking-widest">
-              Try ChatPRD <ExternalLink className="w-4 h-4" />
-           </a>
+        <div>
+            <p>Create your own PRD using ChatPRD.</p>
+            <a href="https://www.chatprd.ai/" target="_blank" rel="noopener noreferrer">ChatPRD.ai</a>
         </div>
-      </div>
     )
   },
   {
     day: 7,
     title: 'Stakeholder Management',
     category: 'Strategy',
-    preview: 'Master the art of aligning diverse groups around a shared product vision without direct authority.',
+    preview: 'The Product Manager\'s Essential Guide to Influence without Authority.',
     content: (
-      <div className="space-y-12">
-        <section className="bg-indigo-50 p-12 rounded-[4rem] border border-indigo-100">
-           <h2 className="text-4xl font-black tracking-tighter mb-4 text-indigo-950 text-center">Stakeholder Management Guide 🤝</h2>
-           <p className="text-xl text-indigo-900 font-bold leading-relaxed italic text-center max-w-2xl mx-auto">"All the responsibility but none of the authority."</p>
-        </section>
-
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
-           <div className="p-10 bg-white border-2 border-zinc-100 rounded-[3rem] space-y-6 shadow-sm">
-              <h3 className="text-2xl font-black text-zinc-900">The Power Map</h3>
-              <p className="text-zinc-600 font-medium">Map stakeholders by <strong>Influence vs. Interest</strong>:</p>
-              <div className="grid grid-cols-2 gap-2 text-[10px] font-black uppercase text-center tracking-widest">
-                 <div className="p-4 bg-indigo-600 text-white rounded-xl">Key Players (High/High)</div>
-                 <div className="p-4 bg-indigo-100 text-indigo-700 rounded-xl">Keep Satisfied (High/Low)</div>
-                 <div className="p-4 bg-indigo-50 text-indigo-600 rounded-xl">Keep Informed (Low/High)</div>
-                 <div className="p-4 bg-zinc-100 text-zinc-400 rounded-xl">Minimal Effort (Low/Low)</div>
-              </div>
-           </div>
-           <div className="p-10 bg-zinc-900 rounded-[3rem] text-white flex flex-col justify-center space-y-6">
-              <h4 className="text-2xl font-black text-indigo-400">Saying No Gracefully</h4>
-              <p className="text-lg italic leading-relaxed text-zinc-400">"Every yes to one feature is a no to dozens of others. Ground refusals in strategy and data rather than personal preference."</p>
-           </div>
-        </section>
+      <div className="space-y-6">
+        <h2>Day 7: Stakeholder Management 🤝</h2>
+        <p>At its core, stakeholder management is the art and science of aligning diverse groups around a shared product vision.</p>
+        <h3>The Power Map: Influence vs. Interest</h3>
+        <p>Create a 2x2 matrix plotting stakeholders by their influence over your product and their interest in it.</p>
+        <h3>Communication: Tailored, Transparent, and Timely</h3>
+        <p>Your engineering lead doesn't need the same update as your CFO. Tailor your message to what each stakeholder cares about.</p>
+        <h3>Building Coalitions, Not Consensus</h3>
+        <p>You don't need everyone to agree. Seeking universal consensus leads to watered-down products.</p>
       </div>
     ),
     resources: [
-        { title: 'Communicating with Stakeholders', url: 'https://youtu.be/jz7tPVDwb50?si=71B7Acqz6U2F0XA8', type: 'video' }
+        { title: 'Communicating and Working with Stakeholders', url: 'https://youtu.be/jz7tPVDwb50?si=71B7Acqz6U2F0XA8', type: 'video' }
     ]
   },
   {
     day: 8,
     title: 'Business Fundamentals for PMs',
     category: 'Strategy',
-    preview: 'Master the metrics that drive sustainable products. Learn CAC, LTV, and the "Golden Ratio" of business success.',
+    preview: 'Master the metrics that drive sustainable products. Learn CAC, LTV, and revenue streams.',
     content: (
-      <div className="space-y-12">
-        <header className="bg-emerald-600 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden text-white">
-           <div className="absolute bottom-0 right-0 w-96 h-96 bg-white/10 rounded-full translate-y-1/2 translate-x-1/3 blur-3xl"></div>
-           <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none text-white text-white">Business Fundamentals for PMs 💰</h1>
-           <p className="text-emerald-100 text-xl font-bold italic">Master the metrics that drive sustainable products. Learn CAC, LTV, and the "Golden Ratio" of business success.</p>
-        </header>
-
-        <section className="bg-white p-10 border border-zinc-100 rounded-[3rem] shadow-sm">
-           <h2 className="text-2xl font-black mb-8 tracking-tight text-zinc-900">Learning Objectives</h2>
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {[
-                'Understand and calculate key unit economics metrics (CAC, LTV, payback period)',
-                'Identify and analyze different business models and revenue streams',
-                'Evaluate product decisions through a business lens',
-                'Communicate the business impact of product features',
-                'Assess product-market fit using business metrics'
-              ].map(item => (
-                <div key={item} className="flex items-center gap-4 p-4 bg-emerald-50 rounded-2xl font-bold text-emerald-950 border border-emerald-100 text-sm">
-                   <CheckCircle className="w-5 h-5 text-emerald-600 shrink-0" /> {item}
-                </div>
-              ))}
-           </div>
-        </section>
-
-        <section className="space-y-12">
-           <div className="p-12 bg-white border-2 border-zinc-100 rounded-[4rem] space-y-12 shadow-sm text-center">
-              <h3 className="text-3xl font-black tracking-tight text-zinc-950">Unit Economics & Formulas</h3>
-              
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 text-center text-zinc-900">
-                 <div className="p-10 bg-indigo-50 border border-indigo-100 rounded-[3rem] space-y-6">
-                    <h5 className="text-2xl font-black text-indigo-950">Customer Acquisition Cost (CAC)</h5>
-                    <div className="p-6 bg-white rounded-2xl border-4 border-indigo-200 font-mono text-xl text-center text-indigo-600 font-black">
-                       (Total Mkt + Sales Costs) / # New Users
-                    </div>
-                    <p className="text-sm font-bold text-indigo-900/60 italic text-center">Example: $50,000 spend + 500 users = $100 CAC</p>
-                 </div>
-                 
-                 <div className="p-10 bg-emerald-50 border border-emerald-100 rounded-[3rem] space-y-6 text-emerald-950">
-                    <h5 className="text-2xl font-black text-emerald-950">Lifetime Value (LTV)</h5>
-                    <div className="space-y-4">
-                       <div className="p-4 bg-white rounded-xl border border-emerald-200 flex justify-between items-center">
-                          <span className="font-bold text-emerald-900">Simple LTV</span>
-                          <span className="font-mono text-emerald-600 font-black">ARPU × Avg Lifespan</span>
-                       </div>
-                       <div className="p-4 bg-white rounded-xl border border-emerald-200 flex justify-between items-center">
-                          <span className="font-bold text-emerald-900">LTV with Churn</span>
-                          <span className="font-mono text-emerald-600 font-black">(ARPU × Gross Margin) / Churn Rate</span>
-                       </div>
-                    </div>
-                 </div>
-              </div>
-
-              <div className="p-12 bg-zinc-950 rounded-[4rem] text-white">
-                 <h4 className="text-2xl font-black mb-10 text-indigo-400 text-center tracking-widest uppercase">The Golden Ratio: LTV:CAC</h4>
-                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center text-white">
-                    {[
-                      { range: '< 1:1', title: 'Crisis Mode', color: 'text-rose-500', desc: 'Losing money. Reduce CAC or increase LTV urgently.' },
-                      { range: '3:1 to 5:1', title: 'The Sweet Spot', color: 'text-emerald-400', desc: 'Optimal balance. Scalable and healthy business.' },
-                      { range: '> 5:1', title: 'Underinvesting', color: 'text-amber-400', desc: 'Too conservative. Competitors might outgrow you.' }
-                    ].map(item => (
-                      <div key={item.title} className="space-y-4 text-white">
-                         <p className={`text-4xl font-black ${item.color} text-white`}>{item.range}</p>
-                         <p className="text-lg font-black tracking-tight text-white">{item.title}</p>
-                         <p className="text-xs font-bold text-zinc-500 italic text-white">{item.desc}</p>
-                      </div>
-                    ))}
-                 </div>
-              </div>
-           </div>
-        </section>
+      <div className="space-y-6">
+        <h2>Day 8: Business Fundamentals for PMs 💰</h2>
+        <h3>What Good PMs Do</h3>
+        <ul>
+          <li>Balance user value with business value</li>
+          <li>Justify investments with ROI calculations</li>
+          <li>Understand customer lifecycle economics</li>
+        </ul>
+        <h3>Unit Economics</h3>
+        <p><strong>CAC (Customer Acquisition Cost):</strong> (Total Mkt + Sales Costs) / # New Users</p>
+        <p><strong>LTV (Lifetime Value):</strong> Simple LTV = ARPU × Avg Lifespan</p>
+        <p><strong>LTV:CAC Ratio:</strong> 3:1 to 5:1 is the Sweet Spot.</p>
+        <h3>Business Models</h3>
+        <p>Subscription (Netflix), Freemium (Slack), Marketplace (Airbnb), Advertising (Google), E-commerce (Amazon).</p>
       </div>
     ),
     assignment: (
-      <div className="space-y-6">
-        <div className="p-12 bg-white border-2 border-emerald-200 rounded-[3rem] shadow-xl relative overflow-hidden">
-           <h5 className="text-xl font-black mb-8 uppercase tracking-[0.2em] text-emerald-600 text-center">🎯 Day-6 Mini Assignment</h5>
-           <p className="text-3xl font-black text-zinc-900 mb-10 text-center tracking-tight">Unit Economics Problem</p>
-           
-           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-              <div className="p-10 bg-zinc-950 rounded-[3rem] border border-zinc-800 space-y-6 text-white font-mono text-sm leading-relaxed">
-                 <h6 className="text-xl font-black text-indigo-400 border-b border-white/10 pb-4 mb-6 uppercase tracking-widest">The Data Set</h6>
-                 <div className="grid grid-cols-2 gap-y-4 gap-x-8">
-                    <span className="text-zinc-500 font-black uppercase tracking-widest text-[10px]">Ad Spend:</span> <span className="text-indigo-300 font-black">$30,000</span>
-                    <span className="text-zinc-500 font-black uppercase tracking-widest text-[10px]">Sales Team:</span> <span className="text-indigo-300 font-black">$20,000</span>
-                    <span className="text-zinc-500 font-black uppercase tracking-widest text-[10px]">New Users:</span> <span className="text-indigo-300 font-black">250</span>
-                    <span className="text-zinc-500 font-black uppercase tracking-widest text-[10px]">ARPU:</span> <span className="text-indigo-300 font-black">$40/mo</span>
-                 </div>
-              </div>
-              <div className="flex flex-col justify-center space-y-10">
-                 <div className="space-y-4 text-zinc-900">
-                    <p className="text-lg font-black text-zinc-950 border-l-4 border-indigo-600 pl-6 uppercase tracking-widest">Calculate</p>
-                    <p className="text-xl font-black text-zinc-900 pl-6">1. CAC <br/> 2. LTV (10mo span, 80% margin) <br/> 3. LTV:CAC Ratio</p>
-                 </div>
-              </div>
-           </div>
+        <div>
+            <h4>Day-6 Mini Assignment: Unit Economics Problem</h4>
+            <p>Ad Spend: $30,000, Sales Costs: $20,000, New Users: 250, ARPU: $40/mo, Lifespan: 10mo, Margin: 80%. Calculate CAC, LTV, and Ratio.</p>
         </div>
-      </div>
     )
   },
   {
     day: 9,
     title: 'Introduction to User & Market Research',
     category: 'Research',
-    preview: 'Think like a researcher. Learn structured methods to uncover pain points and validate product ideas.',
+    preview: 'Think like a researcher. Learn structured methods to uncover pain points and validate ideas.',
     content: (
-      <div className="space-y-12">
-        <header className="bg-purple-600 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden text-white">
-           <div className="absolute top-0 right-0 w-80 h-80 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/3 blur-3xl text-white"></div>
-           <div className="flex gap-4 mb-6">
-              <span className="px-4 py-1.5 bg-white/20 rounded-lg text-[10px] font-black uppercase tracking-widest text-white">Research</span>
-              <span className="px-4 py-1.5 bg-white/20 rounded-lg text-[10px] font-black uppercase tracking-widest text-white">45m read</span>
-           </div>
-           <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none text-white text-white">Introduction to User & Market Research 🔍</h1>
-           <p className="text-purple-100 text-xl font-bold italic text-white">Think like a researcher. Learn structured methods to uncover pain points and validate product ideas.</p>
-        </header>
-
-        <section className="p-10 bg-purple-50 border border-purple-100 rounded-[3.5rem] space-y-10">
-           <h3 className="text-2xl font-black text-purple-950 px-4">Learning Objectives</h3>
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {[
-                'Explain the difference between user research and market research',
-                'Identify user pain points using qualitative methods',
-                'Apply basic frameworks — Empathy Map, JTBD, and Segmentation',
-                'Use AI tools to accelerate research synthesis'
-              ].map(item => (
-                <div key={item} className="p-6 bg-white rounded-3xl border border-purple-200 flex items-center gap-4 text-lg font-bold text-purple-900 italic">
-                   <CheckCircle className="w-6 h-6 text-purple-600 shrink-0" /> {item}
-                </div>
-              ))}
-           </div>
-        </section>
-
-        <section className="space-y-10">
-           <h3 className="text-3xl font-black text-zinc-950 px-4">1. User Research vs Market Research</h3>
-           <div className="overflow-hidden rounded-[3rem] border-4 border-zinc-100 bg-white shadow-2xl">
-              <table className="w-full text-left">
-                <thead className="bg-zinc-950 text-white font-black text-xs uppercase tracking-[0.2em]">
-                  <tr>
-                    <th className="p-8 text-white">Aspect</th>
-                    <th className="p-8 text-white">User Research</th>
-                    <th className="p-8 text-white">Market Research</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-zinc-100 font-bold text-sm text-zinc-900">
-                  {[
-                    { a: 'Focus', u: 'Individual behaviors & pain points', m: 'Industry, competitors, trends' },
-                    { a: 'Goal', u: 'Validate Problem', m: 'Validate Opportunity' },
-                    { a: 'Methods', u: 'Interviews, surveys, usability tests', m: 'Desk research, benchmarking' },
-                    { a: 'Output', u: 'Personas, Journey Maps', m: 'TAM/SAM/SOM, SWOT' }
-                  ].map((row, i) => (
-                    <tr key={i} className="hover:bg-zinc-50 transition-colors">
-                       <td className="p-8 text-purple-600 font-black uppercase tracking-widest text-[10px]">{row.a}</td>
-                       <td className="p-8 text-zinc-900 leading-relaxed italic">{row.u}</td>
-                       <td className="p-8 text-zinc-500 leading-relaxed italic">{row.m}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-           </div>
-        </section>
+      <div className="space-y-6">
+        <h2>Day 9: Introduction to User & Market Research 🔍</h2>
+        <p>“Great products start with deep understanding — of users, their needs, and the market around them.”</p>
+        <h3>User Research vs Market Research</h3>
+        <p>User research focuses on individual behaviors & pain points. Market research focuses on industry, competitors, and trends.</p>
+        <h3>The Research Process</h3>
+        <ol>
+          <li>Define Objective</li>
+          <li>Choose Method</li>
+          <li>Recruit Users</li>
+          <li>Collect Data</li>
+          <li>Synthesize</li>
+        </ol>
       </div>
     ),
     resources: [
         { title: 'Doing User Research', url: 'https://youtu.be/MxwyGi-3dzY?si=CV5VWd2bNnUDW-fP', type: 'video' },
-        { title: 'Market Research 101', url: 'https://youtu.be/LoJDAeq6i34?si=Ok2GW9U0wFmSJzz8', type: 'video' }
-    ]
+        { title: 'Market Research', url: 'https://youtu.be/LoJDAeq6i34?si=Ok2GW9U0wFmSJzz8', type: 'video' }
+    ],
+    assignment: (
+        <div>
+            <h4>Day-9 Comprehensive Assignment</h4>
+            <p>Task: Define Target Segment, Create Pain Point vs. Outcome Table, Competitor Scan.</p>
+        </div>
+    )
   },
   {
     day: 10,
     title: 'User Interviews & Surveys',
     category: 'Research',
-    preview: '“If you listen carefully, your users will write your roadmap for you.” Master structured feedback and real validation.',
+    preview: '“If you listen carefully, your users will write your roadmap for you.”',
     content: (
-      <div className="space-y-12">
-        <header className="bg-indigo-600 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden text-white">
-           <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none text-white text-white">User Interviews & Surveys 🎙️</h1>
-           <p className="text-indigo-100 text-xl font-bold italic text-white">“If you listen carefully, your users will write your roadmap for you.”</p>
-        </header>
-
-        <section className="space-y-12">
-           <h3 className="text-3xl font-black text-zinc-950 px-4 text-center text-zinc-900">Types of Interview Questions</h3>
-           <div className="overflow-hidden rounded-[3rem] border-4 border-zinc-100 bg-white shadow-2xl">
-              <table className="w-full text-left text-zinc-900">
-                <thead className="bg-zinc-950 text-white font-black text-xs uppercase tracking-[0.2em] text-white">
-                  <tr>
-                    <th className="p-8">Type</th>
-                    <th className="p-8">Example</th>
-                    <th className="p-8">Purpose</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-zinc-100 font-bold text-sm text-zinc-900">
-                  {[
-                    { t: 'Behavioral (Past)', e: '“Tell me about the last time you ordered food.”', p: 'Habit Analysis' },
-                    { t: 'Attitudinal (Feelings)', e: '“What frustrations you most about your current apps?”', p: 'Pain Discovery' },
-                    { t: 'Aspirational (Future)', e: '“What would make your experience 10x better?”', p: 'Ideation' }
-                  ].map((row, i) => (
-                    <tr key={i} className="hover:bg-zinc-50 transition-colors">
-                       <td className="p-8 text-indigo-600 font-black uppercase tracking-widest text-xs text-indigo-600">{row.t}</td>
-                       <td className="p-8 text-zinc-900 leading-relaxed italic">{row.e}</td>
-                       <td className="p-8 text-zinc-500 leading-relaxed italic text-zinc-500">{row.p}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-           </div>
-           <div className="p-10 bg-indigo-50 rounded-[3rem] border border-indigo-200 text-center">
-              <p className="text-2xl font-black text-indigo-950 italic leading-tight text-indigo-950 text-indigo-950">🧠 Golden Rule: No leading questions. Don't ask "Wouldn't it be better if...?" Ask "How do you feel about...?"</p>
-           </div>
-        </section>
+      <div className="space-y-6">
+        <h2>Day 10: User Interviews & Surveys 🎙️</h2>
+        <p>Yesterday we explored target segments. Today we learn how to validate insights through real conversations.</p>
+        <h3>Why User Interviews Matter</h3>
+        <ul>
+          <li>Understand user motivation (The Why)</li>
+          <li>Validate high-risk assumptions</li>
+          <li>Discover emotional triggers</li>
+        </ul>
+        <h3>Types of Interview Questions</h3>
+        <p>Behavioral (Past), Attitudinal (Feelings), Aspirational (Future).</p>
+        <p><strong>Golden Rule:</strong> No leading questions. Don't ask "Wouldn't it be better if...?" Ask "How do you feel about...?"</p>
       </div>
     ),
     resources: [
-        { title: 'How To Conduct User Interviews', url: 'https://youtu.be/5tVbFfQCk?si=91eAlcNvjUAFfxM1', type: 'video' }
+        { title: 'How To Conduct User Interviews Like A Pro', url: 'https://youtu.be/5tVbFfQCk?si=91eAlcNvjUAFfxM1', type: 'video' }
     ],
     assignment: (
-        <div className="space-y-6">
-            <h5 className="text-xl font-black text-indigo-900">Day-8: User Insights Report</h5>
-            <p className="font-bold text-zinc-600">Create a 1-page deliverable covering:</p>
-            <ul className="list-disc pl-5 space-y-2 text-zinc-700">
-                <li>Top 3 Pain Points with user quotes</li>
-                <li>Top 3 Desired Outcomes</li>
-                <li>One "How might we..." opportunity statement</li>
-            </ul>
+        <div>
+            <h4>Day-8: User Insights Report</h4>
+            <p>Create a 1-page deliverable: Top 3 Pain Points, Top 3 Desired Outcomes, One Opportunity Statement.</p>
         </div>
     )
   },
@@ -1302,159 +393,95 @@ export const LESSONS: Lesson[] = [
     day: 11,
     title: 'User Personas & JTBD',
     category: 'Research',
-    preview: '“You don’t design for everyone — you design for someone.” Convert raw feedback into structured user profiles.',
+    preview: '“You don’t design for everyone — you design for someone.” Convert feedback into profiles.',
     content: (
-      <div className="space-y-12">
-        <header className="bg-purple-600 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden text-white">
-           <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none text-white text-white">User Personas & JTBD 👥</h1>
-           <p className="text-purple-100 text-xl font-bold italic text-white">“You don’t design for everyone — you design for someone.”</p>
-        </header>
-
-        <section className="p-12 bg-white border-2 border-zinc-100 rounded-[4rem] shadow-xl text-center space-y-10">
-           <h4 className="text-lg font-black uppercase tracking-[0.3em] text-zinc-400">The JTBD Template</h4>
-           <p className="text-3xl md:text-5xl font-black tracking-tight leading-tight italic text-zinc-900">
-              When I <span className="text-purple-600">situation</span>, I want to <span className="text-purple-600">motivation</span>, So I can <span className="text-purple-600">desired outcome</span>.
-           </p>
-        </section>
-
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="p-8 bg-zinc-950 rounded-3xl text-white">
-                <h4 className="text-xl font-black mb-4 text-purple-400">Duolingo Example</h4>
-                <p className="text-zinc-400 italic">"When I have free time, I want quick practice, so I feel productive."</p>
-            </div>
-            <div className="p-8 bg-zinc-50 rounded-3xl border border-zinc-200">
-                <h4 className="text-xl font-black mb-4 text-zinc-900">Notion Example</h4>
-                <p className="text-zinc-500 italic">"When I start a project, I want everything in one place, so I stay organized."</p>
-            </div>
-        </section>
+      <div className="space-y-6">
+        <h2>Day 11: User Personas & JTBD 👥</h2>
+        <p>“You don’t design for everyone — you design for someone.” Convert raw feedback into structured user profiles.</p>
+        <h3>Jobs To Be Done (JTBD) Framework</h3>
+        <p>Users don’t buy products. They hire them to get a job done.</p>
+        <p><strong>The Template:</strong> When I [situation], I want to [motivation], So I can [desired outcome].</p>
+        <h3>Persona Template</h3>
+        <p>Add emotion — Personas should feel human, not just like data points. Example: Rahul Sharma, 27, Software Engineer.</p>
       </div>
     ),
     resources: [
-        { title: 'Jobs to be Done Framework', url: 'https://youtu.be/dbVN6EYql6k?si=2440TMiKd3ZVmGvK', type: 'video' },
-        { title: 'Creating User Personas', url: 'https://youtu.be/v6EWN4EjHM0?si=5up6JXpGPfYnIq1d', type: 'video' }
-    ]
+        { title: 'Jobs to be done', url: 'https://youtu.be/dbVN6EYql6k?si=2440TMiKd3ZVmGvK', type: 'video' },
+        { title: 'Creating Personas', url: 'https://youtu.be/v6EWN4EjHM0?si=5up6JXpGPfYnIq1d', type: 'video' }
+    ],
+    assignment: (
+        <div>
+            <h4>Day-9: Persona & JTBD Deck</h4>
+            <p>Final Deliverables: 2 Personas, JTBD Statements, 1 Feature Suggestion.</p>
+        </div>
+    )
   },
   {
     day: 12,
-    title: 'Competitive & Market Analysis',
-    category: 'Strategy',
-    preview: '“You can’t build a better product until you understand what already exists.” Master SWOT and benchmarking.',
-    content: (
-      <div className="space-y-12">
-        <header className="bg-zinc-950 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
-           <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none">Competitive Analysis 🧭</h1>
-           <p className="text-zinc-400 text-xl font-bold italic leading-relaxed">Today’s goal is to position your idea intelligently by identifying where competitors fall short.</p>
-        </header>
-
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-8 text-center text-zinc-900">
-              {[
-                { title: 'Strengths', desc: 'What do they do well?', color: 'bg-emerald-50 border-emerald-100 text-emerald-950' },
-                { title: 'Weaknesses', desc: 'Where do they fall short?', color: 'bg-rose-50 border-rose-100 text-rose-950' },
-                { title: 'Opportunities', desc: 'What can we do better?', color: 'bg-blue-50 border-blue-100 text-blue-950' },
-                { title: 'Threats', desc: 'What could hurt us?', color: 'bg-amber-50 border-amber-100 text-amber-950' }
-              ].map(item => (
-                <div key={item.title} className={`p-12 rounded-[4rem] border space-y-6 ${item.color} shadow-sm`}>
-                   <h5 className="text-3xl font-black tracking-tight">{item.title}</h5>
-                   <p className="text-xl font-bold italic font-medium">{item.desc}</p>
-                </div>
-              ))}
-        </section>
-
-        <section className="p-12 bg-white border-4 border-zinc-100 rounded-[4rem] shadow-xl text-zinc-900">
-           <h3 className="text-4xl font-black text-zinc-950 mb-12 tracking-tighter text-center">Zerodha vs Groww Case Study</h3>
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-              <div className="p-10 bg-zinc-50 rounded-[3rem] border border-zinc-100 space-y-4">
-                 <p className="text-[10px] font-black uppercase text-indigo-600 tracking-widest">Zerodha Strength</p>
-                 <p className="text-2xl font-black text-zinc-900 leading-tight">Advanced tools for professional Traders.</p>
-              </div>
-              <div className="p-10 bg-zinc-50 rounded-[3rem] border border-zinc-100 space-y-4">
-                 <p className="text-[10px] font-black uppercase text-emerald-600 tracking-widest">Groww Strength</p>
-                 <p className="text-2xl font-black text-zinc-900 leading-tight">UI simplicity for First-time investors.</p>
-              </div>
-           </div>
-           <p className="mt-8 text-center text-zinc-500 font-bold italic">“Design simplicity was the differentiator Groww used to disrupt a market of 'complex dashboards.'”</p>
-        </section>
-      </div>
-    ),
-    resources: [
-        { title: 'Competitive Analysis for PMs', url: 'https://youtu.be/UnBL8h8TVX8?si=v7_4Kx9EDy357xjg', type: 'video' }
-    ]
-  },
-  {
-    day: 13,
-    title: 'Opportunity Sizing (TAM / SAM / SOM)',
-    category: 'Strategy',
-    preview: 'Learn to estimate market potential using data, top-down and bottom-up sizing frameworks.',
-    content: (
-      <div className="space-y-12">
-        <header className="bg-indigo-600 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
-           <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none">Opportunity Sizing</h1>
-           <p className="text-indigo-100 text-xl font-bold italic leading-relaxed max-w-3xl">“A great product solves a real problem — but a great business solves it for a market that’s big enough.”</p>
-        </header>
-
-        <section className="overflow-hidden rounded-[4rem] border-4 border-zinc-100 bg-white shadow-2xl">
-              <table className="w-full text-left">
-                <thead className="bg-zinc-950 text-white font-black text-xs uppercase tracking-[0.2em]">
-                  <tr>
-                    <th className="p-8 text-white">Term</th>
-                    <th className="p-8 text-white">Meaning</th>
-                    <th className="p-8 text-white">Example</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-zinc-100 font-bold text-sm">
-                  {[
-                    { t: 'TAM (Total Addressable Market)', m: 'Total global demand for your product', e: '“Global fitness app market = $7B”' },
-                    { t: 'SAM (Serviceable Available Market)', m: 'Portion you can serve based on geography', e: '“India’s fitness app market = $1.2B”' },
-                    { t: 'SOM (Serviceable Obtainable Market)', m: 'Realistic share capture in 2–3 years', e: '“Target 1% of SAM → $12M”' }
-                  ].map((row, i) => (
-                    <tr key={i} className="hover:bg-zinc-50 transition-colors">
-                       <td className="p-8 text-indigo-600 font-black text-lg">{row.t}</td>
-                       <td className="p-8 text-zinc-900 italic font-medium leading-relaxed">{row.m}</td>
-                       <td className="p-8 text-zinc-400 italic font-black uppercase tracking-widest text-[10px]">{row.e}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-        </section>
-      </div>
-    ),
-    resources: [
-        { title: 'TAM SAM SOM Explained', url: 'https://youtu.be/nCYOMU7rKCs?si=cvu8yrnAbxDueKEI', type: 'video' }
-    ]
-  },
-  {
-    day: 14,
-    title: 'Introduction to SQL (SELECT, WHERE)',
+    title: 'Introduction to SQL for PMs',
     category: 'Data',
-    preview: '"Data is the voice of your users. SQL lets you listen." Master querying fundamentals for independent analysis.',
+    preview: '"Data is the voice of your users. SQL lets you listen." Master basic querying and environment setup.',
     content: (
       <div className="space-y-12">
         <header className="bg-emerald-600 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
-           <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none">SQL for PMs 📊</h1>
-           <p className="text-emerald-100 text-xl font-bold italic leading-relaxed">Today you\'ll learn the fundamentals of querying databases — a superpower that lets PMs answer their own questions.</p>
+           <div className="absolute top-0 right-0 w-80 h-80 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/3 blur-3xl"></div>
+           <div className="flex gap-4 mb-6">
+              <span className="px-4 py-1.5 bg-white/20 rounded-lg text-[10px] font-black uppercase tracking-widest text-white">Data</span>
+              <span className="px-4 py-1.5 bg-white/20 rounded-lg text-[10px] font-black uppercase tracking-widest text-white">45m read</span>
+           </div>
+           <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 leading-none">Introduction to SQL for PMs (SELECT, WHERE, Basics)</h1>
+           <p className="text-emerald-100 text-lg font-bold italic">"Data is the voice of your users. SQL lets you listen."</p>
         </header>
 
-        <section className="bg-white border-2 border-zinc-100 p-10 rounded-[3rem] shadow-sm">
-           <h3 className="text-2xl font-black mb-8 flex items-center gap-3 text-zinc-900"><Target className="text-emerald-600"/> Learning Objectives</h3>
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {[
-                "Understand what SQL is and why PMs need it",
-                "Set up a practice SQL environment",
-                "Write basic SELECT queries to retrieve data",
-                "Filter data using WHERE clauses",
-                "Execute DDL and DML commands"
-              ].map(item => (
-                <div key={item} className="p-4 bg-emerald-50 rounded-2xl font-bold text-emerald-950 border border-emerald-100 flex items-center gap-3">
-                   <CheckCircle className="w-5 h-5 text-emerald-600" /> {item}
-                </div>
-              ))}
-           </div>
+        <section className="bg-white border border-zinc-100 p-8 rounded-3xl">
+          <h2 className="text-2xl font-black mb-6 flex items-center gap-2"><Target className="text-emerald-600"/> Learning Objectives</h2>
+          <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {[
+              "Understand what SQL is and why PMs need it",
+              "Set up a practice SQL environment",
+              "Write basic SELECT queries to retrieve data",
+              "Filter data using WHERE clauses",
+              "Execute DDL and DML commands"
+            ].map((obj, i) => (
+              <li key={i} className="flex gap-3 text-zinc-700 font-medium">
+                <CheckCircle className="w-5 h-5 text-emerald-500 shrink-0" /> {obj}
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section className="p-8 bg-zinc-50 rounded-3xl border border-zinc-200">
+          <h3 className="text-2xl font-black mb-4">1. What is SQL and Why PMs Need It</h3>
+          <p className="text-zinc-700 leading-relaxed mb-6 font-medium">
+            SQL (Structured Query Language) is the language for communicating with databases. Think of it as asking questions to a spreadsheet on steroids.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+             <div className="bg-white p-6 rounded-2xl border border-zinc-100 shadow-sm">
+                <h4 className="font-bold text-emerald-700 mb-2 uppercase tracking-widest text-xs">Without SQL</h4>
+                <p className="text-sm text-zinc-500 italic">You wait for analysts, ask vague questions, get delayed answers.</p>
+             </div>
+             <div className="bg-emerald-900 p-6 rounded-2xl text-white">
+                <h4 className="font-bold text-emerald-400 mb-2 uppercase tracking-widest text-xs">With SQL</h4>
+                <p className="text-sm">Validate hypotheses in real-time and make data-driven decisions independently.</p>
+             </div>
+          </div>
         </section>
 
         <section className="p-8 bg-zinc-950 rounded-[3rem] text-white">
-           <h3 className="text-2xl font-black mb-8 text-emerald-400 text-center">Timestamps - Beginner Level</h3>
-           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-            {[{t:"00:00", l:"Intro"}, {t:"07:38", l:"Intro to SQL"}, {t:"22:33", l:"Setup Env"}, {t:"34:01", l:"Query (SELECT)"}, {t:"01:32:31", l:"DDL Commands"}, {t:"01:43:44", l:"DML Commands"}].map(idx => (
+          <h3 className="text-2xl font-black mb-8 text-emerald-400">Must Watch: SQL Beginners</h3>
+          <div className="max-w-xl mx-auto mb-10">
+            <a href="https://youtu.be/SSKVgrwhzus?si=M8AlYQA1WTxvKdBg" target="_blank" rel="noopener noreferrer" className="group block space-y-4">
+              <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/10">
+                <img src="https://img.youtube.com/vi/SSKVgrwhzus/maxresdefault.jpg" className="w-full h-full object-cover group-hover:scale-105 transition-transform" alt="SQL Intro"/>
+                <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/0 transition-all">
+                  <PlayCircle className="w-16 h-16 text-emerald-400 fill-zinc-950"/>
+                </div>
+              </div>
+              <p className="text-center font-bold group-hover:text-emerald-400">SQL Beginner Course - Cover these topics</p>
+            </a>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+            {[{t:"00:00", l:"Intro"}, {t:"07:38", l:"Introduction to SQL"}, {t:"22:33", l:"Setup Environment"}, {t:"34:01", l:"Query Data (SELECT)"}, {t:"01:32:31", l:"DDL Commands"}, {t:"01:43:44", l:"DML Commands"}].map(idx => (
               <div key={idx.t} className="p-4 bg-white/5 rounded-xl border border-white/10 flex items-center gap-3">
                 <span className="text-emerald-400 font-mono text-xs">{idx.t}</span>
                 <span className="text-xs font-bold">{idx.l}</span>
@@ -1463,25 +490,45 @@ export const LESSONS: Lesson[] = [
           </div>
         </section>
       </div>
-    ),
-    resources: [
-        { title: 'Complete SQL Beginner Course', url: 'https://youtu.be/SSKVgrwhzus?si=M8AlYQA1WTxvKdBg', type: 'video' }
-    ]
+    )
   },
   {
-    day: 15,
+    day: 13,
     title: 'Filtering Data & SQL Joins',
     category: 'Data',
-    preview: 'Master advanced filtering and learn to combine data from multiple tables — essential for real-world analysis.',
+    preview: '"Joining tables is where SQL becomes powerful for PMs." Master advanced filtering and table relationships.',
     content: (
       <div className="space-y-12">
-        <section className="bg-emerald-700 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
-           <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 leading-none">Filtering & Joins</h1>
+        <header className="bg-emerald-700 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
+           <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 leading-none text-white">Day 13 — Filtering Data & SQL Joins</h1>
            <p className="text-emerald-100 text-lg font-bold italic leading-relaxed">"Joining tables is where SQL becomes powerful for PMs."</p>
+        </header>
+
+        <section className="bg-white border border-zinc-100 p-8 rounded-3xl">
+          <h2 className="text-2xl font-black mb-6 flex items-center gap-2"><Target className="text-emerald-600"/> Learning Objectives</h2>
+          <div className="space-y-4">
+            {["Use advanced WHERE filters (LIKE, IN, BETWEEN)", "Understand the concept of database relationships", "Perform INNER, LEFT, RIGHT, and FULL JOINS", "Combine data from multiple tables to answer complex PM questions", "Use UNION and other set operators"].map((obj, i) => (
+              <div key={i} className="flex gap-4 p-4 bg-zinc-50 rounded-xl border border-zinc-100">
+                <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 font-bold shrink-0">{i+1}</div>
+                <p className="font-bold text-zinc-700">{obj}</p>
+              </div>
+            ))}
+          </div>
         </section>
 
         <section className="p-8 bg-zinc-950 rounded-[3rem] text-white">
-          <h3 className="text-2xl font-black mb-8 text-emerald-400 text-center">Timestamps - Intermediate Level</h3>
+          <h3 className="text-2xl font-black mb-8 text-emerald-400">Intermediate SQL Mastery</h3>
+          <div className="max-w-xl mx-auto mb-10 text-white">
+            <a href="https://youtu.be/SSKVgrwhzus?si=M8AlYQA1WTxvKdBg" target="_blank" rel="noopener noreferrer" className="group block space-y-4">
+              <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/10 shadow-lg">
+                <img src="https://img.youtube.com/vi/SSKVgrwhzus/maxresdefault.jpg" className="w-full h-full object-cover group-hover:scale-105 transition-transform" alt="SQL Joins"/>
+                <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/0 transition-all">
+                  <PlayCircle className="w-16 h-16 text-emerald-400 fill-zinc-950"/>
+                </div>
+              </div>
+              <p className="text-center font-bold text-emerald-300">Intermediate Level Lessons</p>
+            </a>
+          </div>
           <div className="grid grid-cols-1 gap-4 max-w-md mx-auto">
             {[{t:"02:08:03", l:"Filtering Data"}, {t:"02:47:57", l:"SQL Joins (Basics)"}, {t:"03:27:29", l:"SQL Joins (Advanced)"}].map(idx => (
               <div key={idx.t} className="p-4 bg-white/5 rounded-2xl border border-white/10 flex justify-between items-center px-8">
@@ -1492,20 +539,46 @@ export const LESSONS: Lesson[] = [
           </div>
         </section>
       </div>
-    ),
-    resources: [
-        { title: 'Intermediate SQL Course', url: 'https://youtu.be/SSKVgrwhzus?si=M8AlYQA1WTxvKdBg', type: 'video' }
-    ]
+    )
   },
   {
-    day: 16,
+    day: 14,
     title: 'SQL Set Operators & Functions',
     category: 'Data',
-    preview: 'Learn UNION, string manipulation, and numeric functions for complex product analysis.',
+    preview: '"Master SQL functions to transform raw data into actionable insights." Learn UNION, INTERSECT, and data manipulation.',
     content: (
       <div className="space-y-12">
+        <header className="bg-emerald-800 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
+           <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 leading-none">Day 14 — SQL Set Operators & Functions</h1>
+           <p className="text-emerald-200 text-lg font-bold italic leading-relaxed">"Master SQL functions to transform raw data into actionable insights."</p>
+        </header>
+
+        <section className="bg-white border-2 border-emerald-100 p-8 rounded-3xl shadow-sm">
+           <h2 className="text-2xl font-black mb-6 text-zinc-900">Learning Objectives</h2>
+           <ul className="space-y-3">
+             {["Combine query results using UNION, INTERSECT, and EXCEPT", "Apply string functions to clean and format text data", "Use numeric functions for calculations and rounding", "Solve complex data transformation problems", "Write efficient queries for real-world PM scenarios"].map((item, i) => (
+               <li key={i} className="flex items-center gap-3 font-medium text-zinc-600">
+                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div> {item}
+               </li>
+             ))}
+           </ul>
+        </section>
+
         <section className="p-8 bg-zinc-950 rounded-[3rem] text-white">
-          <h3 className="text-2xl font-black mb-8 text-emerald-400 text-center">Timestamps - Advanced Functions</h3>
+          <h3 className="text-2xl font-black mb-8 text-emerald-400">Deep Dive Video</h3>
+          <div className="max-w-xl mx-auto mb-10">
+            <a href="https://youtu.be/SSKVgrwhzus?si=M8AlYQA1WTxvKdBg" target="_blank" rel="noopener noreferrer" className="group block space-y-4">
+              <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/10 shadow-lg">
+                <img src="https://img.youtube.com/vi/SSKVgrwhzus/maxresdefault.jpg" className="w-full h-full object-cover group-hover:scale-105 transition-transform" alt="SQL Functions"/>
+                <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                  <div className="w-16 h-16 rounded-full bg-emerald-600 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <Play className="w-8 h-8 fill-current text-white"/>
+                  </div>
+                </div>
+              </div>
+              <p className="text-center font-black uppercase tracking-widest text-xs text-zinc-400">SQL Functions & Sets Section</p>
+            </a>
+          </div>
           <div className="grid grid-cols-2 gap-4">
             {[{t:"04:02:09", l:"Set Operators"}, {t:"04:47:41", l:"SQL Functions"}, {t:"04:52:58", l:"String Functions"}, {t:"05:18:44", l:"Numeric Functions"}].map(idx => (
               <div key={idx.t} className="p-5 bg-white/5 rounded-2xl border border-white/10">
@@ -1516,39 +589,128 @@ export const LESSONS: Lesson[] = [
           </div>
         </section>
       </div>
-    ),
-    resources: [
-        { title: 'SQL Advanced Functions', url: 'https://youtu.be/SSKVgrwhzus?si=M8AlYQA1WTxvKdBg', type: 'video' }
-    ]
+    )
   },
   {
-    day: 17,
-    title: 'SQL Date & Advanced Logic',
+    day: 15,
+    title: 'SQL Date Functions & Advanced Logic',
     category: 'Data',
-    preview: 'Handle time-based analysis, missing data, and complex conditional logic in your reports.',
+    preview: '"Transform messy data into clean insights with SQL’s most powerful functions." Master conditional logic.',
     content: (
       <div className="space-y-12">
-        <section className="bg-indigo-600 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden text-white">
-           <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 leading-none text-white">Date Functions & CASE Logic</h1>
+        <header className="bg-indigo-600 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
+           <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 leading-none">Day 15 — SQL Date Functions & Advanced Logic</h1>
            <p className="text-indigo-100 text-lg font-bold italic leading-relaxed italic text-white">"Transform messy data into clean insights with SQL’s most powerful functions."</p>
-        </section>
+        </header>
 
-        <section className="p-8 bg-zinc-950 rounded-[3rem] text-white">
-              <h3 className="text-xl font-black mb-6 text-indigo-400 text-center">Final SQL Mastery Timestamps</h3>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+           <section className="bg-white p-8 rounded-3xl border border-zinc-100 shadow-sm h-full">
+              <h3 className="text-2xl font-black mb-6 text-zinc-900">Learning Objectives</h3>
+              <ul className="space-y-4">
+                {[
+                  "Perform sophisticated date and time calculations",
+                  "Handle NULL values correctly in queries",
+                  "Build complex conditional logic with CASE statements",
+                  "Use aggregate functions for data summarization",
+                  "Solve real-world PM analytics problems"
+                ].map((obj, i) => (
+                  <li key={i} className="flex gap-4 font-bold text-zinc-600 leading-relaxed">
+                    <span className="text-indigo-600 font-black">0{i+1}.</span> {obj}
+                  </li>
+                ))}
+              </ul>
+           </section>
+           
+           <section className="bg-zinc-950 p-8 rounded-3xl text-white h-full">
+              <h3 className="text-xl font-black mb-6 text-indigo-400">Timestamps</h3>
               <div className="space-y-3">
                  {[{t:"05:22:48", l:"Date and Time Functions"}, {t:"06:59:06", l:"NULL Functions"}, {t:"08:07:50", l:"Case Statement"}, {t:"08:43:36", l:"Aggregate Functions"}].map(idx => (
-                    <div key={idx.t} className="flex justify-between items-center p-4 bg-white/5 rounded-xl border border-white/5 px-10">
+                    <div key={idx.t} className="flex justify-between items-center p-4 bg-white/5 rounded-xl border border-white/5">
                        <span className="font-mono text-indigo-300 text-xs">{idx.t}</span>
                        <span className="font-bold text-xs">{idx.l}</span>
                     </div>
                  ))}
               </div>
+              <div className="mt-8 text-white">
+                <a href="https://youtu.be/SSKVgrwhzus?si=M8AlYQA1WTxvKdBg" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-3 p-4 bg-indigo-600 rounded-2xl hover:bg-indigo-500 transition-all">
+                  <PlayCircle className="w-8 h-8 text-white" />
+                  <span className="font-black text-sm uppercase tracking-widest text-white">Watch Final SQL Session</span>
+                </a>
+              </div>
            </section>
+        </div>
       </div>
-    ),
-    resources: [
-        { title: 'Final SQL Mastery Session', url: 'https://youtu.be/SSKVgrwhzus?si=M8AlYQA1WTxvKdBg', type: 'video' }
-    ]
+    )
+  },
+  {
+    day: 16,
+    title: 'Advanced SQL Set Operators & Functions',
+    category: 'Data',
+    preview: 'Master complex techniques for combining datasets and manipulating data with built-in functions.',
+    content: (
+      <div className="space-y-12">
+        <header className="bg-emerald-600 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
+           <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none">Day 16 — SQL Functions Deep Dive</h1>
+        </header>
+
+        <section className="p-8 bg-zinc-950 rounded-[3rem] text-white">
+          <div className="max-w-xl mx-auto mb-10 text-white">
+            <a href="https://youtu.be/SSKVgrwhzus?si=M8AlYQA1WTxvKdBg" target="_blank" rel="noopener noreferrer" className="group block space-y-4">
+              <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/10">
+                <img src="https://img.youtube.com/vi/SSKVgrwhzus/maxresdefault.jpg" className="w-full h-full object-cover group-hover:scale-105 transition-transform" alt="SQL Functions Deep Dive"/>
+                <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/0 transition-all">
+                  <PlayCircle className="w-16 h-16 text-emerald-400 fill-zinc-950"/>
+                </div>
+              </div>
+              <p className="text-center font-bold text-emerald-300">Advanced Functions - Cover these topics</p>
+            </a>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            {[{t:"04:02:09", l:"Set Operators"}, {t:"04:47:41", l:"SQL Functions"}, {t:"04:52:58", l:"String Functions"}, {t:"05:18:44", l:"Numeric Functions"}].map(idx => (
+              <div key={idx.t} className="p-5 bg-white/5 rounded-2xl border border-white/10">
+                <p className="text-emerald-400 font-mono text-sm mb-1">{idx.t}</p>
+                <p className="text-sm font-black">{idx.l}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
+    )
+  },
+  {
+    day: 17,
+    title: 'Final SQL Date & Advanced Logic Session',
+    category: 'Data',
+    preview: 'Transform messy data into clean insights with SQL\'s most powerful functions for time-based analysis.',
+    content: (
+      <div className="space-y-12">
+        <header className="bg-indigo-600 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
+           <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none">Day 17 — SQL Logic & Dates</h1>
+        </header>
+
+        <section className="p-8 bg-zinc-950 rounded-[3rem] text-white">
+          <div className="max-w-xl mx-auto mb-10 text-white">
+            <a href="https://youtu.be/SSKVgrwhzus?si=M8AlYQA1WTxvKdBg" target="_blank" rel="noopener noreferrer" className="group block space-y-4">
+              <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/10">
+                <img src="https://img.youtube.com/vi/SSKVgrwhzus/maxresdefault.jpg" className="w-full h-full object-cover group-hover:scale-105 transition-transform" alt="SQL Logic Mastery"/>
+                <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/0 transition-all">
+                  <PlayCircle className="w-16 h-16 text-indigo-400 fill-zinc-950"/>
+                </div>
+              </div>
+              <p className="text-center font-bold text-indigo-300">Final SQL Mastery Modules</p>
+            </a>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            {[{t:"05:22:48", l:"Date and Time Functions"}, {t:"06:59:06", l:"NULL Functions"}, {t:"08:07:50", l:"Case Statement"}, {t:"08:43:36", l:"Aggregate Functions"}].map(idx => (
+              <div key={idx.t} className="p-5 bg-white/5 rounded-2xl border border-white/10">
+                <p className="text-indigo-400 font-mono text-sm mb-1">{idx.t}</p>
+                <p className="text-sm font-black">{idx.l}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
+    )
   },
   {
     day: 18,
@@ -1557,7 +719,7 @@ export const LESSONS: Lesson[] = [
     preview: 'Excel is the PM\'s Swiss Army knife. Master workbooks, ribbons, and core daily formulas.',
     content: (
       <div className="space-y-12">
-        <header className="bg-emerald-500 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
+        <header className="bg-emerald-600 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
            <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none">Excel Mastery 📘</h1>
            <p className="text-emerald-100 text-xl font-bold italic">"Excel is the PM's Swiss Army knife — from quick analysis to complex models."</p>
         </header>
@@ -1633,7 +795,7 @@ export const LESSONS: Lesson[] = [
         </section>
 
         <section className="bg-white p-8 rounded-3xl border border-zinc-100 shadow-sm space-y-6">
-              <h3 className="text-2xl font-black text-zinc-900 tracking-tight">Today’s Goal</h3>
+              <h3 className="text-2xl font-black text-zinc-950">Today’s Goal</h3>
               <p className="text-lg text-zinc-600 leading-relaxed font-medium italic border-l-4 border-yellow-500 pl-6">
                   Build a strong foundation in Power BI by understanding how raw data is transformed, modeled, calculated, and finally presented as interactive dashboards. The focus is on hands-on concepts essential for real-world analytics.
               </p>
@@ -1726,7 +888,7 @@ export const LESSONS: Lesson[] = [
   },
   {
     day: 23,
-    title: 'Understanding APIs for PMs',
+    title: 'Understanding APIs as a Product Manager',
     category: 'Tech',
     preview: '“Tech literacy is a PM\'s bridge to engineering success.” Learn how the internet works and why APIs matter.',
     content: (
@@ -1847,7 +1009,7 @@ export const LESSONS: Lesson[] = [
     preview: 'Understand IaaS, PaaS, and SaaS models. Master cloud economics, elasticity, and microservices.',
     content: (
       <div className="space-y-12">
-        <header className="bg-blue-900 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
+        <header className="bg-blue-900 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden text-white">
            <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 leading-none text-white">Cloud Strategy ☁️</h1>
            <p className="text-blue-200 text-xl font-bold italic leading-relaxed text-white">"The cloud isn't just someone else's computer—it's a paradigm shift."</p>
         </header>
@@ -2141,7 +1303,7 @@ export const LESSONS: Lesson[] = [
     content: (
         <div className="space-y-12">
             <header className="bg-emerald-600 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
-                <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 leading-none text-white">Startup Case Studies</h1>
+                <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 leading-none text-white text-white">Startup Case Studies</h1>
                 <p className="text-emerald-100 text-xl font-bold italic text-white">Proof of product thinking, not a presentation exercise.</p>
             </header>
 
@@ -2165,7 +1327,7 @@ export const LESSONS: Lesson[] = [
     content: (
         <div className="space-y-12">
             <header className="bg-indigo-900 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden text-white">
-                <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none text-white">PM Portfolio Mastery</h1>
+                <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none text-white text-white">PM Portfolio Mastery</h1>
                 <p className="text-indigo-200 text-xl font-bold italic text-white">"Show, don't just tell, your product management value."</p>
             </header>
 
@@ -2197,7 +1359,7 @@ export const LESSONS: Lesson[] = [
                 <ul className="space-y-2 font-bold text-zinc-600">
                     <li>1. Headline (SEO-first)</li>
                     <li>2. About (Value Proposition)</li>
-                    <li>3. Experience (Outcomes > Responsibilities)</li>
+                    <li>3. Experience (Outcomes {" > "} Responsibilities)</li>
                     <li>4. Skills Audit (Target relevance)</li>
                 </ul>
             </section>
@@ -2284,8 +1446,8 @@ export const LESSONS: Lesson[] = [
     preview: 'Learn how to improve Netflix, Spotify, or Gmail. Answer "What would you improve in your favorite product?".',
     content: (
         <div className="space-y-12">
-            <header className="bg-indigo-600 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
-                <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 leading-none text-white">Product Improvement</h1>
+            <header className="bg-indigo-600 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden text-white">
+                <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 leading-none text-white text-white">Product Improvement</h1>
                 <p className="text-indigo-100 text-xl font-bold italic text-white text-white">Learn to evaluate and evolve existing success stories.</p>
             </header>
         </div>
@@ -2332,7 +1494,7 @@ export const DayCard: React.FC<{ lesson: Lesson; index: number }> = ({ lesson, i
                 </span>
                 <div className="flex items-center gap-1.5 text-zinc-500 group-hover:text-indigo-600 transition-colors">
                   <Clock className="w-3.5 h-3.5" />
-                  <span className="text-[11px] font-black tracking-tight">15m read</span>
+                  <span className="text-[11px] font-black tracking-tight">45m read</span>
                 </div>
             </div>
 
