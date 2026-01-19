@@ -1,15 +1,14 @@
+
 import React, { useState } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate, useLocation, Outlet } from 'react-router-dom';
-import { Sidebar } from './components/Sidebar';
-import { Dashboard } from './components/Dashboard';
-import { LessonDetail } from './components/LessonDetail';
-import { About } from './components/About';
-import { LandingPage } from './components/LandingPage';
+import { Sidebar } from './Sidebar';
+import { Dashboard } from './Dashboard';
+import { LessonDetail } from './LessonDetail';
+import { About } from './About';
+import { LandingPage } from './LandingPage';
 import { Menu, X } from 'lucide-react';
 import { AnimatePresence } from 'framer-motion';
-import { Logo } from './Logo';
 
-// Layout Component containing Sidebar and Outlet for nested routes
 const Layout = () => {
     const [mobileOpen, setMobileOpen] = useState(false);
     const location = useLocation();
@@ -20,7 +19,6 @@ const Layout = () => {
             <div className="flex-1 flex flex-col min-w-0 h-full relative">
                 <header className="md:hidden bg-white/80 backdrop-blur-md border-b border-zinc-200 p-4 flex items-center justify-between flex-shrink-0 z-30 sticky top-0">
                     <div className="flex items-center gap-2">
-                        <Logo className="w-8 h-8" />
                         <span className="font-bold text-lg text-zinc-800 tracking-tight">The NooB PM</span>
                     </div>
                     <button 
@@ -48,23 +46,19 @@ const App: React.FC = () => {
   return (
       <Router>
          <Routes>
-            {/* Public Landing Page */}
             <Route path="/" element={<LandingPage />} />
-
-            {/* Main App Layout - No Authentication Required */}
             <Route path="/dashboard" element={<Layout />}>
                 <Route index element={<Dashboard />} />
                 <Route path="about" element={<About />} />
                 <Route path="day/:id" element={<LessonDetail />} />
-                
-                {/* Category Routes mapped to Dashboard */}
                 <Route path="foundations" element={<Dashboard />} />
                 <Route path="research" element={<Dashboard />} />
+                <Route path="strategy" element={<Dashboard />} />
                 <Route path="data" element={<Dashboard />} />
-                <Route path="design" element={<Dashboard />} />
+                <Route path="tech" element={<Dashboard />} />
                 <Route path="ai" element={<Dashboard />} />
+                <Route path="design" element={<Dashboard />} />
             </Route>
-
             <Route path="*" element={<Navigate to="/" replace />} />
          </Routes>
       </Router>

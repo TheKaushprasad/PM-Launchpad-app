@@ -2,11 +2,10 @@
 import React from 'react';
 import { 
   LayoutDashboard, BookOpen, Search, BarChart2, Smartphone, 
-  Bot, Info, ChevronRight, Sparkles, LogOut, Settings 
+  Bot, Info, ChevronRight, Sparkles, Zap, Code
 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Logo } from './Logo';
 
 interface SidebarProps {
   mobileOpen: boolean;
@@ -18,10 +17,12 @@ const NAV_ITEMS = [
   { label: 'Full Syllabus', icon: Info, path: '/dashboard/about' },
   { type: 'divider', label: 'Modules' },
   { label: 'Foundations', icon: BookOpen, path: '/dashboard/foundations' },
-  { label: 'Discovery', icon: Search, path: '/dashboard/research' },
+  { label: 'Research', icon: Search, path: '/dashboard/research' },
+  { label: 'Strategy', icon: Zap, path: '/dashboard/strategy' },
   { label: 'Data', icon: BarChart2, path: '/dashboard/data' },
+  { label: 'Tech', icon: Code, path: '/dashboard/tech' },
+  { label: 'AI', icon: Bot, path: '/dashboard/ai' },
   { label: 'Design', icon: Smartphone, path: '/dashboard/design' },
-  { label: 'AI Strategy', icon: Bot, path: '/dashboard/ai' },
 ];
 
 export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen }) => {
@@ -49,18 +50,15 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen }) =
         `}
       >
         <div className="p-8">
-           <Link to="/" className="flex items-center gap-3 group">
-              <div className="group-hover:rotate-6 transition-transform">
-                <Logo className="w-10 h-10" />
-              </div>
+           <Link to="/" className="flex flex-col group">
               <div>
                 <span className="block font-black text-2xl text-zinc-900 tracking-tighter leading-none">The NooB PM</span>
-                <span className="text-[10px] text-indigo-500 font-black tracking-widest uppercase mt-1 block">45-Day Course</span>
+                <span className="text-[10px] text-[#79BAEC] font-black tracking-widest uppercase mt-1 block">45-Day Path</span>
               </div>
            </Link>
         </div>
 
-        <nav className="flex-1 overflow-y-auto px-4 py-4 space-y-2 no-scrollbar">
+        <nav className="flex-1 overflow-y-auto px-4 py-4 space-y-1 no-scrollbar">
           {NAV_ITEMS.map((item, index) => {
             if (item.type === 'divider') {
                return (
@@ -70,9 +68,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen }) =
                )
             }
 
-            const isActive = location.pathname === item.path || 
-              (item.path === '/dashboard' && location.pathname.startsWith('/dashboard/day/'));
-
+            const isActive = location.pathname === item.path;
             const Icon = item.icon as React.ElementType;
             
             return (
@@ -81,33 +77,33 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen }) =
                 to={item.path}
                 onClick={() => setMobileOpen(false)}
                 className={`
-                  relative flex items-center gap-4 px-5 py-4 rounded-2xl text-[16px] font-bold transition-all duration-300 group
+                  relative flex items-center gap-4 px-5 py-3.5 rounded-2xl text-[15px] font-bold transition-all duration-300 group
                   ${isActive 
-                    ? 'text-indigo-600 bg-indigo-50/50' 
+                    ? 'text-[#2D5A81] bg-[#79BAEC]/10' 
                     : 'text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50'}
                 `}
               >
                 {isActive && (
                   <motion.div
                     layoutId="activeNav"
-                    className="absolute inset-0 bg-indigo-50/50 rounded-2xl border border-indigo-100/50"
+                    className="absolute inset-0 bg-[#79BAEC]/5 rounded-2xl border border-[#79BAEC]/10"
                   />
                 )}
-                <Icon className={`w-[20px] h-[20px] relative z-10 ${isActive ? 'text-indigo-600' : 'text-zinc-400 group-hover:text-zinc-700'}`} />
+                <Icon className={`w-[18px] h-[18px] relative z-10 ${isActive ? 'text-[#2D5A81]' : 'text-zinc-400 group-hover:text-zinc-700'}`} />
                 <span className="flex-1 relative z-10 tracking-tight">{item.label}</span>
-                {isActive && <ChevronRight className="w-5 h-5 text-indigo-400 relative z-10" />}
+                {isActive && <ChevronRight className="w-4 h-4 text-[#79BAEC] relative z-10" />}
               </Link>
             );
           })}
         </nav>
 
         <div className="p-6 mt-auto">
-          <div className="bg-zinc-950 rounded-3xl p-6 relative overflow-hidden">
-            <div className="absolute top-0 right-0 p-3 opacity-20"><Sparkles className="w-12 h-12 text-indigo-400" /></div>
-            <p className="text-white text-sm font-black uppercase tracking-widest mb-2 relative z-10">Pro Mentorship</p>
-            <p className="text-zinc-400 text-sm leading-relaxed mb-5 relative z-10">Unlock 1-on-1 resume reviews and mock interviews.</p>
-            <button className="w-full py-3 bg-indigo-600 text-white text-[12px] font-black uppercase tracking-widest rounded-xl hover:bg-indigo-500 transition-colors relative z-10 shadow-lg shadow-indigo-600/20">
-              Upgrade
+          <div className="bg-zinc-950 rounded-[2rem] p-6 relative overflow-hidden">
+            <div className="absolute top-0 right-0 p-3 opacity-20"><Sparkles className="w-12 h-12 text-[#79BAEC]" /></div>
+            <p className="text-white text-sm font-black uppercase tracking-widest mb-2 relative z-10">Pro Upgrade</p>
+            <p className="text-zinc-400 text-[10px] leading-relaxed mb-5 relative z-10 font-bold">1-on-1 resume reviews and expert mock interviews.</p>
+            <button className="w-full py-3 bg-[#79BAEC] text-zinc-950 text-[12px] font-black uppercase tracking-widest rounded-xl hover:bg-white transition-colors relative z-10 shadow-lg">
+              Unlock Now
             </button>
           </div>
         </div>

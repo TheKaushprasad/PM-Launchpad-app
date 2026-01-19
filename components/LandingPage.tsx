@@ -1,11 +1,11 @@
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence, useScroll } from 'framer-motion';
 import { 
   ArrowRight, CheckCircle, Zap, Briefcase, Users, 
-  Layers, Menu, X, BarChart2, FileText
+  Layers, Menu, X, BarChart2, FileText, Code, Bot, Smartphone, Rocket
 } from 'lucide-react';
-import { Logo } from './Logo';
 
 export const LandingPage: React.FC = () => {
   const navigate = useNavigate();
@@ -42,7 +42,6 @@ export const LandingPage: React.FC = () => {
             className="flex items-center gap-3 cursor-pointer group" 
             onClick={scrollToTop}
           >
-             <Logo className="w-9 h-9 drop-shadow-sm group-hover:scale-105 transition-transform" />
              <span className="font-bold text-xl tracking-tighter text-zinc-900">The NooB PM</span>
           </motion.div>
 
@@ -294,32 +293,37 @@ export const LandingPage: React.FC = () => {
          </div>
       </section>
 
-      {/* Curriculum Preview */}
+      {/* Curriculum Preview - UPDATED to match Modules */}
       <section id="curriculum" className="py-24 bg-white">
          <div className="max-w-7xl mx-auto px-6">
             <div className="text-center mb-16">
-                <h2 className="text-3xl md:text-5xl font-bold text-zinc-900 mb-6 tracking-tight">What You Will Learn</h2>
-                <p className="text-lg text-zinc-600 max-w-2xl mx-auto leading-relaxed">
-                    A comprehensive curriculum covering every aspect of modern Product Management.
+                <h2 className="text-3xl md:text-5xl font-bold text-zinc-900 mb-6 tracking-tight">7 Professional Pillars</h2>
+                <p className="text-lg text-zinc-600 max-w-2xl mx-auto leading-relaxed font-medium">
+                    A curriculum designed around the "Industry-Validated Skill Blueprint" to make you competent across every PM domain.
                 </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {[
-                    { icon: Briefcase, title: 'Foundations', desc: 'Master the role, mindset, and core frameworks used by top PMs.' },
-                    { icon: Users, title: 'User Research', desc: 'Learn to interview users, uncover insights, and define problems.' },
-                    { icon: Layers, title: 'Product Strategy', desc: 'Build roadmaps, define metrics (OKRs), and prioritize features.' }
+                    { icon: Briefcase, title: 'Foundations', desc: 'Mindset, PDLC, PLC, and essential PM documentation (PRDs/BRDs).' },
+                    { icon: Users, title: 'Research', desc: 'User interviews, competitive analysis, JTBD, and personas.' },
+                    { icon: Zap, title: 'Strategy', desc: 'Stakeholder management, business fundamentals, and roadmaps.' },
+                    { icon: BarChart2, title: 'Data', desc: 'Master SQL, Excel, Power BI, Mixpanel, and A/B testing.' },
+                    { icon: Code, title: 'Tech', desc: 'APIs, system design architecture, and cloud computing basics.' },
+                    { icon: Bot, title: 'AI', desc: 'LLMs, Prompt Engineering, RAG, and building Agentic workflows.' },
+                    { icon: Smartphone, title: 'Design', desc: 'UI/UX laws, wireframing in Figma, and usability testing.' },
+                    { icon: Rocket, title: 'Portfolio', desc: 'Turn assignments into high-impact case studies and land the job.' }
                 ].map((feature, i) => (
                     <motion.div 
                         key={i}
                         whileHover={{ y: -5 }}
-                        className="p-8 rounded-2xl bg-zinc-50 border border-zinc-100 hover:border-indigo-100 hover:shadow-xl transition-all"
+                        className="p-8 rounded-3xl bg-zinc-50 border border-zinc-100 hover:border-indigo-100 hover:shadow-xl transition-all"
                     >
-                        <div className="w-14 h-14 bg-white rounded-xl flex items-center justify-center text-indigo-600 shadow-sm mb-6">
-                            <feature.icon className="w-7 h-7" />
+                        <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-indigo-600 shadow-sm mb-6">
+                            <feature.icon className="w-6 h-6" />
                         </div>
-                        <h3 className="text-xl font-bold text-zinc-900 mb-3 tracking-tight">{feature.title}</h3>
-                        <p className="text-zinc-600 leading-relaxed font-medium">{feature.desc}</p>
+                        <h3 className="text-lg font-black text-zinc-900 mb-3 tracking-tight">{feature.title}</h3>
+                        <p className="text-sm text-zinc-500 leading-relaxed font-bold">{feature.desc}</p>
                     </motion.div>
                 ))}
             </div>
@@ -382,7 +386,6 @@ export const LandingPage: React.FC = () => {
       <footer className="bg-white py-12 border-t border-zinc-200">
           <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
               <div className="flex items-center gap-2">
-                  <Logo className="w-8 h-8" />
                   <span className="font-bold text-zinc-900 tracking-tight">The NooB PM</span>
               </div>
               <p className="text-zinc-500 text-sm font-medium">© {new Date().getFullYear()} The NooB PM. Open Source Education.</p>
