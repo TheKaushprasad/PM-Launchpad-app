@@ -40,11 +40,11 @@ export const getCategoryIcon = (category: Category) => {
 };
 
 export const MODULES: ModuleInfo[] = [
-  { id: 'foundations', title: 'Foundations & Strategy', category: 'Foundations', description: 'Core PM concepts and strategic thinking.' },
-  { id: 'research', title: 'Discovery & Research', category: 'Research', description: 'User interviews, personas, and market analysis.' },
-  { id: 'data', title: 'Data & Analytics', category: 'Data', description: 'Metrics, SQL, and data-driven decision making.' },
-  { id: 'design', title: 'Design & UX', category: 'Design', description: 'UI/UX principles, prototyping, and design systems.' },
-  { id: 'ai', title: 'AI for PMs', category: 'AI', description: 'Leveraging AI tools and building AI-driven products.' },
+  { id: 'foundations', title: 'Core Foundations', category: 'Foundations', description: 'Mindset, PDLC, PLC, Product Sense, Empathy, and Documentation.' },
+  { id: 'strategy', title: 'Product Strategy', category: 'Strategy', description: 'Stakeholder Management, Business Fundamentals, Competitive Analysis, and Market Sizing.' },
+  { id: 'data', title: 'Data & Analytics', category: 'Data', description: 'SQL Mastery, Advanced Excel, Dashboards, Mixpanel, and GA4.' },
+  { id: 'tech-ai', title: 'Tech & AI Strategy', category: 'AI', description: 'APIs, System Design, Prompt Engineering, Context Engineering, RAG, and AI Agents.' },
+  { id: 'career', title: 'Career & Execution', category: 'Strategy', description: 'Agile/Scrum, Portfolio Building, Case Studies, and Interview Preparation.' },
 ];
 
 export const LESSONS: Lesson[] = [
@@ -96,7 +96,7 @@ export const LESSONS: Lesson[] = [
               <div className="pt-6 border-t border-indigo-200">
                  <p className="text-sm font-bold text-indigo-800 mb-4 uppercase tracking-widest">Understanding the reality helps evaluate:</p>
                  <ul className="space-y-3">
-                    {['Is PM aligned with your strengths & interests?', 'Do you enjoy solving problems and talking to users?', 'Are you comfortable making decisions without perfect data?'].map(q => (
+                    {['Is PM role aligned with your strengths & interests?', 'Do you enjoy solving problems and talking to users?', 'Are you comfortable making decisions without perfect data?'].map(q => (
                        <li key={q} className="flex items-start gap-3 text-sm font-bold text-indigo-950">
                           <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 mt-1.5"></span> {q}
                        </li>
@@ -391,7 +391,7 @@ export const LESSONS: Lesson[] = [
   },
   {
     day: 2,
-    title: 'The Product Development Lifecycle (PDLC)',
+    title: 'Product Development Lifecycle (PDLC)',
     category: 'Foundations',
     preview: 'Theme: How products move from idea → design → build → launch → iterate.',
     content: (
@@ -741,7 +741,7 @@ export const LESSONS: Lesson[] = [
                     <h5 className="text-xl font-black text-rose-900 border-b border-rose-50 pb-4">Perform Product Drills</h5>
                     <p className="text-lg text-indigo-800 font-bold italic leading-relaxed">List 3 strengths and 3 weaknesses of a daily-use app with justifications.</p>
                     <h5 className="text-xl font-black text-rose-900 border-b border-rose-50 pb-4 mt-12">Embrace Constraints</h5>
-                    <p className="text-lg text-indigo-800 font-bold italic leading-relaxed">Design solutions under xstrict limits (e.g., 30s onboarding) to sharpen judgment.</p>
+                    <p className="text-lg text-indigo-800 font-bold italic leading-relaxed">Design solutions under strict limits (e.g., 30s onboarding) to sharpen judgment.</p>
                  </div>
               </div>
            </div>
@@ -873,11 +873,11 @@ export const LESSONS: Lesson[] = [
                        <p className="text-lg font-bold text-zinc-300 italic text-zinc-300">Interviews, surveys, and usability testing.</p>
                     </div>
                     <div>
-                       <p className="text-[10px] font-black uppercase text-pink-400 tracking-widest mb-2 text-white text-white text-white">Personas</p>
+                       <p className="text-[10px] font-black uppercase text-pink-400 tracking-widest mb-2 text-white text-white">Personas</p>
                        <p className="text-lg font-bold text-zinc-300 italic text-zinc-300">Visualize different user groups.</p>
                     </div>
                     <div>
-                       <p className="text-[10px] font-black uppercase text-pink-400 tracking-widest mb-2 text-white text-white text-white text-white">Empathy Maps</p>
+                       <p className="text-[10px] font-black uppercase text-pink-400 tracking-widest mb-2 text-white text-white">Empathy Maps</p>
                        <p className="text-lg font-bold text-zinc-300 italic text-zinc-300">Map what users think, feel, experience, and do.</p>
                     </div>
                  </div>
@@ -931,13 +931,13 @@ export const LESSONS: Lesson[] = [
               <div className="grid grid-cols-1 md:grid-cols-2 gap-12 text-white">
                  <div className="space-y-6 text-white">
                     <div className="p-6 bg-white/5 rounded-3xl border border-white/10 text-white">
-                       <h5 className="text-3xl font-black mb-4 text-white text-white">Apple</h5>
+                       <h5 className="text-3xl font-black mb-4 text-white">Apple</h5>
                        <p className="text-lg text-zinc-300 font-medium italic leading-relaxed text-zinc-300">Demonstrates empathy through user-friendly interfaces and seamless experiences that create a loyal base.</p>
                     </div>
                  </div>
                  <div className="space-y-6 text-white">
                     <div className="p-6 bg-white/5 rounded-3xl border border-white/10 text-white">
-                       <h5 className="text-3xl font-black mb-4 text-white text-white text-white">Airbnb</h5>
+                       <h5 className="text-3xl font-black mb-4 text-white text-white">Airbnb</h5>
                        <p className="text-lg text-zinc-300 font-medium italic leading-relaxed text-zinc-300">Achieved success by focusing on the traveler's need for unique and personalized experiences.</p>
                     </div>
                  </div>
@@ -975,17 +975,106 @@ export const LESSONS: Lesson[] = [
   },
   {
     day: 6,
-    title: 'Business Fundamentals for PMs',
+    title: 'Essential Product Documentation',
     category: 'Foundations',
+    preview: 'A Product Manager\'s Complete Guide to PRDs, BRDs, User Stories, and Roadmaps.',
+    content: (
+      <div className="space-y-12">
+        <section className="bg-zinc-50 p-8 rounded-3xl border border-zinc-200">
+           <div className="flex gap-4 mb-6">
+              <span className="px-4 py-1.5 bg-indigo-600 text-white text-[10px] font-black uppercase tracking-widest rounded-lg">Foundations</span>
+              <span className="px-4 py-1.5 bg-zinc-200 text-zinc-700 text-[10px] font-black uppercase tracking-widest rounded-lg">45m read</span>
+           </div>
+           <h2 className="text-3xl font-black mb-4 tracking-tight">Essential Product Documentation</h2>
+           <p className="text-xl text-zinc-600 font-medium leading-relaxed italic">"Product managers are professional translators. Documentation is the primary medium for this translation work."</p>
+        </section>
+
+        <section className="bg-white border-2 border-indigo-100 p-8 rounded-[2.5rem] shadow-sm">
+           <h3 className="text-2xl font-black mb-6 text-zinc-900">Learning Objectives</h3>
+           <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {[
+                "Distinguish between document types (PRD, BRD, user stories)",
+                "Create comprehensive PRDs with clear scope boundaries",
+                "Build compelling BRDs with ROI justification",
+                "Write effective user stories and acceptance criteria",
+                "Develop outcome-focused roadmaps",
+                "Maintain decision logs and meeting notes"
+              ].map((obj, i) => (
+                <li key={i} className="flex gap-3 text-zinc-700 font-bold">
+                   <CheckCircle className="w-5 h-5 text-indigo-500 shrink-0" /> {obj}
+                </li>
+              ))}
+           </ul>
+        </section>
+
+        <section className="space-y-8">
+           <div className="p-8 bg-zinc-950 rounded-[3rem] text-white">
+              <h4 className="text-2xl font-black mb-6 text-indigo-400">The PRD: Single Source of Truth</h4>
+              <p className="text-lg text-zinc-300 mb-6">The PRD defines what you're building, why you're building it, and what success looks like. It aligns engineering, design, marketing, and leadership.</p>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                 {['Problem Context', 'User Stories', 'Success Metrics', 'Scope Boundaries'].map(item => (
+                   <div key={item} className="p-4 bg-white/5 border border-white/10 rounded-xl text-xs font-black text-center uppercase tracking-widest">{item}</div>
+                 ))}
+              </div>
+           </div>
+        </section>
+      </div>
+    ),
+    assignment: (
+      <div className="space-y-6">
+        <div className="p-10 bg-white border-2 border-indigo-200 rounded-[3rem] shadow-xl">
+           <h5 className="text-xl font-black mb-4 uppercase text-indigo-600">Task: Write Your Own PRD</h5>
+           <p className="text-lg font-bold text-zinc-700 mb-6">Use the AI workspace to generate a draft for a new feature.</p>
+           <a href="https://www.chatprd.ai/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 bg-zinc-900 text-white rounded-xl font-black text-sm uppercase tracking-widest">
+              Try ChatPRD <ExternalLink className="w-4 h-4" />
+           </a>
+        </div>
+      </div>
+    )
+  },
+  {
+    day: 7,
+    title: 'Stakeholder Management',
+    category: 'Strategy',
+    preview: 'Master the art of aligning diverse groups around a shared product vision without direct authority.',
+    content: (
+      <div className="space-y-12">
+        <section className="bg-indigo-50 p-12 rounded-[4rem] border border-indigo-100">
+           <h2 className="text-4xl font-black tracking-tighter mb-4 text-indigo-950 text-center">Stakeholder Management Guide 🤝</h2>
+           <p className="text-xl text-indigo-900 font-bold leading-relaxed italic text-center max-w-2xl mx-auto">"All the responsibility but none of the authority."</p>
+        </section>
+
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
+           <div className="p-10 bg-white border-2 border-zinc-100 rounded-[3rem] space-y-6 shadow-sm">
+              <h3 className="text-2xl font-black text-zinc-900">The Power Map</h3>
+              <p className="text-zinc-600 font-medium">Map stakeholders by <strong>Influence vs. Interest</strong>:</p>
+              <div className="grid grid-cols-2 gap-2 text-[10px] font-black uppercase text-center tracking-widest">
+                 <div className="p-4 bg-indigo-600 text-white rounded-xl">Key Players (High/High)</div>
+                 <div className="p-4 bg-indigo-100 text-indigo-700 rounded-xl">Keep Satisfied (High/Low)</div>
+                 <div className="p-4 bg-indigo-50 text-indigo-600 rounded-xl">Keep Informed (Low/High)</div>
+                 <div className="p-4 bg-zinc-100 text-zinc-400 rounded-xl">Minimal Effort (Low/Low)</div>
+              </div>
+           </div>
+           <div className="p-10 bg-zinc-900 rounded-[3rem] text-white flex flex-col justify-center space-y-6">
+              <h4 className="text-2xl font-black text-indigo-400">Saying No Gracefully</h4>
+              <p className="text-lg italic leading-relaxed text-zinc-400">"Every yes to one feature is a no to dozens of others. Ground refusals in strategy and data rather than personal preference."</p>
+           </div>
+        </section>
+      </div>
+    ),
+    resources: [
+        { title: 'Communicating with Stakeholders', url: 'https://youtu.be/jz7tPVDwb50?si=71B7Acqz6U2F0XA8', type: 'video' }
+    ]
+  },
+  {
+    day: 8,
+    title: 'Business Fundamentals for PMs',
+    category: 'Strategy',
     preview: 'Master the metrics that drive sustainable products. Learn CAC, LTV, and the "Golden Ratio" of business success.',
     content: (
       <div className="space-y-12">
         <header className="bg-emerald-600 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden text-white">
            <div className="absolute bottom-0 right-0 w-96 h-96 bg-white/10 rounded-full translate-y-1/2 translate-x-1/3 blur-3xl"></div>
-           <div className="flex gap-4 mb-6">
-              <span className="px-4 py-1.5 bg-white/20 rounded-lg text-[10px] font-black uppercase tracking-widest text-white">Foundations</span>
-              <span className="px-4 py-1.5 bg-white/20 rounded-lg text-[10px] font-black uppercase tracking-widest text-white">45m read</span>
-           </div>
            <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none text-white text-white">Business Fundamentals for PMs 💰</h1>
            <p className="text-emerald-100 text-xl font-bold italic">Master the metrics that drive sustainable products. Learn CAC, LTV, and the "Golden Ratio" of business success.</p>
         </header>
@@ -1008,78 +1097,35 @@ export const LESSONS: Lesson[] = [
         </section>
 
         <section className="space-y-12">
-           <div className="p-12 bg-zinc-950 rounded-[4rem] text-white space-y-12 shadow-2xl relative overflow-hidden text-white">
-              <h3 className="text-3xl font-black text-indigo-400 tracking-tight text-center text-white">Why Business Fundamentals Matter for PMs</h3>
-              <p className="text-2xl leading-tight font-black italic max-w-3xl text-center mx-auto text-white">Product Managers are often called the "mini-CEO" of their product. Here's why business knowledge is critical:</p>
-              
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 text-white">
-                 <div className="space-y-6 text-center text-white">
-                    <h5 className="text-lg font-black uppercase tracking-widest text-indigo-300 mb-6 text-white text-white">What Good PMs Do</h5>
-                    <div className="grid grid-cols-1 gap-4 text-left text-white">
-                       {['Balance user value with business value', 'Justify investments with ROI calculations', 'Speak confidently to executives', 'Understand customer lifecycle economics'].map(item => (
-                         <div key={item} className="p-5 bg-white/5 border border-white/10 rounded-2xl font-bold text-zinc-300 italic text-white">{item}</div>
-                       ))}
-                    </div>
-                 </div>
-                 <div className="space-y-6 text-center text-white">
-                    <h5 className="text-lg font-black uppercase tracking-widest text-rose-400 mb-6 text-white text-white text-white">Common PM Mistakes</h5>
-                    <div className="grid grid-cols-1 gap-4 text-left text-white">
-                       {['Building features users love but don\'t pay for', 'Ignoring customer acquisition costs', 'Focusing on vanity metrics', 'Ignoring sustainability'].map(item => (
-                         <div key={item} className="p-5 bg-rose-500/10 border border-rose-500/20 rounded-2xl font-bold text-rose-200 italic text-white text-white text-white">{item}</div>
-                       ))}
-                    </div>
-                 </div>
-              </div>
-           </div>
-        </section>
-
-        <section className="space-y-12">
-           <h3 className="text-3xl font-black text-zinc-900 px-4 text-center">Case Studies: Engagement vs Success</h3>
-           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-white">
-              {[
-                { title: 'Twitter/X', color: 'bg-zinc-950 text-white', desc: 'Built incredible engagement but struggled with monetization for a decade. Engagement ≠ Business Success.' },
-                { title: 'Instagram', color: 'bg-gradient-to-tr from-purple-600 to-orange-500 text-white', desc: 'Delayed monetization to focus on growth. Worked because they had Facebook\'s massive resources.' },
-                { title: 'Notion', color: 'bg-white text-zinc-950 border-2 border-zinc-100', desc: 'Freemium model carefully designed to convert power users. Model aligned perfectly with user behavior.' }
-              ].map(item => (
-                <div key={item.title} className={`p-10 rounded-[3rem] space-y-6 flex flex-col justify-center ${item.color} shadow-xl hover:scale-105 transition-transform`}>
-                   <h5 className="text-3xl font-black tracking-tight text-center text-white text-white">{item.title}</h5>
-                   <p className="text-sm font-bold leading-relaxed text-center italic">{item.desc}</p>
-                </div>
-              ))}
-           </div>
-        </section>
-
-        <section className="space-y-12">
            <div className="p-12 bg-white border-2 border-zinc-100 rounded-[4rem] space-y-12 shadow-sm text-center">
-              <h3 className="text-3xl font-black tracking-tight text-zinc-950 text-center text-zinc-950 text-zinc-950 text-zinc-950">Unit Economics & Formulas</h3>
+              <h3 className="text-3xl font-black tracking-tight text-zinc-950">Unit Economics & Formulas</h3>
               
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 text-center text-zinc-900">
-                 <div className="p-10 bg-indigo-50 border border-indigo-100 rounded-[3rem] space-y-6 text-center text-indigo-950">
-                    <h5 className="text-2xl font-black text-indigo-950 text-center text-indigo-950">Customer Acquisition Cost (CAC)</h5>
-                    <div className="p-6 bg-white rounded-2xl border-4 border-indigo-200 font-mono text-xl text-center text-indigo-600 font-black text-indigo-600">
+                 <div className="p-10 bg-indigo-50 border border-indigo-100 rounded-[3rem] space-y-6">
+                    <h5 className="text-2xl font-black text-indigo-950">Customer Acquisition Cost (CAC)</h5>
+                    <div className="p-6 bg-white rounded-2xl border-4 border-indigo-200 font-mono text-xl text-center text-indigo-600 font-black">
                        (Total Mkt + Sales Costs) / # New Users
                     </div>
-                    <p className="text-sm font-bold text-indigo-900/60 italic text-center text-center">Example: $50,000 spend + 500 users = $100 CAC</p>
+                    <p className="text-sm font-bold text-indigo-900/60 italic text-center">Example: $50,000 spend + 500 users = $100 CAC</p>
                  </div>
                  
                  <div className="p-10 bg-emerald-50 border border-emerald-100 rounded-[3rem] space-y-6 text-emerald-950">
-                    <h5 className="text-2xl font-black text-emerald-950 text-emerald-950">Lifetime Value (LTV)</h5>
+                    <h5 className="text-2xl font-black text-emerald-950">Lifetime Value (LTV)</h5>
                     <div className="space-y-4">
-                       <div className="p-4 bg-white rounded-xl border border-emerald-200 flex justify-between items-center text-emerald-950">
-                          <span className="font-bold text-emerald-900 text-emerald-900 text-emerald-900">Simple LTV</span>
-                          <span className="font-mono text-emerald-600 font-black text-emerald-600">ARPU × Avg Lifespan</span>
+                       <div className="p-4 bg-white rounded-xl border border-emerald-200 flex justify-between items-center">
+                          <span className="font-bold text-emerald-900">Simple LTV</span>
+                          <span className="font-mono text-emerald-600 font-black">ARPU × Avg Lifespan</span>
                        </div>
-                       <div className="p-4 bg-white rounded-xl border border-emerald-200 flex justify-between items-center text-emerald-950">
-                          <span className="font-bold text-emerald-900 text-emerald-900 text-emerald-900">LTV with Churn</span>
-                          <span className="font-mono text-emerald-600 font-black text-emerald-600">(ARPU × Gross Margin) / Churn Rate</span>
+                       <div className="p-4 bg-white rounded-xl border border-emerald-200 flex justify-between items-center">
+                          <span className="font-bold text-emerald-900">LTV with Churn</span>
+                          <span className="font-mono text-emerald-600 font-black">(ARPU × Gross Margin) / Churn Rate</span>
                        </div>
                     </div>
-                    <p className="text-xs font-black text-emerald-950 bg-white/50 px-4 py-2 rounded-lg italic text-center text-emerald-950">Critical Insight: Increasing customer lifespan by 50% directly increases LTV by 50%!</p>
                  </div>
               </div>
 
               <div className="p-12 bg-zinc-950 rounded-[4rem] text-white">
-                 <h4 className="text-2xl font-black mb-10 text-indigo-400 text-center tracking-widest uppercase text-white">The Golden Ratio: LTV:CAC</h4>
+                 <h4 className="text-2xl font-black mb-10 text-indigo-400 text-center tracking-widest uppercase">The Golden Ratio: LTV:CAC</h4>
                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center text-white">
                     {[
                       { range: '< 1:1', title: 'Crisis Mode', color: 'text-rose-500', desc: 'Losing money. Reduce CAC or increase LTV urgently.' },
@@ -1101,24 +1147,23 @@ export const LESSONS: Lesson[] = [
     assignment: (
       <div className="space-y-6">
         <div className="p-12 bg-white border-2 border-emerald-200 rounded-[3rem] shadow-xl relative overflow-hidden">
-           <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-50 rounded-full -translate-y-1/2 translate-x-1/2"></div>
            <h5 className="text-xl font-black mb-8 uppercase tracking-[0.2em] text-emerald-600 text-center">🎯 Day-6 Mini Assignment</h5>
-           <p className="text-3xl font-black text-zinc-900 mb-10 text-center tracking-tight text-zinc-900 text-zinc-900">Unit Economics Problem</p>
+           <p className="text-3xl font-black text-zinc-900 mb-10 text-center tracking-tight">Unit Economics Problem</p>
            
            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-              <div className="p-10 bg-zinc-950 rounded-[3rem] border border-zinc-800 space-y-6 text-white font-mono text-sm leading-relaxed text-white">
-                 <h6 className="text-xl font-black text-indigo-400 border-b border-white/10 pb-4 mb-6 uppercase tracking-widest text-white text-white">The Data Set</h6>
-                 <div className="grid grid-cols-2 gap-y-4 gap-x-8 text-white">
-                    <span className="text-zinc-500 font-black uppercase tracking-widest text-[10px] text-white">Ad Spend:</span> <span className="text-indigo-300 font-black text-white">$30,000</span>
-                    <span className="text-zinc-500 font-black uppercase tracking-widest text-[10px] text-white">Sales Team:</span> <span className="text-indigo-300 font-black text-white">$20,000</span>
-                    <span className="text-zinc-500 font-black uppercase tracking-widest text-[10px] text-white">New Users:</span> <span className="text-indigo-300 font-black text-white">250</span>
-                    <span className="text-zinc-500 font-black uppercase tracking-widest text-[10px] text-white">ARPU:</span> <span className="text-indigo-300 font-black text-white">$40/mo</span>
+              <div className="p-10 bg-zinc-950 rounded-[3rem] border border-zinc-800 space-y-6 text-white font-mono text-sm leading-relaxed">
+                 <h6 className="text-xl font-black text-indigo-400 border-b border-white/10 pb-4 mb-6 uppercase tracking-widest">The Data Set</h6>
+                 <div className="grid grid-cols-2 gap-y-4 gap-x-8">
+                    <span className="text-zinc-500 font-black uppercase tracking-widest text-[10px]">Ad Spend:</span> <span className="text-indigo-300 font-black">$30,000</span>
+                    <span className="text-zinc-500 font-black uppercase tracking-widest text-[10px]">Sales Team:</span> <span className="text-indigo-300 font-black">$20,000</span>
+                    <span className="text-zinc-500 font-black uppercase tracking-widest text-[10px]">New Users:</span> <span className="text-indigo-300 font-black">250</span>
+                    <span className="text-zinc-500 font-black uppercase tracking-widest text-[10px]">ARPU:</span> <span className="text-indigo-300 font-black">$40/mo</span>
                  </div>
               </div>
               <div className="flex flex-col justify-center space-y-10">
-                 <div className="space-y-4 text-zinc-900 text-zinc-900">
+                 <div className="space-y-4 text-zinc-900">
                     <p className="text-lg font-black text-zinc-950 border-l-4 border-indigo-600 pl-6 uppercase tracking-widest">Calculate</p>
-                    <p className="text-xl font-black text-zinc-900 pl-6">1 CAC, 2 LTV, 3 LTV:CAC Ratio</p>
+                    <p className="text-xl font-black text-zinc-900 pl-6">1. CAC <br/> 2. LTV (10mo span, 80% margin) <br/> 3. LTV:CAC Ratio</p>
                  </div>
               </div>
            </div>
@@ -1127,7 +1172,7 @@ export const LESSONS: Lesson[] = [
     )
   },
   {
-    day: 7,
+    day: 9,
     title: 'Introduction to User & Market Research',
     category: 'Research',
     preview: 'Think like a researcher. Learn structured methods to uncover pain points and validate product ideas.',
@@ -1136,72 +1181,38 @@ export const LESSONS: Lesson[] = [
         <header className="bg-purple-600 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden text-white">
            <div className="absolute top-0 right-0 w-80 h-80 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/3 blur-3xl text-white"></div>
            <div className="flex gap-4 mb-6">
-              <span className="px-4 py-1.5 bg-white/20 rounded-lg text-[10px] font-black uppercase tracking-widest text-white text-white">Research</span>
-              <span className="px-4 py-1.5 bg-white/20 rounded-lg text-[10px] font-black uppercase tracking-widest text-white text-white text-white text-white">45m read</span>
+              <span className="px-4 py-1.5 bg-white/20 rounded-lg text-[10px] font-black uppercase tracking-widest text-white">Research</span>
+              <span className="px-4 py-1.5 bg-white/20 rounded-lg text-[10px] font-black uppercase tracking-widest text-white">45m read</span>
            </div>
-           <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none text-white text-white text-white text-white text-white">Introduction to User & Market Research 🔍</h1>
+           <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none text-white text-white">Introduction to User & Market Research 🔍</h1>
            <p className="text-purple-100 text-xl font-bold italic text-white">Think like a researcher. Learn structured methods to uncover pain points and validate product ideas.</p>
         </header>
 
-        {/* Must Watch section with thumbnails at the top for Day 7 */}
-        <section className="p-10 bg-zinc-950 rounded-[3rem] text-white space-y-8 relative overflow-hidden shadow-2xl text-white text-white text-white text-white text-white text-white">
-           <h6 className="text-lg font-black uppercase tracking-widest text-indigo-400 text-center text-white text-white">Must Watch Videos</h6>
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-white text-white">
-              <a href="https://youtu.be/MxwyGi-3dzY?si=CV5VWd2bNnUDW-fP" target="_blank" rel="noopener noreferrer" className="group block space-y-4">
-                 <div className="relative aspect-video rounded-2xl overflow-hidden bg-zinc-800 border border-white/10">
-                    <img src="https://img.youtube.com/vi/MxwyGi-3dzY/mqdefault.jpg" className="w-full h-full object-cover group-hover:scale-105 transition-transform" alt="Doing User Research" />
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity">
-                       <PlayCircle className="w-12 h-12 text-white fill-current text-white" />
-                    </div>
-                 </div>
-                 <p className="text-lg font-black text-center group-hover:text-indigo-400 transition-colors text-white">Doing User Research</p>
-              </a>
-              <a href="https://youtu.be/LoJDAeq6i34?si=Ok2GW9U0wFmSJzz8" target="_blank" rel="noopener noreferrer" className="group block space-y-4">
-                 <div className="relative aspect-video rounded-2xl overflow-hidden bg-zinc-800 border border-white/10">
-                    <img src="https://img.youtube.com/vi/LoJDAeq6i34/mqdefault.jpg" className="w-full h-full object-cover group-hover:scale-105 transition-transform" alt="Market Research" />
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity">
-                       <PlayCircle className="w-12 h-12 text-white fill-current text-white" />
-                    </div>
-                 </div>
-                 <p className="text-lg font-black text-center group-hover:text-indigo-400 transition-colors text-white text-white">Market Research</p>
-              </a>
-           </div>
-        </section>
-
-        <section className="bg-white p-12 border border-zinc-100 rounded-[4rem] text-center shadow-sm">
-           <p className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600 italic tracking-tighter leading-tight mb-8 max-w-4xl mx-auto">
-              “Great products start with deep understanding — of users, their needs, and the market around them.”
-           </p>
-           <p className="text-xl text-zinc-600 font-medium leading-relaxed max-w-2xl mx-auto italic text-zinc-600">
-              Today’s focus is to think like a researcher, not a builder. You’ll learn how to identify who your users are, what they struggle with, and why solving it matters.
-           </p>
-        </section>
-
         <section className="p-10 bg-purple-50 border border-purple-100 rounded-[3.5rem] space-y-10">
-           <h3 className="text-2xl font-black text-purple-950 px-4 text-purple-950">Learning Objectives</h3>
+           <h3 className="text-2xl font-black text-purple-950 px-4">Learning Objectives</h3>
            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
                 'Explain the difference between user research and market research',
-                'Identify user pain points using qualitative and quantitative methods',
+                'Identify user pain points using qualitative methods',
                 'Apply basic frameworks — Empathy Map, JTBD, and Segmentation',
                 'Use AI tools to accelerate research synthesis'
               ].map(item => (
-                <div key={item} className="p-6 bg-white rounded-3xl border border-purple-200 flex items-center gap-4 text-lg font-bold text-purple-900 italic text-purple-900">
-                   <CheckCircle className="w-6 h-6 text-purple-600 shrink-0 text-purple-600" /> {item}
+                <div key={item} className="p-6 bg-white rounded-3xl border border-purple-200 flex items-center gap-4 text-lg font-bold text-purple-900 italic">
+                   <CheckCircle className="w-6 h-6 text-purple-600 shrink-0" /> {item}
                 </div>
               ))}
            </div>
         </section>
 
         <section className="space-y-10">
-           <h3 className="text-3xl font-black text-zinc-950 px-4 text-zinc-900 text-zinc-900">1. User Research vs Market Research</h3>
+           <h3 className="text-3xl font-black text-zinc-950 px-4">1. User Research vs Market Research</h3>
            <div className="overflow-hidden rounded-[3rem] border-4 border-zinc-100 bg-white shadow-2xl">
-              <table className="w-full text-left text-zinc-900">
-                <thead className="bg-zinc-950 text-white font-black text-xs uppercase tracking-[0.2em] text-white">
+              <table className="w-full text-left">
+                <thead className="bg-zinc-950 text-white font-black text-xs uppercase tracking-[0.2em]">
                   <tr>
-                    <th className="p-8">Aspect</th>
-                    <th className="p-8">User Research</th>
-                    <th className="p-8">Market Research</th>
+                    <th className="p-8 text-white">Aspect</th>
+                    <th className="p-8 text-white">User Research</th>
+                    <th className="p-8 text-white">Market Research</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-zinc-100 font-bold text-sm text-zinc-900">
@@ -1212,277 +1223,36 @@ export const LESSONS: Lesson[] = [
                     { a: 'Output', u: 'Personas, Journey Maps', m: 'TAM/SAM/SOM, SWOT' }
                   ].map((row, i) => (
                     <tr key={i} className="hover:bg-zinc-50 transition-colors">
-                       <td className="p-8 text-purple-600 font-black uppercase tracking-widest text-[10px] text-purple-600">{row.a}</td>
+                       <td className="p-8 text-purple-600 font-black uppercase tracking-widest text-[10px]">{row.a}</td>
                        <td className="p-8 text-zinc-900 leading-relaxed italic">{row.u}</td>
-                       <td className="p-8 text-zinc-500 leading-relaxed italic text-zinc-500">{row.m}</td>
+                       <td className="p-8 text-zinc-500 leading-relaxed italic">{row.m}</td>
                     </tr>
                   ))}
-                </tbody>
-              </table>
-           </div>
-           <div className="p-8 bg-zinc-950 rounded-[3rem] text-center border-4 border-indigo-600 text-white text-white">
-              <p className="text-2xl font-black text-white italic text-white text-white text-white">💡 PM Tip: Always start with user research before market research. If users don’t want it, market data doesn’t matter.</p>
-           </div>
-        </section>
-
-        <section className="space-y-12">
-           <h3 className="text-3xl font-black text-zinc-950 px-4 tracking-tight text-zinc-900 text-zinc-900">2. The Research Process</h3>
-           <div className="overflow-hidden rounded-[3rem] border-4 border-zinc-100 bg-white shadow-2xl">
-              <table className="w-full text-left text-zinc-900">
-                <thead className="bg-zinc-950 text-white font-black text-xs uppercase tracking-[0.2em] text-white">
-                  <tr>
-                    <th className="p-8">Step</th>
-                    <th className="p-8">Activity</th>
-                    <th className="p-8">Key Question / Detail</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-zinc-100 font-bold text-sm text-zinc-900 text-zinc-900">
-                  {[
-                    { n: '1', t: 'Define Objective', q: '“What do I want to learn?”' },
-                    { n: '2', t: 'Choose Method', q: 'Interviews, surveys, or secondary.' },
-                    { n: '3', t: 'Recruit Users', q: 'Identify your target segments.' },
-                    { n: '4', t: 'Collect Data', q: 'Ask open-ended questions.' },
-                    { n: '5', t: 'Synthesize', q: 'Identify themes and insights.' }
-                  ].map((step, i) => (
-                    <tr key={i} className="hover:bg-zinc-50 transition-colors">
-                       <td className="p-8 text-purple-600 font-black text-lg text-purple-600">{step.n}</td>
-                       <td className="p-8 text-zinc-900">{step.t}</td>
-                       <td className="p-8 text-zinc-500 italic text-zinc-500">{step.q}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-           </div>
-        </section>
-
-        <section className="space-y-12">
-           <h3 className="text-3xl font-black text-zinc-900 px-4 text-zinc-900 text-zinc-900">3. Research Frameworks</h3>
-           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 text-zinc-900">
-              <div className="p-12 bg-zinc-900 rounded-[4rem] text-white space-y-8 shadow-2xl border border-zinc-800 text-white text-white">
-                 <h4 className="text-2xl font-black text-purple-400 tracking-tight text-purple-400">Empathy Map</h4>
-                 <p className="text-lg font-bold text-zinc-300 italic mb-8">Map out what users: Says, Does, Thinks, and Feels.</p>
-                 <div className="grid grid-cols-2 gap-4">
-                    {['SAYS', 'DOES', 'THINKS', 'FEELS'].map(cap => (
-                       <div key={cap} className="p-6 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center font-black text-2xl tracking-widest text-white/40">{cap}</div>
-                    ))}
-                 </div>
-              </div>
-              
-              <div className="p-12 bg-purple-50 rounded-[4rem] border border-purple-100 space-y-8 shadow-sm text-purple-950">
-                 <h4 className="text-2xl font-black text-purple-950 tracking-tight">Jobs To Be Done (JTBD)</h4>
-                 <p className="text-xl font-black text-purple-900 italic leading-snug text-purple-900">“People don’t buy products; they hire them to get a job done.”</p>
-                 <div className="space-y-4 pt-6 border-t border-purple-200 text-purple-950">
-                    <p className="text-lg font-black text-purple-950 text-purple-950">When I... <span className="text-purple-400 font-bold text-purple-400">(situation)</span></p>
-                    <p className="text-lg font-black text-purple-950 text-purple-950">I want to... <span className="text-purple-400 font-bold text-purple-400">(motivation)</span></p>
-                    <p className="text-lg font-black text-purple-950 text-purple-950">So I can... <span className="text-purple-400 font-bold text-purple-400">(desired outcome)</span></p>
-                 </div>
-                 <div className="p-6 bg-white rounded-3xl border border-purple-200 italic font-bold text-purple-900 text-sm">Example: hiring Duolingo to feel productive while waiting.</div>
-              </div>
-           </div>
-        </section>
-
-        <section className="space-y-12">
-           <h3 className="text-3xl font-black text-zinc-950 px-4 text-zinc-900 text-zinc-900">Segmentation Strategies</h3>
-           <div className="overflow-hidden rounded-[3rem] border-4 border-zinc-100 bg-white shadow-2xl">
-              <table className="w-full text-left text-zinc-900">
-                <thead className="bg-zinc-950 text-white font-black text-xs uppercase tracking-[0.2em] text-white">
-                  <tr>
-                    <th className="p-8">Strategy</th>
-                    <th className="p-8">Target Criteria</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-zinc-100 font-bold text-sm text-zinc-900">
-                  {[
-                    { title: 'Demographics', val: 'Age, gender, location, income.' },
-                    { title: 'Psychographics', val: 'Motivations, lifestyle, values.' },
-                    { title: 'Behavior', val: 'Usage freq, loyalty, spending.' },
-                    { title: 'Needs-Based', val: 'Specific pain points & goals.' }
-                  ].map((seg, i) => (
-                    <tr key={i} className="hover:bg-zinc-50 transition-colors">
-                       <td className="p-8 text-purple-600 font-black uppercase tracking-widest text-[10px] text-purple-600">{seg.title}</td>
-                       <td className="p-8 text-zinc-900 italic leading-relaxed">{seg.val}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-           </div>
-        </section>
-
-        <section className="p-12 bg-white border-4 border-zinc-100 rounded-[4rem] space-y-12 shadow-2xl text-zinc-900">
-           <h3 className="text-3xl font-black text-zinc-950 tracking-tight text-zinc-950">Tools & AI Assistants</h3>
-           <div className="overflow-hidden rounded-[3rem] border border-zinc-200 bg-zinc-50">
-              <table className="w-full text-left text-zinc-900">
-                <thead className="bg-purple-600 text-white font-black text-xs uppercase tracking-[0.2em] text-white">
-                  <tr>
-                    <th className="p-6">Tool</th>
-                    <th className="p-6">Role / Context</th>
-                    <th className="p-6">Example Usage</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-zinc-200 font-bold text-sm text-zinc-900">
-                  {[
-                    { tool: 'ChatGPT', role: 'Interview Prep', use: '"Generate 10 questions for student productivity challenges."' },
-                    { tool: 'Perplexity AI', role: 'Competitor Scan', use: '"Real-time deep competitive analysis and market data."' },
-                    { tool: 'Notion AI', role: 'Synthesis', use: '"Summarize key pain points from long interview transcripts."' },
-                    { tool: 'Canva', role: 'Visualization', use: '"Create visually compelling user personas."' }
-                  ].map((item, i) => (
-                    <tr key={item.tool} className="hover:bg-white transition-colors">
-                       <td className="p-6 text-purple-700 font-black text-purple-700">{item.tool}</td>
-                       <td className="p-6 text-zinc-900">{item.role}</td>
-                       <td className="p-6 text-zinc-500 italic leading-relaxed text-zinc-500">{item.use}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-           </div>
-        </section>
-
-        <section className="bg-zinc-950 rounded-[4rem] text-white p-12 shadow-2xl relative overflow-hidden text-white text-white">
-           <h3 className="text-3xl font-black mb-10 text-indigo-400 tracking-tight text-center text-indigo-400 text-white">Real-World Case: Zomato One-Tap</h3>
-           <div className="overflow-hidden rounded-3xl border border-white/10 bg-white/5">
-              <table className="w-full text-left">
-                <thead className="bg-indigo-600 text-white font-black text-xs uppercase tracking-widest text-white">
-                  <tr>
-                    <th className="p-6">Stage</th>
-                    <th className="p-6">Detail / Metric</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-white/5 font-bold text-sm text-zinc-300 text-zinc-300">
-                  <tr>
-                    <td className="p-6 text-indigo-300 font-black uppercase tracking-widest text-[10px] text-indigo-300 text-white">Pain Point</td>
-                    <td className="p-6 italic">“Hungry but don't want to call restaurants or search again.”</td>
-                  </tr>
-                  <tr>
-                    <td className="p-6 text-indigo-300 font-black uppercase tracking-widest text-[10px] text-indigo-300 text-white">Method</td>
-                    <td className="p-6 italic">Surveys & Usage Data Analysis</td>
-                  </tr>
-                  <tr>
-                    <td className="p-6 text-indigo-300 font-black uppercase tracking-widest text-[10px] text-indigo-300 text-white">Insight</td>
-                    <td className="p-6 italic">Users repeat specific orders 60% of the time.</td>
-                  </tr>
-                  <tr>
-                    <td className="p-6 text-indigo-300 font-black uppercase tracking-widest text-[10px] text-indigo-300 text-white">Outcome</td>
-                    <td className="p-6 font-black text-white">1-Tap Reordering feature launched → Orders ↑ 22%</td>
-                  </tr>
                 </tbody>
               </table>
            </div>
         </section>
       </div>
     ),
-    assignment: (
-      <div className="space-y-12">
-        <div className="p-12 bg-white border-2 border-purple-200 rounded-[3rem] shadow-xl relative overflow-hidden">
-           <h5 className="text-xl font-black mb-8 uppercase tracking-[0.2em] text-purple-600 text-center">🎯 Day-7 Research Drill</h5>
-           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12 text-zinc-900">
-              <div className="p-10 bg-zinc-50 rounded-[3rem] border border-zinc-100 space-y-6 text-zinc-900 text-zinc-900">
-                 <p className="text-lg font-black text-zinc-900 leading-relaxed italic text-zinc-900">1. Use ChatGPT to generate 5 open-ended interview questions for your idea.</p>
-                 <p className="text-lg font-black text-zinc-900 leading-relaxed italic border-t border-zinc-200 pt-6 text-zinc-900 text-zinc-900">2. Document these in your workspace and highlight the top 3 themes you expect to uncover. <br/> <strong className="text-indigo-600 text-indigo-600">Reflect: “What might surprise you about how real users respond vs your assumptions?”</strong></p>
-              </div>
-              <div className="p-10 bg-purple-600 rounded-[3rem] text-white flex flex-col justify-center shadow-2xl relative overflow-hidden text-white">
-                 <h6 className="text-2xl font-black mb-6 border-b border-white/10 pb-4 text-white text-white">Day-7 Comprehensive Assignment</h6>
-                 <div className="space-y-4 font-bold italic text-purple-100 text-sm">
-                    <p>Research Task List: 1 Define Target Segment, 2 Pain Point vs. Outcome Table, 3 Competitor Scan</p>
-                    <p>Final Deliverable (One-Slide Summary): • The User, • The Problem, • The Market. Deliverable: User & Market Research Report. Outcome: Readiness for Day 8 User Interviews</p>
-                 </div>
-              </div>
-           </div>
-        </div>
-      </div>
-    )
+    resources: [
+        { title: 'Doing User Research', url: 'https://youtu.be/MxwyGi-3dzY?si=CV5VWd2bNnUDW-fP', type: 'video' },
+        { title: 'Market Research 101', url: 'https://youtu.be/LoJDAeq6i34?si=Ok2GW9U0wFmSJzz8', type: 'video' }
+    ]
   },
   {
-    day: 8,
+    day: 10,
     title: 'User Interviews & Surveys',
     category: 'Research',
     preview: '“If you listen carefully, your users will write your roadmap for you.” Master structured feedback and real validation.',
     content: (
       <div className="space-y-12">
         <header className="bg-indigo-600 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden text-white">
-           <div className="absolute top-0 right-0 w-80 h-80 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/3 blur-3xl text-white"></div>
-           <div className="flex gap-4 mb-6">
-              <span className="px-4 py-1.5 bg-white/20 rounded-lg text-[10px] font-black uppercase tracking-widest text-white text-white text-white">Research</span>
-              <span className="px-4 py-1.5 bg-white/20 rounded-lg text-[10px] font-black uppercase tracking-widest text-white text-white text-white text-white">45m read</span>
-           </div>
-           <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none text-white text-white text-white text-white">User Interviews & Surveys 🎙️</h1>
-           <p className="text-indigo-100 text-xl font-bold italic text-white">“If you listen carefully, your users will write your roadmap for you.” Master structured feedback and real validation.</p>
+           <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none text-white text-white">User Interviews & Surveys 🎙️</h1>
+           <p className="text-indigo-100 text-xl font-bold italic text-white">“If you listen carefully, your users will write your roadmap for you.”</p>
         </header>
 
-        {/* Must Watch section with thumbnail at the top for Day 8 */}
-        <section className="p-10 bg-zinc-950 rounded-[3rem] text-white space-y-8 relative overflow-hidden shadow-2xl text-white text-white text-white">
-           <h6 className="text-lg font-black uppercase tracking-widest text-indigo-400 text-center text-indigo-400">Must Watch Video</h6>
-           <div className="max-w-2xl mx-auto text-white">
-              <a href="https://youtu.be/5tVbFfGDQCk?si=91eAlcNvjUAFfxM1" target="_blank" rel="noopener noreferrer" className="group block space-y-4">
-                 <div className="relative aspect-video rounded-2xl overflow-hidden bg-zinc-800 border border-white/10 shadow-2xl">
-                    <img src="https://img.youtube.com/vi/5tVbFfGDQCk/maxresdefault.jpg" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" alt="How To Conduct User Interviews" />
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/0 transition-colors">
-                       <div className="w-16 h-16 rounded-full bg-indigo-600 flex items-center justify-center text-white shadow-xl group-hover:scale-110 transition-transform">
-                          <Play className="w-8 h-8 fill-current text-white" />
-                       </div>
-                    </div>
-                 </div>
-                 <p className="text-xl font-black text-center group-hover:text-indigo-400 transition-colors text-white">How To Conduct User Interviews Like A Pro</p>
-              </a>
-           </div>
-        </section>
-
-        <section className="bg-white p-12 border border-zinc-100 rounded-[4rem] text-center shadow-sm">
-           <p className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 italic tracking-tighter leading-tight mb-8 max-w-4xl mx-auto">
-              “If you listen carefully, your users will write your roadmap for you.”
-           </p>
-           <p className="text-xl text-zinc-600 font-medium leading-relaxed max-w-2xl mx-auto italic text-zinc-600">
-              Yesterday we explored target segments. Today we learn how to validate insights through real conversations and structured feedback.
-           </p>
-        </section>
-
-        <section className="p-10 bg-indigo-50 border border-indigo-100 rounded-[3.5rem] space-y-10">
-           <h3 className="text-2xl font-black text-indigo-950 px-4 text-indigo-950">Learning Objectives</h3>
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {['Conduct structured discovery interviews', 'Design clear & unbiased surveys', 'Identify recurring pain themes', 'Synthesize insights using AI tools'].map(item => (
-                <div key={item} className="p-6 bg-white rounded-3xl border border-indigo-200 flex items-center gap-4 text-lg font-bold text-indigo-900 italic shadow-sm">
-                   <CheckCircle className="w-6 h-6 text-indigo-600 shrink-0 text-indigo-600" /> {item}
-                </div>
-              ))}
-           </div>
-        </section>
-
         <section className="space-y-12">
-           <h3 className="text-3xl font-black text-zinc-950 px-4 tracking-tight text-center text-zinc-900">1. Why User Interviews Matter</h3>
-           <div className="overflow-hidden rounded-[3rem] border-4 border-zinc-100 bg-white shadow-2xl">
-              <table className="w-full text-left text-zinc-900">
-                <thead className="bg-zinc-950 text-white font-black text-xs uppercase tracking-[0.2em] text-white">
-                  <tr>
-                    <th className="p-8">Reason</th>
-                    <th className="p-8">Benefit for PMs</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-zinc-100 font-bold text-sm text-zinc-900">
-                  {[
-                    { title: 'Deep \'Why\'', desc: 'Understand user motivation beyond what behavioral data shows.' },
-                    { title: 'Assumptions', desc: 'Validate high-risk assumptions early before spending engineering resources.' },
-                    { title: 'Unspoken Needs', desc: 'Discover emotional triggers and pain points users didn\'t mention.' },
-                    { title: 'Empathy', desc: 'Build genuine intuition for the user\'s daily life and environment.' }
-                  ].map((row, i) => (
-                    <tr key={i} className="hover:bg-zinc-50 transition-colors">
-                       <td className="p-8 text-indigo-600 font-black text-lg text-indigo-600">{row.title}</td>
-                       <td className="p-8 text-zinc-500 leading-relaxed font-medium text-zinc-500">{row.desc}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-           </div>
-           <div className="p-10 bg-zinc-950 rounded-[4rem] text-white flex flex-col md:flex-row items-center gap-12 shadow-2xl relative overflow-hidden text-white text-white">
-              <div className="w-24 h-24 bg-white/5 rounded-full flex items-center justify-center text-4xl shrink-0">💎</div>
-              <div>
-                 <p className="text-[10px] font-black uppercase text-indigo-400 tracking-[0.3em] mb-4 text-indigo-400">Example: Insight to Feature</p>
-                 <p className="text-2xl font-black leading-tight italic text-white text-white">"I want to feel progress even if I study for 5 minutes."</p>
-                 <p className="text-lg font-bold text-zinc-400 mt-4 leading-relaxed text-zinc-400">→ Inspired Duolingo's Streak system, now a core retention driver.</p>
-              </div>
-           </div>
-        </section>
-
-        <section className="space-y-10">
-           <h3 className="text-3xl font-black text-zinc-950 px-4 text-center text-zinc-900">2. Types of Interview Questions</h3>
+           <h3 className="text-3xl font-black text-zinc-950 px-4 text-center text-zinc-900">Types of Interview Questions</h3>
            <div className="overflow-hidden rounded-[3rem] border-4 border-zinc-100 bg-white shadow-2xl">
               <table className="w-full text-left text-zinc-900">
                 <thead className="bg-zinc-950 text-white font-black text-xs uppercase tracking-[0.2em] text-white">
@@ -1507,691 +1277,183 @@ export const LESSONS: Lesson[] = [
                 </tbody>
               </table>
            </div>
-           <div className="p-10 bg-indigo-50 rounded-[3rem] border border-indigo-200 text-center text-center">
-              <p className="text-2xl font-black text-indigo-950 italic leading-tight text-indigo-950">🧠 Golden Rule: No leading questions. Don't ask "Wouldn't it be better if...?" Ask "How do you feel about...?"</p>
-           </div>
-        </section>
-
-        <section className="space-y-12">
-           <h3 className="text-3xl font-black text-zinc-900 px-4 text-center text-zinc-900">3. Interview Structure (15–20 min)</h3>
-           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-zinc-900 text-zinc-900">
-              {[
-                { n: '1', t: 'Intro', q: 'Make the user comfortable. Explain purpose, emphasize there are no wrong answers.' },
-                { n: '2', t: 'Context', q: 'Understand background. Ask about their current tools, role, and daily routine.' },
-                { n: '3', t: 'Core Questions', q: 'Explore behaviors & pain. Deep dive into the specific problem area you\'re solving.' },
-                { n: '4', t: 'Wrap Up', q: 'Final insights & referrals. Ask if they have anything to add or know someone else to talk to.' }
-              ].map(step => (
-                <div key={step.n} className="p-8 bg-white border border-zinc-100 rounded-3xl space-y-4 hover:bg-zinc-900 hover:text-white transition-all group shadow-sm text-center">
-                   <span className="text-4xl font-black text-zinc-200 group-hover:text-indigo-50 transition-colors">{step.n}</span>
-                   <h5 className="font-black text-lg uppercase tracking-widest text-zinc-400 group-hover:text-white">{step.t}</h5>
-                   <p className="text-xs font-bold text-zinc-500 group-hover:text-zinc-400 italic leading-relaxed">{step.q}</p>
-                </div>
-              ))}
-           </div>
-        </section>
-
-        <section className="grid grid-cols-1 lg:grid-cols-2 gap-12 text-center text-zinc-900 text-zinc-900">
-           <div className="p-12 bg-zinc-950 rounded-[4rem] text-white space-y-8 shadow-2xl relative overflow-hidden text-white text-white">
-              <h4 className="text-2xl font-black text-indigo-400 tracking-tight text-indigo-400 text-white">AI Accelerator</h4>
-              <div className="p-10 bg-white/5 border border-white/10 rounded-[3rem] space-y-6 text-white text-white">
-                 <p className="text-xl font-black italic text-white text-white text-white">"Summarize these interview transcripts into 3 distinct pain points and 3 desired outcomes."</p>
-                 <p className="text-[10px] font-black uppercase text-indigo-300 tracking-widest mt-6 text-indigo-300 text-white">Synthesis Prompt</p>
-              </div>
-           </div>
-           
-           <div className="p-12 bg-white border-2 border-zinc-100 rounded-[4rem] space-y-8 shadow-sm text-zinc-900 text-zinc-900 text-zinc-900">
-              <h4 className="text-2xl font-black text-zinc-950 tracking-tight text-zinc-950">Survey Principles</h4>
-              <div className="grid grid-cols-1 gap-4">
-                 {['Ask one thing per question', 'Avoid biased wording', 'Mix question types (MCQ + scale)', 'Keep it under 10 questions'].map(princ => (
-                   <div key={princ} className="p-5 bg-zinc-50 rounded-2xl border border-zinc-100 flex items-center gap-4 text-sm font-black text-zinc-900 italic">
-                      <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 text-white"></span> {princ}
-                   </div>
-                 ))}
-              </div>
-           </div>
-        </section>
-
-        <section className="p-12 bg-indigo-50 border-4 border-indigo-100 rounded-[4rem] shadow-sm text-center">
-           <h3 className="text-3xl font-black text-indigo-950 mb-10 tracking-tight text-center text-indigo-950">4. Synthesizing Insights</h3>
-           <p className="text-xl text-center text-indigo-900 font-bold mb-12 italic text-indigo-900 text-indigo-900">After 5–10 interviews, group similar issues into actionable themes.</p>
-           
-           <div className="p-12 bg-white rounded-[3rem] border border-indigo-200 shadow-xl max-w-4xl mx-auto space-y-10 relative overflow-hidden text-center text-zinc-900 text-zinc-900">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-50 rounded-full -translate-y-1/2 translate-x-1/2 text-center"></div>
-              <div className="text-center space-y-4 relative z-10 text-center text-center">
-                 <p className="text-3xl font-black text-zinc-900 leading-tight text-zinc-900">"I forget my fitness goals midweek."</p>
-                 <div className="h-1 w-20 bg-indigo-600 mx-auto"></div>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 relative z-10 text-center text-center">
-                 <div className="space-y-6 text-left text-left">
-                    <div>
-                       <p className="text-[10px] font-black uppercase text-indigo-500 tracking-widest mb-2 text-indigo-500">The Pain</p>
-                       <p className="text-lg font-black text-zinc-900">Motivation Drop</p>
-                    </div>
-                    <div>
-                       <p className="text-[10px] font-black uppercase text-indigo-500 tracking-widest mb-2 text-indigo-500">Feature Opportunity</p>
-                       <p className="text-lg font-black text-zinc-900 text-zinc-900">AI Reminder Coach</p>
-                    </div>
-                 </div>
-                 <div className="flex flex-col justify-center text-center">
-                    <div className="p-6 bg-indigo-950 rounded-3xl text-white text-white">
-                       <p className="text-sm font-bold leading-relaxed italic text-white text-white text-white">Contextual nudges based on historical low-activity days.</p>
-                    </div>
-                 </div>
-              </div>
+           <div className="p-10 bg-indigo-50 rounded-[3rem] border border-indigo-200 text-center">
+              <p className="text-2xl font-black text-indigo-950 italic leading-tight text-indigo-950 text-indigo-950">🧠 Golden Rule: No leading questions. Don't ask "Wouldn't it be better if...?" Ask "How do you feel about...?"</p>
            </div>
         </section>
       </div>
     ),
+    resources: [
+        { title: 'How To Conduct User Interviews', url: 'https://youtu.be/5tVbFfQCk?si=91eAlcNvjUAFfxM1', type: 'video' }
+    ],
     assignment: (
-      <div className="space-y-6">
-        <div className="p-12 bg-white border-2 border-indigo-200 rounded-[3rem] shadow-xl relative overflow-hidden text-center text-center">
-           <h5 className="text-xl font-black mb-8 uppercase tracking-[0.2em] text-indigo-600 text-center text-indigo-600 text-center">🎯 Day-8: User Insights Report</h5>
-           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12 text-center text-center">
-              <div className="p-10 bg-zinc-50 rounded-[3rem] border border-zinc-100 space-y-10 text-center text-center">
-                 <h6 className="text-2xl font-black text-zinc-950 border-b border-zinc-200 pb-6 tracking-tight text-center text-zinc-950 text-zinc-950">1-Page Deliverable</h6>
-                 <ul className="space-y-6 text-center text-zinc-900 text-zinc-900">
-                    {[
-                      { n: '1', t: 'Top 3 Pain Points (with supporting user quotes)' },
-                      { n: '2', t: 'Top 3 Desired Outcomes (what users want to achieve)' },
-                      { n: '3', t: 'One Opportunity Statement: How might we solve for X?' }
-                    ].map(item => (
-                      <li key={item.n} className="flex gap-6 items-start text-center">
-                         <span className="w-10 h-10 rounded-full bg-white border border-zinc-200 flex items-center justify-center shrink-0 shadow-sm text-indigo-600 font-black italic text-center text-indigo-600">{item.n}</span>
-                         <p className="text-lg font-black text-zinc-900 leading-snug italic font-medium">{item.t}</p>
-                      </li>
-                    ))}
-                 </ul>
-              </div>
-              <div className="p-10 bg-emerald-600 rounded-[3rem] text-white flex flex-col justify-center space-y-6 shadow-2xl text-white text-white text-white">
-                 <div className="text-5xl opacity-50 text-white text-white text-white">🏆</div>
-                 <h6 className="text-2xl font-black text-white text-white text-white">Evaluation Criteria</h6>
-                 <p className="text-lg font-bold italic text-emerald-100 leading-relaxed font-medium text-white text-white text-white text-white">“Great: 3 strong actionable themes supported by data.”</p>
-                 <div className="p-6 bg-white/10 rounded-2xl border border-white/10 mt-6 text-white text-white text-white">
-                    <p className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 text-emerald-300 text-white text-white text-white">Deadline</p>
-                    <p className="text-xl font-black text-white text-white text-white">End of Day 10</p>
-                 </div>
-              </div>
-           </div>
+        <div className="space-y-6">
+            <h5 className="text-xl font-black text-indigo-900">Day-8: User Insights Report</h5>
+            <p className="font-bold text-zinc-600">Create a 1-page deliverable covering:</p>
+            <ul className="list-disc pl-5 space-y-2 text-zinc-700">
+                <li>Top 3 Pain Points with user quotes</li>
+                <li>Top 3 Desired Outcomes</li>
+                <li>One "How might we..." opportunity statement</li>
+            </ul>
         </div>
-      </div>
     )
   },
   {
-    day: 9,
-    title: 'User Personas & Jobs To Be Done (JTBD)',
+    day: 11,
+    title: 'User Personas & JTBD',
     category: 'Research',
     preview: '“You don’t design for everyone — you design for someone.” Convert raw feedback into structured user profiles.',
     content: (
       <div className="space-y-12">
         <header className="bg-purple-600 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden text-white">
-           <div className="absolute top-0 right-0 w-80 h-80 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/3 blur-3xl text-white"></div>
-           <div className="flex gap-4 mb-6">
-              <span className="px-4 py-1.5 bg-white/20 rounded-lg text-[10px] font-black uppercase tracking-widest text-white text-white text-white">Research</span>
-              <span className="px-4 py-1.5 bg-white/20 rounded-lg text-[10px] font-black uppercase tracking-widest text-white text-white text-white text-white">45m read</span>
-           </div>
-           <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none text-white text-white text-white text-white text-white">User Personas & Jobs To Be Done (JTBD) 👥</h1>
-           <p className="text-purple-100 text-xl font-bold italic text-white">“You don’t design for everyone — you design for someone.” Convert raw feedback into structured user profiles.</p>
+           <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none text-white text-white">User Personas & JTBD 👥</h1>
+           <p className="text-purple-100 text-xl font-bold italic text-white">“You don’t design for everyone — you design for someone.”</p>
         </header>
 
-        {/* Day 9 Must Watch with thumbnails at the top */}
-        <section className="p-10 bg-zinc-950 rounded-[3rem] text-white space-y-8 relative overflow-hidden shadow-2xl text-white text-white text-white text-white text-white text-white text-white">
-           <h6 className="text-lg font-black uppercase tracking-widest text-indigo-400 text-center text-indigo-400 text-white">Must Watch Videos</h6>
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-white text-white">
-              <a href="https://youtu.be/dbVN6EYql6k?si=2440TMiKd3ZVmGvK" target="_blank" rel="noopener noreferrer" className="group block space-y-4 text-white text-white">
-                 <div className="relative aspect-video rounded-2xl overflow-hidden bg-zinc-800 border border-white/10 shadow-2xl">
-                    <img src="https://img.youtube.com/vi/dbVN6EYql6k/mqdefault.jpg" className="w-full h-full object-cover group-hover:scale-105 transition-transform" alt="Jobs to be done" />
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity">
-                       <PlayCircle className="w-12 h-12 text-white fill-current text-white text-white" />
-                    </div>
-                 </div>
-                 <p className="text-lg font-black text-center group-hover:text-indigo-400 transition-colors text-white text-white">Jobs to be done</p>
-              </a>
-              <a href="https://youtu.be/v6EWN4EjHM0?si=5up6JXpGPfYnIq1d" target="_blank" rel="noopener noreferrer" className="group block space-y-4 text-white text-white text-white">
-                 <div className="relative aspect-video rounded-2xl overflow-hidden bg-zinc-800 border border-white/10 shadow-2xl">
-                    <img src="https://img.youtube.com/vi/v6EWN4EjHM0/mqdefault.jpg" className="w-full h-full object-cover group-hover:scale-105 transition-transform" alt="Creating Personas" />
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity">
-                       <PlayCircle className="w-12 h-12 text-white fill-current text-white text-white text-white" />
-                    </div>
-                 </div>
-                 <p className="text-lg font-black text-center group-hover:text-indigo-400 transition-colors text-white text-white">Creating Personas</p>
-              </a>
-           </div>
-        </section>
-
-        <section className="bg-white p-12 border border-zinc-100 rounded-[4rem] text-center shadow-sm">
-           <p className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600 italic tracking-tighter leading-tight mb-8 max-w-4xl mx-auto">
-              “You don’t design for everyone — you design for someone.”
-           </p>
-           <p className="text-xl text-zinc-600 font-medium leading-relaxed max-w-2xl mx-auto italic text-zinc-600 text-zinc-600">
-              Yesterday we captured raw feedback. Today we turn that data into structured, usable insights.
+        <section className="p-12 bg-white border-2 border-zinc-100 rounded-[4rem] shadow-xl text-center space-y-10">
+           <h4 className="text-lg font-black uppercase tracking-[0.3em] text-zinc-400">The JTBD Template</h4>
+           <p className="text-3xl md:text-5xl font-black tracking-tight leading-tight italic text-zinc-900">
+              When I <span className="text-purple-600">situation</span>, I want to <span className="text-purple-600">motivation</span>, So I can <span className="text-purple-600">desired outcome</span>.
            </p>
         </section>
 
-        <section className="p-10 bg-purple-50 border border-purple-100 rounded-[3.5rem] space-y-10">
-           <h3 className="text-2xl font-black text-purple-950 px-4 text-purple-950 text-purple-950">Learning Objectives</h3>
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-purple-900 text-purple-900">
-              {[
-                'Build realistic user personas based on real data',
-                'Write JTBD statements that reflect true motivations',
-                'Use personas to guide feature & UX decisions',
-                'Apply AI tools to accelerate synthesis'
-              ].map(item => (
-                <div key={item} className="p-6 bg-white rounded-3xl border border-purple-200 flex items-center gap-4 text-lg font-bold text-purple-900 italic shadow-sm">
-                   <CheckCircle className="w-6 h-6 text-purple-600 shrink-0 text-purple-600 text-purple-600" /> {item}
-                </div>
-              ))}
-           </div>
-        </section>
-
-        <section className="space-y-12">
-           <h3 className="text-3xl font-black text-zinc-950 px-4 text-center text-zinc-900 text-zinc-900">1. From Research → Insights → Personas</h3>
-           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-zinc-900 text-zinc-900">
-              {[
-                { n: 'Step 1', t: 'Clustering', d: 'Group similar behaviors and motivations from Day-8 transcripts.' },
-                { n: 'Step 2', t: 'Identification', d: 'Find recurring pain points and primary goals across clusters.' },
-                { n: 'Step 3', t: 'Narrative', d: 'Write a short, human-centric story for each segment.' }
-              ].map(step => (
-                <div key={step.n} className="p-10 bg-zinc-50 border border-zinc-100 rounded-[3rem] space-y-6 hover:bg-zinc-900 hover:text-white transition-all group text-center text-center">
-                   <span className="text-xs font-black uppercase tracking-widest text-purple-500 transition-colors text-purple-500 text-purple-500">{step.n}</span>
-                   <h5 className="text-2xl font-black tracking-tight">{step.t}</h5>
-                   <p className="text-sm font-bold text-zinc-500 group-hover:text-zinc-400 italic leading-relaxed font-medium">{step.d}</p>
-                </div>
-              ))}
-           </div>
-           
-           <div className="overflow-hidden rounded-[3rem] border-4 border-zinc-100 bg-white shadow-2xl mt-12">
-              <table className="w-full text-left text-zinc-900 text-zinc-900">
-                <thead className="bg-zinc-950 text-white font-black text-xs uppercase tracking-[0.2em] text-white">
-                  <tr>
-                    <th className="p-8">User Quote</th>
-                    <th className="p-8">Persona Name</th>
-                    <th className="p-8">Core Insight</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-zinc-100 font-bold text-sm text-zinc-900">
-                  {[
-                    { q: '“I start strong but can’t stay consistent.”', p: 'Motivated Starter', c: 'Needs daily accountability loops' },
-                    { q: '“I want data to track my progress.”', p: 'Data-Driven Achiever', c: 'Needs progress visualizations' }
-                  ].map((row, i) => (
-                    <tr key={i} className="hover:bg-zinc-50 transition-colors">
-                       <td className="p-8 text-zinc-900 italic font-black leading-snug">“{row.q}”</td>
-                       <td className="p-8 text-purple-600 font-black uppercase tracking-widest text-[10px] text-purple-600 text-purple-600">{row.p}</td>
-                       <td className="p-8 text-zinc-500 italic font-medium leading-relaxed text-zinc-500">{row.c}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-           </div>
-           <div className="p-10 bg-indigo-50 rounded-[3rem] border border-indigo-200 text-center text-center">
-              <p className="text-2xl font-black text-indigo-950 italic leading-tight text-indigo-950 text-indigo-950 text-center">🧠 Best Practice: 2–3 meaningful personas are better than 8–10 generic ones.</p>
-           </div>
-        </section>
-
-        <section className="p-12 bg-zinc-950 rounded-[4rem] text-white space-y-12 shadow-2xl relative overflow-hidden text-center text-white text-white text-white">
-           <h3 className="text-3xl font-black mb-10 text-indigo-400 tracking-tight border-b border-white/5 pb-8 text-center text-white text-white text-white text-indigo-400">2. Persona Template: Rahul</h3>
-           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center text-white text-white">
-              <div className="space-y-8 text-center lg:text-left text-white text-white text-white">
-                 <div className="flex flex-col lg:flex-row items-center gap-8 text-white text-white text-white text-white">
-                    <div className="w-32 h-32 bg-white/10 rounded-full border-4 border-white/10 shadow-2xl flex items-center justify-center text-6xl text-white">👨‍💻</div>
-                    <div className="text-white text-white">
-                       <h4 className="text-4xl font-black tracking-tighter text-white text-white text-white text-white">Rahul Sharma, 27</h4>
-                       <p className="text-indigo-300 font-black uppercase tracking-widest text-[10px] text-indigo-300 text-white">Software Engineer</p>
-                    </div>
-                 </div>
-                 <p className="text-3xl font-black italic text-zinc-200 leading-tight text-white text-zinc-200 text-white">“I need a coach who reminds me daily.”</p>
-              </div>
-              
-              <div className="grid grid-cols-1 gap-6 text-white text-white">
-                 <div className="p-8 bg-white/5 rounded-3xl border border-white/10 text-white text-white">
-                    <p className="text-[10px] font-black uppercase text-emerald-400 tracking-widest mb-2 text-white text-emerald-400 text-white">Goals</p>
-                    <p className="text-lg font-bold text-zinc-300 italic leading-snug font-medium text-zinc-300">Build a long-term habit and see measurable physical results.</p>
-                 </div>
-                 <div className="p-8 bg-white/5 rounded-3xl border border-white/10 text-white text-white">
-                    <p className="text-[10px] font-black uppercase text-rose-400 tracking-widest mb-2 text-white text-rose-400 text-white">Frustrations</p>
-                    <p className="text-lg font-bold text-zinc-300 italic leading-snug font-medium text-zinc-300">Lack of personalized accountability; tools don't adapt to his schedule.</p>
-                 </div>
-              </div>
-           </div>
-           <div className="text-center pt-8 border-t border-white/5 text-center text-center">
-              <p className="text-2xl font-black italic text-indigo-400 text-indigo-400 text-indigo-400">📌 Tip: Add emotion — Personas should feel human, not just data points.</p>
-           </div>
-        </section>
-
-        <section className="space-y-12 text-center text-zinc-900 text-zinc-900">
-           <h3 className="text-3xl font-black text-zinc-950 px-4 text-center text-center">3. Jobs To Be Done (JTBD) Framework</h3>
-           <p className="text-2xl font-black text-zinc-950 italic leading-snug border-l-4 border-purple-600 pl-8 mb-12 max-w-4xl mx-auto text-center text-zinc-950 text-zinc-950 text-zinc-950">
-              Users don’t buy products. They hire them to get a job done.
-           </p>
-           
-           <div className="p-12 bg-white border-2 border-zinc-100 rounded-[4rem] shadow-xl text-center space-y-10 text-center text-center text-center">
-              <h4 className="text-lg font-black uppercase tracking-[0.3em] text-zinc-400 text-center text-zinc-400 text-center">The Template</h4>
-              <p className="text-3xl md:text-5xl font-black tracking-tight leading-tight italic text-zinc-900 text-center text-center">
-                 When I <span className="text-purple-600 text-purple-600 text-purple-600">situation</span>, I want to <span className="text-purple-600 text-purple-600 text-purple-600">motivation</span>, So I can <span className="text-purple-600 text-purple-600 text-purple-600">desired outcome</span>.
-              </p>
-           </div>
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="p-8 bg-zinc-950 rounded-3xl text-white">
+                <h4 className="text-xl font-black mb-4 text-purple-400">Duolingo Example</h4>
+                <p className="text-zinc-400 italic">"When I have free time, I want quick practice, so I feel productive."</p>
+            </div>
+            <div className="p-8 bg-zinc-50 rounded-3xl border border-zinc-200">
+                <h4 className="text-xl font-black mb-4 text-zinc-900">Notion Example</h4>
+                <p className="text-zinc-500 italic">"When I start a project, I want everything in one place, so I stay organized."</p>
+            </div>
         </section>
       </div>
     ),
-    assignment: (
-      <div className="space-y-6">
-        <div className="p-12 bg-white border-2 border-purple-200 rounded-[3rem] shadow-xl relative overflow-hidden text-center text-center">
-           <h5 className="text-xl font-black mb-10 uppercase tracking-[0.2em] text-purple-600 text-center text-purple-600 text-purple-600 text-center">🎯 Day-9: Persona & JTBD Deck</h5>
-           
-           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12 text-center text-zinc-900 text-zinc-900 text-center">
-              {[
-                { id: '1', t: '2 Personas', d: 'Name, Bio, Goals, Pains, Behavior, Quote.' },
-                { id: '2', t: 'JTBD Statements', d: '1 clear statement per persona.' },
-                { id: '3', t: '1 Feature Suggestion', d: 'Clearly aligned to the "Job".' }
-              ].map(item => (
-                <div key={item.id} className="p-10 bg-zinc-50 rounded-[3rem] border border-zinc-100 flex flex-col gap-6 hover:shadow-lg transition-all relative group overflow-hidden text-center text-center text-center text-center">
-                   <div className="absolute top-0 right-0 w-24 h-24 bg-white rounded-full -translate-y-1/2 translate-x-1/2 group-hover:bg-purple-50 transition-colors text-center text-zinc-50 text-center text-center"></div>
-                   <span className="w-10 h-10 rounded-full bg-white flex items-center justify-center font-black text-purple-600 shadow-sm border border-zinc-100 relative z-10 mx-auto text-center text-purple-600 text-purple-600 text-center">{item.id}</span>
-                   <h6 className="text-2xl font-black text-zinc-950 tracking-tight leading-none relative z-10 text-center text-zinc-950 text-center text-center">{item.t}</h6>
-                   <p className="text-lg font-black text-zinc-900 italic leading-snug relative z-10 font-medium text-center text-zinc-900 text-center text-center">{item.d}</p>
-                </div>
-              ))}
-           </div>
-           
-           <div className="p-10 bg-zinc-950 rounded-[3rem] text-white space-y-12 shadow-2xl text-center text-white text-white">
-              <div className="text-white text-white">
-                <p className="text-[10px] font-black uppercase text-indigo-400 tracking-widest mb-4 text-white text-indigo-400 text-white">Submission Details</p>
-                <p className="text-xl font-black text-zinc-300 italic mb-2 text-white text-zinc-300 text-white text-center">Format: Canva / Slides / Notion</p>
-                <p className="text-xl font-black text-zinc-300 italic text-white text-zinc-300 text-white text-center">Deadline: End of Day 11</p>
-              </div>
-              <div className="flex items-center justify-center pt-8 border-t border-white/5 text-center text-center text-center text-center text-center text-center text-center">
-                <p className="text-2xl font-black italic text-indigo-400 leading-tight text-indigo-400 text-indigo-400 text-center">“ 👉 Tip: Use Canva’s Persona Templates to make your deck professional!”</p>
-              </div>
-           </div>
-        </div>
-      </div>
-    )
+    resources: [
+        { title: 'Jobs to be Done Framework', url: 'https://youtu.be/dbVN6EYql6k?si=2440TMiKd3ZVmGvK', type: 'video' },
+        { title: 'Creating User Personas', url: 'https://youtu.be/v6EWN4EjHM0?si=5up6JXpGPfYnIq1d', type: 'video' }
+    ]
   },
   {
-    day: 10,
+    day: 12,
     title: 'Competitive & Market Analysis',
     category: 'Strategy',
-    preview: '“You can’t build a better product until you understand what already exists.” Master SWOT and feature benchmarking.',
+    preview: '“You can’t build a better product until you understand what already exists.” Master SWOT and benchmarking.',
     content: (
       <div className="space-y-12">
-        <header className="bg-zinc-950 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden text-white text-white">
-           <div className="absolute top-0 right-0 w-80 h-80 bg-indigo-500/10 rounded-full -translate-y-1/2 translate-x-1/3 blur-3xl text-white text-white"></div>
-           <div className="flex gap-4 mb-6">
-              <span className="px-4 py-1.5 bg-indigo-600 text-white text-[10px] font-black uppercase tracking-widest rounded-lg text-white">Strategy</span>
-              <span className="px-4 py-1.5 bg-white/10 text-zinc-300 text-[10px] font-black uppercase tracking-widest rounded-lg border border-white/10 text-white text-white text-white text-white text-white">15m read</span>
-           </div>
-           <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none text-white text-white text-white text-white text-white">Competitive & Market Analysis 🧭</h1>
-           <p className="text-zinc-400 text-xl font-bold italic leading-relaxed text-zinc-400 text-zinc-400 text-white">“You can’t build a better product until you understand what already exists.” Master SWOT and feature benchmarking.</p>
+        <header className="bg-zinc-950 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
+           <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none">Competitive Analysis 🧭</h1>
+           <p className="text-zinc-400 text-xl font-bold italic leading-relaxed">Today’s goal is to position your idea intelligently by identifying where competitors fall short.</p>
         </header>
 
-        {/* Day 10 Must Watch with thumbnail at the top */}
-        <section className="p-10 bg-zinc-950 rounded-[3rem] text-white space-y-8 relative overflow-hidden shadow-2xl text-white text-white text-white text-white text-white text-white">
-           <h6 className="text-lg font-black uppercase tracking-widest text-indigo-400 text-center text-white text-indigo-400 text-white text-white">Must Watch Video</h6>
-           <div className="max-w-2xl mx-auto text-white text-white text-white text-white">
-              <a href="https://youtu.be/UnBL8h8TVX8?si=v7_4Kx9EDy357xjg" target="_blank" rel="noopener noreferrer" className="group block space-y-4">
-                 <div className="relative aspect-video rounded-2xl overflow-hidden bg-zinc-800 border border-white/10 shadow-2xl">
-                    <img src="https://img.youtube.com/vi/UnBL8h8TVX8/maxresdefault.jpg" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" alt="Competitive Analysis" />
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/0 transition-colors">
-                       <div className="w-16 h-16 rounded-full bg-indigo-600 flex items-center justify-center text-white shadow-xl group-hover:scale-110 transition-transform">
-                          <Play className="w-8 h-8 fill-current text-white" />
-                       </div>
-                    </div>
-                 </div>
-                 <p className="text-xl font-black text-center group-hover:text-indigo-400 transition-colors text-white text-white text-white">Competitive Analysis for Product Managers</p>
-              </a>
-           </div>
-        </section>
-
-        <section className="bg-white p-12 border border-zinc-100 rounded-[4rem] text-center shadow-xl">
-           <p className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-indigo-600 italic tracking-tighter leading-tight mb-8 max-w-4xl mx-auto">
-              “You can’t build a better product until you understand what already exists.”
-           </p>
-           <p className="text-xl text-zinc-600 font-medium leading-relaxed max-w-3xl mx-auto italic text-center text-zinc-600 text-zinc-600 text-center text-center">
-              Today’s goal is to position your idea intelligently. Learn to identify market gaps — not by copying, but by identifying where competitors fall short.
-           </p>
-        </section>
-
-        <section className="p-10 bg-indigo-50 border border-indigo-100 rounded-[4rem] space-y-10 shadow-sm text-center">
-           <h3 className="text-2xl font-black text-indigo-950 px-4 text-center text-indigo-950 text-indigo-950 text-indigo-950 text-center text-center">Learning Objectives</h3>
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-center text-indigo-900 text-indigo-900 text-indigo-900 text-center text-center text-center">
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-8 text-center text-zinc-900">
               {[
-                'Conduct structured competitive benchmarking',
-                'Perform SWOT analysis for 2–3 competitors',
-                'Identify feature gaps and differentiators',
-                'Define your product\'s unique positioning statement'
+                { title: 'Strengths', desc: 'What do they do well?', color: 'bg-emerald-50 border-emerald-100 text-emerald-950' },
+                { title: 'Weaknesses', desc: 'Where do they fall short?', color: 'bg-rose-50 border-rose-100 text-rose-950' },
+                { title: 'Opportunities', desc: 'What can we do better?', color: 'bg-blue-50 border-blue-100 text-blue-950' },
+                { title: 'Threats', desc: 'What could hurt us?', color: 'bg-amber-50 border-amber-100 text-amber-950' }
               ].map(item => (
-                <div key={item} className="p-6 bg-white rounded-[2.5rem] border border-indigo-200 flex items-center gap-4 text-lg font-bold text-indigo-900 italic shadow-sm text-center text-center">
-                   <CheckCircle className="w-6 h-6 text-indigo-600 shrink-0 text-indigo-600 text-indigo-600 text-indigo-600 text-center" /> {item}
+                <div key={item.title} className={`p-12 rounded-[4rem] border space-y-6 ${item.color} shadow-sm`}>
+                   <h5 className="text-3xl font-black tracking-tight">{item.title}</h5>
+                   <p className="text-xl font-bold italic font-medium">{item.desc}</p>
                 </div>
               ))}
-           </div>
         </section>
 
-        <section className="space-y-12 text-center text-zinc-900 text-zinc-900 text-zinc-900 text-center text-center">
-           <h3 className="text-3xl font-black text-zinc-950 px-4 text-center text-zinc-950 text-zinc-950 text-zinc-950 text-center text-center text-center text-center text-center">1. Mapping the Landscape</h3>
-           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center text-zinc-900 text-zinc-900 text-zinc-900 text-center text-center text-center text-center text-center">
-              {[
-                { title: 'Direct Competitors', desc: 'Same product, same target audience.', ex: 'Example: Habitica vs Streaks' },
-                { title: 'Indirect Competitors', desc: 'Solve the same need differently.', ex: 'Example: Google Tasks vs Notion' },
-                { title: 'Aspirational', desc: 'Inspire UX or growth strategies.', ex: 'Example: Headspace for UI vibes' }
-              ].map((item, i) => (
-                <div key={i} className="p-10 bg-white border-2 border-zinc-100 rounded-[3rem] space-y-6 hover:shadow-xl hover:border-indigo-100 transition-all group text-center text-center text-center text-center text-center text-center text-center">
-                   <h5 className="text-2xl font-black text-zinc-950 leading-tight text-center text-center text-center text-center text-center text-center text-center text-center text-center">{item.title}</h5>
-                   <p className="text-sm font-bold text-zinc-500 leading-relaxed italic font-medium text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">{item.desc}</p>
-                   <div className="pt-6 border-t border-zinc-50 text-indigo-600 font-black text-[10px] group-hover:text-indigo-400 transition-colors uppercase tracking-widest text-center text-indigo-600 text-indigo-600 text-indigo-600 text-center text-center text-center text-center text-center">{item.ex}</div>
-                </div>
-              ))}
-           </div>
-           <div className="p-10 bg-zinc-50 border-4 border-dashed border-zinc-200 rounded-[4rem] text-center group text-center text-center text-center text-center text-center text-center text-center text-center text-center">
-              <p className="text-2xl font-black text-zinc-900 italic transition-transform group-hover:scale-105 text-center text-center text-zinc-900 text-zinc-900 text-zinc-900 text-center text-center text-center text-center text-center text-center text-center">🧩 AI Hack: Ask Perplexity AI "List top 10 apps competing with [idea], include audience and unique features."</p>
-           </div>
-        </section>
-
-        <section className="space-y-12 text-center text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-center text-center text-center text-center text-center">
-           <h3 className="text-3xl font-black text-zinc-950 px-4 text-center text-zinc-950 text-zinc-950 text-zinc-950 text-zinc-950 text-center text-center text-center text-center text-center text-center text-center">2. Framework 1: SWOT Analysis</h3>
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-center text-center text-center text-center text-center text-center text-center text-center">
-              {[
-                { title: 'Strengths', desc: 'What do they do well?', ex: 'Example: "Beautiful UI, gamified loop"', color: 'bg-emerald-50 border-emerald-100 text-emerald-950' },
-                { title: 'Weaknesses', desc: 'Where do they fall short?', ex: 'Example: "Limited AI personalization"', color: 'bg-rose-50 border-rose-100 text-rose-950' },
-                { title: 'Opportunities', desc: 'What can we do better?', ex: 'Example: "Add AI coach habit nudges"', color: 'bg-blue-50 border-blue-100 text-blue-950' },
-                { title: 'Threats', desc: 'What could hurt us?', ex: 'Example: "Big tech (Apple) entry"', color: 'bg-amber-50 border-amber-100 text-amber-950' }
-              ].map(item => (
-                <div key={item.title} className={`p-12 rounded-[4rem] border space-y-6 ${item.color} shadow-sm text-center text-center text-center text-center text-center text-center text-center text-center text-center`}>
-                   <h5 className="text-3xl font-black tracking-tight text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">{item.title}</h5>
-                   <p className="text-xl font-bold italic font-medium text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">{item.desc}</p>
-                   <p className="text-[10px] font-black uppercase tracking-widest opacity-60 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">{item.ex}</p>
-                </div>
-              ))}
-           </div>
-        </section>
-
-        <section className="space-y-10 text-center text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-center text-center text-center text-center text-center text-center text-center">
-           <h3 className="text-3xl font-black text-zinc-950 px-4 text-center text-zinc-950 text-zinc-950 text-zinc-950 text-zinc-950 text-center text-center text-center text-center text-center text-center text-center text-center text-center">3. Framework 2: Feature Comparison Matrix</h3>
-           <div className="overflow-hidden rounded-[4rem] border-4 border-zinc-100 bg-white shadow-2xl text-center text-center text-center text-center text-center text-center text-center text-center text-center">
-              <table className="w-full text-left text-center text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-center text-center text-center text-center text-center">
-                <thead className="bg-zinc-950 text-white font-black text-xs uppercase tracking-[0.2em] text-white text-center text-center text-center text-center text-center">
-                  <tr>
-                    <th className="p-8">Feature</th>
-                    <th className="p-8">Us</th>
-                    <th className="p-8">Comp A</th>
-                    <th className="p-8">Comp B</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-zinc-100 font-bold text-lg text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
-                  {[
-                    { f: 'Personalized Dashboard', u: '✅', a: '❌', b: '✅' },
-                    { f: 'AI Habit Coach', u: '✅', a: '❌', b: '❌' },
-                    { f: 'Gamified Streaks', u: '✅', a: '✅', b: '✅' }
-                  ].map((row, i) => (
-                    <tr key={i} className="hover:bg-zinc-50 transition-colors text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
-                       <td className="p-8 text-zinc-900 italic font-black text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">{row.f}</td>
-                       <td className="p-8 text-2xl text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">{row.u}</td>
-                       <td className="p-8 text-2xl text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">{row.a}</td>
-                       <td className="p-8 text-2xl text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">{row.b}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-           </div>
-           <div className="p-10 bg-indigo-50 rounded-[3rem] border border-indigo-200 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
-              <p className="text-2xl font-black text-indigo-950 italic leading-tight text-indigo-950 text-indigo-950 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">🧠 Insight: Discover what is "table-stakes" vs "differentiating".</p>
-           </div>
-        </section>
-
-        <section className="p-12 bg-zinc-950 rounded-[4rem] text-white space-y-12 shadow-2xl relative overflow-hidden text-center text-white text-white text-white text-center text-center text-center text-center text-center text-center text-center text-center">
-           <h3 className="text-3xl font-black mb-12 text-indigo-400 tracking-tight text-center text-white text-indigo-400 text-white text-white text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">AI Prompts for Strategy</h3>
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 text-center text-white text-white text-white text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
-              <div className="p-10 bg-white/5 border border-white/10 rounded-[3rem] space-y-4 text-white text-white text-white text-white text-white text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
-                 <p className="text-xl font-black italic text-white leading-relaxed text-white text-white text-white text-white text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">"Create a SWOT analysis for Fitbit and identify two strategic gaps a new product could exploit."</p>
+        <section className="p-12 bg-white border-4 border-zinc-100 rounded-[4rem] shadow-xl text-zinc-900">
+           <h3 className="text-4xl font-black text-zinc-950 mb-12 tracking-tighter text-center">Zerodha vs Groww Case Study</h3>
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+              <div className="p-10 bg-zinc-50 rounded-[3rem] border border-zinc-100 space-y-4">
+                 <p className="text-[10px] font-black uppercase text-indigo-600 tracking-widest">Zerodha Strength</p>
+                 <p className="text-2xl font-black text-zinc-900 leading-tight">Advanced tools for professional Traders.</p>
               </div>
-              <div className="p-10 bg-white/5 border border-white/10 rounded-[3rem] space-y-4 text-white text-white text-white text-white text-white text-white text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
-                 <p className="text-xl font-black italic text-white leading-relaxed text-white text-white text-white text-white text-white text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">"Summarize the top 5 AI habit tracking apps in 2025, their core features, and pricing."</p>
+              <div className="p-10 bg-zinc-50 rounded-[3rem] border border-zinc-100 space-y-4">
+                 <p className="text-[10px] font-black uppercase text-emerald-600 tracking-widest">Groww Strength</p>
+                 <p className="text-2xl font-black text-zinc-900 leading-tight">UI simplicity for First-time investors.</p>
               </div>
            </div>
-        </section>
-
-        <section className="p-12 bg-white border-4 border-zinc-100 rounded-[4rem] shadow-xl relative overflow-hidden text-center text-zinc-900 text-zinc-900 text-zinc-900 text-center text-center text-center text-center text-center text-center text-center text-center">
-           <h3 className="text-4xl font-black text-zinc-950 mb-12 tracking-tighter text-zinc-950 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">Zerodha vs Groww</h3>
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center text-center text-zinc-900 text-zinc-900 text-zinc-900 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
-              <div className="p-10 bg-zinc-50 rounded-[3rem] border border-zinc-100 space-y-4 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
-                 <p className="text-[10px] font-black uppercase text-indigo-600 tracking-widest text-center text-indigo-600 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">Zerodha Strength</p>
-                 <p className="text-2xl font-black text-zinc-900 leading-tight text-center text-zinc-900 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">Advanced tools for Traders.</p>
-              </div>
-              <div className="p-10 bg-zinc-50 rounded-[3rem] border border-zinc-100 space-y-4 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
-                 <p className="text-[10px] font-black uppercase text-emerald-600 tracking-widest text-center text-emerald-600 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">Groww Strength</p>
-                 <p className="text-2xl font-black text-zinc-900 leading-tight text-center text-zinc-900 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">UI simplicity for First-timers.</p>
-              </div>
-           </div>
-           <div className="mt-12 p-12 bg-indigo-950 rounded-[3rem] text-white text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
-              <p className="text-3xl font-black italic tracking-tighter leading-tight text-white text-white text-white text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">“Design simplicity was the differentiator Groww used to disrupt a market of 'complex dashboards.'”</p>
-           </div>
+           <p className="mt-8 text-center text-zinc-500 font-bold italic">“Design simplicity was the differentiator Groww used to disrupt a market of 'complex dashboards.'”</p>
         </section>
       </div>
     ),
-    assignment: (
-      <div className="space-y-6">
-        <div className="p-12 bg-white border-2 border-indigo-200 rounded-[3rem] shadow-xl relative overflow-hidden">
-           <h5 className="text-xl font-black mb-10 uppercase tracking-[0.2em] text-indigo-600 text-center text-indigo-600 text-center text-center text-center text-center text-center text-center text-center text-center">🎯 Day-10: Competitive Report</h5>
-           
-           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12 text-center text-zinc-900 text-zinc-900 text-center text-center text-center text-center text-center text-center">
-              {[
-                { id: '1', t: '2 SWOT Analyses', d: 'Competitor A & B.' },
-                { id: '2', t: 'Feature Matrix', d: 'Us vs others.' },
-                { id: '3', t: 'Positioning Statement', d: '“Unlike X and Y, our product [does what] for [whom].”' }
-              ].map(item => (
-                <div key={item.id} className="p-10 bg-zinc-50 rounded-[3rem] border border-zinc-100 flex flex-col gap-6 hover:shadow-lg transition-all relative group text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
-                   <span className="w-10 h-10 rounded-full bg-white flex items-center justify-center font-black text-indigo-600 shadow-sm border border-zinc-100 mx-auto text-center text-indigo-600 text-indigo-600 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">{item.id}</span>
-                   <h6 className="text-2xl font-black text-zinc-950 tracking-tight leading-none text-center text-zinc-950 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">{item.t}</h6>
-                   <p className="text-lg font-black text-zinc-900 italic leading-snug font-medium text-center text-zinc-900 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">{item.d}</p>
-                </div>
-              ))}
-           </div>
-        </div>
-      </div>
-    )
+    resources: [
+        { title: 'Competitive Analysis for PMs', url: 'https://youtu.be/UnBL8h8TVX8?si=v7_4Kx9EDy357xjg', type: 'video' }
+    ]
   },
   {
-    day: 11,
+    day: 13,
     title: 'Opportunity Sizing (TAM / SAM / SOM)',
     category: 'Strategy',
-    preview: '“A great product solves a real problem — but a great business solves it for a market that’s big enough.”',
+    preview: 'Learn to estimate market potential using data, top-down and bottom-up sizing frameworks.',
     content: (
       <div className="space-y-12">
-        <header className="bg-indigo-600 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden text-white text-white text-white">
-           <div className="absolute top-0 right-0 w-80 h-80 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/3 blur-3xl text-white text-white text-white"></div>
-           <div className="flex gap-4 mb-6">
-              <span className="px-4 py-1.5 bg-white/20 rounded-lg text-[10px] font-black uppercase tracking-widest text-white text-white text-white text-white text-white">Strategy</span>
-              <span className="px-4 py-1.5 bg-white/20 rounded-lg text-[10px] font-black uppercase tracking-widest text-white text-white text-white text-white text-white text-white text-white text-white text-white text-white text-white">45m read</span>
-           </div>
-           <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none text-white text-white text-white text-white text-white text-white text-white text-white text-white">Day 11 — Opportunity Sizing (TAM / SAM / SOM)</h1>
-           <p className="text-indigo-100 text-xl font-bold italic text-white text-white text-white text-white text-white text-white text-white">Learn to estimate market potential using data, frameworks, and AI tools.</p>
+        <header className="bg-indigo-600 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
+           <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none">Opportunity Sizing</h1>
+           <p className="text-indigo-100 text-xl font-bold italic leading-relaxed max-w-3xl">“A great product solves a real problem — but a great business solves it for a market that’s big enough.”</p>
         </header>
 
-        {/* Day 11 Must Watch with thumbnail at the top */}
-        <section className="p-10 bg-zinc-950 rounded-[3rem] text-white space-y-8 relative overflow-hidden shadow-2xl text-white text-white text-white text-white text-white text-white">
-           <h6 className="text-lg font-black uppercase tracking-widest text-indigo-400 text-center text-indigo-400 text-white text-white text-white text-white text-white">Must Watch Video</h6>
-           <div className="max-w-2xl mx-auto text-white text-white text-white text-white text-white text-white text-white">
-              <a href="https://youtu.be/nCYOMU7rKCs?si=cvu8yrnAbxDueKEI" target="_blank" rel="noopener noreferrer" className="group block space-y-4">
-                 <div className="relative aspect-video rounded-2xl overflow-hidden bg-zinc-800 border border-white/10 shadow-2xl">
-                    <img src="https://img.youtube.com/vi/nCYOMU7rKCs/maxresdefault.jpg" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80" alt="TAM SAM SOM Explained" />
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/0 transition-colors">
-                       <div className="w-16 h-16 rounded-full bg-indigo-600 flex items-center justify-center text-white shadow-xl group-hover:scale-110 transition-transform">
-                          <Play className="w-8 h-8 fill-current text-white" />
-                       </div>
-                    </div>
-                 </div>
-                 <p className="text-xl font-black text-center group-hover:text-indigo-400 transition-colors text-white text-white text-white text-white text-white text-white">TAM, SAM, SOM Explained</p>
-              </a>
-           </div>
-        </section>
-
-        <section className="bg-white border-2 border-zinc-100 p-10 rounded-[3rem] shadow-sm">
-           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900">
-              <div className="space-y-2">
-                 <p className="text-[10px] font-black uppercase text-indigo-600 tracking-widest text-indigo-600 text-indigo-600 text-indigo-600 text-indigo-600 text-indigo-600 text-indigo-600">Topic</p>
-                 <p className="text-lg font-black text-zinc-950 text-zinc-950 text-zinc-950 text-zinc-950 text-zinc-950 text-zinc-950 text-zinc-950 text-zinc-950 text-zinc-950">Opportunity Sizing (TAM, SAM, SOM)</p>
-              </div>
-              <div className="space-y-2">
-                 <p className="text-[10px] font-black uppercase text-indigo-600 tracking-widest text-indigo-600 text-indigo-600 text-indigo-600 text-indigo-600 text-indigo-600 text-indigo-600">Key Outcomes</p>
-                 <p className="text-xs font-bold text-zinc-500 leading-relaxed italic font-medium text-zinc-500 text-zinc-500 text-zinc-500 text-zinc-500 text-zinc-500 text-zinc-500 text-zinc-500 text-zinc-500 text-zinc-500">Learn to estimate market potential using data, frameworks, and AI tools.</p>
-              </div>
-              <div className="space-y-2">
-                 <p className="text-[10px] font-black uppercase text-indigo-600 tracking-widest text-indigo-600 text-indigo-600 text-indigo-600 text-indigo-600 text-indigo-600 text-indigo-600">Tools / Resources</p>
-                 <p className="text-xs font-black text-zinc-950 italic text-zinc-950 text-zinc-950 text-zinc-950 text-zinc-950 text-zinc-950 text-zinc-950 text-zinc-950 text-zinc-950 text-zinc-950 text-zinc-950">Statista / Google Trends / ChatGPT / Excel</p>
-              </div>
-           </div>
-        </section>
-
-        <section className="p-12 bg-indigo-50 border-4 border-indigo-100 rounded-[4rem] text-center shadow-sm text-center text-center text-center text-center text-center">
-           <h3 className="text-3xl font-black text-indigo-950 mb-8 tracking-tight text-center text-indigo-950 text-indigo-950 text-indigo-950 text-indigo-950 text-indigo-950 text-indigo-950 text-indigo-950">Theme</h3>
-           <p className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-indigo-900 italic tracking-tighter leading-tight mb-8 max-w-4xl mx-auto text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
-              “A great product solves a real problem — but a great business solves it for a market that’s big enough.”
-           </p>
-        </section>
-
-        <section className="space-y-12 text-center text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-center text-center">
-           <div className="p-12 bg-white border-2 border-zinc-100 rounded-[4rem] shadow-sm text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
-              <h3 className="text-3xl font-black mb-10 tracking-tight text-zinc-950 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">Learning Objectives</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
-                 {[
-                   '1. Define TAM, SAM, and SOM clearly and apply them.',
-                   '2. Use top-down and bottom-up approaches for sizing.',
-                   '3. Leverage AI + data tools for market estimates.',
-                   '4. Create a clear Market Opportunity Slide.'
-                 ].map(item => (
-                   <div key={item} className="p-6 bg-zinc-50 rounded-3xl border border-zinc-100 text-lg font-black text-zinc-900 italic leading-snug text-center text-center text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-center">{item}</div>
-                 ))}
-              </div>
-           </div>
-        </section>
-
-        <section className="space-y-12 text-center text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-center text-center">
-           <h3 className="text-3xl font-black text-zinc-950 px-4 text-center text-zinc-950 text-zinc-950 text-zinc-950 text-zinc-950 text-zinc-950 text-zinc-950 text-zinc-950 text-zinc-950 text-zinc-950 text-zinc-950 text-zinc-950 text-center text-center">1. Key Concepts</h3>
-           <div className="overflow-hidden rounded-[4rem] border-4 border-zinc-100 bg-white shadow-2xl text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
-              <table className="w-full text-left text-center text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-center text-center">
-                <thead className="bg-zinc-950 text-white font-black text-xs uppercase tracking-[0.2em] text-white text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
+        <section className="overflow-hidden rounded-[4rem] border-4 border-zinc-100 bg-white shadow-2xl">
+              <table className="w-full text-left">
+                <thead className="bg-zinc-950 text-white font-black text-xs uppercase tracking-[0.2em]">
                   <tr>
-                    <th className="p-8">Term</th>
-                    <th className="p-8">Meaning</th>
-                    <th className="p-8">Example</th>
+                    <th className="p-8 text-white">Term</th>
+                    <th className="p-8 text-white">Meaning</th>
+                    <th className="p-8 text-white">Example</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-zinc-100 font-bold text-sm text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
+                <tbody className="divide-y divide-zinc-100 font-bold text-sm">
                   {[
                     { t: 'TAM (Total Addressable Market)', m: 'Total global demand for your product', e: '“Global fitness app market = $7B”' },
                     { t: 'SAM (Serviceable Available Market)', m: 'Portion you can serve based on geography', e: '“India’s fitness app market = $1.2B”' },
                     { t: 'SOM (Serviceable Obtainable Market)', m: 'Realistic share capture in 2–3 years', e: '“Target 1% of SAM → $12M”' }
                   ].map((row, i) => (
-                    <tr key={i} className="hover:bg-zinc-50 transition-colors text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">
-                       <td className="p-8 text-indigo-600 font-black text-lg text-center text-indigo-600 text-indigo-600 text-indigo-600 text-indigo-600 text-indigo-600 text-indigo-600 text-indigo-600 text-indigo-600 text-indigo-600 text-indigo-600 text-indigo-600 text-center text-center">{row.t}</td>
-                       <td className="p-8 text-zinc-900 italic font-medium leading-relaxed text-center text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-center text-center">{row.m}</td>
-                       <td className="p-8 text-zinc-400 italic font-black uppercase tracking-widest text-[10px] text-center text-zinc-400 text-zinc-400 text-zinc-400 text-zinc-400 text-zinc-400 text-zinc-400 text-zinc-400 text-zinc-400 text-zinc-400 text-zinc-400 text-zinc-400 text-zinc-400 text-zinc-400 text-center text-center">{row.e}</td>
+                    <tr key={i} className="hover:bg-zinc-50 transition-colors">
+                       <td className="p-8 text-indigo-600 font-black text-lg">{row.t}</td>
+                       <td className="p-8 text-zinc-900 italic font-medium leading-relaxed">{row.m}</td>
+                       <td className="p-8 text-zinc-400 italic font-black uppercase tracking-widest text-[10px]">{row.e}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
-           </div>
         </section>
+      </div>
+    ),
+    resources: [
+        { title: 'TAM SAM SOM Explained', url: 'https://youtu.be/nCYOMU7rKCs?si=cvu8yrnAbxDueKEI', type: 'video' }
+    ]
+  },
+  {
+    day: 14,
+    title: 'Introduction to SQL (SELECT, WHERE)',
+    category: 'Data',
+    preview: '"Data is the voice of your users. SQL lets you listen." Master querying fundamentals for independent analysis.',
+    content: (
+      <div className="space-y-12">
+        <header className="bg-emerald-600 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
+           <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none">SQL for PMs 📊</h1>
+           <p className="text-emerald-100 text-xl font-bold italic leading-relaxed">Today you\'ll learn the fundamentals of querying databases — a superpower that lets PMs answer their own questions.</p>
+        </header>
 
-        <section className="space-y-12 text-center text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-center text-center">
-           <h3 className="text-3xl font-black text-zinc-950 px-4 text-center text-zinc-950 text-zinc-950 text-zinc-950 text-zinc-950 text-zinc-950 text-zinc-950 text-zinc-950 text-zinc-950 text-zinc-950 text-zinc-950 text-zinc-950 text-zinc-950 text-zinc-950 text-center text-center">approaches for sizing</h3>
-           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 text-center text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-center text-center">
+        <section className="bg-white border-2 border-zinc-100 p-10 rounded-[3rem] shadow-sm">
+           <h3 className="text-2xl font-black mb-8 flex items-center gap-3 text-zinc-900"><Target className="text-emerald-600"/> Learning Objectives</h3>
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {[
-                { title: 'A. Top-Down', desc: 'Use industry reports to derive size. Statista, McKinsey, etc.', ex: 'Example: 10% of India EdTech' },
-                { title: 'B. Bottom-Up', desc: 'Start from user base × Price × Frequency.', ex: 'Example: 1M users × ₹300' },
-                { title: 'C. Value-Based', desc: 'Estimate based on value created or replaced.', ex: 'Example: 10% of time saved' }
-              ].map((app, i) => (
-                <div key={i} className={`p-10 rounded-[3rem] border border-zinc-100 flex flex-col justify-between space-y-6 bg-white transition-all hover:scale-105 shadow-sm text-center text-center text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-center text-center`}>
-                   <h5 className="text-2xl font-black leading-tight tracking-tight text-zinc-900 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">{app.title}</h5>
-                   <p className="text-sm font-bold text-zinc-500 italic leading-relaxed font-medium text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">{app.desc}</p>
-                   <p className="text-[10px] font-black text-indigo-500 uppercase tracking-widest border-t border-zinc-50 pt-6 text-center text-indigo-500 text-indigo-500 text-indigo-500 text-indigo-500 text-indigo-500 text-indigo-500 text-indigo-500 text-indigo-500 text-indigo-500 text-indigo-500 text-indigo-500 text-indigo-500 text-indigo-500 text-indigo-500 text-center text-center">{app.ex}</p>
+                "Understand what SQL is and why PMs need it",
+                "Set up a practice SQL environment",
+                "Write basic SELECT queries to retrieve data",
+                "Filter data using WHERE clauses",
+                "Execute DDL and DML commands"
+              ].map(item => (
+                <div key={item} className="p-4 bg-emerald-50 rounded-2xl font-bold text-emerald-950 border border-emerald-100 flex items-center gap-3">
+                   <CheckCircle className="w-5 h-5 text-emerald-600" /> {item}
                 </div>
               ))}
            </div>
         </section>
-      </div>
-    ),
-    assignment: (
-      <div className="space-y-6">
-        <div className="p-12 bg-white border-2 border-indigo-200 rounded-[3rem] shadow-xl relative overflow-hidden text-center text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900 text-zinc-900">
-           <h5 className="text-xl font-black mb-10 uppercase tracking-[0.2em] text-indigo-600 text-center text-indigo-600 text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center text-center">🎯 Day-11 Comprehensive Assignment</h5>
-           <div className="p-10 bg-zinc-950 rounded-[3rem] text-white space-y-8 shadow-2xl relative overflow-hidden text-center text-white text-white text-white text-white text-white text-white text-white text-white text-white text-white text-white text-white text-white text-white text-white text-white text-white text-white text-white">
-              <h6 className="text-2xl font-black text-indigo-400 border-b border-white/10 pb-4 text-white text-white text-indigo-400 text-indigo-400 text-indigo-400 text-indigo-400 text-indigo-400 text-indigo-400 text-indigo-400 text-indigo-400 text-indigo-400 text-indigo-400 text-indigo-400 text-indigo-400 text-indigo-400 text-indigo-400 text-indigo-400 text-indigo-400 text-indigo-400 text-indigo-400">Assignment Deliverable</h6>
-              <p className="text-xl font-black text-zinc-300 italic mb-6 leading-tight text-white text-white text-white text-white text-white text-white text-white text-white text-white text-white text-white text-white text-white text-white text-white text-white text-white text-white text-zinc-300">Market Sizing Deck (1–2 slides). Must include:</p>
-              <div className="space-y-4 font-bold text-zinc-500 italic text-sm text-white text-white text-zinc-500 text-zinc-500 text-zinc-500 text-zinc-500 text-zinc-500 text-zinc-500 text-zinc-500 text-zinc-500 text-zinc-500 text-zinc-500 text-zinc-500 text-zinc-500 text-zinc-500 text-zinc-500 text-zinc-500 text-zinc-500 text-zinc-500 text-zinc-500 text-zinc-500">
-                 <p>● 1 Funnel diagram (TAM → SAM → SOM)</p>
-                 <p>● Data source references</p>
-                 <p>● Key assumptions</p>
-              </div>
-           </div>
-        </div>
-      </div>
-    )
-  },
-  {
-    day: 12,
-    title: 'Introduction to SQL for PMs',
-    category: 'Data',
-    preview: '"Data is the voice of your users. SQL lets you listen." Master basic querying and environment setup.',
-    content: (
-      <div className="space-y-12">
-        <header className="bg-emerald-600 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
-           <div className="absolute top-0 right-0 w-80 h-80 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/3 blur-3xl"></div>
-           <div className="flex gap-4 mb-6">
-              <span className="px-4 py-1.5 bg-white/20 rounded-lg text-[10px] font-black uppercase tracking-widest text-white">Data</span>
-              <span className="px-4 py-1.5 bg-white/20 rounded-lg text-[10px] font-black uppercase tracking-widest text-white">30m read</span>
-           </div>
-           <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 leading-none">Introduction to SQL for PMs (SELECT, WHERE, Basics)</h1>
-           <p className="text-emerald-100 text-lg font-bold italic">"Data is the voice of your users. SQL lets you listen."</p>
-        </header>
-
-        <section className="bg-white border border-zinc-100 p-8 rounded-3xl">
-          <h2 className="text-2xl font-black mb-6 flex items-center gap-2"><Target className="text-emerald-600"/> Learning Objectives</h2>
-          <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {[
-              "Understand what SQL is and why PMs need it",
-              "Set up a practice SQL environment",
-              "Write basic SELECT queries to retrieve data",
-              "Filter data using WHERE clauses",
-              "Execute DDL and DML commands"
-            ].map((obj, i) => (
-              <li key={i} className="flex gap-3 text-zinc-700 font-medium">
-                <CheckCircle className="w-5 h-5 text-emerald-500 shrink-0" /> {obj}
-              </li>
-            ))}
-          </ul>
-        </section>
-
-        <section className="p-8 bg-zinc-50 rounded-3xl border border-zinc-200">
-          <h3 className="text-2xl font-black mb-4">1. What is SQL and Why PMs Need It</h3>
-          <p className="text-zinc-700 leading-relaxed mb-6 font-medium">
-            SQL (Structured Query Language) is the language for communicating with databases. Think of it as asking questions to a spreadsheet on steroids.
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-             <div className="bg-white p-6 rounded-2xl border border-zinc-100 shadow-sm">
-                <h4 className="font-bold text-emerald-700 mb-2 uppercase tracking-widest text-xs">Without SQL</h4>
-                <p className="text-sm text-zinc-500 italic">You wait for analysts, ask vague questions, get delayed answers.</p>
-             </div>
-             <div className="bg-emerald-900 p-6 rounded-2xl text-white">
-                <h4 className="font-bold text-emerald-400 mb-2 uppercase tracking-widest text-xs">With SQL</h4>
-                <p className="text-sm">Validate hypotheses in real-time and make data-driven decisions independently.</p>
-             </div>
-          </div>
-        </section>
 
         <section className="p-8 bg-zinc-950 rounded-[3rem] text-white">
-          <h3 className="text-2xl font-black mb-8 text-emerald-400">Must Watch: SQL Beginners</h3>
-          <div className="max-w-xl mx-auto mb-10">
-            <a href="https://youtu.be/SSKVgrwhzus?si=M8AlYQA1WTxvKdBg" target="_blank" rel="noopener noreferrer" className="group block space-y-4">
-              <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/10">
-                <img src="https://img.youtube.com/vi/SSKVgrwhzus/maxresdefault.jpg" className="w-full h-full object-cover group-hover:scale-105 transition-transform" alt="SQL Intro"/>
-                <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/0 transition-all">
-                  <PlayCircle className="w-16 h-16 text-emerald-400 fill-zinc-950"/>
-                </div>
-              </div>
-              <p className="text-center font-bold group-hover:text-emerald-400">SQL Beginner Course - Cover these topics</p>
-            </a>
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+           <h3 className="text-2xl font-black mb-8 text-emerald-400 text-center">Timestamps - Beginner Level</h3>
+           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
             {[{t:"00:00", l:"Intro"}, {t:"07:38", l:"Intro to SQL"}, {t:"22:33", l:"Setup Env"}, {t:"34:01", l:"Query (SELECT)"}, {t:"01:32:31", l:"DDL Commands"}, {t:"01:43:44", l:"DML Commands"}].map(idx => (
               <div key={idx.t} className="p-4 bg-white/5 rounded-xl border border-white/10 flex items-center gap-3">
                 <span className="text-emerald-400 font-mono text-xs">{idx.t}</span>
@@ -2201,46 +1463,25 @@ export const LESSONS: Lesson[] = [
           </div>
         </section>
       </div>
-    )
+    ),
+    resources: [
+        { title: 'Complete SQL Beginner Course', url: 'https://youtu.be/SSKVgrwhzus?si=M8AlYQA1WTxvKdBg', type: 'video' }
+    ]
   },
   {
-    day: 13,
+    day: 15,
     title: 'Filtering Data & SQL Joins',
     category: 'Data',
-    preview: '"Joining tables is where SQL becomes powerful for PMs." Master advanced filtering and table relationships.',
+    preview: 'Master advanced filtering and learn to combine data from multiple tables — essential for real-world analysis.',
     content: (
       <div className="space-y-12">
-        <header className="bg-emerald-700 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
-           <div className="absolute top-0 right-0 w-80 h-80 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/3 blur-3xl"></div>
-           <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 leading-none">Day 13 — Filtering Data & SQL Joins</h1>
+        <section className="bg-emerald-700 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
+           <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 leading-none">Filtering & Joins</h1>
            <p className="text-emerald-100 text-lg font-bold italic leading-relaxed">"Joining tables is where SQL becomes powerful for PMs."</p>
-        </header>
-
-        <section className="bg-white border border-zinc-100 p-8 rounded-3xl">
-          <h2 className="text-2xl font-black mb-6 flex items-center gap-2"><Target className="text-emerald-600"/> Learning Objectives</h2>
-          <div className="space-y-4">
-            {["Use advanced WHERE filters (LIKE, IN, BETWEEN)", "Understand the concept of database relationships", "Perform INNER, LEFT, RIGHT, and FULL JOINS", "Combine data from multiple tables to answer complex PM questions"].map((obj, i) => (
-              <div key={i} className="flex gap-4 p-4 bg-zinc-50 rounded-xl border border-zinc-100">
-                <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 font-bold shrink-0">{i+1}</div>
-                <p className="font-bold text-zinc-700">{obj}</p>
-              </div>
-            ))}
-          </div>
         </section>
 
         <section className="p-8 bg-zinc-950 rounded-[3rem] text-white">
-          <h3 className="text-2xl font-black mb-8 text-emerald-400">Intermediate SQL Masterclass</h3>
-          <div className="max-w-xl mx-auto mb-10">
-            <a href="https://youtu.be/SSKVgrwhzus?si=M8AlYQA1WTxvKdBg" target="_blank" rel="noopener noreferrer" className="group block space-y-4">
-              <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/10 shadow-lg shadow-emerald-500/10">
-                <img src="https://img.youtube.com/vi/SSKVgrwhzus/maxresdefault.jpg" className="w-full h-full object-cover group-hover:scale-105 transition-transform" alt="SQL Joins"/>
-                <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/0 transition-all">
-                  <PlayCircle className="w-16 h-16 text-emerald-400 fill-zinc-950"/>
-                </div>
-              </div>
-              <p className="text-center font-bold text-emerald-300">Intermediate Level Lessons</p>
-            </a>
-          </div>
+          <h3 className="text-2xl font-black mb-8 text-emerald-400 text-center">Timestamps - Intermediate Level</h3>
           <div className="grid grid-cols-1 gap-4 max-w-md mx-auto">
             {[{t:"02:08:03", l:"Filtering Data"}, {t:"02:47:57", l:"SQL Joins (Basics)"}, {t:"03:27:29", l:"SQL Joins (Advanced)"}].map(idx => (
               <div key={idx.t} className="p-4 bg-white/5 rounded-2xl border border-white/10 flex justify-between items-center px-8">
@@ -2251,46 +1492,20 @@ export const LESSONS: Lesson[] = [
           </div>
         </section>
       </div>
-    )
+    ),
+    resources: [
+        { title: 'Intermediate SQL Course', url: 'https://youtu.be/SSKVgrwhzus?si=M8AlYQA1WTxvKdBg', type: 'video' }
+    ]
   },
   {
-    day: 14,
+    day: 16,
     title: 'SQL Set Operators & Functions',
     category: 'Data',
-    preview: '"Master SQL functions to transform raw data into actionable insights." Learn UNION, INTERSECT, and data manipulation.',
+    preview: 'Learn UNION, string manipulation, and numeric functions for complex product analysis.',
     content: (
       <div className="space-y-12">
-        <header className="bg-emerald-800 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
-           <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 leading-none">Day 14 — SQL Set Operators & Functions</h1>
-           <p className="text-emerald-200 text-lg font-bold italic leading-relaxed">"Master SQL functions to transform raw data into actionable insights."</p>
-        </header>
-
-        <section className="bg-white border-2 border-emerald-100 p-8 rounded-3xl shadow-sm">
-           <h2 className="text-2xl font-black mb-6 text-zinc-900">Learning Objectives</h2>
-           <ul className="space-y-3">
-             {["Combine query results using UNION, INTERSECT, and EXCEPT", "Apply string functions to clean and format text data", "Use numeric functions for calculations and rounding", "Solve complex data transformation problems"].map((item, i) => (
-               <li key={i} className="flex items-center gap-3 font-medium text-zinc-600">
-                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div> {item}
-               </li>
-             ))}
-           </ul>
-        </section>
-
         <section className="p-8 bg-zinc-950 rounded-[3rem] text-white">
-          <h3 className="text-2xl font-black mb-8 text-emerald-400">Deep Dive Video</h3>
-          <div className="max-w-xl mx-auto mb-10">
-            <a href="https://youtu.be/SSKVgrwhzus?si=M8AlYQA1WTxvKdBg" target="_blank" rel="noopener noreferrer" className="group block space-y-4">
-              <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/10">
-                <img src="https://img.youtube.com/vi/SSKVgrwhzus/maxresdefault.jpg" className="w-full h-full object-cover group-hover:scale-105 transition-transform" alt="SQL Functions"/>
-                <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-                  <div className="w-16 h-16 rounded-full bg-emerald-600 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                    <Play className="w-8 h-8 fill-current text-white"/>
-                  </div>
-                </div>
-              </div>
-              <p className="text-center font-black uppercase tracking-widest text-xs text-zinc-400">SQL Functions & Sets Section</p>
-            </a>
-          </div>
+          <h3 className="text-2xl font-black mb-8 text-emerald-400 text-center">Timestamps - Advanced Functions</h3>
           <div className="grid grid-cols-2 gap-4">
             {[{t:"04:02:09", l:"Set Operators"}, {t:"04:47:41", l:"SQL Functions"}, {t:"04:52:58", l:"String Functions"}, {t:"05:18:44", l:"Numeric Functions"}].map(idx => (
               <div key={idx.t} className="p-5 bg-white/5 rounded-2xl border border-white/10">
@@ -2301,108 +1516,54 @@ export const LESSONS: Lesson[] = [
           </div>
         </section>
       </div>
-    )
+    ),
+    resources: [
+        { title: 'SQL Advanced Functions', url: 'https://youtu.be/SSKVgrwhzus?si=M8AlYQA1WTxvKdBg', type: 'video' }
+    ]
   },
   {
-    day: 15,
-    title: 'SQL Date Functions & Advanced Logic',
+    day: 17,
+    title: 'SQL Date & Advanced Logic',
     category: 'Data',
-    preview: '"Transform messy data into clean insights with SQL’s most powerful functions." Learn time calculations and CASE logic.',
+    preview: 'Handle time-based analysis, missing data, and complex conditional logic in your reports.',
     content: (
       <div className="space-y-12">
-        <header className="bg-indigo-600 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
-           <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 leading-none">Day 15 — SQL Date Functions, NULL Handling & Advanced Logic</h1>
-           <p className="text-indigo-100 text-lg font-bold italic leading-relaxed italic">"Transform messy data into clean insights with SQL’s most powerful functions."</p>
-        </header>
+        <section className="bg-indigo-600 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden text-white">
+           <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 leading-none text-white">Date Functions & CASE Logic</h1>
+           <p className="text-indigo-100 text-lg font-bold italic leading-relaxed italic text-white">"Transform messy data into clean insights with SQL’s most powerful functions."</p>
+        </section>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-           <section className="bg-white p-8 rounded-3xl border border-zinc-100 shadow-sm h-full">
-              <h3 className="text-2xl font-black mb-6 text-zinc-900">Learning Objectives</h3>
-              <ul className="space-y-4">
-                {[
-                  "Perform sophisticated date and time calculations",
-                  "Handle NULL values correctly in queries",
-                  "Build complex conditional logic with CASE statements",
-                  "Use aggregate functions for data summarization",
-                  "Solve real-world PM analytics problems"
-                ].map((obj, i) => (
-                  <li key={i} className="flex gap-4 font-bold text-zinc-600 leading-relaxed">
-                    <span className="text-indigo-600 font-black">0{i+1}.</span> {obj}
-                  </li>
-                ))}
-              </ul>
-           </section>
-           
-           <section className="bg-zinc-950 p-8 rounded-3xl text-white h-full">
-              <h3 className="text-xl font-black mb-6 text-indigo-400">Timestamps</h3>
+        <section className="p-8 bg-zinc-950 rounded-[3rem] text-white">
+              <h3 className="text-xl font-black mb-6 text-indigo-400 text-center">Final SQL Mastery Timestamps</h3>
               <div className="space-y-3">
                  {[{t:"05:22:48", l:"Date and Time Functions"}, {t:"06:59:06", l:"NULL Functions"}, {t:"08:07:50", l:"Case Statement"}, {t:"08:43:36", l:"Aggregate Functions"}].map(idx => (
-                    <div key={idx.t} className="flex justify-between items-center p-4 bg-white/5 rounded-xl border border-white/5">
+                    <div key={idx.t} className="flex justify-between items-center p-4 bg-white/5 rounded-xl border border-white/5 px-10">
                        <span className="font-mono text-indigo-300 text-xs">{idx.t}</span>
                        <span className="font-bold text-xs">{idx.l}</span>
                     </div>
                  ))}
               </div>
-              <div className="mt-8">
-                <a href="https://youtu.be/SSKVgrwhzus?si=M8AlYQA1WTxvKdBg" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-4 bg-indigo-600 rounded-2xl hover:bg-indigo-500 transition-all">
-                  <PlayCircle className="w-8 h-8 text-white" />
-                  <span className="font-black text-sm uppercase tracking-widest">Watch Final SQL Session</span>
-                </a>
-              </div>
            </section>
-        </div>
       </div>
-    )
+    ),
+    resources: [
+        { title: 'Final SQL Mastery Session', url: 'https://youtu.be/SSKVgrwhzus?si=M8AlYQA1WTxvKdBg', type: 'video' }
+    ]
   },
   {
-    day: 16,
+    day: 18,
     title: 'Excel Fundamentals for PMs',
     category: 'Data',
-    preview: '"Excel is the PM\'s Swiss Army knife — from quick analysis to complex models." Master ribbons, workbooks, and formulas.',
+    preview: 'Excel is the PM\'s Swiss Army knife. Master workbooks, ribbons, and core daily formulas.',
     content: (
       <div className="space-y-12">
         <header className="bg-emerald-500 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
-           <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none">Day 16 — Excel Fundamentals for PMs</h1>
+           <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none">Excel Mastery 📘</h1>
            <p className="text-emerald-100 text-xl font-bold italic">"Excel is the PM's Swiss Army knife — from quick analysis to complex models."</p>
         </header>
 
-        <section className="bg-white border-2 border-emerald-50 p-8 rounded-3xl">
-           <h3 className="text-2xl font-black mb-8 flex items-center gap-3 text-emerald-900"><Target className="w-8 h-8"/> Learning Objectives</h3>
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {[
-                "Navigate Excel efficiently (workbooks, worksheets, ribbon)",
-                "Write formulas and use essential functions",
-                "Apply logical functions for conditional analysis",
-                "Use lookup functions to merge data",
-                "Perform basic statistical analysis",
-                "Work with dates and text data"
-              ].map(item => (
-                <div key={item} className="p-5 bg-emerald-50/50 rounded-2xl border border-emerald-100 flex items-center gap-4 text-emerald-900 font-black italic">
-                   <div className="w-2 h-2 rounded-full bg-emerald-500"></div> {item}
-                </div>
-              ))}
-           </div>
-        </section>
-
         <section className="p-10 bg-zinc-950 rounded-[4rem] text-white">
-           <h3 className="text-3xl font-black mb-10 text-emerald-400">Master Class: Excel Fundamentals</h3>
-           <div className="max-w-2xl mx-auto mb-12">
-              <a href="https://youtu.be/pCJ15nGFgVg?si=aqGEbVfcwFuLi7fY" target="_blank" rel="noopener noreferrer" className="group block space-y-6">
-                 <div className="relative aspect-video rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
-                    <img src="https://img.youtube.com/vi/pCJ15nGFgVg/maxresdefault.jpg" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80" alt="Excel Masterclass"/>
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-                       <div className="w-20 h-20 rounded-full bg-emerald-500 flex items-center justify-center text-white shadow-[0_0_50px_rgba(16,185,129,0.5)] group-hover:scale-110 transition-transform">
-                          <Play className="w-10 h-10 fill-current"/>
-                       </div>
-                    </div>
-                 </div>
-                 <div className="text-center space-y-2">
-                    <p className="text-2xl font-black tracking-tight">Excel Beginner to Pro Bootcamp</p>
-                    <p className="text-zinc-500 font-bold italic">Watch carefully to master these specific PM modules</p>
-                 </div>
-              </a>
-           </div>
-           
+           <h3 className="text-3xl font-black mb-10 text-emerald-400 text-center uppercase tracking-widest text-sm">Timestamps</h3>
            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {[
                 {t:"0:00:00", l:"Welcome"}, {t:"0:03:53", l:"What is Excel?"}, {t:"0:07:19", l:"About Course"},
@@ -2418,56 +1579,20 @@ export const LESSONS: Lesson[] = [
            </div>
         </section>
       </div>
-    )
+    ),
+    resources: [
+        { title: 'Excel PM Bootcamp', url: 'https://youtu.be/pCJ15nGFgVg?si=aqGEbVfcwFuLi7fY', type: 'video' }
+    ]
   },
   {
-    day: 17,
+    day: 19,
     title: 'Excel Charts, Pivot Tables & Dashboards',
     category: 'Data',
-    preview: '"A picture is worth a thousand rows of data." Build interactive dashboards and professional charts for stakeholders.',
+    preview: 'Learn to transform data into compelling visualizations and building interactive dashboards that tell stories.',
     content: (
       <div className="space-y-12">
-        <header className="bg-blue-600 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
-           <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none">Day 17 — Excel Charts, Pivot Tables & Dashboards</h1>
-           <p className="text-blue-100 text-xl font-bold italic">"A picture is worth a thousand rows of data."</p>
-        </header>
-
-        <section className="bg-zinc-50 p-8 rounded-3xl border border-zinc-200">
-           <h3 className="text-2xl font-black mb-8 text-zinc-900 uppercase tracking-widest flex items-center gap-3">
-              <Sparkles className="text-blue-500" /> Learning Objectives
-           </h3>
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {[
-                "Create and customize professional charts",
-                "Use sparklines for inline visualizations",
-                "Format data as Excel Tables for better analysis",
-                "Build interactive Pivot Tables",
-                "Create a complete dashboard for stakeholders",
-                "Present data insights effectively"
-              ].map(obj => (
-                <div key={obj} className="p-5 bg-white rounded-2xl border border-zinc-100 shadow-sm flex items-center gap-4 text-zinc-700 font-bold">
-                   <CheckCircle className="w-5 h-5 text-blue-500 shrink-0" /> {obj}
-                </div>
-              ))}
-           </div>
-        </section>
-
-        <section className="p-10 bg-zinc-950 rounded-[4rem] text-white">
-           <h3 className="text-3xl font-black mb-10 text-blue-400">Excel Dashboard Tutorial</h3>
-           <div className="max-w-2xl mx-auto mb-12">
-              <a href="https://youtu.be/pCJ15nGFgVg?si=aqGEbVfcwFuLi7fY" target="_blank" rel="noopener noreferrer" className="group block space-y-6">
-                 <div className="relative aspect-video rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
-                    <img src="https://img.youtube.com/vi/pCJ15nGFgVg/maxresdefault.jpg" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80" alt="Excel Visualization"/>
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-                       <div className="w-20 h-20 rounded-full bg-blue-600 flex items-center justify-center text-white shadow-xl group-hover:scale-110 transition-transform">
-                          <Play className="w-10 h-10 fill-current"/>
-                       </div>
-                    </div>
-                 </div>
-                 <p className="text-center font-black uppercase tracking-widest text-sm text-blue-400">Charts, Pivot Tables & Dashboard Construction</p>
-              </a>
-           </div>
-           
+        <section className="p-8 bg-zinc-950 rounded-[4rem] text-white">
+           <h3 className="text-3xl font-black mb-10 text-blue-400 text-center uppercase tracking-widest text-sm">Visualization Modules</h3>
            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-4">
                  <h4 className="text-indigo-400 font-black text-xs uppercase tracking-widest">3️⃣ Charts & Visualization</h4>
@@ -2490,407 +1615,750 @@ export const LESSONS: Lesson[] = [
            </div>
         </section>
       </div>
-    )
-  },
-  {
-    day: 18,
-    title: 'Learn Power BI Mastery',
-    category: 'Data',
-    preview: 'Build a strong foundation in Power BI. Learn Power Query for cleaning, DAX for calculations, and storytelling through dashboards.',
-    content: (
-      <div className="space-y-12">
-        <header className="bg-yellow-500 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
-           <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none">Day 18 — Learn Power BI</h1>
-           <p className="text-yellow-100 text-xl font-bold italic leading-relaxed">Build strong foundation in data transformation and modeling.</p>
-        </header>
-
-        <section className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-           <div className="bg-white p-8 rounded-3xl border border-zinc-100 shadow-sm space-y-6">
-              <h3 className="text-2xl font-black text-zinc-900 tracking-tight">Today’s Goal</h3>
-              <p className="text-lg text-zinc-600 leading-relaxed font-medium">Build a strong foundation in <strong>Power BI</strong> by understanding how raw data is transformed, modeled, calculated, and finally presented as interactive dashboards.</p>
-              <div className="pt-6 border-t border-zinc-100">
-                 <h4 className="text-sm font-black uppercase text-zinc-400 mb-4 tracking-widest">Learning Objectives</h4>
-                 <ul className="space-y-3">
-                    {[
-                      "Clean and transform raw datasets using Power Query",
-                      "Build proper data models and relationships",
-                      "Write basic to intermediate DAX calculations",
-                      "Create interactive, insight-driven dashboards",
-                      "Apply design best practices for professional reports"
-                    ].map(item => (
-                       <li key={item} className="flex gap-3 text-sm font-bold text-zinc-700">
-                          <ShieldCheck className="w-5 h-5 text-yellow-500 shrink-0" /> {item}
-                       </li>
-                    ))}
-                 </ul>
-              </div>
-           </div>
-           
-           <div className="bg-zinc-950 p-8 rounded-3xl text-white">
-              <h3 className="text-2xl font-black mb-8 text-yellow-400 tracking-tight">Master Video Resource</h3>
-              <a href="https://youtu.be/I0vQ_VLZTWg?si=Gkh1WYh75MOngmbS" target="_blank" rel="noopener noreferrer" className="group block space-y-6">
-                 <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
-                    <img src="https://img.youtube.com/vi/I0vQ_VLZTWg/maxresdefault.jpg" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Power BI Course"/>
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/0 transition-colors">
-                       <PlayCircle className="w-16 h-16 text-yellow-400 fill-zinc-950"/>
-                    </div>
-                 </div>
-                 <p className="text-center font-black uppercase tracking-widest text-xs text-zinc-400">Power BI in Under 3 Hours | Formatting, Viz, Dashboards</p>
-              </a>
-           </div>
-        </section>
-
-        <section className="space-y-10">
-           <h3 className="text-3xl font-black text-zinc-950 px-4">Core Power BI Workflow</h3>
-           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {[
-                { title: '1. Data Transformation', icon: <Recycle className="text-emerald-500"/>, desc: 'Power Query Editor: Cleaning, Preparation, Applied Steps, and Advanced Unpivoting.' },
-                { title: '2. Data Modeling', icon: <Network className="text-blue-500"/>, desc: 'Model tab: Relationship Management, Cardinality (1:*), and Cross-Filter directions.' },
-                { title: '3. Calculations (DAX)', icon: <Calculator className="text-yellow-500"/>, desc: 'Creating Measures vs Columns using SUM, COUNT, SUMX, and Time Intelligence.' }
-              ].map(step => (
-                <div key={step.title} className="p-8 bg-white rounded-3xl border border-zinc-100 shadow-sm hover:border-yellow-200 transition-all">
-                   <div className="w-12 h-12 rounded-2xl bg-zinc-50 flex items-center justify-center mb-6 shadow-sm">{step.icon}</div>
-                   <h4 className="text-xl font-black mb-4 tracking-tight">{step.title}</h4>
-                   <p className="text-sm text-zinc-500 leading-relaxed font-medium">{step.desc}</p>
-                </div>
-              ))}
-           </div>
-        </section>
-      </div>
-    )
-  },
-  {
-    day: 19,
-    title: 'Product Analytics & Metrics Foundations',
-    category: 'Data',
-    preview: 'Understand how product analytics fits into the entire lifecycle. Learn to define success metrics using Mixpanel.',
-    content: (
-      <div className="space-y-12">
-        <header className="bg-indigo-700 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
-           <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 leading-none">Day 19 — Product Analytics & Metrics Foundations</h1>
-           <p className="text-indigo-200 text-xl font-bold italic">"Analytics is not about dashboards — it is about decisions and feedback loops."</p>
-        </header>
-
-        <section className="bg-zinc-50 p-10 rounded-[3rem] border border-zinc-200 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-           <div className="space-y-6">
-              <h3 className="text-3xl font-black tracking-tight text-zinc-900">Today’s Goal</h3>
-              <p className="text-lg text-zinc-600 leading-relaxed font-medium">Understand how product analytics fits into the entire product development lifecycle, how to define meaningful success metrics, and how tools like <strong>Mixpanel</strong> are used to analyze behavior.</p>
-              <div className="flex gap-4">
-                 {['Design', 'Development', 'Iteration'].map(phase => (
-                   <span key={phase} className="px-4 py-2 bg-indigo-100 text-indigo-700 text-xs font-black uppercase tracking-widest rounded-full">{phase}</span>
-                 ))}
-              </div>
-           </div>
-           <div className="bg-zinc-950 p-8 rounded-[3rem] text-white relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-3xl group-hover:bg-indigo-500/20 transition-all"></div>
-              <h4 className="text-lg font-black mb-6 text-indigo-400">Mixpanel Basics Video</h4>
-              <a href="https://youtu.be/5O4ST-R5ZVw?si=IN49CzqS5qHexth3" target="_blank" rel="noopener noreferrer">
-                 <div className="relative aspect-video rounded-2xl overflow-hidden border border-white/10 shadow-xl">
-                    <img src="https://img.youtube.com/vi/5O4ST-R5ZVw/maxresdefault.jpg" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Mixpanel Foundations"/>
-                    <div className="absolute inset-0 flex items-center justify-center">
-                       <PlayCircle className="w-16 h-16 text-white group-hover:text-indigo-400 transition-colors"/>
-                    </div>
-                 </div>
-              </a>
-           </div>
-        </section>
-
-        <section className="space-y-10">
-           <h3 className="text-3xl font-black text-zinc-950 px-4">2. The Six Key Metrics</h3>
-           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[
-                { title: 'Exposure', icon: <Globe/>, desc: 'Number of users who reach the first point of the product (e.g., Homepage visits).' },
-                { title: 'Activation', icon: <Zap/>, desc: 'Rate at which users perform a key action for the first time.' },
-                { title: 'Engagement', icon: <Activity/>, desc: 'How much an active user uses the product (key actions per active user).' },
-                { title: 'Retention', icon: <RefreshCcw/>, desc: 'Portion of users who continue taking key actions after a fixed period (30/90-day).' },
-                { title: 'Focus Metric', icon: <Target/>, desc: 'The overarching success metric (DAU/WAU/MAU).' },
-                { title: 'Onboarding', icon: <Milestone/>, desc: 'Conversion rate from exposure to completed onboarding steps.' }
-              ].map(item => (
-                <div key={item.title} className="p-6 bg-white border-2 border-zinc-100 rounded-3xl hover:border-indigo-200 transition-all">
-                   <div className="w-10 h-10 rounded-xl bg-zinc-50 flex items-center justify-center mb-4 text-indigo-600">{item.icon}</div>
-                   <h4 className="text-lg font-black mb-2">{item.title}</h4>
-                   <p className="text-xs text-zinc-500 font-medium leading-relaxed">{item.desc}</p>
-                </div>
-              ))}
-           </div>
-        </section>
-      </div>
-    )
+    ),
+    resources: [
+        { title: 'Excel Dashboards Masterclass', url: 'https://youtu.be/pCJ15nGFgVg?si=aqGEbVfcwFuLi7fY', type: 'video' }
+    ]
   },
   {
     day: 20,
-    title: 'Google Analytics 4 (GA4) Setup',
+    title: 'Learn Power BI in Under 3 Hours',
     category: 'Data',
-    preview: 'End-to-End GA4 Setup, Reporting & Installation. Master streams, enhanced measurement, and building advanced explorations.',
+    preview: 'Build a solid foundation in data transformation, modeling, DAX, and dashboard finalization.',
     content: (
       <div className="space-y-12">
-        <header className="bg-orange-600 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
-           <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none">Day 20 — Google Analytics 4 (GA4)</h1>
-           <p className="text-orange-100 text-xl font-bold italic">End-to-End GA4 Setup, Reporting & Installation.</p>
-        </header>
-
-        <section className="bg-white border-2 border-orange-100 p-10 rounded-[3rem] grid grid-cols-1 lg:grid-cols-2 gap-12">
-           <div className="space-y-8">
-              <h3 className="text-3xl font-black tracking-tight text-zinc-900">Today’s Goal</h3>
-              <p className="text-lg text-zinc-600 leading-relaxed font-medium">Gain a step-by-step understanding of Google Analytics 4 (GA4) — from creating accounts and properties to exploring standard and advanced reports.</p>
-              <div className="p-6 bg-orange-50 rounded-2xl border border-orange-100">
-                 <h4 className="text-xs font-black uppercase text-orange-600 mb-4 tracking-widest">Learning Objectives</h4>
-                 <ul className="space-y-3">
-                    {["Set up GA4 accounts and configurations correctly", "Collect data using streams and enhanced measurement", "Navigate and interpret standard reports", "Build advanced analysis using explorations"].map(obj => (
-                       <li key={obj} className="flex gap-3 text-sm font-bold text-orange-950">
-                          <CheckCircle className="w-5 h-5 text-orange-600 shrink-0" /> {obj}
-                       </li>
-                    ))}
-                 </ul>
-              </div>
-           </div>
-           <div className="bg-zinc-950 p-8 rounded-[3rem] text-white flex flex-col justify-center">
-              <h4 className="text-xl font-black mb-8 text-orange-400 tracking-tight text-center">Video Walkthrough</h4>
-              <a href="https://youtu.be/hsIP4iH25Wg?si=96-l6Lg9vTKdEbD" target="_blank" rel="noopener noreferrer" className="group block space-y-6">
-                 <div className="relative aspect-video rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
-                    <img src="https://img.youtube.com/vi/hsIP4iH25Wg/maxresdefault.jpg" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80" alt="GA4 Setup"/>
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-                       <PlayCircle className="w-16 h-16 text-orange-500 fill-zinc-950"/>
-                    </div>
-                 </div>
-              </a>
-           </div>
+        <section className="bg-yellow-500 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
+           <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 leading-none">Power BI Masterclass 📈</h1>
+           <p className="text-yellow-100 text-xl font-bold italic leading-relaxed">Formatting, Visualizations, Dashboards + Full Project.</p>
         </section>
 
-        <section className="space-y-10">
-           <h3 className="text-3xl font-black text-zinc-950 px-4">Core Components of GA4</h3>
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="p-8 bg-zinc-50 rounded-[3rem] border border-zinc-100 h-full">
-                 <h4 className="text-xl font-black mb-6 text-zinc-900 border-b border-zinc-200 pb-4 flex items-center gap-3">
-                    <Settings className="w-6 h-6 text-orange-500"/> Account & Property
-                 </h4>
-                 <ul className="space-y-4 text-sm font-medium text-zinc-500">
-                    <li>● <strong>Account:</strong> Top folder level organization.</li>
-                    <li>● <strong>Property:</strong> Reporting level for specific site/app.</li>
-                    <li>● <strong>Configuration:</strong> Setting time zones and currencies.</li>
-                 </ul>
-              </div>
-              <div className="p-8 bg-zinc-50 rounded-[3rem] border border-zinc-100 h-full">
-                 <h4 className="text-xl font-black mb-6 text-zinc-900 border-b border-zinc-200 pb-4 flex items-center gap-3">
-                    <Database className="w-6 h-6 text-orange-500"/> Data Collection
-                 </h4>
-                 <ul className="space-y-4 text-sm font-medium text-zinc-500">
-                    <li>● <strong>Streams:</strong> Web, Android, and iOS data flow.</li>
-                    <li>● <strong>Enhanced Measurement:</strong> Automatic tracking for scrolls and clicks.</li>
-                    <li>● <strong>Measurement ID:</strong> Unique identifier linking site to analytics.</li>
-                 </ul>
-              </div>
-           </div>
+        <section className="bg-white p-8 rounded-3xl border border-zinc-100 shadow-sm space-y-6">
+              <h3 className="text-2xl font-black text-zinc-900 tracking-tight">Today’s Goal</h3>
+              <p className="text-lg text-zinc-600 leading-relaxed font-medium italic border-l-4 border-yellow-500 pl-6">
+                  Build a strong foundation in Power BI by understanding how raw data is transformed, modeled, calculated, and finally presented as interactive dashboards. The focus is on hands-on concepts essential for real-world analytics.
+              </p>
+        </section>
+
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="p-6 bg-zinc-50 rounded-3xl">
+                <h4 className="font-black mb-4 uppercase tracking-widest text-xs text-zinc-400">Core Workflow</h4>
+                <ul className="space-y-3 font-bold text-zinc-700">
+                    <li>1. Data Transformation (Power Query)</li>
+                    <li>2. Data Modeling & Relationships</li>
+                    <li>3. DAX Calculations (Measures)</li>
+                    <li>4. Visualizations & Interactivity</li>
+                    <li>5. Dashboard Finalization</li>
+                </ul>
+            </div>
+            <div className="p-6 bg-zinc-900 rounded-3xl text-white">
+                <h4 className="font-black mb-4 uppercase tracking-widest text-xs text-yellow-400">Cardinality Basics</h4>
+                <div className="grid grid-cols-2 gap-2 text-[10px] uppercase font-black text-zinc-400">
+                    <div className="p-2 border border-white/10 rounded">One-to-many</div>
+                    <div className="p-2 border border-white/10 rounded">Many-to-one</div>
+                    <div className="p-2 border border-white/10 rounded">One-to-one</div>
+                    <div className="p-2 border border-white/10 rounded">Many-to-many</div>
+                </div>
+            </div>
         </section>
       </div>
-    )
+    ),
+    resources: [
+        { title: 'Learn Power BI in Under 3 Hours', url: 'https://youtu.be/I0vQ_VLZTWg?si=Gkh1WYh75MOngmbS', type: 'video' }
+    ]
   },
   {
     day: 21,
+    title: 'Product Analytics with Mixpanel',
+    category: 'Data',
+    preview: 'Differentiate web vs product analytics. Master event-based tracking, funnels, retention, and cohort analysis.',
+    content: (
+      <div className="space-y-12">
+        <section className="bg-indigo-700 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
+           <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 leading-none">Analytics Foundations</h1>
+           <p className="text-indigo-200 text-xl font-bold italic">Understand how product analytics fits into the entire lifecycle.</p>
+        </section>
+
+        <section className="p-10 bg-zinc-950 rounded-[4rem] text-white">
+            <h3 className="text-2xl font-black mb-8 text-indigo-400 tracking-tight">The Metric Pyramid</h3>
+            <div className="flex flex-col items-center gap-4">
+                <div className="w-48 h-12 bg-indigo-600 rounded-lg flex items-center justify-center font-black text-sm uppercase">Focus Metric</div>
+                <div className="w-72 h-12 bg-indigo-800 rounded-lg flex items-center justify-center font-black text-sm uppercase">Engagement & Retention</div>
+                <div className="w-full h-12 bg-zinc-900 rounded-lg flex items-center justify-center font-black text-sm uppercase border border-white/5">Activation & Exposure</div>
+            </div>
+        </section>
+
+        <section className="bg-white border-2 border-zinc-100 p-8 rounded-3xl">
+           <h4 className="text-xl font-black mb-6 text-zinc-900">What is Product Analytics?</h4>
+           <p className="text-lg text-zinc-600 italic">"Product analytics focuses on tracking user actions and events within your product rather than just page views."</p>
+        </section>
+      </div>
+    ),
+    resources: [
+        { title: 'Mixpanel Basics', url: 'https://youtu.be/5O4ST-R5ZVw?si=IN49CzqS5qHexth3', type: 'video' }
+    ]
+  },
+  {
+    day: 22,
+    title: 'GA4 and A/B Testing with VWO',
+    category: 'Data',
+    preview: 'End-to-End GA4 Setup, Reporting, and Installation. Learn to run scientific experiments that settle disputes objectives.',
+    content: (
+      <div className="space-y-12">
+        <section className="bg-orange-600 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
+           <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none text-white">GA4 & A/B Testing 🧪</h1>
+           <p className="text-orange-100 text-xl font-bold italic text-white">"Actions speak louder than opinions, and A/B tests measure actions."</p>
+        </section>
+
+        <section className="p-8 bg-zinc-50 border border-zinc-100 rounded-[3rem] space-y-8">
+            <h4 className="text-2xl font-black text-zinc-900">The A/B Testing Framework</h4>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {['Start with Clear Hypothesis', 'Define Success Metrics', 'Sample Size & Duration'].map((step, i) => (
+                    <div key={step} className="p-5 bg-white rounded-2xl border border-zinc-100 shadow-sm font-black text-zinc-700 text-sm">0{i+1}. {step}</div>
+                ))}
+            </div>
+        </section>
+      </div>
+    ),
+    resources: [
+        { title: 'End-to-End GA4 Setup', url: 'https://youtu.be/hsIP4iH25Wg?si=kahtDEdtF6LY7cTU', type: 'video' },
+        { title: 'VWO A/B Testing Tutorial', url: 'https://youtu.be/QEqholJ28qI?si=Y7KfY4Sr_eKJUIBn', type: 'video' }
+    ]
+  },
+  {
+    day: 23,
     title: 'Understanding APIs for PMs',
     category: 'Tech',
-    preview: 'Master how the internet works and how systems communicate. Learn to collaborate effectively with engineers on API-driven features.',
+    preview: '“Tech literacy is a PM\'s bridge to engineering success.” Learn how the internet works and why APIs matter.',
     content: (
       <div className="space-y-12">
         <header className="bg-cyan-600 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
-           <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 leading-none">Day 21 — Understanding APIs as a Product Manager</h1>
-           <p className="text-cyan-100 text-xl font-bold italic">"Tech literacy is a PM's bridge to engineering success."</p>
+           <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 leading-none">APIs as a PM 🌐</h1>
+           <p className="text-cyan-100 text-xl font-bold italic">Building blocks of integrations and extensible products.</p>
         </header>
 
-        <section className="bg-white border-2 border-cyan-100 p-10 rounded-[3rem] space-y-10">
-           <div className="prose prose-zinc max-w-none">
-              <h3 className="text-2xl font-black text-zinc-900 mb-6">Let's first understand How the Internet Works 🌐</h3>
-              <p className="text-lg text-zinc-600 leading-relaxed font-medium mb-8">
-                 Read this essential primer from Cloudflare: <a href="https://www.cloudflare.com/en-in/learning/network-layer/how-does-the-internet-work/" target="_blank" rel="noopener noreferrer" className="text-cyan-600 underline font-black">How does the internet work?</a>
-              </p>
-           </div>
-           
-           <div className="p-8 bg-zinc-950 rounded-[3rem] text-white">
-              <h3 className="text-2xl font-black mb-10 text-cyan-400 tracking-tight text-center">System Design & Architecture Masterclass</h3>
-              <div className="max-w-2xl mx-auto mb-12">
-                 <a href="https://youtu.be/iiR6DY1w3jI?si=dHoLOunLp-kaNXgY" target="_blank" rel="noopener noreferrer" className="group block space-y-6">
-                    <div className="relative aspect-video rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
-                       <img src="https://img.youtube.com/vi/iiR6DY1w3jI/maxresdefault.jpg" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80" alt="API System Design"/>
-                       <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="w-20 h-20 rounded-full bg-cyan-600 flex items-center justify-center text-white shadow-xl group-hover:scale-110 transition-transform">
-                             <Play className="w-10 h-10 fill-current"/>
-                          </div>
-                       </div>
-                    </div>
-                    <p className="text-center font-black uppercase tracking-widest text-xs text-zinc-400">Tech Every Product Manager Must Know!</p>
-                 </a>
-              </div>
+        <section className="bg-white border-2 border-cyan-100 p-10 rounded-[3rem] space-y-6">
+           <h3 className="text-2xl font-black text-zinc-900 mb-6">Learning Objectives</h3>
+           <ul className="space-y-4 font-bold text-zinc-700">
+               <li>● Explain what APIs are and how they work</li>
+               <li>● Identify key API concepts every PM should know</li>
+               <li>● Understand API documentation and testing basics</li>
+               <li>● Use APIs to inform product strategy and partnerships</li>
+           </ul>
+        </section>
+      </div>
+    ),
+    resources: [
+        { title: 'How the Internet Works (Cloudflare)', url: 'https://www.cloudflare.com/en-in/learning/network-layer/how-does-the-internet-work/', type: 'article' },
+        { title: 'API for Product Managers', url: 'https://dune-leek-31a.notion.site/API-for-Product-Managers-24abaab379148074abc3f57b062db2bf', type: 'tool' }
+    ]
+  },
+  {
+    day: 24,
+    title: 'System Design for PMs',
+    category: 'Tech',
+    preview: 'Bridge the gap between product vision and technical reality to avoid costly mistakes.',
+    content: (
+      <div className="space-y-12">
+        <header className="bg-zinc-900 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
+           <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none text-white">System Design 🏗️</h1>
+           <p className="text-zinc-400 text-xl font-bold italic text-white text-white">Building Products That Scale</p>
+        </header>
+
+        <section className="p-12 bg-white border-4 border-zinc-100 rounded-[4rem] shadow-xl text-zinc-900">
+           <h3 className="text-3xl font-black mb-8 text-zinc-950">Why PMs Need This?</h3>
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="p-8 bg-zinc-50 rounded-3xl border border-zinc-100 italic font-bold">"Making realistic roadmap commitments requires understanding technical complexity."</div>
+              <div className="p-8 bg-zinc-50 rounded-3xl border border-zinc-100 italic font-bold">"Evaluating build versus buy decisions demands technical literacy."</div>
            </div>
         </section>
+      </div>
+    ),
+    resources: [
+        { title: 'System Design Masterclass', url: 'https://youtu.be/m8Icp_Cid5o?si=u52HzOf12e0cMvyI', type: 'video' }
+    ]
+  },
+  {
+    day: 25,
+    title: 'UI/UX for Product Managers',
+    category: 'Design',
+    preview: 'Essential UX & UI Concepts + Practical Usability. Learn to evaluate interfaces using design laws.',
+    content: (
+      <div className="space-y-12">
+        <header className="bg-pink-600 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
+           <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none text-white">UI/UX Strategy</h1>
+           <p className="text-pink-100 text-xl font-bold italic leading-relaxed text-white">"A product is only as good as its experience."</p>
+        </header>
 
-        <section className="p-8 bg-zinc-50 border border-zinc-200 rounded-[3rem] space-y-8">
-           <h3 className="text-3xl font-black text-zinc-950 px-4">Why APIs Matter for Product Managers</h3>
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {[
-                { t: 'Communication', d: 'Communicate clearly with engineering teams about capabilities.' },
-                { t: 'Value Unlock', d: 'Design integrations that unlock massive value for users.' },
-                { t: 'Scalability', d: 'Build products that scale with partner ecosystems.' },
-                { t: 'Efficiency', d: 'Reduce dependencies on reinventing functionality internally.' }
-              ].map(item => (
-                <div key={item.t} className="p-6 bg-white rounded-2xl border border-zinc-100 flex gap-4 items-start shadow-sm">
-                   <div className="w-10 h-10 rounded-full bg-cyan-50 flex items-center justify-center text-cyan-600 font-black shrink-0">✓</div>
-                   <div>
-                      <h4 className="font-black text-zinc-900 mb-1">{item.t}</h4>
-                      <p className="text-xs text-zinc-500 leading-relaxed font-medium">{item.d}</p>
+        <section className="bg-white border-2 border-pink-100 p-10 rounded-[3rem] shadow-sm space-y-10">
+              <h3 className="text-3xl font-black tracking-tight text-zinc-900">Learning Objectives</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {['Recognize fundamental UX/UI concepts', 'Apply design principles in product discussions', 'Understand how and when to run usability tests', 'Use key visual design laws to evaluate interfaces'].map(goal => (
+                   <div key={goal} className="flex items-center gap-4 text-sm font-bold text-zinc-700 bg-pink-50/50 p-4 rounded-xl border border-pink-50">
+                      <CheckCircle className="w-5 h-5 text-pink-500" /> {goal}
                    </div>
+                ))}
+              </div>
+        </section>
+      </div>
+    ),
+    resources: [
+        { title: 'UX Design Essentials', url: 'https://youtu.be/QJBP2uy8LCU?si=GIa6MA8amS8vYBdd', type: 'video' },
+        { title: '12 UI/UX Laws You MUST KNOW', url: 'https://youtu.be/wELfwQmtnvo?si=t7AEn1xVBoB8lPTm', type: 'video' }
+    ]
+  },
+  {
+    day: 26,
+    title: 'Agile & Scrum Project Management',
+    category: 'Strategy',
+    preview: 'Master iterative delivery, customer feedback, and adaptability. Learn the roles and ceremonies of Scrum.',
+    content: (
+      <div className="space-y-12">
+        <header className="bg-indigo-800 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
+           <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 leading-none text-white">Agile & Scrum</h1>
+           <p className="text-indigo-200 text-xl font-bold italic leading-relaxed text-white">"Agile isn’t a checklist — it’s a way to deliver value faster."</p>
+        </header>
+
+        <section className="p-10 bg-zinc-50 border border-zinc-200 rounded-[3.5rem] space-y-10">
+           <h3 className="text-2xl font-black text-indigo-950 px-4">SCRUM ROLES</h3>
+           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {[
+                { r: 'Product Owner', d: 'Represents the customer, owns the backlog, makes prioritization decisions.' },
+                { r: 'Scrum Master', d: 'Facilitates the process, removes impediments, and coaches on Agile.' },
+                { r: 'Development Team', d: 'Engineers, designers, QA who build the potentially shippable increment.' }
+              ].map(role => (
+                <div key={role.r} className="p-8 bg-white rounded-3xl border border-indigo-100 shadow-sm">
+                   <h4 className="font-black text-indigo-600 mb-2 uppercase text-xs tracking-widest">{role.r}</h4>
+                   <p className="text-xs font-bold text-zinc-500 leading-relaxed italic">{role.d}</p>
                 </div>
               ))}
            </div>
         </section>
       </div>
+    ),
+    resources: [
+        { title: 'Agile & Scrum Intro', url: 'https://youtu.be/WDAQq5vCMME?si=FaBFP9KwcKDsviFh', type: 'video' },
+        { title: 'Jira Beginner Tooling', url: 'https://youtu.be/NDVSMIVYxm8?si=GptGyKBY7AlhEZ8', type: 'video' }
+    ]
+  },
+  {
+    day: 27,
+    title: 'Cloud Computing for PMs',
+    category: 'Tech',
+    preview: 'Understand IaaS, PaaS, and SaaS models. Master cloud economics, elasticity, and microservices.',
+    content: (
+      <div className="space-y-12">
+        <header className="bg-blue-900 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
+           <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 leading-none text-white">Cloud Strategy ☁️</h1>
+           <p className="text-blue-200 text-xl font-bold italic leading-relaxed text-white">"The cloud isn't just someone else's computer—it's a paradigm shift."</p>
+        </header>
+
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+                { m: 'IaaS', d: 'Raw compute: EC2, GCE, Azure VMs. Max control.' },
+                { m: 'PaaS', d: 'Managed platforms: Heroku, App Engine. Speed over config.' },
+                { m: 'SaaS', d: 'Complete apps: Salesforce, Slack. Zero infra worries.' }
+            ].map(model => (
+                <div key={model.m} className="p-8 bg-white border-2 border-blue-100 rounded-3xl shadow-sm">
+                    <h4 className="font-black text-blue-800 text-xl mb-2">{model.m}</h4>
+                    <p className="text-xs text-zinc-500 font-bold italic">{model.d}</p>
+                </div>
+            ))}
+        </section>
+      </div>
     )
   },
   {
-    day: 22,
+    day: 28,
+    title: 'What is AI, ML, and DL?',
+    category: 'AI',
+    preview: 'The modern method for Artificial Intelligence. Learn Supervised, Unsupervised, and Reinforcement Learning.',
+    content: (
+      <div className="space-y-12">
+        <header className="bg-orange-600 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
+           <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 leading-none text-white">AI Foundations 🤖</h1>
+           <p className="text-orange-100 text-xl font-bold italic text-white">"ML teaches systems to think like humans by learning from data."</p>
+        </header>
+
+        <section className="p-12 bg-white border-4 border-zinc-100 rounded-[4rem] shadow-xl text-center">
+            <h3 className="text-3xl font-black mb-8 text-zinc-950">Three Core ML Types</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="space-y-4">
+                    <div className="text-5xl">📊</div>
+                    <h5 className="text-xl font-black uppercase text-orange-600">Supervised</h5>
+                    <p className="text-xs font-bold text-zinc-500 italic">Labeled data with known outputs. (Classification/Regression)</p>
+                </div>
+                <div className="space-y-4">
+                    <div className="text-5xl">🔍</div>
+                    <h5 className="text-xl font-black uppercase text-orange-600">Unsupervised</h5>
+                    <p className="text-xs font-bold text-zinc-500 italic">Unlabeled data. (Clustering/Association)</p>
+                </div>
+                <div className="space-y-4">
+                    <div className="text-5xl">🕹️</div>
+                    <h5 className="text-xl font-black uppercase text-orange-600">Reinforcement</h5>
+                    <p className="text-xs font-bold text-zinc-500 italic">Trial and error with rewards/penalties.</p>
+                </div>
+            </div>
+        </section>
+      </div>
+    )
+  },
+  {
+    day: 29,
+    title: 'Large Language Models (LLM)',
+    category: 'AI',
+    preview: 'Deep dive into LLMs like ChatGPT. Learn Statistical Token Simulation, RLHF, and the "Swiss Cheese" capability model.',
+    content: (
+      <div className="space-y-12">
+        <header className="bg-zinc-950 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
+           <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none text-white">LLM Mastery</h1>
+           <p className="text-zinc-400 text-xl font-bold italic leading-relaxed text-white">Statistical Token Simulators and Internet Document Simulators.</p>
+        </header>
+
+        <section className="bg-white border-2 border-zinc-100 p-8 rounded-3xl">
+            <h4 className="text-xl font-black mb-6 text-zinc-900 uppercase tracking-widest text-xs">LLM Characteristics</h4>
+            <div className="space-y-4 font-bold text-zinc-600">
+                <p>● <strong>Stochastic & Imperfect:</strong> Relying on probability and sampling.</p>
+                <p>● <strong>Hallucinations:</strong> Prone to fabricating information confidently.</p>
+                <p>● <strong>Swiss Cheese Capability:</strong> Brilliant in one domain, fail randomly at simple tasks.</p>
+            </div>
+        </section>
+      </div>
+    ),
+    resources: [
+        { title: 'Deep Dive into LLMs (Karpathy)', url: 'https://youtu.be/7xTGNNLPyMI?si=_FGxNCEjJcvyxdAz', type: 'video' }
+    ]
+  },
+  {
+    day: 30,
     title: 'Prompt Engineering for PMs',
     category: 'AI',
-    preview: 'Learn to write effective prompts for LLMs. Accelerate ideation, spec writing, and user research synthesis using AI.',
+    preview: 'Learn to write effective prompts to get actionable outputs for ideation, spec writing, and research.',
     content: (
       <div className="space-y-12">
         <header className="bg-orange-500 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
-           <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 leading-none">Day 22 — Prompt Engineering for Product Managers</h1>
-           <p className="text-orange-100 text-xl font-bold italic">"AI won't replace PMs, but PMs who use AI will replace those who don't."</p>
+           <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 leading-none text-white">Prompt Engineering</h1>
+           <p className="text-orange-100 text-xl font-bold italic text-white">"It’s about clear thinking expressed as structured instructions."</p>
         </header>
 
-        <section className="bg-white p-10 rounded-[3rem] border border-zinc-100 shadow-sm space-y-8">
-           <h3 className="text-3xl font-black tracking-tight text-zinc-900">Today’s Goal</h3>
-           <p className="text-lg text-zinc-600 leading-relaxed font-medium">Learn how to write <strong>effective prompts</strong> so that large language models (LLMs) return useful, reliable, and actionable outputs — a must-have skill for modern PM workflows.</p>
-           
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8 border-t border-zinc-100">
-              <div className="space-y-6">
-                 <h4 className="text-xl font-black text-zinc-800">For PMs, AI accelerates:</h4>
-                 <div className="grid grid-cols-1 gap-3">
-                    {['Ideation', 'Specification writing', 'Data interpretation', 'User research synthesis', 'Competitive analysis'].map(task => (
-                       <div key={task} className="flex items-center gap-4 p-4 bg-orange-50 rounded-xl border border-orange-100 text-orange-950 font-bold">
-                          <Zap className="w-5 h-5 text-orange-500" /> {task}
-                       </div>
-                    ))}
-                 </div>
-              </div>
-              <div className="p-8 bg-zinc-900 rounded-[2.5rem] text-white flex flex-col justify-center">
-                 <p className="text-orange-400 font-black uppercase tracking-widest text-[10px] mb-4">Core Insight</p>
-                 <p className="text-xl font-medium leading-relaxed italic">"It’s not about memorizing commands — it’s about clear thinking expressed as structured instructions."</p>
-              </div>
-           </div>
-        </section>
-
-        <section className="p-10 bg-zinc-950 rounded-[4rem] text-white">
-           <h3 className="text-3xl font-black mb-10 text-orange-400 tracking-tight text-center">Prompting Masterclass</h3>
-           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <a href="https://youtu.be/ysPbXH0LpIE?si=5Riv7IB9ezFAt_Kc" target="_blank" rel="noopener noreferrer" className="group block space-y-4">
-                 <div className="relative aspect-video rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
-                    <img src="https://img.youtube.com/vi/ysPbXH0LpIE/maxresdefault.jpg" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Prompting 101"/>
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-                       <PlayCircle className="w-16 h-16 text-orange-500 fill-zinc-950"/>
-                    </div>
-                 </div>
-                 <p className="text-center font-bold">Foundations + Practical Prompting 101</p>
-              </a>
-              <div className="space-y-6">
-                 <h4 className="text-2xl font-black text-white leading-tight">Professional Certification</h4>
-                 <p className="text-zinc-400 leading-relaxed">Level up your credentials with the official AWS certification course.</p>
-                 <a href="https://share.google/FdZPEVTPVCkN85d33" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 px-8 py-4 bg-orange-600 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-orange-500 transition-all shadow-xl shadow-orange-600/20">
-                    <ExternalLink className="w-4 h-4"/> Get AWS AI Certificate
-                 </a>
-              </div>
-           </div>
+        <section className="bg-zinc-950 p-10 rounded-[3rem] text-white">
+            <h4 className="text-xl font-black mb-8 text-orange-400 text-center uppercase tracking-widest text-xs">Prompt Structure</h4>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                {['Role', 'Task', 'Behavior', 'Output Format'].map(item => (
+                    <div key={item} className="p-5 bg-white/5 border border-white/10 rounded-2xl font-black text-xs uppercase tracking-widest">{item}</div>
+                ))}
+            </div>
         </section>
       </div>
-    )
+    ),
+    resources: [
+        { title: 'Prompting 101 Video', url: 'https://youtu.be/ysPbXH0LpIE?si=5Riv7IB9ezFAt_Kc', type: 'video' },
+        { title: 'AWS Prompting Foundation', url: 'https://share.google/FdZPEVTPVCkN85d33', type: 'tool' }
+    ]
   },
   {
-    day: 23,
-    title: 'UI/UX for Product Managers',
-    category: 'Design',
-    preview: 'Master essential UX & UI concepts. Learn cognitive design laws, usability testing, and how to provide actionable feedback to designers.',
+    day: 31,
+    title: 'Context Engineering',
+    category: 'AI',
+    preview: 'The natural progression of prompt engineering. Learn to curate and maintain the optimal set of tokens during inference.',
     content: (
-      <div className="space-y-12">
-        <header className="bg-pink-600 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
-           <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none">Day 23 — UI/UX for Product Managers</h1>
-           <p className="text-pink-100 text-xl font-bold italic leading-relaxed">"A product is only as good as its experience."</p>
-        </header>
+        <div className="space-y-12">
+            <section className="bg-indigo-600 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
+                <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 leading-none text-white">Context Engineering</h1>
+                <p className="text-indigo-200 text-xl font-bold italic text-white text-white">"LLM context window is like RAM, serving as working memory."</p>
+            </section>
 
-        <section className="bg-white border-2 border-pink-100 p-10 rounded-[3rem] shadow-sm space-y-10">
-           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-              <div className="space-y-6">
-                 <h3 className="text-3xl font-black tracking-tight text-zinc-900">Today’s Goal</h3>
-                 <p className="text-lg text-zinc-600 leading-relaxed font-medium">Build a solid foundation in <strong>UI/UX principles</strong> relevant to product management, including design fundamentals and cognitive laws.</p>
-                 <div className="grid grid-cols-1 gap-4 pt-4">
-                    {['Understand design fundamentals', 'Learn usability testing', 'Integrate cognitive laws', 'Provide actionable feedback'].map(goal => (
-                       <div key={goal} className="flex items-center gap-4 text-sm font-bold text-zinc-700 bg-pink-50/50 p-4 rounded-xl border border-pink-50">
-                          <CheckCircle className="w-5 h-5 text-pink-500" /> {goal}
-                       </div>
+            <section className="bg-white border-2 border-zinc-100 p-8 rounded-3xl space-y-6">
+                <h3 className="text-2xl font-black">Building Capable Agents</h3>
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    {['Write Context', 'Select Context', 'Compress Context', 'Isolate Context'].map(item => (
+                        <div key={item} className="p-4 bg-zinc-50 border border-zinc-100 rounded-xl font-black text-center text-[10px] uppercase tracking-widest">{item}</div>
                     ))}
-                 </div>
-              </div>
-              <div className="space-y-6">
-                 <h4 className="text-xl font-black text-pink-600 uppercase tracking-widest text-xs">Curated Master Videos</h4>
-                 <div className="space-y-4">
-                    {[
-                      { t: 'UX Design UI Essentials', u: 'https://youtu.be/QJBP2uy8LCU?si=GIa6MA8amS8vYBdd' },
-                      { t: 'Usability Testing for UX', u: 'https://youtu.be/nYCJTea1AUQ?si=8RcveOgK6wybwlk4' },
-                      { t: 'Basics of UI/UX', u: 'https://youtu.be/ziEqGZB8GE?si=gdeMwyRMYEwOmBOL' },
-                      { t: '12 UI/UX Laws You MUST KNOW', u: 'https://youtu.be/wELfwQmtnvo?si=t7AEn1xVBoB8lPTm' }
-                    ].map(video => (
-                       <a key={video.t} href={video.u} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-5 bg-zinc-50 rounded-2xl hover:bg-pink-50 border border-zinc-100 transition-all group">
-                          <span className="font-bold text-zinc-700 tracking-tight">{video.t}</span>
-                          <PlayCircle className="w-6 h-6 text-zinc-300 group-hover:text-pink-500 transition-colors" />
-                       </a>
-                    ))}
-                 </div>
-              </div>
-           </div>
-        </section>
-      </div>
+                </div>
+            </section>
+        </div>
     )
   },
   {
-    day: 24,
-    title: 'Agile & Scrum Project Management',
+    day: 32,
+    title: 'Retrieval Augmented Generation (RAG)',
+    category: 'AI',
+    preview: 'Build sophisticated Q&A chatbots by giving LLMs access to private documents. Master chunking and vector databases.',
+    content: (
+        <div className="space-y-12">
+            <header className="bg-zinc-950 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
+                <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 leading-none text-white">RAG Strategy</h1>
+                <p className="text-zinc-400 text-xl font-bold italic leading-relaxed text-white">Bridging the gap between LLMs and private data.</p>
+            </header>
+
+            <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {[
+                    { c: 'Retrieval (R)', d: 'Look up internal documents and retrieve information.' },
+                    { c: 'Augmenting (A)', d: 'Improve user prompt with retrieved info.' },
+                    { c: 'Generation (G)', d: 'LLM generates response based on context.' }
+                ].map(item => (
+                    <div key={item.c} className="p-8 bg-white border-2 border-indigo-100 rounded-3xl shadow-sm">
+                        <h4 className="font-black text-indigo-600 mb-2">{item.c}</h4>
+                        <p className="text-xs font-bold text-zinc-500 italic">{item.d}</p>
+                    </div>
+                ))}
+            </section>
+        </div>
+    )
+  },
+  {
+    day: 33,
+    title: 'Model Context Protocol (MCP)',
+    category: 'AI',
+    preview: 'Think of MCP like a USB-C port for AI. Standardize how models communicate with tools and context providers safely.',
+    content: (
+        <div className="space-y-12">
+            <header className="bg-indigo-900 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
+                <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none text-white">MCP 🔌</h1>
+                <p className="text-indigo-200 text-xl font-bold italic leading-relaxed text-white">Standardizing AI application connectivity.</p>
+            </header>
+
+            <section className="p-10 bg-white border-2 border-zinc-100 rounded-[3rem] shadow-sm">
+                <h3 className="text-2xl font-black mb-6">Why MCP Exists?</h3>
+                <p className="text-lg text-zinc-600 italic">"RAG and Plugins tried to solve this, but each had limitations: text chunks only, difficult to reuse, and brittle integrations."</p>
+            </section>
+        </div>
+    )
+  },
+  {
+    day: 34,
+    title: 'Introduction to Agent Workflow',
+    category: 'AI',
+    preview: 'Design AI systems that execute series of steps iteratively. Master task decomposition and varying degrees of autonomy.',
+    content: (
+        <div className="space-y-12">
+            <header className="bg-zinc-950 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
+                <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 leading-none text-white">Agentic AI Workflows</h1>
+                <p className="text-indigo-400 text-xl font-bold italic text-white">Mimicking complex human problem-solving stages.</p>
+            </header>
+
+            <section className="bg-zinc-50 p-10 rounded-[3rem] space-y-8">
+                <h3 className="text-2xl font-black">Degrees of Autonomy</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 font-bold text-zinc-600">
+                    <div className="p-6 bg-white rounded-2xl border">Less Autonomous: Predefined steps.</div>
+                    <div className="p-6 bg-white rounded-2xl border">Semi-Autonomous: Decisions on tools.</div>
+                    <div className="p-6 bg-white rounded-2xl border">Highly Autonomous: Dynamic planning.</div>
+                </div>
+            </section>
+        </div>
+    ),
+    resources: [
+        { title: 'Agentic AI Course (DeepLearning.ai)', url: 'https://www.deeplearning.ai/courses/agentic-ai/', type: 'tool' }
+    ]
+  },
+  {
+    day: 35,
+    title: 'AI Agents for Product Managers',
+    category: 'AI',
+    preview: 'Learn to build agents using LangChain or AutoGPT. Understand why direct experience with failure modes is crucial.',
+    content: (
+        <div className="space-y-12">
+            <header className="bg-indigo-600 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
+                <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none text-white">Building AI Agents</h1>
+                <p className="text-indigo-100 text-xl font-bold italic text-white text-white">Move from prompts to autonomous systems.</p>
+            </header>
+
+            <section className="p-10 bg-zinc-950 rounded-[4rem] text-white">
+                <h3 className="text-2xl font-black mb-8 text-indigo-400 text-center uppercase tracking-widest text-xs">Types of Agents</h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                    {['Simple Reflex', 'Model-based', 'Goal-based', 'Utility-based'].map(item => (
+                        <div key={item} className="p-5 bg-white/5 border border-white/10 rounded-2xl font-black text-xs uppercase tracking-widest">{item}</div>
+                    ))}
+                </div>
+            </section>
+        </div>
+    ),
+    resources: [
+        { title: 'AI Agent Course', url: 'https://youtu.be/ZHH3sr234zY?si=5qMS4pLlfl2gYaDs', type: 'video' }
+    ]
+  },
+  {
+    day: 36,
+    title: 'Building Proof of Work: No-Code',
+    category: 'Tech',
+    preview: 'Why aspiring PMs must ship. Learn to use Replit, Lovable, Claude, and Vercel to build real products.',
+    content: (
+        <div className="space-y-12">
+            <header className="bg-zinc-900 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
+                <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 leading-none text-white">Proof of Work 🛠️</h1>
+                <p className="text-zinc-400 text-xl font-bold italic text-white">Hiring managers prioritize demonstrated ability over potential.</p>
+            </header>
+
+            <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="p-8 bg-white border border-zinc-100 rounded-3xl shadow-sm space-y-4">
+                    <h4 className="text-xl font-black">Modern No-Code Stack</h4>
+                    <ul className="text-sm font-medium text-zinc-500 space-y-2 italic">
+                        <li>● <strong>Lovable:</strong> Complete web apps from prompts.</li>
+                        <li>● <strong>Replit:</strong> AI-powered dev environment.</li>
+                        <li>● <strong>Vercel:</strong> Zero-config deployment.</li>
+                        <li>● <strong>Zapier/Make:</strong> Business workflow automation.</li>
+                    </ul>
+                </div>
+                <div className="p-8 bg-indigo-50 rounded-3xl border border-indigo-100 italic font-bold text-indigo-900">
+                    "Better to ship ten small projects than spend six months on one ambitious product you never finish."
+                </div>
+            </section>
+        </div>
+    )
+  },
+  {
+    day: 37,
+    title: 'Structured Product Teardowns',
     category: 'Strategy',
-    preview: 'Master the mechanics of real product delivery. Learn roles, ceremonies, artifacts, and prioritization frameworks like RICE and MoSCoW.',
+    preview: 'Reverse-engineer digital products to extract insights. Demonstrate analytical rigor and product sense.',
     content: (
-      <div className="space-y-12">
-        <header className="bg-indigo-800 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
-           <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 leading-none">Day 24 — Key Foundations of Agile & Scrum</h1>
-           <p className="text-indigo-200 text-xl font-bold italic leading-relaxed">"Agile isn’t a checklist — it’s a way to deliver value faster."</p>
-        </header>
+        <div className="space-y-12">
+            <header className="bg-indigo-600 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
+                <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none text-white">Product Teardowns</h1>
+                <p className="text-indigo-100 text-xl font-bold italic text-white">"Reverse-engineer to understand how it works and WHY."</p>
+            </header>
 
-        <section className="bg-zinc-50 p-10 rounded-[3rem] border border-zinc-200 space-y-10">
-           <h3 className="text-3xl font-black tracking-tight text-zinc-900">Agile Fundamentals</h3>
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="space-y-6 bg-white p-8 rounded-3xl border border-zinc-100 shadow-sm">
-                 <h4 className="text-xl font-black text-indigo-900 border-b border-zinc-100 pb-4">Agile Manifesto Values</h4>
-                 <ul className="space-y-4">
-                    {['Individuals and interactions over processes and tools', 'Working software over comprehensive documentation', 'Customer collaboration over contract negotiation', 'Responding to change over following a plan'].map((val, i) => (
-                       <li key={i} className="flex gap-4 text-sm font-bold text-zinc-600">
-                          <CheckCircle className="w-5 h-5 text-indigo-500 shrink-0" /> {val}
-                       </li>
-                    ))}
-                 </ul>
-              </div>
-              <div className="space-y-6">
-                 <h4 className="text-xl font-black text-indigo-900">Jira Beginner Course</h4>
-                 <a href="https://youtu.be/NDVSMIVYxm8?si=GptGyKBY7AlhEZ8" target="_blank" rel="noopener noreferrer" className="group block space-y-4">
-                    <div className="relative aspect-video rounded-3xl overflow-hidden border border-zinc-200 shadow-lg group-hover:shadow-indigo-500/20 transition-all">
-                       <img src="https://img.youtube.com/vi/NDVSMIVYxm8/maxresdefault.jpg" className="w-full h-full object-cover" alt="Jira Tooling"/>
-                       <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/0">
-                          <PlayCircle className="w-16 h-16 text-white"/>
-                       </div>
-                    </div>
-                    <p className="text-xs font-black uppercase text-center tracking-widest text-zinc-400">Master Agile Tooling (Jira)</p>
-                 </a>
-              </div>
-           </div>
-        </section>
+            <section className="p-10 bg-white border-2 border-zinc-100 rounded-[3rem] shadow-sm">
+                <h3 className="text-2xl font-black mb-6">Core Teardown Skills</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm font-bold text-zinc-600 italic">
+                    <div>✔️ Product Sense (Feature Interpretations)</div>
+                    <div>✔️ User Empathy (Pains & Motivations)</div>
+                    <div>✔️ Strategic Thinking (Business Goals)</div>
+                    <div>✔️ Communication (Clarity of Insights)</div>
+                </div>
+            </section>
+        </div>
+    ),
+    resources: [
+        { title: 'The Stare: Case Studies', url: 'https://thestare.in/case-studies', type: 'article' },
+        { title: 'What is a Product Teardown?', url: 'https://youtu.be/3cqHleDYgys', type: 'video' }
+    ]
+  },
+  {
+    day: 38,
+    title: 'Startup Case Studies for PM Jobs',
+    category: 'Strategy',
+    preview: 'Pick the right startup, define scope, map the journey, and identify high-impact problems.',
+    content: (
+        <div className="space-y-12">
+            <header className="bg-emerald-600 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
+                <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 leading-none text-white">Startup Case Studies</h1>
+                <p className="text-emerald-100 text-xl font-bold italic text-white">Proof of product thinking, not a presentation exercise.</p>
+            </header>
 
-        <section className="p-10 bg-white rounded-[4rem] border-4 border-zinc-100 shadow-xl space-y-12">
-           <h3 className="text-3xl font-black text-center tracking-tight">Prioritization Frameworks</h3>
-           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <div className="p-8 bg-zinc-50 rounded-3xl space-y-6">
-                 
+            <section className="bg-zinc-50 p-10 rounded-[3rem] border border-zinc-200">
+                <h4 className="text-xl font-black mb-6">Process Checklist</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-bold text-zinc-700">
+                    <div>1. Pick the Right Startup (Live/Usable)</div>
+                    <div>2. Define Scope (Don't do everything)</div>
+                    <div>3. Map the User Journey</div>
+                    <div>4. Root Cause Analysis (5 Whys)</div>
+                </div>
+            </section>
+        </div>
+    )
+  },
+  {
+    day: 39,
+    title: 'Building a Strong PM Portfolio',
+    category: 'Strategy',
+    preview: 'Master the About section, project showcases, certifications, and testimonials that land interviews.',
+    content: (
+        <div className="space-y-12">
+            <header className="bg-indigo-900 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden text-white">
+                <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none text-white">PM Portfolio Mastery</h1>
+                <p className="text-indigo-200 text-xl font-bold italic text-white">"Show, don't just tell, your product management value."</p>
+            </header>
+
+            <section className="bg-white border-2 border-zinc-100 p-10 rounded-[3rem] shadow-sm">
+                <h3 className="text-2xl font-black mb-6">Key Portfolio Elements</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 italic font-bold text-zinc-500">
+                    <div>● User-Centric About Section</div>
+                    <div>● Proof of Work (Teardowns)</div>
+                    <div>● Validated Certifications</div>
+                </div>
+            </section>
+        </div>
+    )
+  },
+  {
+    day: 40,
+    title: 'CV Building & LinkedIn Optimization',
+    category: 'Strategy',
+    preview: 'Optimize your profile for the 7-10 second recruiter scan. Use AI to refine your headline and about section.',
+    content: (
+        <div className="space-y-12">
+            <header className="bg-zinc-950 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
+                <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none text-white text-white">Career Optimization</h1>
+                <p className="text-zinc-400 text-xl font-bold italic text-white">Increasing search visibility and credibility signaling.</p>
+            </header>
+
+            <section className="bg-white border-2 border-zinc-100 p-10 rounded-[3rem] space-y-8">
+                <h3 className="text-2xl font-black">Analysis Framework</h3>
+                <ul className="space-y-2 font-bold text-zinc-600">
+                    <li>1. Headline (SEO-first)</li>
+                    <li>2. About (Value Proposition)</li>
+                    <li>3. Experience (Outcomes > Responsibilities)</li>
+                    <li>4. Skills Audit (Target relevance)</li>
+                </ul>
+            </section>
+        </div>
+    ),
+    resources: [
+        { title: 'Resume Worded (ATS Check)', url: 'https://resumeworded.com/', type: 'tool' }
+    ]
+  },
+  {
+    day: 41,
+    title: 'Applying to Jobs & Referrals',
+    category: 'Strategy',
+    preview: 'Learn the right platforms and outreach messages. Follow-up tips to get shortlisted at top companies.',
+    content: (
+        <div className="space-y-12">
+            <header className="bg-indigo-600 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
+                <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none text-white">Job Hunt Strategy</h1>
+                <p className="text-indigo-100 text-xl font-bold italic text-white">"Lead with insight and thoughtfulness, not just asks."</p>
+            </header>
+
+            <section className="p-10 bg-zinc-50 border border-zinc-200 rounded-[3.5rem] space-y-6">
+                <h4 className="text-xl font-black uppercase tracking-widest text-xs text-zinc-400">Top Platforms</h4>
+                <p className="font-black text-indigo-700">Linkedin | Wellfound | Ycombinator jobs | Instahyre</p>
+            </section>
+        </div>
+    )
+  },
+  {
+    day: 42,
+    title: 'Interview Prep: Case & Product Sense',
+    category: 'Strategy',
+    preview: 'Master depth of analysis, assumptions, and prioritisation. Practice designing for Google, Atlassian, and Meta.',
+    content: (
+        <div className="space-y-12">
+            <header className="bg-zinc-950 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
+                <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-4 leading-none text-white">Interview Prep (Part 1)</h1>
+                <p className="text-zinc-400 text-xl font-bold italic text-white">Depth of analysis and clarity of communication.</p>
+            </header>
+
+            <section className="bg-white border-2 border-zinc-100 p-10 rounded-[3rem] space-y-6 shadow-sm">
+                <h3 className="text-2xl font-black">Practice Questions</h3>
+                <ul className="space-y-4 italic font-bold text-zinc-500">
+                    <li>● Design a movie-booking app for elderly users (Flipkart)</li>
+                    <li>● Design a Google Pixel tablet for restaurants (Google)</li>
+                    <li>● Design a TV remote for older people (Netflix)</li>
+                </ul>
+            </section>
+        </div>
+    ),
+    resources: [
+        { title: 'Product Sense Round Prep', url: 'https://youtu.be/tlpfb_VsogA?si=VMQtzA2CME3KtR1z', type: 'video' }
+    ]
+  },
+  {
+    day: 43,
+    title: 'Interview Prep: RCA & Guestimates',
+    category: 'Strategy',
+    preview: 'Learn to solve "Sudden revenue drop" and "Number of tube lights" problems with structured frameworks.',
+    content: (
+        <div className="space-y-12">
+            <section className="p-8 bg-zinc-50 border border-zinc-200 rounded-[3rem] space-y-6">
+                <h4 className="text-2xl font-black">Round Three: RCA (Root Cause Analysis)</h4>
+                <ul className="space-y-2 font-bold text-zinc-600 italic">
+                    <li>● Drop in average watch time by 30% (Netflix)</li>
+                    <li>● Increase in returns at Amazon (Amazon)</li>
+                </ul>
+            </section>
+            <section className="p-8 bg-indigo-900 rounded-[3rem] text-white shadow-xl">
+                <h4 className="text-2xl font-black text-indigo-400 mb-4">Round Four: Guestimates</h4>
+                <p className="italic text-indigo-200">"Number of tube lights in Bangalore or Tennis balls in an airplane."</p>
+            </section>
+        </div>
+    ),
+    resources: [
+        { title: 'RCA Mastery', url: 'https://youtu.be/PA-Z__0G8Cs?si=DjJ7mkmdWhzpYU6l', type: 'video' },
+        { title: 'Guestimates Framework', url: 'https://youtu.be/7C0L_XdIE50?si=bxBFIUcsJEFUsSqr', type: 'video' }
+    ]
+  },
+  {
+    day: 44,
+    title: 'Interview Prep: Product Improvement',
+    category: 'Strategy',
+    preview: 'Learn how to improve Netflix, Spotify, or Gmail. Answer "What would you improve in your favorite product?".',
+    content: (
+        <div className="space-y-12">
+            <header className="bg-indigo-600 p-12 rounded-[4rem] text-white shadow-2xl relative overflow-hidden">
+                <h1 className="text-3xl md:text-5xl font-black tracking-tighter mb-4 leading-none text-white">Product Improvement</h1>
+                <p className="text-indigo-100 text-xl font-bold italic text-white text-white">Learn to evaluate and evolve existing success stories.</p>
+            </header>
+        </div>
+    ),
+    resources: [
+        { title: 'Product Improvement Round', url: 'https://youtu.be/Fhm0F240v9Y?si=Sqp9VhYoenUKYcw7', type: 'video' }
+    ]
+  },
+  {
+    day: 45,
+    title: 'Interview Prep: Behavioral Rounds',
+    category: 'Strategy',
+    preview: 'Final behavioral round preparation. Course conclusion and feedback loop for continuous learning.',
+    content: (
+        <div className="space-y-12 text-center">
+            <div className="p-12 bg-white border-2 border-zinc-100 rounded-[4rem] shadow-xl space-y-8">
+                <h2 className="text-4xl font-black text-zinc-900 tracking-tighter">Congratulations! 🎓</h2>
+                <p className="text-xl text-zinc-600 italic">"You've completed the 45-day PM Launchpad journey."</p>
+                <div className="p-8 bg-indigo-50 rounded-3xl border border-indigo-100">
+                    <h4 className="text-2xl font-black text-indigo-900 mb-4">Final Feedback</h4>
+                    <p className="text-zinc-600 mb-6 font-medium">We hope you liked the course, please help us by your valuable feedback.</p>
+                    <a href="https://docs.google.com/forms/d/14esag07MESDVDzUmHGRFWyGfSkahwky18qZmW36_ooQ/preview" target="_blank" rel="noopener noreferrer" className="px-8 py-4 bg-indigo-600 text-white rounded-xl font-black text-sm uppercase tracking-widest hover:bg-indigo-500 shadow-lg transition-all">
+                        Take Feedback Survey
+                    </a>
+                </div>
+            </div>
+        </div>
+    ),
+    resources: [
+        { title: 'Behavioral Rounds Part 1', url: 'https://youtu.be/1rOcpwcDTuY?si=GXoS-FRzroxPPJ0U', type: 'video' },
+        { title: 'Behavioral Rounds Part 2', url: 'https://youtu.be/Wyvm8vcsaP0?si=JeY3xJKXWfRrGCXG', type: 'video' }
+    ]
+  }
+];
+
+export const DayCard: React.FC<{ lesson: Lesson; index: number }> = ({ lesson, index }) => {
+  return (
+    <div className="group relative bg-white rounded-[2.8rem] border border-zinc-100 p-2 h-full flex flex-col transition-all duration-700 hover:border-indigo-100 hover:shadow-[0_32px_64px_rgba(79,70,229,0.12)] cursor-pointer overflow-hidden">
+        <div className="flex flex-col h-full rounded-[2.4rem] p-8 bg-white group-hover:bg-indigo-50/20 transition-colors duration-500">
+            <div className="flex justify-between items-center mb-8">
+                <span className={`text-[10px] px-3.5 py-2 rounded-full font-black uppercase tracking-widest flex items-center gap-2 border ${getCategoryColor(lesson.category)} shadow-sm`}>
+                   {getCategoryIcon(lesson.category)}
+                   {lesson.category}
+                </span>
+                <div className="flex items-center gap-1.5 text-zinc-500 group-hover:text-indigo-600 transition-colors">
+                  <Clock className="w-3.5 h-3.5" />
+                  <span className="text-[11px] font-black tracking-tight">15m read</span>
+                </div>
+            </div>
+
+            <div className="mb-6">
+                <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-zinc-900 text-white text-[9px] font-black uppercase tracking-widest mb-4">
+                   <ShieldCheck className="w-3 h-3 text-indigo-400" />
+                   Day {lesson.day}
+                </div>
+                <h3 className="font-black text-2xl leading-[1.1] transition-colors line-clamp-2 text-zinc-900 group-hover:text-indigo-600 tracking-tighter text-zinc-900">
+                    {lesson.title}
+                </h3>
+            </div>
+
+            <p className="text-sm text-zinc-500 leading-relaxed line-clamp-3 mb-10 flex-grow font-medium text-zinc-500">
+                {lesson.preview}
+            </p>
+
+            <div className="mt-auto pt-8 border-t border-zinc-100 flex items-center justify-between">
+                <span className="text-[12px] font-black text-zinc-400 group-hover:text-indigo-600 transition-colors tracking-[0.15em] uppercase">
+                    Launch Lesson
+                </span>
+                <div className="w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-700 bg-zinc-50 text-zinc-400 group-hover:bg-indigo-600 group-hover:text-white group-hover:rotate-12 group-hover:scale-110 shadow-lg">
+                    <ArrowRight className="w-6 h-6" />
+                </div>
+            </div>
+        </div>
+    </div>
+  );
+};
