@@ -50,7 +50,7 @@ export const LESSONS: Lesson[] = [
     category: 'Foundations',
     preview: 'Start Your PM Journey Right 🚀. Before we jump into frameworks, today is about building the right mindset.',
     content: (
-      <div className="space-y-6">
+      <div className="space-y-6 text-left">
         <h1 className="text-3xl font-black tracking-tight text-zinc-900 mb-6">Day-0: Foundation & Mindset — Start Your PM Journey Right 🚀</h1>
         <p>Welcome to Day-0 of learning Product Management from scratch!</p>
         <p>Product Management is one of the most competitive and rewarding careers today. But breaking into PM without prior experience can feel overwhelming because the role demands:</p>
@@ -76,7 +76,7 @@ export const LESSONS: Lesson[] = [
         </div>
         <p className="font-bold">Clarity today will drive consistency tomorrow.</p>
         <div className="mt-8 p-6 bg-zinc-50 rounded-2xl border border-zinc-200">
-           <h3 className="font-black text-zinc-900 flex items-center gap-2 mb-4 uppercase tracking-widest text-xs">Outcome of Day-0</h3>
+           <h3 className="font-black text-zinc-900 flex items-center gap-2 mb-4 uppercase tracking-widest text-xs text-left">Outcome of Day-0</h3>
            <ul className="space-y-2">
               <li className="flex items-center gap-2 font-bold text-zinc-700"><CheckCircle className="w-4 h-4 text-emerald-500" /> Real understanding of what PM is</li>
               <li className="flex items-center gap-2 font-bold text-zinc-700"><CheckCircle className="w-4 h-4 text-emerald-500" /> Motivation aligned with reality</li>
@@ -87,7 +87,7 @@ export const LESSONS: Lesson[] = [
       </div>
     ),
     assignment: (
-      <div className="space-y-6">
+      <div className="space-y-6 text-left">
         <h4 className="text-lg font-black text-indigo-900 mb-2">Task 1 — Must Do Today</h4>
         <p className="text-zinc-700 leading-relaxed mb-4">Reach out to 5 Product Managers and ask them about their journey & role.</p>
         <p className="text-zinc-500 text-sm font-medium">Use LinkedIn, alumni networks, or company communities.</p>
@@ -102,7 +102,7 @@ export const LESSONS: Lesson[] = [
     category: 'Foundations',
     preview: 'Understand the role, responsibilities, types, and myths about Product Management.',
     content: (
-      <div className="space-y-8">
+      <div className="space-y-8 text-left">
         <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 1: What is Product Management? 🚀</h1>
         
         <section>
@@ -116,7 +116,7 @@ export const LESSONS: Lesson[] = [
         </section>
 
         <section>
-          <h2 className="text-2xl font-black text-zinc-900 mb-4">2. Do Companies Need Product Managers?</h2>
+          <h2 className="text-2xl font-black text-zinc-900 mb-4 text-left">2. Do Companies Need Product Managers?</h2>
           <p className="font-bold text-indigo-600 mb-4 italic">Short answer: Yes—but the title isn’t always necessary. Product thinking is.</p>
           <div className="overflow-x-auto">
             <table className="min-w-full bg-white rounded-2xl border border-zinc-200 overflow-hidden">
@@ -147,7 +147,7 @@ export const LESSONS: Lesson[] = [
         </section>
 
         <section>
-          <h2 className="text-2xl font-black text-zinc-900 mb-4">3. Real-World Exceptions</h2>
+          <h2 className="text-2xl font-black text-zinc-900 mb-4 text-left">3. Real-World Exceptions</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="p-6 bg-white border border-zinc-100 rounded-2xl shadow-sm">
               <h3 className="font-black text-zinc-900 mb-2">Basecamp</h3>
@@ -166,7 +166,7 @@ export const LESSONS: Lesson[] = [
         </section>
 
         <section>
-          <h2 className="text-2xl font-black text-zinc-900 mb-4">4. What is Product Management?</h2>
+          <h2 className="text-2xl font-black text-zinc-900 mb-4 text-left">4. What is Product Management?</h2>
           <p>Product Management is the function responsible for guiding a product from idea &plusmn; launch &plusmn; growth &plusmn; scale by balancing the <strong>PM Equation</strong>:</p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
             <div className="p-6 bg-blue-50 rounded-3xl border border-blue-100">
@@ -187,15 +187,15 @@ export const LESSONS: Lesson[] = [
       </div>
     ),
     assignment: (
-      <div className="space-y-6">
+      <div className="space-y-6 text-left">
         <p className="font-black text-indigo-900 underline">Pick a product you use daily (e.g., Spotify, Zomato, Notion, Cred) and answer:</p>
-        <div className="space-y-4 font-mono text-xs bg-white p-4 rounded-xl border border-zinc-100">
+        <div className="space-y-4 font-mono text-xs bg-white p-4 rounded-xl border border-zinc-100 text-left">
            <p>Product Name: ___</p>
            <p>User Problem: ___</p>
            <p>Key Metrics: ___</p>
            <p>Improvement Suggestion: ___</p>
         </div>
-        <h4 className="font-black text-zinc-900 mt-6">Reflection Task</h4>
+        <h4 className="font-black text-zinc-900 mt-6 text-left">Reflection Task</h4>
         <p className="text-sm text-zinc-600">Identify which of the 6 PM types (Core, Growth, Platform, Data, Technical, AI) excites you the most and why. Does it align with your current background?</p>
       </div>
     )
@@ -206,11 +206,11 @@ export const LESSONS: Lesson[] = [
     category: 'Foundations',
     preview: 'Theme: How products move from idea → design → build → launch → iterate.',
     content: (
-      <div className="space-y-10">
+      <div className="space-y-10 text-left">
         <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 2: The Product Development Lifecycle (PDLC) 📘</h1>
         
         <section className="bg-indigo-50 p-8 rounded-3xl border border-indigo-100">
-          <h2 className="text-xl font-black text-indigo-900 mb-4 flex items-center gap-2">
+          <h2 className="text-xl font-black text-indigo-900 mb-4 flex items-center gap-2 text-left">
              <Target className="w-5 h-5" /> Learning Objectives
           </h2>
           <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm font-bold text-indigo-700">
@@ -222,8 +222,8 @@ export const LESSONS: Lesson[] = [
         </section>
 
         <section>
-          <h2 className="text-2xl font-black text-zinc-900 mb-6 underline decoration-indigo-600 underline-offset-8">1. What is PDLC?</h2>
-          <p className="text-lg leading-relaxed text-zinc-600 mb-8">
+          <h2 className="text-2xl font-black text-zinc-900 mb-6 underline decoration-indigo-600 underline-offset-8 text-left">1. What is PDLC?</h2>
+          <p className="text-lg leading-relaxed text-zinc-600 mb-8 text-left">
             Product Development Lifecycle (PDLC) is the structured process of taking a product from 
             <strong> problem discovery &plusmn; launch &plusmn; continuous improvement</strong>, ensuring decisions are user-driven, data-backed, and business-aligned.
           </p>
@@ -237,80 +237,79 @@ export const LESSONS: Lesson[] = [
                { stage: 'Launch', goal: 'Ship product', output: 'GTM plan, adoption data', color: 'bg-orange-50' },
                { stage: 'Iteration', goal: 'Improve continuously', output: 'Insights, next roadmap', color: 'bg-zinc-50' },
              ].map((item, i) => (
-               <div key={item.stage} className={`${item.color} p-6 rounded-3xl border border-black/5 shadow-sm transition-transform hover:-translate-y-1`}>
-                  <div className="text-[10px] font-black uppercase text-zinc-400 mb-1">0{i+1}</div>
-                  <h3 className="text-xl font-black mb-2">{item.stage}</h3>
-                  <p className="text-xs font-bold mb-4 opacity-70">Goal: {item.goal}</p>
-                  <div className="pt-3 border-t border-black/5">
-                     <p className="text-[10px] font-black uppercase text-zinc-500">Key Output</p>
-                     <p className="text-xs font-bold">{item.output}</p>
+               <div key={item.stage} className={`${item.color} p-6 rounded-3xl border border-black/5 shadow-sm transition-transform hover:-translate-y-1 text-left`}>
+                  <div className="text-[10px] font-black uppercase text-zinc-400 mb-1 text-left">0{i+1}</div>
+                  <h3 className="text-xl font-black mb-2 text-left">{item.stage}</h3>
+                  <p className="text-xs font-bold mb-4 opacity-70 text-left">Goal: {item.goal}</p>
+                  <div className="pt-3 border-t border-black/5 text-left">
+                     <p className="text-[10px] font-black uppercase text-zinc-500 text-left">Key Output</p>
+                     <p className="text-xs font-bold text-left">{item.output}</p>
                   </div>
                </div>
              ))}
           </div>
         </section>
 
-        <section className="space-y-12">
-           <div className="border-l-4 border-indigo-600 pl-6 py-2">
-              <h2 className="text-2xl font-black text-zinc-900 mb-2">Phase 1: Discovery (Find the Right Problem)</h2>
-              <p className="text-indigo-600 font-black italic">“Fall in love with the problem, not the solution.”</p>
-              <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm font-medium">
+        <section className="space-y-12 text-left">
+           <div className="border-l-4 border-indigo-600 pl-6 py-2 text-left">
+              <h2 className="text-2xl font-black text-zinc-900 mb-2 text-left">Phase 1: Discovery (Find the Right Problem)</h2>
+              <p className="text-indigo-600 font-black italic text-left">“Fall in love with the problem, not the solution.”</p>
+              <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm font-medium text-left">
                  <div>
-                   <p className="uppercase text-[10px] font-black text-zinc-400">Activities</p>
-                   <p>Market research, User interviews, SQL Analysis</p>
+                   <p className="uppercase text-[10px] font-black text-zinc-400 text-left">Activities</p>
+                   <p className="text-left">Market research, User interviews, SQL Analysis</p>
                  </div>
                  <div>
-                   <p className="uppercase text-[10px] font-black text-zinc-400">Outputs</p>
-                   <p>Problem Statement, JTBD, Hypothesis</p>
+                   <p className="uppercase text-[10px] font-black text-zinc-400 text-left">Outputs</p>
+                   <p className="text-left">Problem Statement, JTBD, Hypothesis</p>
                  </div>
               </div>
-              <div className="mt-6 p-4 bg-zinc-900 rounded-2xl text-white text-xs">
-                 <p className="text-zinc-500 font-black mb-1 uppercase tracking-widest">Industry Case: Zomato</p>
-                 <p>"Zomato observes high checkout drop-offs because of unpredictable surge delivery fees."</p>
+              <div className="mt-6 p-4 bg-zinc-900 rounded-2xl text-white text-xs text-left">
+                 <p className="text-zinc-500 font-black mb-1 uppercase tracking-widest text-left">Industry Case: Zomato</p>
+                 <p className="text-left">"Zomato observes high checkout drop-offs because of unpredictable surge delivery fees."</p>
               </div>
            </div>
 
-           {/* Definition Phase Content placeholder following OCR exactly */}
-           <div className="border-l-4 border-purple-600 pl-6 py-2">
-              <h2 className="text-2xl font-black text-zinc-900 mb-2">Phase 2: Definition (Scope the Solution)</h2>
-              <p className="text-zinc-500 font-medium">Turn insights into an actionable plan. Define what we are building and how we measure success.</p>
-              <div className="mt-6 p-4 bg-zinc-900 rounded-2xl text-white text-xs">
-                 <p className="text-zinc-500 font-black mb-1 uppercase tracking-widest">Industry Case: Zomato</p>
-                 <p>"Test a Flat Delivery Fee Subscription Model to reduce checkout abandonment by 15%."</p>
+           <div className="border-l-4 border-purple-600 pl-6 py-2 text-left">
+              <h2 className="text-2xl font-black text-zinc-900 mb-2 text-left">Phase 2: Definition (Scope the Solution)</h2>
+              <p className="text-zinc-500 font-medium text-left">Turn insights into an actionable plan. Define what we are building and how we measure success.</p>
+              <div className="mt-6 p-4 bg-zinc-900 rounded-2xl text-white text-xs text-left">
+                 <p className="text-zinc-500 font-black mb-1 uppercase tracking-widest text-left">Industry Case: Zomato</p>
+                 <p className="text-left">"Test a Flat Delivery Fee Subscription Model to reduce checkout abandonment by 15%."</p>
               </div>
            </div>
         </section>
 
-        <section className="bg-zinc-950 rounded-[3rem] p-10 text-white overflow-hidden relative">
+        <section className="bg-zinc-950 rounded-[3rem] p-10 text-white overflow-hidden relative text-left">
            <div className="absolute top-0 right-0 p-8 opacity-5"><Zap className="w-64 h-64" /></div>
-           <h2 className="text-3xl font-black mb-10 tracking-tighter">SDLC VS PDLC</h2>
-           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="space-y-4">
-                 <p className="text-indigo-400 font-black uppercase text-xs tracking-[0.2em]">Aspect</p>
-                 <p className="h-10 flex items-center font-bold">Focus</p>
-                 <p className="h-10 flex items-center font-bold">Goal</p>
-                 <p className="h-10 flex items-center font-bold">Owner</p>
+           <h2 className="text-3xl font-black mb-10 tracking-tighter text-left">SDLC VS PDLC</h2>
+           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+              <div className="space-y-4 text-left">
+                 <p className="text-indigo-400 font-black uppercase text-xs tracking-[0.2em] text-left">Aspect</p>
+                 <p className="h-10 flex items-center font-bold text-left">Focus</p>
+                 <p className="h-10 flex items-center font-bold text-left">Goal</p>
+                 <p className="h-10 flex items-center font-bold text-left">Owner</p>
               </div>
-              <div className="space-y-4 p-6 bg-white/5 rounded-3xl border border-white/10">
-                 <p className="text-emerald-400 font-black uppercase text-xs tracking-[0.2em]">SDLC</p>
-                 <p className="h-10 flex items-center text-sm font-medium">Building software correctly</p>
-                 <p className="h-10 flex items-center text-sm font-medium">Deliver a working system</p>
-                 <p className="h-10 flex items-center text-sm font-medium">Engineering / Tech team</p>
+              <div className="space-y-4 p-6 bg-white/5 rounded-3xl border border-white/10 text-left">
+                 <p className="text-emerald-400 font-black uppercase text-xs tracking-[0.2em] text-left">SDLC</p>
+                 <p className="h-10 flex items-center text-sm font-medium text-left">Building software correctly</p>
+                 <p className="h-10 flex items-center text-sm font-medium text-left">Deliver a working system</p>
+                 <p className="h-10 flex items-center text-sm font-medium text-left">Engineering / Tech team</p>
               </div>
-              <div className="space-y-4 p-6 bg-indigo-500/10 rounded-3xl border border-indigo-500/20">
-                 <p className="text-indigo-400 font-black uppercase text-xs tracking-[0.2em]">PDLC</p>
-                 <p className="h-10 flex items-center text-sm font-medium text-indigo-100">Building the right product</p>
-                 <p className="h-10 flex items-center text-sm font-medium text-indigo-100">Deliver user & business value</p>
-                 <p className="h-10 flex items-center text-sm font-medium text-indigo-100">Product Manager</p>
+              <div className="space-y-4 p-6 bg-indigo-500/10 rounded-3xl border border-indigo-500/20 text-left">
+                 <p className="text-indigo-400 font-black uppercase text-xs tracking-[0.2em] text-left">PDLC</p>
+                 <p className="h-10 flex items-center text-sm font-medium text-indigo-100 text-left">Building the right product</p>
+                 <p className="h-10 flex items-center text-sm font-medium text-indigo-100 text-left">Deliver user & business value</p>
+                 <p className="h-10 flex items-center text-sm font-medium text-indigo-100 text-left">Product Manager</p>
               </div>
            </div>
         </section>
       </div>
     ),
     assignment: (
-      <div className="space-y-6">
-        <p className="font-black text-indigo-900 underline">Pick any app (Spotify / Swiggy / Cred / Duolingo / ChatGPT) and describe a new feature across the PDLC:</p>
-        <div className="space-y-4 font-mono text-[10px] bg-white p-6 rounded-3xl border border-indigo-100 leading-relaxed">
+      <div className="space-y-6 text-left">
+        <p className="font-black text-indigo-900 underline text-left">Pick any app (Spotify / Swiggy / Cred / Duolingo / ChatGPT) and describe a new feature across the PDLC:</p>
+        <div className="space-y-4 font-mono text-[10px] bg-white p-6 rounded-3xl border border-indigo-100 leading-relaxed text-left">
            <p>Product: ___</p>
            <p>Feature Idea: ___</p>
            <p>Discovery – Problem & insight: ___</p>
@@ -320,7 +319,7 @@ export const LESSONS: Lesson[] = [
            <p>Launch – Target segment & rollout plan: ___</p>
            <p>Iteration – What will you measure?: ___</p>
         </div>
-        <p className="text-sm font-bold text-indigo-600 mt-4">📌 Expected outcome: You learn to think like a PM end-to-end, considering everything from feasibility to measurement.</p>
+        <p className="text-sm font-bold text-indigo-600 mt-4 text-left">📌 Expected outcome: You learn to think like a PM end-to-end, considering everything from feasibility to measurement.</p>
       </div>
     ),
     resources: [
@@ -333,47 +332,47 @@ export const LESSONS: Lesson[] = [
     category: 'Foundations',
     preview: 'Understand how products evolve in the market over time and how companies manage that journey.',
     content: (
-      <div className="space-y-8">
-        <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 3: Product Life Cycle (PLC) & PLM 🔄</h1>
+      <div className="space-y-8 text-left">
+        <h1 className="text-3xl font-black tracking-tight text-zinc-900 text-left">Day 3: Product Life Cycle (PLC) & PLM 🔄</h1>
         <section>
-          <h2 className="text-2xl font-black text-zinc-900 mb-4">What is Product Life Cycle (PLC)?</h2>
-          <p>Product Life Cycle is the journey a product goes through in the market — from the day it is launched to the day it is eventually retired.</p>
+          <h2 className="text-2xl font-black text-zinc-900 mb-4 text-left">What is Product Life Cycle (PLC)?</h2>
+          <p className="text-left">Product Life Cycle is the journey a product goes through in the market — from the day it is launched to the day it is eventually retired.</p>
         </section>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-           <div className="p-8 bg-blue-50/50 rounded-3xl border border-blue-100">
-              <h3 className="font-black text-blue-900 text-lg mb-3">1. Introduction</h3>
-              <p className="text-sm text-blue-700 leading-relaxed">Sales are usually low. Marketing focus on building awareness. High R&D spend.</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+           <div className="p-8 bg-blue-50/50 rounded-3xl border border-blue-100 text-left">
+              <h3 className="font-black text-blue-900 text-lg mb-3 text-left">1. Introduction</h3>
+              <p className="text-sm text-blue-700 leading-relaxed text-left">Sales are usually low. Marketing focus on building awareness. High R&D spend.</p>
            </div>
-           <div className="p-8 bg-emerald-50/50 rounded-3xl border border-emerald-100">
-              <h3 className="font-black text-emerald-900 text-lg mb-3">2. Growth</h3>
-              <p className="text-sm text-emerald-700 leading-relaxed">Sales begin to increase. Focus on market share & brand loyalty. Competitors enter.</p>
+           <div className="p-8 bg-emerald-50/50 rounded-3xl border border-emerald-100 text-left">
+              <h3 className="font-black text-emerald-900 text-lg mb-3 text-left">2. Growth</h3>
+              <p className="text-sm text-emerald-700 leading-relaxed text-left">Sales begin to increase. Focus on market share & brand loyalty. Competitors enter.</p>
            </div>
-           <div className="p-8 bg-amber-50/50 rounded-3xl border border-amber-100">
-              <h3 className="font-black text-amber-900 text-lg mb-3">3. Maturity</h3>
-              <p className="text-sm text-amber-700 leading-relaxed">Peak sales & maximum penetration. Intense competition. Differentiation is key.</p>
+           <div className="p-8 bg-amber-50/50 rounded-3xl border border-amber-100 text-left">
+              <h3 className="font-black text-amber-900 text-lg mb-3 text-left">3. Maturity</h3>
+              <p className="text-sm text-amber-700 leading-relaxed text-left">Peak sales & maximum penetration. Intense competition. Differentiation is key.</p>
            </div>
-           <div className="p-8 bg-red-50/50 rounded-3xl border border-red-100">
-              <h3 className="font-black text-red-900 text-lg mb-3">4. Decline</h3>
-              <p className="text-sm text-red-700 leading-relaxed">Sales decline due to preferences or tech shifts. Decisions: extend or sunset.</p>
+           <div className="p-8 bg-red-50/50 rounded-3xl border border-red-100 text-left">
+              <h3 className="font-black text-red-900 text-lg mb-3 text-left">4. Decline</h3>
+              <p className="text-sm text-red-700 leading-relaxed text-left">Sales decline due to preferences or tech shifts. Decisions: extend or sunset.</p>
            </div>
         </div>
 
-        <section className="bg-zinc-50 p-8 rounded-[2.5rem] border border-zinc-200">
-          <h2 className="text-2xl font-black text-zinc-900 mb-4">Product Lifecycle Management (PLM)</h2>
-          <p className="font-medium text-zinc-600">PLM is the practice of managing a product from its initiation to its eventual retirement through a systematic approach. It's like a <strong>guidebook</strong> that helps companies manage their products from start to finish.</p>
-          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <section className="bg-zinc-50 p-8 rounded-[2.5rem] border border-zinc-200 text-left">
+          <h2 className="text-2xl font-black text-zinc-900 mb-4 text-left">Product Lifecycle Management (PLM)</h2>
+          <p className="font-medium text-zinc-600 text-left">PLM is the practice of managing a product from its initiation to its eventual retirement through a systematic approach. It's like a <strong>guidebook</strong> that helps companies manage their products from start to finish.</p>
+          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
              {[
                { title: 'Improved Collaboration', desc: 'Ensuring stakeholders from design to sales work together seamlessly.' },
                { title: 'Enhanced Quality', desc: 'Integrating quality control into each phase to rectify issues early.' },
                { title: 'Efficient Utilization', desc: 'Reducing waste and optimizing resource usage for cost savings.' },
                { title: 'Faster Time-to-Market', desc: 'Quicker development cycles through a structured approach.' }
              ].map(item => (
-               <div key={item.title} className="flex gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-white border border-zinc-200 flex items-center justify-center shrink-0 shadow-sm"><CheckCircle className="w-5 h-5 text-indigo-500" /></div>
+               <div key={item.title} className="flex gap-4 text-left">
+                  <div className="w-10 h-10 rounded-xl bg-white border border-zinc-200 flex items-center justify-center shrink-0 shadow-sm"><CheckCircle className="w-5 h-5 text-indigo-50" /></div>
                   <div>
-                    <h4 className="font-black text-zinc-900 text-sm">{item.title}</h4>
-                    <p className="text-xs text-zinc-500 font-medium">{item.desc}</p>
+                    <h4 className="font-black text-zinc-900 text-sm text-left">{item.title}</h4>
+                    <p className="text-xs text-zinc-500 font-medium text-left">{item.desc}</p>
                   </div>
                </div>
              ))}
@@ -382,9 +381,9 @@ export const LESSONS: Lesson[] = [
       </div>
     ),
     assignment: (
-      <div className="space-y-6">
-        <p className="font-black text-indigo-900">Pick any product (Spotify / Swiggy / Cred / Duolingo / ChatGPT) and evaluate its lifecycle:</p>
-        <div className="space-y-4 font-mono text-[10px] bg-white p-6 rounded-3xl border border-indigo-100 leading-relaxed">
+      <div className="space-y-6 text-left">
+        <p className="font-black text-indigo-900 text-left">Pick any product (Spotify / Swiggy / Cred / Duolingo / ChatGPT) and evaluate its lifecycle:</p>
+        <div className="space-y-4 font-mono text-[10px] bg-white p-6 rounded-3xl border border-indigo-100 leading-relaxed text-left">
            <p>Product: ___</p>
            <p>Current PLC Stage: ___</p>
            <p>What signals tell you this stage?: ___</p>
@@ -1067,15 +1066,15 @@ export const LESSONS: Lesson[] = [
         
         <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
            {[
-             { label: 'TAM', title: 'Total Addressable Market', desc: 'Total global demand if everyone bought it.', ex: '$7B Global fitness app' },
-             { label: 'SAM', title: 'Serviceable Available Market', desc: 'The portion you can serve based on geography.', ex: '$1.2B India fitness app' },
-             { label: 'SOM', title: 'Serviceable Obtainable Market', desc: 'Share you can realistically capture in 2-3 years.', ex: '$12M (1% of SAM)' },
+             { label: 'TAM', title: 'Total Addressable Market', desc: 'Total global demand if everyone bought it.', iEx: '$7B Global fitness app' },
+             { label: 'SAM', title: 'Serviceable Available Market', desc: 'The portion you can serve based on geography.', iEx: '$1.2B India fitness app' },
+             { label: 'SOM', title: 'Serviceable Obtainable Market', desc: 'Share you can realistically capture in 2-3 years.', iEx: '$12M (1% of SAM)' },
            ].map(item => (
              <div key={item.label} className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm">
                 <span className="text-indigo-600 font-black text-xs uppercase tracking-widest block mb-4">{item.label}</span>
                 <h3 className="font-black text-lg text-zinc-900 mb-2">{item.title}</h3>
                 <p className="text-xs text-zinc-500 font-medium mb-6 leading-relaxed">{item.desc}</p>
-                <div className="pt-4 border-t border-zinc-50 text-[10px] font-black text-zinc-400 uppercase">{item.ex}</div>
+                <div className="pt-4 border-t border-zinc-50 text-[10px] font-black text-zinc-400 uppercase">{item.iEx}</div>
              </div>
            ))}
         </section>
@@ -1877,38 +1876,151 @@ AND signup_date < '2024-12-01';`}
   },
   {
     day: 31,
-    title: 'Context Engineering',
+    title: 'CONTEXT ENGINEERING',
     category: 'AI',
     preview: 'The natural progression of prompt engineering. Managing tokens (information) during LLM inference.',
     content: (
-      <div className="space-y-10">
-        <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 31: Context Engineering 🧠</h1>
-        <section className="bg-blue-50 p-10 rounded-[3rem] border border-blue-100">
-           <h2 className="text-2xl font-black text-blue-900 mb-6">RAM for LLMs</h2>
-           <p className="text-blue-800 font-medium leading-relaxed">
-             LLMs are like a new kind of operating system. The LLM is like the CPU and its <strong>context window is like the RAM</strong>. 
-             Context engineering is curating what fits into this limited space.
+      <div className="space-y-10 text-left">
+        <h1 className="text-3xl font-black tracking-tight text-zinc-900 text-left">Day 31: CONTEXT ENGINEERING 🧠</h1>
+        
+        <section className="bg-blue-50 p-10 rounded-[3rem] border border-blue-100 text-left">
+           <h2 className="text-2xl font-black text-blue-900 mb-4 text-left">What is Context?</h2>
+           <p className="text-blue-800 font-medium leading-relaxed mb-6 text-left">Context refers to the set of tokens included when sampling from a large-language model (LLM)</p>
+
+           <h2 className="text-2xl font-black text-blue-900 mb-4 text-left">What is Context Engineering?</h2>
+           <p className="text-blue-800 font-medium leading-relaxed mb-6 text-left">
+             It is the natural progression of prompt engineering. Context engineering refers to the set of strategies for curating and maintaining the optimal set of tokens (information) during LLM inference, including all the other information that may land there outside of the prompts
+           </p>
+           <p className="text-blue-800 font-medium leading-relaxed text-left">
+             LLMs are like a new kind of operating system. The LLM is like the CPU and its context window is like the RAM, serving as the model’s working memory. Just like RAM, the LLM context window has limited capacity to handle various sources of context. And just as an operating system curates what fits into a CPU’s RAM, we can think about “context engineering” playing a similar role
            </p>
         </section>
 
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-           {[
-             { label: 'Write Context', desc: 'Saving info outside context (Scratchpad/Memories).' },
-             { label: 'Select Context', desc: 'Choosing what past info to reintroduce each turn.' },
-             { label: 'Compress Context', desc: 'Summarizing messages to stay within token limits.' },
-             { label: 'Isolate Context', desc: 'Modularizing across sub-agents (Team of Agents).' },
-           ].map(item => (
-             <div key={item.label} className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm">
-                <h4 className="font-black text-indigo-600 mb-2 uppercase tracking-widest text-[10px]">{item.label}</h4>
-                <p className="text-xs font-bold text-zinc-500 leading-relaxed">{item.desc}</p>
-             </div>
-           ))}
+        <section className="text-left">
+           <h2 className="text-2xl font-black text-zinc-900 mb-6 text-left">What are the types of context that we need to manage when building LLM applications?</h2>
+           <p className="text-zinc-600 font-medium mb-6 text-left">Context engineering as an umbrella that applies across a few different context types:</p>
+           <ul className="space-y-3 text-sm font-bold text-zinc-700 text-left list-disc pl-5">
+              <li className="text-left"><strong>Instructions</strong> – prompts, memories, few‑shot examples, tool descriptions, etc</li>
+              <li className="text-left"><strong>Knowledge</strong> – facts, memories, etc</li>
+              <li className="text-left"><strong>Tools</strong> – feedback from tool calls</li>
+           </ul>
         </section>
 
-        <section className="p-10 bg-zinc-900 rounded-[3rem] text-white">
-           <h2 className="text-2xl font-black mb-6">Why this matters: Context Rot</h2>
-           <p className="text-zinc-400 font-medium">As the number of tokens in the context window increases, the model’s ability to accurately recall information decreases. Every new token depletes the limited "attention budget".</p>
+        <section className="text-left">
+           <h2 className="text-2xl font-black text-zinc-900 mb-6 text-left">Context engineering vs. prompt engineering</h2>
+           <p className="text-zinc-600 font-medium leading-relaxed mb-4 text-left">
+             The primary focus of prompt engineering is how to write effective prompts, particularly system prompts. However, as we move towards engineering more capable agents that operate over multiple turns of inference and longer time horizons, we need strategies for managing the entire context state (system instructions, tools, Model Context Protocol (MCP), external data, message history, etc).
+           </p>
+           <p className="text-zinc-600 font-medium leading-relaxed text-left">
+             An agent running in a loop generates more and more data that could be relevant for the next turn of inference, and this information must be cyclically refined. Context engineering is the art and science of curating what will go into the limited context window from that constantly evolving universe of possible information.
+           </p>
         </section>
+
+        <section className="bg-zinc-900 text-white p-10 rounded-[3rem] text-left">
+           <h2 className="text-2xl font-black mb-6 text-indigo-400 text-left">Why is context engineering important to building capable agents?</h2>
+           <div className="space-y-6 text-zinc-400 font-medium leading-relaxed text-left">
+             <p>Despite their speed and ability to manage larger and larger volumes of data, it is observed that LLMs, like humans, lose focus or experience confusion at a certain point. Studies on needle-in-a-haystack style benchmarking have uncovered the concept of context rot: as the number of tokens in the context window increases, the model’s ability to accurately recall information from that context decreases.</p>
+             <p>While some models exhibit more gentle degradation than others, this characteristic emerges across all models. Context, therefore, must be treated as a finite resource with diminishing marginal returns. Like humans, who have limited working memory capacity, LLMs have an “attention budget” that they draw on when parsing large volumes of context. Every new token introduced depletes this budget by some amount, increasing the need to carefully curate the tokens available to the LLM.</p>
+             <p>This attention scarcity stems from architectural constraints of LLMs. LLMs are based on the transformer architecture, which enables every token to attend to every other token across the entire context. This results in n² pairwise relationships for n tokens.</p>
+             <p>As its context length increases, a model's ability to capture these pairwise relationships gets stretched thin, creating a natural tension between context size and attention focus. Additionally, models develop their attention patterns from training data distributions where shorter sequences are typically more common than longer ones. This means models have less experience with, and fewer specialized parameters for, context-wide dependencies.</p>
+             <p>Techniques like position encoding interpolation allow models to handle longer sequences by adapting them to the originally trained smaller context, though with some degradation in token position understanding. These factors create a performance gradient rather than a hard cliff: models remain highly capable at longer contexts but may show reduced precision for information retrieval and long-range reasoning compared to their performance on shorter contexts.</p>
+             <p>These realities mean that thoughtful context engineering is essential for building capable agents.</p>
+           </div>
+        </section>
+
+        <section className="text-left">
+           <h2 className="text-2xl font-black text-zinc-900 mb-8 text-left">Common Strategies for agent context engineering</h2>
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+              <div className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm text-left">
+                 <h3 className="font-black text-indigo-600 mb-4 uppercase tracking-widest text-[10px] text-left">1. Write Context</h3>
+                 <p className="text-[11px] text-zinc-500 font-bold leading-relaxed mb-4 text-left">Writing context means saving it outside the context window to help an agent perform a task. Agents take note via a “scratchpad” to persist information while it is performing a task. The idea is to save information outside of the context window so that it’s available to the agent. Scratchpads can be implemented in a few different ways. They can be a tool call that simply writes to a file. They can also be a field in a runtime state object that persists during the session. In either case, scratchpads let agents save useful information to help them accomplish a task.</p>
+                 <p className="text-[11px] text-zinc-500 font-bold leading-relaxed text-left"><strong>Memories:</strong> Scratchpads help agents solve a task within a given session (or thread), but sometimes agents benefit from remembering things across many sessions! Reflexion introduced the idea of reflection following each agent turn and re-using these self-generated memories. Generative Agents created memories synthesized periodically from collections of past agent feedback.</p>
+              </div>
+              <div className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm text-left">
+                 <h3 className="font-black text-indigo-600 mb-4 uppercase tracking-widest text-[10px] text-left">2. Select Context</h3>
+                 <p className="text-[11px] text-zinc-500 font-bold leading-relaxed mb-4 text-left">Selecting context means pulling it into the context window to help an agent perform a task.</p>
+                 <p className="text-[11px] text-zinc-500 font-bold leading-relaxed mb-4 text-left"><strong>Scratchpad:</strong> The mechanism for selecting context from a scratchpad depends upon how the scratchpad is implemented. If it’s a tool, then an agent can simply read it by making a tool call. If it’s part of the agent’s runtime state, then the developer can choose what parts of state to expose to an agent each step. This provides a fine-grained level of control for exposing scratchpad context to the LLM at later turns.</p>
+                 <p className="text-[11px] text-zinc-500 font-bold leading-relaxed text-left"><strong>Memories:</strong> If agents have the ability to save memories, they also need the ability to select memories relevant to the task they are performing. This can be useful for a few reasons. Agents might select few-shot examples (episodic memories) for examples of desired behavior, instructions (procedural memories) to steer behavior, or facts (semantic memories) for task-relevant context.</p>
+              </div>
+              <div className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm text-left">
+                 <h3 className="font-black text-indigo-600 mb-4 uppercase tracking-widest text-[10px] text-left">3. Compressing Context</h3>
+                 <p className="text-[11px] text-zinc-500 font-bold leading-relaxed mb-4 text-left">Compressing context involves retaining only the tokens required to perform a task.</p>
+                 <p className="text-[11px] text-zinc-500 font-bold leading-relaxed text-left"><strong>Context Summarization:</strong> Agent interactions can span hundreds of turns and use token-heavy tool calls. Summarization is one common way to manage these challenges.</p>
+              </div>
+              <div className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm text-left">
+                 <h3 className="font-black text-indigo-600 mb-4 uppercase tracking-widest text-[10px] text-left">4. Isolating Context</h3>
+                 <p className="text-[11px] text-zinc-500 font-bold leading-relaxed mb-4 text-left">Isolating context involves splitting it up to help an agent perform a task.</p>
+                 <p className="text-[11px] text-zinc-500 font-bold leading-relaxed text-left"><strong>Multi-agent:</strong> One of the most popular ways to isolate context is to split it across sub-agents. A motivation for the OpenAI Swarm library was separation of concerns, where a team of agents can handle specific sub-tasks. Each agent has a specific set of tools, instructions, and its own context window.</p>
+              </div>
+           </div>
+        </section>
+
+        <section className="bg-zinc-50 p-10 rounded-[3rem] border border-zinc-200 text-left">
+           <h2 className="text-2xl font-black text-zinc-900 mb-8 text-left">Example Use Case: AI Interview Coach</h2>
+           <p className="text-zinc-600 font-medium mb-8 text-left">Let’s say we’re designing an AI Interview Coach that helps users practice product management interviews by asking them realistic questions, evaluating their answers, and giving feedback.</p>
+           
+           <div className="space-y-12 text-left">
+              <div className="text-left">
+                 <h4 className="font-black text-indigo-600 mb-2 text-left">1. Write Context</h4>
+                 <p className="text-sm text-zinc-600 font-medium mb-4 text-left">Definition: Writing context means explicitly defining the role, task, goals, constraints, and output format inside the context window — so the agent knows exactly who it is and what to do.</p>
+                 <div className="bg-zinc-900 p-6 rounded-xl font-mono text-[11px] text-zinc-400 text-left leading-relaxed">
+                   [ROLE] You are an AI Interview Coach specializing in Product Management interviews.<br/><br/>
+                   [TASK] Your goal is to simulate an interviewer by asking one question at a time, evaluating the candidate's response, and giving short, actionable feedback.<br/><br/>
+                   [BEHAVIOR]<br/>
+                   - Be encouraging but honest.<br/>
+                   - Avoid generic praise; focus on concrete improvement points.<br/>
+                   - Keep each feedback under 80 words.<br/><br/>
+                   [OUTPUT FORMAT]<br/>
+                   Return your responses in the following JSON format:<br/>
+                   {"{"} "question": "...", "evaluation": "...", "feedback": "..." {"}"}
+                 </div>
+                 <p className="text-[10px] font-black text-indigo-600 mt-2 uppercase tracking-widest text-left">💡 Why this matters: This “written context” gives the model full clarity on its identity, mission, and response structure, without needing prior sessions or memories.</p>
+              </div>
+
+              <div className="text-left">
+                 <h4 className="font-black text-indigo-600 mb-2 text-left">2. Select Context</h4>
+                 <p className="text-sm text-zinc-600 font-medium mb-4 text-left">Definition: Selecting context means choosing what past or external information to reintroduce into the context window during each new turn.</p>
+                 <p className="text-sm text-zinc-600 font-medium mb-4 text-left">In Our Example: As the user interacts with the AI Coach across multiple turns (say 10–15 questions), we don’t want to overload the context window with all prior Q&A. So we selectively pull only what’s relevant: The latest user answer, The previous question, A short summary of feedback so far.</p>
+                 <div className="bg-zinc-900 p-6 rounded-xl font-mono text-[11px] text-zinc-400 text-left leading-relaxed">
+                   [SELECTED CONTEXT]<br/>
+                   Previous question: “How do you prioritize features in a product roadmap?”<br/>
+                   User’s answer: “I use RICE scoring to align with business goals.”<br/>
+                   Last feedback summary: “Good framework usage, try adding more customer empathy.”<br/><br/>
+                   [NEW INSTRUCTION]<br/>
+                   Ask the next question based on their previous answers to maintain progression.
+                 </div>
+                 <p className="text-[10px] font-black text-indigo-600 mt-2 uppercase tracking-widest text-left">💡 Why this matters: The agent doesn’t need to see the entire transcript — just the context required for continuity and personalization.</p>
+              </div>
+
+              <div className="text-left">
+                 <h4 className="font-black text-indigo-600 mb-2 text-left">3. Compressing Context</h4>
+                 <p className="text-sm text-zinc-600 font-medium mb-4 text-left">Definition: Compressing context means shortening or summarizing what’s included in the context window so the model stays within token limits while retaining meaning.</p>
+                 <p className="text-sm text-zinc-600 font-medium mb-4 text-left">In Our Example: After 10–15 questions, the agent can summarize the interaction history:</p>
+                 <div className="bg-zinc-900 p-6 rounded-xl font-mono text-[11px] text-zinc-400 text-left leading-relaxed">
+                   [COMPRESSED CONTEXT]<br/>
+                   Summary so far:<br/>
+                   - Candidate strong in frameworks (RICE, Kano)<br/>
+                   - Needs to improve in product metrics articulation<br/>
+                   - Good storytelling but lacks data-driven validation
+                 </div>
+                 <p className="text-[10px] font-black text-indigo-600 mt-2 uppercase tracking-widest text-left">💡 Why this matters: Keeps the model efficient and focused on the user’s learning trajectory instead of wasting tokens on old details.</p>
+              </div>
+
+              <div className="text-left">
+                 <h4 className="font-black text-indigo-600 mb-2 text-left">4. Isolating Context</h4>
+                 <p className="text-sm text-zinc-600 font-medium mb-4 text-left">Definition: Isolating context means modularizing it — splitting the full context into different parts or even separate agents to handle sub-tasks independently.</p>
+                 <p className="text-sm text-zinc-600 font-medium mb-4 text-left">In Our Example: We can isolate context into three sub-agents (Question Agent, Evaluation Agent, Feedback Agent), each with their own context window tailored to its function. A central orchestrator coordinates between them — passing summaries, not full transcripts.</p>
+                 <p className="text-[10px] font-black text-indigo-600 mt-1 uppercase tracking-widest text-left">💡 Why this matters: Prevents context clutter, improves reasoning quality, and mirrors real-world modular architectures (like OpenAI Swarm or CrewAI).</p>
+              </div>
+           </div>
+        </section>
+
+        <p className="text-[10px] text-zinc-400 mt-8 text-left italic">Task: <a href="https://www.blog.langchain.com/context-engineering-for-agents/" target="_blank" rel="noopener noreferrer" className="text-indigo-600 underline">Read this</a></p>
+
+        <div className="pt-8 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400 text-left mt-8">
+           <p className="text-left">Previous: Prompt engineering</p>
+           <p className="text-left">Up next: RAG</p>
+        </div>
       </div>
     )
   },
@@ -1918,54 +2030,139 @@ AND signup_date < '2024-12-01';`}
     category: 'AI',
     preview: 'One of the most powerful applications enabled by LLMs is sophisticated question-answering (Q&A) chatbots.',
     content: (
-      <div className="space-y-10">
-        <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 32: Retrieval Augmented Generation (RAG) 🔗</h1>
-        <section className="bg-indigo-50 p-10 rounded-[3rem] border border-indigo-100">
-           <h2 className="text-2xl font-black text-indigo-900 mb-6">The Three Components of RAG</h2>
-           <div className="space-y-8">
-              <div className="flex gap-6 items-start">
-                 <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center font-black text-indigo-600 shrink-0 shadow-sm">R</div>
-                 <div>
-                    <h4 className="font-black text-zinc-900">Retrieval</h4>
-                    <p className="text-sm text-zinc-500 font-medium">System looks up internal documents or knowledge bases.</p>
+      <div className="space-y-10 text-left">
+        <h1 className="text-3xl font-black tracking-tight text-zinc-900 text-left">Day 32: Retrieval Augmented Generation (RAG) 🔗</h1>
+        
+        <section className="bg-indigo-50 p-10 rounded-[3rem] border border-indigo-100 text-left">
+           <p className="text-lg font-medium text-zinc-700 leading-relaxed mb-6 text-left">
+             One of the most powerful applications enabled by LLMs is sophisticated question-answering (Q&A) chatbots. These are applications that can answer questions about specific source information. These applications use a technique known as Retrieval Augmented Generation, or RAG.
+           </p>
+           
+           <h3 className="text-xl font-black text-indigo-900 mb-4 text-left">Let’s understand it with the help of examples:</h3>
+           <p className="text-zinc-600 font-medium mb-4 text-left">
+             When an LLM, such as ChatGPT, is asked a question about private data—like a company’s reimbursement policy—it cannot access that private document. In this situation, the LLM lacks the necessary context and will typically hallucinate (provide an incorrect or generic answer).
+           </p>
+           <p className="text-zinc-600 font-medium text-left">
+             In such a scenario we will give the entire office policy document/content to ChatGPT and then it will be able to refer to the company’s reimbursement policy and answer the asked question.
+           </p>
+        </section>
+
+        <section className="text-left">
+           <h2 className="text-2xl font-black text-zinc-900 mb-8 flex items-center gap-3 text-left">
+             <Layers className="text-indigo-600" />
+             The Three Components of RAG
+           </h2>
+           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+              {[
+                { label: 'Retrieval (R)', desc: 'The part where the system looks up internal documents (or external knowledge bases) and retrieves relevant information.' },
+                { label: 'Augmenting (A)', desc: 'Using retrieved info to improve/augment the user’s prompt before it is sent to the LLM.' },
+                { label: 'Generation (G)', desc: 'The final step where the LLM generates a response based on context provided in the augmented prompt.' }
+              ].map((comp, i) => (
+                <div key={i} className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm text-left">
+                   <h4 className="font-black text-indigo-600 mb-3 uppercase tracking-widest text-xs text-left">{comp.label}</h4>
+                   <p className="text-sm text-zinc-500 font-bold leading-relaxed text-left">{comp.desc}</p>
+                </div>
+              ))}
+           </div>
+        </section>
+
+        <section className="bg-zinc-50 p-10 rounded-[3rem] border border-zinc-200 overflow-x-auto text-left">
+           <h2 className="text-2xl font-black text-zinc-900 mb-8 text-left">RAG VS fine tuning VS Prompt Engineering</h2>
+           <table className="min-w-full text-sm font-medium">
+              <thead>
+                 <tr className="border-b-2 border-zinc-200 text-zinc-400 font-black uppercase text-[10px] tracking-widest text-left">
+                    <th className="pb-4 pr-4 text-left">Strategy</th>
+                    <th className="pb-4 pr-4 text-left">Purpose</th>
+                    <th className="pb-4 pr-4 text-left">Mechanism</th>
+                    <th className="pb-4 text-left">Example Use Case</th>
+                 </tr>
+              </thead>
+              <tbody className="divide-y divide-zinc-100">
+                 <tr>
+                    <td className="py-6 pr-4 font-black text-indigo-600 text-left">RAG</td>
+                    <td className="py-6 pr-4 text-zinc-600 text-left">Get accurate responses by retrieving current info dynamically.</td>
+                    <td className="py-6 pr-4 text-zinc-500 text-left">Retrieves relevant external docs and adds them to user prompt.</td>
+                    <td className="py-6 text-zinc-500 italic text-left">"What is the reimbursement policy for home office setup?" Searches private policy docs.</td>
+                 </tr>
+                 <tr>
+                    <td className="py-6 pr-4 font-black text-purple-600 text-left">Fine Tuning</td>
+                    <td className="py-6 pr-4 text-zinc-600 text-left">Impart stable, unchanging patterns like style, tone, and language.</td>
+                    <td className="py-6 pr-4 text-zinc-500 text-left">Retraining model on hundreds of specific sample Q&As.</td>
+                    <td className="py-6 text-zinc-500 italic text-left">Building a "policy co-pilot" that responds in the authoritative voice of the CEO.</td>
+                 </tr>
+                 <tr>
+                    <td className="py-6 pr-4 font-black text-emerald-600 text-left">Prompt Engineering</td>
+                    <td className="py-6 pr-4 text-zinc-600 text-left">Apply restrictions and behavioral behavioral rules (the "rule book").</td>
+                    <td className="py-6 pr-4 text-zinc-500 text-left">Providing strict instructions to control behavior.</td>
+                    <td className="py-6 text-zinc-500 italic text-left">Instructing LLM to "never reveal confidential details" or "redirect salary queries to HR."</td>
+                 </tr>
+              </tbody>
+           </table>
+        </section>
+
+        <section className="space-y-12 text-left">
+           <div>
+              <h2 className="text-2xl font-black text-zinc-900 mb-6 text-left">Keyword search</h2>
+              <p className="text-zinc-600 font-medium leading-relaxed mb-6 text-left">
+                A traditional approach based on <strong>exact word matches</strong>. If a user's query does not contain the specific term found in a document, the search is likely to fail. Popular implementations include <strong>TF-IDF</strong> and <strong>BM25</strong>.
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+                 <div className="p-6 bg-red-50/50 rounded-2xl border border-red-100 text-left">
+                    <h4 className="font-black text-red-900 mb-2 text-left">Lack of Understanding</h4>
+                    <p className="text-xs text-red-700 font-bold text-left">Fails if user uses synonyms (e.g., "allowance" vs "reimbursement").</p>
+                 </div>
+                 <div className="p-6 bg-red-50/50 rounded-2xl border border-red-100 text-left">
+                    <h4 className="font-black text-red-900 mb-2 text-left">Poor Context</h4>
+                    <p className="text-xs text-red-700 font-bold text-left">Pure word frequency doesn't capture semantic relationships.</p>
                  </div>
               </div>
-              <div className="flex gap-6 items-start">
-                 <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center font-black text-indigo-600 shrink-0 shadow-sm">A</div>
-                 <div>
-                    <h4 className="font-black text-zinc-900">Augmenting</h4>
-                    <p className="text-sm text-zinc-500 font-medium">Retrieved info improves the user’s prompt before sending to LLM.</p>
-                 </div>
-              </div>
-              <div className="flex gap-6 items-start">
-                 <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center font-black text-indigo-600 shrink-0 shadow-sm">G</div>
-                 <div>
-                    <h4 className="font-black text-zinc-900">Generation</h4>
-                    <p className="text-sm text-zinc-500 font-medium">LLM generates a response based on the provided context.</p>
-                 </div>
+           </div>
+
+           <div>
+              <h2 className="text-2xl font-black text-zinc-900 mb-6 text-left">Semantic Search</h2>
+              <p className="text-zinc-600 font-medium leading-relaxed mb-6 text-left">
+                Searches documents based on the <strong>meaning</strong> of words. This is enabled by <strong>embeddings</strong>, where text is converted into mathematical vectors representing semantic context.
+              </p>
+              <div className="bg-indigo-900 text-white p-8 rounded-[2.5rem] relative overflow-hidden text-left">
+                 <div className="absolute top-0 right-0 p-6 opacity-10"><RefreshCcw className="w-32 h-32" /></div>
+                 <h4 className="text-indigo-400 font-black uppercase text-xs tracking-widest mb-6 text-left">How it works</h4>
+                 <ul className="space-y-4 text-sm font-bold text-left">
+                    <li className="flex gap-3 text-left"><CheckCircle className="w-4 h-4 text-indigo-400 shrink-0 mt-0.5" /> Conversion: Text converted to arrays of numbers (vectors).</li>
+                    <li className="flex gap-3 text-left"><CheckCircle className="w-4 h-4 text-indigo-400 shrink-0 mt-0.5" /> Plotting: Similar meanings end up close together in vector space.</li>
+                    <li className="flex gap-3 text-left"><CheckCircle className="w-4 h-4 text-indigo-400 shrink-0 mt-0.5" /> Distance: Similarity is measured by vector distance (closer = more similar).</li>
+                 </ul>
               </div>
            </div>
         </section>
 
-        <section>
-          <h2 className="text-2xl font-black text-zinc-900 mb-8 underline decoration-indigo-600 underline-offset-8">Data Preparation Pipeline</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-             <div className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm">
-                <h4 className="font-black text-indigo-600 mb-4 uppercase tracking-widest text-xs">1. Chunking</h4>
-                <p className="text-xs text-zinc-500 font-medium leading-relaxed">Breaking down large documents into smaller, focused pieces to solve the precision problem.</p>
-             </div>
-             <div className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm">
-                <h4 className="font-black text-emerald-600 mb-4 uppercase tracking-widest text-xs">2. Embeddings</h4>
-                <p className="text-xs text-zinc-500 font-medium leading-relaxed">Converting text chunks into numerical vectors representing semantic meaning.</p>
-             </div>
-             <div className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm">
-                <h4 className="font-black text-red-600 mb-4 uppercase tracking-widest text-xs">3. Vector Database</h4>
-                <p className="text-xs text-zinc-500 font-medium leading-relaxed">Efficiently storing and searching mathematical vectors (e.g., Chroma, Pinecone).</p>
-             </div>
-          </div>
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+           <div className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm text-left">
+              <h3 className="text-xl font-black text-zinc-900 mb-6 text-left">Vector Database</h3>
+              <p className="text-sm text-zinc-500 font-bold leading-relaxed mb-8 text-left">
+                Specialized DB designed to efficiently store and search vectors at scale. Instead of comparing query to every doc (naive way), it uses algorithms like <strong>HNSW (Hierarchical Navigable Small World)</strong> to search specific "neighborhoods."
+              </p>
+              <div className="flex gap-3 text-left">
+                 <span className="px-3 py-1 bg-zinc-900 text-white text-[10px] font-black rounded-lg uppercase tracking-widest">ChromaDB</span>
+                 <span className="px-3 py-1 bg-zinc-900 text-white text-[10px] font-black rounded-lg uppercase tracking-widest">Pinecone</span>
+              </div>
+           </div>
+           <div className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm text-left">
+              <h3 className="text-xl font-black text-zinc-900 mb-6 text-left">Chunking</h3>
+              <p className="text-sm text-zinc-500 font-bold leading-relaxed mb-8 text-left">
+                The process of breaking large docs into smaller, focused pieces. Solves the <strong>precision problem</strong> (getting 1 paragraph vs a 50-page manual). Common strategies include fixed-size chunks with <strong>overlap</strong> (e.g., 500 chars + 50 char overlap) to preserve context.
+              </p>
+           </div>
         </section>
+
+        <div className="pt-8 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400 text-left">
+           <p className="text-left">Previous: context engineering</p>
+           <p className="text-left">Up next: mcp</p>
+        </div>
       </div>
-    )
+    ),
+    resources: [
+        { title: "Watch: How RAG Works", url: "https://youtu.be/fZM3oX4xEyg?si=rlzSJm9TAbqikv7o", type: "video" }
+    ]
   },
   {
     day: 33,
@@ -2020,9 +2217,9 @@ AND signup_date < '2024-12-01';`}
                 <div className="space-y-4">
                   <p className="text-sm font-medium text-zinc-300 leading-relaxed">MCP servers are reusable across various AI applications. Build a "Google Drive MCP Server" once, and any compatible assistant or agent can use it immediately.</p>
                   <ul className="space-y-2">
-                    <li className="flex items-center gap-2 text-xs font-bold"><CheckCircle className="w-4 h-4 text-indigo-500" /> Developers: Reduced complexity & time.</li>
-                    <li className="flex items-center gap-2 text-xs font-bold"><CheckCircle className="w-4 h-4 text-indigo-500" /> Apps: Ecosystem of plug-and-play tools.</li>
-                    <li className="flex items-center gap-2 text-xs font-bold"><CheckCircle className="w-4 h-4 text-indigo-500" /> End-users: More capable, action-oriented agents.</li>
+                    <li className="flex items-center gap-2 text-xs font-bold"><CheckCircle className="w-4 h-4 text-indigo-600" /> Developers: Reduced complexity & time.</li>
+                    <li className="flex items-center gap-2 text-xs font-bold"><CheckCircle className="w-4 h-4 text-indigo-600" /> Apps: Ecosystem of plug-and-play tools.</li>
+                    <li className="flex items-center gap-2 text-xs font-bold"><CheckCircle className="w-4 h-4 text-indigo-600" /> End-users: More capable, action-oriented agents.</li>
                   </ul>
                 </div>
              </div>
@@ -2671,7 +2868,7 @@ AND signup_date < '2024-12-01';`}
                  Testimonials
               </h3>
               <p className="text-sm text-zinc-500 font-medium leading-relaxed">
-                 Feedback from founders, managers, or peers highlighting problem-solving ability, ownership mindset, communication skills, and product thinking approach.
+                 Feedback from founders, managers, or parents highlighting problem-solving ability, ownership mindset, communication skills, and product thinking approach.
               </p>
            </div>
            <div className="p-8 bg-white border border-zinc-100 rounded-3xl shadow-sm">
@@ -3002,7 +3199,7 @@ Best regards,
     preview: 'Final preparations. Reflect on your 45-day journey and prepare for behavioral questions.',
     content: (
       <div className="space-y-10">
-        <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 45: Behavioral Rounds & Graduation 🎓</h1>
+        <h1 className="text-3xl font-black tracking-tight text-zinc-900 text-left">Day 45: Behavioral Rounds & Graduation 🎓</h1>
         <section className="bg-emerald-50 p-10 rounded-[3rem] border border-emerald-100">
            <h2 className="text-2xl font-black text-emerald-900 mb-6">Behavioral Mastery</h2>
            <p className="text-emerald-800 font-medium mb-6 leading-relaxed">Prepare for the "Why PM?", "Tell me about a time you failed", and "Stakeholder conflict" questions.</p>

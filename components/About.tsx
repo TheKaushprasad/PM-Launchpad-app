@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Target, BarChart, PenTool, ClipboardList, Code, Brain, Users, CheckCircle, Briefcase, Zap, Star, ArrowRight, BookOpen, Clock, Lightbulb, Bot } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -190,6 +191,36 @@ export const About: React.FC = () => {
             </div>
         </div>
       </div>
+      
+      <footer className="pt-12 mt-12 border-t border-zinc-100 flex flex-col md:flex-row items-center justify-between gap-6">
+          <p className="text-zinc-400 text-xs font-bold">© {new Date().getFullYear()} The NooB PM</p>
+          <div className="flex gap-6">
+              <a 
+                href="https://www.linkedin.com/company/the-noob-pm/?viewAsMember=true" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-zinc-400 hover:text-indigo-600 transition-colors font-medium text-xs"
+              >
+                LinkedIn
+              </a>
+              <a 
+                href="https://www.instagram.com/the_noob_pm/reels/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-zinc-400 hover:text-indigo-600 transition-colors font-medium text-xs"
+              >
+                Instagram
+              </a>
+              <a 
+                href="https://www.youtube.com/@THE_NOOB_PM/posts" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-zinc-400 hover:text-indigo-600 transition-colors font-medium text-xs"
+              >
+                YouTube
+              </a>
+          </div>
+      </footer>
     </motion.div>
   );
 };
