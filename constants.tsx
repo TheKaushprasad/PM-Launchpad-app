@@ -683,7 +683,7 @@ export const LESSONS: Lesson[] = [
       <div className="space-y-10">
         <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 8: Business Fundamentals for PMs 💰</h1>
         
-        <section className="bg-amber-50 p-10 rounded-[3rem] border border-amber-100">
+        <section className="bg-amber-50 p-10 rounded-[3rem] border border-indigo-100">
            <h2 className="text-2xl font-black text-amber-900 mb-4">The "Mini-CEO" Mindset</h2>
            <p className="text-amber-800 font-medium">Product Managers must justify investments with ROI and understand customer lifecycle economics.</p>
         </section>
@@ -1091,7 +1091,7 @@ export const LESSONS: Lesson[] = [
                  <h4 className="font-black text-indigo-600 mb-2">B. Bottom-Up (User-Based)</h4>
                  <p className="text-sm font-medium text-zinc-600">Start from customer base and scale up. SOM = (Number of target users × Price × Frequency)</p>
               </div>
-              <div className="p-6 bg-white rounded-2xl shadow-sm border border-zinc-100">
+              <div className="p-6 bg-white rounded-2xl shadow-sm border border-indigo-100">
                  <h4 className="font-black text-indigo-600 mb-2">C. Value-Based</h4>
                  <p className="text-sm font-medium text-zinc-600">Estimate based on value created/replaced. Example: Tool saves 5 hrs/week ($500 value) &plusmn; Price at 10% &plusmn; $50/month.</p>
               </div>
@@ -1971,80 +1971,245 @@ AND signup_date < '2024-12-01';`}
     day: 33,
     title: 'Model Context Protocol (MCP)',
     category: 'AI',
-    preview: 'An open-source standard for connecting AI applications to external systems.',
+    preview: 'Learn about the open-source standard for connecting AI applications to external data sources and tools.',
     content: (
       <div className="space-y-10">
-        <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 33: Model Context Protocol (MCP) 🔌</h1>
-        <section className="bg-zinc-900 p-10 rounded-[3rem] text-white">
-           <h2 className="text-2xl font-black mb-6">The USB-C for AI</h2>
-           <p className="text-zinc-400 font-medium leading-relaxed max-w-2xl">
-             Think of MCP like a USB-C port. Just as USB-C provides a standardized way to connect electronic devices, 
-             MCP provides a standardized way to connect <strong>AI applications to external systems</strong> (Databases, Tools, workflows).
+        <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 33: What is the Model Context Protocol (MCP)? 🔌</h1>
+        
+        <section className="bg-indigo-50 p-10 rounded-[3rem] border border-indigo-100">
+           <p className="text-lg font-medium text-indigo-900 leading-relaxed mb-6">
+             MCP (Model Context Protocol) is an open-source standard for connecting AI applications to external systems. Using MCP, AI applications like Claude or ChatGPT can connect to data sources (e.g. local files, databases), tools (e.g. search engines, calculators) and workflows (e.g. specialized prompts)—enabling them to access key information and perform tasks.
            </p>
+           <div className="bg-white/60 p-6 rounded-2xl border border-indigo-200 flex items-start gap-4 mb-8">
+              <Zap className="w-6 h-6 text-indigo-600 shrink-0 mt-1" />
+              <p className="text-sm font-bold text-indigo-800">
+                <strong>Analogy:</strong> Think of MCP like a USB-C port for AI applications. Just as USB-C provides a standardized way to connect electronic devices, MCP provides a standardized way to connect AI applications to external systems.
+              </p>
+           </div>
         </section>
 
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
-           {[
-             { title: 'MCP Server', desc: 'Lightweight programs that expose specific capabilities (tools/resources).' },
-             { title: 'MCP Client', desc: 'Job is to find resources and tools from the server.' },
-             { title: 'Host', desc: 'LLM application (e.g. Claude Desktop) that stores and maintains clients.' },
-           ].map(item => (
-             <div key={item.title} className="p-8 bg-white border border-zinc-100 rounded-3xl shadow-sm">
-                <h3 className="font-black text-lg text-zinc-900 mb-2">{item.title}</h3>
-                <p className="text-xs text-zinc-500 font-medium leading-relaxed">{item.desc}</p>
+        <section className="space-y-8">
+           <h2 className="text-2xl font-black text-zinc-900">Why does MCP Exist?</h2>
+           <p className="text-zinc-600 font-medium">Traditional LLMs operate within a fixed context window &mdash; they only &ldquo;know&rdquo; what&rsquo;s inside the current prompt. However, in real-world applications, models need access to:</p>
+           <ul className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <li className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm space-y-2">
+                 <div className="w-8 h-8 rounded-lg bg-zinc-50 flex items-center justify-center text-zinc-400 font-black text-xs">01</div>
+                 <p className="text-sm font-bold text-zinc-700">Private company data (e.g., customer tickets, sales reports)</p>
+              </li>
+              <li className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm space-y-2">
+                 <div className="w-8 h-8 rounded-lg bg-zinc-50 flex items-center justify-center text-zinc-400 font-black text-xs">02</div>
+                 <p className="text-sm font-bold text-zinc-700">APIs and tools (e.g., Jira, Slack, Notion)</p>
+              </li>
+              <li className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm space-y-2">
+                 <div className="w-8 h-8 rounded-lg bg-zinc-50 flex items-center justify-center text-zinc-400 font-black text-xs">03</div>
+                 <p className="text-sm font-bold text-zinc-700">Dynamic or structured context (e.g., user preferences, codebases)</p>
+              </li>
+           </ul>
+           <p className="text-zinc-600 font-medium mt-4">RAG (Retrieval-Augmented Generation) and Plugins/APIs tried to solve this, but they each have limitations:</p>
+           <ul className="list-disc pl-8 space-y-2 text-sm font-medium text-zinc-500">
+             <li>RAG: only provides text chunks; limited interactivity</li>
+             <li>Plugins: difficult to standardize, manage security, and reuse</li>
+             <li>Ad-hoc APIs: brittle integrations and lack of visibility</li>
+           </ul>
+           <p className="text-zinc-600 font-medium mt-4">Hence, MCP (Model Context Protocol) was introduced by Anthropic to standardize how models communicate with tools and context providers safely and modularly.</p>
+
+           <div className="bg-zinc-900 rounded-[2.5rem] p-8 text-white relative overflow-hidden mt-8">
+             <div className="absolute top-0 right-0 p-8 opacity-10"><RefreshCcw className="w-32 h-32" /></div>
+             <h4 className="text-indigo-400 font-black mb-6 uppercase tracking-widest text-xs">The Power of Reusability</h4>
+             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+                <div className="space-y-4">
+                  <p className="text-sm font-medium text-zinc-300 leading-relaxed">MCP servers are reusable across various AI applications. Build a "Google Drive MCP Server" once, and any compatible assistant or agent can use it immediately.</p>
+                  <ul className="space-y-2">
+                    <li className="flex items-center gap-2 text-xs font-bold"><CheckCircle className="w-4 h-4 text-indigo-500" /> Developers: Reduced complexity & time.</li>
+                    <li className="flex items-center gap-2 text-xs font-bold"><CheckCircle className="w-4 h-4 text-indigo-500" /> Apps: Ecosystem of plug-and-play tools.</li>
+                    <li className="flex items-center gap-2 text-xs font-bold"><CheckCircle className="w-4 h-4 text-indigo-500" /> End-users: More capable, action-oriented agents.</li>
+                  </ul>
+                </div>
              </div>
-           ))}
+           </div>
         </section>
+
+        <section className="bg-zinc-50 p-10 rounded-[3rem] border border-zinc-200">
+           <h3 className="text-xl font-black text-zinc-900 mb-6 uppercase tracking-widest text-xs">What can MCP enable?</h3>
+           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {[
+                "Agents can access your Google Calendar and Notion, acting as a personalized AI assistant.",
+                "Claude Code can generate an entire web app using a Figma design.",
+                "Enterprise chatbots can connect to multiple databases across an organization.",
+                "AI models can create 3D designs on Blender and print them out using a 3D printer."
+              ].map((item, i) => (
+                <div key={i} className="flex gap-3 items-start bg-white p-4 rounded-2xl border border-zinc-100">
+                   <CheckCircle className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
+                   <p className="text-xs font-bold text-zinc-600 leading-relaxed">{item}</p>
+                </div>
+              ))}
+           </div>
+        </section>
+
+        <section>
+           <h2 className="text-2xl font-black text-zinc-900 mb-8">Client-Server Architecture in MCP</h2>
+           <p className="text-zinc-500 font-bold mb-10">The architecture consists of three main entities: the Host, the Client, and the Server.</p>
+           
+           <div className="mb-12">
+             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm space-y-3">
+                   <div className="w-10 h-10 rounded-xl bg-zinc-950 flex items-center justify-center text-white font-black">S</div>
+                   <h4 className="font-black text-zinc-900">MCP Server</h4>
+                   <p className="text-xs text-zinc-500 font-medium leading-relaxed">Servers are lightweight programs that expose tools, resources, and prompts to the client.</p>
+                </div>
+                <div className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm space-y-3">
+                   <div className="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white font-black">C</div>
+                   <h4 className="font-black text-zinc-900">MCP Client</h4>
+                   <p className="text-xs text-zinc-500 font-medium leading-relaxed">Maintain connections with servers. Job: find resources/tools and take advantage of them.</p>
+                </div>
+                <div className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm space-y-3">
+                   <div className="w-10 h-10 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-black">H</div>
+                   <h4 className="font-black text-zinc-900">Host</h4>
+                   <p className="text-xs text-zinc-500 font-medium leading-relaxed">The LLM application (e.g. Claude AI) that stores and maintains all clients and server connections.</p>
+                </div>
+             </div>
+           </div>
+        </section>
+
+        <div className="pt-8 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
+           <p>Previous: RAG</p>
+           <p>Up next: Agent workflow</p>
+        </div>
       </div>
-    )
+    ),
+    resources: [
+        { title: "Watch: MCP Overview Video", url: "https://youtu.be/-UQ6OZywZ2I?si=9jFH6C88ScZLR3bl", type: "video" }
+    ]
   },
   {
     day: 34,
     title: 'Introduction to Agent Workflow',
     category: 'AI',
-    preview: 'Agentic workflows are designed to more closely mimic complex human problem-solving by involving multiple discrete stages.',
+    preview: 'Master the architecture of agentic systems: planning, reasoning, and iterative task execution.',
     content: (
       <div className="space-y-10">
         <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 34: Introduction to Agent Workflow 🤖</h1>
-        <section className="bg-emerald-50 p-10 rounded-[3rem] border border-emerald-100">
-           <h2 className="text-2xl font-black text-emerald-900 mb-6">What Is an Agentic AI Workflow?</h2>
-           <p className="text-emerald-800 font-medium leading-relaxed">
-             An AI system that executes a <strong>series of steps</strong> iteratively to complete a task. 
-             Includes planning, researching, synthesizing, reviewing, and revising.
+        
+        <section className="bg-indigo-50 p-10 rounded-[3rem] border border-indigo-100">
+           <h2 className="text-2xl font-black text-indigo-900 mb-6">What Is an Agentic AI Workflow?</h2>
+           <p className="text-indigo-800 font-medium leading-relaxed mb-6">
+             An agentic AI workflow is a process where an AI system executes a series of steps—often iteratively—to complete a task. This mimics complex human problem-solving: <strong>planning &plusmn; researching &plusmn; synthesizing &plusmn; reviewing &plusmn; revising.</strong>
            </p>
+           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="bg-white/60 p-4 rounded-2xl border border-indigo-100">
+                 <h4 className="font-black text-indigo-900 mb-1 text-xs uppercase tracking-widest">Iterative</h4>
+                 <p className="text-[10px] font-bold text-indigo-700">Loops through reflection and improvement stages.</p>
+              </div>
+              <div className="bg-white/60 p-4 rounded-2xl border border-indigo-100">
+                 <h4 className="font-black text-indigo-900 mb-1 text-xs uppercase tracking-widest">Decomposed</h4>
+                 <p className="text-[10px] font-bold text-indigo-700">Complex jobs are broken into atomic, manageable steps.</p>
+              </div>
+              <div className="bg-white/60 p-4 rounded-2xl border border-indigo-100">
+                 <h4 className="font-black text-indigo-900 mb-1 text-xs uppercase tracking-widest">Autonomous</h4>
+                 <p className="text-[10px] font-bold text-indigo-700">Grants AI greater decision-making power over classical prompting.</p>
+              </div>
+           </div>
+        </section>
+
+        <section className="space-y-8">
+           <h2 className="text-2xl font-black text-zinc-900">Task Decomposition in Practice</h2>
+           <div className="overflow-hidden rounded-[2.5rem] border border-zinc-200">
+              <table className="min-w-full bg-white">
+                 <thead className="bg-zinc-900 text-white text-left text-[10px] font-black uppercase tracking-widest">
+                    <tr>
+                       <th className="px-6 py-4">Use Case</th>
+                       <th className="px-6 py-4">High-Level Workflow Steps</th>
+                    </tr>
+                 </thead>
+                 <tbody className="divide-y divide-zinc-100 text-sm font-medium text-zinc-600">
+                    <tr>
+                       <td className="px-6 py-4 font-black text-zinc-900">Essay Writing</td>
+                       <td className="px-6 py-4">Outline &rarr; Search web &rarr; Analyze &rarr; Draft &rarr; Reflect &rarr; Revise</td>
+                    </tr>
+                    <tr>
+                       <td className="px-6 py-4 font-black text-zinc-900">Invoice Process</td>
+                       <td className="px-6 py-4">PDF to text &rarr; Type check &rarr; Extraction &rarr; DB update</td>
+                    </tr>
+                    <tr>
+                       <td className="px-6 py-4 font-black text-zinc-900">Customer Service</td>
+                       <td className="px-6 py-4">Extract info &rarr; Query DB &rarr; Draft reply &rarr; Review/Send</td>
+                    </tr>
+                 </tbody>
+              </table>
+           </div>
         </section>
 
         <section>
-          <h2 className="text-xl font-black text-zinc-900 mb-6 uppercase tracking-widest">Degrees of Autonomy</h2>
-          <div className="space-y-4">
-             <div className="p-6 bg-white border border-zinc-100 rounded-2xl shadow-sm flex items-center gap-6">
-                <div className="w-12 h-12 bg-zinc-900 text-white flex items-center justify-center font-black rounded-xl shrink-0">1</div>
-                <div>
-                   <h4 className="font-black text-zinc-900">Less Autonomous Agents</h4>
-                   <p className="text-sm text-zinc-500 font-medium">Steps strictly predefined; tools are hard-coded.</p>
-                </div>
-             </div>
-             <div className="p-6 bg-white border border-zinc-100 rounded-2xl shadow-sm flex items-center gap-6">
-                <div className="w-12 h-12 bg-zinc-900 text-white flex items-center justify-center font-black rounded-xl shrink-0">2</div>
-                <div>
-                   <h4 className="font-black text-zinc-900">Semi-Autonomous Agents</h4>
-                   <p className="text-sm text-zinc-500 font-medium">AI may decide which tool to use for a given query.</p>
-                </div>
-             </div>
-             <div className="p-6 bg-white border border-zinc-100 rounded-2xl shadow-sm flex items-center gap-6">
-                <div className="w-12 h-12 bg-zinc-900 text-white flex items-center justify-center font-black rounded-xl shrink-0">3</div>
-                <div>
-                   <h4 className="font-black text-zinc-900">Highly Autonomous Agents</h4>
-                   <p className="text-sm text-zinc-500 font-medium">Plans and sequences steps dynamically; generates new functions.</p>
-                </div>
-             </div>
-          </div>
+           <h2 className="text-2xl font-black text-zinc-900 mb-8">Degrees of Autonomy</h2>
+           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="p-8 bg-zinc-50 border border-zinc-100 rounded-[2.5rem] hover:bg-white hover:shadow-xl transition-all">
+                 <span className="text-zinc-400 font-black text-xs uppercase tracking-widest block mb-4">Level 01</span>
+                 <h4 className="text-lg font-black text-zinc-900 mb-4">Less Autonomous</h4>
+                 <p className="text-xs text-zinc-500 font-bold leading-relaxed">Steps predefined by devs. Tools are hard-coded. Useful for well-structured queries like order status.</p>
+              </div>
+              <div className="p-8 bg-zinc-50 border border-zinc-100 rounded-[2.5rem] hover:bg-white hover:shadow-xl transition-all">
+                 <span className="text-indigo-400 font-black text-xs uppercase tracking-widest block mb-4">Level 02</span>
+                 <h4 className="text-lg font-black text-zinc-900 mb-4">Semi-Autonomous</h4>
+                 <p className="text-xs text-zinc-500 font-bold leading-relaxed">Tools are predefined but AI decides which to use for a given context and sequences them.</p>
+              </div>
+              <div className="p-8 bg-zinc-50 border border-zinc-100 rounded-[2.5rem] hover:bg-white hover:shadow-xl transition-all">
+                 <span className="text-emerald-400 font-black text-xs uppercase tracking-widest block mb-4">Level 03</span>
+                 <h4 className="text-lg font-black text-zinc-900 mb-4">Highly Autonomous</h4>
+                 <p className="text-xs text-zinc-500 font-bold leading-relaxed">LLM plans workflows dynamically. May generate new functions or gather more context as needed.</p>
+              </div>
+           </div>
+        </section>
+
+        <section className="bg-zinc-950 p-10 rounded-[3rem] text-white">
+           <h2 className="text-2xl font-black mb-8 text-indigo-400 uppercase tracking-widest text-xs">AI Design Patterns</h2>
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="flex gap-6">
+                 <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center shrink-0 border border-white/10"><RefreshCcw className="text-indigo-300" /></div>
+                 <div>
+                    <h5 className="font-black mb-1">Reflection</h5>
+                    <p className="text-xs text-zinc-400 font-medium">AI reviews and critiques its own outputs to improve subsequent versions.</p>
+                 </div>
+              </div>
+              <div className="flex gap-6">
+                 <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center shrink-0 border border-white/10"><Hammer className="text-emerald-300" /></div>
+                 <div>
+                    <h5 className="font-black mb-1">Tool Use</h5>
+                    <p className="text-xs text-zinc-400 font-medium">AI is empowered to call external APIs for web search, DB queries, or code execution.</p>
+                 </div>
+              </div>
+              <div className="flex gap-6">
+                 <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center shrink-0 border border-white/10"><Map className="text-amber-300" /></div>
+                 <div>
+                    <h5 className="font-black mb-1">Planning</h5>
+                    <p className="text-xs text-zinc-400 font-medium">AI determines action chains autonomously for unstructured requests.</p>
+                 </div>
+              </div>
+              <div className="flex gap-6">
+                 <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center shrink-0 border border-white/10"><Users2 className="text-pink-300" /></div>
+                 <div>
+                    <h5 className="font-black mb-1">Multi-Agent Collaboration</h5>
+                    <p className="text-xs text-zinc-400 font-medium">Specialized agents (Researcher, Writer, Editor) work together for robust results.</p>
+                 </div>
+              </div>
+           </div>
         </section>
       </div>
     ),
-    resources: [
-        { title: "Agentic AI Course", url: "https://www.deeplearning.ai/courses/agentic-ai/", type: "article" }
-    ]
+    assignment: (
+      <div className="space-y-6">
+        <div className="bg-indigo-50 p-6 rounded-2xl border border-indigo-100">
+           <h4 className="font-black text-indigo-900 mb-2">Technical Task</h4>
+           <p className="text-sm text-indigo-800 font-medium leading-relaxed">
+             Complete the Agentic AI course from DeepLearning.AI to understand the fundamental architecture and evaluation techniques of agentic systems.
+           </p>
+           <a href="https://www.deeplearning.ai/courses/agentic-ai/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 mt-4 text-indigo-600 font-black text-xs uppercase tracking-widest hover:underline">Go to Course <ExternalLink className="w-3 h-3" /></a>
+        </div>
+        <div className="pt-8 border-t border-zinc-200 flex justify-between text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">
+           <p>Previous: mcp</p>
+           <p>Up next: ai AGENT</p>
+        </div>
+      </div>
+    )
   },
   {
     day: 35,
@@ -2122,7 +2287,7 @@ AND signup_date < '2024-12-01';`}
                  <h4 className="font-black text-zinc-900 mb-1">Tool Node Integration</h4>
                  <p className="text-xs text-zinc-500 font-bold">Hundreds of pre-built nodes for Slack, Gmail, Notion, Salesforce, and Jira.</p>
               </div>
-              <div className="p-6 bg-zinc-50 rounded-2xl border border-zinc-100">
+              <div className="p-6 bg-zinc-50 rounded-2xl border border-zinc-200">
                  <h4 className="font-black text-zinc-900 mb-1">Memory & State</h4>
                  <p className="text-xs text-zinc-500 font-bold">Maintain conversation history and store preferences across different interactions.</p>
               </div>

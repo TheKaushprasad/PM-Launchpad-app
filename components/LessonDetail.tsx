@@ -27,12 +27,20 @@ export const LessonDetail: React.FC = () => {
 
   useEffect(() => {
     topRef.current?.scrollIntoView({ behavior: 'smooth' });
-    // Default to the first video resource if available
+    
+    // Explicitly check for video resources. For Day 34 or others where we want to hide the player,
+    // ensure no video resources are passed or filter them out.
     if (lesson?.resources) {
         const firstVideo = lesson.resources.find(r => r.type === 'video');
         if (firstVideo) {
             const ytId = getYoutubeId(firstVideo.url);
-            if (ytId) setActiveVideo(`https://www.youtube.com/embed/${ytId}`);
+            if (ytId) {
+                setActiveVideo(`https://www.youtube.com/embed/${ytId}`);
+            } else {
+                setActiveVideo(null);
+            }
+        } else {
+            setActiveVideo(null);
         }
     } else {
         setActiveVideo(null);
@@ -122,7 +130,7 @@ export const LessonDetail: React.FC = () => {
           
           {/* Main Content Column */}
           <div className="lg:col-span-8 space-y-6 md:space-y-8">
-             {/* Inline Video Player at the Top of Content */}
+             {/* Inline Video Player at the Top of Content - Only shows if activeVideo is set */}
              {activeVideo && (
                 <motion.div 
                     initial={{ opacity: 0, scale: 0.98 }}
