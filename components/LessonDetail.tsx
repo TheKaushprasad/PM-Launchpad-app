@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { LESSONS, getCategoryColor, getCategoryIcon } from '../constants';
-import { ArrowLeft, ArrowRight, ExternalLink, Video, PenTool, ChevronLeft, ChevronRight, BookOpen, Clock, Play, X, Zap } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowLeft, ArrowRight, ExternalLink, BookOpen, Clock, Play, Zap, MonitorPlay, ChevronLeft, ChevronRight, PenTool } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const getYoutubeId = (url: string) => {
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
@@ -27,8 +27,17 @@ export const LessonDetail: React.FC = () => {
 
   useEffect(() => {
     topRef.current?.scrollIntoView({ behavior: 'smooth' });
-    setActiveVideo(null);
-  }, [id]);
+    // Default to the first video resource if available
+    if (lesson?.resources) {
+        const firstVideo = lesson.resources.find(r => r.type === 'video');
+        if (firstVideo) {
+            const ytId = getYoutubeId(firstVideo.url);
+            if (ytId) setActiveVideo(`https://www.youtube.com/embed/${ytId}`);
+        }
+    } else {
+        setActiveVideo(null);
+    }
+  }, [id, lesson]);
 
   if (!lesson) {
     return (
@@ -113,6 +122,32 @@ export const LessonDetail: React.FC = () => {
           
           {/* Main Content Column */}
           <div className="lg:col-span-8 space-y-6 md:space-y-8">
+             {/* Inline Video Player at the Top of Content */}
+             {activeVideo && (
+                <motion.div 
+                    initial={{ opacity: 0, scale: 0.98 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="bg-zinc-900 rounded-3xl overflow-hidden shadow-2xl border border-zinc-800"
+                >
+                    <div className="bg-zinc-800/50 px-4 py-3 flex items-center justify-between border-b border-zinc-700/50">
+                        <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
+                            <span className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Interactive Tutorial</span>
+                        </div>
+                        <MonitorPlay className="w-4 h-4 text-indigo-400" />
+                    </div>
+                    <div className="aspect-video w-full">
+                        <iframe 
+                            src={activeVideo} 
+                            className="w-full h-full" 
+                            title="Video Player" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowFullScreen 
+                        />
+                    </div>
+                </motion.div>
+             )}
+
              <div className="bg-white rounded-2xl p-6 md:p-10 border border-zinc-100 shadow-sm overflow-hidden overflow-x-auto">
                 <article className="prose prose-zinc prose-sm md:prose-lg max-w-none prose-headings:font-black prose-headings:tracking-tighter prose-headings:text-zinc-900 prose-p:text-zinc-600 prose-p:leading-[1.6] prose-p:mb-4 prose-a:text-indigo-600 prose-img:rounded-xl">
                     {lesson.content}
@@ -139,46 +174,68 @@ export const LessonDetail: React.FC = () => {
           <div className="lg:col-span-4">
              <div className="sticky top-24 space-y-6">
                  {lesson.resources && lesson.resources.length > 0 && (
-                     <div className="bg-zinc-950 rounded-2xl p-6 border border-zinc-800 shadow-xl">
-                        <h3 className="font-black text-white mb-6 flex items-center gap-2 tracking-tight text-lg">
-                            <Play className="w-4 h-4 text-indigo-400 fill-indigo-400" />
-                            Must Watch
-                        </h3>
-                        <ul className="space-y-4">
+                     <div className="bg-white rounded-3xl p-6 border border-zinc-100 shadow-sm">
+                        <div className="flex items-center justify-between mb-6">
+                            <h3 className="font-black text-zinc-900 tracking-tight text-lg flex items-center gap-2">
+                                <BookOpen className="w-5 h-5 text-indigo-600" />
+                                Course Material
+                            </h3>
+                            <span className="text-[10px] font-black text-zinc-400 uppercase bg-zinc-100 px-2 py-1 rounded-md">
+                                {lesson.resources.length} items
+                            </span>
+                        </div>
+                        
+                        <div className="space-y-3">
                             {lesson.resources.map((res, idx) => {
                                 const youtubeId = res.type === 'video' ? getYoutubeId(res.url) : null;
-                                const embedUrl = youtubeId ? `https://www.youtube.com/embed/${youtubeId}?autoplay=1` : null;
+                                const embedUrl = youtubeId ? `https://www.youtube.com/embed/${youtubeId}` : null;
+                                const isActive = embedUrl === activeVideo;
 
                                 return (
-                                <li key={idx}>
+                                <div key={idx} className="group">
                                     {youtubeId ? (
                                         <button 
                                             onClick={() => setActiveVideo(embedUrl)}
-                                            className="w-full flex flex-col gap-3 group p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-all border border-white/5 text-left"
+                                            className={`w-full flex flex-col gap-3 p-3 rounded-2xl transition-all border ${isActive ? 'bg-indigo-50 border-indigo-200 ring-2 ring-indigo-100' : 'bg-zinc-50 border-zinc-100 hover:bg-white hover:border-indigo-100 hover:shadow-md'}`}
                                         >
-                                            <div className="relative aspect-video rounded-lg overflow-hidden bg-zinc-800">
+                                            <div className="relative aspect-video rounded-xl overflow-hidden bg-zinc-800">
                                                 <img 
                                                     src={`https://img.youtube.com/vi/${youtubeId}/mqdefault.jpg`} 
-                                                    className="w-full h-full object-cover opacity-60" 
+                                                    className={`w-full h-full object-cover transition-opacity ${isActive ? 'opacity-80' : 'opacity-60'}`} 
                                                     alt={res.title}
                                                 />
                                                 <div className="absolute inset-0 flex items-center justify-center">
-                                                    <div className="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white shadow-xl group-hover:scale-110 transition-transform">
+                                                    <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white shadow-xl transition-all ${isActive ? 'bg-indigo-600 scale-110' : 'bg-black/40 group-hover:bg-indigo-600 group-hover:scale-110'}`}>
                                                         <Play className="w-5 h-5 fill-current" />
                                                     </div>
                                                 </div>
                                             </div>
-                                            <span className="block text-sm font-bold text-zinc-100 tracking-tight leading-snug line-clamp-2">{res.title}</span>
+                                            <div className="text-left px-1">
+                                                <span className={`block text-[13px] font-bold leading-tight line-clamp-2 ${isActive ? 'text-indigo-900' : 'text-zinc-700'}`}>
+                                                    {res.title}
+                                                </span>
+                                                <span className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mt-1 block">Video Lesson</span>
+                                            </div>
                                         </button>
                                     ) : (
-                                        <a href={res.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 transition-colors">
-                                            <ExternalLink className="w-4 h-4 text-indigo-400" />
-                                            <span className="text-sm font-bold text-zinc-100 tracking-tight">{res.title}</span>
+                                        <a 
+                                            href={res.url} 
+                                            target="_blank" 
+                                            rel="noopener noreferrer" 
+                                            className="flex items-center gap-4 p-3 rounded-2xl bg-zinc-50 border border-zinc-100 hover:bg-white hover:border-emerald-100 hover:shadow-md transition-all group/link"
+                                        >
+                                            <div className="w-12 h-12 rounded-xl bg-white text-zinc-400 flex items-center justify-center shrink-0 group-hover/link:text-emerald-600 shadow-sm">
+                                                <ExternalLink className="w-5 h-5" />
+                                            </div>
+                                            <div className="text-left">
+                                                <span className="block text-[13px] font-bold text-zinc-700 leading-tight line-clamp-2">{res.title}</span>
+                                                <span className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mt-1 block">External Resource</span>
+                                            </div>
                                         </a>
                                     )}
-                                </li>
+                                </div>
                             )})}
-                        </ul>
+                        </div>
                      </div>
                  )}
              </div>
@@ -190,9 +247,11 @@ export const LessonDetail: React.FC = () => {
         {prevLesson ? (
              <button 
                 onClick={() => navigate(`/dashboard/day/${prevLesson.day}`)}
-                className="group flex items-center gap-3 md:gap-4 text-left p-5 md:p-6 rounded-2xl border border-zinc-200 hover:border-indigo-200 bg-white transition-all"
+                className="group flex items-center gap-3 md:gap-4 text-left p-5 md:p-6 rounded-2xl border border-zinc-200 hover:border-indigo-200 bg-white transition-all shadow-sm"
              >
-                <ArrowLeft className="w-5 h-5 md:w-6 md:h-6 text-zinc-400 group-hover:text-indigo-600 group-hover:-translate-x-1 transition-all" />
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-zinc-50 flex items-center justify-center text-zinc-400 group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-colors">
+                    <ArrowLeft className="w-5 h-5 md:w-6 md:h-6 group-hover:-translate-x-1 transition-transform" />
+                </div>
                 <div>
                     <span className="block text-[8px] md:text-[9px] font-black text-zinc-400 uppercase tracking-widest">Previous</span>
                     <span className="block text-sm md:text-lg font-black text-zinc-900 group-hover:text-indigo-600 tracking-tighter line-clamp-1">{prevLesson.title}</span>
@@ -203,13 +262,15 @@ export const LessonDetail: React.FC = () => {
         {nextLesson ? (
              <button 
                 onClick={() => navigate(`/dashboard/day/${nextLesson.day}`)}
-                className="group flex items-center justify-end gap-3 md:gap-4 text-right p-5 md:p-6 rounded-2xl border border-zinc-200 hover:border-indigo-200 bg-white transition-all"
+                className="group flex items-center justify-end gap-3 md:gap-4 text-right p-5 md:p-6 rounded-2xl border border-zinc-200 hover:border-indigo-200 bg-white transition-all shadow-sm"
              >
                 <div>
                     <span className="block text-[8px] md:text-[9px] font-black text-zinc-400 uppercase tracking-widest">Up Next</span>
                     <span className="block text-sm md:text-lg font-black text-zinc-900 group-hover:text-indigo-600 tracking-tighter line-clamp-1">{nextLesson.title}</span>
                 </div>
-                <ArrowRight className="w-5 h-5 md:w-6 md:h-6 text-zinc-400 group-hover:text-indigo-600 group-hover:translate-x-1 transition-all" />
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-lg group-hover:rotate-6 group-hover:scale-110 transition-all">
+                    <ArrowRight className="w-5 h-5 md:w-6 md:h-6 group-hover:translate-x-1 transition-transform" />
+                </div>
              </button>
         ) : (
             <div className="p-5 md:p-6 rounded-2xl border-2 border-dashed border-zinc-200 bg-zinc-50 flex items-center justify-center text-zinc-400 gap-2">
@@ -217,32 +278,6 @@ export const LessonDetail: React.FC = () => {
             </div>
         )}
       </div>
-
-        {/* Video Player Modal */}
-        <AnimatePresence>
-            {activeVideo && (
-                <motion.div 
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="fixed inset-0 z-[100] flex items-center justify-center bg-zinc-950/90 backdrop-blur-md p-4"
-                    onClick={() => setActiveVideo(null)}
-                >
-                    <motion.div 
-                        initial={{ scale: 0.95, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        exit={{ scale: 0.95, opacity: 0 }}
-                        className="relative w-full max-w-5xl aspect-video bg-black rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl"
-                        onClick={e => e.stopPropagation()}
-                    >
-                        <button onClick={() => setActiveVideo(null)} className="absolute top-2 right-2 md:top-4 md:right-4 z-10 p-2 bg-white/10 text-white rounded-full hover:bg-white/20 transition-colors">
-                            <X className="w-4 h-4 md:w-6 md:h-6" />
-                        </button>
-                        <iframe src={activeVideo} className="w-full h-full" title="Video Player" allow="autoplay; fullscreen" allowFullScreen />
-                    </motion.div>
-                </motion.div>
-            )}
-        </AnimatePresence>
     </motion.div>
   );
 };

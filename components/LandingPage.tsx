@@ -293,7 +293,7 @@ export const LandingPage: React.FC = () => {
          </div>
       </section>
 
-      {/* Curriculum Preview - UPDATED to match Modules */}
+      {/* Curriculum Preview */}
       <section id="curriculum" className="py-24 bg-white">
          <div className="max-w-7xl mx-auto px-6">
             <div className="text-center mb-16">
@@ -391,7 +391,14 @@ export const LandingPage: React.FC = () => {
               <p className="text-zinc-500 text-sm font-medium">© {new Date().getFullYear()} The NooB PM. Open Source Education.</p>
               <div className="flex gap-6">
                   <a href="#" className="text-zinc-400 hover:text-indigo-600 transition-colors font-medium text-sm">Twitter</a>
-                  <a href="#" className="text-zinc-400 hover:text-indigo-600 transition-colors font-medium text-sm">LinkedIn</a>
+                  <a 
+                    href="https://www.linkedin.com/company/the-noob-pm/?viewAsMember=true" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-zinc-400 hover:text-indigo-600 transition-colors font-medium text-sm"
+                  >
+                    LinkedIn
+                  </a>
                   <a href="#" className="text-zinc-400 hover:text-indigo-600 transition-colors font-medium text-sm">GitHub</a>
               </div>
           </div>
