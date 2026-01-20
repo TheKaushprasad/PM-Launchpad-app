@@ -102,9 +102,14 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen }) =
             <div className="absolute top-0 right-0 p-3 opacity-20"><Sparkles className="w-12 h-12 text-[#79BAEC]" /></div>
             <p className="text-white text-sm font-black uppercase tracking-widest mb-2 relative z-10">Pro Upgrade</p>
             <p className="text-zinc-400 text-[10px] leading-relaxed mb-5 relative z-10 font-bold">1-on-1 resume reviews and expert mock interviews.</p>
-            <button className="w-full py-3 bg-[#79BAEC] text-zinc-950 text-[12px] font-black uppercase tracking-widest rounded-xl hover:bg-white transition-colors relative z-10 shadow-lg">
+            <a 
+              href="https://docs.google.com/forms/u/0/d/1gntWQiHg_RBueOSOqZzVQiJ4UGfMIvyuAYUsiuxbOUc/preview" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="block w-full py-3 bg-[#79BAEC] text-zinc-950 text-[12px] font-black uppercase tracking-widest rounded-xl hover:bg-white transition-colors relative z-10 shadow-lg text-center"
+            >
               Unlock Now
-            </button>
+            </a>
           </div>
         </div>
       </aside>
