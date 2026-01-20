@@ -390,7 +390,6 @@ export const LandingPage: React.FC = () => {
               </div>
               <p className="text-zinc-500 text-sm font-medium">© {new Date().getFullYear()} The NooB PM. Open Source Education.</p>
               <div className="flex gap-6">
-                  <a href="#" className="text-zinc-400 hover:text-indigo-600 transition-colors font-medium text-sm">Twitter</a>
                   <a 
                     href="https://www.linkedin.com/company/the-noob-pm/?viewAsMember=true" 
                     target="_blank" 
@@ -399,7 +398,14 @@ export const LandingPage: React.FC = () => {
                   >
                     LinkedIn
                   </a>
-                  <a href="#" className="text-zinc-400 hover:text-indigo-600 transition-colors font-medium text-sm">GitHub</a>
+                  <a 
+                    href="https://www.instagram.com/the_noob_pm/reels/" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-zinc-400 hover:text-indigo-600 transition-colors font-medium text-sm"
+                  >
+                    Instagram
+                  </a>
               </div>
           </div>
       </footer>
