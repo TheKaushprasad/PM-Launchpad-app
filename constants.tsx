@@ -167,7 +167,7 @@ export const LESSONS: Lesson[] = [
 
         <section>
           <h2 className="text-2xl font-black text-zinc-900 mb-4">4. What is Product Management?</h2>
-          <p>Product Management is the function responsible for guiding a product from idea → launch → growth → scale by balancing the <strong>PM Equation</strong>:</p>
+          <p>Product Management is the function responsible for guiding a product from idea &plusmn; launch &plusmn; growth &plusmn; scale by balancing the <strong>PM Equation</strong>:</p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
             <div className="p-6 bg-blue-50 rounded-3xl border border-blue-100">
                <h3 className="font-black text-blue-900 mb-2">Business</h3>
@@ -225,7 +225,7 @@ export const LESSONS: Lesson[] = [
           <h2 className="text-2xl font-black text-zinc-900 mb-6 underline decoration-indigo-600 underline-offset-8">1. What is PDLC?</h2>
           <p className="text-lg leading-relaxed text-zinc-600 mb-8">
             Product Development Lifecycle (PDLC) is the structured process of taking a product from 
-            <strong> problem discovery → launch → continuous improvement</strong>, ensuring decisions are user-driven, data-backed, and business-aligned.
+            <strong> problem discovery &plusmn; launch &plusmn; continuous improvement</strong>, ensuring decisions are user-driven, data-backed, and business-aligned.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -518,7 +518,7 @@ export const LESSONS: Lesson[] = [
                     </li>
                     <li className="flex gap-4">
                        <span className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center font-black text-xs shrink-0">2</span>
-                       <p className="text-sm font-bold">Design Thinking Integration: Empathize → Define → Ideate → Prototype → Test.</p>
+                       <p className="text-sm font-bold">Design Thinking Integration: Empathize &plusmn; Define &plusmn; Ideate &plusmn; Prototype &plusmn; Test.</p>
                     </li>
                     <li className="flex gap-4">
                        <span className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center font-black text-xs shrink-0">3</span>
@@ -684,7 +684,7 @@ export const LESSONS: Lesson[] = [
         <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 8: Business Fundamentals for PMs 💰</h1>
         
         <section className="bg-amber-50 p-10 rounded-[3rem] border border-amber-100">
-           <h2 className="text-2xl font-black text-amber-900 mb-4">The "Mini-CEO" Mindset</h2>
+           <h2 className="text-xl font-black text-amber-900 mb-4">The "Mini-CEO" Mindset</h2>
            <p className="text-amber-800 font-medium">Product Managers must justify investments with ROI and understand customer lifecycle economics.</p>
         </section>
 
@@ -1085,7 +1085,7 @@ export const LESSONS: Lesson[] = [
            <div className="space-y-6">
               <div className="p-6 bg-white rounded-2xl shadow-sm border border-zinc-100">
                  <h4 className="font-black text-indigo-600 mb-2">A. Top-Down (Market Reports)</h4>
-                 <p className="text-sm font-medium text-zinc-600">Use existing industry reports (Statista, McKinsey). Example: "Statista reports Indian EdTech market is $5.7B → your target 10% → SAM = $570M"</p>
+                 <p className="text-sm font-medium text-zinc-600">Use existing industry reports (Statista, McKinsey). Example: "Statista reports Indian EdTech market is $5.7B &plusmn; your target 10% &plusmn; SAM = $570M"</p>
               </div>
               <div className="p-6 bg-white rounded-2xl shadow-sm border border-zinc-200">
                  <h4 className="font-black text-indigo-600 mb-2">B. Bottom-Up (User-Based)</h4>
@@ -1093,7 +1093,7 @@ export const LESSONS: Lesson[] = [
               </div>
               <div className="p-6 bg-white rounded-2xl shadow-sm border border-zinc-100">
                  <h4 className="font-black text-indigo-600 mb-2">C. Value-Based</h4>
-                 <p className="text-sm font-medium text-zinc-600">Estimate based on value created/replaced. Example: Tool saves 5 hrs/week ($500 value) → Price at 10% → $50/month.</p>
+                 <p className="text-sm font-medium text-zinc-600">Estimate based on value created/replaced. Example: Tool saves 5 hrs/week ($500 value) &plusmn; Price at 10% &plusmn; $50/month.</p>
               </div>
            </div>
         </section>
@@ -1103,7 +1103,7 @@ export const LESSONS: Lesson[] = [
       <div className="space-y-6">
         <h4 className="font-black text-indigo-900">Market Sizing Deck (1–2 slides)</h4>
         <ul className="text-sm font-bold text-zinc-700 space-y-2">
-           <li>• 1 Funnel diagram (TAM → SAM → SOM)</li>
+           <li>• 1 Funnel diagram (TAM &plusmn; SAM &plusmn; SOM)</li>
            <li>• Data source references & key assumptions</li>
            <li>• 1-line insight: “Our product addresses a $500M opportunity growing at 15% CAGR.”</li>
         </ul>
@@ -1408,7 +1408,7 @@ AND signup_date < '2024-12-01';`}
 
         <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
            {[
-             { title: 'Data modeling', desc: 'Define relationships between different data sources (Demographics → Behavioral).' },
+             { title: 'Data modeling', desc: 'Define relationships between different data sources (Demographics &plusmn; Behavioral).' },
              { title: 'DAX formulas', desc: 'Enable custom calculations like CLV, activation rates, and multi-condition metrics.' },
              { title: 'Time intelligence', desc: 'Built-in functions for WoW/YoY comparisons without tedious math.' },
              { title: 'Drill-down capabilities', desc: 'Let stakeholders click through high-level summaries into detailed views.' },
@@ -2345,7 +2345,7 @@ AND signup_date < '2024-12-01';`}
 
               <div className="border-l-4 border-zinc-200 pl-6 space-y-4">
                  <h3 className="text-xl font-black">4. Map the User Journey</h3>
-                 <p className="text-zinc-600 font-medium">Signup -> First Action -> Core Usage -> Retention Hooks -> Monetisation. Write observations, not opinions.</p>
+                 <p className="text-zinc-600 font-medium">Signup &plusmn; First Action &plusmn; Core Usage &plusmn; Retention Hooks &plusmn; Monetisation. Write observations, not opinions.</p>
               </div>
 
               <div className="border-l-4 border-zinc-200 pl-6 space-y-4">
@@ -2696,7 +2696,7 @@ Best regards,
     ),
     assignment: (
       <div className="space-y-6">
-        <p className="font-black text-indigo-900">{"Practice the prompt: \"Design a movie-booking app for elderly users.\" Follow the structure: User -> Pain Point -> Solution -> Metric."}</p>
+        <p className="font-black text-indigo-900">{"Practice the prompt: \"Design a movie-booking app for elderly users.\" Follow the structure: User &plusmn; Pain Point &plusmn; Solution &plusmn; Metric."}</p>
         <p className="text-xs font-black text-zinc-400">Get access to 50+ case studies here:</p>
         <a href="https://believed-mist-f1a.notion.site/Assignments-14251b6fbd0e8055830cd5ecf8147313" target="_blank" rel="noreferrer" className="text-sm font-black text-indigo-600 underline">Believed Mist Notion</a>
       </div>
