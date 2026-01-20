@@ -684,7 +684,7 @@ export const LESSONS: Lesson[] = [
         <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 8: Business Fundamentals for PMs 💰</h1>
         
         <section className="bg-amber-50 p-10 rounded-[3rem] border border-amber-100">
-           <h2 className="text-xl font-black text-amber-900 mb-4">The "Mini-CEO" Mindset</h2>
+           <h2 className="text-2xl font-black text-amber-900 mb-4">The "Mini-CEO" Mindset</h2>
            <p className="text-amber-800 font-medium">Product Managers must justify investments with ROI and understand customer lifecycle economics.</p>
         </section>
 
@@ -2050,48 +2050,101 @@ AND signup_date < '2024-12-01';`}
     day: 35,
     title: 'AI Agents for Product Managers',
     category: 'AI',
-    preview: 'Artificial intelligence is shifting from tools that respond to prompts to agents that accomplish complex tasks autonomously.',
+    preview: 'Learn how AI agents work, why building them matters, and how to create them with n8n.',
     content: (
       <div className="space-y-10">
-        <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 35: AI Agents for PMs 🦾</h1>
-        <section className="bg-indigo-900 p-10 rounded-[3rem] text-white overflow-hidden relative">
-           <div className="absolute top-0 right-0 p-8 opacity-10"><Zap className="w-48 h-48" /></div>
-           <h2 className="text-2xl font-black mb-6">Why Building Them Matters</h2>
-           <p className="text-indigo-100 text-lg font-medium leading-relaxed">
-             Understanding AI agents—and knowing how to build them using platforms like n8n—is strategically essential for PMs who want to operate more efficiently.
+        <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 35: AI Agents for Product Managers 🤖</h1>
+        
+        <section className="bg-indigo-50 p-10 rounded-[3rem] border border-indigo-100">
+           <h2 className="text-2xl font-black text-indigo-900 mb-6">What Are AI Agents?</h2>
+           <p className="text-indigo-800 font-medium leading-relaxed mb-6">
+             An AI agent is an autonomous system that perceives its environment, makes decisions, and takes actions to achieve specific goals without constant human intervention.
            </p>
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+             <div className="bg-white/60 p-5 rounded-2xl border border-indigo-100">
+               <h4 className="font-black text-indigo-900 mb-2 uppercase text-[10px] tracking-widest">Chatbot</h4>
+               <p className="text-xs text-indigo-800">Answers the question: "What is the weather?"</p>
+             </div>
+             <div className="bg-white/60 p-5 rounded-2xl border border-indigo-100">
+               <h4 className="font-black text-indigo-900 mb-2 uppercase text-[10px] tracking-widest">AI Agent</h4>
+               <p className="text-xs text-indigo-800">Goal: "Plan outdoor wedding" - Checks forecast, suggests dates, recommends indoor venues, and sends invites.</p>
+             </div>
+           </div>
         </section>
 
-        <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
-           <div className="p-8 bg-white border border-zinc-100 rounded-3xl shadow-sm space-y-4">
-              <h4 className="font-black text-xs uppercase tracking-widest text-indigo-600">Enter n8n</h4>
-              <p className="text-sm font-bold text-zinc-600">n8n is a visual workflow automation platform that makes building AI agents accessible to non-engineers.</p>
-              <ul className="text-xs space-y-2 text-zinc-400 font-bold">
-                 <li>• Visual workflow editor (Drag & Drop)</li>
-                 <li>• AI model integration (Claude/GPT-4)</li>
-                 <li>• Hundreds of pre-built tool nodes</li>
-                 <li>• Conditional logic & branching</li>
-              </ul>
+        <section className="space-y-8">
+           <h2 className="text-2xl font-black text-zinc-900">Defining Characteristics</h2>
+           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {[
+                { title: 'Autonomy', desc: 'Operate independently; you define the goal, they figure out the how.' },
+                { title: 'Reasoning', desc: 'Break complex goals into subtasks and sequence actions logically.' },
+                { title: 'Tool Use', desc: 'Invoke external APIs, search the web, query DBs, or send emails.' },
+                { title: 'Memory', desc: 'Remember previous context and learn from past actions over time.' },
+                { title: 'Feedback', desc: 'Observe results of their actions and adjust strategies accordingly.' },
+                { title: 'Goal-Directed', desc: 'Focus on outcomes rather than just simple step-by-step queries.' },
+              ].map((item, i) => (
+                <div key={i} className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm">
+                   <h4 className="font-black text-indigo-600 mb-2 uppercase tracking-widest text-[10px]">{item.title}</h4>
+                   <p className="text-xs font-bold text-zinc-500 leading-relaxed">{item.desc}</p>
+                </div>
+              ))}
            </div>
-           <div className="p-8 bg-zinc-50 rounded-3xl border border-zinc-200">
-              <h4 className="font-black text-xs uppercase tracking-widest text-zinc-400 mb-4">Other Platforms</h4>
-              <ul className="space-y-3 text-xs font-bold text-zinc-600">
-                 <li>• <strong>Zapier/Make:</strong> Extremely accessible automation.</li>
-                 <li>• <strong>LangChain:</strong> Powerful developer framework.</li>
-                 <li>• <strong>Voiceflow:</strong> Conversational design tools.</li>
-                 <li>• <strong>LlamaIndex:</strong> Focused on private data RAG.</li>
-              </ul>
+        </section>
+
+        <section className="bg-zinc-950 p-10 rounded-[3rem] text-white">
+           <h2 className="text-2xl font-black mb-8 text-indigo-400 tracking-tighter">Why PMs Should Build Agents</h2>
+           <ul className="space-y-6">
+              <li className="flex gap-4">
+                 <div className="w-8 h-8 rounded-lg bg-indigo-500/20 flex items-center justify-center shrink-0 border border-indigo-500/30 text-indigo-400 font-black">1</div>
+                 <p className="text-sm font-medium text-zinc-300 leading-relaxed"><strong>Visceral Understanding:</strong> Experience hallucinations and failure modes firsthand to inform realistic roadmaps.</p>
+              </li>
+              <li className="flex gap-4">
+                 <div className="w-8 h-8 rounded-lg bg-indigo-500/20 flex items-center justify-center shrink-0 border border-indigo-500/30 text-indigo-400 font-black">2</div>
+                 <p className="text-sm font-medium text-zinc-300 leading-relaxed"><strong>Rapid Prototyping:</strong> Assemble working agents in hours to test hypotheses before committing engineering resources.</p>
+              </li>
+              <li className="flex gap-4">
+                 <div className="w-8 h-8 rounded-lg bg-indigo-500/20 flex items-center justify-center shrink-0 border border-indigo-500/30 text-indigo-400 font-black">3</div>
+                 <p className="text-sm font-medium text-zinc-300 leading-relaxed"><strong>Better Collaboration:</strong> Speak the language of agent architectures and reliable tool integration with dev teams.</p>
+              </li>
+           </ul>
+        </section>
+
+        <section className="p-10 bg-white border border-zinc-100 rounded-[3rem] shadow-sm">
+           <h2 className="text-2xl font-black text-zinc-900 mb-6">Enter n8n: The PM's Agent Studio</h2>
+           <p className="text-zinc-600 font-medium mb-8">n8n provides a visual, low-code canvas to connect AI models with production tools without writing code.</p>
+           
+           <div className="space-y-4">
+              <div className="p-6 bg-zinc-50 rounded-2xl border border-zinc-100">
+                 <h4 className="font-black text-zinc-900 mb-1">Visual Workflow Editor</h4>
+                 <p className="text-xs text-zinc-500 font-bold">Drag and drop nodes representing actions: call AI, fetch web content, query DBs.</p>
+              </div>
+              <div className="p-6 bg-zinc-50 rounded-2xl border border-zinc-100">
+                 <h4 className="font-black text-zinc-900 mb-1">Tool Node Integration</h4>
+                 <p className="text-xs text-zinc-500 font-bold">Hundreds of pre-built nodes for Slack, Gmail, Notion, Salesforce, and Jira.</p>
+              </div>
+              <div className="p-6 bg-zinc-50 rounded-2xl border border-zinc-100">
+                 <h4 className="font-black text-zinc-900 mb-1">Memory & State</h4>
+                 <p className="text-xs text-zinc-500 font-bold">Maintain conversation history and store preferences across different interactions.</p>
+              </div>
            </div>
         </section>
       </div>
     ),
     assignment: (
-      <div className="space-y-4">
-        <h4 className="font-black text-indigo-900">Task: Build an AI Agent</h4>
-        <p className="text-sm font-medium text-zinc-600 italic">Build an AI agent that actually solves a problem you face using the tools introduced today.</p>
-        <a href="https://youtu.be/ZHH3sr234zY?si=5qMS4pLlfl2gYaDs" target="_blank" rel="noreferrer" className="block mt-4 text-xs font-black text-indigo-600 underline">Watch n8n Tutorial</a>
+      <div className="space-y-6">
+        <div className="bg-emerald-50 p-6 rounded-2xl border border-emerald-100 mb-6">
+           <h4 className="font-black text-emerald-900 mb-2">Build an AI Agent</h4>
+           <p className="text-sm text-emerald-800 font-medium">Build an AI agent that actually solves a problem you face using tools like n8n, Zapier, or Voiceflow.</p>
+        </div>
+        <div className="pt-8 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
+           <p>Previous: Agent Workflow</p>
+           <p>Up next: Proof of work-one</p>
+        </div>
       </div>
-    )
+    ),
+    resources: [
+        { title: "WATCH: AI Agent Building Tutorial", url: "https://youtu.be/ZHH3sr234zY?si=5qMS4pLlfl2gYaDs", type: "video" }
+    ]
   },
   {
     day: 36,
