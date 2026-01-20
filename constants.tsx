@@ -4,7 +4,8 @@ import {
   Lightbulb, Search, BarChart, 
   Code, Bot, Layers, Brain, Target, Sparkles, CheckCircle, Smartphone, Zap, Users, MessageSquare, Rocket, Activity, Database, Cpu, X, Box, HelpCircle, Terminal, TrendingUp, Settings2, ShieldCheck,
   FileText, Calendar, Compass, ClipboardList, PenTool, Hammer, Ship, RefreshCcw, Layout, FileEdit, PieChart, Send, Clock, ArrowRight, Play, LineChart, Recycle, Settings, HeartHandshake, Package, Beaker, AlertTriangle, Eye, Scale,
-  BookOpen, ExternalLink, Map, Ear, UserCheck, Link, Smile, History, FileStack, Presentation, Megaphone, Briefcase, Users2, DollarSign, TrendingDown, Percent, ClipboardCheck, Mic2, Users2 as UsersIcon, Star, BarChart2, GraduationCap
+  BookOpen, ExternalLink, Map, Ear, UserCheck, Link, Smile, History, FileStack, Presentation, Megaphone, Briefcase, Users2, DollarSign, TrendingDown, Percent, ClipboardCheck, Mic2, Users2 as UsersIcon, Star, BarChart2, GraduationCap,
+  MonitorPlay
 } from 'lucide-react';
 
 export const getCategoryColor = (category: Category): string => {
@@ -418,9 +419,9 @@ export const LESSONS: Lesson[] = [
                { title: 'Empathy & Customer Needs', desc: 'Listening for spoken and unspoken pain points and emotional drivers.', icon: HeartHandshake },
                { title: 'Market & Competitive Insight', desc: 'Analyzing trends and mapping competitor gaps to find unique value.', icon: Eye },
                { title: 'Design & UX Perspective', desc: 'Recognizing good flows and how design decisions affect engagement.', icon: Layout },
-               { stage: '04', title: 'Problem Framing & Mapping', desc: 'Distinguishing root causes from symptoms and exploring options.', icon: Map },
-               { stage: '05', title: 'Feasibility & Execution', desc: 'Balancing ambitious ideas with tech constraints and timelines.', icon: Hammer },
-               { stage: '06', title: 'Iteration & Validation', desc: 'Using prototypes and experiments to adjust based on real data.', icon: RefreshCcw },
+               { title: 'Problem Framing & Mapping', desc: 'Distinguishing root causes from symptoms and exploring options.', icon: Map },
+               { title: 'Feasibility & Execution', desc: 'Balancing ambitious ideas with tech constraints and timelines.', icon: Hammer },
+               { title: 'Iteration & Validation', desc: 'Using prototypes and experiments to adjust based on real data.', icon: RefreshCcw },
              ].map((pillar, i) => (
                <div key={pillar.title} className="group p-8 bg-white border border-zinc-100 rounded-[2.5rem] hover:border-indigo-100 hover:shadow-xl transition-all">
                   <div className="w-14 h-14 bg-zinc-50 rounded-2xl flex items-center justify-center text-zinc-400 group-hover:bg-indigo-600 group-hover:text-white transition-colors shadow-inner mb-6">
@@ -1847,32 +1848,118 @@ AND signup_date < '2024-12-01';`}
   },
   {
     day: 30,
-    title: 'Prompt Engineering for PMs',
+    title: 'Prompt Engineering for Product Managers',
     category: 'AI',
-    preview: 'Learn how to write effective prompts so that LLMs return useful, reliable, and actionable outputs.',
+    preview: 'Learn how to write effective prompts so that LLMs return useful, reliable, and actionable outputs — a must-have skill for PMs.',
     content: (
-      <div className="space-y-10">
-        <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 30: Prompt Engineering ✍️</h1>
+      <div className="space-y-10 text-left">
+        <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 30: Prompt Engineering for Product Managers ✍️</h1>
+        
         <section className="bg-orange-50 p-10 rounded-[3rem] border border-orange-100">
-           <h2 className="text-2xl font-black text-orange-900 mb-4">Practical Prompting</h2>
-           <p className="text-orange-800 font-medium leading-relaxed italic">
-             "It’s not about memorizing commands — it’s about clear thinking expressed as structured instructions."
+           <h2 className="text-2xl font-black text-orange-900 mb-4">Today’s Goal</h2>
+           <p className="text-orange-800 font-medium leading-relaxed">
+             Learn how to write effective prompts so that large language models (LLMs) return useful, reliable, and actionable outputs — a must-have skill for product managers working with AI-enabled workflows, prototypes, and documentation.
            </p>
         </section>
-        <section className="p-8 bg-zinc-50 border border-zinc-200 rounded-3xl">
-           <h3 className="font-black text-zinc-900 mb-6 uppercase tracking-widest text-xs">For PMs, prompt engineering accelerates:</h3>
-           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              {['Ideation', 'Specification writing', 'Data interpretation', 'User research synthesis', 'Competitive analysis'].map(item => (
-                <div key={item} className="p-4 bg-white rounded-xl font-bold text-xs shadow-sm border border-zinc-100">{item}</div>
-              ))}
+
+        <section className="bg-zinc-50 p-10 rounded-[3rem] border border-zinc-200">
+           <h2 className="text-xl font-black text-zinc-900 mb-6 flex items-center gap-3">🎯 Learning Objectives</h2>
+           <p className="text-sm font-bold text-zinc-500 mb-4 uppercase tracking-widest">By the end of Day 30, you will be able to:</p>
+           <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm font-bold text-zinc-700">
+              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Define prompt engineering and why it matters for PMs</li>
+              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Structure prompts for clarity, context, and constraints</li>
+              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Use prompting patterns (instructions, examples, chain-of-thought)</li>
+              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Evaluate and refine prompts for consistency and accuracy</li>
+              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Apply prompting to common PM tasks (user stories, specs, analyses)</li>
+           </ul>
+        </section>
+
+        <section className="space-y-8">
+           <div className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm">
+              <h2 className="text-2xl font-black text-zinc-900 mb-4">1. What Is Prompt Engineering?</h2>
+              <p className="text-zinc-600 font-medium leading-relaxed">
+                Prompt Engineering is the practice of crafting inputs (prompts) so that a language model produces outputs that are:
+              </p>
+              <div className="flex gap-4 mt-4">
+                 {['Relevant', 'Accurate', 'Actionable'].map(tag => (
+                   <span key={tag} className="px-3 py-1 bg-indigo-50 text-indigo-600 rounded-lg text-[10px] font-black uppercase tracking-widest">{tag}</span>
+                 ))}
+              </div>
+           </div>
+
+           <div className="p-8 bg-zinc-900 rounded-[2.5rem] text-white">
+              <h3 className="font-black text-indigo-400 text-[10px] uppercase tracking-widest mb-6">For PMs, prompt engineering accelerates:</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                 {[
+                   'Ideation',
+                   'Specification writing',
+                   'Data interpretation',
+                   'User research synthesis',
+                   'Competitive analysis'
+                 ].map(item => (
+                   <div key={item} className="flex items-center gap-3 font-bold text-zinc-300 text-[11px]">
+                      <Zap className="w-3 h-3 text-indigo-400" />
+                      <span>{item}</span>
+                   </div>
+                 ))}
+              </div>
+              <p className="mt-10 p-6 bg-white/5 rounded-2xl border border-white/10 italic text-zinc-400">
+                 🧠 <strong>Insight:</strong> It’s not about memorizing commands — it’s about clear thinking expressed as structured instructions.
+              </p>
            </div>
         </section>
+
+        <section className="p-10 bg-zinc-50 border border-zinc-200 rounded-[3rem]">
+           <h2 className="text-2xl font-black text-zinc-900 mb-8">Cover: Foundations + Practical Prompting</h2>
+           
+           {/* Embedded Video Player */}
+           <div className="bg-zinc-900 rounded-3xl overflow-hidden shadow-2xl border border-zinc-800 mb-10">
+              <div className="bg-zinc-800/50 px-4 py-3 flex items-center justify-between border-b border-zinc-700/50">
+                  <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
+                      <span className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Featured Lesson</span>
+                  </div>
+                  <MonitorPlay className="w-4 h-4 text-indigo-400" />
+              </div>
+              <div className="aspect-video w-full">
+                  <iframe 
+                      src="https://www.youtube.com/embed/ysPbXH0LpIE" 
+                      className="w-full h-full" 
+                      title="Prompting 101" 
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                      allowFullScreen 
+                  />
+              </div>
+           </div>
+
+           <div className="space-y-6">
+              <div className="flex items-center gap-4 p-6 bg-white rounded-3xl border border-zinc-100 shadow-sm">
+                 <div className="w-12 h-12 rounded-2xl bg-indigo-50 flex items-center justify-center shrink-0">
+                    <MonitorPlay className="w-6 h-6 text-indigo-600" />
+                 </div>
+                 <div>
+                    <h4 className="font-black text-zinc-900 tracking-tight">📺 Prompting 101 Video</h4>
+                    <a href="https://youtu.be/ysPbXH0LpIE?si=5Riv7IB9ezFAt_Kc" target="_blank" rel="noopener noreferrer" className="text-sm font-bold text-indigo-600 underline">Watch Tutorial</a>
+                 </div>
+              </div>
+              <div className="flex items-center gap-4 p-6 bg-white rounded-3xl border border-zinc-100 shadow-sm">
+                 <div className="w-12 h-12 rounded-2xl bg-indigo-50 flex items-center justify-center shrink-0">
+                    <FileText className="w-6 h-6 text-indigo-600" />
+                 </div>
+                 <div>
+                    <h4 className="font-black text-zinc-900 tracking-tight">📜 AWS Prompt Engineering Foundation (with Certificate)</h4>
+                    <a href="https://share.google/FdZPEVTPVCkN85d33" target="_blank" rel="noopener noreferrer" className="text-sm font-bold text-indigo-600 underline">View Course</a>
+                 </div>
+              </div>
+           </div>
+        </section>
+
+        <div className="pt-8 border-t border-zinc-200 flex justify-between text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">
+           <p>Previous: LLM</p>
+           <p>Up next: CONTEXT ENGINEERING</p>
+        </div>
       </div>
-    ),
-    resources: [
-        { title: "Prompting 101 Video", url: "https://youtu.be/ysPbXH0LpIE?si=5Riv7IB9ezFAt_Kc", type: "video" },
-        { title: "AWS Prompt Engineering Foundation", url: "https://share.google/FdZPEVTPVCkN85d33", type: "article" }
-    ]
+    )
   },
   {
     day: 31,
