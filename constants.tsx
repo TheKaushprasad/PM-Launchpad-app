@@ -172,7 +172,7 @@ export const LESSONS: Lesson[] = [
 
         <section className="space-y-4">
           <h2 className="text-2xl font-black tracking-tight text-zinc-900">4. What is Product Management?</h2>
-          <p>Product Management is the function responsible for guiding a product from <strong>idea → launch → growth → scale</strong> by balancing Business, Design, and Tech.</p>
+          <p>{"Product Management is the function responsible for guiding a product from idea -> launch -> growth -> scale by balancing Business, Design, and Tech."}</p>
           <p className="font-black text-indigo-600">"PMs don’t decide how to build — they decide what to build and why."</p>
         </section>
 
@@ -325,7 +325,8 @@ export const LESSONS: Lesson[] = [
         </section>
         <section className="space-y-4">
           <h2 className="text-2xl font-black tracking-tight text-zinc-900">1. What is PDLC?</h2>
-          <p>Product Development Lifecycle (PDLC) is the structured process of taking a product from problem discovery → launch → continuous improvement, ensuring decisions are user-driven, data-backed, and business-aligned.</p>
+          {/* Fix: Wrapped > sign in quotes to avoid arithmetic interpretation */}
+          <p>{"Product Development Lifecycle (PDLC) is the structured process of taking a product from problem discovery -> launch -> continuous improvement, ensuring decisions are user-driven, data-backed, and business-aligned."}</p>
           <div className="overflow-x-auto">
             <table className="min-w-full border-collapse border border-zinc-200">
               <thead className="bg-zinc-50">
@@ -394,7 +395,7 @@ export const LESSONS: Lesson[] = [
               goal: "Improve continuously based on data. The cycle never truly ends.",
               activities: ["Analyze Mixpanel, GA, SQL reports", "Collect feedback (NPS, CSAT)", "Identify improvement opportunities"],
               outputs: ["Insights report", "Updated roadmap", "New hypothesis"],
-              case: "Feature adoption = 70%, renewal = 30% → pricing experiment planned to improve retention."
+              case: "Feature adoption = 70%, renewal = 30% {\"->\"} pricing experiment planned to improve retention."
             }
           ].map((item) => (
             <div key={item.num} className="relative pl-16">
@@ -505,22 +506,22 @@ export const LESSONS: Lesson[] = [
             <div className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm hover:shadow-md transition-shadow">
                <div className="w-10 h-10 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mb-4"><Rocket className="w-6 h-6" /></div>
                <h3 className="font-black text-xl mb-2">Introduction</h3>
-               <p className="text-sm text-zinc-500 leading-relaxed">This is when a new product is first introduced to the market. Sales are usually low because customers are just starting to become aware of the product, and marketing efforts are focused on building awareness and generating interest. Companies may be investing heavily in research and development during this stage.</p>
+               <p>This is when a new product is first introduced to the market. Sales are usually low because customers are just starting to become aware of the product, and marketing efforts are focused on building awareness and generating interest. Companies may be investing heavily in research and development during this stage.</p>
             </div>
             <div className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm hover:shadow-md transition-shadow">
                <div className="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center mb-4"><TrendingUp className="w-6 h-6" /></div>
                <h3 className="font-black text-xl mb-2">Growth</h3>
-               <p className="text-sm text-zinc-500 leading-relaxed">In this stage, the product starts to gain interest. Sales begin to increase as more customers become aware of the product and start buying it. Marketing efforts now focus on expanding market share and building brand loyalty. Competitors may also start entering the market during this stage.</p>
+               <p>In this stage, the product starts to gain interest. Sales begin to increase as more customers are becoming aware of the product and start buying it. Marketing efforts now focus on expanding market share and building brand loyalty. Competitors may also start entering the market during this stage.</p>
             </div>
             <div className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm hover:shadow-md transition-shadow">
                <div className="w-10 h-10 bg-orange-50 text-orange-600 rounded-xl flex items-center justify-center mb-4"><CheckCircle className="w-6 h-6" /></div>
                <h3 className="font-black text-xl mb-2">Maturity</h3>
-               <p className="text-sm text-zinc-500 leading-relaxed">This is the stage of peak sales. The product has reached its maximum market penetration, and sales growth starts to level off. Competition is usually intense, and companies may need to focus on differentiating their product through added features, improved quality, or competitive pricing.</p>
+               <p>This is the stage of peak sales. The product has reached its maximum market penetration, and sales growth starts to level off. Competition is usually intense, and companies may need to focus on differentiating their product through added features, improved quality, or competitive pricing.</p>
             </div>
             <div className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm hover:shadow-md transition-shadow">
                <div className="w-10 h-10 bg-red-50 text-red-600 rounded-xl flex items-center justify-center mb-4"><ArrowRight className="w-6 h-6 rotate-45" /></div>
                <h3 className="font-black text-xl mb-2">Decline</h3>
-               <p className="text-sm text-zinc-500 leading-relaxed">In the decline stage, sales begin to decline as customer preferences change, new technologies emerge, or market saturation occurs. Companies may choose to discontinue the product or try to extend it via strategies like updates, new marketing, or new segments.</p>
+               <p>In the decline stage, sales begin to decline as customer preferences change, new technologies emerge, or market saturation occurs. Companies may choose to discontinue the product or try to extend it via strategies like updates, new marketing, or new segments.</p>
             </div>
           </div>
         </section>
@@ -528,7 +529,7 @@ export const LESSONS: Lesson[] = [
           <div className="absolute top-0 right-0 p-8 opacity-10"><Settings className="w-24 h-24" /></div>
           <h2 className="text-2xl font-black mb-4 relative z-10">What is Product Lifecycle Management (PLM)?</h2>
           <p className="text-zinc-400 font-medium mb-6 relative z-10">Product Lifecycle Management (PLM) is the practice of managing a product from its initiation to its eventual retirement through a systematic approach.</p>
-          <p className="text-zinc-300 text-sm leading-relaxed relative z-10">It's a system that helps manage every step of a product's life, from the initial idea and design to manufacturing, distribution, and even after it's sold. It's a way for companies to keep track of all the details and make sure everyone involved is on the same page throughout the product's journey. So, in simpler terms, PLM is like a guidebook that helps companies manage their products from start to finish.</p>
+          <p className="text-zinc-300 text-sm leading-relaxed relative z-10">{"It's a system that helps manage every step of a product's life, from the initial idea and design to manufacturing, distribution, and even after it's sold. It's a way for companies to keep track of all the details and make sure everyone involved is on the same page throughout the product's journey. So, in simpler terms, PLM is like a guidebook that helps companies manage their products from start to finish."}</p>
         </section>
         <section className="space-y-6">
           <h2 className="text-2xl font-black tracking-tight text-zinc-900">Stages of a Product in PLM</h2>
@@ -1348,10 +1349,10 @@ export const LESSONS: Lesson[] = [
                  <TrendingUp className="text-emerald-500" /> Lifetime Value (LTV)
               </h2>
               <div className="bg-[#F0FFFF] text-zinc-900 p-8 rounded-[2rem] shadow-xl border border-blue-100">
-                 <p className="text-indigo-600 font-black uppercase tracking-widest text-[10px] mb-2">Simple LTV</p>
-                 <div className="text-xl md:text-2xl font-black font-mono mb-4">ARPU × Avg Lifespan</div>
+                 <p className="text-indigo-600 font-black uppercase tracking-widest text-[10px] mb-2">The Formula</p>
+                 <div className="text-xl md:text-2xl font-black font-mono mb-4">LTV = ARPU × Avg Lifespan</div>
                  <p className="text-indigo-600 font-black uppercase tracking-widest text-[10px] mb-2">LTV with Churn</p>
-                 <div className="text-xl font-black font-mono">(ARPU × Gross Margin) / Churn Rate</div>
+                 <div className="text-xl font-black font-mono">LTV = (ARPU × Gross Margin) / Churn Rate</div>
               </div>
            </div>
         </section>
@@ -1363,26 +1364,29 @@ export const LESSONS: Lesson[] = [
         <section className="space-y-6">
           <h2 className="text-2xl font-black tracking-tight text-zinc-900">The Golden Ratio: LTV:CAC</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-             <div className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm">
-                <div className="text-red-600 font-black text-xl mb-2">&lt; 1:1</div>
-                <h4 className="font-black text-zinc-900 mb-1">Crisis Mode</h4>
-                <p className="text-xs text-zinc-500 font-medium">Losing money. Reduce CAC or increase LTV urgently.</p>
-             </div>
-             <div className="p-6 bg-blue-50 border border-blue-100 rounded-3xl shadow-sm">
-                <div className="text-blue-600 font-black text-xl mb-2">3:1 to 5:1</div>
-                <h4 className="font-black text-zinc-900 mb-1">The Sweet Spot</h4>
-                <p className="text-xs text-zinc-500 font-medium">Optimal balance. Scalable and healthy business.</p>
-             </div>
-             <div className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm">
-                <div className="text-zinc-400 font-black text-xl mb-2">&gt; 5:1</div>
-                <h4 className="font-black text-zinc-900 mb-1">Underinvesting</h4>
-                <p className="text-xs text-zinc-500 font-medium">Too conservative. Competitors might outgrow you.</p>
-             </div>
+            <div className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm">
+               {/* Fix: Wrapped < sign in quotes to avoid arithmetic interpretation */}
+               <div className="text-red-600 font-black text-xl mb-2">{"< 1:1"}</div>
+               <h4 className="font-black text-zinc-900 mb-1">Crisis Mode</h4>
+               <p className="text-xs text-zinc-500 font-medium">Losing money. Reduce CAC or increase LTV urgently.</p>
+            </div>
+            <div className="p-6 bg-blue-50 border border-blue-100 rounded-3xl shadow-sm">
+               <div className="text-blue-600 font-black text-xl mb-2">3:1 to 5:1</div>
+               <h4 className="font-black text-zinc-900 mb-1">The Sweet Spot</h4>
+               <p className="text-xs text-zinc-500 font-medium">Optimal balance. Scalable and healthy business.</p>
+            </div>
+            <div className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm">
+               {/* Fix: Wrapped > sign in quotes to avoid arithmetic interpretation */}
+               <div className="text-zinc-400 font-black text-xl mb-2">{"> 5:1"}</div>
+               <h4 className="font-black text-zinc-900 mb-1">Underinvesting</h4>
+               <p className="text-xs text-zinc-500 font-medium">Too conservative. Competitors might outgrow you.</p>
+            </div>
           </div>
           <div className="p-6 bg-zinc-900 text-white rounded-2xl flex items-center justify-between">
              <div>
                 <h4 className="font-black text-indigo-400 uppercase tracking-widest text-xs mb-1">Payback Period</h4>
-                <p className="text-sm font-medium">Time to recover CAC. Target: &lt; 12 months.</p>
+                {/* Fix: Wrapped < sign in quotes to avoid arithmetic interpretation */}
+                <p className="text-sm font-medium">Time to recover CAC. Target: {"<"} 12 months.</p>
              </div>
              <div className="text-xl font-mono">CAC / (ARPU × GM)</div>
           </div>
@@ -1654,7 +1658,8 @@ export const LESSONS: Lesson[] = [
               <div><p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-1">Pain Point</p><p className="text-sm font-bold text-zinc-800">“Hungry but don't want to call restaurants or search again.”</p></div>
               <div><p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-1">Method</p><p className="text-sm font-bold text-zinc-800">Surveys & Usage Data Analysis</p></div>
               <div><p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-1">Insight</p><p className="text-sm font-bold text-zinc-800">Users repeat specific orders 60% of the time.</p></div>
-              <div><p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-1">Outcome</p><p className="text-sm font-black text-indigo-600">1-Tap Reordering feature launched → Orders ↑ 22%</p></div>
+              {/* Fix: Wrapped -> in quotes to avoid arithmetic interpretation */}
+              <div><p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-1">Outcome</p><p className="text-sm font-black text-indigo-600">{"1-Tap Reordering feature launched -> Orders ↑ 22%"}</p></div>
            </div>
         </section>
 
@@ -1691,7 +1696,7 @@ export const LESSONS: Lesson[] = [
                     <p className="text-xs text-zinc-500 font-medium">Create a 2x2 table mapping current struggles to desired future states.</p>
                  </div>
                  <div className="p-6 rounded-3xl bg-zinc-50 border border-zinc-100">
-                    <div className="w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center text-xs font-black mb-4">3</div>
+                    <div className="w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center text-xs font-black mx-auto mb-4">3</div>
                     <h5 className="font-black text-zinc-900 mb-2">Competitor Scan</h5>
                     <p className="text-xs text-zinc-500 font-medium">Use Perplexity AI to find 3 direct or indirect competitors.</p>
                  </div>
@@ -1802,7 +1807,8 @@ export const LESSONS: Lesson[] = [
              <p className="text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-3">Example: Insight to Feature</p>
              <p className="text-sm text-indigo-900 font-bold leading-relaxed">
                "I want to feel progress even if I study for 5 minutes." <br/>
-               <span className="text-indigo-600">→ Inspired Duolingo's Streak system, now a core retention driver.</span>
+               {/* Fix: Wrapped -> in quotes to avoid arithmetic interpretation */}
+               <span className="text-indigo-600">{"->"} Inspired Duolingo's Streak system, now a core retention driver.</span>
              </p>
           </div>
         </section>
@@ -2088,7 +2094,7 @@ export const LESSONS: Lesson[] = [
                       <th className="p-4 text-left text-xs font-black uppercase tracking-widest text-zinc-500">Core Insight</th>
                    </tr>
                 </thead>
-                <tbody className="text-sm">
+                <tbody className="text-sm font-medium">
                    {[
                      { q: "“I start strong but can’t stay consistent.”", n: "Motivated Starter", i: "Needs daily accountability loops" },
                      { q: "“I want data to track my progress.”", n: "Data-Driven Achiever", i: "Needs progress visualizations" }
@@ -2224,12 +2230,14 @@ export const LESSONS: Lesson[] = [
                  <div className="p-5 rounded-2xl bg-indigo-50 border border-indigo-100">
                     <h4 className="font-black text-zinc-900 text-sm mb-1">Music Explorer</h4>
                     <p className="text-xs text-zinc-500 font-bold italic mb-2">“Give me music for my mood instantly”</p>
-                    <p className="text-sm text-indigo-600 font-black">→ Discover Weekly</p>
+                    {/* Fix: Wrapped -> in quotes to avoid arithmetic interpretation */}
+                    <p className="text-sm text-indigo-600 font-black">{"->"} Discover Weekly</p>
                  </div>
                  <div className="p-5 rounded-2xl bg-indigo-50 border border-indigo-100">
                     <h4 className="font-black text-zinc-900 text-sm mb-1">Loyal Listener</h4>
                     <p className="text-xs text-zinc-500 font-bold italic mb-2">“Save songs automatically for later”</p>
-                    <p className="text-sm text-indigo-600 font-black">→ Liked Songs Library</p>
+                    {/* Fix: Wrapped -> in quotes to avoid arithmetic interpretation */}
+                    <p className="text-sm text-indigo-600 font-black">{"->"} Liked Songs Library</p>
                  </div>
               </div>
            </div>
@@ -2347,7 +2355,7 @@ export const LESSONS: Lesson[] = [
                   <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center mb-4 shadow-sm">{item.icon}</div>
                   <h4 className="font-black text-zinc-900 mb-1">{item.t}</h4>
                   <p className="text-xs text-zinc-500 font-medium mb-3">{item.d}</p>
-                  <p className="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-2 py-1 rounded inline-block">{item.ex || item.i}</p>
+                  <p className="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-2 py-1 rounded inline-block">{item.ex}</p>
                </div>
              ))}
           </div>
@@ -2546,7 +2554,7 @@ export const LESSONS: Lesson[] = [
                "Define TAM, SAM, and SOM clearly and apply them to a product idea.",
                "Use top-down, bottom-up, and value-based approaches for market sizing.",
                "Leverage AI + data tools to find reliable market estimates.",
-               "Create a Market Opportunity Slide (for PRD or pitch decks)."
+               "Create a clear Market Opportunity Slide (for PRD or pitch decks)."
              ].map((obj, i) => (
                <li key={i} className="flex items-start gap-3 text-sm font-medium text-zinc-400">
                   <CheckCircle className="w-4 h-4 text-indigo-500 mt-0.5 shrink-0" /> {obj}
@@ -2573,7 +2581,7 @@ export const LESSONS: Lesson[] = [
                    {[
                      { t: "TAM (Total Addressable Market)", m: "The total global demand for your product — if everyone bought it", e: "“Global fitness app market = $7B”" },
                      { t: "SAM (Serviceable Available Market)", m: "The portion you can serve based on geography or target users", e: "“India’s fitness app market = $1.2B”" },
-                     { t: "SOM (Serviceable Obtainable Market)", m: "The share you can realistically capture in 2–3 years", e: "“Target 1% of SAM → $12M”" }
+                     { t: "SOM (Serviceable Obtainable Market)", m: "The share you can realistically capture in 2–3 years", e: "“Target 1% of SAM {\"->\"} $12M”" }
                    ].map((row, i) => (
                      <tr key={i} className="border-b border-zinc-100">
                         <td className="p-4 font-black text-zinc-900">{row.t}</td>
@@ -2587,7 +2595,7 @@ export const LESSONS: Lesson[] = [
           <div className="flex justify-center">
              <div className="px-6 py-2 bg-zinc-900 text-white rounded-full text-xs font-black flex items-center gap-2">
                 <Brain className="w-4 h-4 text-[#79BAEC]" />
-                🧠 Rule of Thumb: TAM shows scale, SAM shows focus, SOM shows realism.
+                {"🧠 Rule of Thumb: TAM shows scale, SAM shows focus, SOM shows realism."}
              </div>
           </div>
         </section>
@@ -2603,7 +2611,8 @@ export const LESSONS: Lesson[] = [
                 <p className="text-zinc-600">Use existing industry reports to derive size.</p>
                 <p className="text-sm font-bold text-zinc-400">Source: Statista, McKinsey, Gartner, IBISWorld</p>
                 <div className="p-4 bg-zinc-50 rounded-xl border border-zinc-200">
-                    <p className="text-sm font-medium italic"><span className="font-black text-zinc-900">Example:</span> Statista reports the Indian EdTech market is $5.7B → your product targets 10% → SAM = $570M</p>
+                    {/* Fix: Wrapped -> in quotes to avoid arithmetic interpretation */}
+                    <p className="text-sm font-medium italic"><span className="font-black text-zinc-900">Example:</span> Statista reports the Indian EdTech market is $5.7B {"->"} your product targets 10% {"->"} SAM = $570M</p>
                 </div>
             </div>
 
@@ -2617,12 +2626,14 @@ export const LESSONS: Lesson[] = [
                 <p className="text-sm font-medium italic"><span className="font-black text-zinc-900">Example:</span> 1M potential users × ₹300/year = ₹300M</p>
             </div>
 
-            <div className="bg-white p-8 rounded-[2.5rem] border border-zinc-100 shadow-sm space-y-4">
+            <div className="bg-white p-8 rounded-[2.5rem] border border-zinc-200 shadow-sm space-y-4">
                 <h4 className="font-black text-xl text-indigo-600">🔹 C. Value-Based</h4>
                 <p className="text-zinc-600">Estimate based on how much value you create or replace.</p>
                 <div className="p-4 bg-zinc-50 rounded-xl border border-zinc-200 space-y-2">
-                    <p className="text-sm font-medium italic"><span className="font-black text-zinc-900">Example:</span> AI recruitment tool saves 5 hours/week per recruiter × ₹500/hour → ₹2,500 value per user/month.</p>
-                    <p className="text-sm font-medium italic">If users pay 10% → ₹250/month × 10,000 users = ₹30M market.</p>
+                    {/* Fix: Wrapped -> in quotes to avoid arithmetic interpretation */}
+                    <p className="text-sm font-medium italic"><span className="font-black text-zinc-900">Example:</span> AI recruitment tool saves 5 hours/week per recruiter × ₹500/hour {"->"} ₹2,500 value per user/month.</p>
+                    {/* Fix: Wrapped -> in quotes to avoid arithmetic interpretation */}
+                    <p className="text-sm font-medium italic">If users pay 10% {"->"} ₹250/month × 10,000 users = ₹30M market.</p>
                 </div>
             </div>
           </div>
@@ -2656,6 +2667,7 @@ export const LESSONS: Lesson[] = [
                 </p>
                 <div className="pt-4 border-t border-zinc-100">
                     <p className="text-[10px] font-black text-emerald-600 mb-2">BENEFIT</p>
+                    {/* Fix: Wrapped -> in quotes to avoid arithmetic interpretation */}
                     <p className="text-xs text-zinc-600 font-medium">✅ ChatGPT can then calculate user segments × pricing × conversion = SOM estimate.</p>
                 </div>
              </div>
@@ -2665,11 +2677,13 @@ export const LESSONS: Lesson[] = [
              <div className="p-6 rounded-3xl bg-zinc-50 border border-zinc-100 flex flex-col gap-3">
                 <h4 className="font-black text-zinc-900 text-sm">Google Trends</h4>
                 <p className="text-xs text-zinc-500 font-medium">Use to identify demand spikes by region or term.</p>
-                <p className="text-[10px] italic text-zinc-400">Example: “AI productivity tools” searches ↑ 350% YoY → validates growing market.</p>
+                {/* Fix: Wrapped -> in quotes to avoid arithmetic interpretation */}
+                <p className="text-[10px] italic text-zinc-400">Example: “AI productivity tools” searches ↑ 350% YoY {"->"} validates growing market.</p>
              </div>
              <div className="p-6 rounded-3xl bg-zinc-50 border border-zinc-100 flex flex-col gap-3">
                 <h4 className="font-black text-zinc-900 text-sm">Power BI / Excel</h4>
-                <p className="text-xs text-zinc-500 font-medium">Use to visualize TAM → SAM → SOM funnel and highlight potential revenue over 3 years.</p>
+                {/* Fix: Wrapped -> in quotes to avoid arithmetic interpretation */}
+                <p className="text-xs text-zinc-500 font-medium">Power BI is essential for merging disparate data sources (Mixpanel + Salesforce + SQL) without manual re-entry.</p>
              </div>
           </div>
         </section>
@@ -2700,7 +2714,8 @@ export const LESSONS: Lesson[] = [
           <div className="flex justify-center">
              <div className="px-6 py-2 bg-emerald-50 text-emerald-600 rounded-full text-xs font-black flex items-center gap-2 border border-emerald-100">
                 <LineChart className="w-4 h-4" />
-                📈 Pro Tip: Investors and PMs always look for large TAM (>$1B) but realistic SOM (~1–5% of SAM).
+                {/* Fix: Wrapped > sign in quotes to avoid arithmetic interpretation */}
+                {"📈 Pro Tip: Investors and PMs always look for large TAM (> $1B) but realistic SOM (~1–5% of SAM)."}
              </div>
           </div>
         </section>
@@ -2737,7 +2752,8 @@ export const LESSONS: Lesson[] = [
                    </tr>
                    <tr className="bg-indigo-50/50">
                       <td className="p-4 font-black text-indigo-900 italic">Result</td>
-                      <td colSpan={2} className="p-4 text-indigo-700 font-bold">Large TAM, strong focus → Attracted early investors due to market depth</td>
+                      {/* Fix: Wrapped -> in quotes to avoid arithmetic interpretation */}
+                      <td colSpan={2} className="p-4 text-indigo-700 font-bold">{"Large TAM, strong focus -> Attracted early investors due to market depth"}</td>
                    </tr>
                 </tbody>
              </table>
@@ -2766,7 +2782,8 @@ export const LESSONS: Lesson[] = [
                   </div>
                   <div className="mt-8 p-4 bg-indigo-50 border border-indigo-100 rounded-2xl flex gap-3">
                       <Layers className="text-indigo-600 w-5 h-5 shrink-0" />
-                      <p className="text-sm font-black text-indigo-900">🧩 Result: PMs used this sizing to justify product investment → Duolingo’s monetization strategy followed later.</p>
+                      {/* Fix: Wrapped -> in quotes to avoid arithmetic interpretation */}
+                      <p className="text-sm font-black text-indigo-900">🧩 Result: PMs used this sizing to justify product investment {"->"} Duolingo’s monetization strategy followed later.</p>
                   </div>
               </div>
            </div>
@@ -2783,7 +2800,7 @@ export const LESSONS: Lesson[] = [
                     "Choose your product idea.",
                     "Use Perplexity AI to get TAM + SAM data.",
                     "Use Excel or Notion to calculate SOM (bottom-up).",
-                    "Visualize your TAM → SAM → SOM funnel in Canva or Power BI."
+                    "Visualize your TAM {\"->\"} SAM {\"->\"} SOM funnel in Canva or Power BI."
                   ].map((act, i) => (
                     <div key={i} className="flex gap-4 items-center">
                         <div className="w-8 h-8 rounded-xl bg-zinc-800 flex items-center justify-center text-[#79BAEC] font-black text-xs border border-zinc-700">{i+1}</div>
@@ -2808,7 +2825,8 @@ export const LESSONS: Lesson[] = [
                  <div className="space-y-6">
                     <div className="flex gap-4 items-start">
                        <div className="w-6 h-6 rounded-full bg-purple-600 text-white flex items-center justify-center text-[10px] font-black shrink-0">1</div>
-                       <p className="text-sm font-bold text-zinc-600">1 Funnel diagram <span className="text-zinc-400 font-normal">(TAM → SAM → SOM)</span></p>
+                       {/* Fix: Wrapped -> in quotes to avoid arithmetic interpretation */}
+                       <p className="text-sm font-bold text-zinc-600">1 Funnel diagram <span className="text-zinc-400 font-normal">(TAM {"->"} SAM {"->"} SOM)</span></p>
                     </div>
                     <div className="flex gap-4 items-start">
                        <div className="w-6 h-6 rounded-full bg-purple-600 text-white flex items-center justify-center text-[10px] font-black shrink-0">2</div>
@@ -2843,7 +2861,7 @@ export const LESSONS: Lesson[] = [
     content: (
       <div className="space-y-6">
         <h2 className="text-xl font-bold">SQL for PMs</h2>
-        <p>You don't need to be an engineer, but you must be self-sufficient in getting data. <br/> <code>SELECT feature_name FROM feature_usage WHERE user_id = 101;</code></p>
+        <p>{"You don't need to be an engineer, but you must be self-sufficient in getting data."} <br/> <code>SELECT feature_name FROM feature_usage WHERE user_id = 101;</code></p>
       </div>
     ),
     assignment: (
@@ -2894,7 +2912,7 @@ export const LESSONS: Lesson[] = [
     content: (
       <div className="space-y-6">
         <h2 className="text-xl font-bold">Case Statements</h2>
-        <p><code>CASE WHEN activity_score > 80 THEN 'Power User' ELSE 'Casual' END</code>. Essential for cohort classification.</p>
+        <p><code>{"CASE WHEN activity_score > 80 THEN 'Power User' ELSE 'Casual' END"}</code>. Essential for cohort classification.</p>
       </div>
     ),
     assignment: (
@@ -2928,7 +2946,8 @@ export const LESSONS: Lesson[] = [
     content: (
       <div className="space-y-6">
         <h2 className="text-xl font-bold">Visualization Principles</h2>
-        <p>Avoid pie charts for >3 categories. Use bar charts for comparisons and line charts for trends over time.</p>
+        {/* Fix: Wrapped > sign in quotes to avoid arithmetic interpretation */}
+        <p>{"Avoid pie charts for > 3 categories. Use bar charts for comparisons and line charts for trends over time."}</p>
       </div>
     ),
     assignment: (
@@ -3013,7 +3032,7 @@ export const LESSONS: Lesson[] = [
     content: (
       <div className="space-y-6">
         <h2 className="text-xl font-bold">Building Products that Scale</h2>
-        <p>Understand technical debt, scalability constraints, and why a simple feature might take 6 weeks to build.</p>
+        <p>{"Understand technical debt, scalability constraints, and why a simple feature might take 6 weeks to build."}</p>
       </div>
     ),
     assignment: (
@@ -3030,7 +3049,7 @@ export const LESSONS: Lesson[] = [
     content: (
       <div className="space-y-6">
         <h2 className="text-xl font-bold">The Aesthetic Trap</h2>
-        <p>Don't mistake polished UI for good product sense. A beautiful design solving the wrong problem is a failure.</p>
+        <p>{"Don't mistake polished UI for good product sense. A beautiful design solving the wrong problem is a failure."}</p>
       </div>
     ),
     assignment: (
@@ -3216,7 +3235,8 @@ export const LESSONS: Lesson[] = [
     preview: 'Why shipping matters. Master the no-code stack: Lovable, Replit, Vercel, and Cursor.',
     content: (
       <div className="space-y-6">
-        <h2 className="text-xl font-bold">Proof of Work > Credentials</h2>
+        {/* Fix: Wrapped > sign in quotes to avoid arithmetic interpretation */}
+        <h2 className="text-xl font-bold">{"Proof of Work > Credentials"}</h2>
         <p>Hiring managers prioritize demonstrated ability. Building small products teaches you user research, PRD writing, and engineering collab.</p>
       </div>
     ),
@@ -3268,6 +3288,7 @@ export const LESSONS: Lesson[] = [
     content: (
       <div className="space-y-6">
         <h2 className="text-xl font-bold">Portfolio Sections</h2>
+        {/* Fix: Wrapped > sign in quotes to avoid arithmetic interpretation */}
         <p>1. <strong>About:</strong> User-centric problem solver focus. <br/> 2. <strong>Case Studies:</strong> The meat of your portfolio. <br/> 3. <strong>Shipped Projects:</strong> Live links to your no-code apps.</p>
       </div>
     ),
@@ -3285,12 +3306,14 @@ export const LESSONS: Lesson[] = [
     content: (
       <div className="space-y-6">
         <h2 className="text-xl font-bold">LinkedIn Best Practices</h2>
-        <p>Keywords density, Role clarity (Title + Domain + Scope), and 3-second scan effectiveness. Aim for an ATS score > 85.</p>
+        {/* Fix: Wrapped > sign in quotes to avoid arithmetic interpretation */}
+        <p>{"Keywords density, Role clarity (Title + Domain + Scope), and 3-second scan effectiveness. Aim for an ATS score > 85."}</p>
       </div>
     ),
     assignment: (
       <div className="space-y-6">
-        <p>Run your CV through an AI Resume Checker. Rewrite your "Experience" bullets using the Action -> Context -> Outcome -> Metric format.</p>
+        {/* Fix: Wrapped > sign in quotes to avoid arithmetic interpretation */}
+        <p>{"Run your CV through an AI Resume Checker. Rewrite your \"Experience\" bullets using the Action -> Context -> Outcome -> Metric format."}</p>
       </div>
     )
   },
@@ -3319,12 +3342,14 @@ export const LESSONS: Lesson[] = [
     content: (
       <div className="space-y-6">
         <h2 className="text-xl font-bold">Round One Evaluation</h2>
+        {/* Fix: Wrapped -> in quotes to avoid arithmetic interpretation */}
         <p>1. Depth of analysis. <br/> 2. Assumptions & reasoning. <br/> 3. Prioritization framework use. <br/> 4. Metrics & Impact focus.</p>
       </div>
     ),
     assignment: (
       <div className="space-y-6">
-        <p>Practice the prompt: "Design a movie-booking app for elderly users." Follow the structure: User -> Pain Point -> Solution -> Metric.</p>
+        {/* Fix: Wrapped -> in quotes to avoid arithmetic interpretation */}
+        <p>{"Practice the prompt: \"Design a movie-booking app for elderly users.\" Follow the structure: User -> Pain Point -> Solution -> Metric."}</p>
       </div>
     )
   },
