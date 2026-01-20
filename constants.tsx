@@ -406,7 +406,7 @@ export const LESSONS: Lesson[] = [
         <section className="bg-indigo-900 text-white p-10 rounded-[3rem] shadow-2xl relative overflow-hidden">
            <div className="absolute top-0 right-0 p-8 opacity-10"><Brain className="w-48 h-48" /></div>
            <h2 className="text-2xl font-black mb-6">What is Product Sense?</h2>
-           <p className="text-indigo-100 text-lg leading-relaxed max-w-2xl font-medium">
+           <p className="text-indigo-100 text-lg font-medium leading-relaxed max-w-2xl font-medium">
              Product sense is the ability to <strong>see through complexity</strong> and spot the user needs that matter most. 
              Marty Cagan emphasizes that it is deep product knowledge built through immersion, not an innate gift.
            </p>
@@ -2463,10 +2463,6 @@ AND signup_date < '2024-12-01';`}
         <section className="bg-emerald-50 p-10 rounded-[3rem] border border-emerald-100">
            <h2 className="text-2xl font-black text-emerald-900 mb-6">Behavioral Mastery</h2>
            <p className="text-emerald-800 font-medium mb-6 leading-relaxed">Prepare for the "Why PM?", "Tell me about a time you failed", and "Stakeholder conflict" questions.</p>
-           <ul className="text-xs font-black text-indigo-600 space-y-2">
-              <li>• <a href="https://youtu.be/1rOcpwcDTuY?si=GXoS-FRzroxPPJ0U" target="_blank" rel="noreferrer">Behavioral Rounds Part 1</a></li>
-              <li>• <a href="https://youtu.be/Wyvm8vcsaP0?si=JeY3xJKXWfRrGCXG" target="_blank" rel="noreferrer">Behavioral Rounds Part 2</a></li>
-           </ul>
         </section>
 
         <section className="p-10 bg-zinc-900 rounded-[3rem] text-white text-center">
@@ -2490,6 +2486,10 @@ AND signup_date < '2024-12-01';`}
           Submit Feedback Form
         </a>
       </div>
-    )
+    ),
+    resources: [
+        { title: "Behavioral Rounds Part 1", url: "https://youtu.be/1rOcpwcDTuY?si=GXoS-FRzroxPPJ0U", type: "video" },
+        { title: "Behavioral Rounds Part 2", url: "https://youtu.be/Wyvm8vcsaP0?si=JeY3xJKXWfRrGCXG", type: "video" }
+    ]
   }
 ];
