@@ -419,9 +419,9 @@ export const LESSONS: Lesson[] = [
                { title: 'Empathy & Customer Needs', desc: 'Listening for spoken and unspoken pain points and emotional drivers.', icon: HeartHandshake },
                { title: 'Market & Competitive Insight', desc: 'Analyzing trends and mapping competitor gaps to find unique value.', icon: Eye },
                { title: 'Design & UX Perspective', desc: 'Recognizing good flows and how design decisions affect engagement.', icon: Layout },
-               { title: 'Problem Framing & Mapping', desc: 'Distinguishing root causes from symptoms and exploring options.', icon: Map },
-               { title: 'Feasibility & Execution', desc: 'Balancing ambitious ideas with tech constraints and timelines.', icon: Hammer },
-               { title: 'Iteration & Validation', desc: 'Using prototypes and experiments to adjust based on real data.', icon: RefreshCcw },
+               { stage: '04', title: 'Problem Framing & Mapping', desc: 'Distinguishing root causes from symptoms and exploring options.', icon: Map },
+               { stage: '05', title: 'Feasibility & Execution', desc: 'Balancing ambitious ideas with tech constraints and timelines.', icon: Hammer },
+               { stage: '06', title: 'Iteration & Validation', desc: 'Using prototypes and experiments to adjust based on real data.', icon: RefreshCcw },
              ].map((pillar, i) => (
                <div key={pillar.title} className="group p-8 bg-white border border-zinc-100 rounded-[2.5rem] hover:border-indigo-100 hover:shadow-xl transition-all">
                   <div className="w-14 h-14 bg-zinc-50 rounded-2xl flex items-center justify-center text-zinc-400 group-hover:bg-indigo-600 group-hover:text-white transition-colors shadow-inner mb-6">
@@ -1123,7 +1123,7 @@ export const LESSONS: Lesson[] = [
         <section className="bg-indigo-50 p-10 rounded-[3rem] border border-indigo-100">
            <h2 className="text-2xl font-black text-indigo-900 mb-6 flex items-center gap-3">🎯 Learning Objectives</h2>
            <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm font-bold text-indigo-700">
-              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4" /> Setup a practice SQL environment</li>
+              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Setup a practice SQL environment</li>
               <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4" /> Write basic SELECT queries</li>
               <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4" /> Filter data using WHERE clauses</li>
               <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4" /> Execute DDL and DML commands</li>
@@ -1360,7 +1360,7 @@ AND signup_date < '2024-12-01';`}
         <section className="bg-indigo-50 p-10 rounded-[3rem] border border-indigo-100">
            <h2 className="text-2xl font-black text-indigo-900 mb-6">Learning Objectives</h2>
            <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm font-bold text-indigo-700">
-              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4" /> Create professional charts</li>
+              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Create professional charts</li>
               <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4" /> Use sparklines for inline vis</li>
               <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4" /> Format data as Excel Tables</li>
               <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4" /> Build interactive Pivot Tables</li>
@@ -1795,51 +1795,102 @@ AND signup_date < '2024-12-01';`}
     category: 'AI',
     preview: 'Large Language Model (LLM) is fundamentally a neural network designed to be a highly sophisticated predictive system for text.',
     content: (
-      <div className="space-y-10">
-        <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 29: Large Language Models (LLM) 📚</h1>
-        <section className="bg-indigo-50 p-10 rounded-[3rem] border border-indigo-100">
-           <h2 className="text-2xl font-black text-indigo-900 mb-6">What is an LLM?</h2>
-           <div className="space-y-4 font-medium text-indigo-800">
-              <p><strong>1. Statistical Token Simulator:</strong> Trained to model the statistical relationships of how tokens follow each other in a sequence.</p>
-              <p><strong>2. Internet Document Simulator:</strong> Can generate token sequences that statistically resemble documents found on the internet (Lossy compression of the internet).</p>
-              <p><strong>3. An Assistant:</strong> Post-training stages transform base models into knowledgeable assistants that engage in conversation.</p>
+      <div className="space-y-10 text-left">
+        <h1 className="text-3xl font-black tracking-tight text-zinc-900 text-left">Day 29: Large Language Models (LLM) 📚</h1>
+        <p className="text-[10px] text-zinc-400 mt-2 text-left italic">Watch: <a href="https://youtu.be/7xTGNNLPyMI?si=_FGxNCEjJcvyxdAz" target="_blank" rel="noopener noreferrer" className="text-indigo-600 underline">Deep Dive into LLMs</a></p>
+        
+        <section className="bg-indigo-50 p-10 rounded-[3rem] border border-indigo-100 text-left">
+           <h2 className="text-2xl font-black text-indigo-900 mb-6 text-left">What is an LLM?</h2>
+           <p className="text-zinc-600 font-medium leading-relaxed mb-6 text-left">A Large Language Model (LLM) is fundamentally a neural network designed to be a highly sophisticated predictive system for text.</p>
+           <div className="space-y-6 font-medium text-indigo-800 text-left">
+              <p className="text-left"><strong>1. Statistical Token Simulator:</strong> At its core, an LLM is a complex mathematical function trained to model the statistical relationships of how tokens follow each other in a sequence. The training process involves taking input token sequences and generating an output that predicts the probability of the next token.</p>
+              <p className="text-left"><strong>2. Internet Document Simulator:</strong> The initial output of the first stage (pre-training) is the base model, which is described as a token simulator or an internet document simulator. This model can generate token sequences that statistically resemble documents found on the internet. You can think of the parameters as a lossy compression of the internet knowledge Acquisition from processing trillions of tokens.</p>
+              <p className="text-left"><strong>3. An Assistant:</strong> Post-training stages (like SFT) transform base models into helpful assistants programmed to take on a specific persona and engage in helpful conversation.</p>
            </div>
         </section>
 
-        <section className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm">
-           <h2 className="text-2xl font-black text-zinc-900 mb-6">LLM Characteristics & PM Implications</h2>
-           <div className="space-y-6">
-              {[
-                { label: 'Stochastic', desc: 'Rely on probability. User must check and verify the output.' },
-                { label: 'Hallucinations', desc: 'Prone to fabricating info. Safeguards like web search are needed.' },
-                { label: 'Vague Knowledge', desc: 'Knowledge is a vague recollection; use context window as "working memory".' },
-                { label: 'Swiss Cheese Capability', desc: 'Brilliant in one domain but fail randomly at simple tasks like counting.' },
-              ].map(item => (
-                <div key={item.label} className="flex gap-6 items-start">
-                   <div className="px-3 py-1 bg-zinc-900 text-white text-[10px] font-black rounded-lg uppercase tracking-widest shrink-0 mt-1">{item.label}</div>
-                   <p className="text-sm font-bold text-zinc-600">{item.desc}</p>
-                </div>
-              ))}
+        <section className="space-y-8 text-left">
+           <h2 className="text-2xl font-black text-zinc-900 text-left">Why do we need it? / Why are companies using it?</h2>
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+              <div className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm text-left">
+                 <h4 className="font-black text-zinc-900 mb-2 text-left">Acceleration & Wealth</h4>
+                 <p className="text-xs text-zinc-500 font-bold text-left">Dramatically accelerate work and drive massive wealth creation via innovation.</p>
+              </div>
+              <div className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm text-left">
+                 <h4 className="font-black text-zinc-900 mb-2 text-left">Advanced Reasoning</h4>
+                 <p className="text-xs text-zinc-500 font-bold text-left">RL encourages "chains of thought" which increases accuracy in verifiable domains like math and code.</p>
+              </div>
+              <div className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm text-left">
+                 <h4 className="font-black text-zinc-900 mb-2 text-left">Tool Utilization</h4>
+                 <p className="text-xs text-zinc-500 font-bold text-left">Trained to use external tools (Web Search, Code Interpreters) to mitigate hallucinations.</p>
+              </div>
+              <div className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm text-left">
+                 <h4 className="font-black text-zinc-900 mb-2 text-left">High-Quality Assistants</h4>
+                 <p className="text-xs text-zinc-500 font-bold text-left">Capable of answering variety of questions while remaining helpful, truthful, and harmless.</p>
+              </div>
            </div>
         </section>
 
-        <section className="bg-zinc-950 p-10 rounded-[3rem] text-white">
-           <h2 className="text-2xl font-black mb-8">Stages of Building an LLM</h2>
-           <div className="flex flex-col md:flex-row gap-10">
-              <div className="flex-1 p-6 bg-white/5 rounded-2xl border border-white/10">
-                 <h4 className="font-black text-xs uppercase tracking-[0.2em] text-indigo-400 mb-4">1. Pretraining</h4>
-                 <p className="text-xs text-zinc-400 font-medium">Internalizing statistical patterns from massive text. Takes ~3 months.</p>
+        <section className="text-left">
+           <h2 className="text-2xl font-black text-zinc-900 mb-6 text-left">Why should a product manager learn about it?</h2>
+           <div className="overflow-hidden rounded-[2.5rem] border border-zinc-200 text-left">
+              <table className="min-w-full bg-white text-left">
+                 <thead className="bg-zinc-900 text-white text-[10px] font-black uppercase tracking-widest text-left">
+                    <tr>
+                       <th className="px-6 py-4 text-left">Characteristic</th>
+                       <th className="px-6 py-4 text-left">PM Implication</th>
+                    </tr>
+                 </thead>
+                 <tbody className="divide-y divide-zinc-100 text-xs font-bold text-zinc-600 text-left">
+                    <tr>
+                       <td className="px-6 py-4 text-zinc-900 text-left">Stochastic systems</td>
+                       <td className="px-6 py-4 text-left">User must check and verify; cannot be fully trusted for high-stakes solo decisions.</td>
+                    </tr>
+                    <tr>
+                       <td className="px-6 py-4 text-zinc-900 text-left">Hallucinations</td>
+                       <td className="px-6 py-4 text-left">Need for tool-use safeguards like web search to ground facts.</td>
+                    </tr>
+                    <tr>
+                       <td className="px-6 py-4 text-zinc-900 text-left">Swiss Cheese Capability</td>
+                       <td className="px-6 py-4 text-left">May fail at simple spelling or comparisons while solving physics; use code interpreters.</td>
+                    </tr>
+                    <tr>
+                       <td className="px-6 py-4 text-zinc-900 text-left">Thinking requires tokens</td>
+                       <td className="px-6 py-4 text-left">UI must encourage models to generate intermediate steps for complex arithmetic.</td>
+                    </tr>
+                 </tbody>
+              </table>
+           </div>
+        </section>
+
+        <section className="bg-zinc-950 p-10 rounded-[3rem] text-white text-left">
+           <h2 className="text-2xl font-black mb-10 text-indigo-400 text-left">Stages of Building an LLM</h2>
+           <div className="space-y-12 text-left">
+              <div className="border-l-4 border-indigo-500 pl-8 text-left">
+                 <h3 className="text-xl font-black mb-4 text-left">1. Pretraining Stage</h3>
+                 <p className="text-sm text-zinc-400 font-medium mb-6 text-left">Internalizing patterns from 15T+ tokens. Most computationally demanding stage (~3 months).</p>
+                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-[10px] font-black uppercase text-zinc-500 text-left">
+                    <p className="text-left">PII Removal</p>
+                    <p className="text-left">Tokenization</p>
+                    <p className="text-left">URL Filtering</p>
+                    <p className="text-left">Neural Training</p>
+                 </div>
               </div>
-              <div className="flex-1 p-6 bg-white/5 rounded-2xl border border-white/10">
-                 <h4 className="font-black text-xs uppercase tracking-[0.2em] text-emerald-400 mb-4">2. Post-training (SFT)</h4>
-                 <p className="text-xs text-zinc-400 font-medium">Supervised Fine-Tuning. Teaches persona and conversational abilities.</p>
+              <div className="border-l-4 border-emerald-500 pl-8 text-left">
+                 <h3 className="text-xl font-black mb-4 text-left">2. Post-training Stage (SFT)</h3>
+                 <p className="text-sm text-zinc-400 font-medium text-left">Teaches persona and conversational abilities using human-labeled multi-turn dialogues. (~3 hours).</p>
               </div>
-              <div className="flex-1 p-6 bg-white/5 rounded-2xl border border-white/10">
-                 <h4 className="font-black text-xs uppercase tracking-[0.2em] text-red-400 mb-4">3. Reinforcement Learning</h4>
-                 <p className="text-xs text-zinc-400 font-medium">Refining problem-solving via Guess & Check (Trial and Error).</p>
+              <div className="border-l-4 border-red-500 pl-8 text-left">
+                 <h3 className="text-xl font-black mb-4 text-left">3. Reinforcement Learning (RL)</h3>
+                 <p className="text-sm text-zinc-400 font-medium text-left">Trial and error refining via "Rollouts". Emergence of advanced reasoning and "Chains of Thought".</p>
               </div>
            </div>
         </section>
+
+        <div className="pt-8 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400 text-left">
+           <p className="text-left">Previous: AI,ML and DL</p>
+           <p className="text-left">Up next: Prompt Engineering</p>
+        </div>
       </div>
     ),
     resources: [
@@ -2304,9 +2355,9 @@ AND signup_date < '2024-12-01';`}
                 <div className="space-y-4">
                   <p className="text-sm font-medium text-zinc-300 leading-relaxed">MCP servers are reusable across various AI applications. Build a "Google Drive MCP Server" once, and any compatible assistant or agent can use it immediately.</p>
                   <ul className="space-y-2">
-                    <li className="flex items-center gap-2 text-xs font-bold"><CheckCircle className="w-4 h-4 text-indigo-600" /> Developers: Reduced complexity & time.</li>
-                    <li className="flex items-center gap-2 text-xs font-bold"><CheckCircle className="w-4 h-4 text-indigo-600" /> Apps: Ecosystem of plug-and-play tools.</li>
-                    <li className="flex items-center gap-2 text-xs font-bold"><CheckCircle className="w-4 h-4 text-indigo-600" /> End-users: More capable, action-oriented agents.</li>
+                    <li className="flex items-center gap-2 text-xs font-bold"><CheckCircle className="w-4 h-4 text-indigo-50" /> Developers: Reduced complexity & time.</li>
+                    <li className="flex items-center gap-2 text-xs font-bold"><CheckCircle className="w-4 h-4 text-indigo-50" /> Apps: Ecosystem of plug-and-play tools.</li>
+                    <li className="flex items-center gap-2 text-xs font-bold"><CheckCircle className="w-4 h-4 text-indigo-50" /> End-users: More capable, action-oriented agents.</li>
                   </ul>
                 </div>
              </div>
