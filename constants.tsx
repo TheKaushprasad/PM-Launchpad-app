@@ -780,11 +780,11 @@ export const LESSONS: Lesson[] = [
               <h4 className="font-black text-zinc-900 mb-2 text-sm uppercase tracking-tight">Concept Stage</h4>
               <p className="text-xs text-zinc-500 font-bold leading-relaxed">The start of making a new product. Involves initial ideas and planning, market research, identifying customer needs, and determining feasibility. Usually R&D takes the lead.</p>
             </div>
-            <div className="p-6 bg-zinc-50 rounded-3xl border border-zinc-200 shadow-inner">
+            <div className="p-6 bg-zinc-50 rounded-3xl border border-zinc-100 shadow-inner">
               <h4 className="font-black text-zinc-900 mb-2 text-sm uppercase tracking-tight">Design Stage</h4>
               <p className="text-xs text-zinc-500 font-bold leading-relaxed">Careful plan for the product, building prototypes, and testing everything. Ensuring the design meets all rules and safety standards. Significant R&D spend happens here.</p>
             </div>
-            <div className="p-6 bg-zinc-50 rounded-3xl border border-zinc-200 shadow-inner">
+            <div className="p-6 bg-zinc-50 rounded-3xl border border-zinc-100 shadow-inner">
               <h4 className="font-black text-zinc-900 mb-2 text-sm uppercase tracking-tight">Production Stage</h4>
               <p className="text-xs text-zinc-500 font-bold leading-relaxed">Making the product at scale—getting materials, putting everything together, and quality checks. Design changes should be minimal at this point.</p>
             </div>
@@ -1210,6 +1210,289 @@ export const LESSONS: Lesson[] = [
     ]
   },
   {
+    day: 6,
+    title: 'Essential Product Documentation: A Complete Guide',
+    category: 'Foundations',
+    preview: "Product managers are professional translators. Master PRDs, BRDs, User Stories, and Roadmaps to align your team.",
+    content: (
+      <div className="space-y-10 text-left text-zinc-600">
+        <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 6: Essential Product Documentation: A Product Manager's Complete Guide 📝</h1>
+        
+        <section className="bg-indigo-50 p-10 rounded-[3rem] border border-indigo-100">
+           <h2 className="text-2xl font-black text-indigo-900 mb-6 flex items-center gap-3">🎯 Learning Objectives</h2>
+           <p className="text-sm font-bold text-indigo-500 mb-4 uppercase tracking-widest">By the end of Day 6, you will be able to:</p>
+           <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm font-bold text-zinc-700">
+              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Distinguish between document types (PRD, BRD, user stories, roadmaps, etc.)</li>
+              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Create comprehensive Product Requirements Documents (PRDs)</li>
+              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Build compelling Business Requirements Documents (BRDs)</li>
+              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Write effective user stories and acceptance criteria</li>
+              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Develop outcome-focused roadmaps</li>
+              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Produce go-to-market documentation</li>
+              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Apply documentation best practices (scannability, accessibility)</li>
+              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Make strategic decisions about when to document</li>
+              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Maintain decision logs and meeting notes</li>
+              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Develop a documentation mindset for clarification</li>
+           </ul>
+        </section>
+
+        <section className="prose prose-zinc max-w-none">
+          <p className="text-lg font-medium leading-relaxed italic border-l-4 border-[#79BAEC] pl-6 mb-10">
+            "Product managers are professional translators. We translate customer needs into technical requirements, business strategy into product roadmaps, and abstract visions into concrete execution plans. Documentation is the primary medium for this translation work."
+          </p>
+          
+          <p className="mb-6">
+            Yet many product managers struggle with documentation—either producing volumes of text nobody reads or creating nothing at all and wondering why teams feel misaligned. The key is understanding which documents serve which purposes and crafting each with intention.
+          </p>
+
+          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-6">The Product Requirements Document (PRD)</h2>
+          <p className="mb-6">
+            The PRD is the product manager's most fundamental artifact. It defines what you're building, why you're building it, and what success looks like. Think of it as the single source of truth that aligns engineering, design, marketing, and leadership around a shared understanding.
+          </p>
+          <p className="mb-6">
+            A strong PRD typically includes several core elements. Start with the problem statement and context—what customer or business problem are you solving, and why does it matter now? Include relevant background on market dynamics, competitive landscape, or strategic rationale. Next comes the objectives and success metrics. Define what good looks like with specific, measurable outcomes. Are you increasing conversion by 15 percent, reducing support tickets by half, or entering a new market segment?
+          </p>
+          <p className="mb-6">
+            The requirements themselves should be clear and prioritized. Describe user stories or use cases that illustrate how people will interact with the product. Specify functional requirements—what the product must do—and non-functional requirements like performance, security, or scalability constraints. Distinguish between must-haves for launch and nice-to-haves for future iterations.
+          </p>
+          <p className="mb-6">
+            Include user experience considerations, even if you have separate design documentation. Call out key user flows, information architecture decisions, or design principles that should guide the work. Add technical considerations or constraints that engineering should know upfront. If you're integrating with existing systems, migrating data, or working within platform limitations, surface these early.
+          </p>
+          <p className="mb-6">
+            Finally, define scope boundaries explicitly. What are you deliberately not doing? What questions remain open? What assumptions are you making? These boundaries prevent scope creep and clarify decision-making authority.
+          </p>
+          <p className="bg-zinc-900 text-white p-6 rounded-2xl mb-10">
+             <strong>The best PRDs are living documents.</strong> Update them as you learn from user testing, technical discovery, or changing business conditions. Date your revisions and maintain a changelog so everyone knows they're working from current information.
+          </p>
+
+          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-6">The Business Requirements Document (BRD)</h2>
+          <p className="mb-6">
+            While PRDs focus on the product itself, BRDs articulate the business case. This document answers the question every executive asks: why should we invest resources in this?
+          </p>
+          <p className="mb-6">
+            BRDs typically flow from strategy to execution. Begin with business objectives—how does this initiative support company goals? Connect the dots between your product work and revenue growth, market expansion, cost reduction, or strategic positioning.
+          </p>
+          <p className="mb-6">
+            Market analysis provides essential context. What's the opportunity size? Who are the target customers and what segments are you pursuing? How does the competitive landscape influence your approach? Include relevant market research, customer insights, or industry trends that validate the opportunity.
+          </p>
+          <p className="mb-6">
+            The financial analysis is where you quantify the business case. Project expected revenue impact, development costs, ongoing operational expenses, and return on investment. Be honest about assumptions and risks. Executives appreciate realistic projections more than hockey-stick fantasies.
+          </p>
+          <p className="mb-6">
+            Outline high-level requirements from a business perspective—not technical features but business capabilities. For instance, "enable enterprise customers to manage user permissions" rather than "build role-based access control system." Include stakeholder analysis showing who's impacted and who needs to be involved.
+          </p>
+          <p className="mb-6">
+            Define success criteria and key performance indicators. How will you measure whether this initiative achieved its business objectives? Include both leading indicators you can track during development and lagging indicators that show ultimate business impact.
+          </p>
+          <p className="mb-6">
+            BRDs are particularly valuable for large initiatives requiring executive approval or significant resource allocation. For smaller features, the business rationale might fold into your PRD rather than warranting a separate document.
+          </p>
+
+          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-6">User Stories and Acceptance Criteria</h2>
+          <p className="mb-6">
+            User stories translate requirements into human terms. The classic format—"As a [user type], I want to [action] so that [benefit]"—forces you to think from the user's perspective and articulate the underlying value.
+          </p>
+          <p className="mb-6">
+            Effective user stories are independent, negotiable, valuable, estimable, small, and testable. They describe what users want to accomplish, not how the system should work. Instead of "the system shall display a confirmation dialog," write "as a user, I want confirmation before deleting data so that I don't accidentally lose my work."
+          </p>
+          <p className="mb-6">
+            Acceptance criteria define when a story is complete. These are specific, testable conditions that must be met. Use clear language: "Given I'm on the checkout page, when I click 'Apply Coupon' and enter a valid code, then the discount appears and the total updates." This precision prevents misunderstandings and makes testing straightforward.
+          </p>
+
+          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-6">Product Roadmaps</h2>
+          <p className="mb-6">
+            Roadmaps communicate your product strategy over time. Unlike detailed project plans, roadmaps show the big picture—what you're building, when, and why it matters.
+          </p>
+          <p className="mb-6">
+            The best roadmaps are theme-based or outcome-focused rather than feature-committed. Instead of promising "advanced search functionality in Q2," articulate the goal: "improve content discoverability." This gives you flexibility in execution while maintaining strategic clarity.
+          </p>
+          <p className="mb-6">
+            Include multiple time horizons. The current quarter might show specific features in development. The next two quarters might show planned initiatives or problem areas you'll address. Beyond that, indicate strategic themes or areas of exploration. This graduated specificity acknowledges increasing uncertainty over time.
+          </p>
+
+          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-6">Go-to-Market Documentation</h2>
+          <p className="mb-6">
+            Product launches require coordinating marketing, sales, customer success, and support teams. Go-to-market documents ensure everyone understands the product and their role in the launch.
+          </p>
+          <p className="mb-6">
+            Launch plans outline timelines, responsibilities, and some dependencies across teams. When does marketing need final messaging? When should sales training happen? When do you notify existing customers? Map out the critical path and identify potential bottlenecks.
+          </p>
+          
+          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-6">Documentation Best Practices</h2>
+          <ul className="space-y-4">
+             <li><strong>Know your audience:</strong> Engineers need technical detail; executives need business context.</li>
+             <li><strong>Be concise and scannable:</strong> Use headers, bullet points, and white space to break up text. Front-load key information.</li>
+             <li><strong>Keep it accessible:</strong> Use a central repository (Confluence, Notion, Google Docs) where teams know to look.</li>
+             <li><strong>Maintain as you go:</strong> Outdated documentation is worse than none because it spreads misinformation.</li>
+             <li><strong>Be visual:</strong> Diagrams often communicate relationships, flows, or architecture more clearly than paragraphs.</li>
+          </ul>
+
+          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-6">The Documentation Mindset</h2>
+          <p className="mb-10">
+            Great product managers develop a documentation mindset. They recognize that writing clarifies thinking, that documents create shared understanding, and that good documentation multiplies their impact by aligning teams asynchronously.
+          </p>
+        </section>
+
+        <section className="bg-zinc-50 p-10 rounded-[3rem] border border-zinc-200">
+           <h2 className="text-2xl font-black text-zinc-900 mb-8">Video Guides</h2>
+           <div className="space-y-6">
+              <div className="flex items-center gap-4 p-6 bg-white rounded-3xl border border-zinc-100 shadow-sm">
+                 <div className="w-12 h-12 rounded-2xl bg-indigo-50 flex items-center justify-center shrink-0">
+                    <MonitorPlay className="w-6 h-6 text-indigo-600" />
+                 </div>
+                 <div>
+                    <h4 className="font-black text-zinc-900 tracking-tight">📺 PRODUCT STRATEGY & ROADMAP</h4>
+                    <a href="https://youtu.be/cnp6Ck8OIiY?si=eJHw5hzcwuiZZyf0" target="_blank" rel="noopener noreferrer" className="text-sm font-bold text-indigo-600 underline">Watch Tutorial</a>
+                 </div>
+              </div>
+              <div className="flex items-center gap-4 p-6 bg-white rounded-3xl border border-zinc-100 shadow-sm">
+                 <div className="w-12 h-12 rounded-2xl bg-indigo-50 flex items-center justify-center shrink-0">
+                    <MonitorPlay className="w-6 h-6 text-indigo-600" />
+                 </div>
+                 <div>
+                    <h4 className="font-black text-zinc-900 tracking-tight">📺 GTM Strategy</h4>
+                    <a href="https://youtu.be/eDVtBleIxag?si=mE-x6s3HPTloD13x" target="_blank" rel="noopener noreferrer" className="text-sm font-bold text-indigo-600 underline">Watch Tutorial</a>
+                 </div>
+              </div>
+           </div>
+        </section>
+
+        <div className="pt-8 border-t border-zinc-200 flex justify-between text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">
+           <p></p>
+           <p></p>
+        </div>
+      </div>
+    ),
+    assignment: (
+      <div className="space-y-6 text-left">
+        <h4 className="font-black text-indigo-900 mb-2 underline decoration-indigo-200 underline-offset-4">Assignment</h4>
+        <p className="font-medium text-zinc-700 leading-relaxed">
+          Create your own Product Requirements Document (PRD) using an AI co-pilot.
+        </p>
+        <a 
+          href="https://www.chatprd.ai/" 
+          target="_blank" 
+          rel="noreferrer" 
+          className="inline-flex items-center gap-2 px-6 py-3 bg-zinc-900 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-black transition-colors"
+        >
+          Open ChatPRD <ExternalLink className="w-4 h-4" />
+        </a>
+        <div className="pt-4 border-t border-indigo-200">
+          <p className="font-black text-indigo-900 uppercase text-xs tracking-widest mb-2">Goal</p>
+          <p className="font-medium text-zinc-700">Practice translating a feature idea into a structured document that includes problem context, goals, and user requirements.</p>
+        </div>
+      </div>
+    ),
+    resources: [
+        { title: "PRODUCT STRATEGY & ROADMAP", url: "https://youtu.be/cnp6Ck8OIiY?si=eJHw5hzcwuiZZyf0", type: "video" },
+        { title: "GTM Strategy", url: "https://youtu.be/eDVtBleIxag?si=mE-x6s3HPTloD13x", type: "video" }
+    ]
+  },
+  {
+    day: 7,
+    title: "Stakeholder Management: The Product Manager's Essential Guide",
+    category: "Foundations",
+    preview: "Stakeholder management isn't just important—it's the difference between shipping transformative products and watching promising ideas die in committee.",
+    content: (
+      <div className="space-y-10 text-left text-zinc-600">
+        <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 7: Stakeholder Management: The Product Manager's Essential Guide 🤝</h1>
+        
+        <section className="bg-indigo-50 p-10 rounded-[3rem] border border-indigo-100">
+           <h2 className="text-2xl font-black text-indigo-900 mb-6 flex items-center gap-3">🎯 Learning Objectives</h2>
+           <p className="text-sm font-bold text-indigo-500 mb-4 uppercase tracking-widest">By the end of Day 7, you will be able to:</p>
+           <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm font-bold text-indigo-700">
+              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Identify and categorize stakeholders using influence/interest matrices</li>
+              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Tailor communication strategies to different stakeholder needs</li>
+              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Build coalitions rather than seeking universal consensus</li>
+              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Manage executive relationships framing business outcomes</li>
+              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Navigate conflict constructively using data debates</li>
+              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Say no gracefully while preserving relationships</li>
+              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Collaborate effectively with early engineering involvement</li>
+              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Measure stakeholder management success indicators</li>
+           </ul>
+        </section>
+
+        <section className="prose prose-zinc max-w-none">
+          <p className="text-lg font-medium leading-relaxed italic border-l-4 border-indigo-600 pl-6 mb-10">
+            "Product managers often joke that they have 'all the responsibility but none of the authority.' This paradox makes stakeholder management not just important—it's the difference between shipping transformative products and watching promising ideas die in committee."
+          </p>
+
+          <p className="mb-6">
+            At its core, stakeholder management is the art and science of aligning diverse groups around a shared product vision while navigating competing priorities, limited resources, and organizational politics. For product managers, it's as fundamental as roadmap planning or user research.
+          </p>
+
+          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-6">Understanding Your Stakeholder Landscape</h2>
+          <p className="mb-6">
+            The first step in effective stakeholder management is mapping who actually matters to your product's success. Stakeholders typically fall into several categories: executives who control budgets and strategic direction, engineering teams who build your vision, designers who craft the experience, sales and marketing who bring products to market, customer success teams on the front lines, and of course, the customers themselves.
+          </p>
+          <p className="mb-6">
+            Each group views your product through a different lens. Executives care about revenue impact and strategic positioning. Engineers worry about technical debt and feasibility. Sales needs competitive differentiation and clear messaging. This isn't a problem to solve but a reality to embrace. Your job isn't to make everyone think alike but to synthesize these perspectives into coherent product decisions.
+          </p>
+
+          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-6">The Power Map: Influence vs. Interest</h2>
+          <p className="mb-6">
+            Not all stakeholders deserve equal time. Create a simple two-by-two matrix plotting stakeholders by their influence over your product and their interest in it. Those with high influence and high interest are your key players who need regular engagement and input. Those with high influence but lower interest need enough information to stay supportive without overwhelming them with details. Those with high interest but lower influence groups can be valuable allies and advocates. Low on both dimensions might only need basic updates.
+          </p>
+
+          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-6">Communication: Tailored, Transparent, and Timely</h2>
+          <p className="mb-6">
+            The biggest mistake product managers make is using one-size-fits-all communication. Your engineering lead doesn't need the same update as your CFO. Tailor your message to what each stakeholder cares about and the level of detail they need.
+          </p>
+          <p className="mb-6">
+            Transparency builds trust, even when delivering bad news. If a feature is slipping or a metric missed its target, share it early with context and a plan. Stakeholders can handle setbacks; they can't handle surprises.
+          </p>
+
+          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-6">Building Coalitions, Not Consensus</h2>
+          <p className="mb-6">
+            Here's a liberating truth: you don't need everyone to agree. Seeking universal consensus leads to watered-down products that please no one. Instead, build coalitions around decisions. Identify your champions who will advocate alongside you. Find common ground with skeptics rather than trying to convert them entirely.
+          </p>
+
+          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-6">Managing Up: Your Executive Stakeholders</h2>
+          <p className="mb-6">
+            Executives control resources, remove roadblocks, and provide air cover for bold bets. Managing up effectively means making their jobs easier while advancing your product goals. Come prepared with recommendations, not just problems. Frame choices in terms of business outcomes they care about.
+          </p>
+
+          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-6">The Delicate Dance with Engineering</h2>
+          <p className="mb-6">
+            Product and engineering partnerships make or break execution. The best product managers treat engineers as collaborators, not order-takers. Involve them early in problem framing before jumping to solutions. Respect technical constraints while pushing for creative approaches.
+          </p>
+
+          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-6">Saying No Gracefully</h2>
+          <p className="mb-6">
+            Product managers must say no constantly. The key is saying no in a way that preserves relationships. Ground refusals in strategy and data rather than personal preference. Instead of "we can't do that," try "here's where that sits against our priorities."
+          </p>
+
+          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-6">Navigating Conflict and Disagreement</h2>
+          <p className="mb-10">
+            Conflict is inevitable when passionate people care about product direction. Healthy conflict focused on ideas improves outcomes. When disagreements arise, seek first to understand the underlying concern. Address the root issue, not just the surface request.
+          </p>
+        </section>
+
+        <section className="bg-zinc-50 p-10 rounded-[3rem] border border-zinc-200">
+           <h2 className="text-2xl font-black text-zinc-900 mb-8">Course Resources</h2>
+           <div className="space-y-6">
+              <div className="flex items-center gap-4 p-6 bg-white rounded-3xl border border-zinc-100 shadow-sm">
+                 <div className="w-12 h-12 rounded-2xl bg-indigo-50 flex items-center justify-center shrink-0">
+                    <MonitorPlay className="w-6 h-6 text-indigo-600" />
+                 </div>
+                 <div>
+                    <h4 className="font-black text-zinc-900 tracking-tight">📺 Communicating and Working with Stakeholders</h4>
+                    <a href="https://youtu.be/jz7tPVDwb50?si=71B7Acqz6U2F0XA8" target="_blank" rel="noopener noreferrer" className="text-sm font-bold text-indigo-600 underline">Watch Masterclass</a>
+                 </div>
+              </div>
+           </div>
+        </section>
+
+        <div className="pt-8 border-t border-zinc-200 flex justify-between text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">
+           <p></p>
+           <p></p>
+        </div>
+      </div>
+    ),
+    resources: [
+        { title: "Communicating and Working with Stakeholders", url: "https://youtu.be/jz7tPVDwb50?si=71B7Acqz6U2F0XA8", type: "video" }
+    ]
+  },
+  {
     day: 30,
     title: 'Prompt Engineering for Product Managers',
     category: 'AI',
@@ -1370,7 +1653,7 @@ export const LESSONS: Lesson[] = [
            <h2 className="text-2xl font-black mb-6 text-indigo-400 text-left">Why is context engineering important to building capable agents?</h2>
            <div className="space-y-6 text-zinc-400 font-medium leading-relaxed text-left">
              <p>Despite their speed and ability to manage larger and larger volumes of data, it is observed that LLMs, like humans, lose focus or experience confusion at a certain point. Studies on needle-in-a-haystack style benchmarking have uncovered the concept of context rot: as the number of tokens in the context window increases, the model’s ability to accurately recall information from that context decreases.</p>
-             <p>While some models exhibit more gentle degradation than others, this characteristic emerges across all models. Context, therefore, must be treated as a finite resource with diminishing marginal returns. Like humans, who have limited working memory capacity, LLMs have an “attention budget” that they draw on when parsing large volumes of context. Every new token introduced depletes this budget by some amount, increasing the need to carefully curate the tokens available to the LLM.</p>
+             <p>While some models exhibit more gentle degradation than others, this characteristic emerges across all models. Context, therefore, must be treated as a finite resource with diminishing marginal returns. Like humans, who have limited working memory capacity, LLMs have an “attention budget” that they draw on when parsing large volumes of context. Every new token introduced sprinkles this budget by some amount, increasing the need to carefully curate the tokens available to the LLM.</p>
              <p>This attention scarcity stems from architectural constraints of LLMs. LLMs are based on the transformer architecture, which enables every token to attend to every other token across the entire context. This results in n² pairwise relationships for n tokens.</p>
              <p>As its context length increases, a model's ability to capture these pairwise relationships gets stretched thin, creating a natural tension between context size and attention focus. Additionally, models develop their attention patterns from training data distributions where shorter sequences are typically more common than longer ones. This means models have less experience with, and fewer specialized parameters for, context-wide dependencies.</p>
              <p>Techniques like position encoding interpolation allow models to handle longer sequences by adapting them to the originally trained smaller context, though with some degradation in token position understanding. These factors create a performance gradient rather than a hard cliff: models remain highly capable at longer contexts but may show reduced precision for information retrieval and long-range reasoning compared to their performance on shorter contexts.</p>
@@ -1534,7 +1817,7 @@ export const LESSONS: Lesson[] = [
                  <tr>
                     <td className="py-6 pr-4 font-black text-purple-600 text-left">Fine Tuning</td>
                     <td className="py-6 pr-4 text-zinc-600 text-left">Impart stable, unchanging patterns like style, tone, and language.</td>
-                    <td className="py-6 pr-4 text-zinc-500 text-left">Retraining model on hundreds of specific sample Q&As.</td>
+                    <td className="py-6 pr-4 text-zinc-600 text-left">Retraining model on hundreds of specific sample Q&As.</td>
                     <td className="py-6 text-zinc-500 italic text-left">Building a "policy co-pilot" that responds in the authoritative voice of the CEO.</td>
                  </tr>
                  <tr>
@@ -2416,7 +2699,7 @@ export const LESSONS: Lesson[] = [
         </section>
 
         <section className="bg-zinc-950 p-10 rounded-[3rem] text-white">
-           <h2 className="text-2xl font-black mb-4 text-indigo-400">Prompt to optimise your Linkedin</h2>
+           <h2 className="text-2xl font-black mb-4 text-indigo-400">Prompt to optimise your LinkedIn</h2>
            <div className="bg-white/5 rounded-2xl p-6 border border-white/10 mb-8">
               <p className="text-zinc-400 text-sm font-medium mb-4">How to use it?</p>
               <ol className="text-xs font-bold text-zinc-300 space-y-2 list-decimal pl-5">
