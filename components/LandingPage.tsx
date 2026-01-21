@@ -297,7 +297,7 @@ export const LandingPage: React.FC = () => {
       <section id="curriculum" className="py-24 bg-white">
          <div className="max-w-7xl mx-auto px-6">
             <div className="text-center mb-16">
-                <h2 className="text-3xl md:text-5xl font-bold text-zinc-900 mb-6 tracking-tight">7 Professional Pillars</h2>
+                <h2 className="text-3xl md:text-5xl font-bold text-zinc-900 mb-6 tracking-tight">8 Professional Pillars</h2>
                 <p className="text-lg text-zinc-600 max-w-2xl mx-auto leading-relaxed font-medium">
                     A curriculum designed around the "Industry-Validated Skill Blueprint" to make you competent across every PM domain.
                 </p>
@@ -355,7 +355,7 @@ export const LandingPage: React.FC = () => {
                      <div className="bg-zinc-800 rounded-3xl p-8 border border-zinc-700 relative">
                          <div className="space-y-6">
                              <div className="flex items-center gap-4 p-4 bg-zinc-700/50 rounded-xl border border-zinc-600">
-                                 <div className="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center font-bold">1</div>
+                                 <div className="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center font-bold">1</div>
                                  <div>
                                      <h4 className="font-bold tracking-tight">Read the Lesson</h4>
                                      <p className="text-sm text-zinc-400 font-medium">Deep dive into a core concept.</p>
