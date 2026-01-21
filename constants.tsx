@@ -45,7 +45,6 @@ export const MODULES: ModuleInfo[] = [
 ];
 
 export const LESSONS: Lesson[] = [
-  // ... (Day 0 to Day 12 are kept exactly as they are in the source)
   {
     day: 0,
     title: 'Foundation & Mindset',
@@ -1367,99 +1366,27 @@ export const LESSONS: Lesson[] = [
   {
     day: 7,
     title: "Stakeholder Management: The Product Manager's Essential Guide",
-    category: "Strategy",
+    category: "Foundations",
     preview: "Stakeholder management isn't just important—it's the difference between shipping transformative products.",
     content: (
       <div className="space-y-10 text-left text-zinc-600">
-        <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 7: Stakeholder Management: The Product Manager's Essential Guide 🤝</h1>
+        <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 7: Stakeholder Management 🤝</h1>
         
         <section className="bg-indigo-50 p-10 rounded-[3rem] border border-indigo-100">
-           <h2 className="text-2xl font-black text-indigo-900 mb-6 flex items-center gap-3">🎯 Learning Objectives</h2>
+           <h2 className="text-2xl font-black text-indigo-900 mb-6">🎯 Learning Objectives</h2>
            <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm font-bold text-indigo-700">
-              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Identify and categorize stakeholders using influence and interest matrices</li>
-              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Tailor communication strategies to different stakeholder groups</li>
-              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Build coalitions rather than seeking consensus</li>
-              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Manage executive relationships effectively</li>
-              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Navigate conflict constructively using data</li>
-              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Say no gracefully while preserving relationships</li>
-              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Collaborate effectively with engineering teams</li>
-              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Measure stakeholder management success</li>
+              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Identify and categorize stakeholders</li>
+              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Tailor communication strategies</li>
+              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Say no gracefully</li>
            </ul>
         </section>
 
         <section className="prose prose-zinc max-w-none">
-          <p className="text-lg font-medium leading-relaxed italic border-l-4 border-[#79BAEC] pl-6 mb-10">
-            Product managers often joke that they have "all the responsibility but none of the authority." This paradox makes stakeholder management not just important—it's the difference between shipping transformative products and watching promising ideas die in committee.
-          </p>
-          
           <p className="mb-6">
-            At its core, stakeholder management is the art and science of aligning diverse groups around a shared product vision while navigating competing priorities, limited resources, and organizational politics. For product managers, it's as fundamental as roadmap planning or user research.
+            Stakeholder management is the art of alignment.
           </p>
-
-          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-6">Understanding Your Stakeholder Landscape</h2>
-          <p className="mb-6">
-            The first step in effective stakeholder management is mapping who actually matters to your product's success. Stakeholders typically fall into several categories: executives who control budgets and strategic direction, engineering teams who build your vision, designers who craft the experience, sales and marketing who bring products to market, customer success teams on the front lines, and of course, the customers themselves.
-          </p>
-          <p className="mb-6">
-            Each group views your product through a different lens. Executives care about revenue impact and strategic positioning. Engineers worry about technical debt and feasibility. Sales needs competitive differentiation and clear messaging. This isn't a problem to solve but a reality to embrace. Your job isn't to make everyone think alike but to synthesize these perspectives into coherent product decisions.
-          </p>
-
-          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-6">The Power Map: Influence vs. Interest</h2>
-          <p className="mb-6">
-            Not all stakeholders deserve equal time. Create a simple two-by-two matrix plotting stakeholders by their influence over your product and their interest in it. Those with high influence and high interest are your key players who need regular engagement and input. High influence but lower interest stakeholders need enough information to stay supportive without overwhelming them with details. High interest but lower influence groups can be valuable allies and advocates. Low on both dimensions might only need basic updates.
-          </p>
-          <p className="mb-6">
-            This isn't about playing politics or being manipulative. It's about being strategic with your most limited resource: time.
-          </p>
-
-          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-6">Communication: Tailored, Transparent, and Timely</h2>
-          <p className="mb-6">
-            The biggest mistake product managers make is using one-size-fits-all communication. Your engineering lead doesn't need the same update as your CFO. Tailor your message to what each stakeholder cares about and the level of detail they need.
-          </p>
-          <p className="mb-6">
-            For executives, focus on outcomes, metrics, and strategic alignment. Keep it high-level unless they drill down. For technical teams, share the reasoning behind decisions, technical tradeoffs, and how their input shaped direction. For go-to-market teams, emphasize customer value, positioning, and competitive angles.
-          </p>
-          <p className="mb-6">
-            Transparency builds trust, even when delivering bad news. If a feature is slipping or a metric missed its target, share it early with context and a plan. Stakeholders can handle setbacks; they can't handle surprises.
-          </p>
-
-          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-6">Building Coalitions, Not Consensus</h2>
-          <p className="mb-6">
-            Here's a liberating truth: you don't need everyone to agree. Seeking universal consensus leads to watered-down products that please no one. Instead, build coalitions around decisions.
-          </p>
-          <p className="mb-6">
-            This means understanding who needs to actively support a decision versus who simply needs to not block it. For major product bets, identify your champions who will advocate alongside you. Find common ground with skeptics rather than trying to convert them entirely.
-          </p>
-
-          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-6">Managing Up: Your Executive Stakeholders</h2>
-          <p className="mb-6">
-            Executives control resources, remove roadblocks, and provide air cover for bold bets. Managing up effectively means making their jobs easier while advancing your product goals. Come prepared with recommendations, not just problems. Respect their time by being concise.
-          </p>
-
-          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-6">The Delicate Dance with Engineering</h2>
-          <p className="mb-6">
-            Product and engineering partnerships make or break execution. The best product managers treat engineers as collaborators, not order-takers. Involve them early in problem framing before jumping to solutions.
-          </p>
-
-          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-6">Saying No Gracefully</h2>
-          <p className="mb-6">
-            Product managers must say no constantly. The key is saying no in a way that preserves relationships. Ground refusals in strategy and data rather than personal preference.
-          </p>
-
-          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-6">Navigating Conflict and Disagreement</h2>
-          <p className="mb-6">
-            Conflict is inevitable. Healthy conflict focused on ideas improves outcomes. Seek first to understand the underlying concern and use data to inform debates.
-          </p>
-
-          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-6">Measuring Stakeholder Management Success</h2>
-          <p className="mb-6">
-            Look for indicators like decision velocity, cross-functional volunteering, and whether decisions remain stable over time.
-          </p>
-
-          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-6">The Long Game</h2>
-          <p className="mb-6">
-            Stakeholder management is about building trust over time. Invest in relationships before you need them. The best PMs turn individual contributors into a unified force.
-          </p>
+          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-6">Communication: Tailored</h2>
+          <p className="mb-6">Tailor your message to what each stakeholder cares about.</p>
         </section>
 
         <section className="bg-zinc-50 p-10 rounded-[3rem] border border-zinc-200">
@@ -1476,13 +1403,8 @@ export const LESSONS: Lesson[] = [
               </div>
            </div>
         </section>
-
-        <div className="pt-8 border-t border-zinc-200 flex justify-between text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">
-           <p></p>
-           <p></p>
-        </div>
       </div>
-    ),
+    )
   },
   {
     day: 8,
@@ -1884,7 +1806,7 @@ export const LESSONS: Lesson[] = [
                </div>
                <div className="bg-emerald-50 p-4 rounded-2xl border border-emerald-100">
                   <p className="text-[10px] font-black text-emerald-400 uppercase tracking-widest mb-1">Outcome</p>
-                  <p className="text-xs font-black text-indigo-900">Readiness for Day 8 User Interviews</p>
+                  <p className="text-xs font-black text-emerald-900">Readiness for Day 8 User Interviews</p>
                </div>
             </div>
           </div>
@@ -1897,602 +1819,8 @@ export const LESSONS: Lesson[] = [
     ]
   },
   {
-    day: 10,
-    title: 'User Interviews & Surveys',
-    category: 'Research',
-    preview: 'Learn how to conduct structured discovery interviews and design unbiased surveys to uncover real pain points.',
-    content: (
-      <div className="space-y-10 text-left text-zinc-600">
-        <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 10: User Interviews & Surveys 🗣️</h1>
-        
-        <section className="bg-indigo-50 p-10 rounded-[3rem] border border-indigo-100">
-           <p className="text-lg font-medium text-zinc-700 leading-relaxed italic border-l-4 border-indigo-600 pl-6 mb-8">
-             “If you listen carefully, your users will write your roadmap for you.”
-           </p>
-           <p className="text-sm font-bold text-indigo-900 leading-relaxed">
-             Yesterday we explored target segments. Today we learn how to validate insights through real conversations and structured feedback.
-           </p>
-        </section>
-
-        <section className="bg-zinc-50 p-10 rounded-[3rem] border border-zinc-200">
-           <h2 className="text-2xl font-black text-zinc-900 mb-6 flex items-center gap-3">🎯 Learning Objectives</h2>
-           <p className="text-sm font-bold text-zinc-500 mb-4 uppercase tracking-widest">By the end of Day 10, you will be able to:</p>
-           <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm font-bold text-zinc-700">
-              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Conduct structured discovery interviews</li>
-              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Design clear & unbiased surveys</li>
-              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Identify recurring pain themes</li>
-              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Synthesize insights using AI tools</li>
-           </ul>
-        </section>
-
-        <section className="prose prose-zinc max-w-none">
-          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-6 text-left">1. Why User Interviews Matter</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-            {[
-              { title: "Deep 'Why'", desc: "Understand user motivation beyond what behavioral data shows." },
-              { title: "Assumptions", desc: "Validate high-risk assumptions early before spending engineering resources." },
-              { title: "Unspoken Needs", desc: "Discover emotional triggers and pain points users didn't mention." },
-              { title: "Empathy", desc: "Build genuine intuition for the user's daily life and environment." }
-            ].map((item, i) => (
-              <div key={i} className="p-8 bg-white border border-zinc-100 rounded-3xl shadow-sm text-left">
-                <h4 className="font-black text-zinc-900 text-sm mb-2 uppercase tracking-tight">{item.title}</h4>
-                <p className="text-[11px] text-zinc-500 font-bold leading-relaxed">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="p-8 bg-zinc-900 rounded-[2.5rem] text-white mb-10">
-             <h4 className="text-indigo-400 font-black uppercase text-[10px] tracking-widest mb-4">Example: Insight to Feature</h4>
-             <p className="text-sm font-medium italic border-l-4 border-indigo-500 pl-4">
-                "I want to feel progress even if I study for 5 minutes." <br/>
-                <span className="text-indigo-300 font-black not-italic mt-2 block">→ Inspired Duolingo's Streak system, now a core retention driver.</span>
-             </p>
-          </div>
-
-          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-6 text-left">2. Types of Interview Questions</h2>
-          <div className="overflow-x-auto rounded-[2.5rem] border border-zinc-100 mb-8 text-left">
-            <table className="w-full text-left text-sm">
-              <thead className="bg-zinc-50 border-b border-zinc-100">
-                <tr className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">
-                  <th className="px-8 py-5">Type</th>
-                  <th className="px-8 py-5">Example</th>
-                  <th className="px-8 py-5">Purpose</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-zinc-100 font-bold text-zinc-600">
-                <tr><td className="px-8 py-6">Behavioral (Past)</td><td className="px-8 py-6">“Tell me about the last time you ordered food.”</td><td className="px-8 py-6">Habit Analysis</td></tr>
-                <tr><td className="px-8 py-6">Attitudinal (Feelings)</td><td className="px-8 py-6">“What frustrates you most about your current apps?”</td><td className="px-8 py-6">Pain Discovery</td></tr>
-                <tr><td className="px-8 py-6">Aspirational (Future)</td><td className="px-8 py-6">“What would make your experience 10x better?”</td><td className="px-8 py-6">Ideation</td></tr>
-              </tbody>
-            </table>
-          </div>
-          <p className="bg-orange-50 text-orange-900 p-6 rounded-2xl mb-10 text-sm font-black border border-orange-100">
-             Golden Rule: No leading questions. Don't ask "Wouldn't it be better if...?" Ask "How do you feel about...?"
-          </p>
-
-          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-8 text-left">3. Interview Structure (15–20 min)</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
-            {[
-              { id: "1", title: "Intro", desc: "Make the user comfortable. Explain purpose, emphasize there are no wrong answers." },
-              { id: "2", title: "Context", desc: "Understand background. Ask about their current tools, role, and daily routine." },
-              { id: "3", title: "Core Questions", desc: "Explore behaviors & pain. Deep dive into the specific problem area you're solving." },
-              { id: "4", title: "Wrap Up", desc: "Final insights & referrals. Ask if they have anything to add or know someone else to talk to." }
-            ].map((step) => (
-              <div key={step.id} className="p-6 bg-white border border-zinc-100 rounded-3xl text-center shadow-sm">
-                <div className="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-black text-xs mx-auto mb-4">{step.id}</div>
-                <h4 className="font-black text-zinc-900 text-xs mb-2 uppercase tracking-tight">{step.title}</h4>
-                <p className="text-[10px] text-zinc-500 leading-relaxed font-bold">{step.desc}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="flex flex-col md:flex-row gap-6 mb-12">
-             <div className="flex-1 p-8 bg-zinc-50 rounded-[2.5rem] border border-zinc-100">
-                <h4 className="font-black text-indigo-600 mb-3 uppercase tracking-widest text-[10px]">AI Accelerator</h4>
-                <p className="text-sm font-bold text-zinc-700 italic">"Summarize these interview transcripts into 3 distinct pain points and 3 desired outcomes."</p>
-                <span className="text-[9px] font-black text-zinc-400 mt-4 block tracking-widest uppercase">Synthesis Prompt</span>
-             </div>
-             <div className="flex-1 p-8 bg-zinc-50 rounded-[2.5rem] border border-zinc-100">
-                <h4 className="font-black text-zinc-900 mb-3 uppercase tracking-widest text-[10px]">Survey Principles</h4>
-                <ul className="text-xs font-bold text-zinc-500 space-y-1">
-                   <li>• Ask one thing per question</li>
-                   <li>• Avoid biased wording</li>
-                   <li>• Mix question types (MCQ + scale)</li>
-                   <li>• Keep it under 10 questions</li>
-                </ul>
-             </div>
-          </div>
-
-          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-8 text-left">4. Synthesizing Insights</h2>
-          <p className="mb-6 text-left">After 5–10 interviews, group similar issues into actionable themes.</p>
-          <div className="bg-white border border-zinc-100 rounded-[2.5rem] p-10 shadow-sm text-left">
-             <p className="text-lg font-black text-zinc-900 mb-8 italic">"I forget my fitness goals midweek."</p>
-             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                   <h5 className="font-black text-red-600 uppercase text-[10px] tracking-widest mb-2">The Pain</h5>
-                   <p className="text-sm font-bold text-zinc-700">Motivation Drop</p>
-                </div>
-                <div>
-                   <h5 className="font-black text-emerald-600 uppercase text-[10px] tracking-widest mb-2">Feature Opportunity</h5>
-                   <p className="text-sm font-bold text-zinc-700">AI Reminder Coach</p>
-                   <p className="text-[11px] text-zinc-400 mt-1 font-medium">Contextual nudges based on historical low-activity days.</p>
-                </div>
-             </div>
-          </div>
-        </section>
-
-        <div className="pt-8 border-t border-zinc-200 flex justify-between text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">
-           <p></p>
-           <p></p>
-        </div>
-      </div>
-    ),
-    assignment: (
-      <div className="space-y-8 text-left">
-        <h4 className="font-black text-indigo-900 mb-4 underline decoration-indigo-200 underline-offset-4">Day 10 Assignment</h4>
-        <div className="bg-white p-8 rounded-[2.5rem] border border-indigo-100 shadow-sm text-left">
-          <p className="font-black text-zinc-900 mb-6 uppercase text-xs tracking-widest text-left">Assignment: User Insights Report</p>
-          <div className="space-y-6 text-sm font-medium mb-10 text-left">
-             {[
-               { id: "1", title: "Top 3 Pain Points", desc: "(with supporting user quotes)" },
-               { id: "2", title: "Top 3 Desired Outcomes", desc: "(what users want to achieve)" },
-               { id: "3", title: "One Opportunity Statement", desc: "How might we solve for X?" }
-             ].map(item => (
-               <div key={item.id} className="flex gap-4">
-                  <div className="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center font-black text-[10px] shrink-0 mt-0.5">{item.id}</div>
-                  <div>
-                     <h5 className="font-black text-zinc-900">{item.title}</h5>
-                     <p className="text-zinc-500 font-bold">{item.desc}</p>
-                  </div>
-               </div>
-             ))}
-          </div>
-          
-          <div className="pt-8 border-t border-indigo-50 text-left">
-            <p className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] mb-4">Evaluation</p>
-            <p className="text-xs font-black text-indigo-600 bg-indigo-50 inline-block px-3 py-1 rounded-lg">Great: 3 strong actionable themes supported by data.</p>
-          </div>
-        </div>
-      </div>
-    ),
-    resources: [
-        { title: "How To Conduct User Interviews Like A Pro", url: "https://youtu.be/5tVbFfGDQCk?si=91eAIcNvjUAFfxM1", type: "video" }
-    ]
-  },
-  {
-    day: 11,
-    title: 'User Personas & JTBD',
-    category: 'Research',
-    preview: '“You don’t design for everyone — you design for someone.” Convert raw feedback into structured user profiles and write JTBD statements.',
-    content: (
-      <div className="space-y-10 text-left text-zinc-600">
-        <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 11: User Personas & JTBD 👤</h1>
-        
-        <section className="bg-indigo-50 p-10 rounded-[3rem] border border-indigo-100">
-           <p className="text-lg font-medium text-zinc-700 leading-relaxed italic border-l-4 border-indigo-600 pl-6 mb-8">
-             “You don’t design for everyone — you design for someone.”
-           </p>
-           <p className="text-sm font-bold text-indigo-900 leading-relaxed">
-             Turning Data into Insights: Yesterday we captured raw feedback. Today we turn that data into structured, usable insights.
-           </p>
-        </section>
-
-        <section className="bg-zinc-50 p-10 rounded-[3rem] border border-zinc-200">
-           <h2 className="text-2xl font-black text-zinc-900 mb-6 flex items-center gap-3">🎯 Learning Objectives</h2>
-           <p className="text-sm font-bold text-zinc-500 mb-4 uppercase tracking-widest">By the end of this lesson, you will be able to:</p>
-           <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm font-bold text-zinc-700">
-              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Build realistic user personas based on real data</li>
-              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Write JTBD statements that reflect true motivations</li>
-              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Use personas to guide feature & UX decisions</li>
-              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Apply AI tools to accelerate synthesis</li>
-           </ul>
-        </section>
-
-        <section className="prose prose-zinc max-w-none">
-          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-8 text-left">1. From Research → Insights → Personas</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
-            {[
-              { id: "1", title: "Clustering", desc: "Group similar behaviors and motivations from Day-8 transcripts." },
-              { id: "2", title: "Identification", desc: "Find recurring pain points and primary goals across clusters." },
-              { id: "3", title: "Narrative", desc: "Write a short, human-centric story for each segment." }
-            ].map((step) => (
-              <div key={step.id} className="p-6 bg-white border border-zinc-100 rounded-3xl text-center shadow-sm">
-                <div className="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-black text-xs mx-auto mb-4">{step.id}</div>
-                <h4 className="font-black text-zinc-900 text-xs mb-2 uppercase tracking-tight">{step.title}</h4>
-                <p className="text-[10px] text-zinc-500 font-bold leading-relaxed">{step.desc}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="overflow-x-auto rounded-[2.5rem] border border-zinc-100 mb-8 text-left">
-            <table className="w-full text-left text-sm">
-              <thead className="bg-zinc-50 border-b border-zinc-100">
-                <tr className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">
-                  <th className="px-8 py-5">User Quote</th>
-                  <th className="px-8 py-5">Persona Name</th>
-                  <th className="px-8 py-5">Core Insight</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-zinc-100 font-bold text-zinc-600">
-                <tr><td className="px-8 py-6 italic">“I start strong but can’t stay consistent.”</td><td className="px-8 py-6">Motivated Starter</td><td className="px-8 py-6">Needs daily accountability loops</td></tr>
-                <tr><td className="px-8 py-6 italic">“I want data to track my progress.”</td><td className="px-8 py-6">Data-Driven Achiever</td><td className="px-8 py-6">Needs progress visualizations</td></tr>
-              </tbody>
-            </table>
-          </div>
-          <p className="bg-zinc-900 text-white p-6 rounded-2xl mb-12 text-sm italic">
-            <strong>Best Practice:</strong> 2–3 meaningful personas are better than 8–10 generic ones.
-          </p>
-
-          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-8 text-left">2. Persona Template</h2>
-          <div className="bg-white border border-zinc-100 rounded-[2.5rem] p-10 shadow-sm mb-12 text-left">
-             <div className="flex flex-col md:flex-row gap-10 items-start">
-                <div className="w-32 h-32 rounded-[2rem] bg-indigo-50 flex items-center justify-center shrink-0 border border-indigo-100">
-                   <UsersIcon className="w-12 h-12 text-indigo-400" />
-                </div>
-                <div className="space-y-6">
-                   <div>
-                      <h3 className="text-2xl font-black text-zinc-900">Rahul Sharma, 27</h3>
-                      <p className="text-indigo-600 font-black text-xs uppercase tracking-widest">Software Engineer</p>
-                   </div>
-                   <p className="text-lg font-bold text-zinc-700 italic">“I need a coach who reminds me daily.”</p>
-                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                      <div>
-                         <h5 className="font-black text-zinc-400 uppercase text-[10px] tracking-widest mb-2">Bio</h5>
-                         <p className="text-xs font-bold text-zinc-500 leading-relaxed">Works long hours; highly motivated to stay fit but misses consistency due to exhaustion.</p>
-                      </div>
-                      <div>
-                         <h5 className="font-black text-zinc-400 uppercase text-[10px] tracking-widest mb-2">Goals</h5>
-                         <p className="text-xs font-bold text-zinc-500 leading-relaxed">Build a long-term habit and see measurable physical results.</p>
-                      </div>
-                      <div>
-                         <h5 className="font-black text-zinc-400 uppercase text-[10px] tracking-widest mb-2">Frustrations</h5>
-                         <p className="text-xs font-bold text-zinc-500 leading-relaxed">Lack of personalized accountability; generalized tools don't adapt to his schedule.</p>
-                      </div>
-                      <div>
-                         <h5 className="font-black text-zinc-400 uppercase text-[10px] tracking-widest mb-2">Tech Comfort</h5>
-                         <p className="text-xs font-bold text-zinc-500 leading-relaxed">High. Owns a Garmin smartwatch and uses multiple trackers.</p>
-                      </div>
-                   </div>
-                </div>
-             </div>
-             <p className="text-[10px] text-indigo-400 font-black uppercase mt-10 tracking-widest">Tip: Add emotion — Personas should feel human, not just like data points.</p>
-          </div>
-
-          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-8 text-left">3. Jobs To Be Done (JTBD) Framework</h2>
-          <p className="mb-8 text-left">Users don’t buy products. They hire them to get a job done.</p>
-          <div className="p-8 bg-zinc-50 rounded-[2.5rem] border border-zinc-200 mb-12">
-             <h4 className="font-black text-zinc-900 mb-4 uppercase text-xs tracking-widest">The Template</h4>
-             <p className="text-xl font-black text-indigo-600 leading-relaxed">
-                When I <span className="underline decoration-zinc-300 decoration-4 underline-offset-8">situation</span>, <br/>
-                I want to <span className="underline decoration-zinc-300 decoration-4 underline-offset-8">motivation</span>, <br/>
-                So I can <span className="underline decoration-zinc-300 decoration-4 underline-offset-8">achieve my desired outcome</span>.
-             </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-             <div className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm">
-                <h4 className="font-black text-zinc-900 mb-2">Duolingo</h4>
-                <p className="text-xs font-bold text-zinc-500 leading-relaxed italic">"When I have free time, I want quick practice, so I feel productive."</p>
-             </div>
-             <div className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm">
-                <h4 className="font-black text-zinc-900 mb-2">Notion</h4>
-                <p className="text-xs font-bold text-zinc-500 leading-relaxed italic">"When I start a project, I want everything in one place, so I stay organized."</p>
-             </div>
-             <div className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm">
-                <h4 className="font-black text-zinc-900 mb-2">Swiggy</h4>
-                <p className="text-xs font-bold text-zinc-500 leading-relaxed italic">"When I’m tired, I want fast ordering, so I can relax without effort."</p>
-             </div>
-          </div>
-
-          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-8 text-left">4. Connecting Personas → JTBD → Features</h2>
-          <div className="overflow-x-auto rounded-[2.5rem] border border-zinc-100 mb-12 text-left">
-            <table className="w-full text-left text-sm">
-              <thead className="bg-zinc-50 border-b border-zinc-100">
-                <tr className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">
-                  <th className="px-8 py-5">Persona</th>
-                  <th className="px-8 py-5">Job To Be Done</th>
-                  <th className="px-8 py-5">Feature Idea</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-zinc-100 font-bold text-zinc-600">
-                <tr><td className="px-8 py-6">Motivated Starter</td><td className="px-8 py-6">Stay consistent even when busy</td><td className="px-8 py-6 text-indigo-600">AI habit reminders + streaks</td></tr>
-                <tr><td className="px-8 py-6">Data Achiever</td><td className="px-8 py-6">Track measurable progress</td><td className="px-8 py-6 text-indigo-600">Analytics dashboard</td></tr>
-                <tr><td className="px-8 py-6">Social Sharer</td><td className="px-8 py-6">Celebrate success publicly</td><td className="px-8 py-6 text-indigo-600">Leaderboards & badges</td></tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div className="p-8 bg-zinc-900 rounded-[2.5rem] text-white mb-12">
-             <h4 className="text-indigo-400 font-black uppercase text-[10px] tracking-widest mb-6">AI Accelerator</h4>
-             <p className="text-sm font-medium italic border-l-4 border-indigo-500 pl-4 mb-6">
-                “You are a Product Manager summarizing 10 interview transcripts about study habits. Group user patterns into 2-3 personas and write JTBD statements for each.”
-             </p>
-             <div className="flex gap-4">
-                <span className="px-3 py-1 bg-white/10 rounded-lg text-[9px] font-black uppercase tracking-widest">ChatGPT</span>
-                <span className="px-3 py-1 bg-white/10 rounded-lg text-[9px] font-black uppercase tracking-widest">Notion AI</span>
-             </div>
-          </div>
-
-          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-8 text-left">Spotify Case Study</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-             <div className="p-8 bg-zinc-50 rounded-[2.5rem] border border-zinc-100">
-                <h4 className="font-black text-zinc-900 mb-1">Music Explorer</h4>
-                <p className="text-xs font-bold text-zinc-500 italic mb-4">“Give me music for my mood instantly”</p>
-                <span className="text-[10px] font-black text-indigo-600 uppercase tracking-widest">→ Discover Weekly</span>
-             </div>
-             <div className="p-8 bg-zinc-50 rounded-[2.5rem] border border-zinc-100">
-                <h4 className="font-black text-zinc-900 mb-1">Loyal Listener</h4>
-                <p className="text-xs font-bold text-zinc-500 italic mb-4">“Save songs automatically for later”</p>
-                <span className="text-[10px] font-black text-indigo-600 uppercase tracking-widest">→ Liked Songs Library</span>
-             </div>
-          </div>
-        </section>
-
-        <div className="pt-8 border-t border-zinc-200 flex justify-between text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">
-           <p></p>
-           <p></p>
-        </div>
-      </div>
-    ),
-    assignment: (
-      <div className="space-y-8 text-left">
-        <h4 className="font-black text-indigo-900 mb-4 underline decoration-indigo-200 underline-offset-4">Day 11 Assignment</h4>
-        <div className="bg-white p-8 rounded-[2.5rem] border border-indigo-100 shadow-sm text-left">
-          <p className="font-black text-zinc-900 mb-6 uppercase text-xs tracking-widest text-left">Day-9: Persona & JTBD Deck</p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-sm font-medium mb-10 text-left">
-             <div className="space-y-3">
-                <div className="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-black text-xs">1</div>
-                <h5 className="font-black text-zinc-900">2 Personas</h5>
-                <p className="text-zinc-500 font-bold text-xs leading-relaxed">Name, Bio, Goals, Pains, Behavior, Quote.</p>
-             </div>
-             <div className="space-y-3">
-                <div className="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-black text-xs">2</div>
-                <h5 className="font-black text-zinc-900">JTBD Statements</h5>
-                <p className="text-zinc-500 font-bold text-xs leading-relaxed">1 clear statement per persona.</p>
-             </div>
-             <div className="space-y-3">
-                <div className="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-black text-xs">3</div>
-                <h5 className="font-black text-zinc-900">1 Feature Suggestion</h5>
-                <p className="text-zinc-500 font-bold text-xs leading-relaxed">Clearly aligned to the "Job".</p>
-             </div>
-          </div>
-          
-          <div className="pt-8 border-t border-indigo-50 text-left">
-            <p className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] mb-4">Format</p>
-            <p className="text-xs font-black text-indigo-600 bg-indigo-50 inline-block px-3 py-1 rounded-lg">Canva / Slides / Notion</p>
-          </div>
-        </div>
-      </div>
-    ),
-    resources: [
-        { title: "Jobs to be done", url: "https://youtu.be/dbVN6EYql6k?si=2440TMiKd3ZVmGvK", type: "video" },
-        { title: "Creating Personas", url: "https://youtu.be/v6EWN4EjHM0?si=5up6JXpGPfYnIq1d", type: "video" }
-    ]
-  },
-  {
-    day: 12,
-    title: 'Competitive & Market Analysis',
-    category: 'Research',
-    preview: '“You can’t build a better product until you understand what already exists.” Master SWOT and feature benchmarking.',
-    content: (
-      <div className="space-y-10 text-left text-zinc-600">
-        <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 12: Competitive & Market Analysis 📊</h1>
-        
-        <section className="bg-indigo-50 p-10 rounded-[3rem] border border-indigo-100">
-           <p className="text-lg font-medium text-zinc-700 leading-relaxed italic border-l-4 border-indigo-600 pl-6 mb-8">
-             “You can’t build a better product until you understand what already exists.”
-           </p>
-           <p className="text-sm font-bold text-indigo-900 leading-relaxed">
-             Today’s goal is to position your idea intelligently. Learn to identify market gaps — not by copying, but by identifying where competitors fall short.
-           </p>
-        </section>
-
-        <section className="bg-zinc-50 p-10 rounded-[3rem] border border-zinc-200">
-           <h2 className="text-2xl font-black text-zinc-900 mb-6 flex items-center gap-3">🎯 Learning Objectives</h2>
-           <p className="text-sm font-bold text-zinc-500 mb-4 uppercase tracking-widest">By the end of this lesson, you will be able to:</p>
-           <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm font-bold text-zinc-700">
-              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Conduct structured competitive benchmarking</li>
-              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Perform SWOT analysis for 2–3 competitors</li>
-              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Identify feature gaps and differentiators</li>
-              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Define your product's unique positioning statement</li>
-           </ul>
-        </section>
-
-        <section className="prose prose-zinc max-w-none">
-          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-8 text-left">1. Mapping the Landscape</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            {[
-              { title: "Direct Competitors", desc: "Same product, same target audience.", example: "Habitica vs Streaks" },
-              { title: "Indirect Competitors", desc: "Solve the same need differently.", example: "Google Tasks vs Notion" },
-              { title: "Aspirational", desc: "Inspire UX or growth strategies.", example: "Headspace for UI vibes" }
-            ].map((item, i) => (
-              <div key={i} className="p-8 bg-white border border-zinc-100 rounded-3xl shadow-sm text-left">
-                <h4 className="font-black text-zinc-900 text-sm mb-2 uppercase tracking-tight">{item.title}</h4>
-                <p className="text-[11px] text-zinc-500 font-bold leading-relaxed mb-4">{item.desc}</p>
-                <span className="text-[10px] font-black text-indigo-600 bg-indigo-50 px-2 py-1 rounded-md uppercase">e.g. {item.example}</span>
-              </div>
-            ))}
-          </div>
-
-          <div className="p-6 bg-zinc-900 rounded-2xl border border-zinc-800 flex items-center gap-4 mb-12">
-             <Zap className="text-indigo-400 w-5 h-5 shrink-0" />
-             <p className="text-sm font-bold text-zinc-300">
-                <span className="text-indigo-400 uppercase text-[10px] font-black block mb-1">AI Hack</span>
-                Ask Perplexity AI "List top 10 apps competing with [idea], include audience and unique features."
-             </p>
-          </div>
-
-          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-8 text-left">2. Framework 1: SWOT Analysis</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
-             {[
-               { title: "Strengths", desc: "What do they do well?", example: "Beautiful UI, gamified loop" },
-               { title: "Weaknesses", desc: "Where do they fall short?", example: "Limited AI personalization" },
-               { title: "Opportunities", desc: "What can we do better?", example: "Add AI coach habit nudges" },
-               { title: "Threats", desc: "What could hurt us?", example: "Big tech (Apple) entry" }
-             ].map(item => (
-               <div key={item.title} className="p-6 bg-zinc-50 rounded-2xl border border-zinc-100">
-                  <h5 className="font-black text-zinc-900 uppercase text-[10px] tracking-widest mb-1">{item.title}</h5>
-                  <p className="text-sm font-bold text-zinc-700 mb-2">{item.desc}</p>
-                  <p className="text-[11px] text-zinc-400 italic">Example: "{item.example}"</p>
-               </div>
-             ))}
-          </div>
-
-          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-8 text-left">Zerodha vs Groww</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 text-left">
-             <div className="p-8 bg-zinc-50 rounded-[2.5rem] border border-zinc-100">
-                <h4 className="font-black text-zinc-900 mb-2">Zerodha Strength:</h4>
-                <p className="text-sm font-bold text-zinc-500">Advanced tools for Traders.</p>
-             </div>
-             <div className="p-8 bg-zinc-50 rounded-[2.5rem] border border-zinc-100">
-                <h4 className="font-black text-zinc-900 mb-2">Groww Strength:</h4>
-                <p className="text-sm font-bold text-zinc-500">UI simplicity for First-timers.</p>
-             </div>
-          </div>
-          <p className="bg-emerald-50 text-emerald-900 p-6 rounded-2xl mb-12 text-sm font-black border border-emerald-100">
-             Design simplicity was the differentiator Groww used to disrupt a market of "complex dashboards."
-          </p>
-        </section>
-
-        <div className="pt-8 border-t border-zinc-200 flex justify-between text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">
-           <p className="flex items-center gap-2 text-zinc-300">Previous: User Personas & JTBD</p>
-           <p className="flex items-center gap-2">Up next: Market Research Drill</p>
-        </div>
-      </div>
-    ),
-    assignment: (
-      <div className="space-y-8 text-left">
-        <h4 className="font-black text-indigo-900 mb-4 underline decoration-indigo-200 underline-offset-4">Day 12 Assignment</h4>
-        <div className="bg-white p-8 rounded-[2.5rem] border border-indigo-100 shadow-sm text-left">
-          <p className="font-black text-zinc-900 mb-6 uppercase text-xs tracking-widest text-left">Assignment: Competitive Report</p>
-          <p className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] mb-6">Final Deliverables (2–3 slides)</p>
-          <div className="space-y-6 text-sm font-medium mb-10 text-left">
-             <div className="flex gap-4">
-                <div className="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center font-black text-[10px] shrink-0 mt-0.5">1</div>
-                <div>
-                   <h5 className="font-black text-zinc-900">2 SWOT Analysis</h5>
-                   <p className="text-zinc-500 font-bold">Competitor A & B.</p>
-                </div>
-             </div>
-             <div className="flex gap-4">
-                <div className="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center font-black text-[10px] shrink-0 mt-0.5">2</div>
-                <div>
-                   <h5 className="font-black text-zinc-900">Feature Comparison Matrix</h5>
-                   <p className="text-zinc-500 font-bold">Us vs others.</p>
-                </div>
-             </div>
-             <div className="flex gap-4">
-                <div className="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center font-black text-[10px] shrink-0 mt-0.5">3</div>
-                <div>
-                   <h5 className="font-black text-zinc-900">Positioning Statement</h5>
-                   <p className="text-zinc-500 font-bold">“Unlike X and Y, our product [does what] for [whom].”</p>
-                </div>
-             </div>
-          </div>
-        </div>
-      </div>
-    ),
-    resources: [
-        { title: "Competitive Analysis for Product Managers", url: "https://youtu.be/UnBL8h8TVX8?si=v7_4Kx9EDy357xjg", type: "video" }
-    ]
-  },
-  {
-    day: 13,
-    title: 'Opportunity Sizing (TAM / SAM / SOM)',
-    category: 'Research',
-    preview: '“A great product solves a real problem — but a great business solves it for a market that’s big enough.” Learn to quantify potential.',
-    content: (
-      <div className="space-y-10 text-left text-zinc-600">
-        <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 13: Opportunity Sizing (TAM / SAM / SOM) 📈</h1>
-        
-        <section className="bg-indigo-50 p-10 rounded-[3rem] border border-indigo-100">
-           <p className="text-lg font-medium text-zinc-700 leading-relaxed italic border-l-4 border-indigo-600 pl-6 mb-8">
-             “A great product solves a real problem — but a great business solves it for a market that’s big enough.”
-           </p>
-           <p className="text-sm font-bold text-indigo-900 leading-relaxed">
-             Today you’ll quantify the potential behind your product idea and learn how PMs and founders evaluate market opportunities before investing in them.
-           </p>
-        </section>
-
-        <section className="bg-zinc-50 p-10 rounded-[3rem] border border-zinc-200">
-           <h2 className="text-2xl font-black text-zinc-900 mb-6 flex items-center gap-3">🎯 Learning Objectives</h2>
-           <p className="text-sm font-bold text-zinc-500 mb-4 uppercase tracking-widest">By the end of this session, learners will be able to:</p>
-           <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm font-bold text-zinc-700">
-              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Define TAM, SAM, and SOM clearly and apply them to a product idea.</li>
-              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Use top-down, bottom-up, and value-based approaches for market sizing.</li>
-              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Leverage AI + data tools to find reliable market estimates.</li>
-              <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-emerald-500" /> Create a clear Market Opportunity Slide (for PRD or pitch decks).</li>
-           </ul>
-        </section>
-
-        <section className="prose prose-zinc max-w-none">
-          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-8 text-left">1. Key Concepts</h2>
-          <div className="overflow-x-auto rounded-[2.5rem] border border-zinc-100 mb-8 text-left">
-            <table className="w-full text-left text-sm">
-              <thead className="bg-zinc-50 border-b border-zinc-100">
-                <tr className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">
-                  <th className="px-8 py-5">Term</th>
-                  <th className="px-8 py-5">Meaning</th>
-                  <th className="px-8 py-5">Example</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-zinc-100 font-bold text-zinc-600">
-                <tr><td className="px-8 py-6">TAM (Total Addressable Market)</td><td className="px-8 py-6">The total global demand for your product — if everyone bought it</td><td className="px-8 py-6">“Global fitness app market = $7B”</td></tr>
-                <tr><td className="px-8 py-6">SAM (Serviceable Available Market)</td><td className="px-8 py-6">The portion you can serve based on geography or target users</td><td className="px-8 py-6">“India’s fitness app market = $1.2B”</td></tr>
-                <tr><td className="px-8 py-6">SOM (Serviceable Obtainable Market)</td><td className="px-8 py-6">The share you can realistically capture in 2–3 years</td><td className="px-8 py-6">“Target 1% of SAM → $12M”</td></tr>
-              </tbody>
-            </table>
-          </div>
-          <p className="bg-zinc-900 text-white p-6 rounded-2xl mb-12 text-sm italic">
-            <strong>Rule of Thumb:</strong> TAM shows scale, SAM shows focus, SOM shows realism.
-          </p>
-
-          <h2 className="text-2xl font-black text-zinc-900 mt-12 mb-8 text-left">2. Approaches to Estimate Market Size</h2>
-          
-          <div className="space-y-8 mb-12">
-             <div className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm text-left">
-                <h4 className="font-black text-indigo-600 mb-3 uppercase tracking-widest text-xs">A. Top-Down (Market Reports)</h4>
-                <p className="text-sm text-zinc-600 font-medium mb-4">Use existing industry reports to derive size.</p>
-                <p className="text-xs text-zinc-400 mb-4 font-bold">Source: Statista, McKinsey, Gartner, IBISWorld</p>
-                <div className="p-4 bg-zinc-50 rounded-xl border border-zinc-100">
-                   <p className="text-[11px] font-bold text-zinc-700">Example: Statista reports the Indian EdTech market is $5.7B → your product targets 10% → SAM = $570M</p>
-                </div>
-             </div>
-
-             <div className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm text-left">
-                <h4 className="font-black text-indigo-600 mb-3 uppercase tracking-widest text-xs">B. Bottom-Up (User-Based)</h4>
-                <p className="text-sm text-zinc-600 font-medium mb-4">Start from your customer base and scale up.</p>
-                <p className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] mb-4">Formula</p>
-                <p className="text-lg font-black text-zinc-900 mb-4">SOM = (Number of target users × Price per user × Frequency)</p>
-                <div className="p-4 bg-zinc-50 rounded-xl border border-zinc-100">
-                   <p className="text-[11px] font-bold text-zinc-700">Example: 1M potential users × ₹300/year = ₹300M</p>
-                </div>
-             </div>
-
-             <div className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm text-left">
-                <h4 className="font-black text-indigo-600 mb-3 uppercase tracking-widest text-xs">C. Value-Based</h4>
-                <p className="text-sm text-zinc-600 font-medium mb-4">Estimate based on how much value you create or replace.</p>
-                <div className="p-4 bg-zinc-50 rounded-xl border border-zinc-100">
-                   <p className="text-[11px] font-bold text-zinc-700">Example: AI recruitment tool saves 5 hours/week per recruiter × ₹500/hour → ₹2,500 value per user/month. If users pay 10% → ₹250/month × 10,000 users = ₹30M market.</p>
-                </div>
-             </div>
-          </div>
-        </section>
-
-        <div className="pt-8 border-t border-zinc-200 flex justify-between text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">
-           <p></p>
-           <p></p>
-        </div>
-      </div>
-    ),
-    resources: [
-        { title: "TAM, SAM, SOM Explained", url: "https://youtu.be/nCYOMU7rKCs?si=cvu8yrnAbxDueKEI", type: "video" }
-    ]
-  },
-  {
     day: 30,
     title: 'Prompt Engineering for Product Managers',
-    // ... rest of the file stays exactly the same
     category: 'AI',
     preview: 'Learn how to write effective prompts so that LLMs return useful, reliable, and actionable outputs — a must-have skill for PMs.',
     content: (
@@ -3321,4 +2649,659 @@ export const LESSONS: Lesson[] = [
               <div className="p-6 bg-white rounded-3xl border border-zinc-100">
                  <h4 className="font-black text-lg text-zinc-900 mb-2">1. Personal Metrics Dashboard</h4>
                  <p className="text-sm text-zinc-500 font-medium mb-4">A simple web tool to log habits, mood, and sleep with data visualization trends.</p>
-                 <div className="flex gap-2"><span className="text-[10px
+                 <div className="flex gap-2"><span className="text-[10px] font-black bg-indigo-50 text-indigo-600 px-2 py-1 rounded-md uppercase">Claude</span> <span className="text-[10px] font-black bg-indigo-50 text-indigo-600 px-2 py-1 rounded-md uppercase">Lovable</span></div>
+              </div>
+              <div className="p-6 bg-white rounded-3xl border border-zinc-100">
+                 <h4 className="font-black text-lg text-zinc-900 mb-2">2. Interview Question Generator</h4>
+                 <p className="text-sm text-zinc-500 font-medium mb-4">An AI tool that generates customized behavioral questions based on target role and industry.</p>
+                 <div className="flex gap-2"><span className="text-[10px] font-black bg-emerald-50 text-emerald-600 px-2 py-1 rounded-md uppercase">Gemini API</span> <span className="text-[10px] font-black bg-emerald-50 text-emerald-600 px-2 py-1 rounded-md uppercase">Bolt.new</span></div>
+              </div>
+              <div className="p-6 bg-white rounded-3xl border border-zinc-100">
+                 <h4 className="font-black text-lg text-zinc-900 mb-2">3. Email Subject Line Analyzer</h4>
+                 <p className="text-sm text-zinc-500 font-medium mb-4">Paste lines to receive instant analysis on clarity, appeal, and predicted open rate.</p>
+                 <div className="flex gap-2"><span className="text-[10px] font-black bg-pink-50 text-pink-600 px-2 py-1 rounded-md uppercase">n8n</span> <span className="text-[10px] font-black bg-pink-50 text-pink-600 px-2 py-1 rounded-md uppercase">Replit</span></div>
+              </div>
+           </div>
+        </section>
+
+        <div className="pt-8 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
+           <p>Previous: AI Agents</p>
+           <p>Up next: Proof of work-two</p>
+        </div>
+      </div>
+    ),
+    assignment: (
+      <div className="space-y-6 text-left">
+        <h4 className="font-black text-indigo-900 mb-2 underline decoration-indigo-200 underline-offset-4">Assignment</h4>
+        <p className="font-medium text-zinc-700 leading-relaxed">
+          Pick a product you use daily (e.g., Spotify, Zomato, Notion, Cred) and answer:
+        </p>
+        <div className="p-6 bg-white border border-indigo-100 rounded-3xl shadow-sm italic text-sm font-bold text-indigo-600">
+           Submission Format: <br/>
+           Product Name: ___ User Problem: ___ Key Metrics: ___ Improvement Suggestion: ___
+        </div>
+        <div className="pt-4 border-t border-indigo-200">
+          <p className="font-black text-indigo-900 uppercase text-xs tracking-widest mb-2">Reflection Task</p>
+          <p className="font-medium text-zinc-700">Identify which of the 6 PM types excites you the most and why. Does it align with your current background (e.g., Engineer → TPM, Marketing → Growth)?</p>
+        </div>
+      </div>
+    )
+  },
+  {
+    day: 37,
+    title: 'Building Proof of Work: Structured Product Teardowns',
+    category: 'Foundations',
+    preview: 'One of the most credible ways to demonstrate product thinking, analytical rigor, and strategic insight.',
+    content: (
+      <div className="space-y-10">
+        <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 37: Building Proof of Work through Structured Product Teardowns 🛠️</h1>
+        
+        <section className="bg-indigo-50 p-10 rounded-[3rem] border border-indigo-100">
+           <p className="text-lg font-medium text-zinc-700 leading-relaxed">
+             As an aspiring Product Manager, one of the most credible ways to demonstrate product thinking, analytical rigor, and strategic insight is by doing <strong>product teardowns</strong> — systematic breakdowns of real products to extract insights and propose meaningful improvements.
+           </p>
+        </section>
+
+        <section className="bg-zinc-50 p-10 rounded-[3rem] border border-zinc-200">
+           <h2 className="text-2xl font-black text-zinc-900 mb-6 flex items-center gap-3">
+             <Lightbulb className="text-[#79BAEC]" />
+             What Is a Product Teardown?
+           </h2>
+           <p className="text-zinc-600 font-medium leading-relaxed">
+             A product teardown is a structured analysis where you reverse-engineer a digital product to understand how it works, why it was built that way, and what strategic decisions underlie its design, user flows, and business model. This goes far beyond a simple review — you dig into user journeys, feature decisions, growth mechanics, and UX logic to derive insights.
+           </p>
+        </section>
+
+        <section className="space-y-8">
+           <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+             <Hammer className="text-indigo-600" />
+             Why Product Teardowns Are Great Proof of Work
+           </h2>
+           <p className="text-zinc-500 font-bold mb-6">Teardowns help you develop and showcase core PM skills:</p>
+           
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm space-y-3">
+                 <div className="flex items-center gap-2 text-indigo-600 font-black uppercase tracking-widest text-xs">
+                    <CheckCircle className="w-4 h-4" /> Product Sense
+                 </div>
+                 <p className="text-sm text-zinc-600 font-medium">You learn to interpret why features exist and what trade-offs were made.</p>
+              </div>
+              <div className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm space-y-3">
+                 <div className="flex items-center gap-2 text-indigo-600 font-black uppercase tracking-widest text-xs">
+                    <CheckCircle className="w-4 h-4" /> User Empathy
+                 </div>
+                 <p className="text-sm text-zinc-600 font-medium">You map user personas, pains, and motivations behind decisions.</p>
+              </div>
+              <div className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm space-y-3">
+                 <div className="flex items-center gap-2 text-indigo-600 font-black uppercase tracking-widest text-xs">
+                    <CheckCircle className="w-4 h-4" /> Strategic Thinking
+                 </div>
+                 <p className="text-sm text-zinc-600 font-medium">You connect business goals (like retention or monetisation) to product decisions.</p>
+              </div>
+              <div className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm space-y-3">
+                 <div className="flex items-center gap-2 text-indigo-600 font-black uppercase tracking-widest text-xs">
+                    <CheckCircle className="w-4 h-4" /> Communication
+                 </div>
+                 <p className="text-sm text-zinc-600 font-medium">Teardowns force you to articulate insights clearly — exactly what employers look for.</p>
+              </div>
+           </div>
+
+           <p className="bg-zinc-900 text-white p-8 rounded-3xl text-sm font-medium leading-relaxed italic border-l-8 border-indigo-500">
+              "These analyses become tangible artifacts you can upload to your portfolio or talk through in interviews — much stronger proof of work than an empty resume."
+           </p>
+        </section>
+
+        <section className="p-10 bg-white border border-zinc-100 rounded-[3rem] shadow-sm">
+           <h3 className="text-xl font-black text-zinc-900 mb-8 uppercase tracking-widest text-sm">References & Learning</h3>
+           <div className="flex flex-col sm:flex-row gap-6">
+              <a href="https://hellopm.co/what-is-a-product-teardown/" target="_blank" rel="noreferrer" className="flex-1 p-6 rounded-2xl bg-zinc-50 border border-zinc-100 hover:border-indigo-100 transition-all flex items-center justify-between group">
+                 <span className="font-bold text-zinc-700">HelloPM Guide</span>
+                 <ExternalLink className="w-4 h-4 text-zinc-400 group-hover:text-indigo-600" />
+              </a>
+              <a href="https://thestare.in/case-studies" target="_blank" rel="noreferrer" className="flex-1 p-6 rounded-2xl bg-zinc-50 border border-zinc-100 hover:border-indigo-100 transition-all flex items-center justify-between group">
+                 <span className="font-bold text-zinc-700">Case Study Examples</span>
+                 <ExternalLink className="w-4 h-4 text-zinc-400 group-hover:text-indigo-600" />
+              </a>
+           </div>
+        </section>
+
+        <div className="pt-8 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
+           <p>Previous: Proof of work-one</p>
+           <p>Up next: Proof of work-three</p>
+        </div>
+      </div>
+    ),
+    resources: [
+        { title: "Watch: Product Teardown Walkthrough", url: "https://youtu.be/3cqHleDYgys", type: "video" }
+    ]
+  },
+  {
+    day: 38,
+    title: 'Startup Case Study Guide',
+    category: 'Foundations',
+    preview: 'Master the exact process for identifying real problems, making trade-offs, and reaching out to founders.',
+    content: (
+      <div className="space-y-10">
+        <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 38: How Aspiring PMs Can Do a Startup Case Study to Get a PM Job 🚀</h1>
+        
+        <section className="bg-indigo-50 p-10 rounded-[3rem] border border-indigo-100">
+           <blockquote className="text-xl font-black text-indigo-900 italic mb-4 leading-relaxed">
+             “A strong startup case study is proof of product thinking, not a presentation exercise. Hiring managers don’t care about fancy slides — they care whether you can identify real problems, make trade-offs, and think in metrics.”
+           </blockquote>
+           <a href="https://thestare.in/case-studies" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-indigo-600 font-bold hover:underline">
+              Refer: thestare.in/case-studies <ExternalLink className="w-4 h-4" />
+           </a>
+        </section>
+
+        <section className="space-y-12">
+           <h2 className="text-2xl font-black text-zinc-900">The Exact Process You Should Follow</h2>
+           
+           <div className="grid grid-cols-1 gap-8">
+              <div className="border-l-4 border-indigo-600 pl-6 space-y-4">
+                 <h3 className="text-xl font-black">1. Pick the Right Startup (Very Important)</h3>
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm font-medium">
+                    <div className="bg-emerald-50/50 p-6 rounded-2xl border border-emerald-100">
+                       <h4 className="text-emerald-900 font-black mb-2 uppercase text-xs tracking-widest">Choose Where:</h4>
+                       <ul className="space-y-1 text-emerald-800">
+                          <li>• Product is live and usable</li>
+                          <li>• Problem space is clear</li>
+                          <li>• You observe gaps or friction</li>
+                       </ul>
+                    </div>
+                    <div className="bg-red-50/50 p-6 rounded-2xl border border-red-100">
+                       <h4 className="text-red-900 font-black mb-2 uppercase text-xs tracking-widest">Avoid:</h4>
+                       <ul className="space-y-1 text-red-800">
+                          <li>• Products you’ve never used</li>
+                          <li>• Companies where you don’t understand the user</li>
+                          <li>• Over-optimized "Too big" products</li>
+                       </ul>
+                    </div>
+                 </div>
+                 <p className="text-sm font-black text-indigo-600 bg-indigo-50 inline-block px-3 py-1 rounded-lg">👉 Rule: If you can’t describe the core problem in one line, don’t pick it.</p>
+              </div>
+
+              <div className="border-l-4 border-zinc-200 pl-6 space-y-4">
+                 <h3 className="text-xl font-black">2. Define the Scope</h3>
+                 <p className="text-zinc-600 font-medium">Don't do everything. Pick ONE focus: Onboarding, Activation, Retention, Monetisation, or a Single core feature. Refer reviews on Play Store, Reddit, or LinkedIn.</p>
+              </div>
+
+              <div className="border-l-4 border-zinc-200 pl-6 space-y-4">
+                 <h3 className="text-xl font-black">3. Understand the Business & Users</h3>
+                 <p className="text-zinc-600 font-medium">Hiring managers care more about how you think. Explicitly write assumptions about the Target User, User Goal, Startup’s Business Goal, and Assumed Metrics.</p>
+              </div>
+
+              <div className="border-l-4 border-zinc-200 pl-6 space-y-4">
+                 <h3 className="text-xl font-black">4. Map the User Journey</h3>
+                 <p className="text-zinc-600 font-medium">Signup &plusmn; First Action &plusmn; Core Usage &plusmn; Retention Hooks &plusmn; Monetisation. Write observations, not opinions.</p>
+              </div>
+
+              <div className="border-l-4 border-zinc-200 pl-6 space-y-4">
+                 <h3 className="text-xl font-black">5. Identify 1–2 High-Impact Problems</h3>
+                 <p className="text-zinc-600 font-medium italic">"Users reach dashboard but don’t understand what to do next." (Good) vs "The UI is not good." (Bad)</p>
+              </div>
+
+              <div className="border-l-4 border-zinc-200 pl-6 space-y-4">
+                 <h3 className="text-xl font-black">6. Do Root Cause Analysis</h3>
+                 <p className="text-zinc-600 font-medium">Use "5 Whys" or JTBD to distinguish UX, messaging, or incentive issues. This separates PMs from reviewers.</p>
+              </div>
+
+              <div className="border-l-4 border-zinc-200 pl-6 space-y-4">
+                 <h3 className="text-xl font-black">7. Propose a Solution (With Trade-offs)</h3>
+                 <p className="text-zinc-600 font-medium">Define what changes, why it solves the root cause, and what you are NOT solving right now.</p>
+              </div>
+
+              <div className="border-l-4 border-emerald-600 pl-6 space-y-4">
+                 <h3 className="text-xl font-black">8. Define Success Metrics (Non-Negotiable)</h3>
+                 <div className="flex gap-4 flex-wrap">
+                    {['Primary (Activation)', 'Secondary (Retention)', 'Guardrail (Errors)'].map(m => (
+                       <span key={m} className="px-3 py-1 bg-emerald-50 text-emerald-700 rounded-lg text-xs font-black uppercase tracking-widest border border-emerald-100">{m}</span>
+                    ))}
+                 </div>
+              </div>
+           </div>
+        </section>
+
+        <section className="bg-zinc-900 rounded-[3rem] p-10 text-white relative overflow-hidden">
+           <div className="absolute top-0 right-0 p-8 opacity-10"><Send className="w-48 h-48" /></div>
+           <h2 className="text-2xl font-black mb-8 text-indigo-400 uppercase tracking-widest text-sm">How to Reach Out to Founders</h2>
+           <div className="space-y-6 max-w-3xl font-medium text-zinc-400">
+              <p>1. Target Founders of early-stage startups (Seed–Series A) or solo PMs.</p>
+              <p>2. <span className="text-red-400">Do NOT ask for a job first.</span> Lead with insight, thoughtfulness, and respect.</p>
+              <p>3. Lead with your Case Study — it is your entry ticket.</p>
+              
+              <div className="p-8 bg-white/5 border border-white/10 rounded-3xl font-mono text-[11px] leading-relaxed text-zinc-300">
+                 <p className="text-indigo-300 font-black mb-4">LinkedIn / Email Template:</p>
+                 <p>Hi {"<Name>"},</p>
+                 <br/>
+                 <p>I’ve been using {"<Product Name>"} and recently did a short product case study on it, focused on {"<specific area: onboarding / activation / retention>"}.</p>
+                 <br/>
+                 <p>I noticed {"<1 concrete insight or problem>"}, and proposed a solution that potentially impact {"<metric>"}.</p>
+                 <br/>
+                 <p>I’m not asking for anything — just wanted to share the analysis in case it’s useful.</p>
+                 <br/>
+                 <p>Here’s the link: {"<Notion / PDF>"}</p>
+                 <br/>
+                 <p>Either way, really admire what you’re building.</p>
+                 <p>— {"<Your Name>"}</p>
+              </div>
+           </div>
+        </section>
+
+        <section className="bg-zinc-50 p-10 rounded-[3rem] border border-zinc-200 text-left">
+           <h3 className="text-xl font-black mb-4 text-left">If They Reply — What Next?</h3>
+           <p className="text-zinc-600 font-medium text-left">Be concise. Let the conversation earn the hire. Enjoy understanding how they think. Eventually, suggest exploring contributing even on a short-term trial basis.</p>
+        </section>
+
+        <div className="pt-8 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400 text-left">
+           <p className="text-left">Previous: proof of work-two</p>
+           <p className="text-left">Up next: Building portfolio</p>
+        </div>
+      </div>
+    )
+  },
+  {
+    day: 39,
+    title: 'Building a Strong PM Portfolio',
+    category: 'Foundations',
+    preview: 'Master the essential components of a product management portfolio, from your about section to contact details.',
+    content: (
+      <div className="space-y-10">
+        <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 39: Building a Strong PM Portfolio 📂</h1>
+        
+        <section className="bg-indigo-50 p-10 rounded-[3rem] border border-indigo-100">
+           <h2 className="text-2xl font-black text-indigo-900 mb-4">About Section:</h2>
+           <p className="text-zinc-700 font-medium leading-relaxed italic">
+             An aspiring Product Manager with a strong focus on solving user-centric problems through structured thinking, data-backed decision-making, and clear prioritisation. Interested in working on products that improve user experience, drive engagement, and create measurable business impact, especially in early-stage and fast-growing environments.
+           </p>
+        </section>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+           <div className="p-8 bg-white border border-zinc-100 rounded-3xl shadow-sm">
+              <h3 className="font-black text-lg text-zinc-900 mb-4 flex items-center gap-2">
+                 <Rocket className="w-5 h-5 text-indigo-600" />
+                 Case Studies & Projects
+              </h3>
+              <p className="text-sm text-zinc-500 font-medium leading-relaxed">
+                 Showcases hands-on proof of work through real and hypothetical product case studies. Includes product teardowns, startup analyses, problem statements, solution proposals, and success metrics to demonstrate practical understanding of product discovery, execution, and impact measurement.
+              </p>
+           </div>
+           <div className="p-8 bg-white border border-zinc-100 rounded-3xl shadow-sm">
+              <h3 className="font-black text-lg text-zinc-900 mb-4 flex items-center gap-2">
+                 <ShieldCheck className="w-5 h-5 text-indigo-600" />
+                 Certifications
+              </h3>
+              <p className="text-sm text-zinc-500 font-medium leading-relaxed">
+                 Includes relevant product management and analytics certifications that validate foundational knowledge in product strategy, agile practices, data analysis, and experimentation.
+              </p>
+           </div>
+           <div className="p-8 bg-white border border-zinc-100 rounded-3xl shadow-sm">
+              <h3 className="font-black text-lg text-zinc-900 mb-4 flex items-center gap-2">
+                 <MessageSquare className="w-5 h-5 text-indigo-600" />
+                 Testimonials
+              </h3>
+              <p className="text-sm text-zinc-500 font-medium leading-relaxed">
+                 Feedback from founders, managers, or parents highlighting problem-solving ability, ownership mindset, communication skills, and product thinking approach.
+              </p>
+           </div>
+           <div className="p-8 bg-white border border-zinc-100 rounded-3xl shadow-sm">
+              <h3 className="font-black text-lg text-zinc-900 mb-4 flex items-center gap-2">
+                 <Briefcase className="w-5 h-5 text-indigo-600" />
+                 Work Experience
+              </h3>
+              <p className="text-sm text-zinc-500 font-medium leading-relaxed">
+                 Details professional experience demonstrating collaboration with cross-functional teams, exposure to real-world product challenges, execution support, and contribution to product delivery and improvement initiatives.
+              </p>
+           </div>
+        </div>
+
+        <section className="bg-zinc-50 p-10 rounded-[3rem] border border-zinc-200">
+           <h3 className="font-black text-xl text-zinc-900 mb-6">Additional Sections</h3>
+           <div className="space-y-4">
+              <div className="flex gap-4 items-start">
+                 <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center border border-zinc-200 shrink-0 shadow-sm"><GraduationCap className="w-5 h-5 text-zinc-600" /></div>
+                 <div>
+                    <h4 className="font-black text-zinc-900">Education</h4>
+                    <p className="text-sm text-zinc-500 font-medium">Academic background that supports analytical thinking, technical understanding, and problem-solving skills relevant to product management.</p>
+                 </div>
+              </div>
+              <div className="flex gap-4 items-start">
+                 <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center border border-zinc-200 shrink-0 shadow-sm"><FileText className="w-5 h-5 text-zinc-600" /></div>
+                 <div>
+                    <h4 className="font-black text-zinc-900">CV Link</h4>
+                    <p className="text-sm text-zinc-500 font-medium">A downloadable, up-to-date resume highlighting product-relevant experience, skills, and achievements.</p>
+                 </div>
+              </div>
+           </div>
+        </section>
+
+        <section className="p-10 bg-zinc-900 rounded-[3rem] text-white">
+           <h3 className="text-xl font-black mb-8 text-indigo-400 uppercase tracking-widest text-xs">Contact Details</h3>
+           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div>
+                 <p className="font-black text-zinc-400 text-[10px] uppercase tracking-widest mb-1">LinkedIn</p>
+                 <p className="text-sm font-bold">Professional profile for networking and detailed work history</p>
+              </div>
+              <div>
+                 <p className="font-black text-zinc-400 text-[10px] uppercase tracking-widest mb-1">Email</p>
+                 <p className="text-sm font-bold">Direct communication for opportunities and collaborations</p>
+              </div>
+              <div>
+                 <p className="font-black text-zinc-400 text-[10px] uppercase tracking-widest mb-1">Phone Number</p>
+                 <p className="text-sm font-bold">For interview coordination and urgent follow-ups</p>
+              </div>
+           </div>
+        </section>
+
+        <div className="pt-8 mt-12 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
+           <p>Previous: proof of work-two</p>
+           <p>Up next: Updating cv</p>
+        </div>
+      </div>
+    )
+  },
+  {
+    day: 40,
+    title: 'CV and LinkedIn Optimization',
+    category: 'Foundations',
+    preview: 'Building CV and optimising your linkedin. Check ATS score and use the Senior Recruiter prompt.',
+    content: (
+      <div className="space-y-10">
+        <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 40: Building CV & Optimizing LinkedIn 📄</h1>
+        
+        <section className="bg-indigo-50 p-10 rounded-[3rem] border border-indigo-100">
+           <h2 className="text-2xl font-black text-indigo-900 mb-6 flex items-center gap-3"><FileEdit /> CV Resources</h2>
+           <div className="space-y-4">
+              <p className="text-zinc-700 font-bold">Refer this template to build your cv:</p>
+              <a 
+                href="https://believed-mist-f1a.notion.site/CV-template-for-APM-14551b6fbd0e80779ba5f5ade6f00fc5" 
+                target="_blank" 
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-zinc-900 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-black transition-colors"
+              >
+                Download Notion Templates <ExternalLink className="w-4 h-4" />
+              </a>
+              <p className="text-sm font-medium text-zinc-500 pt-4">Check ATS score here: <a href="https://resumeworded.com/" target="_blank" rel="noreferrer" className="text-indigo-600 underline">resumeworded.com</a> and ensure to keep it above 85.</p>
+           </div>
+        </section>
+
+        <section className="bg-zinc-950 p-10 rounded-[3rem] text-white">
+           <h2 className="text-2xl font-black mb-4 text-indigo-400">Prompt to optimise your LinkedIn</h2>
+           <div className="bg-white/5 rounded-2xl p-6 border border-white/10 mb-8">
+              <p className="text-zinc-400 text-sm font-medium mb-4">How to use it?</p>
+              <ol className="text-xs font-bold text-zinc-300 space-y-2 list-decimal pl-5">
+                 <li>Copy paste the prompt below in chatgpt</li>
+                 <li>Paste your LinkedinProfile data</li>
+              </ol>
+           </div>
+           <div className="p-8 bg-zinc-900 rounded-3xl border border-zinc-800 font-mono text-[11px] text-zinc-400 h-96 overflow-y-auto no-scrollbar whitespace-pre-wrap leading-relaxed">
+{`You are a Senior Recruiter + LinkedIn Search Algorithm Expert with deep experience hiring for Product, Tech, Data, and Business roles. Your job is to first collect the required LinkedIn profile data, then perform a brutally honest, recruiter-grade analysis focused on: • Recruiter search visibility • Hiring manager shortlisting • Credibility & seniority signaling • Inbound opportunity generation Think like a recruiter who spends 7–10 seconds scanning a profile before deciding whether to shortlist or move on. 
+
+STEP 0 — ASK FOR INPUT (DO THIS FIRST, DO NOT ANALYZE YET) 
+Start by saying exactly this and nothing else: **“Hey, let’s analyze your LinkedIn profile. Please copy-paste the following sections from your profile (no LinkedIn URL): • Headline • About section • Experience (role titles + descriptions) • Skills • Education • Certifications • Activity (posts / comments / engagement — optional) Paste whatever you have. If something is missing, I’ll call it out as a weak signal.”** 
+
+Do not provide feedback, assumptions, or suggestions until the user pastes their profile data. 
+
+ROLE & MINDSET (APPLIES AFTER INPUT IS RECEIVED) 
+Once the user shares the data, analyze it like a recruiter deciding whether to shortlist or move on. Your goal is not to make the profile sound nice. Your goal is to increase recruiter replies and interview callbacks. 
+
+TONE & RULES (NON-NEGOTIABLE) 
+• Be direct, blunt, and no-nonsense 
+• Be constructively critical, not polite 
+• Never assume or invent data 
+• If information is missing, explicitly say: “Cannot evaluate due to missing signal” 
+Prioritize: • Outcomes > responsibilities • Metrics > buzzwords • Clarity > storytelling 
+Avoid vague advice like “add more impact.” Be specific and tactical. 
+
+ANALYSIS FRAMEWORK (USE EXACT THIS STRUCTURE) 
+Step 1: Headline Analysis (Highest Priority) 
+Evaluate: • Keyword density & recruiter search relevance • Role clarity (title + domain + scope) • 3-second scan effectiveness • Seniority & credibility signals 
+Output: • Headline score (0–10) • What works • What fails • 3 rewritten headlines: – SEO-first – Impact-driven – Clean & recruiter-friendly 
+
+Step 2: About Section Analysis 
+Evaluate: • First 2 lines (above the fold) • Role clarity & value proposition • Metrics, scale, outcomes • Skimmability • Signal-to-noise ratio 
+Output: • About score (0–10) • Missing elements • Red flags • Rewritten About section (150–250 words, recruiter-optimized) 
+
+Step 3: Experience Section Analysis 
+For each role, evaluate: • Action vs responsibility dumping • Quantification • Ownership & decision-making • Product / business thinking 
+Output: • Experience score (0–10) • Common issues across roles • Rewrite ONE role using: Context → Action → Outcome → Metric 
+
+Step 4: Skills & Keyword Audit 
+Evaluate: • Relevance to target roles • Hard skills vs low-signal skills • Redundant / outdated skills • Missing recruiter keywords 
+Output: • Skills score (0–10) • Remove • Add • Top 10 pinned skills (ranked) 
+
+Step 5: Credibility & Trust Signals 
+Analyze: • Certifications (relevance > quantity) • Brand names & tools • Education positioning • Community / mentoring / content (if available) 
+Output: • Credibility score (0–10) • Strengths • Weaknesses • Authority-building actions 
+
+Step 6: Activity & Personal Brand (If Available) 
+If data exists, analyze: • Posting consistency • Signal vs noise • Alignment with target roles 
+If not, explicitly say: “Cannot evaluate personal brand due to missing activity data.” 
+Output (if applicable): • Personal brand score (0–10) • Content gaps • 3 high-ROI post ideas 
+
+Step 7: Overall Recruiter Readiness 
+Provide: • Overall profile score (0–100) • Shortlisting probability: Low / Medium / High / VERY HIGH • Top 5 fixes with maximum ROI (ranked, actionable)`}
+           </div>
+        </section>
+
+        <div className="pt-8 mt-12 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
+           <p>Previous: Building Portfolio</p>
+           <p>Up next: Job applying</p>
+        </div>
+      </div>
+    )
+  },
+  {
+    day: 41,
+    title: 'Applying to jobs',
+    category: 'Foundations',
+    preview: 'Master platforms to apply PM jobs and the art of asking for referrals.',
+    content: (
+      <div className="space-y-10">
+        <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 41: Applying to jobs 💼</h1>
+        <section className="bg-zinc-50 p-10 rounded-[3rem] border border-zinc-200">
+           <h2 className="text-2xl font-black text-zinc-900 mb-6">Platforms to apply PM jobs:</h2>
+           <p className="text-zinc-600 font-bold text-lg mb-4">
+             Naukri | LinkedIn | Hirist | Wellfound | Glassdoor Jobs | IIM jobs | Instahyre | Ycombinator jobs 
+           </p>
+        </section>
+
+        <section className="bg-indigo-50 p-10 rounded-[3rem] border border-indigo-100">
+           <h2 className="text-2xl font-black text-indigo-900 mb-6 flex items-center gap-3"><Send /> How to ask for referral</h2>
+           <div className="bg-white p-8 rounded-3xl border border-indigo-100 shadow-sm font-medium text-zinc-700 leading-relaxed whitespace-pre-wrap">
+{`Hi [Name],
+Hope you’re doing well!
+
+I recently came across the [Position Name] role ([Job Link/ID]) at [Company Name], and it aligns perfectly with my skills in [mention relevant skills] and passion for [highlight industry/area]. Additionally, my achievement of [mention a relevant accomplishment, e.g., "leading a project that improved customer satisfaction by 20%" or "winning the 'Tech Talk' competition"] demonstrates my ability to contribute effectively to this role.
+
+I’d truly appreciate your support with a referral for this opportunity. Please let me know if you need my resume or further details.
+
+Thanks so much for considering this!
+
+Best regards,
+[Your Name]`}
+           </div>
+        </section>
+
+        <section className="bg-zinc-950 p-10 rounded-[3rem] text-white">
+           <h2 className="text-2xl font-black mb-8 text-amber-400">Follow-up Tip</h2>
+           <p className="text-zinc-400 font-medium mb-6">If no response within 48 hours, send:</p>
+           <div className="p-6 bg-white/5 rounded-2xl border border-white/10 font-mono text-sm">
+             "Hi [Name], just following up on my previous message about the [Position Name] role. I’d be grateful for any guidance or support regarding a referral. Thank you!"
+           </div>
+        </section>
+
+        <section className="p-10 bg-white border border-zinc-100 rounded-[3rem] shadow-sm">
+           <h2 className="text-2xl font-black text-zinc-900 mb-4">How to get shortlisted?</h2>
+           <p className="text-zinc-500 font-bold mb-6">Refer to this in-depth guide on shortlisting activity:</p>
+           <a 
+             href="https://www.linkedin.com/posts/kaushalprasadkaush7_jobhunt-careeradvice-shortlisting-activity-7256570552532836352-eNjd?utm_source=share&utm_medium=member_desktop&rcm=ACoAACcjST0B1uRjC1RlnTFh2iI-0IVfZ52FWW0" 
+             target="_blank" 
+             rel="noreferrer"
+             className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-indigo-700 transition-colors"
+           >
+             View Guide on LinkedIn <ExternalLink className="w-4 h-4" />
+           </a>
+        </section>
+      </div>
+    )
+  },
+  {
+    day: 42,
+    title: 'Case Study Interviews',
+    category: 'Foundations',
+    preview: 'Practice real-world interview prompts. Learn what is evaluated during Case rounds.',
+    content: (
+      <div className="space-y-10">
+        <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 42: Case Study Interviews 🎤</h1>
+        <section className="bg-indigo-50 p-10 rounded-[3rem] border border-indigo-100">
+           <h2 className="text-2xl font-black text-indigo-900 mb-6">Round One Evaluation</h2>
+           <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm font-bold text-indigo-700">
+              <li>1. Depth of analysis</li>
+              <li>2. Assumptions & reasoning</li>
+              <li>3. Prioritisation</li>
+              <li>4. Clarity of communication</li>
+              <li>5. Metrics & impact</li>
+           </ul>
+        </section>
+
+        <section>
+          <h2 className="text-2xl font-black text-zinc-900 mb-8 underline decoration-indigo-600 underline-offset-8">Round Two: Product Sense Practice</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+             {[
+               "Design a movie-booking app for elderly users (Flipkart)",
+               "Design a Google Pixel tablet for restaurants (Google)",
+               "Design a TV remote for older people (Atlassian/Netflix)",
+               "Design a water bottle (Atlassian)",
+               "Design a car parking system (Google/Atlassian/Meta)",
+               "Design a gardening / hobby app (Atlassian/Adobe)",
+             ].map(q => (
+               <div key={q} className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm text-sm font-bold text-zinc-600">{q}</div>
+             ))}
+          </div>
+        </section>
+      </div>
+    ),
+    assignment: (
+      <div className="space-y-6">
+        <p className="font-black text-indigo-900">{"Practice the prompt: \"Design a movie-booking app for elderly users.\" Follow the structure: User &plusmn; Pain Point &plusmn; Solution &plusmn; Metric."}</p>
+        <p className="text-xs font-black text-zinc-400">Get access to 50+ case studies here:</p>
+        <a href="https://believed-mist-f1a.notion.site/Assignments-14251b6fbd0e8055830cd5ecf8147313" target="_blank" rel="noreferrer" className="text-sm font-black text-indigo-600 underline">Believed Mist Notion</a>
+      </div>
+    ),
+    resources: [
+        { title: "Product Sense Round", url: "https://youtu.be/tlpfb_VsogA?si=VMQtzA2CME3KtR1z", type: "video" }
+    ]
+  },
+  {
+    day: 43,
+    title: 'Interview Prep: RCA & Guestimates',
+    category: 'Foundations',
+    preview: 'Drop in average watch time by 30%? Number of tube lights in Bangalore? Master these rounds.',
+    content: (
+      <div className="space-y-10">
+        <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 43: RCA & Guestimates 📉</h1>
+        <section className="bg-zinc-950 p-10 rounded-[3rem] text-white">
+           <h2 className="text-2xl font-black mb-8">Round Three: RCA Practice</h2>
+           <ul className="space-y-4 text-sm font-bold text-zinc-400">
+              <li>• Drop in average watch time by 30% (Netflix)</li>
+              <li>• Sudden revenue drop at Airbnb (Hotstar)</li>
+              <li>• Increase in returns at Amazon (Amazon)</li>
+              <li>• Inactive users on Netflix – what would you do? (Netflix)</li>
+           </ul>
+        </section>
+
+        <section className="p-10 bg-zinc-50 rounded-[3.5rem] border border-zinc-200">
+           <h2 className="text-2xl font-black text-zinc-900 mb-8">Round Four: Guestimates</h2>
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {[
+                "Number of tube lights in Bangalore (Flipkart)",
+                "Tennis balls in an airplane (Agoda/Netflix)",
+                "Daily Uber support calls (Google)",
+                "Cars sold in India (PhonePe)",
+                "Credit card users in India (Visa)",
+              ].map(q => (
+                <div key={q} className="p-4 bg-white border border-zinc-100 rounded-2xl text-xs font-bold text-zinc-600">{q}</div>
+              ))}
+           </div>
+        </section>
+      </div>
+    ),
+    resources: [
+        { title: "RCA Masterclass", url: "https://youtu.be/PA-Z__0G8Cs?si=DjJ7mkmdWhzpYU6l", type: "video" },
+        { title: "Guestimates Masterclass", url: "https://youtu.be/7C0L_XdlE50?si=bxBFIUcsJEFUsSqr", type: "video" }
+    ]
+  },
+  {
+    day: 44,
+    title: 'Product Improvement Round',
+    category: 'Foundations',
+    preview: 'How would you improve Netflix? Amazon Prime? Master the improvement framework.',
+    content: (
+      <div className="space-y-10">
+        <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 44: Product Improvement 🚀</h1>
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
+           {[
+             { name: 'Netflix', company: 'Netflix' },
+             { name: 'Prime Video', company: 'Amazon' },
+             { name: 'Gmail', company: 'Adobe' },
+             { name: 'Spotify', company: 'Adobe' },
+             { name: 'Meesho UX', company: 'Meesho' },
+             { name: 'Zepto', company: 'Zepto' },
+           ].map(item => (
+             <div key={item.name} className="p-8 bg-white border border-zinc-100 rounded-3xl shadow-sm">
+                <h4 className="font-black text-indigo-600 text-xs uppercase tracking-widest mb-2">{item.company}</h4>
+                <p className="text-sm font-black text-zinc-900">How would you improve {item.name}?</p>
+             </div>
+           ))}
+        </section>
+        <div className="p-10 bg-indigo-900 rounded-[3rem] text-white text-center">
+           <h3 className="text-xl font-black mb-4">Final Challenge</h3>
+           <p className="text-indigo-400 font-bold italic">“What would you improve in your favorite product?” (Multiple companies)</p>
+        </div>
+      </div>
+    ),
+    resources: [
+        { title: "Product Improvement Round", url: "https://youtu.be/Fhm0F240v9Y?si=Sqp9VhYoenUKYcw7", type: "video" }
+    ]
+  },
+  {
+    day: 45,
+    title: 'Behavioral Rounds & Graduation',
+    category: 'Foundations',
+    preview: 'Final preparations. Reflect on your 45-day journey and prepare for behavioral questions.',
+    content: (
+      <div className="space-y-10">
+        <h1 className="text-3xl font-black tracking-tight text-zinc-900 text-left">Day 45: Behavioral Rounds & Graduation 🎓</h1>
+        <section className="bg-emerald-50 p-10 rounded-[3rem] border border-emerald-100">
+           <h2 className="text-2xl font-black text-emerald-900 mb-6">Behavioral Mastery</h2>
+           <p className="text-emerald-800 font-medium mb-6 leading-relaxed">Prepare for the "Why PM?", "Tell me about a time you failed", and "Stakeholder conflict" questions.</p>
+        </section>
+
+        <section className="p-10 bg-zinc-900 rounded-[3rem] text-white text-center">
+           <h2 className="text-3xl font-black mb-4">The Wrap</h2>
+           <p className="text-zinc-400 font-medium leading-relaxed mb-8">
+             Product Management is a journey of lifelong learning. You now have the skills, the portfolio, and the confidence to land your role.
+           </p>
+           <p className="font-black text-2xl text-indigo-400">Congratulations on completing the 45-Day PM Launchpad! 🚀</p>
+        </section>
+      </div>
+    ),
+    assignment: (
+      <div className="space-y-6 text-center">
+        <p className="font-black text-zinc-900 text-lg">We hope you liked the course, please help us by your valuable feedback.</p>
+        <a 
+          href="https://docs.google.com/forms/d/14esag07MESDVDzUmHGRFWyGfSkahwky18qZmW36_ooQ/preview" 
+          target="_blank" 
+          rel="noreferrer"
+          className="inline-block px-10 py-4 bg-indigo-600 text-white rounded-2xl font-black text-sm shadow-xl hover:bg-indigo-700 transition-colors"
+        >
+          Submit Feedback Form
+        </a>
+      </div>
+    ),
+    resources: [
+        { title: "Behavioral Rounds Part 1", url: "https://youtu.be/1rOcpwcDTuY?si=GXoS-FRzroxPPJ0U", type: "video" },
+        { title: "Behavioral Rounds Part 2", url: "https://youtu.be/Wyvm8vcsaP0?si=JeY3xJKXWfRrGCXG", type: "video" }
+    ]
+  }
+];
