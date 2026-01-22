@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Lesson, ModuleInfo, Category } from './types';
 import { 
@@ -36,6 +37,9 @@ import { Day25Content } from './content/days/day-25';
 import { Day26Content } from './content/days/day-26';
 import { Day27Content } from './content/days/day-27';
 import { Day28Content } from './content/days/day-28';
+import { Day29Content } from './content/days/day-29';
+import { Day30Content } from './content/days/day-30';
+import { Day31Content } from './content/days/day-31';
 
 export const getCategoryColor = (category: Category): string => {
   switch (category) {
@@ -652,9 +656,43 @@ export const LESSONS: Lesson[] = [
   },
   {
     day: 28,
-    title: 'Day 28: Product Analytics: Building a Tracking Plan That Actually Works',
-    category: 'Strategy',
-    preview: 'Learn how to bridge the gap between product intuition and data reality by building a structured, maintainable tracking plan.',
-    content: <Day28Content />
+    title: 'Day 28: What is Artificial Intelligence, Machine Learning and Deep Learning?',
+    category: 'AI',
+    preview: 'Understand the core foundations of AI, the modern method of Machine Learning, and the breakthroughs of Deep Learning.',
+    content: <Day28Content />,
+    resources: [
+        { title: 'AI for Everyone - DeepLearning.ai', url: 'https://learn.deeplearning.ai/courses/ai-for-everyone/lesson/i76hs/machine-learning', type: 'video' }
+    ]
+  },
+  {
+    day: 29,
+    title: 'Day 29: Large Language Models (LLM) Foundations',
+    category: 'AI',
+    preview: 'Deep dive into what LLMs are, how they work, and why product managers need to understand their capabilities and limitations.',
+    content: <Day29Content />,
+    resources: [
+        { title: 'LLM Introduction Video', url: 'https://youtu.be/7xTGNNLPyMI?si=_FGxNCEjJcvyxdAz', type: 'video' }
+    ]
+  },
+  {
+    day: 30,
+    title: 'Day 30: Prompt Engineering for Product Managers',
+    category: 'AI',
+    preview: 'Learn how to write effective prompts so that large language models (LLMs) return useful, reliable, and actionable outputs.',
+    content: <Day30Content />,
+    resources: [
+        { title: 'Prompting 101 Video', url: 'https://youtu.be/ysPbXH0LpIE?si=5Riv7IB9ezFAt_Kc', type: 'video' },
+        { title: 'AWS Prompt Engineering Foundation', url: 'https://share.google/FdZPEVTPVCkN85d33', type: 'tool' }
+    ]
+  },
+  {
+    day: 31,
+    title: 'Day 31: Context Engineering',
+    category: 'AI',
+    preview: 'Master the set of strategies for curating and maintaining the optimal set of tokens during LLM inference.',
+    content: <Day31Content />,
+    resources: [
+        { title: 'Context Engineering for Agents', url: 'https://www.blog.langchain.com/context-engineering-for-agents/', type: 'article' }
+    ]
   }
 ];
