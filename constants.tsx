@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Lesson, ModuleInfo, Category } from './types';
 import { 
@@ -32,6 +31,11 @@ import { Day20Content } from './content/days/day-20';
 import { Day21Content } from './content/days/day-21';
 import { Day22Content } from './content/days/day-22';
 import { Day23Content } from './content/days/day-23';
+import { Day24Content } from './content/days/day-24';
+import { Day25Content } from './content/days/day-25';
+import { Day26Content } from './content/days/day-26';
+import { Day27Content } from './content/days/day-27';
+import { Day28Content } from './content/days/day-28';
 
 export const getCategoryColor = (category: Category): string => {
   switch (category) {
@@ -154,7 +158,7 @@ export const LESSONS: Lesson[] = [
     preview: "Great PMs don’t build features. They solve meaningful problems. Master the 'sixth sense' of Product Management.",
     content: <Day4Content />,
     resources: [
-      { title: 'What is Product Sense?', url: 'https://www.parallelhq.com/blog/what-product-sense', type: 'article' }
+      { title: 'What is Product Sense?', url: 'https://www.parallelhq.com/blog/white-product-sense', type: 'article' }
     ],
     assignment: (
       <div className="space-y-4">
@@ -603,5 +607,54 @@ export const LESSONS: Lesson[] = [
       { title: 'How Does the Internet Work?', url: 'https://www.cloudflare.com/en-in/learning/network-layer/how-does-the-internet-work/', type: 'article' },
       { title: 'API for Product Managers', url: 'https://dune-leek-31a.notion.site/API-for-Product-Managers-24abaab379148074abc3f57b062db2bf', type: 'article' }
     ]
+  },
+  {
+    day: 24,
+    title: 'Day 24: System Design for Product Managers',
+    category: 'Strategy',
+    preview: 'System Design for Product Managers: Building Products That Scale. Bridge the gap between product vision and technical reality.',
+    content: <Day24Content />,
+    resources: [
+      { title: 'System Design for Product Managers', url: 'https://youtu.be/m8Icp_Cid5o?si=u52HzOf12e0cMvyI', type: 'video' }
+    ]
+  },
+  {
+    day: 25,
+    title: 'Day 25: UI/UX for Product Managers',
+    category: 'Design',
+    preview: 'Build a solid foundation in UI/UX principles, including design fundamentals, usability testing, and visual design laws.',
+    content: <Day25Content />,
+    resources: [
+      { title: 'UX Design UI Essentials Course', url: 'https://youtu.be/QJBP2uy8LcU?si=GIa6MA8amS8vYBdd', type: 'video' },
+      { title: 'Usability Testing for UX', url: 'https://youtu.be/nYCJTea1AUQ?si=8RcveOgK6wybwlk4', type: 'video' },
+      { title: 'Basics of UI/UX', url: 'https://youtu.be/ziQEqGZB8GE?si=gdeMwyRMYEwOmBOL', type: 'video' },
+      { title: '12 UI/UX Laws You MUST KNOW', url: 'https://youtu.be/wELfwQmtnvo?si=t7AEn1xVBoB8lPTm', type: 'video' }
+    ]
+  },
+  {
+    day: 26,
+    title: 'Day 26: Foundations of Agile & Scrum Project Management',
+    category: 'Strategy',
+    preview: 'Build a solid understanding of Agile principles, Scrum practices, and prioritization frameworks used in real product delivery.',
+    content: <Day26Content />,
+    resources: [
+      { title: 'Agile & Scrum Intro Video', url: 'https://youtu.be/WDAQq5vCMME?si=FaBFP9KwcKDsviFh', type: 'video' },
+      { title: 'Jira Beginner Course', url: 'https://youtu.be/NDVSMlVYxm8?si=GptGyKBBY7AlhEZ8', type: 'video' },
+      { title: 'Prioritization Frameworks', url: 'https://www.atlassian.com/agile/product-management/prioritization-framework', type: 'article' }
+    ]
+  },
+  {
+    day: 27,
+    title: 'Day 27: Cloud Computing for Product Managers',
+    category: 'Strategy',
+    preview: 'Understanding cloud computing fundamentally changes how you think about building products. Learn about service models, economics, and cloud-native architecture.',
+    content: <Day27Content />
+  },
+  {
+    day: 28,
+    title: 'Day 28: Product Analytics: Building a Tracking Plan That Actually Works',
+    category: 'Strategy',
+    preview: 'Learn how to bridge the gap between product intuition and data reality by building a structured, maintainable tracking plan.',
+    content: <Day28Content />
   }
 ];
