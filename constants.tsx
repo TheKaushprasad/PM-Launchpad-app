@@ -20,6 +20,18 @@ import { Day8Content } from './content/days/day-8';
 import { Day9Content } from './content/days/day-9';
 import { Day10Content } from './content/days/day-10';
 import { Day11Content } from './content/days/day-11';
+import { Day12Content } from './content/days/day-12';
+import { Day13Content } from './content/days/day-13';
+import { Day14Content } from './content/days/day-14';
+import { Day15Content } from './content/days/day-15';
+import { Day16Content } from './content/days/day-16';
+import { Day17Content } from './content/days/day-17';
+import { Day18Content } from './content/days/day-18';
+import { Day19Content } from './content/days/day-19';
+import { Day20Content } from './content/days/day-20';
+import { Day21Content } from './content/days/day-21';
+import { Day22Content } from './content/days/day-22';
+import { Day23Content } from './content/days/day-23';
 
 export const getCategoryColor = (category: Category): string => {
   switch (category) {
@@ -367,5 +379,229 @@ export const LESSONS: Lesson[] = [
         </div>
       </div>
     )
+  },
+  {
+    day: 12,
+    title: 'Day 12: Competitive & Market Analysis',
+    category: 'Research',
+    preview: "“You can’t build a better product until you understand what already exists.” Master SWOT and feature benchmarking.",
+    content: <Day12Content />,
+    resources: [
+      { title: 'Competitive Analysis for Product Managers', url: 'https://youtu.be/UnBL8h8TVX8?si=v7_4Kx9EDy357xjg', type: 'video' }
+    ],
+    assignment: (
+      <div className="space-y-6">
+        <div className="space-y-2">
+          <p className="font-bold">Assignment: Competitive Report</p>
+          <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Final Deliverables (2–3 slides)</p>
+        </div>
+        
+        <div className="space-y-4">
+          <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm">
+             <h4 className="text-sm font-black text-indigo-900 mb-2">• 2 SWOT Analysis</h4>
+             <p className="text-xs text-zinc-500">Complete analysis for Competitor A & B.</p>
+          </div>
+          <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm">
+             <h4 className="text-sm font-black text-indigo-900 mb-2">• Feature Comparison Matrix</h4>
+             <p className="text-xs text-zinc-500">Us vs others mapping.</p>
+          </div>
+          <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm">
+             <h4 className="text-sm font-black text-indigo-900 mb-2">• Positioning Statement</h4>
+             <p className="text-xs text-zinc-500 font-bold text-indigo-600">“Unlike X and Y, our product [does what] for [whom].”</p>
+          </div>
+        </div>
+      </div>
+    )
+  },
+  {
+    day: 13,
+    title: 'Day 13: Opportunity Sizing (TAM / SAM / SOM)',
+    category: 'Research',
+    preview: "“A great product solves a real problem — but a great business solves it for a market that’s big enough.” Learn how to quantify your product idea.",
+    content: <Day13Content />,
+    resources: [
+      { title: 'TAM, SAM, SOM Explained', url: 'https://youtu.be/nCYOMU7rKCs?si=cvu8yrnAbxDueKEI', type: 'video' }
+    ],
+    assignment: (
+      <div className="space-y-6">
+        <div className="space-y-2">
+          <p className="font-bold">Assignment: Market Opportunity Slide</p>
+          <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">For PRD or Pitch Deck</p>
+        </div>
+        
+        <div className="space-y-4">
+          <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm">
+             <h4 className="text-sm font-black text-[#7d99bf] mb-2">1. Quantified Funnel</h4>
+             <p className="text-xs text-zinc-500">Define TAM, SAM, and SOM for your product idea with specific $ or user numbers.</p>
+          </div>
+          <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm">
+             <h4 className="text-sm font-black text-[#7d99bf] mb-2">2. Methodology Disclosure</h4>
+             <p className="text-xs text-zinc-500">Note whether you used Top-Down, Bottom-Up, or Value-Based approaches.</p>
+          </div>
+          <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm">
+             <h4 className="text-sm font-black text-[#7d99bf] mb-2">3. Strategic Justification</h4>
+             <p className="text-xs text-zinc-500 font-bold text-[#7d99bf]">Explain why this market is "big enough" or "growing fast enough" to invest in.</p>
+          </div>
+        </div>
+      </div>
+    )
+  },
+  {
+    day: 14,
+    title: 'Day 14: Introduction to SQL (SELECT, WHERE, Basics)',
+    category: 'Data',
+    preview: '"Data is the voice of your users. SQL lets you listen." Learn the fundamentals of querying databases to answer your own questions independently.',
+    content: <Day14Content />,
+    topics: [
+      { time: "00:00", title: "Intro" },
+      { time: "07:38", title: "Introduction to SQL" },
+      { time: "22:33", title: "Setup Your Environment" },
+      { time: "34:01", title: "Query Data (SELECT)" },
+      { time: "01:32:31", title: "DDL Commands" },
+      { time: "01:43:44", title: "DML Commands" }
+    ],
+    resources: [
+      { title: 'Introduction to SQL for PMs', url: 'https://youtu.be/SSKVgrwhzus?si=M8AlYQA1WTxvKdBg', type: 'video' }
+    ]
+  },
+  {
+    day: 15,
+    title: 'Day 15: Filtering Data & SQL Joins',
+    category: 'Data',
+    preview: '"Joining tables is where SQL becomes powerful for PMs." Master advanced filtering and learn to combine data from multiple tables.',
+    content: <Day15Content />,
+    topics: [
+      { time: "02:08:03", title: "Filtering Data" },
+      { time: "02:47:57", title: "SQL Joins (Basics)" },
+      { time: "03:27:29", title: "SQL Joins (Advanced)" }
+    ],
+    resources: [
+      { title: 'Advanced SQL Filtering & Joins', url: 'https://youtu.be/SSKVgrwhzus?si=M8AlYQA1WTxvKdBg', type: 'video' }
+    ]
+  },
+  {
+    day: 16,
+    title: 'Day 16: SQL Set Operators & Functions Deep Dive',
+    category: 'Data',
+    preview: '"Master SQL functions to transform raw data into actionable insights." learn advanced SQL techniques for combining datasets and manipulating data.',
+    content: <Day16Content />,
+    topics: [
+      { time: "04:02:09", title: "Set Operators" },
+      { time: "04:47:41", title: "SQL Functions" },
+      { time: "04:52:58", title: "String Functions" },
+      { time: "05:18:44", title: "Numeric Functions" }
+    ],
+    resources: [
+      { title: 'SQL Set Operators & Functions Deep Dive', url: 'https://youtu.be/SSKVgrwhzus?si=M8AlYQA1WTxvKdBg', type: 'video' }
+    ]
+  },
+  {
+    day: 17,
+    title: 'Day 17— SQL Date Functions, NULL Handling & Advanced Logic',
+    category: 'Data',
+    preview: '"Transform messy data into clean insights with SQL\'s most powerful functions." Today you\'ll master the essential SQL functions that PMs use daily for time-based analysis, handling missing data, and building conditional logic.',
+    content: <Day17Content />,
+    topics: [
+      { time: "05:22:48", title: "Date and Time Functions" },
+      { time: "06:59:06", title: "NULL Functions" },
+      { time: "08:07:50", title: "Case Statement" },
+      { time: "08:43:36", title: "Aggregate Functions" }
+    ],
+    resources: [
+      { title: 'SQL Advanced Functions & Logic', url: 'https://youtu.be/SSKVgrwhzus?si=M8AlYQA1WTxvKdBg', type: 'video' }
+    ]
+  },
+  {
+    day: 18,
+    title: 'Day 18 — Excel Fundamentals for PMs',
+    category: 'Data',
+    preview: '"Excel is the PM\'s Swiss Army knife — from quick analysis to complex models." Master Excel basics and essential formulas that PMs use daily for data analysis.',
+    content: <Day18Content />,
+    topics: [
+      { time: "0:03:53", title: "What is Excel?" },
+      { time: "0:07:19", title: "About Course" },
+      { time: "0:11:19", title: "Excel Install" },
+      { time: "0:22:42", title: "Worksheets" },
+      { time: "0:39:15", title: "Workbooks" },
+      { time: "0:52:06", title: "Ribbon" },
+      { time: "1:06:39", title: "Formulas Intro" },
+      { time: "1:18:08", title: "Function Intro" },
+      { time: "1:29:14", title: "Logical Functions" },
+      { time: "1:39:54", title: "Math Functions" },
+      { time: "1:49:46", title: "Statistical Functions" },
+      { time: "2:01:14", title: "Array Formulas" },
+      { time: "2:21:28", title: "Lookup Function" },
+      { time: "2:39:25", title: "Text Functions" },
+      { time: "2:53:19", title: "Date and Time Functions" }
+    ],
+    resources: [
+      { title: 'Excel Fundamentals for PMs', url: 'https://youtu.be/pCJ15nGFgVg?si=aqGEbVfcwFuLi7fY', type: 'video' }
+    ]
+  },
+  {
+    day: 19,
+    title: 'Day 19— Excel Charts, Pivot Tables & Dashboards',
+    category: 'Data',
+    preview: '"A picture is worth a thousand rows of data." Learn to transform data into compelling visualizations and build interactive dashboards.',
+    content: <Day19Content />,
+    topics: [
+      { time: "3:01:33", title: "Charts Intro" },
+      { time: "3:22:05", title: "Charts Advanced" },
+      { time: "3:35:37", title: "Charts Statistics" },
+      { time: "3:47:59", title: "Sparklines" },
+      { time: "3:51:57", title: "Tables" },
+      { time: "4:09:28", title: "Formatting" },
+      { time: "4:26:00", title: "Collaboration" },
+      { time: "4:40:30", title: "Project #1: Build Dashboard" },
+      { time: "5:26:43", title: "Project #1: Share Projects" },
+      { time: "5:33:46", title: "PivotTable Intro" },
+      { time: "5:54:53", title: "PivotTable Advanced" },
+      { time: "6:09:33", title: "PivotCharts" }
+    ],
+    resources: [
+      { title: 'Excel Charts, Pivot Tables & Dashboards', url: 'https://youtu.be/pCJ15nGFgVg?si=aqGEbVfcwFuLi7fY', type: 'video' }
+    ]
+  },
+  {
+    day: 20,
+    title: 'Day 20 — Learn Power BI',
+    category: 'Data',
+    preview: 'Build a strong foundation in Power BI by understanding how raw data is transformed, modeled, calculated, and finally presented as interactive dashboards.',
+    content: <Day20Content />,
+    resources: [
+      { title: 'Power BI Masterclass', url: 'https://youtu.be/I0vQ_VLZTWg?si=Gkh1WYh75MOngmbS', type: 'video' }
+    ]
+  },
+  {
+    day: 21,
+    title: 'Day 21: Product Analytics & Metrics Foundations',
+    category: 'Data',
+    preview: 'Understand how product analytics fits into the PDLC, define success metrics, and learn the basics of behavior tracking with Mixpanel.',
+    content: <Day21Content />,
+    resources: [
+      { title: 'Product Analytics & Mixpanel Foundations', url: 'https://youtu.be/5O4ST-R5ZVw?si=IN49CzqS5qHexth3', type: 'video' }
+    ]
+  },
+  {
+    day: 22,
+    title: 'Day 22: Google Analytics 4 & A/B Testing',
+    category: 'Data',
+    preview: 'Gain a step-by-step understanding of GA4 and master the art of A/B testing to make evidence-based product decisions.',
+    content: <Day22Content />,
+    resources: [
+      { title: 'Google Analytics 4 Mastery', url: 'https://youtu.be/hsIP4iH25Wg?si=kahtDEdtF6LY7cTU', type: 'video' },
+      { title: 'A/B Testing with VWO', url: 'https://youtu.be/QEqholJ28qI?si=Y7KfY4Sr_eKJUIBn', type: 'video' }
+    ]
+  },
+  {
+    day: 23,
+    title: 'Day 23: Understanding APIs as a Product Manager',
+    category: 'Tech',
+    preview: "APIs are the building blocks of modern software. Learn how they work and why they're critical for product strategy and execution.",
+    content: <Day23Content />,
+    resources: [
+      { title: 'How Does the Internet Work?', url: 'https://www.cloudflare.com/en-in/learning/network-layer/how-does-the-internet-work/', type: 'article' },
+      { title: 'API for Product Managers', url: 'https://dune-leek-31a.notion.site/API-for-Product-Managers-24abaab379148074abc3f57b062db2bf', type: 'article' }
+    ]
   }
 ];

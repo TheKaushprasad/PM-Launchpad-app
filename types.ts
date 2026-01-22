@@ -31,6 +31,7 @@ export interface Lesson {
   content: ReactNode;
   assignment?: ReactNode;
   resources?: { title: string; url: string; type: 'video' | 'article' | 'tool' }[];
+  topics?: { time?: string; title: string }[];
 }
 
 export interface ModuleInfo {

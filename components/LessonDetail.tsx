@@ -1,7 +1,8 @@
+
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { LESSONS, getCategoryColor, getCategoryIcon } from '../constants';
-import { ArrowLeft, ArrowRight, ExternalLink, BookOpen, Clock, Play, Zap, MonitorPlay, ChevronLeft, ChevronRight, PenTool } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ExternalLink, BookOpen, Clock, Play, Zap, MonitorPlay, ChevronLeft, ChevronRight, PenTool, List } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const getYoutubeId = (url: string) => {
@@ -245,6 +246,32 @@ export const LessonDetail: React.FC = () => {
                             )})}
                         </div>
                      </div>
+                 )}
+
+                 {/* Topics to cover Section */}
+                 {lesson.topics && lesson.topics.length > 0 && (
+                    <div className="bg-white rounded-3xl p-6 border border-zinc-100 shadow-sm">
+                        <div className="flex items-center justify-between mb-6">
+                            <h3 className="font-black text-zinc-900 tracking-tight text-lg flex items-center gap-2">
+                                <List className="w-5 h-5 text-indigo-600" />
+                                Topics to cover
+                            </h3>
+                        </div>
+                        <div className="space-y-4">
+                            {lesson.topics.map((topic, idx) => (
+                                <div key={idx} className="flex items-center gap-4 group">
+                                    {topic.time && (
+                                        <span className="text-[10px] font-black text-indigo-600 bg-indigo-50 px-2 py-1 rounded-lg border border-indigo-100 shadow-sm shrink-0 min-w-[48px] text-center">
+                                            {topic.time}
+                                        </span>
+                                    )}
+                                    <p className="text-sm font-bold text-zinc-700 group-hover:text-indigo-600 transition-colors">
+                                        {topic.title}
+                                    </p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                  )}
              </div>
           </div>
