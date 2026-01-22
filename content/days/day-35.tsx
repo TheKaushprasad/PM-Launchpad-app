@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { 
   Bot, Brain, Cpu, Zap, Layers, Activity, 
@@ -24,14 +23,26 @@ export const Day35Content = () => {
           <p className="text-sm font-bold text-orange-700 leading-relaxed italic">
             Understanding AI agents—and knowing how to build them using platforms like n8n, LangChain, or AutoGPT—isn't just technically interesting. It's strategically essential for modern product managers who want to deliver transformative value and operate more efficiently.
           </p>
-          <a 
-            href="https://youtu.be/ZHH3sr234zY?si=5qMS4pLlfl2gYaDs" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm font-bold text-orange-700 hover:text-orange-900 transition-colors mt-2"
-          >
-            WATCH: AI Agents Deep Dive <MonitorPlay className="w-4 h-4" />
-          </a>
+          
+          <div className="mt-6 space-y-6">
+            <div className="aspect-video bg-zinc-900 rounded-[2.5rem] overflow-hidden border border-zinc-800 shadow-2xl relative">
+               <iframe 
+                  src="https://www.youtube.com/embed/ZHH3sr234zY" 
+                  className="w-full h-full" 
+                  title="AI Agents Masterclass" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                  allowFullScreen 
+               />
+            </div>
+            <a 
+              href="https://youtu.be/ZHH3sr234zY?si=5qMS4pLlfl2gYaDs" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm font-bold text-orange-700 hover:text-orange-900 transition-colors"
+            >
+              WATCH ON YOUTUBE: AI Agents Deep Dive <MonitorPlay className="w-4 h-4" />
+            </a>
+          </div>
         </div>
       </section>
 
