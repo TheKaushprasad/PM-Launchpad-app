@@ -175,11 +175,15 @@ export const LESSONS: Lesson[] = [
     preview: "Great PMs don’t build features. They solve meaningful problems. Master the 'sixth sense' of Product Management.",
     content: <Day4Content />,
     resources: [
-      { title: 'What is Product Sense?', url: 'https://www.parallelhq.com/blog/white-product-sense', type: 'article' }
+      { title: 'What is Product Sense?', url: 'https://www.parallelhq.com/blog/what-product-sense', type: 'article' }
     ],
     assignment: (
       <div className="space-y-4">
-        <p className="font-bold">Read this expert breakdown of Product Sense and apply it to a feature teardown.</p>
+        <p className="font-bold">
+          <a href="https://www.parallelhq.com/blog/what-product-sense" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-800 underline transition-colors">
+            Read this expert breakdown of Product Sense and apply it to a feature teardown.
+          </a>
+        </p>
         <p className="font-bold">Task:</p>
         <p className="text-sm">Pick a feature from an app you use daily. Write a 1-page "Product Sense Teardown" identifying:</p>
         <ul className="space-y-2 text-sm">
@@ -352,8 +356,7 @@ export const LESSONS: Lesson[] = [
              <p className="text-xs text-zinc-500">Describe what users explicitly want to achieve.</p>
           </div>
           <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm">
-             <h4 className="text-sm font-black text-indigo-900 mb-2">3. Opportunity Statement</h4>
-             <p className="text-xs text-zinc-500 font-bold text-indigo-600">"How might we solve for X?"</p>
+             <h4 className="text-sm font-black text-indigo-600 font-bold">"How might we solve for X?"</h4>
           </div>
         </div>
 
@@ -390,8 +393,8 @@ export const LESSONS: Lesson[] = [
              <p className="text-xs text-zinc-500">1 clear statement per persona.</p>
           </div>
           <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm">
-             <h4 className="text-sm font-black text-indigo-900 mb-2">3. 1 Feature Suggestion</h4>
-             <p className="text-xs text-zinc-500 font-bold text-indigo-600">Clearly aligned to the "Job".</p>
+             <h4 className="text-sm font-black text-indigo-600 font-bold">3. 1 Feature Suggestion</h4>
+             <p className="text-xs font-bold text-indigo-600">Clearly aligned to the "Job".</p>
           </div>
         </div>
 
@@ -461,7 +464,7 @@ export const LESSONS: Lesson[] = [
           </div>
           <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm">
              <h4 className="text-sm font-black text-[#7d99bf] mb-2">3. Strategic Justification</h4>
-             <p className="text-xs text-zinc-500 font-bold text-[#7d99bf]">Explain why this market is "big enough" or "growing fast enough" to invest in.</p>
+             <p className="text-xs font-bold text-[#7d99bf]">Explain why this market is "big enough" or "growing fast enough" to invest in.</p>
           </div>
         </div>
       </div>
@@ -645,7 +648,7 @@ export const LESSONS: Lesson[] = [
       { title: 'UX Design UI Essentials Course', url: 'https://youtu.be/QJBP2uy8LcU?si=GIa6MA8amS8vYBdd', type: 'video' },
       { title: 'Usability Testing for UX', url: 'https://youtu.be/nYCJTea1AUQ?si=8RcveOgK6wybwlk4', type: 'video' },
       { title: 'Basics of UI/UX', url: 'https://youtu.be/ziQEqGZB8GE?si=gdeMwyRMYEwOmBOL', type: 'video' },
-      { title: '12 UI/UX Laws You MUST KNOW', url: 'https://youtu. itswELfwQmtnvo?si=t7AEn1xVBoB8lPTm', type: 'video' }
+      { title: '12 UI/UX Laws You MUST KNOW', url: 'https://youtu.be/wELfwQmtnvo?si=t7AEn1xVBoB8lPTm', type: 'video' }
     ]
   },
   {
@@ -745,7 +748,7 @@ export const LESSONS: Lesson[] = [
     preview: 'Learn how AI is shifting from tools to autonomous agents and how you can build them using low-code platforms.',
     content: <Day35Content />,
     resources: [
-        { title: 'AI Agents Strategy Video', url: 'https://youtu. voteZHH3sr234zY?si=5qMS4pLlfl2gYaDs', type: 'video' }
+        { title: 'AI Agents Strategy Video', url: 'https://youtu.be/ZHH3sr234zY?si=5qMS4pLlfl2gYaDs', type: 'video' }
     ],
     assignment: (
       <div className="space-y-4">
