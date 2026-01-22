@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Lesson, ModuleInfo, Category } from './types';
 import { 
@@ -40,6 +39,9 @@ import { Day28Content } from './content/days/day-28';
 import { Day29Content } from './content/days/day-29';
 import { Day30Content } from './content/days/day-30';
 import { Day31Content } from './content/days/day-31';
+import { Day32Content } from './content/days/day-32';
+import { Day33Content } from './content/days/day-33';
+import { Day34Content } from './content/days/day-34';
 
 export const getCategoryColor = (category: Category): string => {
   switch (category) {
@@ -693,6 +695,37 @@ export const LESSONS: Lesson[] = [
     content: <Day31Content />,
     resources: [
         { title: 'Context Engineering for Agents', url: 'https://www.blog.langchain.com/context-engineering-for-agents/', type: 'article' }
+    ]
+  },
+  {
+    day: 32,
+    title: 'Day 32: Retrieval Augmented Generation (RAG)',
+    category: 'AI',
+    preview: 'Learn the technique used by LLMs to answer questions about specific source information by retrieving relevant dynamic data.',
+    content: <Day32Content />,
+    resources: [
+        { title: 'Intro to RAG Video', url: 'https://youtu.be/fZM3oX4xEyg?si=lIBXXip-Qh0z962l', type: 'video' }
+    ]
+  },
+  {
+    day: 33,
+    title: 'Day 33: Model Context Protocol (MCP)',
+    category: 'AI',
+    preview: 'Understand the open-source standard for connecting AI applications to external data sources and tools.',
+    content: <Day33Content />,
+    resources: [
+        { title: 'MCP Introduction Video', url: 'https://youtu.be/-UQ6OZywZ2I?si=GumGiQn5M9tGi_Hg', type: 'video' }
+    ]
+  },
+  {
+    day: 34,
+    title: 'Day 34: Generative AI Agents',
+    category: 'AI',
+    preview: 'Go beyond chatting. Learn how AI agents use reasoning and tools to accomplish complex, autonomous goals.',
+    content: <Day34Content />,
+    resources: [
+        { title: 'AI Agents Intro Video', url: 'https://youtu.be/p6pI79qV640?si=WpQ3D01Nf-w17_zX', type: 'video' },
+        { title: 'LangGraph for Agents', url: 'https://youtu.be/jS_Xsh9S-0A?si=QjK2lK8Ait1x7Rk0', type: 'video' }
     ]
   }
 ];
