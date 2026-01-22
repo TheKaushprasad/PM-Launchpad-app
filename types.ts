@@ -1,3 +1,4 @@
+
 import { ReactNode } from 'react';
 
 export type Category = 
@@ -7,7 +8,8 @@ export type Category =
   | 'Design' 
   | 'AI' 
   | 'Strategy'
-  | 'Tech';
+  | 'Tech'
+  | 'Job Ready';
 
 export type Profession = 'Student' | 'Professional';
 

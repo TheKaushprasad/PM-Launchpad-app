@@ -1,16 +1,17 @@
+
 import React from 'react';
 import { Target, CheckCircle, Users, Lightbulb, Zap, ArrowRight, Star } from 'lucide-react';
 
 export const Day0Content = () => {
   return (
     <div className="space-y-10 text-left">
-      <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day-0: Foundation & Mindset — Start Your PM Journey Right 🚀</h1>
+      <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day-0: Foundation & Mindset — Start Your PM Journey Right</h1>
       
       <section className="bg-blue-50 p-10 rounded-[3rem] border border-blue-100">
         <div className="flex flex-col gap-4">
           <span className="text-[10px] font-black uppercase tracking-widest text-blue-600">Foundation</span>
           <p className="text-lg font-medium text-blue-900 leading-relaxed">
-            Start Your PM Journey Right. Before we jump into frameworks, tools, and case studies, today is about building the right mindset.
+            Start Your PM Journey Right . Before we jump into frameworks, tools, and case studies, today is about building the right mindset.
           </p>
         </div>
       </section>
@@ -60,9 +61,7 @@ export const Day0Content = () => {
           Reflection Exercise
         </h2>
         <p className="text-sm font-bold text-zinc-600 mb-4">
-          Write answers to this question:
-          <br />
-          Why do I want to become a Product Manager?
+          Write answers to this question: Why do I want to become a Product Manager?
         </p>
         <p className="font-black text-indigo-600 italic">
           Clarity today will drive consistency tomorrow.
@@ -96,7 +95,8 @@ export const Day0Content = () => {
         </div>
         <div className="space-y-6 text-zinc-700 leading-relaxed relative z-10 text-base">
           <div>
-            <h4 className="font-black text-indigo-900 mb-2 underline decoration-indigo-200 underline-offset-4">Task 1 — Must Do Today</h4>
+            <h4 className="font-black text-indigo-900 mb-2">Assignment</h4>
+            <h5 className="font-black text-indigo-900 mb-2 underline decoration-indigo-200 underline-offset-4">Task 1 — Must Do Today</h5>
             <p className="font-medium">Reach out to 5 Product Managers and ask them about their journey & role.</p>
             <p className="font-medium">Use LinkedIn, alumni networks, or company communities.</p>
           </div>
@@ -109,7 +109,7 @@ export const Day0Content = () => {
 
       <div className="pt-8 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
         <p></p>
-        <p className="flex items-center gap-2">Up Next: What is Product Management? <ArrowRight className="w-3 h-3" /></p>
+        <p className="flex items-center gap-2"></p>
       </div>
     </div>
   );

@@ -2,7 +2,7 @@
 import React from 'react';
 import { 
   LayoutDashboard, BookOpen, Search, BarChart2, Smartphone, 
-  Bot, Info, ChevronRight, Sparkles, Zap, Code
+  Bot, Info, ChevronRight, Sparkles, Zap, Code, Briefcase
 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -23,6 +23,7 @@ const NAV_ITEMS = [
   { label: 'Tech', icon: Code, path: '/dashboard/tech' },
   { label: 'AI', icon: Bot, path: '/dashboard/ai' },
   { label: 'Design', icon: Smartphone, path: '/dashboard/design' },
+  { label: 'Job Ready', icon: Briefcase, path: '/dashboard/jobready' },
 ];
 
 export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen }) => {

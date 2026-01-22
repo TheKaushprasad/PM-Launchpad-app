@@ -62,6 +62,7 @@ const App: React.FC = () => {
                 <Route path="tech" element={<Dashboard />} />
                 <Route path="ai" element={<Dashboard />} />
                 <Route path="design" element={<Dashboard />} />
+                <Route path="jobready" element={<Dashboard />} />
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />
          </Routes>
