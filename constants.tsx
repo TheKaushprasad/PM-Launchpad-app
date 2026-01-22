@@ -44,6 +44,9 @@ import { Day33Content } from './content/days/day-33';
 import { Day34Content } from './content/days/day-34';
 import { Day35Content } from './content/days/day-35';
 import { Day36Content } from './content/days/day-36';
+import { Day37Content } from './content/days/day-37';
+import { Day38Content } from './content/days/day-38';
+import { Day39Content } from './content/days/day-39';
 
 export const getCategoryColor = (category: Category): string => {
   switch (category) {
@@ -757,5 +760,26 @@ export const LESSONS: Lesson[] = [
     category: 'Job Ready',
     preview: 'Why aspiring PMs must ship and how to do it with no-code tools to demonstrate capability to hiring managers.',
     content: <Day36Content />
+  },
+  {
+    day: 37,
+    title: 'Day 37: Building Proof of Work as an Aspiring Product Manager Through Structured Product Teardowns',
+    category: 'Job Ready',
+    preview: 'Demonstrate product thinking and strategic insight by reverse-engineering real digital products to propose improvements.',
+    content: <Day37Content />
+  },
+  {
+    day: 38,
+    title: 'Day 38: How Aspiring Product Managers Can Do a Startup Case Study to Get a PM Job',
+    category: 'Job Ready',
+    preview: 'Master the exact process of creating high-impact startup case studies and reaching out to founders effectively.',
+    content: <Day38Content />
+  },
+  {
+    day: 39,
+    title: 'Day 39: Building a Strong PM Portfolio',
+    category: 'Job Ready',
+    preview: 'Learn how to showcase hands-on proof of work through case studies, projects, and certifications to stand out to recruiters.',
+    content: <Day39Content />
   }
 ];
