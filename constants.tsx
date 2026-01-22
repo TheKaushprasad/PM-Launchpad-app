@@ -42,6 +42,8 @@ import { Day31Content } from './content/days/day-31';
 import { Day32Content } from './content/days/day-32';
 import { Day33Content } from './content/days/day-33';
 import { Day34Content } from './content/days/day-34';
+import { Day35Content } from './content/days/day-35';
+import { Day36Content } from './content/days/day-36';
 
 export const getCategoryColor = (category: Category): string => {
   switch (category) {
@@ -417,7 +419,7 @@ export const LESSONS: Lesson[] = [
           </div>
           <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm">
              <h4 className="text-sm font-black text-indigo-900 mb-2">• Positioning Statement</h4>
-             <p className="text-xs text-zinc-500 font-bold text-indigo-600">“Unlike X and Y, our product [does what] for [whom].”</p>
+             <p className="text-xs font-bold text-indigo-600">“Unlike X and Y, our product [does what] for [whom].”</p>
           </div>
         </div>
       </div>
@@ -719,13 +721,41 @@ export const LESSONS: Lesson[] = [
   },
   {
     day: 34,
-    title: 'Day 34: Generative AI Agents',
+    title: 'Day 34: Introduction to Agent Workflow',
     category: 'AI',
-    preview: 'Go beyond chatting. Learn how AI agents use reasoning and tools to accomplish complex, autonomous goals.',
+    preview: 'Understand the iterative process where AI systems execute multiple discrete stages to solve complex human-like problems.',
     content: <Day34Content />,
     resources: [
-        { title: 'AI Agents Intro Video', url: 'https://youtu.be/p6pI79qV640?si=WpQ3D01Nf-w17_zX', type: 'video' },
-        { title: 'LangGraph for Agents', url: 'https://youtu.be/jS_Xsh9S-0A?si=QjK2lK8Ait1x7Rk0', type: 'video' }
+        { title: 'Agentic AI Workflows Course', url: 'https://www.deeplearning.ai/courses/agentic-ai/', type: 'video' }
     ]
+  },
+  {
+    day: 35,
+    title: 'Day 35: AI Agents for Product Managers',
+    category: 'Job Ready',
+    preview: 'Learn how AI is shifting from tools to autonomous agents and how you can build them using low-code platforms.',
+    content: <Day35Content />,
+    resources: [
+        { title: 'AI Agents Strategy Video', url: 'https://youtu.be/ZHH3sr234zY?si=5qMS4pLlfl2gYaDs', type: 'video' }
+    ],
+    assignment: (
+      <div className="space-y-4">
+        <p className="font-bold">Challenge: Build an AI agent that actually solves a problem you face.</p>
+        <p className="text-sm text-zinc-600 leading-relaxed">
+          Using a tool like n8n, Zapier, or a specialized agent builder, create a workflow that automates a recurring task (e.g., feedback analysis, email sorting, or research compilation).
+        </p>
+        <div className="bg-orange-50 p-4 rounded-xl border border-orange-100">
+          <p className="text-xs font-black text-orange-900 uppercase tracking-widest mb-1">Success Criteria</p>
+          <p className="text-xs text-orange-800">The agent should: Perceive an input → Make a decision/plan → Use a tool or take an action → Return a result.</p>
+        </div>
+      </div>
+    )
+  },
+  {
+    day: 36,
+    title: 'Day 36: Building Proof of Work: Why Aspiring PMs Must Ship and How to Do It With No-Code Tools',
+    category: 'Job Ready',
+    preview: 'Why aspiring PMs must ship and how to do it with no-code tools to demonstrate capability to hiring managers.',
+    content: <Day36Content />
   }
 ];

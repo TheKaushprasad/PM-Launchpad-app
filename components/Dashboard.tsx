@@ -32,7 +32,8 @@ export const Dashboard: React.FC = () => {
     if (!path || path === 'dashboard') return true;
     
     // Exact case-insensitive matching between the URL segment and the constant Category string
-    const normalizedCategory = lesson.category.toLowerCase();
+    // We strip spaces from the category name (e.g., 'Job Ready' -> 'jobready') to match the path slug
+    const normalizedCategory = lesson.category.toLowerCase().replace(/\s+/g, '');
     const normalizedPath = path.toLowerCase();
     
     return normalizedCategory === normalizedPath;
