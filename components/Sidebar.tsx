@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { 
   LayoutDashboard, BookOpen, Search, BarChart2, Smartphone, 
@@ -6,6 +5,7 @@ import {
 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { Logo } from './Logo';
 
 interface SidebarProps {
   mobileOpen: boolean;
@@ -51,9 +51,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen }) =
         `}
       >
         <div className="p-8">
-           <Link to="/" className="flex flex-col group">
+           <Link to="/" className="flex items-center gap-3 group">
+              <Logo className="w-12 h-12" />
               <div>
-                <span className="block font-black text-2xl text-zinc-900 tracking-tighter leading-none">The NooB PM</span>
+                <span className="block font-black text-xl text-zinc-900 tracking-tighter leading-none">The NooB PM</span>
                 <span className="text-[10px] text-[#79BAEC] font-black tracking-widest uppercase mt-1 block">45-Day Path</span>
               </div>
            </Link>

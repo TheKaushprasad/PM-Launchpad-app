@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence, useScroll } from 'framer-motion';
@@ -6,6 +5,7 @@ import {
   ArrowRight, CheckCircle, Zap, Briefcase, Users, 
   Layers, Menu, X, BarChart2, FileText, Code, Bot, Smartphone, Rocket
 } from 'lucide-react';
+import { Logo } from './Logo';
 
 export const LandingPage: React.FC = () => {
   const navigate = useNavigate();
@@ -42,6 +42,7 @@ export const LandingPage: React.FC = () => {
             className="flex items-center gap-3 cursor-pointer group" 
             onClick={scrollToTop}
           >
+             <Logo className="w-10 h-10" />
              <span className="font-bold text-xl tracking-tighter text-zinc-900">The NooB PM</span>
           </motion.div>
 
@@ -386,6 +387,7 @@ export const LandingPage: React.FC = () => {
       <footer className="bg-white py-12 border-t border-zinc-200">
           <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
               <div className="flex items-center gap-2">
+                  <Logo className="w-8 h-8" />
                   <span className="font-bold text-zinc-900 tracking-tight">The NooB PM</span>
               </div>
               <p className="text-zinc-500 text-sm font-medium">© {new Date().getFullYear()} The NooB PM. Open Source Education.</p>
