@@ -47,6 +47,9 @@ import { Day36Content } from './content/days/day-36';
 import { Day37Content } from './content/days/day-37';
 import { Day38Content } from './content/days/day-38';
 import { Day39Content } from './content/days/day-39';
+import { Day40Content } from './content/days/day-40';
+import { Day41Content } from './content/days/day-41';
+import { Day42Content } from './content/days/day-42';
 
 export const getCategoryColor = (category: Category): string => {
   switch (category) {
@@ -639,7 +642,7 @@ export const LESSONS: Lesson[] = [
       { title: 'UX Design UI Essentials Course', url: 'https://youtu.be/QJBP2uy8LcU?si=GIa6MA8amS8vYBdd', type: 'video' },
       { title: 'Usability Testing for UX', url: 'https://youtu.be/nYCJTea1AUQ?si=8RcveOgK6wybwlk4', type: 'video' },
       { title: 'Basics of UI/UX', url: 'https://youtu.be/ziQEqGZB8GE?si=gdeMwyRMYEwOmBOL', type: 'video' },
-      { title: '12 UI/UX Laws You MUST KNOW', url: 'https://youtu.be/wELfwQmtnvo?si=t7AEn1xVBoB8lPTm', type: 'video' }
+      { title: '12 UI/UX Laws You MUST KNOW', url: 'https://youtu. itswELfwQmtnvo?si=t7AEn1xVBoB8lPTm', type: 'video' }
     ]
   },
   {
@@ -756,7 +759,7 @@ export const LESSONS: Lesson[] = [
   },
   {
     day: 36,
-    title: 'Day 36: Building Proof of Work: Why Aspiring PMs Must Ship and How to Do It With No-Code Tools',
+    title: 'Day 36: Building Proof of Work: Why Aspiring PMs Must ship and How to Do It With No-Code Tools',
     category: 'Job Ready',
     preview: 'Why aspiring PMs must ship and how to do it with no-code tools to demonstrate capability to hiring managers.',
     content: <Day36Content />
@@ -781,5 +784,29 @@ export const LESSONS: Lesson[] = [
     category: 'Job Ready',
     preview: 'Learn how to showcase hands-on proof of work through case studies, projects, and certifications to stand out to recruiters.',
     content: <Day39Content />
+  },
+  {
+    day: 40,
+    title: 'Day 40: Building CV and optimising your linkedin',
+    category: 'Job Ready',
+    preview: 'Learn how to build a high-impact CV and optimize your LinkedIn profile using expert AI prompts and ATS checklists.',
+    content: <Day40Content />
+  },
+  {
+    day: 41,
+    title: 'Day 41: Job Search Platforms & Referral Strategies',
+    category: 'Job Ready',
+    preview: 'Learn where to apply for PM roles and master the art of asking for referrals that get responses.',
+    content: <Day41Content />
+  },
+  {
+    day: 42,
+    title: 'Day 42: PM Interview Rounds - Case Study & Product Sense',
+    category: 'Job Ready',
+    preview: 'Master the first two critical interview rounds: Case Studies and Product Sense with real-world practice questions.',
+    content: <Day42Content />,
+    resources: [
+      { title: 'Product Sense Masterclass', url: 'https://youtu.be/tlpfb_VsogA', type: 'video' }
+    ]
   }
 ];
