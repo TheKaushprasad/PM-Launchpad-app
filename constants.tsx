@@ -50,6 +50,9 @@ import { Day39Content } from './content/days/day-39';
 import { Day40Content } from './content/days/day-40';
 import { Day41Content } from './content/days/day-41';
 import { Day42Content } from './content/days/day-42';
+import { Day43Content } from './content/days/day-43';
+import { Day44Content } from './content/days/day-44';
+import { Day45Content } from './content/days/day-45';
 
 export const getCategoryColor = (category: Category): string => {
   switch (category) {
@@ -742,7 +745,7 @@ export const LESSONS: Lesson[] = [
     preview: 'Learn how AI is shifting from tools to autonomous agents and how you can build them using low-code platforms.',
     content: <Day35Content />,
     resources: [
-        { title: 'AI Agents Strategy Video', url: 'https://youtu.be/ZHH3sr234zY?si=5qMS4pLlfl2gYaDs', type: 'video' }
+        { title: 'AI Agents Strategy Video', url: 'https://youtu. voteZHH3sr234zY?si=5qMS4pLlfl2gYaDs', type: 'video' }
     ],
     assignment: (
       <div className="space-y-4">
@@ -807,6 +810,38 @@ export const LESSONS: Lesson[] = [
     content: <Day42Content />,
     resources: [
       { title: 'Product Sense Masterclass', url: 'https://youtu.be/tlpfb_VsogA', type: 'video' }
+    ]
+  },
+  {
+    day: 43,
+    title: 'Day 43: PM Interview Rounds - RCA & Guestimates',
+    category: 'Job Ready',
+    preview: 'Master Root Cause Analysis (RCA) and Guestimate interview rounds with detailed video guides and practice questions.',
+    content: <Day43Content />,
+    resources: [
+      { title: 'RCA Masterclass', url: 'https://youtu.be/PA-Z__0G8Cs', type: 'video' },
+      { title: 'Guestimates Masterclass', url: 'https://youtu.be/7C0L_XdlE50', type: 'video' }
+    ]
+  },
+  {
+    day: 44,
+    title: 'Day 44: PM Interview Rounds - Product Improvement',
+    category: 'Job Ready',
+    preview: 'Master the Product Improvement interview round with a detailed video guide and common company questions.',
+    content: <Day44Content />,
+    resources: [
+      { title: 'Product Improvement Masterclass', url: 'https://youtu.be/Fhm0F240v9Y', type: 'video' }
+    ]
+  },
+  {
+    day: 45,
+    title: 'Day 45: PM Interview Rounds - Behavioral & Final Feedback',
+    category: 'Job Ready',
+    preview: 'Conclude the course with Behavioral interview techniques and share your feedback to help us improve.',
+    content: <Day45Content />,
+    resources: [
+      { title: 'Behavioral Round Guide 1', url: 'https://youtu.be/1rOcpwcDTuY', type: 'video' },
+      { title: 'Behavioral Round Guide 2', url: 'https://youtu.be/Wyvm8vcsaP0', type: 'video' }
     ]
   }
 ];
