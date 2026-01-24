@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { MODULES, LESSONS } from '../constants';
 import { DayCard } from './DayCard';
 import { motion } from 'framer-motion';
@@ -23,18 +23,25 @@ export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Defensive scroll to top on mount/navigation
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
   // Extract the specific module from the URL (e.g., /dashboard/strategy -> strategy)
-  const pathParts = location.pathname.split('/').filter(Boolean);
-  const path = pathParts[pathParts.length - 1];
+  const pathParts = (location.pathname || '').split('/').filter(Boolean);
+  const path = pathParts.length > 0 ? pathParts[pathParts.length - 1] : 'dashboard';
   
   const filteredLessons = LESSONS.filter(lesson => {
-    // If we are at the main dashboard index, show everything
-    if (!path || path === 'dashboard') return true;
+    // If we are at the main dashboard index or the segment is 'dashboard', show everything
+    if (!path || path.toLowerCase() === 'dashboard') return true;
     
+    // Safety check for lesson category
+    if (!lesson.category) return false;
+
     // Exact case-insensitive matching between the URL segment and the constant Category string
-    // We strip spaces from the category name (e.g., 'Job Ready' -> 'jobready') to match the path slug
     const normalizedCategory = lesson.category.toLowerCase().replace(/\s+/g, '');
-    const normalizedPath = path.toLowerCase();
+    const normalizedPath = (path || '').toLowerCase();
     
     return normalizedCategory === normalizedPath;
   });
@@ -44,8 +51,10 @@ export const Dashboard: React.FC = () => {
   };
 
   const getModuleTitle = () => {
-    if (!path || path === 'dashboard') return 'Full Curriculum';
-    const activeModule = MODULES.find(m => m.id.toLowerCase() === path.toLowerCase());
+    const safePath = (path || '').toLowerCase();
+    if (safePath === 'dashboard' || !safePath) return 'Full Curriculum';
+    
+    const activeModule = MODULES.find(m => m.id && m.id.toLowerCase() === safePath);
     return activeModule ? `${activeModule.title} Module` : 'Module Curriculum';
   };
 
@@ -57,7 +66,7 @@ export const Dashboard: React.FC = () => {
       className="space-y-8 md:space-y-12 pb-12 relative"
     >
       {/* Restore Button - Only show when filtering */}
-      {path && path !== 'dashboard' && (
+      {path && path.toLowerCase() !== 'dashboard' && (
         <button 
           onClick={handleRestore}
           className="fixed bottom-4 right-4 md:bottom-8 md:right-8 z-[100] bg-zinc-900 text-white px-4 md:px-6 py-2.5 md:py-3 rounded-2xl font-bold text-xs uppercase tracking-widest flex items-center gap-2 shadow-2xl border border-zinc-800 hover:bg-black transition-all group"
@@ -122,7 +131,7 @@ export const Dashboard: React.FC = () => {
           variants={container}
           initial="hidden"
           animate="show"
-          key={path}
+          key={path || 'root'}
           className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-10"
         >
           {filteredLessons.length > 0 ? (

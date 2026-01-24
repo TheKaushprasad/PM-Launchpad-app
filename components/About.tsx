@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Target, BarChart, PenTool, ClipboardList, Code, Brain, Users, CheckCircle, Briefcase, Zap, Star, ArrowRight, BookOpen, Clock, Lightbulb, Bot } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -54,7 +53,7 @@ export const About: React.FC = () => {
                 <div className="bg-white/20 border border-white/30 p-8 rounded-[2.5rem] mt-12 backdrop-blur-sm">
                     <Briefcase className="w-10 h-10 text-zinc-900 mb-4" />
                     <p className="text-zinc-800 text-[10px] font-black uppercase tracking-wider mb-1">Roles</p>
-                    <p className="text-xl font-black leading-tight">APM / PM / Ops</p>
+                    <p className="text-xl font-black leading-tight">Product and adjacent</p>
                 </div>
             </div>
         </div>
