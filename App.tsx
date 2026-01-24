@@ -10,20 +10,16 @@ import { AnimatePresence } from 'framer-motion';
 import { Logo } from './components/Logo';
 
 // Last-resort Error Boundary to prevent white screen
-// Fix: Added optional children to Props and explicitly declared state and props to fix property existence errors
 class ErrorBoundary extends React.Component<{ children?: React.ReactNode }, { hasError: boolean }> {
-  // Fix: Explicitly declare state and props to resolve property existence errors on lines 16, 20, and 30
   public state: { hasError: boolean };
   public props: { children?: React.ReactNode };
 
   constructor(props: { children?: React.ReactNode }) {
     super(props);
-    // Fix: state initialization
     this.state = { hasError: false };
   }
   static getDerivedStateFromError() { return { hasError: true }; }
   render() {
-    // Fix: state access
     if (this.state.hasError) {
       return (
         <div className="flex flex-col items-center justify-center min-h-[50vh] text-center p-8 bg-white rounded-3xl border border-zinc-200">
@@ -34,24 +30,22 @@ class ErrorBoundary extends React.Component<{ children?: React.ReactNode }, { ha
         </div>
       );
     }
-    // Fix: props access
     return this.props.children;
   }
 }
 
-// Layout Component containing Sidebar and Outlet
-const Layout = () => {
+// SHARED SHELL (Sidebar + Header only)
+const MainShell = () => {
     const [mobileOpen, setMobileOpen] = useState(false);
     const location = useLocation();
     const scrollContainerRef = useRef<HTMLElement>(null);
     
-    // CRITICAL: Reset scroll of the custom container on every route change
-    // This prevents the "blank screen" illusion caused by being scrolled to the bottom
+    // Reset scroll on any navigation
     useEffect(() => {
         if (scrollContainerRef.current) {
             scrollContainerRef.current.scrollTo(0, 0);
         }
-        setMobileOpen(false); // Auto-close sidebar on navigation
+        setMobileOpen(false);
     }, [location.pathname]);
     
     return (
@@ -63,21 +57,14 @@ const Layout = () => {
                         <Logo className="w-8 h-8" />
                         <span className="font-bold text-lg text-zinc-800 tracking-tight">The NooB PM</span>
                     </div>
-                    <button 
-                        onClick={() => setMobileOpen(!mobileOpen)} 
-                        className="p-2 text-zinc-600 hover:bg-zinc-100 rounded-full transition-colors"
-                    >
+                    <button onClick={() => setMobileOpen(!mobileOpen)} className="p-2 text-zinc-600 hover:bg-zinc-100 rounded-full">
                         {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
                     </button>
                 </header>
                 <main ref={scrollContainerRef} className="flex-1 overflow-y-auto scroll-smooth">
                     <div className="max-w-7xl mx-auto w-full p-4 md:p-8 pb-20">
                         <ErrorBoundary>
-                            <AnimatePresence mode="wait">
-                               <div key={location.pathname} className="h-full">
-                                  <Outlet />
-                               </div>
-                            </AnimatePresence>
+                            <Outlet />
                         </ErrorBoundary>
                     </div>
                 </main>
@@ -86,16 +73,30 @@ const Layout = () => {
     );
 };
 
+// ISOLATED LESSON LAYOUT (Adds animations back only for lesson pages)
+const LessonLayout = () => {
+    const location = useLocation();
+    return (
+        <AnimatePresence mode="wait">
+            <div key={location.pathname} className="h-full">
+                <Outlet />
+            </div>
+        </AnimatePresence>
+    );
+};
+
 const App: React.FC = () => {
   return (
       <Router>
          <Routes>
             <Route path="/" element={<LandingPage />} />
-            <Route path="/dashboard" element={<Layout />}>
+            
+            {/* Primary Navigation Shell */}
+            <Route path="/dashboard" element={<MainShell />}>
+                
+                {/* ISOLATED DASHBOARD ROUTES (Static, no keyed AnimatePresence at this level) */}
                 <Route index element={<Dashboard />} />
                 <Route path="about" element={<About />} />
-                <Route path="day/:id" element={<LessonDetail />} />
-                {/* Specific Category Routes - Mapping to Dashboard with defensive filtering */}
                 <Route path="foundations" element={<Dashboard />} />
                 <Route path="research" element={<Dashboard />} />
                 <Route path="strategy" element={<Dashboard />} />
@@ -104,7 +105,14 @@ const App: React.FC = () => {
                 <Route path="ai" element={<Dashboard />} />
                 <Route path="design" element={<Dashboard />} />
                 <Route path="jobready" element={<Dashboard />} />
+
+                {/* ISOLATED LESSON ROUTE (Within its own animated sub-layout) */}
+                <Route element={<LessonLayout />}>
+                    <Route path="day/:id" element={<LessonDetail />} />
+                </Route>
+
             </Route>
+            
             <Route path="*" element={<Navigate to="/" replace />} />
          </Routes>
       </Router>
