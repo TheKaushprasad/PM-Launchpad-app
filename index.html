@@ -4,6 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PM Launchpad — 45-Day Course</title>
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-217YK7FW0Y"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-217YK7FW0Y');
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
       :root {
@@ -21,7 +31,6 @@
         line-height: 1.6;
       }
       
-      /* Glassmorphism utility */
       .glass {
         background: rgba(255, 255, 255, 0.7);
         backdrop-filter: blur(12px);
@@ -29,7 +38,6 @@
         border: 1px solid rgba(255, 255, 255, 0.3);
       }
 
-      /* Custom Scrollbar */
       ::-webkit-scrollbar {
         width: 6px;
       }
@@ -44,12 +52,10 @@
         background: #cbd5e1;
       }
 
-      /* Transitions */
       .page-transition {
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       }
 
-      /* Modern Headings */
       h1, h2, h3, h4 {
         letter-spacing: -0.025em;
         font-weight: 800;
@@ -71,7 +77,6 @@
         display: none;
       }
 
-      /* Clip path for arrow elements */
       .clip-path-arrow {
         clip-path: polygon(0% 0%, 85% 0%, 100% 50%, 85% 100%, 0% 100%, 15% 50%);
       }
@@ -80,14 +85,17 @@
   <script type="importmap">
 {
   "imports": {
-    "react/": "https://aistudiocdn.com/react@^19.2.1/",
-    "react": "https://aistudiocdn.com/react@^19.2.1",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/",
-    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.556.0",
-    "vite": "https://aistudiocdn.com/vite@^7.2.7",
-    "framer-motion": "https://aistudiocdn.com/framer-motion@^12.23.25",
-    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.10.1",
-    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.2"
+    "react": "https://esm.sh/react@19.0.0",
+    "react/": "https://esm.sh/react@19.0.0/",
+    "react-dom": "https://esm.sh/react-dom@19.0.0",
+    "react-dom/": "https://esm.sh/react-dom@19.0.0/",
+    "lucide-react": "https://esm.sh/lucide-react@0.460.0?external=react",
+    "framer-motion": "https://esm.sh/framer-motion@11.11.11?external=react,react-dom",
+    "react-router-dom": "https://esm.sh/react-router-dom@6.28.0?external=react,react-dom",
+    "@vercel/analytics/react": "https://esm.sh/@vercel/analytics@1.4.1/react?external=react,react-dom",
+    "@vercel/analytics/": "https://esm.sh/@vercel/analytics@^1.6.1/",
+    "vite": "https://esm.sh/vite@^7.3.1",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2"
   }
 }
 </script>

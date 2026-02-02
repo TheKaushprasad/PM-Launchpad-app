@@ -8,39 +8,66 @@ import { LandingPage } from './components/LandingPage';
 import { Menu, X, AlertTriangle } from 'lucide-react';
 import { AnimatePresence } from 'framer-motion';
 import { Logo } from './components/Logo';
+import { Analytics } from '@vercel/analytics/react';
 
-// Last-resort Error Boundary to prevent white screen
-class ErrorBoundary extends React.Component<{ children?: React.ReactNode }, { hasError: boolean }> {
-  public state: { hasError: boolean };
-  public props: { children?: React.ReactNode };
+// GA4 Tracker Component to handle SPA page views
+const GAPageTracker = () => {
+  const location = useLocation();
 
-  constructor(props: { children?: React.ReactNode }) {
-    super(props);
-    this.state = { hasError: false };
+  useEffect(() => {
+    // Ensure gtag is defined (loaded from index.html) before calling
+    if (typeof (window as any).gtag === 'function') {
+      (window as any).gtag('config', 'G-217YK7FW0Y', {
+        page_path: location.pathname,
+      });
+    }
+  }, [location]);
+
+  return null;
+};
+
+// Added explicit interfaces to resolve type inference issues in ErrorBoundary
+interface ErrorBoundaryProps {
+  children?: React.ReactNode;
+}
+
+interface ErrorBoundaryState {
+  hasError: boolean;
+}
+
+// Simplified Error Boundary for React 19
+// Use React.Component explicitly to ensure props are correctly typed and available for 'this.props'
+// Fix: Property 'props' does not exist on type 'ErrorBoundary' by extending React.Component directly
+class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  public state: ErrorBoundaryState = { hasError: false };
+
+  // Removed redundant constructor to prevent potential shadowing issues with props
+
+  static getDerivedStateFromError(): ErrorBoundaryState { 
+    return { hasError: true }; 
   }
-  static getDerivedStateFromError() { return { hasError: true }; }
-  render() {
+
+  public render() {
     if (this.state.hasError) {
       return (
         <div className="flex flex-col items-center justify-center min-h-[50vh] text-center p-8 bg-white rounded-3xl border border-zinc-200">
           <AlertTriangle className="w-12 h-12 text-amber-500 mb-4" />
           <h2 className="text-xl font-black text-zinc-900">Something went wrong</h2>
-          <p className="text-zinc-500 mb-6 font-medium">The dashboard failed to load. Please refresh the page.</p>
-          <button onClick={() => window.location.reload()} className="px-6 py-3 bg-zinc-900 text-white rounded-xl font-bold">Refresh App</button>
+          <button onClick={() => window.location.reload()} className="mt-4 px-6 py-3 bg-zinc-900 text-white rounded-xl font-bold">Refresh App</button>
         </div>
       );
     }
-    return this.props.children;
+    // Access children through this.props to render nested routes
+    // Fixed: return this.props.children or null to satisfy ReactNode return type requirements
+    return this.props.children || null;
   }
 }
 
-// SHARED SHELL (Sidebar + Header only)
 const MainShell = () => {
     const [mobileOpen, setMobileOpen] = useState(false);
     const location = useLocation();
     const scrollContainerRef = useRef<HTMLElement>(null);
     
-    // Reset scroll on any navigation
     useEffect(() => {
         if (scrollContainerRef.current) {
             scrollContainerRef.current.scrollTo(0, 0);
@@ -73,7 +100,6 @@ const MainShell = () => {
     );
 };
 
-// ISOLATED LESSON LAYOUT (Adds animations back only for lesson pages)
 const LessonLayout = () => {
     const location = useLocation();
     return (
@@ -87,35 +113,31 @@ const LessonLayout = () => {
 
 const App: React.FC = () => {
   return (
-      <Router>
-         <Routes>
-            <Route path="/" element={<LandingPage />} />
-            
-            {/* Primary Navigation Shell */}
-            <Route path="/dashboard" element={<MainShell />}>
-                
-                {/* ISOLATED DASHBOARD ROUTES (Static, no keyed AnimatePresence at this level) */}
-                <Route index element={<Dashboard />} />
-                <Route path="about" element={<About />} />
-                <Route path="foundations" element={<Dashboard />} />
-                <Route path="research" element={<Dashboard />} />
-                <Route path="strategy" element={<Dashboard />} />
-                <Route path="data" element={<Dashboard />} />
-                <Route path="tech" element={<Dashboard />} />
-                <Route path="ai" element={<Dashboard />} />
-                <Route path="design" element={<Dashboard />} />
-                <Route path="jobready" element={<Dashboard />} />
-
-                {/* ISOLATED LESSON ROUTE (Within its own animated sub-layout) */}
-                <Route element={<LessonLayout />}>
-                    <Route path="day/:id" element={<LessonDetail />} />
-                </Route>
-
-            </Route>
-            
-            <Route path="*" element={<Navigate to="/" replace />} />
-         </Routes>
-      </Router>
+      <>
+        <Router>
+           <GAPageTracker />
+           <Routes>
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/dashboard" element={<MainShell />}>
+                  <Route index element={<Dashboard />} />
+                  <Route path="about" element={<About />} />
+                  <Route path="foundations" element={<Dashboard />} />
+                  <Route path="research" element={<Dashboard />} />
+                  <Route path="strategy" element={<Dashboard />} />
+                  <Route path="data" element={<Dashboard />} />
+                  <Route path="tech" element={<Dashboard />} />
+                  <Route path="ai" element={<Dashboard />} />
+                  <Route path="design" element={<Dashboard />} />
+                  <Route path="jobready" element={<Dashboard />} />
+                  <Route element={<LessonLayout />}>
+                      <Route path="day/:id" element={<LessonDetail />} />
+                  </Route>
+              </Route>
+              <Route path="*" element={<Navigate to="/" replace />} />
+           </Routes>
+        </Router>
+        <Analytics />
+      </>
   );
 };
 

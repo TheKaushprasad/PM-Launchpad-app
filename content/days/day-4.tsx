@@ -1,9 +1,8 @@
-
 import React from 'react';
 import { 
   Target, CheckCircle, Lightbulb, Zap, Brain, Eye, 
   Layers, Search, Users, Activity, Briefcase, HeartHandshake, Compass, 
-  Smartphone, Beaker, HelpCircle, AlertTriangle
+  Smartphone, Beaker, HelpCircle, AlertTriangle, RefreshCcw
 } from 'lucide-react';
 
 export const Day4Content = () => {
@@ -182,5 +181,4 @@ export const Day4Content = () => {
   );
 };
 
-import { RefreshCcw } from 'lucide-react';
 export default Day4Content;
