@@ -71,6 +71,18 @@ export const LandingPage: React.FC = () => {
                 Dashboard
             </motion.button>
 
+            <motion.a 
+                href="https://chat.whatsapp.com/F93j47M4UL43DUJS1QrEgU"
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="text-sm font-semibold text-emerald-600 hover:text-emerald-700 transition-colors tracking-tight"
+            >
+                Join Community
+            </motion.a>
+
             <motion.div 
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -114,6 +126,14 @@ export const LandingPage: React.FC = () => {
                 >
                     Dashboard
                 </button>
+                <a 
+                    href="https://chat.whatsapp.com/F93j47M4UL43DUJS1QrEgU"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block w-full text-left text-lg font-semibold text-emerald-600 py-2 tracking-tight"
+                >
+                    Join Community
+                </a>
                 <div className="pt-4 border-t border-zinc-100 flex flex-col gap-3">
                     <button onClick={() => navigate('/dashboard')} className="w-full py-3 rounded-xl bg-indigo-600 text-white font-bold tracking-tight">
                         Start Learning

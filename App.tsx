@@ -36,12 +36,10 @@ interface ErrorBoundaryState {
 }
 
 // Simplified Error Boundary for React 19
-// Use React.Component explicitly to ensure props are correctly typed and available for 'this.props'
-// Fix: Property 'props' does not exist on type 'ErrorBoundary' by extending React.Component directly
+// Fix: Use React.Component specifically to ensure this.props is correctly inherited and typed. 
+// Named import 'Component' can sometimes lead to shadowing or inference issues in strict TS environments.
 class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
   public state: ErrorBoundaryState = { hasError: false };
-
-  // Removed redundant constructor to prevent potential shadowing issues with props
 
   static getDerivedStateFromError(): ErrorBoundaryState { 
     return { hasError: true }; 
@@ -58,7 +56,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
       );
     }
     // Access children through this.props to render nested routes
-    // Fixed: return this.props.children or null to satisfy ReactNode return type requirements
+    // Fix: Explicitly extending React.Component ensures 'props' is available on 'this'
     return this.props.children || null;
   }
 }
