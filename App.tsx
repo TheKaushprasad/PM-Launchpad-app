@@ -5,10 +5,7 @@ import { Dashboard } from './components/Dashboard';
 import { LessonDetail } from './components/LessonDetail';
 import { About } from './components/About';
 import { LandingPage } from './components/LandingPage';
-import { ToolsHub } from './components/ToolsHub';
 import { Resources } from './components/Resources';
-import { LinkedInOptimiser } from './components/LinkedInOptimiser';
-import { CVAnalyser } from './components/CVAnalyser';
 import { Menu, X, AlertTriangle } from 'lucide-react';
 import { AnimatePresence } from 'framer-motion';
 import { Logo } from './components/Logo';
@@ -39,12 +36,14 @@ interface ErrorBoundaryState {
 
 /**
  * ErrorBoundary class component to catch rendering errors in the app.
- * Using React.Component generic to ensure 'props' and 'state' are correctly typed.
+ * Using Component generic to ensure 'props' and 'state' are correctly typed.
  */
-// Fix: Explicitly extending React.Component ensures the 'props' property is available and correctly typed
-class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
-  // Correctly initialize state as a class property
-  public state: ErrorBoundaryState = { hasError: false };
+// Fix: Extending Component directly from react and providing an explicit constructor ensures 'this.props' is correctly typed and accessible
+class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  constructor(props: ErrorBoundaryProps) {
+    super(props);
+    this.state = { hasError: false };
+  }
 
   public static getDerivedStateFromError(_: any): ErrorBoundaryState { 
     return { hasError: true }; 
@@ -62,7 +61,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
       );
     }
     
-    // Fix: Inheriting from React.Component ensures this.props is correctly recognized by the TypeScript compiler
+    // Fix: Inheriting from Component and using a proper constructor ensures this.props is correctly recognized by the TypeScript compiler
     return this.props.children || null;
   }
 }
@@ -135,7 +134,7 @@ const App: React.FC = () => {
            <Routes>
               <Route path="/" element={<LandingPage />} />
               
-              {/* App Shell Wrapper for Dashboard, Tools, and Resources */}
+              {/* App Shell Wrapper for Dashboard and Resources */}
               <Route element={<MainShell />}>
                   {/* Dashboard Routes */}
                   <Route path="/dashboard">
@@ -152,13 +151,6 @@ const App: React.FC = () => {
                       <Route element={<LessonLayout />}>
                           <Route path="day/:id" element={<LessonDetail />} />
                       </Route>
-                  </Route>
-
-                  {/* Top-level Tools Routes */}
-                  <Route path="/tools">
-                      <Route index element={<ToolsHub />} />
-                      <Route path="linkedin-optimiser" element={<LinkedInOptimiser />} />
-                      <Route path="cv-analyser" element={<CVAnalyser />} />
                   </Route>
 
                   {/* Top-level Resources Routes */}

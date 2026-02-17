@@ -2,7 +2,7 @@ import React from 'react';
 import { 
   LayoutDashboard, BookOpen, Search, BarChart2, Smartphone, 
   Bot, Info, ChevronRight, Sparkles, Zap, Code, Briefcase,
-  Wrench, Library
+  Library
 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -17,7 +17,6 @@ interface SidebarProps {
 
 const NAV_ITEMS = [
   { label: 'Dashboard', icon: LayoutDashboard, path: '/dashboard' },
-  { label: 'Career Tools', icon: Wrench, path: '/tools' },
   { label: 'Resources', icon: Library, path: '/resources' },
   { label: 'Full Syllabus', icon: Info, path: '/dashboard/about' },
   { type: 'divider', label: 'Modules' },

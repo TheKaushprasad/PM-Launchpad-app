@@ -4,7 +4,7 @@ import { motion, AnimatePresence, useScroll } from 'framer-motion';
 import { 
   ArrowRight, CheckCircle, Zap, Briefcase, Users, 
   Layers, Menu, X, BarChart2, FileText, Code, Bot, Smartphone, Rocket,
-  Wrench, Sparkles, Library
+  Sparkles, Library
 } from 'lucide-react';
 import { Logo } from './Logo';
 
@@ -61,16 +61,6 @@ export const LandingPage: React.FC = () => {
                 {item}
               </motion.button>
             ))}
-            
-            <motion.button 
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                onClick={() => navigate('/tools')}
-                className="text-sm font-semibold text-zinc-600 hover:text-indigo-600 transition-colors tracking-tight flex items-center gap-1.5"
-            >
-                <Wrench className="w-4 h-4" /> Career Tools
-            </motion.button>
 
             <motion.button 
                 initial={{ opacity: 0, y: -10 }}
@@ -142,12 +132,6 @@ export const LandingPage: React.FC = () => {
                     </button>
                 ))}
                 <button 
-                    onClick={() => navigate('/tools')}
-                    className="block w-full text-left text-lg font-semibold text-zinc-700 py-2 tracking-tight flex items-center gap-2"
-                >
-                    <Wrench className="w-5 h-5 text-indigo-600" /> Career Tools
-                </button>
-                <button 
                     onClick={() => navigate('/resources')}
                     className="block w-full text-left text-lg font-semibold text-zinc-700 py-2 tracking-tight flex items-center gap-2"
                 >
@@ -190,7 +174,7 @@ export const LandingPage: React.FC = () => {
                 transition={{ duration: 0.6 }}
             >
                 <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-50 border border-indigo-100 rounded-full text-indigo-600 text-[10px] font-black uppercase tracking-widest mb-6">
-                  <Sparkles className="w-3 h-3" /> New: AI Career Tools 2.0
+                  <Sparkles className="w-3 h-3" /> 45-Day Intense PM Track
                 </div>
                 <h1 className="text-6xl md:text-8xl font-extrabold text-zinc-900 tracking-tighter leading-[0.95] mb-8">
                     NooB In. <br/>
@@ -203,8 +187,8 @@ export const LandingPage: React.FC = () => {
                     <button onClick={() => navigate('/dashboard')} className="px-8 py-4 bg-zinc-900 hover:bg-zinc-800 text-white rounded-2xl font-bold text-lg shadow-xl shadow-zinc-200 transition-all hover:-translate-y-1 flex items-center gap-2 tracking-tight">
                         Start Learning Now <ArrowRight className="w-5 h-5" />
                     </button>
-                    <button onClick={() => navigate('/tools')} className="px-8 py-4 bg-white hover:bg-zinc-50 text-indigo-600 border border-zinc-200 rounded-2xl font-bold text-lg transition-all tracking-tight shadow-sm flex items-center gap-2">
-                        <Wrench className="w-5 h-5" /> Career Tools
+                    <button onClick={() => navigate('/resources')} className="px-8 py-4 bg-white hover:bg-zinc-50 text-indigo-600 border border-zinc-200 rounded-2xl font-bold text-lg transition-all tracking-tight shadow-sm flex items-center gap-2">
+                        <Library className="w-5 h-5" /> All Resources
                     </button>
                 </div>
                 <div className="mt-12 flex items-center gap-4 text-sm font-semibold text-zinc-500 tracking-tight">
