@@ -38,8 +38,8 @@ interface ErrorBoundaryState {
  * ErrorBoundary class component to catch rendering errors in the app.
  * Using Component generic to ensure 'props' and 'state' are correctly typed.
  */
-// Fix: Extending Component directly from react and providing an explicit constructor ensures 'this.props' is correctly typed and accessible
-class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+// Fix: Extending React.Component directly ensures 'state' and 'props' are correctly inherited and recognized by the TypeScript compiler
+class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
   constructor(props: ErrorBoundaryProps) {
     super(props);
     this.state = { hasError: false };
@@ -50,7 +50,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   }
 
   public render() {
-    // Accessing state via correctly typed Component instance
+    // Fix: Accessing state via correctly typed React.Component instance
     if (this.state.hasError) {
       return (
         <div className="flex flex-col items-center justify-center min-h-[50vh] text-center p-8 bg-white rounded-3xl border border-zinc-200">
@@ -61,7 +61,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
       );
     }
     
-    // Fix: Inheriting from Component and using a proper constructor ensures this.props is correctly recognized by the TypeScript compiler
+    // Fix: Accessing props via correctly typed React.Component instance
     return this.props.children || null;
   }
 }
