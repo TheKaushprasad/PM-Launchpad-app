@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence, useScroll } from 'framer-motion';
 import { 
   ArrowRight, CheckCircle, Zap, Briefcase, Users, 
-  Layers, Menu, X, BarChart2, FileText, Code, Bot, Smartphone, Rocket
+  Layers, Menu, X, BarChart2, FileText, Code, Bot, Smartphone, Rocket,
+  Wrench, Sparkles, Library
 } from 'lucide-react';
 import { Logo } from './Logo';
 
@@ -64,6 +65,26 @@ export const LandingPage: React.FC = () => {
             <motion.button 
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                onClick={() => navigate('/tools')}
+                className="text-sm font-semibold text-zinc-600 hover:text-indigo-600 transition-colors tracking-tight flex items-center gap-1.5"
+            >
+                <Wrench className="w-4 h-4" /> Career Tools
+            </motion.button>
+
+            <motion.button 
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.25 }}
+                onClick={() => navigate('/resources')}
+                className="text-sm font-semibold text-zinc-600 hover:text-indigo-600 transition-colors tracking-tight flex items-center gap-1.5"
+            >
+                <Library className="w-4 h-4" /> Resources
+            </motion.button>
+
+            <motion.button 
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
                 onClick={() => navigate('/dashboard')}
                 className="text-sm font-semibold text-indigo-600 hover:text-indigo-700 transition-colors tracking-tight"
@@ -121,6 +142,18 @@ export const LandingPage: React.FC = () => {
                     </button>
                 ))}
                 <button 
+                    onClick={() => navigate('/tools')}
+                    className="block w-full text-left text-lg font-semibold text-zinc-700 py-2 tracking-tight flex items-center gap-2"
+                >
+                    <Wrench className="w-5 h-5 text-indigo-600" /> Career Tools
+                </button>
+                <button 
+                    onClick={() => navigate('/resources')}
+                    className="block w-full text-left text-lg font-semibold text-zinc-700 py-2 tracking-tight flex items-center gap-2"
+                >
+                    <Library className="w-5 h-5 text-indigo-600" /> Resources
+                </button>
+                <button 
                     onClick={() => navigate('/dashboard')}
                     className="block w-full text-left text-lg font-semibold text-indigo-600 py-2 tracking-tight"
                 >
@@ -145,7 +178,7 @@ export const LandingPage: React.FC = () => {
       </AnimatePresence>
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-6 relative overflow-hidden">
+      <section className="pt-40 pb-20 px-6 relative overflow-hidden">
          {/* Background Blobs */}
          <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-indigo-500/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none"></div>
          <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/3 pointer-events-none"></div>
@@ -156,6 +189,9 @@ export const LandingPage: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
             >
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-indigo-50 border border-indigo-100 rounded-full text-indigo-600 text-[10px] font-black uppercase tracking-widest mb-6">
+                  <Sparkles className="w-3 h-3" /> New: AI Career Tools 2.0
+                </div>
                 <h1 className="text-6xl md:text-8xl font-extrabold text-zinc-900 tracking-tighter leading-[0.95] mb-8">
                     NooB In. <br/>
                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600">PM Out.</span>
@@ -167,8 +203,8 @@ export const LandingPage: React.FC = () => {
                     <button onClick={() => navigate('/dashboard')} className="px-8 py-4 bg-zinc-900 hover:bg-zinc-800 text-white rounded-2xl font-bold text-lg shadow-xl shadow-zinc-200 transition-all hover:-translate-y-1 flex items-center gap-2 tracking-tight">
                         Start Learning Now <ArrowRight className="w-5 h-5" />
                     </button>
-                    <button onClick={() => navigate('/dashboard')} className="px-8 py-4 bg-white hover:bg-zinc-50 text-indigo-600 border border-zinc-200 rounded-2xl font-bold text-lg transition-all tracking-tight shadow-sm">
-                        Dashboard
+                    <button onClick={() => navigate('/tools')} className="px-8 py-4 bg-white hover:bg-zinc-50 text-indigo-600 border border-zinc-200 rounded-2xl font-bold text-lg transition-all tracking-tight shadow-sm flex items-center gap-2">
+                        <Wrench className="w-5 h-5" /> Career Tools
                     </button>
                 </div>
                 <div className="mt-12 flex items-center gap-4 text-sm font-semibold text-zinc-500 tracking-tight">
@@ -360,10 +396,10 @@ export const LandingPage: React.FC = () => {
                  <div>
                      <h2 className="text-3xl md:text-5xl font-bold mb-6 tracking-tight leading-tight">Built for Action, <br/> Not Just Reading.</h2>
                      <p className="text-indigo-200 text-lg mb-8 leading-relaxed">
-                         Most courses give you theory. We give you a workspace. Complete daily assignments, build a portfolio, and track your progress.
+                         Most courses give you theory. We give you a workspace. Complete daily assignments, build a professional identity, and track your progress.
                      </p>
                      <ul className="space-y-4">
-                         {['45 Daily Lessons', 'Real-world Assignments', 'Portfolio Builder', 'Interview Prep'].map(item => (
+                         {['45 Daily Lessons', 'Real-world Assignments', 'Career Strategy', 'Interview Prep'].map(item => (
                              <li key={item} className="flex items-center gap-3 text-lg font-medium tracking-tight">
                                  <CheckCircle className="w-6 h-6 text-green-400" />
                                  {item}
@@ -392,8 +428,8 @@ export const LandingPage: React.FC = () => {
                              <div className="flex items-center gap-4 p-4 bg-zinc-700/50 rounded-xl border border-zinc-600">
                                  <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center font-bold">3</div>
                                  <div>
-                                     <h4 className="font-bold tracking-tight">Build Portfolio</h4>
-                                     <p className="text-sm text-zinc-400 font-medium">Document your work for recruiters.</p>
+                                     <h4 className="font-bold tracking-tight">Land the Job</h4>
+                                     <p className="text-sm text-zinc-400 font-medium">Use your work to impress recruiters.</p>
                                  </div>
                              </div>
                          </div>
