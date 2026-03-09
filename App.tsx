@@ -6,6 +6,8 @@ import { LessonDetail } from './components/LessonDetail';
 import { About } from './components/About';
 import { LandingPage } from './components/LandingPage';
 import { Resources } from './components/Resources';
+import { ToolsHub } from './components/ToolsHub';
+import { LinkedInOptimiser } from './components/LinkedInOptimiser';
 import { Menu, X, AlertTriangle } from 'lucide-react';
 import { AnimatePresence } from 'framer-motion';
 import { Logo } from './components/Logo';
@@ -155,6 +157,12 @@ const App: React.FC = () => {
 
                   {/* Top-level Resources Routes */}
                   <Route path="/resources" element={<Resources />} />
+
+                  {/* Tools Suite Routes */}
+                  <Route path="/tools">
+                      <Route index element={<ToolsHub />} />
+                      <Route path="linkedin-optimiser" element={<LinkedInOptimiser />} />
+                  </Route>
               </Route>
 
               <Route path="*" element={<Navigate to="/" replace />} />

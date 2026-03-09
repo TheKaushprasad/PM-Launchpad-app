@@ -18,6 +18,7 @@ interface SidebarProps {
 const NAV_ITEMS = [
   { label: 'Dashboard', icon: LayoutDashboard, path: '/dashboard' },
   { label: 'Resources', icon: Library, path: '/resources' },
+  { label: 'Career Tools', icon: Zap, path: '/tools' },
   { label: 'Full Syllabus', icon: Info, path: '/dashboard/about' },
   { type: 'divider', label: 'Modules' },
   { label: 'Foundations', icon: BookOpen, path: '/dashboard/foundations' },
