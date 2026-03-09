@@ -22,6 +22,16 @@ export const ToolsHub: React.FC = () => {
 
   const tools = [
     {
+      title: "CV Analyser",
+      description: "Scan your resume against PM job descriptions. Get a brutally honest ATS score and keyword gaps.",
+      icon: FileSearch,
+      color: "bg-indigo-50 text-indigo-600",
+      accent: "indigo",
+      features: ["ATS Keyword Scan", "Role Alignment", "Action Verb Audit"],
+      action: "/tools/cv-analyser", 
+      cta: "Analyze Resume"
+    },
+    {
       title: "LinkedIn Profile Optimiser",
       description: "Increase profile visibility. Use our AI agent to turn your profile into a recruiter magnet.",
       icon: Linkedin,
@@ -30,6 +40,16 @@ export const ToolsHub: React.FC = () => {
       features: ["Headline Generator", "About Section Audit", "Search SEO Check"],
       action: "/tools/linkedin-optimiser",
       cta: "Optimize Profile"
+    },
+    {
+      title: "Portfolio Builder",
+      description: "Document your 45-day journey. Turn daily assignments into high-impact case studies.",
+      icon: Rocket,
+      color: "bg-emerald-50 text-emerald-600",
+      accent: "emerald",
+      features: ["Case Study Blueprint", "Artifact Checklist", "Recruiter-Ready Layout"],
+      action: "/tools/portfolio-builder",
+      cta: "Build Portfolio"
     }
   ];
 
