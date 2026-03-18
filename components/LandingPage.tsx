@@ -75,6 +75,16 @@ export const LandingPage: React.FC = () => {
             <motion.button 
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.28 }}
+                onClick={() => navigate('/tools')}
+                className="text-sm font-semibold text-zinc-600 hover:text-indigo-600 transition-colors tracking-tight flex items-center gap-1.5"
+            >
+                <Zap className="w-4 h-4" /> Tools
+            </motion.button>
+
+            <motion.button 
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
                 onClick={() => navigate('/dashboard')}
                 className="text-sm font-semibold text-indigo-600 hover:text-indigo-700 transition-colors tracking-tight"
@@ -136,6 +146,12 @@ export const LandingPage: React.FC = () => {
                     className="block w-full text-left text-lg font-semibold text-zinc-700 py-2 tracking-tight flex items-center gap-2"
                 >
                     <Library className="w-5 h-5 text-indigo-600" /> Resources
+                </button>
+                <button 
+                    onClick={() => navigate('/tools')}
+                    className="block w-full text-left text-lg font-semibold text-zinc-700 py-2 tracking-tight flex items-center gap-2"
+                >
+                    <Zap className="w-5 h-5 text-indigo-600" /> Tools
                 </button>
                 <button 
                     onClick={() => navigate('/dashboard')}

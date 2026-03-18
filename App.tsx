@@ -7,9 +7,7 @@ import { About } from './components/About';
 import { LandingPage } from './components/LandingPage';
 import { Resources } from './components/Resources';
 import { ToolsHub } from './components/ToolsHub';
-import { CVAnalyser } from './components/CVAnalyser';
 import { LinkedInOptimiser } from './components/LinkedInOptimiser';
-import { PortfolioBuilder } from './components/PortfolioBuilder';
 import { Menu, X, AlertTriangle } from 'lucide-react';
 import { AnimatePresence } from 'framer-motion';
 import { Logo } from './components/Logo';
@@ -163,9 +161,7 @@ const App: React.FC = () => {
                   {/* Tools Suite Routes */}
                   <Route path="/tools">
                       <Route index element={<ToolsHub />} />
-                      <Route path="cv-analyser" element={<CVAnalyser />} />
                       <Route path="linkedin-optimiser" element={<LinkedInOptimiser />} />
-                      <Route path="portfolio-builder" element={<PortfolioBuilder />} />
                   </Route>
               </Route>
 

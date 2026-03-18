@@ -8,7 +8,6 @@ import {
   Globe, UserCheck, Plus, X, Coffee
 } from 'lucide-react';
 import { useNavigate, useOutletContext } from 'react-router-dom';
-import { GoogleGenAI } from "@google/genai";
 
 interface ContextType {
   isCollapsed: boolean;
@@ -266,24 +265,31 @@ Be direct, blunt, and tactical. If the profile doesn't match the target roles, e
     setAuditResult(null);
 
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
       const rolesStr = targetRoles.join(', ');
       
-      const prompt = `User is targeting these roles: ${rolesStr}. Audit this profile text for overall alignment and shortlisting probability:\n\n${profileData}`;
-
-      const response = await ai.models.generateContent({
-        model: 'gemini-3-pro-preview',
-        contents: prompt,
-        config: {
-          systemInstruction: SYSTEM_INSTRUCTION.replace('[TARGET_ROLES_PLACEHOLDER]', rolesStr),
-          temperature: 0, // Deterministic output
+      const response = await fetch('/api/audit-linkedin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
+        body: JSON.stringify({
+          profileData,
+          targetRoles,
+          systemInstruction: SYSTEM_INSTRUCTION
+        }),
       });
 
-      if (response.text) {
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to generate audit");
+      }
+
+      const data = await response.json();
+
+      if (data.text) {
         setProgress(100);
         setTimeout(() => {
-          setAuditResult(response.text!);
+          setAuditResult(data.text);
           setLastAuditInputsKey(currentInputsKey); // Save inputs key for memoization
           setIsGenerating(false);
         }, 500);
