@@ -7,7 +7,8 @@ import {
   ShieldCheck, 
   Zap, 
   Rocket,
-  ExternalLink
+  ExternalLink,
+  Lock
 } from 'lucide-react';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 
@@ -28,11 +29,13 @@ export const ToolsHub: React.FC = () => {
       accent: "blue",
       features: ["Headline Generator", "About Section Audit", "Search SEO Check"],
       action: "/tools/linkedin-optimiser",
-      cta: "Optimize Profile"
+      cta: "Optimize Profile",
+      isComingSoon: true
     }
   ];
 
   const handleAction = (tool: any) => {
+    if (tool.isComingSoon) return;
     if (tool.action.startsWith('http')) {
       window.open(tool.action, '_blank');
     } else {
@@ -74,8 +77,16 @@ export const ToolsHub: React.FC = () => {
             className="group relative bg-white rounded-[2.8rem] border border-zinc-100 p-2 h-full flex flex-col transition-all duration-700 hover:border-indigo-100 hover:shadow-[0_32px_64px_rgba(79,70,229,0.12)]"
           >
             <div className="flex flex-col h-full rounded-[2.4rem] p-8 bg-white group-hover:bg-zinc-50/50 transition-colors duration-500">
-              <div className={`w-14 h-14 rounded-2xl ${tool.color} flex items-center justify-center mb-8 shadow-sm group-hover:scale-110 transition-transform`}>
-                <tool.icon className="w-7 h-7" />
+              <div className="flex items-start justify-between mb-8">
+                <div className={`w-14 h-14 rounded-2xl ${tool.color} flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform`}>
+                  <tool.icon className="w-7 h-7" />
+                </div>
+                {tool.isComingSoon && (
+                  <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-zinc-100 border border-zinc-200 text-zinc-500 text-[10px] font-black uppercase tracking-widest">
+                    <Lock className="w-3 h-3" />
+                    Coming Soon
+                  </div>
+                )}
               </div>
 
               <h3 className="font-black text-2xl mb-4 tracking-tighter text-zinc-900 group-hover:text-indigo-600 transition-colors">
@@ -97,10 +108,19 @@ export const ToolsHub: React.FC = () => {
 
               <button 
                 onClick={() => handleAction(tool)}
-                className="mt-auto flex items-center justify-between w-full p-5 bg-zinc-900 text-white rounded-2xl font-black text-xs uppercase tracking-widest group-hover:bg-indigo-600 transition-all shadow-lg"
+                disabled={tool.isComingSoon}
+                className={`mt-auto flex items-center justify-between w-full p-5 rounded-2xl font-black text-xs uppercase tracking-widest transition-all shadow-lg ${
+                  tool.isComingSoon 
+                    ? 'bg-zinc-100 text-zinc-400 cursor-not-allowed border border-zinc-200 shadow-none' 
+                    : 'bg-zinc-900 text-white group-hover:bg-indigo-600'
+                }`}
               >
-                {tool.cta}
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                {tool.isComingSoon ? "Locked" : tool.cta}
+                {tool.isComingSoon ? (
+                  <Lock className="w-4 h-4" />
+                ) : (
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                )}
               </button>
             </div>
           </motion.div>

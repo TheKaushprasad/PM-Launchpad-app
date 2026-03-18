@@ -5,7 +5,7 @@ import {
   Copy, Check, Info, ShieldCheck, Zap, 
   Bot, ExternalLink, Send,
   Trash2, AlertTriangle, FileText, Target, Eye, TrendingUp, Search,
-  Globe, UserCheck, Plus, X, Coffee
+  Globe, UserCheck, Plus, X, Coffee, Lock
 } from 'lucide-react';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import { GoogleGenAI } from "@google/genai";
@@ -325,14 +325,40 @@ Be direct, blunt, and tactical. If the profile doesn't match the target roles, e
               <div className="p-3 bg-blue-50 rounded-2xl text-blue-600 shadow-sm">
                 <Linkedin className="w-6 h-6" />
               </div>
-              <h1 className="text-3xl md:text-5xl font-black tracking-tighter">LinkedIn Profile Optimiser</h1>
+              <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                <h1 className="text-3xl md:text-5xl font-black tracking-tighter">LinkedIn Profile Optimiser</h1>
+                <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-zinc-100 border border-zinc-200 text-zinc-500 text-[10px] font-black uppercase tracking-widest w-fit">
+                  <Lock className="w-3 h-3" />
+                  Coming Soon
+                </div>
+              </div>
            </div>
            <p className="text-zinc-500 font-medium max-w-xl italic">Tailored recruiter audit based on your target roles.</p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-        
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 relative">
+        {/* Coming Soon Overlay */}
+        <div className="absolute inset-0 z-50 flex items-center justify-center backdrop-blur-[2px] bg-white/30 rounded-[3rem]">
+           <div className="bg-white border border-zinc-100 p-10 rounded-[3rem] shadow-2xl text-center space-y-6 max-w-md mx-4">
+              <div className="w-20 h-20 bg-indigo-50 rounded-3xl flex items-center justify-center text-indigo-600 mx-auto shadow-inner">
+                 <Lock className="w-10 h-10" />
+              </div>
+              <div className="space-y-2">
+                 <h2 className="text-3xl font-black text-zinc-900 tracking-tighter italic">Coming Soon</h2>
+                 <p className="text-sm font-medium text-zinc-500 leading-relaxed">
+                    Our AI-powered LinkedIn Profile Optimiser is currently under development. Get ready to turn your profile into a recruiter magnet soon!
+                 </p>
+              </div>
+              <button 
+                onClick={() => navigate('/tools')}
+                className="w-full py-4 bg-zinc-900 text-white rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-indigo-600 transition-all shadow-lg"
+              >
+                Explore Other Tools
+              </button>
+           </div>
+        </div>
+
         {/* Left Column: Config & Input */}
         <div className="lg:col-span-4 space-y-8">
            <div className="bg-white border border-zinc-100 rounded-[3rem] p-8 md:p-10 shadow-sm space-y-8">
