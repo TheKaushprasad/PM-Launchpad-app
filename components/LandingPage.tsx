@@ -7,11 +7,13 @@ import {
   Sparkles, Library
 } from 'lucide-react';
 import { Logo } from './Logo';
+import { useAuth } from '../contexts/AuthContext';
 
 export const LandingPage: React.FC = () => {
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { scrollYProgress } = useScroll();
+  const { user } = useAuth();
 
   const scrollToSection = (id: string) => {
     setMobileMenuOpen(false);
@@ -82,15 +84,27 @@ export const LandingPage: React.FC = () => {
                 <Zap className="w-4 h-4" /> Tools
             </motion.button>
 
-            <motion.button 
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                onClick={() => navigate('/dashboard')}
-                className="text-sm font-semibold text-indigo-600 hover:text-indigo-700 transition-colors tracking-tight"
-            >
-                Dashboard
-            </motion.button>
+            {user ? (
+                <motion.button 
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                    onClick={() => navigate('/dashboard')}
+                    className="text-sm font-semibold text-indigo-600 hover:text-indigo-700 transition-colors tracking-tight"
+                >
+                    Dashboard
+                </motion.button>
+            ) : (
+                <motion.button 
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                    onClick={() => navigate('/login')}
+                    className="text-sm font-semibold text-zinc-650 text-zinc-650 hover:text-indigo-600 transition-colors tracking-tight font-semibold"
+                >
+                    Sign In
+                </motion.button>
+            )}
 
             <motion.a 
                 href="https://chat.whatsapp.com/F93j47M4UL43DUJS1QrEgU"
@@ -109,9 +123,15 @@ export const LandingPage: React.FC = () => {
                 animate={{ opacity: 1, x: 0 }}
                 className="flex items-center gap-4 pl-4 border-l border-zinc-200"
             >
-                <button onClick={() => navigate('/dashboard')} className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-xl shadow-lg shadow-indigo-200 transition-all hover:-translate-y-0.5 tracking-tight">
-                    Start Learning
-                </button>
+                {user ? (
+                    <button onClick={() => navigate('/dashboard')} className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-xl shadow-lg shadow-indigo-200 transition-all hover:-translate-y-0.5 tracking-tight font-bold">
+                        Study Track
+                    </button>
+                ) : (
+                    <button onClick={() => navigate('/signup')} className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-xl shadow-lg shadow-indigo-200 transition-all hover:-translate-y-0.5 tracking-tight font-bold">
+                        Get Started Free
+                    </button>
+                )}
             </motion.div>
           </div>
 
@@ -153,12 +173,21 @@ export const LandingPage: React.FC = () => {
                 >
                     <Zap className="w-5 h-5 text-indigo-600" /> Tools
                 </button>
-                <button 
-                    onClick={() => navigate('/dashboard')}
-                    className="block w-full text-left text-lg font-semibold text-indigo-600 py-2 tracking-tight"
-                >
-                    Dashboard
-                </button>
+                {user ? (
+                    <button 
+                        onClick={() => navigate('/dashboard')}
+                        className="block w-full text-left text-lg font-semibold text-indigo-600 py-2 tracking-tight"
+                    >
+                        Dashboard
+                    </button>
+                ) : (
+                    <button 
+                        onClick={() => navigate('/login')}
+                        className="block w-full text-left text-lg font-semibold text-zinc-700 py-2 tracking-tight"
+                    >
+                        Sign In
+                    </button>
+                )}
                 <a 
                     href="https://chat.whatsapp.com/F93j47M4UL43DUJS1QrEgU"
                     target="_blank"
@@ -168,9 +197,15 @@ export const LandingPage: React.FC = () => {
                     Join Community
                 </a>
                 <div className="pt-4 border-t border-zinc-100 flex flex-col gap-3">
-                    <button onClick={() => navigate('/dashboard')} className="w-full py-3 rounded-xl bg-indigo-600 text-white font-bold tracking-tight">
-                        Start Learning
-                    </button>
+                    {user ? (
+                        <button onClick={() => navigate('/dashboard')} className="w-full py-3 rounded-xl bg-indigo-600 text-white font-bold tracking-tight">
+                            Go to Dashboard
+                        </button>
+                    ) : (
+                        <button onClick={() => navigate('/signup')} className="w-full py-3 rounded-xl bg-indigo-600 text-white font-bold tracking-tight">
+                            Create Account
+                        </button>
+                    )}
                 </div>
              </div>
           </motion.div>
@@ -215,7 +250,7 @@ export const LandingPage: React.FC = () => {
                             </div>
                         ))}
                     </div>
-                    <span>Joined by 1000+ Aspiring PMs</span>
+                    <span>Joined by 1300+ Aspiring PMs</span>
                 </div>
             </motion.div>
 

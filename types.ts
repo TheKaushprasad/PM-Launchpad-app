@@ -11,11 +11,13 @@ export type Category =
   | 'Tech'
   | 'Job Ready';
 
-export type Profession = 'Student' | 'Professional';
+export type Profession = 'Student' | 'Working Professional' | 'Professional';
 
 export interface UserProfile {
   fullName: string;
   profession: Profession;
+  isAspiringPM?: boolean;
+  email?: string;
   yearsOfExperience?: string;
   designation?: string;
   collegeName?: string;

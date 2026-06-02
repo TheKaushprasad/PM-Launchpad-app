@@ -9,14 +9,9 @@ export const ConfirmEmail: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // If Supabase has established the session (via onAuthStateChange),
-    // user will be truthy. We then redirect to home or profile setup.
+    // If auth has established the session, user will be truthy. We navigate to dashboard.
     if (user) {
-        if (!user.profile) {
-            navigate('/profile-setup');
-        } else {
-            navigate('/');
-        }
+        navigate('/dashboard');
     } else {
         // If no user yet, Supabase might be processing the hash fragment
         // We just wait. If it fails or takes too long, we could add a timeout here.

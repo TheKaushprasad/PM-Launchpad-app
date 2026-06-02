@@ -16,7 +16,7 @@ export const Login: React.FC = () => {
   // Redirect if already logged in
   useEffect(() => {
     if (user?.isAuthenticated) {
-      navigate('/');
+      navigate('/dashboard');
     }
   }, [user, navigate]);
 
@@ -29,7 +29,7 @@ export const Login: React.FC = () => {
     
     try {
       await login(email, password);
-      navigate('/');
+      navigate('/dashboard');
     } catch (error: any) {
       console.error(error);
       if (error.message.includes('Email not confirmed')) {

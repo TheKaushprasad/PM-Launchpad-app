@@ -12,6 +12,9 @@ import { Menu, X, AlertTriangle } from 'lucide-react';
 import { AnimatePresence } from 'framer-motion';
 import { Logo } from './components/Logo';
 import { Analytics } from '@vercel/analytics/react';
+import { Signup } from './components/auth/Signup';
+import { Login } from './components/auth/Login';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 
 // GA4 Tracker Component to handle SPA page views
 const GAPageTracker = () => {
@@ -128,16 +131,39 @@ const LessonLayout = () => {
     );
 };
 
+const ProtectedRoute = ({ children }: { children: React.ReactElement }) => {
+  const { user, isLoading } = useAuth();
+  
+  if (isLoading) {
+    return (
+      <div className="flex h-screen w-screen items-center justify-center bg-zinc-50">
+        <div className="flex flex-col items-center gap-3">
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-zinc-200 border-t-indigo-600" />
+          <span className="text-sm font-semibold text-zinc-500 animate-pulse">Entering track...</span>
+        </div>
+      </div>
+    );
+  }
+  
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+  
+  return children;
+};
+
 const App: React.FC = () => {
   return (
-      <>
+    <AuthProvider>
         <Router>
            <GAPageTracker />
            <Routes>
               <Route path="/" element={<LandingPage />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
               
               {/* App Shell Wrapper for Dashboard and Resources */}
-              <Route element={<MainShell />}>
+              <Route element={<ProtectedRoute><MainShell /></ProtectedRoute>}>
                   {/* Dashboard Routes */}
                   <Route path="/dashboard">
                       <Route index element={<Dashboard />} />
@@ -169,7 +195,7 @@ const App: React.FC = () => {
            </Routes>
         </Router>
         <Analytics />
-      </>
+    </AuthProvider>
   );
 };
 
