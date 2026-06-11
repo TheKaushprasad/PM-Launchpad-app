@@ -3,6 +3,7 @@ import { createServer as createViteServer } from "vite";
 import path from "path";
 import OpenAI from "openai";
 import dotenv from "dotenv";
+import fs from "fs";
 
 dotenv.config();
 
@@ -43,22 +44,61 @@ async function startServer() {
         return res.status(400).json({ error: "Missing required fields" });
       }
 
-      console.log(`[${new Date().toISOString()}] POST ${req.path} - Calling OpenAI...`);
-      const openai = getOpenAI();
       const rolesStr = targetRoles.join(', ');
-      
       const prompt = `User is targeting these roles: ${rolesStr}. Audit this profile text for overall alignment and shortlisting probability:\n\n${profileData}`;
+      const systemPrompt = systemInstruction.replace('[TARGET_ROLES_PLACEHOLDER]', rolesStr);
+      let result = "";
 
-      const completion = await openai.chat.completions.create({
-        model: "gpt-4o",
-        messages: [
-          { role: "system", content: systemInstruction.replace('[TARGET_ROLES_PLACEHOLDER]', rolesStr) },
-          { role: "user", content: prompt }
-        ],
-        temperature: 0,
-      });
+      const geminiKey = process.env.GEMINI_API_KEY;
+      const openAiKey = process.env.OPENAI_API_KEY;
+      const hasValidGeminiKey = geminiKey && geminiKey.trim() !== "" && geminiKey !== "undefined" && geminiKey !== "null";
+      const hasValidOpenAiKey = openAiKey && openAiKey.trim() !== "" && openAiKey !== "undefined" && openAiKey !== "null";
 
-      const result = completion.choices[0].message.content;
+      // 1. Try Gemini first if GEMINI_API_KEY is available and valid
+      if (hasValidGeminiKey) {
+        console.log(`[${new Date().toISOString()}] POST ${req.path} - Calling Google Gemini...`);
+        const { GoogleGenAI } = await import("@google/genai");
+        const ai = new GoogleGenAI({
+          apiKey: geminiKey,
+          httpOptions: {
+            headers: {
+              'User-Agent': 'aistudio-build',
+            }
+          }
+        });
+
+        const response = await ai.models.generateContent({
+          model: 'gemini-3.5-flash',
+          contents: prompt,
+          config: {
+            systemInstruction: systemPrompt,
+            temperature: 0,
+          },
+        });
+
+        if (response.text) {
+          result = response.text;
+        } else {
+          throw new Error("Empty response from Gemini.");
+        }
+      } 
+      // 2. Fallback to OpenAI if OPENAI_API_KEY is available and valid
+      else if (hasValidOpenAiKey) {
+        console.log(`[${new Date().toISOString()}] POST ${req.path} - Calling OpenAI...`);
+        const openai = getOpenAI();
+        const completion = await openai.chat.completions.create({
+          model: "gpt-4o",
+          messages: [
+            { role: "system", content: systemPrompt },
+            { role: "user", content: prompt }
+          ],
+          temperature: 0,
+        });
+        result = completion.choices[0].message.content || "";
+      } else {
+        throw new Error("No valid AI API key found. Please configure GEMINI_API_KEY or OPENAI_API_KEY in Settings.");
+      }
+
       console.log(`[${new Date().toISOString()}] POST ${req.path} - Success`);
       res.json({ text: result });
     } catch (error: any) {
@@ -86,7 +126,7 @@ async function startServer() {
       const indexPath = path.join(distPath, 'index.html');
       const fallbackPath = path.join(publicPath, 'index.html');
       
-      if (require('fs').existsSync(indexPath)) {
+      if (fs.existsSync(indexPath)) {
         res.sendFile(indexPath);
       } else {
         res.sendFile(fallbackPath);

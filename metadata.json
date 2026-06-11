@@ -1,5 +1,6 @@
 {
   "name": "The NooB PM",
   "description": "A structured 45-Day Product Management learning journey course application.",
-  "requestFramePermissions": []
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

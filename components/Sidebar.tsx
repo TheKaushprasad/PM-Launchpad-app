@@ -2,12 +2,11 @@ import React from 'react';
 import { 
   LayoutDashboard, BookOpen, Search, BarChart2, Smartphone, 
   Bot, Info, ChevronRight, Sparkles, Zap, Code, Briefcase,
-  Library, LogOut
+  Library
 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Logo } from './Logo';
-import { useAuth } from '../contexts/AuthContext';
 
 interface SidebarProps {
   mobileOpen: boolean;
@@ -34,7 +33,6 @@ const NAV_ITEMS = [
 
 export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, collapsed }) => {
   const location = useLocation();
-  const { user, logout } = useAuth();
 
   return (
     <>
@@ -108,44 +106,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
             );
           })}
         </nav>
-
-        {/* User Card Section */}
-        <div className="p-4 border-t border-zinc-100 flex flex-col gap-2 bg-zinc-50/50">
-          {collapsed ? (
-            <div className="flex flex-col items-center gap-4 py-2">
-              <div className="w-10 h-10 rounded-xl bg-[#79BAEC]/20 border border-[#79BAEC]/30 flex items-center justify-center text-[#2D5A81] font-extrabold text-sm relative group cursor-pointer shadow-sm">
-                {user?.fullName?.charAt(0).toUpperCase() || 'U'}
-                <div className="absolute left-16 bg-zinc-900 text-white text-xs py-1.5 px-3 rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap z-50 shadow-md font-bold">
-                  {user?.fullName || 'User'}
-                </div>
-              </div>
-              <button 
-                onClick={() => logout()}
-                className="p-2 text-zinc-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"
-                title="Sign Out"
-              >
-                <LogOut className="w-5 h-5" />
-              </button>
-            </div>
-          ) : (
-            <div className="flex items-center gap-3 bg-white p-3.5 rounded-2xl border border-zinc-200/50 shadow-sm relative group">
-              <div className="w-10 h-10 rounded-xl bg-[#79BAEC]/10 border border-[#79BAEC]/20 flex items-center justify-center text-[#2D5A81] font-extrabold text-base shadow-sm flex-shrink-0">
-                {user?.fullName?.charAt(0).toUpperCase() || 'U'}
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="font-extrabold text-xs text-zinc-900 truncate leading-tight">{user?.fullName || 'Active Learner'}</p>
-                <p className="text-[9px] text-[#2D5A81] font-bold uppercase tracking-tight truncate mt-0.5">{user?.profession || 'PM Scholar'}</p>
-              </div>
-              <button
-                onClick={() => logout()}
-                className="p-2 text-zinc-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all flex-shrink-0"
-                title="Sign Out"
-              >
-                <LogOut className="w-4 h-4" />
-              </button>
-            </div>
-          )}
-        </div>
 
         {!collapsed && (
           <div className="p-6">

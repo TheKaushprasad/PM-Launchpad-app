@@ -4,7 +4,6 @@ import { DayCard } from './DayCard';
 import { motion } from 'framer-motion';
 import { Star, Zap, GraduationCap, Target, RefreshCw, LayoutGrid, CheckCircle } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
 
 const container = {
   hidden: { opacity: 0 },
@@ -22,11 +21,6 @@ const item = {
 export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { user } = useAuth();
-
-  const totalLessons = LESSONS.length;
-  const completedCount = user?.completedDays ? user.completedDays.filter(d => LESSONS.some(l => l.day === d)).length : 0;
-  const percentCompleted = totalLessons > 0 ? Math.round((completedCount / totalLessons) * 100) : 0;
 
   const pathParts = (location.pathname || '').split('/').filter(Boolean);
   const rawPath = pathParts.length > 0 ? pathParts[pathParts.length - 1] : 'dashboard';
@@ -109,50 +103,6 @@ export const Dashboard: React.FC = () => {
             </motion.div>
         </div>
       </header>
-
-      {/* Progress Tracking Widget */}
-      {user && (
-        <motion.div 
-          variants={item}
-          className="bg-white rounded-[2rem] border border-zinc-100 p-8 shadow-[0_15px_30px_rgba(0,0,0,0.02)] flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden"
-        >
-          <div className="absolute top-0 right-0 w-[200px] h-[200px] bg-emerald-50/40 rounded-full blur-[40px] pointer-events-none"></div>
-          <div className="space-y-2 flex-grow max-w-xl">
-             <div className="flex items-center gap-2">
-                <div className="px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-100 text-emerald-700 text-[10px] font-black uppercase tracking-wider flex items-center gap-1.5 shadow-sm">
-                   <CheckCircle className="w-3.5 h-3.5 fill-emerald-100 text-emerald-500" />
-                   Day Companion
-                </div>
-                <span className="text-xs text-zinc-400 font-extrabold uppercase tracking-widest">Progress Dashboard</span>
-             </div>
-             <h3 className="text-2xl font-black text-zinc-950 tracking-tight leading-tight">
-                You've covered <span className="text-emerald-600">{completedCount} of {totalLessons} Days</span>
-             </h3>
-             <p className="text-xs text-zinc-400 font-semibold leading-relaxed">
-                Unlock your PM aspirations block-by-block. Consistency triggers compounding knowledge. Keep executing on the daily case studies and resources!
-             </p>
-          </div>
-          
-          <div className="w-full md:w-80 shrink-0 space-y-3">
-             <div className="flex justify-between items-end text-xs font-black uppercase tracking-wider text-zinc-400">
-                <span>Completion Status</span>
-                <span className="text-emerald-600 font-extrabold text-sm">{percentCompleted}%</span>
-             </div>
-             <div className="h-4 bg-zinc-100 rounded-full overflow-hidden p-0.5 border border-zinc-200/50 shadow-inner">
-                <motion.div 
-                   initial={{ width: 0 }}
-                   animate={{ width: `${percentCompleted}%` }}
-                   transition={{ duration: 0.8, ease: "easeOut" }}
-                   className="h-full bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full shadow-[0_2px_4px_rgba(16,185,129,0.2)]"
-                />
-             </div>
-             <div className="flex justify-between text-[10px] text-zinc-400 font-bold uppercase tracking-wider">
-                <span>0 Days</span>
-                <span>{totalLessons} Days Total</span>
-             </div>
-          </div>
-        </motion.div>
-      )}
 
       {/* Curriculum Grid Section */}
       <div className="space-y-10">

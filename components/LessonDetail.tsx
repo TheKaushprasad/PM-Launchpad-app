@@ -2,9 +2,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { LESSONS, getCategoryColor, getCategoryIcon } from '../constants';
-import { ArrowLeft, ArrowRight, ExternalLink, BookOpen, Clock, Play, Zap, MonitorPlay, ChevronLeft, ChevronRight, PenTool, List, CheckCircle, Circle } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ExternalLink, BookOpen, Clock, Play, Zap, MonitorPlay, ChevronLeft, ChevronRight, PenTool, List, CheckCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { useAuth } from '../contexts/AuthContext';
 
 const getYoutubeId = (url: string) => {
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
@@ -17,10 +16,8 @@ export const LessonDetail: React.FC = () => {
   const navigate = useNavigate();
   const topRef = useRef<HTMLDivElement>(null);
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
-  const { user, toggleDayCompletion } = useAuth();
 
   const currentDay = parseInt(id || '0', 10);
-  const isDayCompleted = user?.completedDays?.includes(currentDay) || false;
   const lesson = LESSONS.find(l => l.day === currentDay);
   
   const sortedLessons = [...LESSONS].sort((a, b) => a.day - b.day);
@@ -70,7 +67,7 @@ export const LessonDetail: React.FC = () => {
     >
       <div ref={topRef} />
 
-      {/* Top Navigation Bar */}
+       {/* Top Navigation Bar */}
       <div className="sticky top-0 md:top-0 z-20 bg-zinc-50/90 backdrop-blur-md py-3 mb-6 flex items-center justify-between border-b border-zinc-200/50 -mx-4 md:mx-0 px-4 md:px-0">
         <div className="flex items-center gap-2">
           <button 
@@ -78,18 +75,6 @@ export const LessonDetail: React.FC = () => {
               className="flex items-center text-sm font-bold text-zinc-600 hover:text-indigo-600 transition-colors px-2 md:px-3 py-1.5 rounded-lg hover:bg-white/50 tracking-tight"
           >
               <ArrowLeft className="w-4 h-4 mr-2" /> <span className="hidden sm:inline">Dashboard</span>
-          </button>
-
-          <button
-              onClick={() => toggleDayCompletion(currentDay)}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-black uppercase tracking-wider transition-all border ${
-                  isDayCompleted 
-                  ? 'bg-emerald-50 text-emerald-700 border-emerald-200/80 shadow-sm' 
-                  : 'bg-white text-zinc-400 border-zinc-200 hover:text-indigo-600 hover:border-indigo-200 hover:bg-zinc-50'
-              }`}
-          >
-              <CheckCircle className={`w-3.5 h-3.5 ${isDayCompleted ? 'text-emerald-500 fill-emerald-100' : 'text-zinc-300'}`} />
-              <span>{isDayCompleted ? 'Covered' : 'Mark Covered'}</span>
           </button>
         </div>
 
@@ -182,31 +167,11 @@ export const LessonDetail: React.FC = () => {
                 <div className="mt-12 pt-8 border-t border-zinc-100 flex flex-col sm:flex-row items-center justify-between gap-6">
                     <div>
                         <h4 className="font-extrabold text-zinc-900 tracking-tight text-lg mb-1 flex items-center gap-2">
-                            <CheckCircle className={`w-5 h-5 ${isDayCompleted ? 'text-emerald-500 fill-emerald-100' : 'text-zinc-300'}`} />
+                            <CheckCircle className="w-5 h-5 text-emerald-500 fill-emerald-100" />
                             Knowledge Check
                         </h4>
-                        <p className="text-zinc-500 text-sm font-medium">Finished studying today's PM concepts?</p>
+                        <p className="text-zinc-500 text-sm font-medium">Finished studying today's PM concepts? Make sure to tackle the Day's Assignment below!</p>
                     </div>
-                    <button
-                        onClick={() => toggleDayCompletion(currentDay)}
-                        className={`w-full sm:w-auto px-6 py-3.5 rounded-xl font-bold text-sm tracking-tight transition-all flex items-center justify-center gap-2 border ${
-                            isDayCompleted 
-                            ? 'bg-emerald-600 border-emerald-600 hover:bg-emerald-700 text-white shadow-lg shadow-emerald-100' 
-                            : 'bg-indigo-600 border-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-100 hover:-translate-y-0.5'
-                        }`}
-                    >
-                        {isDayCompleted ? (
-                            <>
-                                <CheckCircle className="w-4 h-4 fill-white/20" />
-                                Covered (Click to Undo)
-                            </>
-                        ) : (
-                            <>
-                                <Circle className="w-4 h-4" />
-                                Mark Day as Covered
-                            </>
-                        )}
-                    </button>
                 </div>
              </div>
 

@@ -12,9 +12,6 @@ import { Menu, X, AlertTriangle } from 'lucide-react';
 import { AnimatePresence } from 'framer-motion';
 import { Logo } from './components/Logo';
 import { Analytics } from '@vercel/analytics/react';
-import { Signup } from './components/auth/Signup';
-import { Login } from './components/auth/Login';
-import { AuthProvider, useAuth } from './contexts/AuthContext';
 
 // GA4 Tracker Component to handle SPA page views
 const GAPageTracker = () => {
@@ -131,71 +128,46 @@ const LessonLayout = () => {
     );
 };
 
-const ProtectedRoute = ({ children }: { children: React.ReactElement }) => {
-  const { user, isLoading } = useAuth();
-  
-  if (isLoading) {
-    return (
-      <div className="flex h-screen w-screen items-center justify-center bg-zinc-50">
-        <div className="flex flex-col items-center gap-3">
-          <div className="h-10 w-10 animate-spin rounded-full border-4 border-zinc-200 border-t-indigo-600" />
-          <span className="text-sm font-semibold text-zinc-500 animate-pulse">Entering track...</span>
-        </div>
-      </div>
-    );
-  }
-  
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
-  
-  return children;
-};
-
 const App: React.FC = () => {
   return (
-    <AuthProvider>
-        <Router>
-           <GAPageTracker />
-           <Routes>
-              <Route path="/" element={<LandingPage />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-              
-              {/* App Shell Wrapper for Dashboard and Resources */}
-              <Route element={<ProtectedRoute><MainShell /></ProtectedRoute>}>
-                  {/* Dashboard Routes */}
-                  <Route path="/dashboard">
-                      <Route index element={<Dashboard />} />
-                      <Route path="about" element={<About />} />
-                      <Route path="foundations" element={<Dashboard />} />
-                      <Route path="research" element={<Dashboard />} />
-                      <Route path="strategy" element={<Dashboard />} />
-                      <Route path="data" element={<Dashboard />} />
-                      <Route path="tech" element={<Dashboard />} />
-                      <Route path="ai" element={<Dashboard />} />
-                      <Route path="design" element={<Dashboard />} />
-                      <Route path="jobready" element={<Dashboard />} />
-                      <Route element={<LessonLayout />}>
-                          <Route path="day/:id" element={<LessonDetail />} />
-                      </Route>
-                  </Route>
-
-                  {/* Top-level Resources Routes */}
-                  <Route path="/resources" element={<Resources />} />
-
-                  {/* Tools Suite Routes */}
-                  <Route path="/tools">
-                      <Route index element={<ToolsHub />} />
-                      <Route path="linkedin-optimiser" element={<LinkedInOptimiser />} />
+    <Router>
+       <GAPageTracker />
+       <Routes>
+          <Route path="/" element={<LandingPage />} />
+          
+          {/* App Shell Wrapper for Dashboard and Resources */}
+          <Route element={<MainShell />}>
+              {/* Dashboard Routes */}
+              <Route path="/dashboard">
+                  <Route index element={<Dashboard />} />
+                  <Route path="about" element={<About />} />
+                  <Route path="foundations" element={<Dashboard />} />
+                  <Route path="research" element={<Dashboard />} />
+                  <Route path="strategy" element={<Dashboard />} />
+                  <Route path="data" element={<Dashboard />} />
+                  <Route path="tech" element={<Dashboard />} />
+                  <Route path="ai" element={<Dashboard />} />
+                  <Route path="design" element={<Dashboard />} />
+                  <Route path="jobready" element={<Dashboard />} />
+                  <Route element={<LessonLayout />}>
+                      <Route path="day/:id" element={<LessonDetail />} />
                   </Route>
               </Route>
 
-              <Route path="*" element={<Navigate to="/" replace />} />
-           </Routes>
-        </Router>
-        <Analytics />
-    </AuthProvider>
+              {/* Top-level Resources Routes */}
+              <Route path="/resources" element={<Resources />} />
+
+              {/* Tools Suite Routes */}
+              <Route path="/tools">
+                  <Route index element={<ToolsHub />} />
+                  <Route path="linkedin-optimiser" element={<LinkedInOptimiser />} />
+              </Route>
+          </Route>
+
+          <Route path="*" element={<Navigate to="/" replace />} />
+       </Routes>
+       <Analytics />
+    </Router>
   );
 };
 
