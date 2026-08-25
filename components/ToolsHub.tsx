@@ -8,7 +8,10 @@ import {
   Zap, 
   Rocket,
   ExternalLink,
-  Lock
+  Lock,
+  Bot,
+  MessageSquare,
+  Award
 } from 'lucide-react';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 
@@ -23,14 +26,27 @@ export const ToolsHub: React.FC = () => {
   const tools = [
     {
       title: "LinkedIn Profile Optimiser",
-      description: "Increase profile visibility. Use our AI agent to turn your profile into a recruiter magnet.",
+      description: "Increase profile visibility. Use our AI agent to turn your profile into a recruiter magnet with keyword SEO.",
       icon: Linkedin,
       color: "bg-blue-50 text-blue-600",
       accent: "blue",
       features: ["Headline Generator", "About Section Audit", "Search SEO Check"],
       action: "/tools/linkedin-optimiser",
       cta: "Optimize Profile",
-      isComingSoon: true
+      isComingSoon: false,
+      isFeatured: true
+    },
+    {
+      title: "PM Resume Auditor",
+      description: "Get an unvarnished 15+ year senior PM hiring manager audit with 4-pillar dimensional scoring and high-leverage bullet rewrites.",
+      icon: Award,
+      color: "bg-purple-50 text-purple-600",
+      accent: "purple",
+      features: ["Impact & Metric Scoring (35%)", "PM Ownership Framing (30%)", "ATS Readability & Bullet Rewrites"],
+      action: "/tools/resume-auditor",
+      cta: "Audit Resume",
+      isComingSoon: false,
+      isFeatured: true
     }
   ];
 

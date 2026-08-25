@@ -1,6 +1,6 @@
 {
   "name": "The NooB PM",
-  "description": "A structured 45-Day Product Management learning journey course application.",
-  "requestFramePermissions": [],
+  "description": "A comprehensive Product Management learning journey with interactive course roadmap, AI Mock Interview Studio, and AI LinkedIn Profile Optimiser.",
+  "requestFramePermissions": ["camera", "microphone"],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

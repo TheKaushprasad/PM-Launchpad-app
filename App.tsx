@@ -8,10 +8,16 @@ import { LandingPage } from './components/LandingPage';
 import { Resources } from './components/Resources';
 import { ToolsHub } from './components/ToolsHub';
 import { LinkedInOptimiser } from './components/LinkedInOptimiser';
+import { ResumeAuditor } from './components/ResumeAuditor';
+import { InterviewHub } from './components/interview/InterviewHub';
+import { Profile } from './components/Profile';
+import { Onboarding } from './components/auth/Onboarding';
+import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { Menu, X, AlertTriangle } from 'lucide-react';
 import { AnimatePresence } from 'framer-motion';
 import { Logo } from './components/Logo';
 import { Analytics } from '@vercel/analytics/react';
+import { AuthProvider } from './context/AuthContext';
 
 // GA4 Tracker Component to handle SPA page views
 const GAPageTracker = () => {
@@ -130,44 +136,75 @@ const LessonLayout = () => {
 
 const App: React.FC = () => {
   return (
-    <Router>
-       <GAPageTracker />
-       <Routes>
-          <Route path="/" element={<LandingPage />} />
-          
-          {/* App Shell Wrapper for Dashboard and Resources */}
-          <Route element={<MainShell />}>
-              {/* Dashboard Routes */}
-              <Route path="/dashboard">
-                  <Route index element={<Dashboard />} />
-                  <Route path="about" element={<About />} />
-                  <Route path="foundations" element={<Dashboard />} />
-                  <Route path="research" element={<Dashboard />} />
-                  <Route path="strategy" element={<Dashboard />} />
-                  <Route path="data" element={<Dashboard />} />
-                  <Route path="tech" element={<Dashboard />} />
-                  <Route path="ai" element={<Dashboard />} />
-                  <Route path="design" element={<Dashboard />} />
-                  <Route path="jobready" element={<Dashboard />} />
-                  <Route element={<LessonLayout />}>
-                      <Route path="day/:id" element={<LessonDetail />} />
-                  </Route>
-              </Route>
+    <AuthProvider>
+      <Router>
+         <GAPageTracker />
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            
+            {/* Dedicated Onboarding Route */}
+            <Route 
+              path="/onboarding" 
+              element={
+                <ProtectedRoute requireOnboarding={false}>
+                  <Onboarding />
+                </ProtectedRoute>
+              } 
+            />
 
-              {/* Top-level Resources Routes */}
-              <Route path="/resources" element={<Resources />} />
+            {/* App Shell Wrapper for Dashboard, Tools, Profile, and Resources - Strictly Protected */}
+            <Route 
+              element={
+                <ProtectedRoute>
+                  <MainShell />
+                </ProtectedRoute>
+              }
+            >
+                {/* User Profile & Account Settings */}
+                <Route path="/profile" element={<Profile />} />
 
-              {/* Tools Suite Routes */}
-              <Route path="/tools">
-                  <Route index element={<ToolsHub />} />
-                  <Route path="linkedin-optimiser" element={<LinkedInOptimiser />} />
-              </Route>
-          </Route>
+                {/* Dashboard & All Modules Routes */}
+                <Route path="/dashboard">
+                    <Route index element={<Dashboard />} />
+                    <Route path="about" element={<About />} />
+                    <Route path="foundations" element={<Dashboard />} />
+                    <Route path="research" element={<Dashboard />} />
+                    <Route path="strategy" element={<Dashboard />} />
+                    <Route path="data" element={<Dashboard />} />
+                    <Route path="tech" element={<Dashboard />} />
+                    <Route path="ai" element={<Dashboard />} />
+                    <Route path="design" element={<Dashboard />} />
+                    <Route path="jobready" element={<Dashboard />} />
+                    <Route element={<LessonLayout />}>
+                        <Route path="day/:id" element={<LessonDetail />} />
+                    </Route>
+                </Route>
 
-          <Route path="*" element={<Navigate to="/" replace />} />
-       </Routes>
-       <Analytics />
-    </Router>
+                {/* Top-level Resources Routes */}
+                <Route path="/resources" element={<Resources />} />
+
+                {/* AI Mock Interview Studio Routes */}
+                <Route path="/interview-studio" element={<InterviewHub />} />
+                <Route path="/practice" element={<InterviewHub />} />
+                <Route path="/resume-auditor" element={<ResumeAuditor />} />
+                <Route path="/linkedin" element={<Navigate to="/tools/linkedin-optimiser" replace />} />
+
+                {/* Career Tools Suite Routes */}
+                <Route path="/tools">
+                    <Route index element={<ToolsHub />} />
+                    <Route path="linkedin-optimiser" element={<LinkedInOptimiser />} />
+                    <Route path="resume-auditor" element={<ResumeAuditor />} />
+                    <Route path="interview-studio" element={<InterviewHub />} />
+                    <Route path="practice" element={<InterviewHub />} />
+                    <Route path="profile" element={<Profile />} />
+                </Route>
+            </Route>
+
+            <Route path="*" element={<Navigate to="/" replace />} />
+         </Routes>
+         <Analytics />
+      </Router>
+    </AuthProvider>
   );
 };
 

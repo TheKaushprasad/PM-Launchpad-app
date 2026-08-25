@@ -2,8 +2,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { LESSONS, getCategoryColor, getCategoryIcon } from '../constants';
-import { ArrowLeft, ArrowRight, ExternalLink, BookOpen, Clock, Play, Zap, MonitorPlay, ChevronLeft, ChevronRight, PenTool, List, CheckCircle } from 'lucide-react';
+import { 
+  ArrowLeft, ArrowRight, ExternalLink, BookOpen, Clock, Play, Zap, 
+  MonitorPlay, ChevronLeft, ChevronRight, PenTool, List, CheckCircle, 
+  Sparkles, CheckCircle2, Bookmark, FileEdit, Cloud, Save
+} from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useAuth } from '../context/AuthContext';
 
 const getYoutubeId = (url: string) => {
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
@@ -17,6 +22,14 @@ export const LessonDetail: React.FC = () => {
   const topRef = useRef<HTMLDivElement>(null);
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
 
+  const { 
+    progressMap, 
+    toggleLessonComplete, 
+    toggleLessonBookmark, 
+    updateLessonNotes,
+    user 
+  } = useAuth();
+
   const currentDay = parseInt(id || '0', 10);
   const lesson = LESSONS.find(l => l.day === currentDay);
   
@@ -26,11 +39,33 @@ export const LessonDetail: React.FC = () => {
   const prevLesson = currentIndex > 0 ? sortedLessons[currentIndex - 1] : null;
   const nextLesson = currentIndex < sortedLessons.length - 1 ? sortedLessons[currentIndex + 1] : null;
 
+  const currentProgress = progressMap[currentDay] || { completed: false, notes: '', bookmarked: false };
+  const isCompleted = currentProgress.completed;
+  const isBookmarked = currentProgress.bookmarked;
+
+  const [notes, setNotes] = useState<string>(currentProgress.notes || '');
+  const [isSavingNotes, setIsSavingNotes] = useState<boolean>(false);
+  const [savedNotesTimestamp, setSavedNotesTimestamp] = useState<string | null>(null);
+
+  useEffect(() => {
+    setNotes(currentProgress.notes || '');
+  }, [currentProgress.notes, currentDay]);
+
+  const handleNotesChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const val = e.target.value;
+    setNotes(val);
+  };
+
+  const handleSaveNotes = async () => {
+    setIsSavingNotes(true);
+    await updateLessonNotes(currentDay, notes);
+    setIsSavingNotes(false);
+    setSavedNotesTimestamp(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+  };
+
   useEffect(() => {
     topRef.current?.scrollIntoView({ behavior: 'smooth' });
     
-    // Explicitly check for video resources. For Day 34 or others where we want to hide the player,
-    // ensure no video resources are passed or filter them out.
     if (lesson?.resources) {
         const firstVideo = lesson.resources.find(r => r.type === 'video');
         if (firstVideo) {
@@ -78,7 +113,35 @@ export const LessonDetail: React.FC = () => {
           </button>
         </div>
 
-        <div className="flex items-center gap-1 bg-white rounded-lg border border-zinc-200 p-1 shadow-sm">
+        <div className="flex items-center gap-2">
+          {/* Bookmark Button */}
+          <button 
+            onClick={() => toggleLessonBookmark(currentDay)}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-bold text-xs border transition-all ${
+              isBookmarked 
+                ? 'bg-amber-50 border-amber-200 text-amber-800' 
+                : 'bg-white border-zinc-200 text-zinc-600 hover:border-amber-200 hover:text-amber-700'
+            }`}
+          >
+            <Bookmark className={`w-3.5 h-3.5 ${isBookmarked ? 'fill-amber-500 text-amber-500' : ''}`} />
+            <span className="hidden sm:inline">{isBookmarked ? 'Bookmarked' : 'Bookmark'}</span>
+          </button>
+
+          {/* Mark Complete Button */}
+          <button 
+            onClick={() => toggleLessonComplete(currentDay)}
+            className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg font-bold text-xs border transition-all shadow-sm ${
+              isCompleted 
+                ? 'bg-emerald-50 border-emerald-300 text-emerald-800' 
+                : 'bg-indigo-600 hover:bg-indigo-700 border-indigo-600 text-white'
+            }`}
+          >
+            <CheckCircle2 className={`w-3.5 h-3.5 ${isCompleted ? 'text-emerald-600 fill-emerald-100' : 'text-white'}`} />
+            <span>{isCompleted ? 'Completed' : 'Mark Done'}</span>
+          </button>
+
+          {/* Day Stepper */}
+          <div className="flex items-center gap-1 bg-white rounded-lg border border-zinc-200 p-1 shadow-sm">
              <button 
                 onClick={() => prevLesson && navigate(`/dashboard/day/${prevLesson.day}`)}
                 disabled={!prevLesson}
@@ -104,6 +167,7 @@ export const LessonDetail: React.FC = () => {
              >
                  <ChevronRight className="w-4 h-4" />
              </button>
+          </div>
         </div>
       </div>
 
@@ -285,6 +349,61 @@ export const LessonDetail: React.FC = () => {
                         </div>
                     </div>
                  )}
+
+                 {/* Personal Study Notes Pad (Synced to Firestore) */}
+                 <div className="bg-white rounded-3xl p-6 border border-zinc-100 shadow-sm space-y-4">
+                    <div className="flex items-center justify-between">
+                        <h3 className="font-black text-zinc-900 tracking-tight text-base flex items-center gap-2">
+                            <FileEdit className="w-4 h-4 text-indigo-600" />
+                            Personal Notes
+                        </h3>
+                        <div className="flex items-center gap-1.5 text-[10px] text-zinc-400 font-bold">
+                            <Cloud className="w-3 h-3 text-emerald-500" />
+                            {savedNotesTimestamp ? `Saved at ${savedNotesTimestamp}` : (user ? 'Firestore Sync' : 'Local Draft')}
+                        </div>
+                    </div>
+
+                    <textarea
+                        value={notes}
+                        onChange={handleNotesChange}
+                        placeholder="Write down your key learnings, mental models, or action items for this day..."
+                        rows={4}
+                        className="w-full text-xs font-medium text-zinc-700 bg-zinc-50 border border-zinc-200 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 resize-none placeholder:text-zinc-400"
+                    />
+
+                    <div className="flex items-center justify-between pt-1">
+                        <span className="text-[10px] font-semibold text-zinc-400">
+                            {notes.length}/5000 chars
+                        </span>
+                        <button
+                            onClick={handleSaveNotes}
+                            disabled={isSavingNotes}
+                            className="px-3.5 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-[11px] flex items-center gap-1.5 transition-all shadow-sm disabled:opacity-50"
+                        >
+                            <Save className="w-3 h-3" />
+                            {isSavingNotes ? 'Saving...' : 'Save Notes'}
+                        </button>
+                    </div>
+                 </div>
+
+                 {/* AI Mock Interview Callout Banner */}
+                 <div className="bg-gradient-to-r from-zinc-900 to-indigo-950 rounded-3xl p-6 text-white shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4 border border-zinc-800">
+                    <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 rounded-2xl bg-indigo-600/30 border border-indigo-400/30 flex items-center justify-center text-indigo-400 shrink-0">
+                            <Sparkles className="w-6 h-6" />
+                        </div>
+                        <div>
+                            <h4 className="font-black text-base text-white tracking-tight">Practice this framework in AI Mock Studio</h4>
+                            <p className="text-xs text-zinc-400 font-medium">Test your live delivery with animated FAANG personas & 5-pillar rubric feedback.</p>
+                        </div>
+                    </div>
+                    <button
+                        onClick={() => navigate('/interview-studio')}
+                        className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-indigo-600/30 transition-all shrink-0 flex items-center gap-1.5"
+                    >
+                        Start Mock <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
+                 </div>
              </div>
           </div>
       </div>

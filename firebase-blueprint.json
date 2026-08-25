@@ -1,0 +1,78 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User account profile and aggregate PM learning journey statistics.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Unique identifier of the authenticated user" },
+        "email": { "type": "string", "format": "email", "description": "Primary email address of the user" },
+        "displayName": { "type": "string", "maxLength": 100, "description": "Display name of the user" },
+        "photoURL": { "type": "string", "maxLength": 500, "description": "Avatar image URL" },
+        "completedDaysCount": { "type": "number", "description": "Total number of completed curriculum days" },
+        "streakDays": { "type": "number", "description": "Current active learning streak count" },
+        "userType": { "type": "string", "enum": ["student", "professional"], "description": "User background category: college student or working professional" },
+        "collegeName": { "type": "string", "maxLength": 200, "description": "College / University name for students" },
+        "degree": { "type": "string", "maxLength": 100, "description": "Degree or major of study for students" },
+        "graduationYear": { "type": "string", "maxLength": 20, "description": "Passing out or expected graduation year" },
+        "companyName": { "type": "string", "maxLength": 200, "description": "Current or recent employer company name" },
+        "designation": { "type": "string", "maxLength": 100, "description": "Job designation or title for working professionals" },
+        "experienceYears": { "type": "string", "maxLength": 50, "description": "Total years of work experience" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Timestamp when profile was created" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Timestamp when profile was last updated" }
+      },
+      "required": ["userId", "email", "createdAt", "updatedAt"]
+    },
+    "LessonProgress": {
+      "title": "LessonProgress",
+      "description": "Tracking individual day/lesson progress, completion state, and user study notes.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Owner user ID" },
+        "day": { "type": "number", "description": "Curriculum day number (0 to 100)" },
+        "completed": { "type": "boolean", "description": "Whether the day lesson is marked as completed" },
+        "notes": { "type": "string", "maxLength": 5000, "description": "User custom notes or takeaway for this day" },
+        "bookmarked": { "type": "boolean", "description": "Whether the user bookmarked this lesson" },
+        "completedAt": { "type": "string", "format": "date-time", "description": "Timestamp when completed" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Timestamp of last modification" }
+      },
+      "required": ["userId", "day", "completed", "updatedAt"]
+    },
+    "InterviewSession": {
+      "title": "InterviewSession",
+      "description": "Historical records and AI evaluation scorecards from AI Mock Interview Studio sessions.",
+      "type": "object",
+      "properties": {
+        "sessionId": { "type": "string", "description": "Unique session identifier" },
+        "userId": { "type": "string", "description": "Owner candidate user ID" },
+        "scenarioId": { "type": "string", "description": "Identifier of the interview case scenario" },
+        "scenarioTitle": { "type": "string", "maxLength": 200, "description": "Title of the interview case" },
+        "company": { "type": "string", "maxLength": 100, "description": "Target company (Google, Uber, Swiggy, etc.)" },
+        "track": { "type": "string", "enum": ["rca", "guesstimate", "strategy", "design", "general"], "description": "Interview track" },
+        "difficulty": { "type": "string", "enum": ["Easy", "Medium", "Hard"], "description": "Difficulty level" },
+        "personaName": { "type": "string", "maxLength": 100, "description": "Interviewer Persona name" },
+        "mode": { "type": "string", "enum": ["avatar", "voice", "chat"], "description": "Interview interaction mode" },
+        "score": { "type": "number", "description": "Overall rubric score from 0 to 100" },
+        "verdict": { "type": "string", "maxLength": 50, "description": "Verdict (Strong Hire, Hire, Lean Hire, No Hire)" },
+        "durationMinutes": { "type": "number", "description": "Total duration in minutes" },
+        "evaluationSummary": { "type": "string", "maxLength": 5000, "description": "Detailed AI evaluation breakdown summary" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Timestamp when session occurred" }
+      },
+      "required": ["sessionId", "userId", "scenarioId", "score", "verdict", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profile document storing basic user details and statistics."
+    },
+    "/users/{userId}/progress/{dayId}": {
+      "schema": "LessonProgress",
+      "description": "Individual lesson progress and personal notes for each curriculum day."
+    },
+    "/users/{userId}/interview_sessions/{sessionId}": {
+      "schema": "InterviewSession",
+      "description": "Completed AI mock interview scorecards and evaluation records."
+    }
+  }
+}
