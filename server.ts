@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import fs from "fs";
 import { scrapeLinkedInProfile, validateLinkedInUrl } from "./services/firecrawl";
 import { normalizeProfileData, analyzeProfileWithAI, getSampleAnalysis, TARGET_ROLE_KEYWORDS } from "./services/profileAnalyzer";
+import { evaluateResumeAlgorithmically } from "./lib/resumeAuditEngine";
 
 dotenv.config();
 
@@ -586,7 +587,7 @@ Guidelines:
   // ==========================================
   // PM RESUME AUDITOR API ENDPOINT
   // ==========================================
-  app.post(["/api/audit-resume", "/api/audit-resume/"], async (req, res) => {
+  app.post("/api/audit-resume", async (req, res) => {
     console.log(`[${new Date().toISOString()}] POST ${req.path} - Auditing PM Resume`);
     try {
       const { resumeText, targetRole = "Product Manager", jobTitle, jobDescription } = req.body;
@@ -715,7 +716,7 @@ Return only the JSON object. No preamble, no markdown code fences, no explanatio
         }
       } catch (aiErr: any) {
         console.warn("[PM Resume Audit AI Warning]: AI model evaluation failed or key missing, using deep PM heuristic engine:", aiErr?.message || aiErr);
-        parsedResult = generateHeuristicResumeAudit(resumeText, targetRole, jobTitle, jobDescription);
+        parsedResult = evaluateResumeAlgorithmically(resumeText, targetRole, jobTitle, jobDescription);
       }
 
       // Validate composite score calculation
@@ -744,7 +745,7 @@ Return only the JSON object. No preamble, no markdown code fences, no explanatio
       console.error("[PM Resume Audit Error]:", err);
       try {
         const { resumeText = "", targetRole = "Product Manager", jobTitle, jobDescription } = req.body || {};
-        const fallbackAudit = generateHeuristicResumeAudit(resumeText, targetRole, jobTitle, jobDescription);
+        const fallbackAudit = evaluateResumeAlgorithmically(resumeText, targetRole, jobTitle, jobDescription);
         res.json({
           success: true,
           audit: {
@@ -760,128 +761,6 @@ Return only the JSON object. No preamble, no markdown code fences, no explanatio
       }
     }
   });
-
-  // Comprehensive Algorithmic PM Resume Auditor Fallback Engine
-  function generateHeuristicResumeAudit(resumeText: string, targetRole: string, jobTitle?: string, jobDescription?: string): any {
-    const lines = resumeText.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 15);
-    const bullets = lines.filter(l => l.startsWith('•') || l.startsWith('-') || l.startsWith('*') || /^[0-9]+\./.test(l) || l.length > 40);
-
-    const pmKeywords = ['product', 'roadmap', 'prd', 'kpi', 'okr', 'metric', 'user research', 'a/b test', 'conversion', 'retention', 'revenue', 'dau', 'mau', 'sprint', 'scrum', 'backlog', 'stakeholder', 'mvp', 'launch', 'feature', 'churn', 'cac', 'ltv', 'customer', 'discovery', 'strategy', 'prioritization'];
-    const weakPhrases = ['responsible for', 'assisted with', 'helped to', 'worked with', 'coordinated with', 'participated in', 'managed day to day', 'tasked with', 'duties included'];
-
-    let metricBulletCount = 0;
-    let pmFramedBulletCount = 0;
-    const weakBulletsFound: { bullet: string; reason: string; weakPhrase?: string }[] = [];
-
-    bullets.forEach(b => {
-      const lower = b.toLowerCase();
-      const hasNumber = /\d+%|\$\d+|\d+k|\d+m|\d+x|\b\d+\b/.test(lower);
-      if (hasNumber) metricBulletCount++;
-
-      const hasPmTerms = pmKeywords.some(k => lower.includes(k));
-      if (hasPmTerms) pmFramedBulletCount++;
-
-      const matchedWeak = weakPhrases.find(w => lower.includes(w));
-      if (matchedWeak) {
-        weakBulletsFound.push({
-          bullet: b.replace(/^[•\-*\d.]+\s*/, ''),
-          reason: `Uses passive coordination phrase ("${matchedWeak}") instead of active product ownership.`,
-          weakPhrase: matchedWeak
-        });
-      } else if (!hasNumber && b.length > 50 && weakBulletsFound.length < 8) {
-        weakBulletsFound.push({
-          bullet: b.replace(/^[•\-*\d.]+\s*/, ''),
-          reason: `Lacks quantified business impact or outcome metrics to substantiate the result.`,
-        });
-      }
-    });
-
-    const totalB = Math.max(bullets.length, 1);
-    const impactScore = Math.min(95, Math.max(35, Math.round((metricBulletCount / totalB) * 85 + 20)));
-    const pmFramingScore = Math.min(95, Math.max(40, Math.round((pmFramedBulletCount / totalB) * 80 + 25)));
-    
-    // ATS structural check
-    const hasStandardSections = ['experience', 'education', 'skills'].filter(s => resumeText.toLowerCase().includes(s)).length;
-    const atsScore = Math.min(98, Math.max(50, 60 + hasStandardSections * 12));
-    const clarityScore = Math.min(95, Math.max(50, 75 - (weakBulletsFound.length * 3)));
-
-    const compositeScore = Math.round(impactScore * 0.35 + pmFramingScore * 0.30 + atsScore * 0.15 + clarityScore * 0.20);
-
-    // Generate bullet rewrites with [METRIC] placeholders
-    const rewrites = (weakBulletsFound.slice(0, 6)).map(item => {
-      let rewritten = item.bullet;
-      if (item.weakPhrase) {
-        rewritten = rewritten.replace(new RegExp(item.weakPhrase, 'gi'), 'Led cross-functional product execution for');
-      }
-      if (!/\d+%|\$\d+|\d+x/.test(rewritten)) {
-        rewritten = `${rewritten.replace(/[.]+$/, '')}, achieving [+X% METRIC] improvement in user adoption and driving [$Yk/Mo ARR impact].`;
-      }
-      return {
-        original: item.bullet,
-        rewritten: rewritten.charAt(0).toUpperCase() + rewritten.slice(1),
-        reason: item.reason
-      };
-    });
-
-    if (rewrites.length === 0 && bullets.length > 0) {
-      rewrites.push({
-        original: bullets[0].replace(/^[•\-*\d.]+\s*/, ''),
-        rewritten: `Spearheaded product discovery and launch of core workflow, driving [+25% user engagement] and accelerating delivery cycle by [3 weeks].`,
-        reason: "Strengthened action verb and anchored outcome with quantified operational metrics."
-      });
-    }
-
-    const hasJobCheck = Boolean(jobDescription && jobDescription.trim().length > 10);
-    let jobSuitabilityData: any = undefined;
-
-    if (hasJobCheck && jobDescription) {
-      const jdWords = jobDescription.toLowerCase().match(/\b[a-z]{4,}\b/g) || [];
-      const resumeLower = resumeText.toLowerCase();
-      const matched = Array.from(new Set(jdWords.filter(w => pmKeywords.includes(w) && resumeLower.includes(w)))).slice(0, 4);
-      const missing = Array.from(new Set(jdWords.filter(w => pmKeywords.includes(w) && !resumeLower.includes(w)))).slice(0, 3);
-      
-      const matchScore = Math.min(92, Math.max(45, Math.round(55 + (matched.length * 9) - (missing.length * 5))));
-      let verdict = "Moderate Match";
-      if (matchScore >= 80) verdict = "Strong Match";
-      else if (matchScore < 60) verdict = "Gaps Detected";
-
-      jobSuitabilityData = {
-        match_score: matchScore,
-        verdict,
-        target_job_title: jobTitle || targetRole,
-        matched_skills: matched.length > 0 ? matched.map(m => m.toUpperCase()) : ["Agile Product Delivery", "Cross-Functional Leadership", "Stakeholder Alignment"],
-        missing_skills_or_experiences: missing.length > 0 ? missing.map(m => `Demonstrated depth in ${m}`) : ["High-scale experimentation (A/B testing)", "0-to-1 Product Discovery Case Studies"],
-        tailoring_recommendations: [
-          `Mirror the exact domain terms from the ${jobTitle || targetRole} job description in your top 3 experience bullets.`,
-          `Highlight metrics specifically tied to the company's business model (e.g. conversion rates, retention curves, or CAC efficiency).`,
-          `Elevate your technical collaboration bullets to highlight trade-off decisions made with engineering.`
-        ]
-      };
-    }
-
-    return {
-      composite_score: compositeScore,
-      sub_scores: {
-        impact_metrics_score: impactScore,
-        pm_framing_score: pmFramingScore,
-        ats_readability_score: atsScore,
-        clarity_score: clarityScore
-      },
-      narrative_feedback: `This resume presents a solid foundation of product delivery and execution, but currently frames responsibilities through operational tasks rather than strategic product ownership. By sharpening bullets to quantify business outcomes (e.g., revenue, user retention, conversion lift) and replacing passive phrasing with leadership verbs, you will significantly elevate your interview callback rate for ${targetRole} positions.`,
-      bullet_rewrites: rewrites,
-      top_strengths: [
-        "Clear chronological career progression and structured section organization.",
-        "Demonstrated exposure to cross-functional engineering and design workflows.",
-        "Good structural ATS parseability across major applicant tracking systems."
-      ],
-      top_priorities: [
-        "Replace passive task descriptions ('worked with', 'assisted') with high-ownership PM verbs ('Owned', 'Spearheaded', 'Engineered').",
-        "Anchor every single major bullet point with a quantified metric or measurable outcome [e.g. +X% conversion, $Y revenue].",
-        "Condense lengthy 3+ line paragraphs into concise, high-impact 1-to-2 line achievements."
-      ],
-      ...(jobSuitabilityData ? { job_suitability: jobSuitabilityData } : {})
-    };
-  }
 
   // Helper for ultra-fast direct TTS audio synthesis
   async function synthesizeSpeechBuffer(text: string, personaId: string, voiceGender: string): Promise<{ audioBase64: string; format: string; sampleRate?: number } | null> {
@@ -1438,7 +1317,7 @@ You MUST return a valid JSON object strictly matching this schema:
     app.use(express.static(distPath));
     app.use(express.static(publicPath));
     
-    app.get('*', (req, res) => {
+    app.get('*all', (req, res) => {
       const indexPath = path.join(distPath, 'index.html');
       const fallbackPath = path.join(publicPath, 'index.html');
       

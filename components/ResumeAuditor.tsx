@@ -12,6 +12,7 @@ import {
 import { useAuth } from '../context/AuthContext';
 import { extractTextFromPdfBuffer } from '../lib/pdfParser';
 import { ResumeAuditResult, StoredResumeDocument } from '../types/resumeAuditor';
+import { evaluateResumeAlgorithmically } from '../lib/resumeAuditEngine';
 
 const INITIAL_ROLES = [
   'Associate Product Manager (APM)',
@@ -313,31 +314,44 @@ export const ResumeAuditor: React.FC = () => {
     ];
 
     try {
-      const response = await fetch('/api/audit-resume', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          resumeText,
-          targetRole,
-          jobTitle: enableJobCheck ? (jobTitle.trim() || targetRole) : undefined,
-          jobDescription: enableJobCheck ? jobDescription.trim() : undefined
-        })
-      });
+      let finalAudit: ResumeAuditResult | null = null;
+
+      try {
+        const response = await fetch('/api/audit-resume', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            resumeText,
+            targetRole,
+            jobTitle: enableJobCheck ? (jobTitle.trim() || targetRole) : undefined,
+            jobDescription: enableJobCheck ? jobDescription.trim() : undefined
+          })
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data.success && data.audit) {
+            finalAudit = data.audit;
+          }
+        }
+      } catch (fetchErr) {
+        console.warn('Backend audit endpoint unreachable, running browser PM heuristic auditor:', fetchErr);
+      }
 
       phaseTimers.forEach(clearTimeout);
 
-      if (!response.ok) {
-        const data = await response.json().catch(() => ({}));
-        throw new Error(data.error || 'Failed to complete resume audit.');
+      if (!finalAudit) {
+        // Run deep local PM evaluation engine
+        finalAudit = evaluateResumeAlgorithmically(
+          resumeText,
+          targetRole,
+          enableJobCheck ? (jobTitle.trim() || targetRole) : undefined,
+          enableJobCheck ? jobDescription.trim() : undefined
+        );
       }
 
-      const data = await response.json();
-      if (data.success && data.audit) {
-        setAuditResult(data.audit);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      } else {
-        throw new Error('Received unexpected response format.');
-      }
+      setAuditResult(finalAudit);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err: any) {
       phaseTimers.forEach(clearTimeout);
       setError(err.message || 'An error occurred while auditing the resume. Please check your connection or try again.');

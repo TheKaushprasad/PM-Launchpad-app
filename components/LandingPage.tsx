@@ -738,7 +738,7 @@ export const LandingPage: React.FC = () => {
 
       {/* Features & Action-Driven Section */}
       <section id="features" className="py-24 bg-zinc-950 text-white relative overflow-hidden">
-         <div className="absolute top-0 left-0 w-full h-full bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
+         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(#312e81_1px,transparent_1px)] [background-size:24px_24px] opacity-25"></div>
          <div className="absolute top-1/2 right-0 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[140px] pointer-events-none"></div>
          
          <div className="max-w-7xl mx-auto px-6 relative z-10">
