@@ -58,6 +58,7 @@ export const Dashboard: React.FC = () => {
     });
 
   const savedNotesCount = savedNotesList.length;
+  const bookmarkedCount = LESSONS.filter(lesson => !!progressMap[lesson.day]?.bookmarked).length;
   
   const filteredLessons = LESSONS.filter(lesson => {
     // 1. Path filter
@@ -238,7 +239,7 @@ export const Dashboard: React.FC = () => {
                 className={`px-3.5 py-1.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all ${filterMode === 'bookmarked' ? 'bg-amber-500 text-white shadow-sm' : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'}`}
              >
                 <Bookmark className="w-3.5 h-3.5" />
-                Bookmarked
+                Bookmarked {bookmarkedCount > 0 ? `(${bookmarkedCount})` : ''}
              </button>
              <button
                 onClick={() => setFilterMode('notes')}

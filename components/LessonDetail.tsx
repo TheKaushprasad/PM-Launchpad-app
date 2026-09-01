@@ -56,6 +56,7 @@ export const LessonDetail: React.FC = () => {
 
   const notesRef = useRef<string>(currentProgress.notes || '');
   const lastSavedNotesRef = useRef<string>(currentProgress.notes || '');
+  const isFocusedRef = useRef<boolean>(false);
   const currentDayRef = useRef<number>(currentDay);
   const progressMapRef = useRef(progressMap);
   progressMapRef.current = progressMap;
@@ -166,7 +167,12 @@ export const LessonDetail: React.FC = () => {
   // Keep notes in sync if loaded asynchronously from Firestore for first time
   const currentRemoteNotes = progressMap[currentDay]?.notes;
   useEffect(() => {
-    if (currentRemoteNotes !== undefined && currentRemoteNotes !== notesRef.current && !notesRef.current) {
+    if (
+      !isFocusedRef.current &&
+      currentRemoteNotes !== undefined &&
+      currentRemoteNotes !== notesRef.current &&
+      (!notesRef.current || notesRef.current === lastSavedNotesRef.current)
+    ) {
       setNotes(currentRemoteNotes);
       notesRef.current = currentRemoteNotes;
       lastSavedNotesRef.current = currentRemoteNotes;
@@ -708,7 +714,11 @@ export const LessonDetail: React.FC = () => {
                     <textarea
                         value={notes}
                         onChange={handleNotesChange}
-                        onBlur={handleNotesBlur}
+                        onFocus={() => { isFocusedRef.current = true; }}
+                        onBlur={() => {
+                          isFocusedRef.current = false;
+                          handleNotesBlur();
+                        }}
                         placeholder="Write down your key learnings, frameworks, or interview takeaways for this day. Notes auto-save as you type..."
                         rows={3}
                         className="w-full text-xs font-medium text-zinc-800 bg-zinc-50/80 border border-zinc-200 rounded-lg p-2.5 focus:outline-none focus:ring-1.5 focus:ring-indigo-500/20 focus:border-indigo-500 focus:bg-white resize-none placeholder:text-zinc-400 transition-all leading-relaxed"
@@ -720,9 +730,10 @@ export const LessonDetail: React.FC = () => {
                         </span>
                         <div className="relative group/savenotes">
                             <button
+                                type="button"
                                 onClick={handleSaveNotes}
-                                title="Find all saved notes under dashboard"
-                                className="px-2.5 py-1 rounded-md bg-zinc-900 hover:bg-zinc-800 active:scale-95 text-white font-bold text-[10px] flex items-center gap-1 transition-all shadow-xs cursor-pointer"
+                                title="Save note and view under Saved Notes tab on dashboard"
+                                className="px-3 py-1 rounded-md bg-zinc-900 hover:bg-zinc-800 active:scale-95 text-white font-bold text-[10px] flex items-center gap-1 transition-all shadow-xs cursor-pointer"
                             >
                                 {saveStatus === 'saved' ? (
                                     <>
@@ -731,7 +742,7 @@ export const LessonDetail: React.FC = () => {
                                     </>
                                 ) : (
                                     <>
-                                        <Save className="w-2.5 h-2.5" />
+                                        <Save className="w-2.5 h-2.5 text-indigo-300" />
                                         <span>Save Notes</span>
                                     </>
                                 )}

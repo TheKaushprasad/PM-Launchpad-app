@@ -48,11 +48,12 @@ export const DayCard: React.FC<DayCardProps> = ({ lesson, index }) => {
                     </span>
                   )}
                   <button 
+                    type="button"
                     onClick={handleToggleBookmark}
-                    title={isBookmarked ? 'Remove Bookmark' : 'Bookmark Lesson'}
-                    className={`p-1.5 rounded-lg transition-colors ${isBookmarked ? 'text-amber-500 bg-amber-50' : 'text-zinc-300 hover:text-amber-500 hover:bg-zinc-100'}`}
+                    title={isBookmarked ? 'Remove Bookmark (visible on Dashboard)' : 'Bookmark Lesson (view under Bookmarked on Dashboard)'}
+                    className={`p-1.5 rounded-lg transition-all cursor-pointer active:scale-90 ${isBookmarked ? 'text-amber-500 bg-amber-50 shadow-xs ring-1 ring-amber-200' : 'text-zinc-300 hover:text-amber-500 hover:bg-zinc-100'}`}
                   >
-                    <Bookmark className={`w-3.5 h-3.5 ${isBookmarked ? 'fill-amber-500' : ''}`} />
+                    <Bookmark className={`w-3.5 h-3.5 ${isBookmarked ? 'fill-amber-500 text-amber-500' : ''}`} />
                   </button>
                   <div className="flex items-center gap-1 text-zinc-400">
                     <Clock className="w-3 h-3" />

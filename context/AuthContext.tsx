@@ -1013,12 +1013,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           userId: user.uid,
           day,
           completed: newCompleted,
-          bookmarked: currentBookmarked,
-          notes: currentNotes.slice(0, 5000),
           completedAt: newCompleted ? now : null,
-          scrollPosition: currentState.scrollPosition,
-          scrollPercentage: currentState.scrollPercentage,
-          lastReadAt: currentState.lastReadAt,
           updatedAt: now
         });
 
@@ -1030,7 +1025,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           updatedAt: now
         }, { merge: true });
       } catch (err) {
-        handleFirestoreError(err, OperationType.WRITE, docPath);
+        console.warn(`Firestore write non-blocking (${docPath}):`, err);
       }
     }
   };
@@ -1040,8 +1035,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const now = new Date().toISOString();
     const cleanNotes = (notes ?? '').slice(0, 5000);
     const currentState = progressMapRef.current[day] || { completed: false, notes: '', bookmarked: false };
-    const currentCompleted = !!currentState.completed;
-    const currentBookmarked = !!currentState.bookmarked;
 
     const updatedState: LessonProgressState = {
       ...currentState,
@@ -1065,19 +1058,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         const payload = cleanFirestorePayload({
           userId: user.uid,
           day,
-          completed: currentCompleted,
           notes: cleanNotes,
-          bookmarked: currentBookmarked,
-          completedAt: currentState.completedAt,
-          scrollPosition: currentState.scrollPosition,
-          scrollPercentage: currentState.scrollPercentage,
-          lastReadAt: currentState.lastReadAt,
           updatedAt: now
         });
 
         await setDoc(docRef, payload, { merge: true });
       } catch (err) {
-        handleFirestoreError(err, OperationType.WRITE, docPath);
+        console.warn(`Firestore write non-blocking (${docPath}):`, err);
       }
     }
   };
@@ -1087,8 +1074,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const now = new Date().toISOString();
     const currentState = progressMapRef.current[day] || { completed: false, notes: '', bookmarked: false };
     const newBookmarked = !currentState.bookmarked;
-    const currentCompleted = !!currentState.completed;
-    const currentNotes = currentState.notes || '';
 
     const updatedState: LessonProgressState = {
       ...currentState,
@@ -1112,19 +1097,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         const payload = cleanFirestorePayload({
           userId: user.uid,
           day,
-          completed: currentCompleted,
           bookmarked: newBookmarked,
-          notes: currentNotes.slice(0, 5000),
-          completedAt: currentState.completedAt,
-          scrollPosition: currentState.scrollPosition,
-          scrollPercentage: currentState.scrollPercentage,
-          lastReadAt: currentState.lastReadAt,
           updatedAt: now
         });
 
         await setDoc(docRef, payload, { merge: true });
       } catch (err) {
-        handleFirestoreError(err, OperationType.WRITE, docPath);
+        console.warn(`Firestore write non-blocking (${docPath}):`, err);
       }
     }
   };
@@ -1177,9 +1156,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         const payload = cleanFirestorePayload({
           userId: user.uid,
           day,
-          completed: currentState.completed ?? false,
-          bookmarked: currentState.bookmarked ?? false,
-          notes: currentState.notes || '',
           scrollPosition: cleanScrollTop,
           scrollPercentage: cleanPercentage,
           lastReadAt: now,
