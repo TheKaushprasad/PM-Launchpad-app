@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useEffect, useState, useRef, ReactNode } from 'react';
 import { 
   User, 
   signInWithPopup, 
@@ -232,6 +232,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     } catch (e) {}
     return {};
   });
+  const progressMapRef = useRef<Record<number, LessonProgressState>>(progressMap);
+  useEffect(() => {
+    progressMapRef.current = progressMap;
+  }, [progressMap]);
   const [interviewHistory, setInterviewHistory] = useState<InterviewSessionHistory[]>([]);
 
   // 1. Listen for Auth State Changes & Sync User Profile
@@ -407,7 +411,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       try {
         const savedProgress = localStorage.getItem('pm_launchpad_progress');
         if (savedProgress) {
-          setProgressMap(JSON.parse(savedProgress));
+          const parsed = JSON.parse(savedProgress);
+          progressMapRef.current = parsed;
+          setProgressMap(parsed);
         }
       } catch (e) {}
       return;
@@ -419,26 +425,25 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const unsubscribe = onSnapshot(
       progressColRef,
       (snapshot) => {
-        const remoteMap: Record<number, LessonProgressState> = {};
+        const remoteMap: Record<number, Partial<LessonProgressState>> = {};
         snapshot.forEach((docSnap) => {
           const data = docSnap.data();
           const day = data.day !== undefined ? data.day : parseInt(docSnap.id.replace('day_', ''), 10);
           if (day !== undefined && !isNaN(day)) {
             remoteMap[day] = {
-              completed: !!data.completed,
-              notes: typeof data.notes === 'string' ? data.notes : '',
-              bookmarked: !!data.bookmarked,
-              scrollPosition: typeof data.scrollPosition === 'number' ? data.scrollPosition : undefined,
-              scrollPercentage: typeof data.scrollPercentage === 'number' ? data.scrollPercentage : undefined,
-              lastReadAt: data.lastReadAt,
-              completedAt: data.completedAt,
-              updatedAt: data.updatedAt
+              ...(typeof data.completed === 'boolean' ? { completed: data.completed } : {}),
+              ...(typeof data.notes === 'string' ? { notes: data.notes } : {}),
+              ...(typeof data.bookmarked === 'boolean' ? { bookmarked: data.bookmarked } : {}),
+              ...(typeof data.scrollPosition === 'number' ? { scrollPosition: data.scrollPosition } : {}),
+              ...(typeof data.scrollPercentage === 'number' ? { scrollPercentage: data.scrollPercentage } : {}),
+              ...(data.lastReadAt ? { lastReadAt: data.lastReadAt } : {}),
+              ...(data.completedAt ? { completedAt: data.completedAt } : {}),
+              ...(data.updatedAt ? { updatedAt: data.updatedAt } : {})
             };
           }
         });
 
         setProgressMap((prevMap) => {
-          // Merge local and remote: remote takes priority, but don't drop local unsaved notes or scroll if remote is empty
           const merged: Record<number, LessonProgressState> = { ...prevMap };
           for (const key of Object.keys(remoteMap)) {
             const dayNum = Number(key);
@@ -446,16 +451,17 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             const localItem = prevMap[dayNum];
             
             merged[dayNum] = {
-              completed: remoteItem.completed,
-              bookmarked: remoteItem.bookmarked,
-              notes: remoteItem.notes || localItem?.notes || '',
+              completed: remoteItem.completed !== undefined ? remoteItem.completed : (localItem?.completed ?? false),
+              bookmarked: remoteItem.bookmarked !== undefined ? remoteItem.bookmarked : (localItem?.bookmarked ?? false),
+              notes: remoteItem.notes !== undefined ? remoteItem.notes : (localItem?.notes || ''),
               scrollPosition: remoteItem.scrollPosition !== undefined ? remoteItem.scrollPosition : localItem?.scrollPosition,
               scrollPercentage: remoteItem.scrollPercentage !== undefined ? remoteItem.scrollPercentage : localItem?.scrollPercentage,
               lastReadAt: remoteItem.lastReadAt || localItem?.lastReadAt,
               completedAt: remoteItem.completedAt || localItem?.completedAt,
-              updatedAt: remoteItem.updatedAt || localItem?.updatedAt
+              updatedAt: remoteItem.updatedAt || localItem?.updatedAt || new Date().toISOString()
             };
           }
+          progressMapRef.current = merged;
           try {
             localStorage.setItem('pm_launchpad_progress', JSON.stringify(merged));
           } catch (e) {}
@@ -977,48 +983,44 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   // Toggle Lesson Completion
   const toggleLessonComplete = async (day: number) => {
     const now = new Date().toISOString();
-    let newCompleted = false;
-    let currentNotes = '';
-    let currentBookmarked = false;
-    let count = 0;
+    const currentState = progressMapRef.current[day] || { completed: false, notes: '', bookmarked: false };
+    const newCompleted = !currentState.completed;
+    const currentNotes = currentState.notes || '';
+    const currentBookmarked = !!currentState.bookmarked;
 
-    setProgressMap((prev) => {
-      const currentState = prev[day] || { completed: false };
-      newCompleted = !currentState.completed;
-      currentNotes = currentState.notes || '';
-      currentBookmarked = !!currentState.bookmarked;
+    const updatedState: LessonProgressState = {
+      ...currentState,
+      completed: newCompleted,
+      completedAt: newCompleted ? now : undefined,
+      updatedAt: now
+    };
 
-      const updatedState: LessonProgressState = {
-        ...currentState,
-        completed: newCompleted,
-        completedAt: newCompleted ? now : undefined,
-        updatedAt: now
-      };
-      const updatedMap = { ...prev, [day]: updatedState };
-      count = Object.values(updatedMap).filter(p => p.completed).length;
-      try {
-        localStorage.setItem('pm_launchpad_progress', JSON.stringify(updatedMap));
-      } catch (e) {}
-      return updatedMap;
-    });
+    const updatedMap = { ...progressMapRef.current, [day]: updatedState };
+    progressMapRef.current = updatedMap;
+    const count = Object.values(updatedMap).filter(p => p.completed).length;
+
+    try {
+      localStorage.setItem('pm_launchpad_progress', JSON.stringify(updatedMap));
+    } catch (e) {}
+
+    setProgressMap(updatedMap);
 
     if (user) {
       const docPath = `users/${user.uid}/progress/day_${day}`;
       const docRef = doc(db, 'users', user.uid, 'progress', `day_${day}`);
       try {
-        const payload: any = {
+        const payload = cleanFirestorePayload({
           userId: user.uid,
           day,
           completed: newCompleted,
           bookmarked: currentBookmarked,
+          notes: currentNotes.slice(0, 5000),
+          completedAt: newCompleted ? now : null,
+          scrollPosition: currentState.scrollPosition,
+          scrollPercentage: currentState.scrollPercentage,
+          lastReadAt: currentState.lastReadAt,
           updatedAt: now
-        };
-        if (currentNotes) {
-          payload.notes = currentNotes.slice(0, 5000);
-        }
-        if (newCompleted) {
-          payload.completedAt = now;
-        }
+        });
 
         await setDoc(docRef, payload, { merge: true });
 
@@ -1036,40 +1038,44 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   // Update Lesson Notes
   const updateLessonNotes = async (day: number, notes: string) => {
     const now = new Date().toISOString();
-    const cleanNotes = (notes || '').slice(0, 5000);
-    let currentCompleted = false;
-    let currentBookmarked = false;
+    const cleanNotes = (notes ?? '').slice(0, 5000);
+    const currentState = progressMapRef.current[day] || { completed: false, notes: '', bookmarked: false };
+    const currentCompleted = !!currentState.completed;
+    const currentBookmarked = !!currentState.bookmarked;
 
-    setProgressMap((prev) => {
-      const currentState = prev[day] || { completed: false };
-      currentCompleted = !!currentState.completed;
-      currentBookmarked = !!currentState.bookmarked;
+    const updatedState: LessonProgressState = {
+      ...currentState,
+      notes: cleanNotes,
+      updatedAt: now
+    };
 
-      const updatedState: LessonProgressState = {
-        ...currentState,
-        notes: cleanNotes,
-        updatedAt: now
-      };
+    const updatedMap = { ...progressMapRef.current, [day]: updatedState };
+    progressMapRef.current = updatedMap;
 
-      const updatedMap = { ...prev, [day]: updatedState };
-      try {
-        localStorage.setItem('pm_launchpad_progress', JSON.stringify(updatedMap));
-      } catch (e) {}
-      return updatedMap;
-    });
+    try {
+      localStorage.setItem('pm_launchpad_progress', JSON.stringify(updatedMap));
+    } catch (e) {}
+
+    setProgressMap(updatedMap);
 
     if (user) {
       const docPath = `users/${user.uid}/progress/day_${day}`;
       const docRef = doc(db, 'users', user.uid, 'progress', `day_${day}`);
       try {
-        await setDoc(docRef, {
+        const payload = cleanFirestorePayload({
           userId: user.uid,
           day,
           completed: currentCompleted,
           notes: cleanNotes,
           bookmarked: currentBookmarked,
+          completedAt: currentState.completedAt,
+          scrollPosition: currentState.scrollPosition,
+          scrollPercentage: currentState.scrollPercentage,
+          lastReadAt: currentState.lastReadAt,
           updatedAt: now
-        }, { merge: true });
+        });
+
+        await setDoc(docRef, payload, { merge: true });
       } catch (err) {
         handleFirestoreError(err, OperationType.WRITE, docPath);
       }
@@ -1079,43 +1085,42 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   // Toggle Lesson Bookmark
   const toggleLessonBookmark = async (day: number) => {
     const now = new Date().toISOString();
-    let newBookmarked = false;
-    let currentCompleted = false;
-    let currentNotes = '';
+    const currentState = progressMapRef.current[day] || { completed: false, notes: '', bookmarked: false };
+    const newBookmarked = !currentState.bookmarked;
+    const currentCompleted = !!currentState.completed;
+    const currentNotes = currentState.notes || '';
 
-    setProgressMap((prev) => {
-      const currentState = prev[day] || { completed: false };
-      newBookmarked = !currentState.bookmarked;
-      currentCompleted = !!currentState.completed;
-      currentNotes = currentState.notes || '';
+    const updatedState: LessonProgressState = {
+      ...currentState,
+      bookmarked: newBookmarked,
+      updatedAt: now
+    };
 
-      const updatedState: LessonProgressState = {
-        ...currentState,
-        bookmarked: newBookmarked,
-        updatedAt: now
-      };
+    const updatedMap = { ...progressMapRef.current, [day]: updatedState };
+    progressMapRef.current = updatedMap;
 
-      const updatedMap = { ...prev, [day]: updatedState };
-      try {
-        localStorage.setItem('pm_launchpad_progress', JSON.stringify(updatedMap));
-      } catch (e) {}
-      return updatedMap;
-    });
+    try {
+      localStorage.setItem('pm_launchpad_progress', JSON.stringify(updatedMap));
+    } catch (e) {}
+
+    setProgressMap(updatedMap);
 
     if (user) {
       const docPath = `users/${user.uid}/progress/day_${day}`;
       const docRef = doc(db, 'users', user.uid, 'progress', `day_${day}`);
       try {
-        const payload: any = {
+        const payload = cleanFirestorePayload({
           userId: user.uid,
           day,
           completed: currentCompleted,
           bookmarked: newBookmarked,
+          notes: currentNotes.slice(0, 5000),
+          completedAt: currentState.completedAt,
+          scrollPosition: currentState.scrollPosition,
+          scrollPercentage: currentState.scrollPercentage,
+          lastReadAt: currentState.lastReadAt,
           updatedAt: now
-        };
-        if (currentNotes) {
-          payload.notes = currentNotes.slice(0, 5000);
-        }
+        });
 
         await setDoc(docRef, payload, { merge: true });
       } catch (err) {
@@ -1139,36 +1144,48 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       }));
     } catch (e) {}
 
-    // 2. React state update
-    setProgressMap((prev) => {
-      const currentState = prev[day] || { completed: false };
-      const updatedState: LessonProgressState = {
-        ...currentState,
-        scrollPosition: cleanScrollTop,
-        scrollPercentage: cleanPercentage,
-        lastReadAt: now,
-        updatedAt: now
-      };
-      const updatedMap = { ...prev, [day]: updatedState };
-      try {
-        localStorage.setItem('pm_launchpad_progress', JSON.stringify(updatedMap));
-      } catch (e) {}
-      return updatedMap;
-    });
+    const currentState = progressMapRef.current[day] || { completed: false, notes: '', bookmarked: false };
+    if (
+      currentState.scrollPosition === cleanScrollTop &&
+      currentState.scrollPercentage === cleanPercentage
+    ) {
+      return;
+    }
+
+    const updatedState: LessonProgressState = {
+      ...currentState,
+      scrollPosition: cleanScrollTop,
+      scrollPercentage: cleanPercentage,
+      lastReadAt: now,
+      updatedAt: now
+    };
+
+    const updatedMap = { ...progressMapRef.current, [day]: updatedState };
+    progressMapRef.current = updatedMap;
+
+    try {
+      localStorage.setItem('pm_launchpad_progress', JSON.stringify(updatedMap));
+    } catch (e) {}
+
+    setProgressMap(updatedMap);
 
     // 3. Debounced cloud persistence to Firestore
     if (user) {
       const docPath = `users/${user.uid}/progress/day_${day}`;
       const docRef = doc(db, 'users', user.uid, 'progress', `day_${day}`);
       try {
-        await setDoc(docRef, {
+        const payload = cleanFirestorePayload({
           userId: user.uid,
           day,
+          completed: currentState.completed ?? false,
+          bookmarked: currentState.bookmarked ?? false,
+          notes: currentState.notes || '',
           scrollPosition: cleanScrollTop,
           scrollPercentage: cleanPercentage,
           lastReadAt: now,
           updatedAt: now
-        }, { merge: true });
+        });
+        await setDoc(docRef, payload, { merge: true });
       } catch (err) {
         // Non-blocking catch for scroll streaming
       }

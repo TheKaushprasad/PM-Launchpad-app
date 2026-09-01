@@ -57,6 +57,15 @@ export const LessonDetail: React.FC = () => {
   const notesRef = useRef<string>(currentProgress.notes || '');
   const lastSavedNotesRef = useRef<string>(currentProgress.notes || '');
   const currentDayRef = useRef<number>(currentDay);
+  const progressMapRef = useRef(progressMap);
+  progressMapRef.current = progressMap;
+
+  const updateLessonNotesRef = useRef(updateLessonNotes);
+  updateLessonNotesRef.current = updateLessonNotes;
+
+  const updateLessonScrollPositionRef = useRef(updateLessonScrollPosition);
+  updateLessonScrollPositionRef.current = updateLessonScrollPosition;
+
   const debounceTimerRef = useRef<any>(null);
   const savedIndicatorTimerRef = useRef<any>(null);
 
@@ -66,7 +75,7 @@ export const LessonDetail: React.FC = () => {
   const isRestoringScrollRef = useRef<boolean>(false);
 
   // Helper to extract saved scroll position from localStorage or AuthContext
-  const getSavedPosition = useCallback((day: number): { scrollTop: number; scrollPercentage: number } => {
+  const getSavedPosition = (day: number): { scrollTop: number; scrollPercentage: number } => {
     try {
       const localData = localStorage.getItem(`pm_scroll_day_${day}`);
       if (localData) {
@@ -78,7 +87,7 @@ export const LessonDetail: React.FC = () => {
           };
         }
       }
-      const remoteState = progressMap[day];
+      const remoteState = progressMapRef.current[day];
       if (remoteState && typeof remoteState.scrollPosition === 'number') {
         return {
           scrollTop: Math.max(0, remoteState.scrollPosition),
@@ -87,10 +96,10 @@ export const LessonDetail: React.FC = () => {
       }
     } catch (e) {}
     return { scrollTop: 0, scrollPercentage: 0 };
-  }, [progressMap]);
+  };
 
   // Synchronously flush scroll position
-  const flushCurrentScroll = useCallback((day: number) => {
+  const flushCurrentScroll = (day: number) => {
     const scrollTop = lastScrollTopRef.current;
     const percentage = lastScrollPercentRef.current;
     if (scrollTop >= 0) {
@@ -101,39 +110,68 @@ export const LessonDetail: React.FC = () => {
           updatedAt: new Date().toISOString()
         }));
       } catch (e) {}
-      updateLessonScrollPosition(day, scrollTop, percentage);
+      updateLessonScrollPositionRef.current(day, scrollTop, percentage);
     }
-  }, [updateLessonScrollPosition]);
+  };
+
+  // Save notes helper
+  const performSaveNotes = (day: number, textToSave: string, showIndicator: boolean = true) => {
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
+      debounceTimerRef.current = null;
+    }
+
+    lastSavedNotesRef.current = textToSave;
+    updateLessonNotesRef.current(day, textToSave);
+
+    if (showIndicator) {
+      setSaveStatus('saved');
+      setSavedNotesTimestamp(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+
+      if (savedIndicatorTimerRef.current) clearTimeout(savedIndicatorTimerRef.current);
+      savedIndicatorTimerRef.current = setTimeout(() => {
+        setSaveStatus('idle');
+      }, 2500);
+    }
+  };
 
   // Sync notes state when day changes
   useEffect(() => {
     // Flush previous day's notes if there were unsaved edits
-    if (currentDayRef.current !== currentDay && notesRef.current !== lastSavedNotesRef.current) {
-      updateLessonNotes(currentDayRef.current, notesRef.current);
-    }
-    
-    // Flush previous day's scroll position
     if (currentDayRef.current !== currentDay) {
+      if (notesRef.current !== lastSavedNotesRef.current) {
+        performSaveNotes(currentDayRef.current, notesRef.current, false);
+      }
       flushCurrentScroll(currentDayRef.current);
     }
 
     currentDayRef.current = currentDay;
-    const initialNotes = progressMap[currentDay]?.notes || '';
+    const initialNotes = progressMapRef.current[currentDay]?.notes || '';
     setNotes(initialNotes);
     notesRef.current = initialNotes;
     lastSavedNotesRef.current = initialNotes;
     setSaveStatus('idle');
-  }, [currentDay, flushCurrentScroll, progressMap, updateLessonNotes]);
+  }, [currentDay]);
 
-  // Keep notes in sync if loaded asynchronously from Firestore
+  // Cleanup on unmount
   useEffect(() => {
-    const remoteNotes = progressMap[currentDay]?.notes || '';
-    if (remoteNotes && !notesRef.current) {
-      setNotes(remoteNotes);
-      notesRef.current = remoteNotes;
-      lastSavedNotesRef.current = remoteNotes;
+    return () => {
+      if (notesRef.current !== lastSavedNotesRef.current) {
+        updateLessonNotesRef.current(currentDayRef.current, notesRef.current);
+      }
+      flushCurrentScroll(currentDayRef.current);
+    };
+  }, []);
+
+  // Keep notes in sync if loaded asynchronously from Firestore for first time
+  const currentRemoteNotes = progressMap[currentDay]?.notes;
+  useEffect(() => {
+    if (currentRemoteNotes !== undefined && currentRemoteNotes !== notesRef.current && !notesRef.current) {
+      setNotes(currentRemoteNotes);
+      notesRef.current = currentRemoteNotes;
+      lastSavedNotesRef.current = currentRemoteNotes;
     }
-  }, [progressMap, currentDay]);
+  }, [currentRemoteNotes]);
 
   // Scroll Position Restoration on Day Mount
   useEffect(() => {
@@ -181,7 +219,7 @@ export const LessonDetail: React.FC = () => {
       clearTimeout(t3);
       flushCurrentScroll(currentDay);
     };
-  }, [currentDay, getSavedPosition, flushCurrentScroll]);
+  }, [currentDay]);
 
   // Continuous Scroll Tracking Listener
   useEffect(() => {
@@ -212,7 +250,7 @@ export const LessonDetail: React.FC = () => {
         clearTimeout(scrollDebounceTimerRef.current);
       }
       scrollDebounceTimerRef.current = setTimeout(() => {
-        updateLessonScrollPosition(currentDayRef.current, currentScrollTop, percentage);
+        updateLessonScrollPositionRef.current(currentDayRef.current, currentScrollTop, percentage);
       }, 700);
     };
 
@@ -239,7 +277,7 @@ export const LessonDetail: React.FC = () => {
         clearTimeout(scrollDebounceTimerRef.current);
       }
     };
-  }, [currentDay, flushCurrentScroll, updateLessonScrollPosition]);
+  }, [currentDay]);
 
   // Clean up and flush on unmount
   useEffect(() => {
@@ -248,11 +286,11 @@ export const LessonDetail: React.FC = () => {
       if (savedIndicatorTimerRef.current) clearTimeout(savedIndicatorTimerRef.current);
       if (scrollDebounceTimerRef.current) clearTimeout(scrollDebounceTimerRef.current);
       if (notesRef.current !== lastSavedNotesRef.current) {
-        updateLessonNotes(currentDayRef.current, notesRef.current);
+        updateLessonNotesRef.current(currentDayRef.current, notesRef.current);
       }
       flushCurrentScroll(currentDayRef.current);
     };
-  }, [flushCurrentScroll, updateLessonNotes]);
+  }, []);
 
   const handleRestartToTop = () => {
     const mainEl = document.querySelector('main');
@@ -267,54 +305,30 @@ export const LessonDetail: React.FC = () => {
     setShowResumedNotice(false);
   };
 
-  const triggerBackgroundSave = (textToSave: string, showIndicator: boolean = true) => {
-    if (debounceTimerRef.current) {
-      clearTimeout(debounceTimerRef.current);
-      debounceTimerRef.current = null;
-    }
-
-    lastSavedNotesRef.current = textToSave;
-    
-    // Instant optimistic update to local storage + context (0ms)
-    updateLessonNotes(currentDay, textToSave);
-
-    if (showIndicator) {
-      setSaveStatus('saved');
-      setSavedNotesTimestamp(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
-
-      if (savedIndicatorTimerRef.current) clearTimeout(savedIndicatorTimerRef.current);
-      savedIndicatorTimerRef.current = setTimeout(() => {
-        setSaveStatus('idle');
-      }, 2500);
-    }
-  };
-
   const handleNotesChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const val = e.target.value;
     setNotes(val);
     notesRef.current = val;
-
-    // Instant local memory update so dashboard and switches always have the freshest text
-    updateLessonNotes(currentDay, val);
+    setSaveStatus('saving');
 
     if (debounceTimerRef.current) {
       clearTimeout(debounceTimerRef.current);
     }
 
-    // Debounce the "Saved" timestamp badge
+    // Debounce save to Firestore & localStorage
     debounceTimerRef.current = setTimeout(() => {
-      triggerBackgroundSave(val, true);
-    }, 400);
+      performSaveNotes(currentDay, val, true);
+    }, 500);
   };
 
   const handleNotesBlur = () => {
     if (notesRef.current !== lastSavedNotesRef.current) {
-      triggerBackgroundSave(notesRef.current, true);
+      performSaveNotes(currentDay, notesRef.current, true);
     }
   };
 
   const handleSaveNotes = () => {
-    triggerBackgroundSave(notes, true);
+    performSaveNotes(currentDay, notes, true);
   };
 
   useEffect(() => {
