@@ -686,12 +686,6 @@ Return only the JSON object. No preamble, no markdown code fences, no explanatio
         prompt += `\n\n--- TARGET JOB SPECIFICATION ---\nJob Role Title: ${jobTitle || targetRole}\nJob Description:\n"""\n${jobDescription.trim()}\n"""`;
       }
 
-      const aiResponse = await generateAIResponse({
-        prompt,
-        systemInstruction: SYSTEM_PROMPT,
-        jsonMode: true,
-      });
-
       let parsedResult: any;
       try {
         const aiResponse = await generateAIResponse({
@@ -700,7 +694,7 @@ Return only the JSON object. No preamble, no markdown code fences, no explanatio
           jsonMode: true,
         });
 
-        let cleanText = aiResponse.trim();
+        let cleanText = (aiResponse || "").trim();
         if (cleanText.startsWith("```json")) {
           cleanText = cleanText.replace(/^```json\s*/, "").replace(/\s*```$/, "");
         } else if (cleanText.startsWith("```")) {
@@ -716,11 +710,11 @@ Return only the JSON object. No preamble, no markdown code fences, no explanatio
           if (jsonMatch) {
             parsedResult = JSON.parse(jsonMatch[0]);
           } else {
-            throw new Error("No JSON structure found");
+            throw new Error("No JSON structure found in AI response");
           }
         }
       } catch (aiErr: any) {
-        console.warn("[PM Resume Audit AI Warning]: AI model evaluation failed, using deep PM heuristic engine:", aiErr?.message || aiErr);
+        console.warn("[PM Resume Audit AI Warning]: AI model evaluation failed or key missing, using deep PM heuristic engine:", aiErr?.message || aiErr);
         parsedResult = generateHeuristicResumeAudit(resumeText, targetRole, jobTitle, jobDescription);
       }
 
@@ -742,13 +736,28 @@ Return only the JSON object. No preamble, no markdown code fences, no explanatio
           ...parsedResult,
           jobSuitability: parsedResult.job_suitability || parsedResult.jobSuitability,
           targetRole,
-          wordCount: resumeText.trim().split(/\s+/).length,
+          wordCount: (resumeText || "").trim().split(/\s+/).length,
           analyzedAt: new Date().toISOString()
         }
       });
     } catch (err: any) {
       console.error("[PM Resume Audit Error]:", err);
-      res.status(500).json({ error: err.message || "Failed to audit resume." });
+      try {
+        const { resumeText = "", targetRole = "Product Manager", jobTitle, jobDescription } = req.body || {};
+        const fallbackAudit = generateHeuristicResumeAudit(resumeText, targetRole, jobTitle, jobDescription);
+        res.json({
+          success: true,
+          audit: {
+            ...fallbackAudit,
+            jobSuitability: fallbackAudit.job_suitability || fallbackAudit.jobSuitability,
+            targetRole,
+            wordCount: resumeText.trim().split(/\s+/).length,
+            analyzedAt: new Date().toISOString()
+          }
+        });
+      } catch (finalErr) {
+        res.status(500).json({ error: err.message || "Failed to audit resume." });
+      }
     }
   });
 
