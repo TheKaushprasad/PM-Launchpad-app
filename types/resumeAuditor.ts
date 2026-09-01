@@ -32,3 +32,15 @@ export interface ResumeAuditResult {
   wordCount?: number;
   analyzedAt?: string;
 }
+
+export interface StoredResumeDocument {
+  id: string;
+  userId: string;
+  fileName: string;
+  fileSize: number;
+  fileType: string;
+  extractedText: string;
+  wordCount: number;
+  storageMode: 'firestore' | 'local';
+  createdAt: string;
+}

@@ -56,6 +56,13 @@ service cloud.firestore {
         allow delete: if isOwner(userId) && isValidId(dayId);
       }
 
+      // Resume Documents Sub-collection (Uploaded CVs & extracted text)
+      match /resumes/{resumeId} {
+        allow get, list: if isOwner(userId);
+        allow create, update: if isOwner(userId) && isValidId(resumeId);
+        allow delete: if isOwner(userId) && isValidId(resumeId);
+      }
+
       // Interview Sessions Sub-collection
       match /interview_sessions/{sessionId} {
         allow get, list: if isOwner(userId);

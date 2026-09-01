@@ -59,12 +59,32 @@
         "createdAt": { "type": "string", "format": "date-time", "description": "Timestamp when session occurred" }
       },
       "required": ["sessionId", "userId", "scenarioId", "score", "verdict", "createdAt"]
+    },
+    "ResumeDocument": {
+      "title": "ResumeDocument",
+      "description": "User uploaded Resume/CV document metadata, storage payload, and extracted ATS text.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique identifier of the resume document" },
+        "userId": { "type": "string", "description": "Owner candidate user ID" },
+        "fileName": { "type": "string", "maxLength": 200, "description": "Original file name of the uploaded CV" },
+        "fileSize": { "type": "number", "description": "Size of the file in bytes" },
+        "fileType": { "type": "string", "maxLength": 100, "description": "MIME type of the file (application/pdf, text/plain)" },
+        "extractedText": { "type": "string", "maxLength": 50000, "description": "Extracted ATS plain text representation" },
+        "wordCount": { "type": "number", "description": "Total word count of the extracted text" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Timestamp when document was uploaded and saved" }
+      },
+      "required": ["id", "userId", "fileName", "extractedText", "createdAt"]
     }
   },
   "firestore": {
     "/users/{userId}": {
       "schema": "UserProfile",
       "description": "User profile document storing basic user details and statistics."
+    },
+    "/users/{userId}/resumes/{resumeId}": {
+      "schema": "ResumeDocument",
+      "description": "Stored resume/CV documents, metadata, and extracted text for PM Resume Auditor."
     },
     "/users/{userId}/progress/{dayId}": {
       "schema": "LessonProgress",

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { 
@@ -6,9 +6,12 @@ import {
   TrendingUp, Compass, Cpu, FileCheck, Copy, Check, RefreshCw, 
   ChevronRight, Award, ShieldCheck, Zap, HelpCircle, Download,
   Plus, Target, Briefcase, ChevronDown, ChevronUp, X, CheckSquare,
-  Crosshair, Layers
+  Crosshair, Layers, UploadCloud, FileUp, Eye, Edit3, Trash2,
+  Paperclip, Cloud, Database, Clock
 } from 'lucide-react';
-import { ResumeAuditResult } from '../types/resumeAuditor';
+import { useAuth } from '../context/AuthContext';
+import { extractTextFromPdfBuffer } from '../lib/pdfParser';
+import { ResumeAuditResult, StoredResumeDocument } from '../types/resumeAuditor';
 
 const INITIAL_ROLES = [
   'Associate Product Manager (APM)',
@@ -60,7 +63,18 @@ Requirements:
 
 export const ResumeAuditor: React.FC = () => {
   const navigate = useNavigate();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { user, storedResumes, saveResumeDocument, deleteResumeDocument } = useAuth();
   
+  // Input Mode & File Upload State
+  const [inputMode, setInputMode] = useState<'upload' | 'paste'>('upload');
+  const [uploadedFile, setUploadedFile] = useState<{ id?: string; name: string; size: number; wordCount?: number; savedInFirebase?: boolean } | null>(null);
+  const [isParsingPdf, setIsParsingPdf] = useState<boolean>(false);
+  const [parseStatusText, setParseStatusText] = useState<string>('Reading document...');
+  const [isDragging, setIsDragging] = useState<boolean>(false);
+  const [showExtractedDrawer, setShowExtractedDrawer] = useState<boolean>(false);
+  const [showSavedResumesDrawer, setShowSavedResumesDrawer] = useState<boolean>(false);
+
   // Form State
   const [resumeText, setResumeText] = useState<string>('');
   const [roles, setRoles] = useState<string[]>(() => {
@@ -110,6 +124,13 @@ export const ResumeAuditor: React.FC = () => {
 
   const handleLoadSample = () => {
     setResumeText(SAMPLE_PM_RESUME);
+    setUploadedFile({
+      id: 'sample_pm_resume',
+      name: 'Sample_PM_Resume.pdf',
+      size: 148500,
+      wordCount: SAMPLE_PM_RESUME.split(/\s+/).length,
+      savedInFirebase: false
+    });
     setError(null);
   };
 
@@ -119,14 +140,159 @@ export const ResumeAuditor: React.FC = () => {
     setEnableJobCheck(true);
   };
 
+  const handleSelectSavedResume = (savedResume: StoredResumeDocument) => {
+    setResumeText(savedResume.extractedText);
+    setUploadedFile({
+      id: savedResume.id,
+      name: savedResume.fileName,
+      size: savedResume.fileSize,
+      wordCount: savedResume.wordCount,
+      savedInFirebase: true
+    });
+    setShowSavedResumesDrawer(false);
+    setError(null);
+  };
+
+  const handleFileUpload = async (file: File) => {
+    if (!file) return;
+
+    if (file.size > 15 * 1024 * 1024) {
+      setError('File is too large. Please upload a PDF under 15MB.');
+      return;
+    }
+
+    setError(null);
+    setIsParsingPdf(true);
+    setParseStatusText('Reading document bytes & extracting text...');
+
+    try {
+      const isText = file.type.includes('text/plain') || file.name.endsWith('.txt') || file.name.endsWith('.md');
+      let extractedPlain = '';
+
+      if (isText) {
+        extractedPlain = (await file.text()).trim();
+      } else {
+        // Fast local in-browser PDF extraction first (< 500ms)
+        try {
+          const buffer = await file.arrayBuffer();
+          const localParsed = await extractTextFromPdfBuffer(buffer);
+          if (localParsed && localParsed.trim().length > 30) {
+            extractedPlain = localParsed.trim();
+          }
+        } catch (localErr) {
+          console.warn('In-browser pdf parser note, using AI fallback if needed:', localErr);
+        }
+
+        // If local text was empty (e.g. complex scanned PDF), fallback to server parser
+        if (!extractedPlain || extractedPlain.length < 30) {
+          setParseStatusText('Analyzing structure with AI parser...');
+          const base64Data = await new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => {
+              const result = reader.result as string;
+              const base64 = result.includes(',') ? result.split(',')[1] : result;
+              resolve(base64);
+            };
+            reader.onerror = () => reject(new Error('Failed to read file from disk.'));
+            reader.readAsDataURL(file);
+          });
+
+          const response = await fetch('/api/parse-resume-file', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              fileBase64: base64Data,
+              fileName: file.name,
+              mimeType: file.type || 'application/pdf'
+            })
+          });
+
+          const data = await response.json();
+          if (!response.ok || !data.success) {
+            throw new Error(data.error || 'Failed to parse resume document.');
+          }
+          extractedPlain = data.text;
+        }
+      }
+
+      if (!extractedPlain || extractedPlain.trim().length < 20) {
+        throw new Error('Could not extract text from this file. Please verify it contains text.');
+      }
+
+      const wordCount = extractedPlain.split(/\s+/).filter(Boolean).length;
+      const fileId = `resume_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
+
+      setResumeText(extractedPlain);
+      setUploadedFile({
+        id: fileId,
+        name: file.name,
+        size: file.size,
+        wordCount,
+        savedInFirebase: !!user
+      });
+
+      // Save document metadata & extracted text to Firebase Firestore in background without blocking UI
+      saveResumeDocument({
+        id: fileId,
+        fileName: file.name,
+        fileSize: file.size,
+        fileType: file.type || 'application/pdf',
+        extractedText: extractedPlain,
+        wordCount,
+        storageMode: user ? 'firestore' : 'local',
+        createdAt: new Date().toISOString()
+      }).catch((saveErr) => {
+        console.warn('Firebase document save note:', saveErr);
+      });
+    } catch (err: any) {
+      console.error('Error parsing resume file:', err);
+      setError(err.message || 'Could not parse this PDF. You can try pasting your resume text directly.');
+    } finally {
+      setIsParsingPdf(false);
+    }
+  };
+
+  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      handleFileUpload(e.target.files[0]);
+    }
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      handleFileUpload(e.dataTransfer.files[0]);
+    }
+  };
+
+  const handleRemoveFile = () => {
+    setUploadedFile(null);
+    setResumeText('');
+    setShowExtractedDrawer(false);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
   const handleAudit = async () => {
     if (!resumeText.trim()) {
-      setError('Please paste or enter your resume text to begin audit.');
+      setError(inputMode === 'upload' ? 'Please upload your Resume PDF or switch to Paste Text.' : 'Please paste your resume text to begin audit.');
       return;
     }
 
     if (resumeText.trim().split(/\s+/).length < 25) {
-      setError('Resume text seems too short. Please paste full experience bullets or full resume content.');
+      setError('Resume text seems too short. Please upload full experience bullets or full resume content.');
       return;
     }
 
@@ -333,32 +499,309 @@ export const ResumeAuditor: React.FC = () => {
                 )}
               </div>
 
-              {/* 2. Resume Text Input Area */}
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <label className="block text-xs font-bold uppercase tracking-wider text-zinc-700">
-                    Paste Resume Content or Experience Bullets
-                  </label>
-                  <button
-                    type="button"
-                    onClick={handleLoadSample}
-                    className="text-xs font-bold text-purple-600 hover:text-purple-700 hover:underline flex items-center gap-1"
-                  >
-                    <span>Load Sample Resume</span>
-                  </button>
-                </div>
-                <div className="relative">
-                  <textarea
-                    rows={10}
-                    value={resumeText}
-                    onChange={(e) => setResumeText(e.target.value)}
-                    placeholder="Paste your raw resume text, work experience section, or bullet points here..."
-                    className="w-full bg-zinc-50 border border-zinc-300 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 rounded-2xl p-4 text-xs font-mono text-zinc-800 leading-relaxed resize-y focus:outline-none transition-all placeholder:text-zinc-400"
-                  />
-                  <div className="absolute bottom-3 right-4 text-[10px] font-mono text-zinc-400">
-                    {resumeText.trim() ? `${resumeText.trim().split(/\s+/).length} words` : '0 words'}
+              {/* 2. Resume Input Mode Selector (PDF Upload or Paste Text) */}
+              <div className="space-y-3">
+                <div className="flex items-center justify-between flex-wrap gap-2">
+                  <div className="flex items-center gap-2">
+                    <label className="block text-xs font-bold uppercase tracking-wider text-zinc-700">
+                      Resume / CV Input
+                    </label>
+                    {storedResumes.length > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => setShowSavedResumesDrawer(!showSavedResumesDrawer)}
+                        className="flex items-center gap-1 text-[11px] font-bold text-purple-700 bg-purple-50 hover:bg-purple-100 border border-purple-200/80 px-2.5 py-0.5 rounded-full transition-colors"
+                      >
+                        <Database className="w-3 h-3 text-purple-600" />
+                        <span>{storedResumes.length} in Cloud ({user ? 'Firestore' : 'Saved'})</span>
+                      </button>
+                    )}
+                  </div>
+                  <div className="flex items-center bg-zinc-100 p-1 rounded-xl border border-zinc-200">
+                    <button
+                      type="button"
+                      onClick={() => setInputMode('upload')}
+                      className={`flex items-center gap-1.5 px-3 py-1 text-xs font-bold rounded-lg transition-all ${
+                        inputMode === 'upload'
+                          ? 'bg-white text-purple-700 shadow-xs'
+                          : 'text-zinc-600 hover:text-zinc-900'
+                      }`}
+                    >
+                      <UploadCloud className="w-3.5 h-3.5" />
+                      <span>Upload PDF</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setInputMode('paste')}
+                      className={`flex items-center gap-1.5 px-3 py-1 text-xs font-bold rounded-lg transition-all ${
+                        inputMode === 'paste'
+                          ? 'bg-white text-purple-700 shadow-xs'
+                          : 'text-zinc-600 hover:text-zinc-900'
+                      }`}
+                    >
+                      <FileText className="w-3.5 h-3.5" />
+                      <span>Paste Text</span>
+                    </button>
                   </div>
                 </div>
+
+                {/* Saved in Firebase Resumes Quick Drawer */}
+                <AnimatePresence>
+                  {showSavedResumesDrawer && storedResumes.length > 0 && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="border border-purple-200 bg-purple-50/50 rounded-2xl p-4 space-y-3 overflow-hidden"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <Cloud className="w-4 h-4 text-purple-600" />
+                          <h4 className="text-xs font-bold text-zinc-900">Your Resumes in Firebase Firestore</h4>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setShowSavedResumesDrawer(false)}
+                          className="text-zinc-400 hover:text-zinc-700 text-xs font-semibold"
+                        >
+                          Close
+                        </button>
+                      </div>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-52 overflow-y-auto pr-1">
+                        {storedResumes.map((item) => (
+                          <div
+                            key={item.id}
+                            className={`p-3 rounded-xl border transition-all text-left flex items-start justify-between gap-2 bg-white ${
+                              uploadedFile?.id === item.id
+                                ? 'border-purple-500 ring-2 ring-purple-500/20 shadow-xs'
+                                : 'border-zinc-200 hover:border-purple-300'
+                            }`}
+                          >
+                            <button
+                              type="button"
+                              onClick={() => handleSelectSavedResume(item)}
+                              className="min-w-0 flex-1 text-left"
+                            >
+                              <p className="text-xs font-bold text-zinc-900 truncate">{item.fileName}</p>
+                              <div className="flex items-center gap-2 text-[10px] text-zinc-500 mt-1">
+                                <span>{(item.fileSize / 1024).toFixed(0)} KB</span>
+                                <span>•</span>
+                                <span>{item.wordCount} words</span>
+                                <span>•</span>
+                                <span>{new Date(item.createdAt).toLocaleDateString()}</span>
+                              </div>
+                            </button>
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                deleteResumeDocument(item.id);
+                                if (uploadedFile?.id === item.id) {
+                                  handleRemoveFile();
+                                }
+                              }}
+                              className="p-1 text-zinc-400 hover:text-rose-600 rounded-lg hover:bg-rose-50 transition-colors"
+                              title="Delete from Firebase"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                {inputMode === 'upload' ? (
+                  <div className="space-y-3">
+                    {/* Upload Box / Dropzone */}
+                    {!uploadedFile && !isParsingPdf && (
+                      <div
+                        onDragOver={handleDragOver}
+                        onDragLeave={handleDragLeave}
+                        onDrop={handleDrop}
+                        onClick={() => fileInputRef.current?.click()}
+                        className={`border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all ${
+                          isDragging
+                            ? 'border-purple-500 bg-purple-50/60 ring-4 ring-purple-500/10'
+                            : 'border-zinc-300 bg-zinc-50/60 hover:bg-purple-50/30 hover:border-purple-300'
+                        }`}
+                      >
+                        <input
+                          ref={fileInputRef}
+                          type="file"
+                          accept=".pdf,application/pdf,.txt,.md"
+                          onChange={handleFileInputChange}
+                          className="hidden"
+                        />
+                        <div className="w-12 h-12 mx-auto mb-3 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center shadow-xs">
+                          <UploadCloud className="w-6 h-6" />
+                        </div>
+                        <p className="text-sm font-bold text-zinc-800 mb-1">
+                          Drag and drop your Resume / CV PDF here, or <span className="text-purple-600 underline">Browse Files</span>
+                        </p>
+                        <p className="text-xs text-zinc-500 max-w-sm mx-auto mb-4">
+                          Supports PDF files up to 15MB. Automatically parses work experience, bullets, and ATS keywords.
+                        </p>
+                        <div className="flex items-center justify-center gap-2">
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleLoadSample();
+                            }}
+                            className="text-xs font-bold text-purple-600 hover:text-purple-700 bg-white border border-purple-200 px-3 py-1.5 rounded-xl hover:bg-purple-50 shadow-xs transition-colors"
+                          >
+                            Load Sample Resume
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Parsing State */}
+                    {isParsingPdf && (
+                      <div className="border border-purple-200 bg-purple-50/50 rounded-2xl p-8 text-center space-y-3">
+                        <div className="w-12 h-12 mx-auto rounded-2xl bg-purple-600 text-white flex items-center justify-center shadow-md animate-pulse">
+                          <RefreshCw className="w-6 h-6 animate-spin" />
+                        </div>
+                        <div>
+                          <h4 className="text-sm font-bold text-zinc-900">Extracting Resume Content...</h4>
+                          <p className="text-xs text-purple-700 mt-1 font-medium">{parseStatusText}</p>
+                        </div>
+                        <div className="w-48 h-1.5 bg-purple-200 rounded-full mx-auto overflow-hidden">
+                          <div className="h-full bg-purple-600 rounded-full animate-[progress_1.5s_ease-in-out_infinite] w-2/3"></div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Successfully Uploaded & Parsed File Card */}
+                    {uploadedFile && !isParsingPdf && (
+                      <div className="border border-emerald-200 bg-emerald-50/30 rounded-2xl p-4 sm:p-5 space-y-3">
+                        <div className="flex items-center justify-between gap-3 flex-wrap sm:flex-nowrap">
+                          <div className="flex items-center gap-3 min-w-0">
+                            <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
+                              <FileCheck className="w-5 h-5" />
+                            </div>
+                            <div className="min-w-0">
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <span className="text-xs font-bold text-zinc-900 truncate max-w-[200px] sm:max-w-xs">
+                                  {uploadedFile.name}
+                                </span>
+                                <span className="text-[10px] font-bold px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded-full shrink-0">
+                                  PDF Parsed
+                                </span>
+                                {user ? (
+                                  <span className="text-[10px] font-bold px-2 py-0.5 bg-purple-100 text-purple-800 rounded-full shrink-0 flex items-center gap-1">
+                                    <Cloud className="w-2.5 h-2.5" />
+                                    <span>Saved in Firebase</span>
+                                  </span>
+                                ) : (
+                                  <span className="text-[10px] font-bold px-2 py-0.5 bg-zinc-100 text-zinc-600 rounded-full shrink-0">
+                                    Local Session
+                                  </span>
+                                )}
+                              </div>
+                              <p className="text-[11px] text-zinc-500 mt-0.5">
+                                {(uploadedFile.size / 1024).toFixed(1)} KB • {uploadedFile.wordCount || resumeText.split(/\s+/).filter(Boolean).length} words extracted & ready
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-1.5 shrink-0 w-full sm:w-auto justify-end">
+                            <button
+                              type="button"
+                              onClick={() => setShowExtractedDrawer(!showExtractedDrawer)}
+                              className="text-xs font-bold text-zinc-700 hover:text-zinc-900 bg-white border border-zinc-200 hover:border-zinc-300 px-3 py-1.5 rounded-xl transition-colors flex items-center gap-1"
+                            >
+                              <Eye className="w-3.5 h-3.5" />
+                              <span>{showExtractedDrawer ? 'Hide Text' : 'Review Text'}</span>
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                fileInputRef.current?.click();
+                              }}
+                              className="text-xs font-bold text-purple-600 hover:text-purple-700 bg-purple-50 hover:bg-purple-100 px-3 py-1.5 rounded-xl transition-colors"
+                            >
+                              Replace
+                            </button>
+                            <button
+                              type="button"
+                              onClick={handleRemoveFile}
+                              className="p-1.5 text-zinc-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors"
+                              title="Remove file"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </div>
+
+                        <input
+                          ref={fileInputRef}
+                          type="file"
+                          accept=".pdf,application/pdf,.txt,.md"
+                          onChange={handleFileInputChange}
+                          className="hidden"
+                        />
+
+                        {/* Collapsible Text Review/Editor */}
+                        <AnimatePresence>
+                          {showExtractedDrawer && (
+                            <motion.div
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: 'auto' }}
+                              exit={{ opacity: 0, height: 0 }}
+                              className="pt-3 border-t border-emerald-200/60 overflow-hidden space-y-2"
+                            >
+                              <div className="flex items-center justify-between">
+                                <label className="text-[11px] font-bold uppercase text-zinc-600">
+                                  Extracted Resume Content (Editable)
+                                </label>
+                                <span className="text-[10px] font-mono text-zinc-400">
+                                  {resumeText.trim() ? `${resumeText.trim().split(/\s+/).length} words` : '0 words'}
+                                </span>
+                              </div>
+                              <textarea
+                                rows={8}
+                                value={resumeText}
+                                onChange={(e) => setResumeText(e.target.value)}
+                                className="w-full bg-white border border-zinc-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 rounded-xl p-3 text-xs font-mono text-zinc-800 leading-relaxed resize-y focus:outline-none"
+                              />
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  /* Paste Text Mode */
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-end">
+                      <button
+                        type="button"
+                        onClick={handleLoadSample}
+                        className="text-xs font-bold text-purple-600 hover:text-purple-700 hover:underline flex items-center gap-1"
+                      >
+                        <span>Load Sample Resume</span>
+                      </button>
+                    </div>
+                    <div className="relative">
+                      <textarea
+                        rows={10}
+                        value={resumeText}
+                        onChange={(e) => {
+                          setResumeText(e.target.value);
+                          if (uploadedFile) setUploadedFile(null);
+                        }}
+                        placeholder="Paste your raw resume text, work experience section, or bullet points here..."
+                        className="w-full bg-zinc-50 border border-zinc-300 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 rounded-2xl p-4 text-xs font-mono text-zinc-800 leading-relaxed resize-y focus:outline-none transition-all placeholder:text-zinc-400"
+                      />
+                      <div className="absolute bottom-3 right-4 text-[10px] font-mono text-zinc-400">
+                        {resumeText.trim() ? `${resumeText.trim().split(/\s+/).length} words` : '0 words'}
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* 3. OPTIONAL FEATURE: Target Job Description Suitability Benchmark */}
@@ -510,6 +953,15 @@ export const ResumeAuditor: React.FC = () => {
                     <span className="text-xs text-zinc-300 font-medium">
                       Target Role: <strong className="text-white">{auditResult.targetRole || targetRole}</strong>
                     </span>
+                    {uploadedFile && (
+                      <>
+                        <span className="text-zinc-600">•</span>
+                        <span className="text-xs text-zinc-300 font-medium flex items-center gap-1">
+                          <Paperclip className="w-3 h-3 text-purple-400" />
+                          <span className="text-white font-mono truncate max-w-[150px]">{uploadedFile.name}</span>
+                        </span>
+                      </>
+                    )}
                     {auditResult.jobSuitability && (
                       <>
                         <span className="text-zinc-600">•</span>

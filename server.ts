@@ -64,20 +64,18 @@ async function startServer() {
         }
       });
 
-      // Priority list of active, supported low-latency models
+      // Priority list of active, ultra-fast low-latency models
       const candidateModels = [
         'gemini-3.1-flash-lite',
-        'gemini-3.6-flash',
-        'gemini-3.7-flash',
         'gemini-flash-latest',
-        'gemini-3.1-pro-preview'
+        'gemini-3.7-flash'
       ];
 
       let lastError: any = null;
 
       for (const modelName of candidateModels) {
-        // Try up to 2 times per model with backoff on 503/429 transient errors
-        for (let attempt = 0; attempt < 2; attempt++) {
+        // Fast execution with single try or immediate fallback
+        for (let attempt = 0; attempt < 1; attempt++) {
           try {
             const config: any = {
               systemInstruction,
@@ -89,6 +87,9 @@ async function startServer() {
             }
             if (maxOutputTokens) {
               config.maxOutputTokens = maxOutputTokens;
+            }
+            if (modelName.includes("3.7")) {
+              config.thinkingConfig = { thinkingBudget: 0 };
             }
 
             const response = await ai.models.generateContent({
@@ -103,21 +104,10 @@ async function startServer() {
           } catch (err: any) {
             lastError = err;
             const errMsg = err?.message || String(err);
-            const isTransient = errMsg.includes("503") || errMsg.includes("429") || errMsg.includes("high demand") || errMsg.includes("UNAVAILABLE") || errMsg.includes("RESOURCE_EXHAUSTED");
-            
-            console.warn(`[AI Proxy]: Model ${modelName} (attempt ${attempt + 1}) encountered error: ${errMsg}`);
-            
-            if (isTransient && attempt === 0) {
-              // Wait 400ms before second attempt on same model
-              await new Promise(r => setTimeout(r, 400));
-            } else {
-              // Move on to next model
-              break;
-            }
+            console.warn(`[AI Proxy]: Model ${modelName} encountered error: ${errMsg}`);
+            break;
           }
         }
-        // Small pause between model hops
-        await new Promise(r => setTimeout(r, 150));
       }
 
       // If all Gemini models failed, try OpenAI if key is present
@@ -475,6 +465,113 @@ Return strictly valid JSON with 3 days:
     } catch (error: any) {
       console.error(`[${new Date().toISOString()}] POST ${req.path} - Error:`, error);
       res.status(500).json({ error: error.message || "Failed to generate audit" });
+    }
+  });
+
+  // ==========================================
+  // RESUME PDF & DOCUMENT PARSER ENDPOINT
+  // ==========================================
+  app.post(["/api/parse-resume-file", "/api/parse-resume-file/"], async (req, res) => {
+    console.log(`[${new Date().toISOString()}] POST ${req.path} - Parsing Resume Document`);
+    try {
+      const { fileBase64, fileName, mimeType = "application/pdf" } = req.body;
+
+      if (!fileBase64 || typeof fileBase64 !== "string") {
+        return res.status(400).json({ error: "Please upload a valid resume file." });
+      }
+
+      // Handle raw text/plain files directly without AI overhead
+      if (mimeType.includes("text/plain") || mimeType.includes("text/markdown") || (fileName && (fileName.endsWith('.txt') || fileName.endsWith('.md')))) {
+        const decodedText = Buffer.from(fileBase64, 'base64').toString('utf-8');
+        return res.json({
+          success: true,
+          text: decodedText.trim(),
+          fileName: fileName || "Resume.txt",
+          wordCount: decodedText.trim().split(/\s+/).filter(Boolean).length
+        });
+      }
+
+      const geminiKey = process.env.GEMINI_API_KEY;
+      if (!geminiKey || geminiKey.trim() === "" || geminiKey === "undefined") {
+        throw new Error("GEMINI_API_KEY is required on the server to parse PDF documents.");
+      }
+
+      const { GoogleGenAI } = await import("@google/genai");
+      const ai = new GoogleGenAI({
+        apiKey: geminiKey,
+        httpOptions: { headers: { 'User-Agent': 'aistudio-build' } }
+      });
+
+      const extractionPrompt = `You are a high-precision ATS document extraction engine. 
+Extract all text content from this attached resume/CV document accurately and faithfully.
+
+Guidelines:
+1. Preserve all candidate details: Full Name, Contact Info, Email, LinkedIn, Location.
+2. Preserve all section headers: Summary, Work Experience, Education, Projects, Skills & Certifications.
+3. Preserve all job titles, employer/company names, employment dates, and bullet points verbatim.
+4. If the resume has a multi-column or modern design, reconstruct the logical reading order cleanly without scrambled text.
+5. Do NOT summarize, abbreviate, or add speculative content. Return the complete plain text resume.`;
+
+      const candidateModels = [
+        'gemini-3.1-flash-lite',
+        'gemini-flash-latest',
+        'gemini-3.7-flash'
+      ];
+
+      let extractedText = "";
+      let lastErr: any = null;
+
+      for (const modelName of candidateModels) {
+        try {
+          const config: any = {};
+          if (modelName.includes("3.7")) {
+            config.thinkingConfig = { thinkingBudget: 0 };
+          }
+          const response = await ai.models.generateContent({
+            model: modelName,
+            contents: [
+              {
+                parts: [
+                  {
+                    inlineData: {
+                      mimeType: mimeType.includes("pdf") ? "application/pdf" : mimeType,
+                      data: fileBase64
+                    }
+                  },
+                  {
+                    text: extractionPrompt
+                  }
+                ]
+              }
+            ],
+            config
+          });
+
+          if (response && response.text && response.text.trim().length >= 20) {
+            extractedText = response.text.trim();
+            break;
+          }
+        } catch (err: any) {
+          lastErr = err;
+          console.warn(`[Parse Resume Document]: Model ${modelName} failed:`, err?.message || err);
+        }
+      }
+
+      if (!extractedText || extractedText.length < 20) {
+        throw new Error(lastErr?.message || "Could not extract legible text from this PDF document. Please verify the document is not an empty image scan or password protected.");
+      }
+
+      const wordCount = extractedText.split(/\s+/).filter(Boolean).length;
+
+      res.json({
+        success: true,
+        text: extractedText,
+        fileName: fileName || "Resume.pdf",
+        wordCount
+      });
+    } catch (err: any) {
+      console.error("[Parse Resume Error]:", err);
+      res.status(500).json({ error: err.message || "Failed to parse resume document." });
     }
   });
 

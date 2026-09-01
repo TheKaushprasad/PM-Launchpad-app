@@ -25,6 +25,7 @@ import {
 import { auth, db, googleProvider, handleFirestoreError, OperationType } from '../firebase';
 import { InterviewSessionHistory } from '../types/interview';
 import { LinkedInAnalysisResult } from '../types/linkedin';
+import { StoredResumeDocument } from '../types/resumeAuditor';
 
 export type UserType = 'college_student' | 'working_professional' | 'student' | 'professional';
 
@@ -179,6 +180,11 @@ interface AuthContextType {
   recordLinkedInAnalysis: (analysis: LinkedInAnalysisResult) => Promise<void>;
   deleteUserAnalysis: (analysisId: string) => Promise<void>;
 
+  // Stored Resumes in Cloud Firestore
+  storedResumes: StoredResumeDocument[];
+  saveResumeDocument: (docData: Omit<StoredResumeDocument, 'userId'>) => Promise<void>;
+  deleteResumeDocument: (resumeId: string) => Promise<void>;
+
   // Lessons and Interviews
   progressMap: Record<number, LessonProgressState>;
   interviewHistory: InterviewSessionHistory[];
@@ -212,6 +218,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [userProfile, setUserProfile] = useState<FirebaseUserProfile | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [userAnalyses, setUserAnalyses] = useState<LinkedInAnalysisResult[]>([]);
+  const [storedResumes, setStoredResumes] = useState<StoredResumeDocument[]>([]);
   const [progressMap, setProgressMap] = useState<Record<number, LessonProgressState>>({});
   const [interviewHistory, setInterviewHistory] = useState<InterviewSessionHistory[]>([]);
 
@@ -330,6 +337,49 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         // Sort newest first
         list.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
         setUserAnalyses(list);
+      },
+      (error) => {
+        handleFirestoreError(error, OperationType.LIST, path);
+      }
+    );
+
+    return () => unsubscribe();
+  }, [user]);
+
+  // 2b. Real-time Resumes / CV Documents Listener
+  useEffect(() => {
+    if (!user) {
+      try {
+        const local = localStorage.getItem('pm_stored_resumes_local');
+        if (local) setStoredResumes(JSON.parse(local));
+        else setStoredResumes([]);
+      } catch (e) {
+        setStoredResumes([]);
+      }
+      return;
+    }
+
+    const resumesColRef = collection(db, 'users', user.uid, 'resumes');
+    const path = `users/${user.uid}/resumes`;
+
+    const unsubscribe = onSnapshot(
+      resumesColRef,
+      (snapshot) => {
+        const list: StoredResumeDocument[] = [];
+        snapshot.forEach((docSnap) => {
+          const data = docSnap.data() as StoredResumeDocument;
+          list.push({
+            ...data,
+            id: data.id || docSnap.id,
+            userId: user.uid
+          });
+        });
+        // Sort newest first
+        list.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
+        setStoredResumes(list);
+        try {
+          localStorage.setItem(`pm_stored_resumes_${user.uid}`, JSON.stringify(list));
+        } catch (e) {}
       },
       (error) => {
         handleFirestoreError(error, OperationType.LIST, path);
@@ -771,6 +821,72 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
+  // Save Resume / CV Document to Firestore
+  const saveResumeDocument = async (docData: Omit<StoredResumeDocument, 'userId'>) => {
+    const itemToSave: StoredResumeDocument = {
+      ...docData,
+      userId: user?.uid || 'guest',
+      storageMode: user ? 'firestore' : 'local'
+    };
+
+    // Optimistic local update
+    setStoredResumes(prev => [itemToSave, ...prev.filter(r => r.id !== itemToSave.id)]);
+
+    if (!user) {
+      try {
+        const local = JSON.parse(localStorage.getItem('pm_stored_resumes_local') || '[]');
+        const updated = [itemToSave, ...local.filter((r: StoredResumeDocument) => r.id !== itemToSave.id)];
+        localStorage.setItem('pm_stored_resumes_local', JSON.stringify(updated));
+      } catch (e) {}
+      return;
+    }
+
+    const sanitizedId = itemToSave.id.replace(/[^a-zA-Z0-9_\-]/g, '_');
+    const docPath = `users/${user.uid}/resumes/${sanitizedId}`;
+    const docRef = doc(db, 'users', user.uid, 'resumes', sanitizedId);
+
+    try {
+      const payload = cleanFirestorePayload({
+        id: sanitizedId,
+        userId: user.uid,
+        fileName: itemToSave.fileName.slice(0, 200),
+        fileSize: itemToSave.fileSize,
+        fileType: itemToSave.fileType || 'application/pdf',
+        extractedText: itemToSave.extractedText.slice(0, 50000),
+        wordCount: itemToSave.wordCount,
+        storageMode: 'firestore',
+        createdAt: itemToSave.createdAt || new Date().toISOString()
+      });
+      await setDoc(docRef, payload, { merge: true });
+    } catch (err) {
+      handleFirestoreError(err, OperationType.WRITE, docPath);
+    }
+  };
+
+  // Delete a Stored Resume Document
+  const deleteResumeDocument = async (resumeId: string) => {
+    // Optimistic update
+    setStoredResumes(prev => prev.filter(r => r.id !== resumeId));
+
+    if (!user) {
+      try {
+        const local = JSON.parse(localStorage.getItem('pm_stored_resumes_local') || '[]');
+        const updated = local.filter((r: StoredResumeDocument) => r.id !== resumeId);
+        localStorage.setItem('pm_stored_resumes_local', JSON.stringify(updated));
+      } catch (e) {}
+      return;
+    }
+
+    const sanitizedId = resumeId.replace(/[^a-zA-Z0-9_\-]/g, '_');
+    const docPath = `users/${user.uid}/resumes/${sanitizedId}`;
+    const docRef = doc(db, 'users', user.uid, 'resumes', sanitizedId);
+    try {
+      await deleteDoc(docRef);
+    } catch (err) {
+      handleFirestoreError(err, OperationType.DELETE, docPath);
+    }
+  };
+
   // Reset Password
   const resetPassword = async (email: string) => {
     try {
@@ -999,6 +1115,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         userAnalyses,
         recordLinkedInAnalysis,
         deleteUserAnalysis,
+        storedResumes,
+        saveResumeDocument,
+        deleteResumeDocument,
         progressMap,
         interviewHistory,
         completedCount,
