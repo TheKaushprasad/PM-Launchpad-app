@@ -1,3 +1,4 @@
+import { CornsilkSection } from '../../components/CornsilkSection';
 
 import React from 'react';
 import { 
@@ -12,11 +13,9 @@ import {
 
 export const Day24Content = () => {
   return (
-    <div className="space-y-10 text-left">
-      <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 24: System Design for Product Managers 🚀</h1>
-      
-      <section className="bg-indigo-50 p-10 rounded-[3rem] border border-indigo-100">
-        <div className="flex flex-col gap-4">
+    <div className="space-y-4 md:space-y-5 text-left">
+      <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
+        <div className="flex flex-col gap-1.5">
           <span className="text-[10px] font-black uppercase tracking-widest text-indigo-600">Strategy</span>
           <p className="text-lg font-black text-indigo-900 leading-relaxed italic">
             "Building Products That Scale"
@@ -27,12 +26,12 @@ export const Day24Content = () => {
         </div>
       </section>
 
-      <section className="space-y-6">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-2.5">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Info className="text-indigo-600" />
           What Is System Design?
         </h2>
-        <div className="bg-white border border-zinc-100 p-8 rounded-[2.5rem] shadow-sm space-y-4">
+        <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm space-y-4">
            <p className="text-sm font-medium text-zinc-600 leading-relaxed">
              System design is the process of defining the architecture, components, modules, interfaces, and data flows needed to build software systems that meet specific requirements. It's the blueprint that guides how engineers will implement your product vision.
            </p>
@@ -45,13 +44,13 @@ export const Day24Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Zap className="text-indigo-600" />
           Why Product Managers Need System Design Knowledge
         </h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-3.5">
            {[
              { 
                title: "Realistic Roadmap Commitments", 
@@ -99,7 +98,7 @@ export const Day24Content = () => {
                icon: Activity
              }
            ].map((item, i) => (
-             <div key={i} className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm flex items-start gap-4 hover:border-indigo-200 transition-colors group">
+             <div key={i} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-sm flex items-start gap-4 hover:border-indigo-200 transition-colors group">
                 <div className="w-12 h-12 rounded-2xl bg-zinc-50 flex items-center justify-center text-indigo-600 shrink-0 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
                   <item.icon className="w-6 h-6" />
                 </div>
@@ -112,29 +111,30 @@ export const Day24Content = () => {
         </div>
       </section>
 
-      <section className="bg-zinc-900 text-white p-10 rounded-[3rem] border-t-8 border-indigo-500 space-y-8">
-        <h2 className="text-2xl font-black text-indigo-400 flex items-center gap-3">
-          <ShieldCheck className="text-emerald-500" />
-          The Technical PM Advantage
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-          <div className="space-y-4">
-             <h4 className="font-black text-indigo-300 uppercase tracking-widest text-[10px]">Strategic Rigor</h4>
-             <p className="text-sm font-bold leading-relaxed text-zinc-300">
-               You don't need to code, but you should grasp the load-bearing walls of your architecture. Informed disagreement with engineering beats ignorant insistence every time.
-             </p>
-          </div>
-          <div className="space-y-4">
-             <h4 className="font-black text-indigo-300 uppercase tracking-widest text-[10px]">Speed & Execution</h4>
-             <p className="text-sm font-bold leading-relaxed text-zinc-300">
-               System design intuition lets you know when to build a non-scalable MVP for learning and when an early architectural choice will constrain you permanently.
-             </p>
-          </div>
-        </div>
-      </section>
+            <CornsilkSection
+        title="Scalable System Architecture for PMs"
+        titleColor="blue"
+        items={[
+                {
+                          "subtitle": "Latency, Throughput & Bottlenecks",
+                          "headerColor": "red",
+                          "description": "Master the trade-offs between latency, throughput, and compute resources to make informed decisions on architectural scalability."
+                },
+                {
+                          "subtitle": "Caching & Database Strategy",
+                          "headerColor": "blue",
+                          "description": "Understand when to deploy Redis caching, relational databases, or NoSQL stores based on data consistency and read/write access patterns."
+                },
+                {
+                          "subtitle": "Microservices & Event-Driven Flows",
+                          "headerColor": "red",
+                          "description": "Grasp how message queues (Kafka, RabbitMQ) decouple services to maintain product uptime and fault tolerance under surge loads."
+                }
+      ]}
+      />
 
-      <section className="bg-zinc-50 p-10 rounded-[3rem] border border-zinc-200">
-        <h2 className="text-xl font-black text-zinc-900 mb-6 flex items-center gap-3">
+      <section className="bg-zinc-50 p-4 sm:p-5 rounded-2xl border border-zinc-200">
+        <h2 className="text-xl font-black text-zinc-900 mb-2.5 flex items-center gap-3">
           <Sparkles className="text-amber-500" />
           Technical Fluency Tip
         </h2>
@@ -143,7 +143,7 @@ export const Day24Content = () => {
         </p>
       </section>
 
-      <div className="pt-8 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
+      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
         <p></p>
         <p></p>
       </div>

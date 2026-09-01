@@ -1,3 +1,4 @@
+import { CornsilkSection } from '../../components/CornsilkSection';
 
 import React from 'react';
 import { 
@@ -11,11 +12,9 @@ import {
 
 export const Day25Content = () => {
   return (
-    <div className="space-y-10 text-left">
-      <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 25: UI/UX for Product Managers 🚀</h1>
-      
-      <section className="bg-pink-50 p-10 rounded-[3rem] border border-pink-100">
-        <div className="flex flex-col gap-4">
+    <div className="space-y-4 md:space-y-5 text-left">
+      <section className="bg-pink-50 p-4 sm:p-5 rounded-2xl border border-pink-100">
+        <div className="flex flex-col gap-1.5">
           <span className="text-[10px] font-black uppercase tracking-widest text-pink-600">Design</span>
           <p className="text-lg font-black text-pink-900 leading-relaxed italic">
             "Essential UX & UI Concepts + Practical Usability"
@@ -26,8 +25,8 @@ export const Day25Content = () => {
         </div>
       </section>
 
-      <section className="space-y-6">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-2.5">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Target className="text-indigo-600" />
           Learning Objectives
         </h2>
@@ -48,8 +47,8 @@ export const Day25Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Smartphone className="text-indigo-600" />
           1. Understanding Design Fundamentals
         </h2>
@@ -57,8 +56,8 @@ export const Day25Content = () => {
           Product managers don't need to be designers, but they must understand the fundamental building blocks of great experiences.
         </p>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-           <div className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-3.5">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
               <h4 className="font-black text-zinc-900 flex items-center gap-2">
                 <Layers className="w-5 h-5 text-indigo-600" />
                 UX (User Experience)
@@ -75,7 +74,7 @@ export const Day25Content = () => {
               </ul>
            </div>
            
-           <div className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm space-y-4">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
               <h4 className="font-black text-zinc-900 flex items-center gap-2">
                 <Layout className="w-5 h-5 text-pink-600" />
                 UI (User Interface)
@@ -94,34 +93,36 @@ export const Day25Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Beaker className="text-indigo-600" />
           2. Usability Testing for PMs
         </h2>
-        <div className="bg-zinc-900 text-white p-10 rounded-[3rem] border-t-8 border-indigo-500 space-y-6">
-           <p className="text-sm font-bold text-zinc-400 leading-relaxed">
-             Usability testing is the process of evaluating a product by testing it with representative users. It reveals where users get stuck and why.
-           </p>
-           
-           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-              {[
-                { title: "When to test", text: "As early as possible (wireframes) and continuously throughout development." },
-                { title: "What to measure", text: "Task completion rates, time on task, error rates, and subjective satisfaction." },
-                { title: "Moderated vs Unmoderated", text: "Direct interaction (real-time feedback) vs automated remote sessions (faster scale)." },
-                { title: "PM's Role", text: "Define test objectives, recruit representative segments, and prioritize resulting fixes." }
-              ].map((item, i) => (
-                <div key={i} className="space-y-2">
-                   <h4 className="font-black text-indigo-300 uppercase tracking-widest text-[10px]">{item.title}</h4>
-                   <p className="text-sm font-bold leading-relaxed text-zinc-300">{item.text}</p>
-                </div>
-              ))}
-           </div>
-        </div>
+              <CornsilkSection
+        title="User Experience & Interaction Design Principles"
+        titleColor="blue"
+        items={[
+                {
+                          "subtitle": "Information Architecture & Flow",
+                          "headerColor": "blue",
+                          "description": "Structure intuitive site maps, navigation hierarchies, and user flows that minimize cognitive load and eliminate friction."
+                },
+                {
+                          "subtitle": "Wireframing & Design Systems",
+                          "headerColor": "red",
+                          "description": "Partner effectively with designers in Figma by understanding component libraries, auto-layout constraints, and atomic design tokens."
+                },
+                {
+                          "subtitle": "Usability Testing & Accessibility",
+                          "headerColor": "blue",
+                          "description": "Conduct 5-second tests, hallway usability reviews, and WCAG AA accessibility audits to ensure universal usability for all user cohorts."
+                }
+      ]}
+      />
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Brain className="text-indigo-600" />
           3. Visual & Cognitive Design Laws
         </h2>
@@ -129,7 +130,7 @@ export const Day25Content = () => {
           The most effective interfaces follow universal rules based on human psychology and visual perception.
         </p>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-3.5">
            {[
              { title: "Hick's Law", desc: "The time it takes to make a decision increases with the number and complexity of choices.", icon: Zap },
              { title: "Fitts's Law", desc: "The time to acquire a target is a function of the distance to and size of the target.", icon: MousePointer2 },
@@ -138,7 +139,7 @@ export const Day25Content = () => {
              { title: "Law of Proximity", desc: "Objects that are near each other tend to be grouped together.", icon: Sparkles },
              { title: "Zeigarnik Effect", desc: "People remember uncompleted or interrupted tasks better than completed ones.", icon: Activity }
            ].map((law, i) => (
-             <div key={i} className="p-6 bg-zinc-50 border border-zinc-200 rounded-[2rem] flex items-start gap-4">
+             <div key={i} className="p-4 bg-zinc-50 border border-zinc-200 rounded-[2rem] flex items-start gap-4">
                 <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-indigo-600 shrink-0 shadow-sm">
                   <law.icon className="w-5 h-5" />
                 </div>
@@ -151,8 +152,8 @@ export const Day25Content = () => {
         </div>
       </section>
 
-      <section className="bg-zinc-50 p-10 rounded-[3rem] border border-zinc-200">
-        <h2 className="text-xl font-black text-zinc-900 mb-6 flex items-center gap-3">
+      <section className="bg-zinc-50 p-4 sm:p-5 rounded-2xl border border-zinc-200">
+        <h2 className="text-xl font-black text-zinc-900 mb-2.5 flex items-center gap-3">
           <MessageSquare className="text-emerald-500" />
           Communicating with Design
         </h2>
@@ -161,7 +162,7 @@ export const Day25Content = () => {
         </p>
       </section>
 
-      <div className="pt-8 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
+      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
         <p></p>
         <p></p>
       </div>

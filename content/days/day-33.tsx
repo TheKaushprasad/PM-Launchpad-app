@@ -1,3 +1,4 @@
+import { CornsilkSection } from '../../components/CornsilkSection';
 import React from 'react';
 import { 
   Bot, Brain, Cpu, Zap, Layers, Activity, 
@@ -11,11 +12,9 @@ import {
 
 export const Day33Content = () => {
   return (
-    <div className="space-y-10 text-left">
-      <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 33: Model Context Protocol (MCP) 🚀</h1>
-      
-      <section className="bg-orange-50 p-10 rounded-[3rem] border border-orange-100">
-        <div className="flex flex-col gap-4">
+    <div className="space-y-4 md:space-y-5 text-left">
+      <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
+        <div className="flex flex-col gap-1.5">
           <span className="text-[10px] font-black uppercase tracking-widest text-orange-600">AI Module</span>
           <p className="text-lg font-black text-orange-900 leading-relaxed italic">
             "Connecting AI models to the tools and data they need to be truly useful."
@@ -31,17 +30,17 @@ export const Day33Content = () => {
         </div>
       </section>
 
-      <section className="space-y-6">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-2.5">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Info className="text-orange-600" />
           What is the Model Context Protocol (MCP)?
         </h2>
-        <div className="bg-white border border-zinc-100 p-8 rounded-[2.5rem] shadow-sm space-y-6">
+        <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm space-y-6">
            <p className="text-sm font-medium text-zinc-600 leading-relaxed">
              MCP (Model Context Protocol) is an open-source standard for connecting AI applications to external systems. Using MCP, AI applications like Claude or ChatGPT can connect to data sources (e.g. local files, databases), tools (e.g. search engines, calculators) and workflows (e.g. specialized prompts)—enabling them to access key information and perform tasks.
            </p>
            
-           <div className="bg-zinc-950 text-white p-8 rounded-[2rem] border-l-8 border-orange-500 flex items-start gap-4">
+           <div className="bg-zinc-950 text-white p-4 sm:p-5 rounded-[2rem] border-l-8 border-orange-500 flex items-start gap-4">
               <div className="w-12 h-12 rounded-2xl bg-orange-500/10 flex items-center justify-center text-orange-400 shrink-0">
                  <Link className="w-6 h-6" />
               </div>
@@ -55,12 +54,12 @@ export const Day33Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Zap className="text-orange-600" />
           Why does MCP Exist?
         </h2>
-        <div className="space-y-6">
+        <div className="space-y-2.5">
            <p className="text-sm font-medium text-zinc-600 leading-relaxed">
              Traditional LLMs operate within a fixed context window — they only “know” what’s inside the current prompt. However, in real-world applications, models need access to:
            </p>
@@ -70,16 +69,16 @@ export const Day33Content = () => {
                 { text: "APIs and tools (e.g., Jira, Slack, Notion)", icon: Share2 },
                 { text: "Dynamic or structured context (e.g., user preferences, codebases)", icon: Database }
               ].map((item, i) => (
-                <li key={i} className="p-6 bg-zinc-50 border border-zinc-100 rounded-3xl flex flex-col gap-3">
+                <li key={i} className="p-4 bg-zinc-50 border border-zinc-100 rounded-3xl flex flex-col gap-3">
                    <item.icon className="w-5 h-5 text-orange-600" />
                    <p className="text-xs font-bold text-zinc-700 leading-relaxed">{item.text}</p>
                 </li>
               ))}
            </ul>
            
-           <div className="bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm p-8 space-y-6">
+           <div className="bg-white border border-zinc-100 rounded-2xl shadow-sm p-4 sm:p-5 space-y-6">
               <h4 className="text-sm font-black uppercase tracking-widest text-zinc-400">Limitations of Previous Solutions</h4>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 md:gap-4">
                  <div className="space-y-2">
                     <h5 className="font-black text-rose-500 text-sm">RAG</h5>
                     <p className="text-xs font-medium text-zinc-500 leading-relaxed">Only provides text chunks; limited interactivity.</p>
@@ -100,19 +99,19 @@ export const Day33Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Sparkles className="text-orange-600" />
           What can MCP enable?
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-3.5">
            {[
              { title: "Personalized AI Assistants", desc: "Agents can access your Google Calendar and Notion, acting as a more personalized AI assistant." },
              { title: "Design to Code", desc: "Claude Code can generate an entire web app using a Figma design." },
              { title: "Enterprise Connectivity", desc: "Enterprise chatbots can connect to multiple databases across an organization, empowering users to analyze data using chat." },
              { title: "Physical World Integration", desc: "AI models can create 3D designs on Blender and print them out using a 3D printer." }
            ].map((item, i) => (
-             <div key={i} className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm flex items-start gap-4">
+             <div key={i} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm flex items-start gap-4">
                 <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center text-orange-600 shrink-0">
                   <CheckCircle className="w-5 h-5" />
                 </div>
@@ -123,17 +122,17 @@ export const Day33Content = () => {
              </div>
            ))}
         </div>
-        <div className="bg-emerald-50 p-6 rounded-2xl border border-emerald-100 text-center">
+        <div className="bg-emerald-50 p-4 rounded-2xl border border-emerald-100 text-center">
            <p className="text-sm font-black text-emerald-800">✨ MCP are reusable</p>
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Target className="text-orange-600" />
           Why does MCP matter?
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-3.5">
            {[
              { 
                role: "Developers", 
@@ -151,7 +150,7 @@ export const Day33Content = () => {
                icon: Users
              }
            ].map((item, i) => (
-             <div key={i} className="p-8 bg-zinc-50 border border-zinc-200 rounded-[2.5rem] space-y-4">
+             <div key={i} className="p-4 sm:p-5 bg-zinc-50 border border-zinc-200 rounded-2xl space-y-4">
                 <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center text-orange-600 shadow-sm">
                   <item.icon className="w-6 h-6" />
                 </div>
@@ -162,14 +161,14 @@ export const Day33Content = () => {
         </div>
       </section>
 
-      <section className="space-y-12">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Layers className="text-orange-600" />
           Understanding Client Server Architecture in MCP
         </h2>
         
-        <div className="space-y-8">
-           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="space-y-3.5 md:space-y-4">
+           <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 md:gap-4">
               {[
                 { 
                   title: "Host", 
@@ -190,7 +189,7 @@ export const Day33Content = () => {
                   color: "emerald"
                 }
               ].map((comp, i) => (
-                <div key={i} className={`p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm space-y-4 relative overflow-hidden group`}>
+                <div key={i} className={`p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4 relative overflow-hidden group`}>
                    <div className={`absolute top-0 right-0 w-1 h-full bg-${comp.color}-500`}></div>
                    <div className={`w-12 h-12 rounded-2xl bg-${comp.color}-50 flex items-center justify-center text-${comp.color}-600 shadow-inner`}>
                       <comp.icon className="w-6 h-6" />
@@ -203,19 +202,29 @@ export const Day33Content = () => {
         </div>
       </section>
 
-      <section className="bg-zinc-900 text-white p-10 rounded-[3rem] border-t-8 border-orange-500">
-        <h2 className="text-2xl font-black text-orange-400 flex items-center gap-3 mb-6">
-          <Activity className="text-orange-400" />
-          The Bottom Line
-        </h2>
-        <div className="space-y-4">
-           <p className="text-sm font-bold text-zinc-300 leading-relaxed italic">
-             MCP is essentially the "USB-C" of the AI world — a standard that allows any model to talk to any data source or tool without custom, brittle code for every single integration.
-           </p>
-        </div>
-      </section>
+            <CornsilkSection
+        title="Model Context Protocol & Extensible Ecosystems"
+        titleColor="blue"
+        items={[
+                {
+                          "subtitle": "Standardized Tool Integration",
+                          "headerColor": "blue",
+                          "description": "Leverage open MCP standards to connect LLMs with databases, internal CRMs, and developer tools via unified protocol contracts."
+                },
+                {
+                          "subtitle": "Security & Permissions Boundaries",
+                          "headerColor": "red",
+                          "description": "Enforce granular role-based access control and sandboxed execution environments for all MCP server connections."
+                },
+                {
+                          "subtitle": "Composable Multi-Tool Orchestration",
+                          "headerColor": "blue",
+                          "description": "Build flexible, plug-and-play AI workflows that allow models to query external systems dynamically without hardcoded API bridges."
+                }
+      ]}
+      />
 
-      <div className="pt-8 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
+      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
         <p></p>
         <p></p>
       </div>

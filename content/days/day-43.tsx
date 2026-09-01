@@ -1,3 +1,4 @@
+import { CornsilkSection } from '../../components/CornsilkSection';
 import React from 'react';
 import { 
   Briefcase, Target, ExternalLink, MonitorPlay, 
@@ -9,11 +10,9 @@ import {
 
 export const Day43Content = () => {
   return (
-    <div className="space-y-10 text-left">
-      <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 43: PM Interview Rounds - RCA & Guestimates 🚀</h1>
-      
-      <section className="bg-amber-50 p-10 rounded-[3rem] border border-amber-100">
-        <div className="flex flex-col gap-4">
+    <div className="space-y-4 md:space-y-5 text-left">
+      <section className="bg-amber-50 p-4 sm:p-5 rounded-2xl border border-amber-100">
+        <div className="flex flex-col gap-1.5">
           <span className="text-[10px] font-black uppercase tracking-widest text-amber-600">Job ready</span>
           <p className="text-lg font-black text-amber-900 leading-relaxed italic">
             "Problem-solving in interviews isn't just about the final number or the root cause—it's about the MECE (Mutually Exclusive, Collectively Exhaustive) structure you use to get there."
@@ -21,16 +20,16 @@ export const Day43Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
+      <section className="space-y-3.5 md:space-y-4">
         <div className="flex items-center gap-4">
            <div className="p-3 bg-amber-600 rounded-2xl shadow-lg">
              <Activity className="w-6 h-6 text-white" />
            </div>
-           <h2 className="text-2xl font-black text-zinc-900">Round Three: RCA (Root Cause Analysis)</h2>
+           <h2 className="text-lg md:text-xl font-black text-zinc-900">Round Three: RCA (Root Cause Analysis)</h2>
         </div>
         
-        <div className="bg-zinc-50 p-8 rounded-[3rem] border border-zinc-200 space-y-8">
-           <div className="flex flex-col md:flex-row gap-6 items-center">
+        <div className="bg-zinc-50 p-4 sm:p-5 rounded-2xl border border-zinc-200 space-y-8">
+           <div className="flex flex-col md:flex-row gap-3 md:gap-3.5 items-center">
               <div className="flex-1 space-y-4">
                  <h3 className="text-xl font-black text-zinc-900">Mastering RCA</h3>
                  <p className="text-sm font-medium text-zinc-500 leading-relaxed">
@@ -57,7 +56,7 @@ export const Day43Content = () => {
            </div>
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-2.5">
            <h3 className="text-[10px] font-black uppercase tracking-widest text-zinc-400">RCA Practice Questions:</h3>
            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {[
@@ -66,7 +65,7 @@ export const Day43Content = () => {
                 { q: "Increase in returns at Amazon", company: "Amazon", icon: Smartphone },
                 { q: "Inactive users on Netflix – what would you do?", company: "Netflix", icon: Users }
               ].map((item, i) => (
-                <div key={i} className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm space-y-3 hover:border-amber-200 transition-colors group">
+                <div key={i} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-sm space-y-3 hover:border-amber-200 transition-colors group">
                    <div className="flex justify-between items-start">
                       <div className="w-10 h-10 rounded-xl bg-zinc-50 flex items-center justify-center text-amber-600 group-hover:bg-amber-600 group-hover:text-white transition-colors shadow-inner">
                         <item.icon className="w-5 h-5" />
@@ -85,11 +84,11 @@ export const Day43Content = () => {
            <div className="p-3 bg-amber-600 rounded-2xl shadow-lg">
              <PieChart className="w-6 h-6 text-white" />
            </div>
-           <h2 className="text-2xl font-black text-zinc-900">Round Four: Guestimates</h2>
+           <h2 className="text-lg md:text-xl font-black text-zinc-900">Round Four: Guestimates</h2>
         </div>
 
-        <div className="bg-zinc-50 p-8 rounded-[3rem] border border-zinc-200 space-y-8">
-           <div className="flex flex-col md:flex-row gap-6 items-center">
+        <div className="bg-zinc-50 p-4 sm:p-5 rounded-2xl border border-zinc-200 space-y-8">
+           <div className="flex flex-col md:flex-row gap-3 md:gap-3.5 items-center">
               <div className="flex-1 space-y-4">
                  <h3 className="text-xl font-black text-zinc-900">Mastering Guestimates</h3>
                  <p className="text-sm font-medium text-zinc-500 leading-relaxed">
@@ -116,7 +115,7 @@ export const Day43Content = () => {
            </div>
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-2.5">
            <h3 className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Guestimates Practice Questions:</h3>
            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {[
@@ -126,7 +125,7 @@ export const Day43Content = () => {
                 { q: "Cars sold in India", company: "PhonePe", icon: BarChart },
                 { q: "Credit card users in India", company: "Visa", icon: Search }
               ].map((item, i) => (
-                <div key={i} className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm space-y-4 hover:border-amber-200 transition-colors group">
+                <div key={i} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-sm space-y-4 hover:border-amber-200 transition-colors group">
                    <div className="w-10 h-10 rounded-xl bg-zinc-50 flex items-center justify-center text-amber-600 group-hover:bg-amber-600 group-hover:text-white transition-colors shadow-inner">
                      <item.icon className="w-5 h-5" />
                    </div>
@@ -143,21 +142,29 @@ export const Day43Content = () => {
         </div>
       </section>
 
-      <section className="bg-zinc-950 text-white p-10 rounded-[3rem] border-t-8 border-amber-500">
-        <div className="flex items-start gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-400 shrink-0">
-            <Lightbulb className="w-6 h-6" />
-          </div>
-          <div className="space-y-4">
-            <h4 className="text-[10px] font-black uppercase tracking-widest text-amber-400">Pro-Tip</h4>
-            <p className="text-lg font-black italic text-zinc-300 leading-relaxed">
-              "For RCA: Always clarify the timeline and the metric definition first. For Guestimates: Always start with the total population and segment down based on income or age relevancy."
-            </p>
-          </div>
-        </div>
-      </section>
+            <CornsilkSection
+        title="Root Cause Analysis & Guesstimate Principles"
+        titleColor="blue"
+        items={[
+                {
+                          "subtitle": "Systematic RCA Diagnostics",
+                          "headerColor": "blue",
+                          "description": "Isolate metric drops across internal factors (bugs, releases, tracking bugs) and external factors (seasonality, competition, regulation) systematically."
+                },
+                {
+                          "subtitle": "Structured Fermi Estimation",
+                          "headerColor": "red",
+                          "description": "Break complex market sizing and volume estimation problems into transparent, logical top-down or bottom-up arithmetic branches."
+                },
+                {
+                          "subtitle": "Sanity Checking & Boundary Testing",
+                          "headerColor": "blue",
+                          "description": "Test estimations against real-world population and market benchmarks, proactively identifying and correcting assumption sensitivities."
+                }
+      ]}
+      />
 
-      <div className="pt-8 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
+      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
         <p></p>
         <p></p>
       </div>

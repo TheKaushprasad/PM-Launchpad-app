@@ -1,3 +1,4 @@
+import { CornsilkSection } from '../../components/CornsilkSection';
 import React from 'react';
 import { 
   Bot, Brain, Cpu, Zap, Layers, Activity, 
@@ -11,11 +12,9 @@ import {
 
 export const Day31Content = () => {
   return (
-    <div className="space-y-10 text-left">
-      <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 31: CONTEXT ENGINEERING 🚀</h1>
-      
-      <section className="bg-orange-50 p-10 rounded-[3rem] border border-orange-100">
-        <div className="flex flex-col gap-4">
+    <div className="space-y-4 md:space-y-5 text-left">
+      <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
+        <div className="flex flex-col gap-1.5">
           <span className="text-[10px] font-black uppercase tracking-widest text-orange-600">AI Module</span>
           <p className="text-lg font-black text-orange-900 leading-relaxed italic">
             "The natural progression of prompt engineering. The art and science of curating what will go into the limited context window."
@@ -31,25 +30,25 @@ export const Day31Content = () => {
         </div>
       </section>
 
-      <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="space-y-6">
-           <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
+        <div className="space-y-2.5">
+           <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
              <Info className="text-orange-600" />
              What is Context?
            </h2>
-           <div className="bg-white border border-zinc-100 p-8 rounded-[2.5rem] shadow-sm">
+           <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm">
               <p className="text-sm font-medium text-zinc-600 leading-relaxed">
                 Context refers to the set of tokens included when sampling from a large-language model (LLM).
               </p>
            </div>
         </div>
 
-        <div className="space-y-6">
-           <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+        <div className="space-y-2.5">
+           <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
              <Settings className="text-orange-600" />
              What is Context Engineering?
            </h2>
-           <div className="bg-white border border-zinc-100 p-8 rounded-[2.5rem] shadow-sm">
+           <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm">
               <p className="text-sm font-medium text-zinc-600 leading-relaxed">
                 Context engineering refers to the set of strategies for curating and maintaining the optimal set of tokens (information) during LLM inference, including all the other information that may land there outside of the prompts.
               </p>
@@ -57,35 +56,40 @@ export const Day31Content = () => {
         </div>
       </section>
 
-      <section className="bg-zinc-950 text-white p-10 rounded-[3rem] border-t-8 border-orange-500">
-        <div className="flex items-start gap-4 mb-6">
-          <div className="w-12 h-12 rounded-2xl bg-orange-500/10 flex items-center justify-center text-orange-400 shrink-0">
-            <Cpu className="w-6 h-6" />
-          </div>
-          <div className="space-y-2">
-            <h4 className="text-[10px] font-black uppercase tracking-widest text-orange-400">The OS Analogy</h4>
-            <p className="text-lg font-black text-zinc-300 leading-relaxed">
-              "LLMs are like a new kind of operating system. The LLM is like the CPU and its context window is like the RAM, serving as the model’s working memory."
-            </p>
-          </div>
-        </div>
-        <p className="text-sm text-zinc-400 leading-relaxed">
-          Just like RAM, the LLM context window has limited capacity to handle various sources of context. And just as an operating system curates what fits into a CPU’s RAM, we can think about “context engineering” playing a similar role.
-        </p>
-      </section>
+            <CornsilkSection
+        title="Context Engineering & Dynamic Memory"
+        titleColor="blue"
+        items={[
+                {
+                          "subtitle": "Dynamic Context Assembly",
+                          "headerColor": "blue",
+                          "description": "Filter, rank, and inject real-time user session state, profile attributes, and tool metadata into prompts within tight token budgets."
+                },
+                {
+                          "subtitle": "Long-Term Memory Management",
+                          "headerColor": "red",
+                          "description": "Architect episodic and semantic memory layers to provide personalized, persistent AI experiences across multi-turn user journeys."
+                },
+                {
+                          "subtitle": "Token Optimization & Compression",
+                          "headerColor": "blue",
+                          "description": "Employ semantic summarization and context pruning techniques to minimize latency and inference expenditure at enterprise scale."
+                }
+      ]}
+      />
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Layers className="text-orange-600" />
           Types of Context to Manage
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-3.5">
            {[
              { title: "Instructions", desc: "Prompts, memories, few‑shot examples, tool descriptions, etc.", icon: List },
              { title: "Knowledge", desc: "Facts, memories, external domain-specific data.", icon: Brain },
              { title: "Tools", desc: "Feedback from tool calls and structured outputs.", icon: Zap }
            ].map((item, i) => (
-             <div key={i} className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm space-y-4">
+             <div key={i} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
                 <div className="w-12 h-12 rounded-2xl bg-orange-50 flex items-center justify-center text-orange-600 shadow-sm">
                   <item.icon className="w-6 h-6" />
                 </div>
@@ -96,9 +100,9 @@ export const Day31Content = () => {
         </div>
       </section>
 
-      <section className="bg-zinc-50 p-10 rounded-[3rem] border border-zinc-200">
-        <h2 className="text-xl font-black text-zinc-900 mb-6">Context Engineering vs. Prompt Engineering</h2>
-        <div className="space-y-6">
+      <section className="bg-zinc-50 p-4 sm:p-5 rounded-2xl border border-zinc-200">
+        <h2 className="text-xl font-black text-zinc-900 mb-2.5">Context Engineering vs. Prompt Engineering</h2>
+        <div className="space-y-2.5">
            <p className="text-sm font-medium text-zinc-600 leading-relaxed">
              The primary focus of prompt engineering is how to write effective prompts, particularly system prompts. However, as we move towards engineering more capable agents that operate over multiple turns of inference and longer time horizons, we need strategies for managing the entire context state (system instructions, tools, Model Context Protocol (MCP), external data, message history, etc).
            </p>
@@ -108,13 +112,13 @@ export const Day31Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <ShieldCheck className="text-orange-600" />
           Why is Context Engineering Important?
         </h2>
-        <div className="space-y-6">
-           <div className="p-8 bg-white border border-zinc-100 rounded-[3rem] shadow-sm">
+        <div className="space-y-2.5">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm">
               <h4 className="text-lg font-black text-zinc-900 mb-4 flex items-center gap-2">
                 <TrendingUp className="text-orange-500 w-5 h-5" />
                 The Concept of Context Rot
@@ -124,7 +128,7 @@ export const Day31Content = () => {
               </p>
            </div>
 
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
               <div className="space-y-4">
                  <h5 className="font-black text-zinc-900 uppercase tracking-widest text-[10px]">Architectural Constraints</h5>
                  <p className="text-xs font-medium text-zinc-500 leading-relaxed">
@@ -141,13 +145,13 @@ export const Day31Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Activity className="text-orange-600" />
           Common Strategies for Agent Context Engineering
         </h2>
         
-        <div className="space-y-6">
+        <div className="space-y-2.5">
            {[
              { 
                title: "1. Write Context", 
@@ -170,7 +174,7 @@ export const Day31Content = () => {
                icon: Share2
              }
            ].map((item, i) => (
-             <div key={i} className="flex gap-6 p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm items-start">
+             <div key={i} className="flex gap-3 md:gap-3.5 p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm items-start">
                 <div className="w-12 h-12 rounded-2xl bg-zinc-50 flex items-center justify-center text-orange-600 shrink-0 shadow-inner">
                   <item.icon className="w-6 h-6" />
                 </div>
@@ -183,8 +187,8 @@ export const Day31Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Sparkles className="text-orange-600" />
           Example Use Case: AI Interview Coach
         </h2>
@@ -192,12 +196,12 @@ export const Day31Content = () => {
           Designing an AI Interview Coach that helps users practice PM interviews.
         </p>
 
-        <div className="space-y-8">
+        <div className="space-y-3.5 md:space-y-4">
            {/* Write Context */}
-           <div className="p-8 bg-zinc-900 text-white rounded-[3rem] space-y-6">
+           <div className="p-4 sm:p-5 bg-zinc-900 text-white rounded-2xl space-y-6">
               <h4 className="text-lg font-black text-orange-400">1. Write Context</h4>
               <p className="text-xs font-medium text-zinc-400 leading-relaxed">Implementation: explicitly defining the role, task, goals, constraints, and output format.</p>
-              <div className="bg-black/50 p-6 rounded-2xl font-mono text-[11px] text-zinc-400">
+              <div className="bg-black/50 p-4 rounded-2xl font-mono text-[11px] text-zinc-400">
                 [ROLE] You are an AI Interview Coach specializing in Product Management interviews.<br/>
                 [TASK] Your goal is to simulate an interviewer...<br/>
                 [BEHAVIOR] - Be encouraging but honest...<br/>
@@ -206,10 +210,10 @@ export const Day31Content = () => {
            </div>
 
            {/* Select Context */}
-           <div className="p-8 bg-zinc-50 border border-zinc-200 rounded-[3rem] space-y-6">
+           <div className="p-4 sm:p-5 bg-zinc-50 border border-zinc-200 rounded-2xl space-y-6">
               <h4 className="text-lg font-black text-zinc-900">2. Select Context</h4>
               <p className="text-sm font-medium text-zinc-500">Choosing what past information to reintroduce. We pull only the latest answer, previous question, and short summary.</p>
-              <div className="bg-white p-6 rounded-2xl border border-zinc-100 font-mono text-[11px] text-zinc-500">
+              <div className="bg-white p-4 rounded-2xl border border-zinc-100 font-mono text-[11px] text-zinc-500">
                 [SELECTED CONTEXT]<br/>
                 Previous question: “How do you prioritize features in a product roadmap?”<br/>
                 User’s answer: “I use RICE scoring to align with business goals.”<br/>
@@ -218,7 +222,7 @@ export const Day31Content = () => {
            </div>
 
            {/* Compressing Context */}
-           <div className="p-8 bg-zinc-50 border border-zinc-200 rounded-[3rem] space-y-4">
+           <div className="p-4 sm:p-5 bg-zinc-50 border border-zinc-200 rounded-2xl space-y-4">
               <h4 className="text-lg font-black text-zinc-900">3. Compressing Context</h4>
               <p className="text-sm font-medium text-zinc-500">Shortening what's included to stay within limits. Instead of storing all prior Q&A, we keep a summary snapshot.</p>
               <div className="p-4 bg-orange-50 rounded-xl border border-orange-100 italic text-xs font-bold text-orange-900">
@@ -227,10 +231,10 @@ export const Day31Content = () => {
            </div>
 
            {/* Isolating Context */}
-           <div className="space-y-6">
+           <div className="space-y-2.5">
               <h4 className="text-lg font-black text-zinc-900">4. Isolating Context</h4>
               <p className="text-sm font-medium text-zinc-500">Modularizing into three sub-agents with their own local context.</p>
-              <div className="bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm overflow-hidden">
+              <div className="bg-white border border-zinc-100 rounded-2xl shadow-sm overflow-hidden">
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-sm font-medium border-collapse">
                     <thead>
@@ -264,8 +268,8 @@ export const Day31Content = () => {
         </div>
       </section>
 
-      <section className="bg-zinc-900 text-white p-10 rounded-[3rem] border-t-8 border-orange-500">
-        <h2 className="text-2xl font-black text-orange-400 flex items-center gap-3 mb-6">
+      <section className="bg-zinc-900 text-white p-4 sm:p-5 rounded-2xl border-t-8 border-orange-500">
+        <h2 className="text-2xl font-black text-orange-400 flex items-center gap-3 mb-2.5">
           <Info className="text-orange-400" />
           The Bottom Line
         </h2>
@@ -276,7 +280,7 @@ export const Day31Content = () => {
         </div>
       </section>
 
-      <div className="pt-8 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
+      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
         <p></p>
         <p></p>
       </div>

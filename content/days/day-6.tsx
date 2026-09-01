@@ -1,3 +1,4 @@
+import { CornsilkSection } from '../../components/CornsilkSection';
 
 import React from 'react';
 import { 
@@ -7,20 +8,18 @@ import {
 
 export const Day6Content = () => {
   return (
-    <div className="space-y-10 text-left">
-      <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 6: Essential Product Documentation: A Product Manager's Complete Guide 🚀</h1>
-      
-      <section className="bg-blue-50 p-10 rounded-[3rem] border border-blue-100">
-        <div className="flex flex-col gap-4">
+    <div className="space-y-4 md:space-y-5 text-left">
+      <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
+        <div className="flex flex-col gap-1.5">
           <span className="text-[10px] font-black uppercase tracking-widest text-blue-600">Foundation</span>
-          <p className="text-lg font-medium text-blue-900 leading-relaxed">
+          <p className="text-sm sm:text-base font-medium text-blue-900 leading-relaxed">
             Product managers are professional translators. We translate customer needs into technical requirements, business strategy into product roadmaps, and abstract visions into concrete execution plans. Documentation is the primary medium for this translation work.
           </p>
         </div>
       </section>
 
-      <section className="space-y-6">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-2.5">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Target className="text-indigo-600" />
           Learning Objectives
         </h2>
@@ -45,16 +44,16 @@ export const Day6Content = () => {
         </div>
       </section>
 
-      <section className="space-y-12">
-        <div className="space-y-6">
-          <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <div className="space-y-2.5">
+          <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
             <FileText className="text-indigo-600" />
             The Product Requirements Document (PRD)
           </h2>
           <p className="text-zinc-600 font-medium leading-relaxed">
             The PRD is the product manager's most fundamental artifact. It defines what you're building, why you're building it, and what success looks like. Think of it as the single source of truth that aligns engineering, design, marketing, and leadership around a shared understanding.
           </p>
-          <div className="bg-white border border-zinc-100 rounded-[2.5rem] p-8 shadow-sm space-y-4">
+          <div className="bg-white border border-zinc-100 rounded-2xl p-4 sm:p-5 shadow-sm space-y-4">
             <p className="text-sm font-bold text-zinc-800">A strong PRD typically includes:</p>
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {[
@@ -75,16 +74,16 @@ export const Day6Content = () => {
           </div>
         </div>
 
-        <div className="space-y-6">
-          <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+        <div className="space-y-2.5">
+          <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
             <Briefcase className="text-indigo-600" />
             The Business Requirements Document (BRD)
           </h2>
           <p className="text-zinc-600 font-medium leading-relaxed">
             While PRDs focus on the product itself, BRDs articulate the business case. This document answers the question every executive asks: why should we invest resources in this?
           </p>
-          <div className="bg-zinc-50 rounded-3xl p-8 border border-zinc-200">
-             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="bg-zinc-50 rounded-3xl p-4 sm:p-5 border border-zinc-200">
+             <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-3.5">
                 <div className="space-y-2">
                    <h4 className="font-black text-indigo-900">Market Analysis</h4>
                    <p className="text-xs text-zinc-500 font-medium">Opportunity size, target customers, and competitive landscape.</p>
@@ -101,7 +100,7 @@ export const Day6Content = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
            <div className="space-y-4">
               <h3 className="text-xl font-black text-zinc-900 flex items-center gap-3">
                 <MessageSquare className="text-indigo-600" />
@@ -128,9 +127,9 @@ export const Day6Content = () => {
            </div>
         </div>
 
-        <div className="space-y-8">
-          <h2 className="text-2xl font-black text-zinc-900">Specialized Documentation</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="space-y-3.5 md:space-y-4">
+          <h2 className="text-lg md:text-xl font-black text-zinc-900">Specialized Documentation</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-3.5">
             {[
               {
                 title: "Go-to-Market (GTM)",
@@ -163,7 +162,7 @@ export const Day6Content = () => {
                 content: "Distilled summaries for busy stakeholders to grab context quickly."
               }
             ].map((item, i) => (
-              <div key={i} className="p-6 bg-white border border-zinc-100 rounded-[2rem] shadow-sm flex flex-col gap-4">
+              <div key={i} className="p-4 bg-white border border-zinc-100 rounded-[2rem] shadow-sm flex flex-col gap-4">
                 <div className="w-10 h-10 rounded-xl bg-zinc-50 flex items-center justify-center text-indigo-600">
                    <item.icon className="w-5 h-5" />
                 </div>
@@ -175,31 +174,29 @@ export const Day6Content = () => {
         </div>
       </section>
 
-      <section className="bg-zinc-950 text-white p-12 rounded-[3.5rem] space-y-8 relative overflow-hidden">
-        <div className="absolute top-0 right-0 p-8 opacity-10"><Zap className="w-24 h-24 text-indigo-400" /></div>
-        <h2 className="text-2xl font-black text-indigo-400">Documentation Best Practices</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {[
-            { label: "Know Your Audience", text: "Engineers need detail; executives need business context. Tailor depth accordingly." },
-            { label: "Be Concise & Scannable", text: "Use headers, bullets, and white space. Front-load key info for skimmers." },
-            { label: "Ensure Discoverability", text: "Use a central repository (Notion, Confluence) with consistent naming." },
-            { label: "Maintain or Retire", text: "Outdated docs spread misinformation. Review and update key artifacts quarterly." }
-          ].map((tip, i) => (
-            <div key={i} className="space-y-2">
-               <h4 className="font-black text-indigo-300 uppercase tracking-widest text-[10px]">{tip.label}</h4>
-               <p className="text-sm font-bold leading-relaxed text-zinc-300">{tip.text}</p>
-            </div>
-          ))}
-        </div>
-        
-        <blockquote className="pt-8 border-t border-white/10">
-          <p className="text-xl font-black tracking-tight leading-relaxed italic text-indigo-200">
-            "The test is simple: does this documentation create more value than it costs to produce and maintain? If yes, write it."
-          </p>
-        </blockquote>
-      </section>
+            <CornsilkSection
+        title="High-Impact Product Documentation Principles"
+        titleColor="blue"
+        items={[
+                {
+                          "subtitle": "Context-Rich PRDs",
+                          "headerColor": "red",
+                          "description": "Structure PRDs around clear problem statements, target personas, user stories, edge cases, and non-goals to provide unambiguous clarity to engineering."
+                },
+                {
+                          "subtitle": "Living Roadmap Communication",
+                          "headerColor": "blue",
+                          "description": "Frame roadmaps as strategic outcome commitments and problem themes rather than rigid Gantt charts, managing stakeholder expectations effectively."
+                },
+                {
+                          "subtitle": "Decision Logs & Architecture Records",
+                          "headerColor": "red",
+                          "description": "Maintain lightweight decision logs (ADRs) and release notes to document historical trade-offs, technical rationale, and pivot justifications."
+                }
+      ]}
+      />
 
-      <div className="pt-8 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
+      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
         <p></p>
         <p></p>
       </div>

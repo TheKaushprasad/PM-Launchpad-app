@@ -1,3 +1,4 @@
+import { CornsilkSection } from '../../components/CornsilkSection';
 
 import React from 'react';
 import { 
@@ -11,11 +12,9 @@ import {
 
 export const Day22Content = () => {
   return (
-    <div className="space-y-10 text-left">
-      <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 22: Google Analytics 4 (GA4) & A/B Testing 🚀</h1>
-      
-      <section className="bg-emerald-50 p-10 rounded-[3rem] border border-emerald-100">
-        <div className="flex flex-col gap-4">
+    <div className="space-y-4 md:space-y-5 text-left">
+      <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
+        <div className="flex flex-col gap-1.5">
           <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600">Data & Experimentation</span>
           <p className="text-lg font-black text-emerald-900 leading-relaxed italic">
             "Gain a step-by-step understanding of Google Analytics 4 (GA4) and the frameworks of A/B Testing to drive evidence-based decisions."
@@ -26,8 +25,8 @@ export const Day22Content = () => {
         </div>
       </section>
 
-      <section className="space-y-6">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-2.5">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Target className="text-indigo-600" />
           Learning Objectives
         </h2>
@@ -49,8 +48,8 @@ export const Day22Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Beaker className="text-indigo-600" />
           1. A/B Testing: From Hypothesis to Decision
         </h2>
@@ -61,8 +60,8 @@ export const Day22Content = () => {
           A/B testing—also called split testing—is the product manager's most powerful tool for making evidence-based product decisions.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-           <div className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-3.5">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
               <h4 className="font-black text-zinc-900 flex items-center gap-2">
                 <Search className="w-5 h-5 text-indigo-600" />
                 What Is A/B Testing?
@@ -75,7 +74,7 @@ export const Day22Content = () => {
               </p>
            </div>
            
-           <div className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm space-y-4">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
               <h4 className="font-black text-zinc-900 flex items-center gap-2">
                 <TrendingUp className="w-5 h-5 text-emerald-600" />
                 Why It Matters
@@ -96,12 +95,12 @@ export const Day22Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Layers className="text-indigo-600" />
           2. The A/B Testing Framework
         </h2>
-        <div className="space-y-6">
+        <div className="space-y-2.5">
            {[
              { title: "Start with a clear hypothesis", desc: "Good hypotheses are specific and testable. Instead of 'we should improve checkout,' try 'reducing checkout from five steps to three will increase purchase completion by 10% because users abandon when processes feel too long.'" },
              { title: "Define your success metrics", desc: "Primary metrics (conversion, activation) measure your hypothesis. Secondary metrics help understand side effects. Guardrail metrics ensure you're not breaking technical health or CSAT." },
@@ -110,7 +109,7 @@ export const Day22Content = () => {
              { title: "Run the experiment & analyze", desc: "Monitor for technical issues early. Analyze results rigorously looking at confidence intervals and significance before drawing conclusions." },
              { title: "Make a decision & document", desc: "Ship the winner or iterate. Document institucional knowledge—why you think things happened and what you learned." }
            ].map((step, i) => (
-             <div key={i} className="flex gap-6 p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm hover:border-indigo-100 transition-colors">
+             <div key={i} className="flex gap-3 md:gap-3.5 p-4 bg-white border border-zinc-100 rounded-3xl shadow-sm hover:border-indigo-100 transition-colors">
                 <div className="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600 font-black shrink-0">{i+1}</div>
                 <div>
                    <h4 className="font-black text-zinc-900 text-sm mb-1">{step.title}</h4>
@@ -121,12 +120,12 @@ export const Day22Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Globe className="text-indigo-600" />
           3. How Google Analytics (GA4) Helps PMs
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-3.5">
            {[
              { title: "Understand Behavior", desc: "See exactly which pages users visit, how long they stay, and where they bounce. Bridge the gap between what users say and do.", icon: Activity },
              { title: "Track User Journeys", desc: "Identify common paths to conversion and discover unexpected detours or friction points in your designed flows.", icon: Share2 },
@@ -137,7 +136,7 @@ export const Day22Content = () => {
              { title: "Monitor Product Health", desc: "Catch sudden drops in traffic or spikes in bounce rates using real-time data and automated alerts.", icon: Zap },
              { title: "Roadmap Prioritization", desc: "If 80% of users never touch a feature you built, that is valuable feedback for your next prioritization cycle.", icon: Layout }
            ].map((benefit, i) => (
-             <div key={i} className="p-6 bg-zinc-50 border border-zinc-200 rounded-[2rem] flex items-start gap-4">
+             <div key={i} className="p-4 bg-zinc-50 border border-zinc-200 rounded-[2rem] flex items-start gap-4">
                 <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-indigo-600 shrink-0 shadow-sm">
                   <benefit.icon className="w-5 h-5" />
                 </div>
@@ -150,32 +149,30 @@ export const Day22Content = () => {
         </div>
       </section>
 
-      <section className="bg-zinc-900 text-white p-10 rounded-[3rem] border-t-8 border-indigo-500 space-y-8">
-        <h2 className="text-2xl font-black text-indigo-400 flex items-center gap-3">
-          <AlertTriangle className="text-amber-500" />
-          Key Limitations & Best Practices
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-          <div className="space-y-4">
-             <h4 className="font-black text-indigo-300 uppercase tracking-widest text-[10px]">GA4 Limitations</h4>
-             <p className="text-sm font-bold leading-relaxed text-zinc-300">
-               GA4 shows what users do but not <strong>why</strong>—you need qualitative research for that. Privacy regulations and ad blockers can create data blind spots.
-             </p>
-          </div>
-          <div className="space-y-4">
-             <h4 className="font-black text-indigo-300 uppercase tracking-widest text-[10px]">A/B Test Pitfalls</h4>
-             <p className="text-sm font-bold leading-relaxed text-zinc-300">
-               Calling tests too early is a common mistake. Ensure statistical significance and account for external factors (e.g., marketing spikes, holidays) that might confound results.
-             </p>
-          </div>
-        </div>
-        <div className="p-6 bg-white/5 rounded-2xl border border-white/10 italic text-xs font-medium text-zinc-400">
-          "The best PMs balance the rigor of scientific testing with the speed and vision required in product development. They know when to test, and when to ship with conviction."
-        </div>
-      </section>
+            <CornsilkSection
+        title="Event-Based Telemetry & Controlled Experimentation"
+        titleColor="blue"
+        items={[
+                {
+                          "subtitle": "GA4 Event-Driven Schema",
+                          "headerColor": "red",
+                          "description": "Configure custom parameters and user properties in GA4 to capture meaningful micro-conversions and high-intent user interactions."
+                },
+                {
+                          "subtitle": "Hypothesis Formulation & MDE",
+                          "headerColor": "blue",
+                          "description": "Calculate sample size, statistical power, and Minimum Detectable Effect (MDE) to design statistically rigorous, bias-free A/B tests."
+                },
+                {
+                          "subtitle": "Significance & Guardrail Metrics",
+                          "headerColor": "red",
+                          "description": "Evaluate test outcomes using p-values and confidence intervals while monitoring guardrail metrics to prevent unintended cannibalization."
+                }
+      ]}
+      />
 
-      <section className="bg-zinc-50 p-10 rounded-[3rem] border border-zinc-200">
-        <h2 className="text-xl font-black text-zinc-900 mb-6 flex items-center gap-3">
+      <section className="bg-zinc-50 p-4 sm:p-5 rounded-2xl border border-zinc-200">
+        <h2 className="text-xl font-black text-zinc-900 mb-2.5 flex items-center gap-3">
           <Sparkles className="text-emerald-500" />
           Analytics Mastery Tip
         </h2>
@@ -184,7 +181,7 @@ export const Day22Content = () => {
         </p>
       </section>
 
-      <div className="pt-8 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
+      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
         <p></p>
         <p></p>
       </div>

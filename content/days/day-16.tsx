@@ -1,3 +1,4 @@
+import { CornsilkSection } from '../../components/CornsilkSection';
 
 import React from 'react';
 import { 
@@ -9,13 +10,11 @@ import {
 
 export const Day16Content = () => {
   return (
-    <div className="space-y-10 text-left">
-      <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 16: SQL Set Operators & Functions Deep Dive 🚀</h1>
-      
-      <section className="bg-emerald-50 p-10 rounded-[3rem] border border-emerald-100">
-        <div className="flex flex-col gap-4">
+    <div className="space-y-4 md:space-y-5 text-left">
+      <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
+        <div className="flex flex-col gap-1.5">
           <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600">Data</span>
-          <p className="text-lg font-medium text-emerald-900 leading-relaxed italic">
+          <p className="text-sm sm:text-base font-medium text-blue-900 leading-relaxed italic">
             "Master SQL functions to transform raw data into actionable insights."
           </p>
           <p className="text-sm font-bold text-emerald-700">
@@ -24,8 +23,8 @@ export const Day16Content = () => {
         </div>
       </section>
 
-      <section className="space-y-6">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-2.5">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Target className="text-indigo-600" />
           Learning Objectives
         </h2>
@@ -46,8 +45,8 @@ export const Day16Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Layers className="text-indigo-600" />
           1. Set Operators
         </h2>
@@ -55,7 +54,7 @@ export const Day16Content = () => {
           Set operators allow you to combine the results of two or more SELECT statements into a single result set.
         </p>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-3.5">
            {[
              { 
                title: "UNION / UNION ALL", 
@@ -82,7 +81,7 @@ export const Day16Content = () => {
                bgColor: "bg-amber-50"
              }
            ].map((item, i) => (
-             <div key={i} className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm space-y-4">
+             <div key={i} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
                 <div className={`w-12 h-12 rounded-2xl ${item.bgColor} flex items-center justify-center ${item.color} shadow-sm`}>
                   <item.icon className="w-6 h-6" />
                 </div>
@@ -97,15 +96,15 @@ export const Day16Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Settings2 className="text-indigo-600" />
           2. SQL Functions Deep Dive
         </h2>
         
-        <div className="space-y-8">
+        <div className="space-y-3.5 md:space-y-4">
           {/* String Functions */}
-          <div className="p-8 bg-zinc-50 rounded-[3rem] border border-zinc-200 space-y-6">
+          <div className="p-4 sm:p-5 bg-zinc-50 rounded-2xl border border-zinc-200 space-y-6">
              <div className="flex items-center gap-3">
                 <MessageSquare className="text-indigo-600 w-6 h-6" />
                 <h3 className="text-xl font-black text-zinc-900">String Functions</h3>
@@ -126,7 +125,7 @@ export const Day16Content = () => {
           </div>
 
           {/* Numeric Functions */}
-          <div className="p-8 bg-zinc-50 rounded-[3rem] border border-zinc-200 space-y-6">
+          <div className="p-4 sm:p-5 bg-zinc-50 rounded-2xl border border-zinc-200 space-y-6">
              <div className="flex items-center gap-3">
                 <TrendingUp className="text-emerald-600 w-6 h-6" />
                 <h3 className="text-xl font-black text-zinc-900">Numeric Functions</h3>
@@ -148,13 +147,13 @@ export const Day16Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Terminal className="text-indigo-600" />
           Real-World PM Scenario
         </h2>
         
-        <div className="p-8 bg-zinc-900 text-white rounded-[2.5rem] border-t-8 border-indigo-500 space-y-6">
+        <div className="p-4 sm:p-5 bg-zinc-900 text-white rounded-2xl border-t-8 border-indigo-500 space-y-6">
            <div>
               <p className="text-xs font-black uppercase text-indigo-400 mb-2">The Task</p>
               <p className="text-lg font-black tracking-tight leading-relaxed italic text-zinc-300">
@@ -162,7 +161,7 @@ export const Day16Content = () => {
               </p>
            </div>
            
-           <div className="bg-black/50 p-6 rounded-2xl font-mono text-sm overflow-hidden">
+           <div className="bg-black/50 p-4 rounded-2xl font-mono text-sm overflow-hidden">
               <pre className="text-indigo-300 leading-relaxed">
 {`SELECT 
     UPPER(TRIM(first_name)) as formatted_first_name,
@@ -186,8 +185,8 @@ JOIN logins l ON u.user_id = l.user_id;`}
         </div>
       </section>
 
-      <section className="bg-zinc-50 p-10 rounded-[3rem] border border-zinc-200">
-        <h2 className="text-xl font-black text-zinc-900 mb-6 flex items-center gap-3">
+      <section className="bg-zinc-50 p-4 sm:p-5 rounded-2xl border border-zinc-200">
+        <h2 className="text-xl font-black text-zinc-900 mb-2.5 flex items-center gap-3">
           <Sparkles className="text-amber-500" />
           Data Transformation Pro-Tip
         </h2>
@@ -196,7 +195,29 @@ JOIN logins l ON u.user_id = l.user_id;`}
         </p>
       </section>
 
-      <div className="pt-8 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
+            <CornsilkSection
+        title="Advanced SQL Analysis for Product Optimization"
+        titleColor="blue"
+        items={[
+                {
+                          "subtitle": "Set Operators (UNION / INTERSECT)",
+                          "headerColor": "red",
+                          "description": "Combine and compare distinct user cohorts across platforms and campaigns to analyze segment overlap and cross-channel adoption."
+                },
+                {
+                          "subtitle": "Window Functions & Ranking",
+                          "headerColor": "blue",
+                          "description": "Utilize ROW_NUMBER, RANK, and DENSE_RANK over partitioned windows to track user action sequences and top-performing feature paths."
+                },
+                {
+                          "subtitle": "Subqueries & Common Table Expressions",
+                          "headerColor": "red",
+                          "description": "Structure complex multi-step analytical queries with Common Table Expressions (WITH clauses) for maintainable, readable product analytics."
+                }
+      ]}
+      />
+
+      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
         <p></p>
         <p></p>
       </div>

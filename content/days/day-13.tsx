@@ -1,3 +1,4 @@
+import { CornsilkSection } from '../../components/CornsilkSection';
 
 import React from 'react';
 import { 
@@ -11,14 +12,12 @@ import {
 
 export const Day13Content = () => {
   return (
-    <div className="space-y-10 text-left">
-      <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 13: Opportunity Sizing (TAM / SAM / SOM) 🚀</h1>
-      
-      <section className="bg-purple-50 p-10 rounded-[3rem] border border-purple-100">
-        <div className="flex flex-col gap-4">
+    <div className="space-y-4 md:space-y-5 text-left">
+      <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
+        <div className="flex flex-col gap-1.5">
           <span className="text-[10px] font-black uppercase tracking-widest text-purple-600">Research</span>
           <p className="text-sm font-black text-purple-600 uppercase tracking-widest mb-1">Theme</p>
-          <p className="text-lg font-medium text-purple-900 leading-relaxed italic">
+          <p className="text-sm sm:text-base font-medium text-blue-900 leading-relaxed italic">
             “A great product solves a real problem — but a great business solves it for a market that’s big enough.”
           </p>
           <p className="text-sm font-bold text-purple-700">
@@ -27,8 +26,8 @@ export const Day13Content = () => {
         </div>
       </section>
 
-      <section className="space-y-6">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-2.5">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Target className="text-[#7d99bf]" />
           Learning Objectives
         </h2>
@@ -48,12 +47,12 @@ export const Day13Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <PieChart className="text-[#7d99bf]" />
           1. Key Concepts
         </h2>
-        <div className="bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm overflow-hidden">
+        <div className="bg-white border border-zinc-100 rounded-2xl shadow-sm overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm font-medium border-collapse">
               <thead>
@@ -83,20 +82,20 @@ export const Day13Content = () => {
             </table>
           </div>
         </div>
-        <div className="bg-[#7d99bf]/10 p-6 rounded-2xl border border-[#7d99bf]/20 flex items-center gap-3">
+        <div className="bg-[#7d99bf]/10 p-4 rounded-2xl border border-[#7d99bf]/20 flex items-center gap-3">
            <Lightbulb className="w-5 h-5 text-[#7d99bf]" />
            <p className="text-sm font-bold text-[#7d99bf] italic">Rule of Thumb: TAM shows scale, SAM shows focus, SOM shows realism.</p>
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <BarChart2 className="text-[#7d99bf]" />
           2. Approaches to Estimate Market Size
         </h2>
         
-        <div className="space-y-6">
-           <div className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm space-y-4">
+        <div className="space-y-2.5">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
               <div className="flex items-center gap-3">
                  <div className="w-10 h-10 rounded-xl bg-[#7d99bf]/10 flex items-center justify-center text-[#7d99bf] shadow-inner">
                    <FileText className="w-5 h-5" />
@@ -116,7 +115,7 @@ export const Day13Content = () => {
               </div>
            </div>
 
-           <div className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm space-y-4">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
               <div className="flex items-center gap-3">
                  <div className="w-10 h-10 rounded-xl bg-[#b4c17b]/10 flex items-center justify-center text-[#b4c17b] shadow-inner">
                    <Users className="w-5 h-5" />
@@ -135,7 +134,7 @@ export const Day13Content = () => {
               </div>
            </div>
 
-           <div className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm space-y-4">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
               <div className="flex items-center gap-3">
                  <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600 shadow-inner">
                    <Zap className="w-5 h-5" />
@@ -153,32 +152,36 @@ export const Day13Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Bot className="text-[#7d99bf]" />
           3. Using AI Tools for Market Sizing
         </h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-           <div className="bg-zinc-950 text-white p-8 rounded-[2.5rem] border-t-8 border-[#7d99bf] space-y-4">
-              <div className="flex items-center gap-2 mb-2">
-                 <Zap className="text-[#7d99bf] w-4 h-4" />
-                 <h4 className="font-black text-[#7d99bf] text-xs uppercase tracking-widest">Perplexity AI Prompt</h4>
-              </div>
-              <p className="text-sm font-bold text-zinc-300 italic">
-                “Estimate the total addressable market (TAM) for AI-powered personal productivity tools globally and in India for 2025. Include data sources.”
-              </p>
-              <div className="pt-4 border-t border-white/10 space-y-2">
-                 <p className="text-[10px] font-black uppercase text-zinc-500">Output Example</p>
-                 <ul className="text-xs font-medium text-zinc-400 space-y-1">
-                    <li>• Global market: $9.8B (CAGR 17%)</li>
-                    <li>• India: $520M (growing at 22%)</li>
-                    <li>• Sources: Statista, Markets & Markets...</li>
-                 </ul>
-              </div>
-           </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-3.5">
+                 <CornsilkSection
+        title="Market Sizing & Commercial Viability"
+        titleColor="blue"
+        items={[
+                {
+                          "subtitle": "Top-Down vs Bottom-Up Sizing",
+                          "headerColor": "blue",
+                          "description": "Validate macroeconomic top-down analyst reports with rigorous bottom-up calculations based on target account counts and willingness-to-pay."
+                },
+                {
+                          "subtitle": "Realistic SOM Filtering",
+                          "headerColor": "red",
+                          "description": "Constrain serviceable obtainable market calculations with realistic GTM sales capacity, distribution channels, and regional adoption barriers."
+                },
+                {
+                          "subtitle": "Investment Decision Gating",
+                          "headerColor": "blue",
+                          "description": "Use opportunity sizing models to gate engineering investments, prioritizing high-yield bets that support scalable long-term growth."
+                }
+      ]}
+      />
 
-           <div className="bg-zinc-950 text-white p-8 rounded-[2.5rem] border-t-8 border-[#b4c17b] space-y-4">
+           <div className="bg-zinc-950 text-white p-4 sm:p-5 rounded-2xl border-t-8 border-[#b4c17b] space-y-4">
               <div className="flex items-center gap-2 mb-2">
                  <MessageSquare className="text-[#b4c17b] w-4 h-4" />
                  <h4 className="font-black text-[#b4c17b] text-xs uppercase tracking-widest">ChatGPT Prompt</h4>
@@ -191,7 +194,7 @@ export const Day13Content = () => {
               </p>
            </div>
 
-           <div className="bg-white border border-zinc-100 p-8 rounded-[2.5rem] shadow-sm space-y-4">
+           <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm space-y-4">
               <div className="flex items-center gap-3">
                  <Globe className="text-[#7d99bf] w-5 h-5" />
                  <h4 className="font-black text-zinc-900">Google Trends</h4>
@@ -204,7 +207,7 @@ export const Day13Content = () => {
               </div>
            </div>
 
-           <div className="bg-white border border-zinc-100 p-8 rounded-[2.5rem] shadow-sm space-y-4">
+           <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm space-y-4">
               <div className="flex items-center gap-3">
                  <Layout className="text-[#7d99bf] w-5 h-5" />
                  <h4 className="font-black text-zinc-900">Power BI / Excel</h4>
@@ -216,16 +219,16 @@ export const Day13Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Layers className="text-[#7d99bf]" />
           4. Visual Framework
         </h2>
         
-        <div className="p-10 bg-zinc-50 rounded-[3rem] border border-zinc-200">
+        <div className="p-4 sm:p-5 bg-zinc-50 rounded-2xl border border-zinc-200">
            <h3 className="text-sm font-black uppercase tracking-[0.2em] text-zinc-400 mb-10 text-center">TAM–SAM–SOM Funnel (Example)</h3>
            <div className="flex flex-col items-center gap-2 max-w-md mx-auto">
-              <div className="w-full bg-[#7d99bf] text-white p-6 rounded-t-[3rem] text-center border-b border-[#7d99bf]/80 shadow-xl">
+              <div className="w-full bg-[#7d99bf] text-white p-4 rounded-t-[3rem] text-center border-b border-[#7d99bf]/80 shadow-xl">
                  <p className="text-xs font-black uppercase tracking-widest text-white/70 mb-1">TAM</p>
                  <p className="text-xl font-black">$5B (Global market)</p>
               </div>
@@ -235,25 +238,25 @@ export const Day13Content = () => {
                  <p className="text-lg font-black">$1B (India + SEA)</p>
               </div>
               <ArrowRight className="w-6 h-6 text-zinc-300 rotate-90" />
-              <div className="w-3/5 bg-[#7d99bf]/80 text-white p-6 rounded-b-[3rem] text-center shadow-md">
+              <div className="w-3/5 bg-[#7d99bf]/80 text-white p-4 rounded-b-[3rem] text-center shadow-md">
                  <p className="text-xs font-black uppercase tracking-widest text-white/70 mb-1">SOM</p>
                  <p className="text-sm font-black">$50M (5% realistic capture in 3 years)</p>
               </div>
            </div>
         </div>
 
-        <div className="bg-[#b4c17b]/10 p-6 rounded-2xl border border-[#b4c17b]/20 flex items-center gap-3">
+        <div className="bg-[#b4c17b]/10 p-4 rounded-2xl border border-[#b4c17b]/20 flex items-center gap-3">
            <TrendingUp className="w-5 h-5 text-[#b4c17b]" />
            <p className="text-sm font-bold text-zinc-800">📈 Pro Tip: Investors and PMs always look for large TAM ({">"}$1B) but realistic SOM (~1–5% of SAM).</p>
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Activity className="text-[#7d99bf]" />
           5. Example: Zomato (Early Days)
         </h2>
-        <div className="bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm overflow-hidden">
+        <div className="bg-white border border-zinc-100 rounded-2xl shadow-sm overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm font-medium border-collapse">
               <thead>
@@ -288,16 +291,16 @@ export const Day13Content = () => {
         </div>
       </section>
 
-      <section className="space-y-6">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-2.5">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Briefcase className="text-[#7d99bf]" />
           6. Real-World PM Example
         </h2>
-        <div className="p-10 bg-white border border-zinc-100 rounded-[3rem] shadow-sm relative overflow-hidden group">
-           <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
+        <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm relative overflow-hidden group">
+           <div className="absolute top-0 right-0 p-4 sm:p-5 opacity-5 group-hover:opacity-10 transition-opacity">
              <Globe className="w-48 h-48 text-[#7d99bf]" />
            </div>
-           <h3 className="text-2xl font-black text-zinc-900 mb-6">Product: Duolingo</h3>
+           <h3 className="text-lg md:text-xl font-black text-zinc-900 mb-2.5">Product: Duolingo</h3>
            <div className="space-y-4">
               <div className="flex items-center gap-3 p-4 bg-zinc-50 rounded-2xl border border-zinc-100">
                  <div className="w-1.5 h-1.5 rounded-full bg-[#7d99bf]" />
@@ -318,7 +321,7 @@ export const Day13Content = () => {
                  </p>
               </div>
            </div>
-           <div className="mt-8 p-6 bg-[#b4c17b]/10 rounded-2xl border border-[#b4c17b]/20">
+           <div className="mt-3 p-4 bg-[#b4c17b]/10 rounded-2xl border border-[#b4c17b]/20">
               <p className="text-sm font-bold text-zinc-800 italic leading-relaxed">
                 Result: PMs used this sizing to justify product investment → Duolingo’s monetization strategy followed later.
               </p>
@@ -326,7 +329,7 @@ export const Day13Content = () => {
         </div>
       </section>
 
-      <div className="pt-8 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
+      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
         <p></p>
         <p></p>
       </div>

@@ -1,3 +1,4 @@
+import { CornsilkSection } from '../../components/CornsilkSection';
 import React from 'react';
 import { 
   Bot, Brain, Cpu, Zap, Layers, Activity, 
@@ -10,11 +11,9 @@ import {
 
 export const Day29Content = () => {
   return (
-    <div className="space-y-10 text-left">
-      <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 29: LLM 🚀</h1>
-      
-      <section className="bg-orange-50 p-10 rounded-[3rem] border border-orange-100">
-        <div className="flex flex-col gap-4">
+    <div className="space-y-4 md:space-y-5 text-left">
+      <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
+        <div className="flex flex-col gap-1.5">
           <span className="text-[10px] font-black uppercase tracking-widest text-orange-600">AI & LLMs</span>
           <p className="text-lg font-black text-orange-900 leading-relaxed italic">
             "Fundamentally a neural network designed to be a highly sophisticated predictive system for text."
@@ -30,8 +29,8 @@ export const Day29Content = () => {
         </div>
       </section>
 
-      <section className="space-y-6">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-2.5">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Brain className="text-orange-600" />
           What is an LLM?
         </h2>
@@ -39,7 +38,7 @@ export const Day29Content = () => {
           A Large Language Model (LLM) is fundamentally a neural network designed to be a highly sophisticated predictive system for text.
         </p>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-3.5">
           {[
             {
               title: "1. Statistical Token Simulator",
@@ -57,7 +56,7 @@ export const Day29Content = () => {
               icon: Bot
             }
           ].map((item, i) => (
-            <div key={i} className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm space-y-4">
+            <div key={i} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
                <div className="w-12 h-12 rounded-2xl bg-orange-50 flex items-center justify-center text-orange-600 shadow-sm">
                   <item.icon className="w-6 h-6" />
                </div>
@@ -68,22 +67,22 @@ export const Day29Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Zap className="text-orange-600" />
           Why do we need it? / Why are companies using it?
         </h2>
         <p className="text-zinc-600 font-medium leading-relaxed">
           Companies are heavily invested in building and deploying LLMs because they represent a powerful class of tools that accelerate work, drive innovation, and unlock complex computational abilities.
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-3.5">
            {[
              { title: "Acceleration and Wealth Creation", desc: "LLMs are extremely useful as tools for work and dramatically accelerate work. The expectation is that they will lead to a huge amount of wealth creation." },
              { title: "Creating High-Quality Assistants", desc: "The central goal is to create an assistant that is helpful, truthful, and harmless, capable of answering a wide variety of questions and taking on a specific personality." },
              { title: "Advanced Reasoning and Thinking", desc: "Reinforcement Learning (RL) leads to the emergence of advanced reasoning capabilities. RL encourages the model to discover 'chains of thought' or cognitive strategies." },
              { title: "Tool Utilization", desc: "LLMs can be trained to use external tools (Web Search, Code Interpreter) which mitigates major shortcomings like hallucinations and precise calculations." }
            ].map((item, i) => (
-             <div key={i} className="p-6 bg-zinc-50 border border-zinc-200 rounded-3xl flex items-start gap-4">
+             <div key={i} className="p-4 bg-zinc-50 border border-zinc-200 rounded-3xl flex items-start gap-4">
                 <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-orange-600 shadow-sm shrink-0">
                   <CheckCircle className="w-5 h-5" />
                 </div>
@@ -96,8 +95,8 @@ export const Day29Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Briefcase className="text-orange-600" />
           Why should a product manager learn about it?
         </h2>
@@ -105,7 +104,7 @@ export const Day29Content = () => {
           A product manager (PM) should learn about LLMs not just for their capabilities, but specifically for their limitations and the proper techniques required to deploy them effectively and reliably.
         </p>
 
-        <div className="bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm overflow-hidden">
+        <div className="bg-white border border-zinc-100 rounded-2xl shadow-sm overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm font-medium border-collapse">
               <thead>
@@ -141,14 +140,14 @@ export const Day29Content = () => {
         </div>
       </section>
 
-      <section className="space-y-12">
+      <section className="space-y-3.5 md:space-y-4">
         <h2 className="text-3xl font-black text-zinc-900 flex items-center gap-3">
           <Settings className="text-orange-600" />
           Stages of Building an LLM
         </h2>
 
         {/* First Stage */}
-        <div className="space-y-8">
+        <div className="space-y-3.5 md:space-y-4">
            <div className="flex items-center gap-4">
               <div className="px-4 py-1.5 bg-zinc-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg">First Stage</div>
               <h3 className="text-xl font-black text-zinc-900">The Pretraining Stage</h3>
@@ -181,7 +180,7 @@ export const Day29Content = () => {
 
               <div className="space-y-4">
                  <h4 className="text-base font-black text-zinc-900">Step 2 - Tokenization</h4>
-                 <div className="p-8 bg-zinc-50 rounded-3xl border border-zinc-200 space-y-4">
+                 <div className="p-4 sm:p-5 bg-zinc-50 rounded-3xl border border-zinc-200 space-y-4">
                     <p className="text-sm font-medium text-zinc-600">The process of converting raw text into smaller units called tokens — the building blocks LLMs use to understand and generate language.</p>
                     <ul className="space-y-2">
                        <li className="text-xs font-bold text-zinc-500 flex gap-2"><div className="w-1.5 h-1.5 rounded-full bg-orange-400 mt-1.5 shrink-0" /> <strong>Byte-Pair Encoding (BPE):</strong> Iterative process that shrinks sequence length in return for more symbols.</li>
@@ -192,7 +191,7 @@ export const Day29Content = () => {
 
               <div className="space-y-4">
                  <h4 className="text-base font-black text-zinc-900">Step 3 - Neural Network Training</h4>
-                 <div className="p-8 bg-zinc-900 text-white rounded-[2.5rem] space-y-4 border-t-4 border-orange-500">
+                 <div className="p-4 sm:p-5 bg-zinc-900 text-white rounded-2xl space-y-4 border-t-4 border-orange-500">
                     <p className="text-xs font-black uppercase tracking-widest text-orange-400">Modeling Statistical Relationships</p>
                     <ul className="space-y-3">
                        {[
@@ -214,7 +213,7 @@ export const Day29Content = () => {
         </div>
 
         {/* Second Stage */}
-        <div className="space-y-8">
+        <div className="space-y-3.5 md:space-y-4">
            <div className="flex items-center gap-4">
               <div className="px-4 py-1.5 bg-zinc-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg">Second Stage</div>
               <h3 className="text-xl font-black text-zinc-900">The post-training stage</h3>
@@ -223,10 +222,10 @@ export const Day29Content = () => {
              Responsible for transforming the pre-trained model—merely an internet document simulator—into a helpful, conversational assistant. Much less computationally expensive than pre-training.
            </p>
 
-           <div className="p-10 bg-white border border-zinc-100 rounded-[3rem] shadow-sm space-y-6">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-6">
               <h4 className="text-lg font-black text-zinc-900">1. Supervised Fine-Tuning (SFT)</h4>
               <p className="text-sm font-medium text-zinc-500">Teaches the model its persona and conversational abilities. Programming is done implicitly via datasets of conversations.</p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4 pt-4">
                  <div className="space-y-4">
                     <h5 className="text-[10px] font-black uppercase tracking-widest text-orange-600">Mechanism</h5>
                     <ul className="space-y-2 text-xs font-bold text-zinc-600">
@@ -248,7 +247,7 @@ export const Day29Content = () => {
         </div>
 
         {/* Third Stage */}
-        <div className="space-y-8">
+        <div className="space-y-3.5 md:space-y-4">
            <div className="flex items-center gap-4">
               <div className="px-4 py-1.5 bg-zinc-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg">Third Stage</div>
               <h3 className="text-xl font-black text-zinc-900">Reinforcement Learning (RL)</h3>
@@ -257,15 +256,15 @@ export const Day29Content = () => {
              Move beyond imitating examples to refining problem-solving capabilities. Allowing the model to discover internal cognitive strategies that lead to correct answers.
            </p>
 
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="p-8 bg-zinc-50 border border-zinc-200 rounded-[2.5rem] space-y-4">
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-3.5">
+              <div className="p-4 sm:p-5 bg-zinc-50 border border-zinc-200 rounded-2xl space-y-4">
                  <h4 className="font-black text-zinc-900 text-sm uppercase tracking-widest">Emergent Thinking</h4>
                  <ul className="space-y-2">
                     <li className="text-xs font-bold text-zinc-600"><strong>Chains of Thought:</strong> Model spreads reasoning across many tokens, performing self-evaluations.</li>
                     <li className="text-xs font-bold text-zinc-600"><strong>Higher Accuracy:</strong> Significant increase in accuracy in verifiable domains like math and code.</li>
                  </ul>
               </div>
-              <div className="p-8 bg-zinc-50 border border-zinc-200 rounded-[2.5rem] space-y-4">
+              <div className="p-4 sm:p-5 bg-zinc-50 border border-zinc-200 rounded-2xl space-y-4">
                  <h4 className="font-black text-zinc-900 text-sm uppercase tracking-widest">RL from Human Feedback (RLHF)</h4>
                  <ul className="space-y-2">
                     <li className="text-xs font-bold text-zinc-600"><strong>Human Ordering:</strong> Labelers rank candidate responses from best to worst.</li>
@@ -276,8 +275,8 @@ export const Day29Content = () => {
         </div>
       </section>
 
-      <section className="bg-zinc-50 p-10 rounded-[3rem] border border-zinc-200">
-        <h2 className="text-xl font-black text-zinc-900 mb-6 flex items-center gap-3">
+      <section className="bg-zinc-50 p-4 sm:p-5 rounded-2xl border border-zinc-200">
+        <h2 className="text-xl font-black text-zinc-900 mb-2.5 flex items-center gap-3">
           <Info className="text-orange-600" />
           The Bottom Line
         </h2>
@@ -288,7 +287,29 @@ export const Day29Content = () => {
         </div>
       </section>
 
-      <div className="pt-8 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
+            <CornsilkSection
+        title="Large Language Model Architecture & Economics"
+        titleColor="blue"
+        items={[
+                {
+                          "subtitle": "Tokenization & Context Windows",
+                          "headerColor": "blue",
+                          "description": "Understand token economics, context window limits, and inference latency to design responsive, cost-effective LLM-powered features."
+                },
+                {
+                          "subtitle": "Model Sizing & Distillation",
+                          "headerColor": "red",
+                          "description": "Select the optimal balance between flagship frontier models and lightweight distilled models (e.g., Flash, Gemini Nano) for specific tasks."
+                },
+                {
+                          "subtitle": "Hallucination & Safety Guardrails",
+                          "headerColor": "blue",
+                          "description": "Implement temperature tuning, output schema validation, and guardrails to mitigate hallucinations and ensure enterprise-grade reliability."
+                }
+      ]}
+      />
+
+      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
         <p></p>
         <p></p>
       </div>

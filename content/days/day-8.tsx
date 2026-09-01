@@ -1,3 +1,4 @@
+import { CornsilkSection } from '../../components/CornsilkSection';
 
 import React from 'react';
 import { 
@@ -11,20 +12,18 @@ import {
 
 export const Day8Content = () => {
   return (
-    <div className="space-y-10 text-left">
-      <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 8: Business Fundamentals for Product Managers 🚀</h1>
-      
-      <section className="bg-blue-50 p-10 rounded-[3rem] border border-blue-100">
-        <div className="flex flex-col gap-4">
+    <div className="space-y-4 md:space-y-5 text-left">
+      <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
+        <div className="flex flex-col gap-1.5">
           <span className="text-[10px] font-black uppercase tracking-widest text-blue-600">Strategy</span>
-          <p className="text-lg font-medium text-blue-900 leading-relaxed italic">
+          <p className="text-sm sm:text-base font-medium text-blue-900 leading-relaxed italic">
             "Master the Metrics That Drive Sustainable Products. Learn CAC, LTV, and the 'Golden Ratio' of business success."
           </p>
         </div>
       </section>
 
-      <section className="space-y-6">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-2.5">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Target className="text-indigo-600" />
           Learning Objectives
         </h2>
@@ -44,8 +43,8 @@ export const Day8Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Briefcase className="text-indigo-600" />
           Why Business Fundamentals Matter for PMs
         </h2>
@@ -53,8 +52,8 @@ export const Day8Content = () => {
           Product Managers are often called the "mini-CEO" of their product. Here's why business knowledge is critical:
         </p>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="bg-emerald-50 p-8 rounded-[2.5rem] border border-emerald-100 space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
+          <div className="bg-emerald-50 p-4 sm:p-5 rounded-2xl border border-emerald-100 space-y-4">
             <h4 className="font-black text-emerald-900 uppercase tracking-widest text-xs">What Good PMs Do</h4>
             <ul className="space-y-3">
               {[
@@ -71,7 +70,7 @@ export const Day8Content = () => {
             </ul>
           </div>
 
-          <div className="bg-rose-50 p-8 rounded-[2.5rem] border border-rose-100 space-y-4">
+          <div className="bg-rose-50 p-4 sm:p-5 rounded-2xl border border-rose-100 space-y-4">
             <h4 className="font-black text-rose-900 uppercase tracking-widest text-xs">Common PM Mistakes</h4>
             <ul className="space-y-3">
               {[
@@ -90,12 +89,12 @@ export const Day8Content = () => {
         </div>
       </section>
 
-      <section className="space-y-6">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-2.5">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Globe className="text-indigo-600" />
           Real-World Examples
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-3.5">
           {[
             { 
               title: "Twitter/X", 
@@ -113,7 +112,7 @@ export const Day8Content = () => {
               color: "bg-zinc-50"
             }
           ].map((item, i) => (
-            <div key={i} className={`p-6 rounded-3xl border border-zinc-100 ${item.color} shadow-sm`}>
+            <div key={i} className={`p-4 rounded-3xl border border-zinc-100 ${item.color} shadow-sm`}>
                <h4 className="font-black text-zinc-900 mb-2">{item.title}</h4>
                <p className="text-xs font-bold text-zinc-500 leading-relaxed">{item.lesson}</p>
             </div>
@@ -121,24 +120,24 @@ export const Day8Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
+      <section className="space-y-3.5 md:space-y-4">
         <div className="flex items-center gap-4">
            <div className="p-3 bg-indigo-600 rounded-2xl shadow-lg">
              <DollarSign className="w-6 h-6 text-white" />
            </div>
            <div>
-              <h2 className="text-2xl font-black text-zinc-900">Core Metric #1: Customer Acquisition Cost (CAC)</h2>
+              <h2 className="text-lg md:text-xl font-black text-zinc-900">Core Metric #1: Customer Acquisition Cost (CAC)</h2>
               <p className="text-sm font-bold text-zinc-400 uppercase tracking-widest">How much it costs to acquire one new customer.</p>
            </div>
         </div>
 
-        <div className="bg-zinc-900 text-white p-8 rounded-[2.5rem] text-center border-t-8 border-indigo-500">
+        <div className="bg-zinc-900 text-white p-4 sm:p-5 rounded-2xl text-center border-t-8 border-indigo-500">
            <p className="text-[10px] font-black uppercase tracking-widest text-indigo-400 mb-2">The Formula</p>
            <p className="text-2xl font-black tracking-tighter">CAC = (Total Marketing Costs + Total Sales Costs) / Number of New Customers Acquired</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="bg-white border border-zinc-100 p-8 rounded-[2.5rem] shadow-sm space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
+          <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm space-y-4">
              <h4 className="font-black text-zinc-900 uppercase tracking-widest text-xs">Example Calculation</h4>
              <div className="space-y-1">
                 <p className="text-sm font-bold text-zinc-500">Marketing spend: $40,000</p>
@@ -148,7 +147,7 @@ export const Day8Content = () => {
              <p className="text-xl font-black text-indigo-600">CAC = ($40,000 + $10,000) / 500 = $100</p>
           </div>
           
-          <div className="bg-white border border-zinc-100 p-8 rounded-[2.5rem] shadow-sm space-y-4">
+          <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm space-y-4">
              <h4 className="font-black text-zinc-900 uppercase tracking-widest text-xs">What to Include in CAC</h4>
              <div className="grid grid-cols-2 gap-4">
                <div>
@@ -173,8 +172,8 @@ export const Day8Content = () => {
           </div>
         </div>
 
-        <div className="bg-zinc-50 p-8 rounded-[2.5rem] border border-zinc-100 overflow-hidden">
-            <h3 className="text-sm font-black uppercase tracking-[0.2em] text-zinc-400 mb-6">CAC by Channel</h3>
+        <div className="bg-zinc-50 p-4 sm:p-5 rounded-2xl border border-zinc-100 overflow-hidden">
+            <h3 className="text-sm font-black uppercase tracking-[0.2em] text-zinc-400 mb-2.5">CAC by Channel</h3>
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm font-medium border-collapse">
                 <thead>
@@ -211,32 +210,32 @@ export const Day8Content = () => {
           </div>
       </section>
 
-      <section className="space-y-8">
+      <section className="space-y-3.5 md:space-y-4">
         <div className="flex items-center gap-4">
            <div className="p-3 bg-indigo-600 rounded-2xl shadow-lg">
              <Activity className="w-6 h-6 text-white" />
            </div>
            <div>
-              <h2 className="text-2xl font-black text-zinc-900">Core Metric #2: Lifetime Value (LTV)</h2>
+              <h2 className="text-lg md:text-xl font-black text-zinc-900">Core Metric #2: Lifetime Value (LTV)</h2>
               <p className="text-sm font-bold text-zinc-400 uppercase tracking-widest">Total revenue earned from a customer over their entire relationship.</p>
            </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-           <div className="bg-zinc-900 text-white p-8 rounded-[2.5rem] border-t-8 border-emerald-500">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
+           <div className="bg-zinc-900 text-white p-4 sm:p-5 rounded-2xl border-t-8 border-emerald-500">
               <p className="text-[10px] font-black uppercase tracking-widest text-emerald-400 mb-2">Simple LTV Formula</p>
               <p className="text-xl font-black tracking-tighter mb-4">LTV = ARPU × Average Customer Lifespan</p>
               <div className="p-4 bg-white/5 rounded-xl text-xs font-bold text-zinc-400">
                  ARPU = Average Revenue Per User (monthly or annual)
               </div>
            </div>
-           <div className="bg-zinc-900 text-white p-8 rounded-[2.5rem] border-t-8 border-indigo-500">
+           <div className="bg-zinc-900 text-white p-4 sm:p-5 rounded-2xl border-t-8 border-indigo-500">
               <p className="text-[10px] font-black uppercase tracking-widest text-indigo-400 mb-2">Advanced LTV Formula (with Churn)</p>
               <p className="text-xl font-black tracking-tighter mb-4">LTV = (ARPU × Gross Margin) / Churn Rate</p>
            </div>
         </div>
 
-        <div className="bg-indigo-50 p-8 rounded-[3rem] border border-indigo-100">
+        <div className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
            <h4 className="text-lg font-black text-indigo-900 mb-4 flex items-center gap-2">
              <Lightbulb className="w-5 h-5" /> Critical Insight
            </h4>
@@ -245,7 +244,7 @@ export const Day8Content = () => {
            </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
            <div className="space-y-4">
               <h4 className="font-black text-zinc-900 uppercase tracking-widest text-xs flex items-center gap-2">
                 <TrendingUp className="w-4 h-4 text-emerald-500" /> Increase LTV by:
@@ -283,13 +282,13 @@ export const Day8Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
+      <section className="space-y-3.5 md:space-y-4">
         <div className="flex items-center gap-4">
            <div className="p-3 bg-amber-600 rounded-2xl shadow-lg">
              <Star className="w-6 h-6 text-white" />
            </div>
            <div>
-              <h2 className="text-2xl font-black text-zinc-900">The Golden Ratio: LTV:CAC</h2>
+              <h2 className="text-lg md:text-xl font-black text-zinc-900">The Golden Ratio: LTV:CAC</h2>
               <p className="text-sm font-bold text-zinc-400 uppercase tracking-widest">The most important business metric for PMs.</p>
            </div>
         </div>
@@ -298,7 +297,7 @@ export const Day8Content = () => {
            This ratio tells you whether your business model is sustainable and how aggressively you can grow.
         </p>
 
-        <div className="bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm overflow-hidden">
+        <div className="bg-white border border-zinc-100 rounded-2xl shadow-sm overflow-hidden">
             <h3 className="p-6 bg-zinc-50 border-b border-zinc-100 text-sm font-black uppercase tracking-[0.2em] text-zinc-400">The Ratio Guide</h3>
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm font-medium border-collapse">
@@ -341,35 +340,35 @@ export const Day8Content = () => {
           </div>
       </section>
 
-      <section className="space-y-8">
+      <section className="space-y-3.5 md:space-y-4">
         <div className="flex items-center gap-4">
            <div className="p-3 bg-indigo-600 rounded-2xl shadow-lg">
              <Percent className="w-6 h-6 text-white" />
            </div>
            <div>
-              <h2 className="text-2xl font-black text-zinc-900">Core Metric #3: Payback Period</h2>
+              <h2 className="text-lg md:text-xl font-black text-zinc-900">Core Metric #3: Payback Period</h2>
               <p className="text-sm font-bold text-zinc-400 uppercase tracking-widest">How long it takes to recover the cost of acquiring a customer.</p>
            </div>
         </div>
 
-        <div className="bg-zinc-900 text-white p-8 rounded-[2.5rem] text-center border-t-8 border-indigo-500">
+        <div className="bg-zinc-900 text-white p-4 sm:p-5 rounded-2xl text-center border-t-8 border-indigo-500">
            <p className="text-[10px] font-black uppercase tracking-widest text-indigo-400 mb-2">The Formula</p>
            <p className="text-2xl font-black tracking-tighter">Payback Period (months) = CAC / (ARPU × Gross Margin)</p>
         </div>
 
-        <div className="bg-emerald-50 p-6 rounded-2xl border border-emerald-100 text-center">
+        <div className="bg-emerald-50 p-4 rounded-2xl border border-emerald-100 text-center">
            <p className="text-sm font-bold text-emerald-800 tracking-tight">
              Target Benchmark: <span className="font-black">{"< 12 months"}</span> is generally considered healthy for SaaS businesses.
            </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-3.5">
            {[
              { title: "Cash Flow Management", desc: "Shorter payback = less capital tied up. Can reinvest revenue faster." },
              { title: "Risk Reduction", desc: "Faster payback means less exposure to churn. More resilient to changes." },
              { title: "Growth Velocity", desc: "Revenue compounds quickly. Companies can scale much faster." }
            ].map((item, i) => (
-             <div key={i} className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm">
+             <div key={i} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-sm">
                 <h4 className="font-black text-zinc-900 mb-2">{item.title}</h4>
                 <p className="text-xs font-bold text-zinc-500 leading-relaxed">{item.desc}</p>
              </div>
@@ -377,13 +376,13 @@ export const Day8Content = () => {
         </div>
       </section>
 
-      <section className="space-y-12">
+      <section className="space-y-3.5 md:space-y-4">
         <h2 className="text-3xl font-black text-zinc-900 flex items-center gap-3">
           <PieChart className="text-indigo-600" />
           Business Models & Revenue Streams
         </h2>
 
-        <div className="space-y-8">
+        <div className="space-y-3.5 md:space-y-4">
           {[
             {
               id: "01",
@@ -449,7 +448,7 @@ export const Day8Content = () => {
               icon: CreditCard
             }
           ].map((item) => (
-            <div key={item.id} className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm space-y-6 group hover:border-indigo-100 transition-colors">
+            <div key={item.id} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-6 group hover:border-indigo-100 transition-colors">
                <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-2xl bg-zinc-50 flex items-center justify-center text-indigo-600 shadow-sm group-hover:bg-indigo-600 group-hover:text-white transition-colors">
                     <item.icon className="w-6 h-6" />
@@ -460,7 +459,7 @@ export const Day8Content = () => {
                   </div>
                </div>
 
-               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+               <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
                   <div className="space-y-4">
                      <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Revenue & Metrics</p>
                      <div className="p-4 bg-zinc-50 rounded-2xl border border-zinc-100">
@@ -487,15 +486,29 @@ export const Day8Content = () => {
         </div>
       </section>
 
-      <section className="bg-zinc-950 text-white p-12 rounded-[3.5rem] space-y-8 relative overflow-hidden text-center">
-         <div className="absolute top-0 right-0 p-8 opacity-10"><ShieldCheck className="w-24 h-24 text-indigo-400" /></div>
-         <h2 className="text-2xl font-black text-indigo-400">Sustainability Advantage</h2>
-         <p className="text-zinc-400 font-medium max-w-2xl mx-auto italic">
-            "Your revenue grows when customers succeed. Perfectly aligned incentives create the most sustainable products in the world."
-         </p>
-      </section>
+            <CornsilkSection
+        title="Key Business Levers for Product Leaders"
+        titleColor="blue"
+        items={[
+                {
+                          "subtitle": "Unit Economics & LTV/CAC",
+                          "headerColor": "red",
+                          "description": "Model customer acquisition costs against lifetime value and payback periods to ensure sustainable feature monetization and positive contribution margins."
+                },
+                {
+                          "subtitle": "Monetization & Pricing Models",
+                          "headerColor": "blue",
+                          "description": "Evaluate freemium, tiered SaaS, usage-based, and marketplace take-rate models to align monetization structures with customer value perception."
+                },
+                {
+                          "subtitle": "Strategic Moats & Network Effects",
+                          "headerColor": "red",
+                          "description": "Build defensible competitive advantages through proprietary data loops, high switching costs, brand trust, and bilateral network density."
+                }
+      ]}
+      />
 
-      <div className="pt-8 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
+      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
         <p></p>
         <p></p>
       </div>

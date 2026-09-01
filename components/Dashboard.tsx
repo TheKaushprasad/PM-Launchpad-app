@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { MODULES, LESSONS } from '../constants';
+import { MODULES, LESSONS, getCategoryColor, getCategoryIcon } from '../constants';
 import { DayCard } from './DayCard';
 import { About } from './About';
 import { motion } from 'framer-motion';
 import { 
   GraduationCap, Target, RefreshCw, 
-  CheckCircle2, Bookmark, Flame, Sparkles, User as UserIcon, BookOpen
+  CheckCircle2, Bookmark, Flame, Sparkles, User as UserIcon, BookOpen,
+  FileEdit, ArrowRight, Clock
 } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -33,13 +34,30 @@ export const Dashboard: React.FC = () => {
     userProfile 
   } = useAuth();
   
-  const [filterMode, setFilterMode] = useState<'all' | 'completed' | 'syllabus' | 'bookmarked'>('all');
+  const [filterMode, setFilterMode] = useState<'all' | 'completed' | 'syllabus' | 'bookmarked' | 'notes'>('all');
 
   const pathParts = (location.pathname || '').split('/').filter(Boolean);
   const rawPath = pathParts.length > 0 ? pathParts[pathParts.length - 1] : 'dashboard';
   
   const isLessonRoute = pathParts.includes('day');
   const path = isLessonRoute ? 'dashboard' : rawPath;
+
+  // Saved Notes list extraction
+  const savedNotesList = LESSONS
+    .map(lesson => ({
+      lesson,
+      progress: progressMap[lesson.day],
+      notes: (progressMap[lesson.day]?.notes || '').trim()
+    }))
+    .filter(item => item.notes.length > 0)
+    .sort((a, b) => {
+      const dateA = a.progress?.updatedAt ? new Date(a.progress.updatedAt).getTime() : 0;
+      const dateB = b.progress?.updatedAt ? new Date(b.progress.updatedAt).getTime() : 0;
+      if (dateB !== dateA) return dateB - dateA;
+      return a.lesson.day - b.lesson.day;
+    });
+
+  const savedNotesCount = savedNotesList.length;
   
   const filteredLessons = LESSONS.filter(lesson => {
     // 1. Path filter
@@ -68,6 +86,7 @@ export const Dashboard: React.FC = () => {
 
   const getModuleTitle = () => {
     if (filterMode === 'syllabus') return 'Full Curriculum & Syllabus';
+    if (filterMode === 'notes') return 'Saved Personal Notes';
     if (filterMode === 'bookmarked') return 'Bookmarked Lessons';
     if (filterMode === 'completed') return 'Completed Lessons';
 
@@ -221,6 +240,13 @@ export const Dashboard: React.FC = () => {
                 <Bookmark className="w-3.5 h-3.5" />
                 Bookmarked
              </button>
+             <button
+                onClick={() => setFilterMode('notes')}
+                className={`px-3.5 py-1.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all ${filterMode === 'notes' ? 'bg-indigo-600 text-white shadow-sm ring-2 ring-indigo-400/30' : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'}`}
+             >
+                <FileEdit className="w-3.5 h-3.5" />
+                Saved Notes {savedNotesCount > 0 ? `(${savedNotesCount})` : ''}
+             </button>
           </motion.div>
         </div>
 
@@ -232,6 +258,101 @@ export const Dashboard: React.FC = () => {
             className="pt-2"
           >
             <About />
+          </motion.div>
+        ) : filterMode === 'notes' ? (
+          <motion.div 
+            variants={container}
+            initial="hidden"
+            animate="show"
+            key="saved-notes-view"
+            className="space-y-6"
+          >
+            {savedNotesList.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {savedNotesList.map(({ lesson, progress, notes }) => (
+                  <motion.div 
+                    key={lesson.day} 
+                    variants={item}
+                    onClick={() => navigate(`/dashboard/day/${lesson.day}`)}
+                    className="group bg-white rounded-3xl border border-zinc-150 hover:border-indigo-300 p-6 flex flex-col justify-between transition-all duration-300 hover:shadow-xl cursor-pointer relative overflow-hidden"
+                  >
+                    <div>
+                      {/* Top Badges */}
+                      <div className="flex items-center justify-between gap-2 mb-4">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider bg-zinc-900 text-white shadow-xs">
+                            Day {lesson.day}
+                          </span>
+                          <span className={`text-[9px] px-2.5 py-1 rounded-lg font-black uppercase tracking-wider flex items-center gap-1 border ${getCategoryColor(lesson.category)} shadow-xs`}>
+                            {getCategoryIcon(lesson.category)}
+                            {lesson.category}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          {progress?.completed && (
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-emerald-50 text-emerald-700 border border-emerald-100">
+                              <CheckCircle2 className="w-2.5 h-2.5 text-emerald-600" />
+                              Done
+                            </span>
+                          )}
+                          {progress?.bookmarked && (
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-amber-50 text-amber-700 border border-amber-100">
+                              <Bookmark className="w-2.5 h-2.5 fill-amber-500 text-amber-500" />
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Lesson Title */}
+                      <h3 className="font-black text-lg text-zinc-900 group-hover:text-indigo-600 transition-colors tracking-tight mb-3">
+                        {lesson.title}
+                      </h3>
+
+                      {/* Note Content Callout */}
+                      <div className="bg-zinc-50 group-hover:bg-indigo-50/30 border border-zinc-200/80 group-hover:border-indigo-200 rounded-2xl p-4 mb-4 transition-colors">
+                        <div className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider text-indigo-600 mb-2">
+                          <FileEdit className="w-3 h-3" />
+                          Personal Notes
+                        </div>
+                        <p className="text-xs text-zinc-700 font-medium whitespace-pre-wrap leading-relaxed break-words line-clamp-6">
+                          {notes}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Footer Action */}
+                    <div className="pt-3 border-t border-zinc-100 flex items-center justify-between text-xs">
+                      <div className="flex items-center gap-1.5 text-zinc-400 text-[10px] font-bold">
+                        <Clock className="w-3 h-3" />
+                        {progress?.updatedAt ? `Saved ${new Date(progress.updatedAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}` : 'Saved Note'}
+                      </div>
+                      <div className="flex items-center gap-1 text-xs font-black text-indigo-600 group-hover:text-indigo-700">
+                        <span>Open Day {lesson.day}</span>
+                        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            ) : (
+              <div className="py-20 text-center bg-white rounded-[3rem] border border-dashed border-zinc-200 p-8 space-y-4 max-w-xl mx-auto">
+                <div className="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mx-auto shadow-sm">
+                  <FileEdit className="w-7 h-7" />
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-lg font-black text-zinc-900 tracking-tight">No Saved Notes Yet</h3>
+                  <p className="text-xs text-zinc-500 font-medium leading-relaxed">
+                    Add key takeaways, frameworks, or interview reminders in the "Personal Notes" pad of any lesson. They will automatically sync and appear here for fast revision.
+                  </p>
+                </div>
+                <button
+                  onClick={() => setFilterMode('all')}
+                  className="px-5 py-2.5 bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-bold rounded-xl transition-all shadow-sm"
+                >
+                  Explore All Lessons
+                </button>
+              </div>
+            )}
           </motion.div>
         ) : (
           <motion.div 

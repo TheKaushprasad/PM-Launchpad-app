@@ -1,3 +1,4 @@
+import { CornsilkSection } from '../../components/CornsilkSection';
 
 import React from 'react';
 import { 
@@ -7,20 +8,18 @@ import {
 
 export const Day3Content = () => {
   return (
-    <div className="space-y-10 text-left">
-      <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 3: Product Life Cycle (PLC) & PLM 🚀</h1>
-      
-      <section className="bg-blue-50 p-10 rounded-[3rem] border border-blue-100">
-        <div className="flex flex-col gap-4">
+    <div className="space-y-4 md:space-y-5 text-left">
+      <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
+        <div className="flex flex-col gap-1.5">
           <span className="text-[10px] font-black uppercase tracking-widest text-blue-600">Foundation</span>
-          <p className="text-lg font-medium text-blue-900 leading-relaxed">
+          <p className="text-sm sm:text-base font-medium text-blue-900 leading-relaxed">
             Understand how products evolve in the market over time and how companies manage that journey.
           </p>
         </div>
       </section>
 
-      <section className="space-y-6">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-2.5">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Activity className="text-indigo-600" />
           1. What is Product Life Cycle (PLC)?
         </h2>
@@ -29,10 +28,10 @@ export const Day3Content = () => {
         </p>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900">What Are the 4 Stages of Product Life Cycle?</h2>
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900">What Are the 4 Stages of Product Life Cycle?</h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-3.5">
           {[
             {
               title: "Introduction",
@@ -59,7 +58,7 @@ export const Day3Content = () => {
               color: "bg-rose-50 border-rose-100 text-rose-700"
             }
           ].map((stage, i) => (
-            <div key={i} className={`p-8 rounded-[2.5rem] border ${stage.color} space-y-4 shadow-sm`}>
+            <div key={i} className={`p-4 sm:p-5 rounded-2xl border ${stage.color} space-y-4 shadow-sm`}>
               <div className="flex items-center gap-3">
                  <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center shadow-sm">
                    <stage.icon className="w-5 h-5" />
@@ -72,12 +71,12 @@ export const Day3Content = () => {
         </div>
       </section>
 
-      <section className="space-y-6">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-2.5">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Layers className="text-indigo-600" />
           2. What is Product Lifecycle Management (PLM)?
         </h2>
-        <div className="bg-zinc-50 p-8 rounded-[2.5rem] border border-zinc-200 space-y-4">
+        <div className="bg-zinc-50 p-4 sm:p-5 rounded-2xl border border-zinc-200 space-y-4">
           <p className="text-zinc-600 font-medium leading-relaxed">
             Product Lifecycle Management (PLM) is the practice of managing a product from its initiation to its eventual retirement through a systematic approach.
           </p>
@@ -87,8 +86,8 @@ export const Day3Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900">Stages of a Product in PLM</h2>
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900">Stages of a Product in PLM</h2>
         
         <div className="space-y-4">
           {[
@@ -99,7 +98,7 @@ export const Day3Content = () => {
             { stage: "Support Stage", goal: "Ongoing customer support including customer service, warranties, repairs, and services or training to enhance user experience.", icon: Users },
             { stage: "Retirement Stage", goal: "The life of the product ends due to better products, preference shifts, or tech moves. Includes responsible recycling or find new uses.", icon: Ship }
           ].map((item, i) => (
-            <div key={i} className="flex gap-6 p-6 bg-white border border-zinc-100 rounded-[2rem] shadow-sm items-start">
+            <div key={i} className="flex gap-3 md:gap-3.5 p-4 bg-white border border-zinc-100 rounded-[2rem] shadow-sm items-start">
                <div className="w-12 h-12 rounded-2xl bg-zinc-50 flex items-center justify-center text-indigo-600 shrink-0 shadow-inner">
                  <item.icon className="w-6 h-6" />
                </div>
@@ -112,25 +111,29 @@ export const Day3Content = () => {
         </div>
       </section>
 
-      <section className="bg-zinc-950 text-white p-12 rounded-[3.5rem] space-y-8">
-        <h2 className="text-2xl font-black text-indigo-400">Benefits of PLM</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {[
-            { title: "Improved Collaboration", desc: "PLM encourages cross-functional collaboration, ensuring that all stakeholders, from design to sales, work together seamlessly." },
-            { title: "Enhanced Product Quality", desc: "By integrating quality control into each phase, PLM helps identify and rectify potential issues early, resulting in higher-quality products." },
-            { title: "Efficient Resource Utilization", desc: "Streamlines processes, reducing waste and optimizing resource utilization, leading to significant cost savings." },
-            { title: "Faster Time-to-Market", desc: "A structured approach facilitates quicker development cycles, enabling companies to bring products to market more rapidly." },
-            { title: "Regulatory Compliance", desc: "PLM systems assist in ensuring that products meet regulatory standards, minimizing the risk of legal and compliance issues." }
-          ].map((benefit, i) => (
-            <div key={i} className="space-y-3">
-              <h4 className="font-black text-indigo-300">{benefit.title}</h4>
-              <p className="text-xs font-bold leading-relaxed text-zinc-400">{benefit.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+            <CornsilkSection
+        title="Strategic Advantages of Product Lifecycle Management (PLM)"
+        titleColor="blue"
+        items={[
+                {
+                          "subtitle": "Improved Collaboration",
+                          "headerColor": "blue",
+                          "description": "PLM encourages cross-functional collaboration, ensuring that all stakeholders, from design and engineering to sales, work together seamlessly."
+                },
+                {
+                          "subtitle": "Enhanced Product Quality",
+                          "headerColor": "red",
+                          "description": "By integrating quality control into each phase, PLM helps identify and rectify potential issues early, resulting in higher-quality, resilient products."
+                },
+                {
+                          "subtitle": "Efficient Resource Utilization",
+                          "headerColor": "blue",
+                          "description": "Streamlines development processes, reducing waste and optimizing resource allocation, leading to significant cost savings and faster time-to-market."
+                }
+      ]}
+      />
 
-      <div className="pt-8 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
+      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
         <p></p>
         <p></p>
       </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Lesson } from '../types';
 import { getCategoryColor, getCategoryIcon } from '../constants';
-import { ArrowRight, Clock, ShieldCheck, CheckCircle2, Bookmark } from 'lucide-react';
+import { ArrowRight, Clock, ShieldCheck, CheckCircle2, Bookmark, FileEdit } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
@@ -16,6 +16,7 @@ export const DayCard: React.FC<DayCardProps> = ({ lesson, index }) => {
   const dayProgress = progressMap[lesson.day];
   const isCompleted = dayProgress?.completed || false;
   const isBookmarked = dayProgress?.bookmarked || false;
+  const hasNotes = !!dayProgress?.notes && dayProgress.notes.trim().length > 0;
 
   const handleToggleComplete = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -41,6 +42,11 @@ export const DayCard: React.FC<DayCardProps> = ({ lesson, index }) => {
                     </span>
                 </div>
                 <div className="flex items-center gap-2">
+                  {hasNotes && (
+                    <span className="p-1 rounded-md bg-indigo-50 text-indigo-600 border border-indigo-100" title="Has saved personal notes">
+                      <FileEdit className="w-3.5 h-3.5" />
+                    </span>
+                  )}
                   <button 
                     onClick={handleToggleBookmark}
                     title={isBookmarked ? 'Remove Bookmark' : 'Bookmark Lesson'}
@@ -56,17 +62,22 @@ export const DayCard: React.FC<DayCardProps> = ({ lesson, index }) => {
             </div>
 
             <div className="mb-4">
-                <div className="flex items-center gap-2 mb-3">
+                <div className="flex items-center gap-2 mb-3 flex-wrap">
                   <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-widest text-white bg-zinc-900">
                      <ShieldCheck className="w-2.5 h-2.5 text-indigo-400" />
                      Day {lesson.day}
                   </div>
-                  {isCompleted && (
+                  {isCompleted ? (
                     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-widest bg-emerald-100 text-emerald-800">
                       <CheckCircle2 className="w-2.5 h-2.5 text-emerald-600" />
                       Completed
                     </span>
-                  )}
+                  ) : (dayProgress?.scrollPercentage && dayProgress.scrollPercentage > 5) ? (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-widest bg-indigo-50 text-indigo-700 border border-indigo-100/80">
+                      <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse" />
+                      {dayProgress.scrollPercentage}% Read
+                    </span>
+                  ) : null}
                 </div>
                 <h3 className="font-black text-xl leading-tight transition-colors line-clamp-2 tracking-tight text-zinc-900 group-hover:text-indigo-600">
                     {lesson.title}

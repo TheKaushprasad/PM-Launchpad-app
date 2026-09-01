@@ -1,3 +1,4 @@
+import { CornsilkSection } from '../../components/CornsilkSection';
 
 import React from 'react';
 import { 
@@ -8,13 +9,11 @@ import {
 
 export const Day18Content = () => {
   return (
-    <div className="space-y-10 text-left">
-      <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 18: Excel Fundamentals for PMs 🚀</h1>
-      
-      <section className="bg-emerald-50 p-10 rounded-[3rem] border border-emerald-100">
-        <div className="flex flex-col gap-4">
+    <div className="space-y-4 md:space-y-5 text-left">
+      <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
+        <div className="flex flex-col gap-1.5">
           <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600">Data</span>
-          <p className="text-lg font-medium text-emerald-900 leading-relaxed italic">
+          <p className="text-sm sm:text-base font-medium text-blue-900 leading-relaxed italic">
             "Excel is the PM's Swiss Army knife — from quick analysis to complex models."
           </p>
           <p className="text-sm font-bold text-emerald-700">
@@ -23,8 +22,8 @@ export const Day18Content = () => {
         </div>
       </section>
 
-      <section className="space-y-6">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-2.5">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Target className="text-indigo-600" />
           Learning Objectives
         </h2>
@@ -46,14 +45,14 @@ export const Day18Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Info className="text-indigo-600" />
           1. What is Excel and Why PMs Need It
         </h2>
         
-        <div className="space-y-6">
-          <div className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm space-y-4">
+        <div className="space-y-2.5">
+          <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
             <h4 className="font-black text-zinc-900 flex items-center gap-2">
               <Table className="w-5 h-5 text-indigo-600" />
               What is Excel?
@@ -63,13 +62,13 @@ export const Day18Content = () => {
             </p>
           </div>
 
-          <div className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm space-y-6">
+          <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-6">
             <h4 className="font-black text-zinc-900 flex items-center gap-2">
               <Zap className="w-5 h-5 text-indigo-600" />
               Why PMs Use Excel Daily
             </h4>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
                <div className="space-y-4">
                   <div className="flex items-center gap-2">
                      <TrendingUp className="w-4 h-4 text-emerald-500" />
@@ -100,13 +99,13 @@ export const Day18Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Calculator className="text-indigo-600" />
           2. Core Formulas & Functions
         </h2>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-3.5">
            {[
              { 
                title: "Logical Functions", 
@@ -130,7 +129,7 @@ export const Day18Content = () => {
                bgColor: "bg-emerald-50"
              }
            ].map((item, i) => (
-             <div key={i} className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm space-y-4">
+             <div key={i} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
                 <div className={`w-12 h-12 rounded-2xl ${item.bgColor} flex items-center justify-center ${item.color} shadow-sm`}>
                   <item.icon className="w-6 h-6" />
                 </div>
@@ -141,12 +140,12 @@ export const Day18Content = () => {
         </div>
       </section>
 
-      <section className="bg-zinc-50 p-10 rounded-[3rem] border border-zinc-200">
-        <h2 className="text-xl font-black text-zinc-900 mb-6 flex items-center gap-3">
+      <section className="bg-zinc-50 p-4 sm:p-5 rounded-2xl border border-zinc-200">
+        <h2 className="text-xl font-black text-zinc-900 mb-2.5 flex items-center gap-3">
           <Clock className="text-indigo-600" />
           Time and Text Mastery
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
            <div className="space-y-4">
               <h4 className="font-black text-zinc-900 text-sm uppercase tracking-widest">Text Functions</h4>
               <p className="text-xs font-medium text-zinc-500 leading-relaxed">Clean email lists, extract user IDs from strings, or format names for reports using <code>LEFT</code>, <code>RIGHT</code>, <code>MID</code>, and <code>CONCATENATE</code>.</p>
@@ -158,7 +157,29 @@ export const Day18Content = () => {
         </div>
       </section>
 
-      <div className="pt-8 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
+            <CornsilkSection
+        title="Financial & Operational Modeling in Excel"
+        titleColor="blue"
+        items={[
+                {
+                          "subtitle": "Fast Data Cleaning & Lookups",
+                          "headerColor": "red",
+                          "description": "Master XLOOKUP, INDEX/MATCH, and TEXT functions to merge disparate CSV exports and clean raw telemetry logs in minutes."
+                },
+                {
+                          "subtitle": "Scenario & Sensitivity Modeling",
+                          "headerColor": "blue",
+                          "description": "Build dynamic financial models with Data Tables and Goal Seek to evaluate pricing changes, churn sensitivity, and revenue forecasts."
+                },
+                {
+                          "subtitle": "Data Validation & Error Auditing",
+                          "headerColor": "red",
+                          "description": "Implement input controls and auditing formulas (ISBLANK, IFERROR) to deliver robust, error-free models for leadership approval."
+                }
+      ]}
+      />
+
+      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
         <p></p>
         <p></p>
       </div>

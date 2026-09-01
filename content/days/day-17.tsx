@@ -1,3 +1,4 @@
+import { CornsilkSection } from '../../components/CornsilkSection';
 
 import React from 'react';
 import { 
@@ -8,13 +9,11 @@ import {
 
 export const Day17Content = () => {
   return (
-    <div className="space-y-10 text-left">
-      <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 17: SQL Date Functions, NULL Handling & Advanced Logic 🚀</h1>
-      
-      <section className="bg-emerald-50 p-10 rounded-[3rem] border border-emerald-100">
-        <div className="flex flex-col gap-4">
+    <div className="space-y-4 md:space-y-5 text-left">
+      <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
+        <div className="flex flex-col gap-1.5">
           <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600">Data</span>
-          <p className="text-lg font-medium text-emerald-900 leading-relaxed italic">
+          <p className="text-sm sm:text-base font-medium text-blue-900 leading-relaxed italic">
             "Transform messy data into clean insights with SQL's most powerful functions."
           </p>
           <p className="text-sm font-bold text-emerald-700">
@@ -23,8 +22,8 @@ export const Day17Content = () => {
         </div>
       </section>
 
-      <section className="space-y-6">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-2.5">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Target className="text-indigo-600" />
           Learning Objectives
         </h2>
@@ -45,8 +44,8 @@ export const Day17Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Calendar className="text-indigo-600" />
           1. Date and Time Functions
         </h2>
@@ -54,8 +53,8 @@ export const Day17Content = () => {
           Product analytics is 90% time-based. "How many users signed up last week?" or "What is the average time to first purchase?" all require date functions.
         </p>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-           <div className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-3.5">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
               <h4 className="font-black text-zinc-900 flex items-center gap-2">
                  <Clock className="w-5 h-5 text-indigo-600" /> Key Functions
               </h4>
@@ -74,7 +73,7 @@ export const Day17Content = () => {
               </ul>
            </div>
            
-           <div className="p-8 bg-zinc-900 rounded-[2.5rem] border border-zinc-800 space-y-4">
+           <div className="p-4 sm:p-5 bg-zinc-900 rounded-2xl border border-zinc-800 space-y-4">
               <p className="text-[10px] font-black uppercase text-zinc-500 tracking-widest">Example: Weekly Active Users</p>
               <div className="bg-black/50 p-4 rounded-xl font-mono text-[11px] overflow-hidden">
                 <pre className="text-indigo-300">
@@ -89,8 +88,8 @@ GROUP BY 1;`}
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <AlertCircle className="text-indigo-600" />
           2. NULL Handling (IS NULL, COALESCE)
         </h2>
@@ -98,8 +97,8 @@ GROUP BY 1;`}
           NULL represents missing data. If you don't handle it, your metrics (like Average Revenue) will be mathematically incorrect.
         </p>
         
-        <div className="space-y-6">
-           <div className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm flex flex-col md:flex-row gap-8">
+        <div className="space-y-2.5">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm flex flex-col md:flex-row gap-3.5 md:gap-4">
               <div className="flex-1 space-y-4">
                  <h4 className="font-black text-zinc-900">COALESCE()</h4>
                  <p className="text-sm font-medium text-zinc-500 leading-relaxed">Returns the first non-null value in a list. Use it to replace missing values with zeros or "Unknown".</p>
@@ -118,12 +117,12 @@ GROUP BY 1;`}
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <ToggleLeft className="text-indigo-600" />
           3. Conditional Logic (CASE Statements)
         </h2>
-        <div className="p-8 bg-zinc-900 text-white rounded-[3rem] border-t-8 border-indigo-500 space-y-6">
+        <div className="p-4 sm:p-5 bg-zinc-900 text-white rounded-2xl border-t-8 border-indigo-500 space-y-6">
            <div className="space-y-2">
               <p className="text-xs font-black uppercase text-indigo-400">The PM's logic builder</p>
               <p className="text-lg font-black tracking-tight leading-relaxed italic text-zinc-300">
@@ -131,7 +130,7 @@ GROUP BY 1;`}
               </p>
            </div>
            
-           <div className="bg-black/50 p-6 rounded-2xl font-mono text-sm overflow-hidden">
+           <div className="bg-black/50 p-4 rounded-2xl font-mono text-sm overflow-hidden">
               <pre className="text-indigo-300 leading-relaxed">
 {`SELECT 
   user_id,
@@ -146,8 +145,8 @@ FROM payments;`}
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <BarChart2 className="text-indigo-600" />
           4. Aggregate Functions
         </h2>
@@ -158,7 +157,7 @@ FROM payments;`}
              { name: "AVG()", d: "Averages (AOV, avg time on page)." },
              { name: "MAX/MIN()", d: "Ranges (last login, first purchase)." }
            ].map((item, i) => (
-             <div key={i} className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm space-y-2">
+             <div key={i} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-sm space-y-2">
                 <h4 className="font-black text-indigo-600 text-sm font-mono">{item.name}</h4>
                 <p className="text-[10px] font-bold text-zinc-500">{item.d}</p>
              </div>
@@ -166,8 +165,8 @@ FROM payments;`}
         </div>
       </section>
 
-      <section className="bg-zinc-50 p-10 rounded-[3rem] border border-zinc-200">
-        <h2 className="text-xl font-black text-zinc-900 mb-6 flex items-center gap-3">
+      <section className="bg-zinc-50 p-4 sm:p-5 rounded-2xl border border-zinc-200">
+        <h2 className="text-xl font-black text-zinc-900 mb-2.5 flex items-center gap-3">
           <Zap className="text-amber-500" />
           Advanced Logic Pro-Tip
         </h2>
@@ -176,7 +175,29 @@ FROM payments;`}
         </p>
       </section>
 
-      <div className="pt-8 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
+            <CornsilkSection
+        title="Time-Series SQL & Cohort Analytics"
+        titleColor="blue"
+        items={[
+                {
+                          "subtitle": "Date Truncation & Lagging",
+                          "headerColor": "blue",
+                          "description": "Use DATE_TRUNC, EXTRACT, and LAG/LEAD functions to build day-over-day and month-over-month cohort retention curves effortlessly."
+                },
+                {
+                          "subtitle": "Conditional CASE Statements",
+                          "headerColor": "red",
+                          "description": "Bucket user activity into power, casual, and dormant tiers dynamically to monitor shifts in user engagement distribution over time."
+                },
+                {
+                          "subtitle": "COALESCE & Edge-Case Guardrails",
+                          "headerColor": "blue",
+                          "description": "Handle missing values gracefully to prevent calculation errors in downstream dashboards and ensure reliable executive metric reporting."
+                }
+      ]}
+      />
+
+      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
         <p></p>
         <p></p>
       </div>

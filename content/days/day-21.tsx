@@ -1,3 +1,4 @@
+import { CornsilkSection } from '../../components/CornsilkSection';
 
 import React from 'react';
 import { 
@@ -11,11 +12,9 @@ import {
 
 export const Day21Content = () => {
   return (
-    <div className="space-y-10 text-left">
-      <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 21: Product Analytics & Metrics Foundations 🚀</h1>
-      
-      <section className="bg-emerald-50 p-10 rounded-[3rem] border border-emerald-100">
-        <div className="flex flex-col gap-4">
+    <div className="space-y-4 md:space-y-5 text-left">
+      <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
+        <div className="flex flex-col gap-1.5">
           <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600">Data</span>
           <p className="text-lg font-black text-emerald-900 leading-relaxed italic">
             "Covering the Basics of Mixpanel"
@@ -26,8 +25,8 @@ export const Day21Content = () => {
         </div>
       </section>
 
-      <section className="space-y-6">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-2.5">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Target className="text-indigo-600" />
           Learning Objectives
         </h2>
@@ -48,8 +47,8 @@ export const Day21Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Info className="text-indigo-600" />
           How Product Analytics Helps Product Managers
         </h2>
@@ -57,7 +56,7 @@ export const Day21Content = () => {
           Product managers need to understand user behavior at a granular level. While web analytics tools like Google Analytics tell you about page views and traffic, product analytics tools dive deeper into how users actually interact with your product's features and functionality.
         </p>
 
-        <div className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm space-y-6">
+        <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-6">
            <h4 className="font-black text-zinc-900 flex items-center gap-2">
              <BarChart className="w-5 h-5 text-indigo-600" />
              What Is Product Analytics?
@@ -70,7 +69,7 @@ export const Day21Content = () => {
            </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-3.5">
            {[
              { 
                title: "Feature Adoption & Usage", 
@@ -113,7 +112,7 @@ export const Day21Content = () => {
                icon: TrendingUp
              }
            ].map((benefit, i) => (
-             <div key={i} className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm flex items-start gap-4 hover:border-emerald-200 transition-colors group">
+             <div key={i} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-sm flex items-start gap-4 hover:border-emerald-200 transition-colors group">
                 <div className="w-12 h-12 rounded-2xl bg-zinc-50 flex items-center justify-center text-emerald-600 shrink-0 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
                   <benefit.icon className="w-6 h-6" />
                 </div>
@@ -126,46 +125,40 @@ export const Day21Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Sparkles className="text-indigo-600" />
           Enter Mixpanel: Purpose-Built Product Analytics
         </h2>
-        <div className="bg-zinc-900 text-white p-10 rounded-[3rem] border-t-8 border-indigo-500 space-y-8">
-           <p className="text-sm font-bold text-zinc-400 leading-relaxed">
-             Mixpanel is designed specifically for tracking user behavior in digital products. Its architecture makes granular insights significantly easier to extract.
-           </p>
-           
-           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-              {[
-                { title: "Event-Based Tracking", text: "Everything revolves around user actions (Events) and context (Properties)." },
-                { title: "User Profiles", text: "Persistent identities allow for complete history of a specific user's journey." },
-                { title: "Funnels", text: "Trivial to create conversion funnels for any sequence of events with segmentation." },
-                { title: "Retention Reports", text: "Measure what percentage of users return to perform an action again." },
-                { title: "Flow Reports", text: "Visualize actual paths users take organically through your product." },
-                { title: "Impact Reports", text: "Tie specific feature usage directly to business outcomes like conversion." }
-              ].map((comp, i) => (
-                <div key={i} className="space-y-2">
-                   <h4 className="font-black text-indigo-300 uppercase tracking-widest text-[10px]">{comp.title}</h4>
-                   <p className="text-sm font-bold leading-relaxed text-zinc-300">{comp.text}</p>
-                </div>
-              ))}
-           </div>
-
-           <div className="p-6 bg-white/5 rounded-2xl border border-white/10">
-              <p className="text-xs font-medium text-zinc-400 italic">
-                "Mixpanel's interface makes ad-hoc questions answerable in minutes rather than requiring complex SQL queries or custom reports from data teams."
-              </p>
-           </div>
-        </div>
+              <CornsilkSection
+        title="Core Foundations of Product Analytics"
+        titleColor="blue"
+        items={[
+                {
+                          "subtitle": "North Star Metric Alignment",
+                          "headerColor": "blue",
+                          "description": "Define a singular North Star Metric backed by input metrics that directly capture the core value delivered to your target users."
+                },
+                {
+                          "subtitle": "Funnel & Drop-Off Diagnostics",
+                          "headerColor": "red",
+                          "description": "Map multi-step user onboarding and checkout funnels to pinpoint specific conversion bottlenecks and high-friction UX screens."
+                },
+                {
+                          "subtitle": "Cohort Retention Curves",
+                          "headerColor": "blue",
+                          "description": "Track cohort curves across D1, D7, and D30 intervals to distinguish true product-market fit from temporary acquisition spikes."
+                }
+      ]}
+      />
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <RefreshCw className="text-indigo-600" />
           How PMs Use Mixpanel Day-to-Day
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-3.5">
            {[
              { phase: "Discovery", action: "Analyze current usage patterns to identify pain points and low adoption features." },
              { phase: "Prioritization", action: "Understand which features drive retention to quantify potential roadmap impact." },
@@ -174,7 +167,7 @@ export const Day21Content = () => {
              { phase: "Optimization", action: "Continuously analyze funnels and engagement to identify incremental improvements." },
              { phase: "Stakeholder Communication", action: "Provide concrete evidence for decisions with visual reports and dashboards." }
            ].map((item, i) => (
-             <div key={i} className="p-6 bg-zinc-50 border border-zinc-200 rounded-[2rem] flex flex-col gap-2">
+             <div key={i} className="p-4 bg-zinc-50 border border-zinc-200 rounded-[2rem] flex flex-col gap-2">
                 <h4 className="font-black text-indigo-900 text-sm uppercase tracking-widest">{item.phase}</h4>
                 <p className="text-xs font-bold text-zinc-500 leading-relaxed">{item.action}</p>
              </div>
@@ -182,8 +175,8 @@ export const Day21Content = () => {
         </div>
       </section>
 
-      <section className="bg-zinc-50 p-10 rounded-[3rem] border border-zinc-200">
-        <h2 className="text-xl font-black text-zinc-900 mb-6 flex items-center gap-3">
+      <section className="bg-zinc-50 p-4 sm:p-5 rounded-2xl border border-zinc-200">
+        <h2 className="text-xl font-black text-zinc-900 mb-2.5 flex items-center gap-3">
           <Database className="text-emerald-500" />
           Analytics Mastery Tip
         </h2>
@@ -192,7 +185,7 @@ export const Day21Content = () => {
         </p>
       </section>
 
-      <div className="pt-8 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
+      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
         <p></p>
         <p></p>
       </div>

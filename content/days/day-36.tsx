@@ -1,3 +1,4 @@
+import { CornsilkSection } from '../../components/CornsilkSection';
 import React from 'react';
 import { 
   Rocket, Briefcase, Zap, Code, Smartphone, CheckCircle, 
@@ -9,11 +10,9 @@ import {
 
 export const Day36Content = () => {
   return (
-    <div className="space-y-10 text-left">
-      <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 36: Building Proof of Work: Why Aspiring PMs Must Ship and How to Do It With No-Code Tools 🚀</h1>
-      
-      <section className="bg-amber-50 p-10 rounded-[3rem] border border-amber-100">
-        <div className="flex flex-col gap-4">
+    <div className="space-y-4 md:space-y-5 text-left">
+      <section className="bg-amber-50 p-4 sm:p-5 rounded-2xl border border-amber-100">
+        <div className="flex flex-col gap-1.5">
           <span className="text-[10px] font-black uppercase tracking-widest text-amber-600">Job ready</span>
           <p className="text-lg font-black text-amber-900 leading-relaxed italic">
             "The gap between those who get PM roles and those who don't often comes down to one thing: proof of work."
@@ -24,17 +23,17 @@ export const Day36Content = () => {
         </div>
       </section>
 
-      <section className="space-y-6">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-2.5">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Target className="text-amber-600" />
           Why Proof of Work Matters More Than Credentials
         </h2>
-        <div className="bg-white border border-zinc-100 p-8 rounded-[2.5rem] shadow-sm space-y-6">
+        <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm space-y-6">
            <p className="text-sm font-medium text-zinc-600 leading-relaxed">
              Product management is fundamentally about turning ideas into reality that people actually use. It's not a theoretical discipline. You can't truly understand product management from books alone any more than you can learn to swim by reading about it.
            </p>
            
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
               {[
                 { 
                   title: "Demonstrated Ability over Potential", 
@@ -53,7 +52,7 @@ export const Day36Content = () => {
                   desc: "Building in your spare time identifies you as a self-starter who drives solutions without being told—a core PM quality." 
                 }
               ].map((item, i) => (
-                <div key={i} className="p-6 bg-zinc-50 rounded-2xl border border-zinc-100 space-y-2">
+                <div key={i} className="p-4 bg-zinc-50 rounded-2xl border border-zinc-100 space-y-2">
                    <h4 className="font-black text-zinc-900 text-sm">{item.title}</h4>
                    <p className="text-xs font-medium text-zinc-500 leading-relaxed">{item.desc}</p>
                 </div>
@@ -62,12 +61,12 @@ export const Day36Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Zap className="text-amber-600" />
           The No-Code Revolution: Building Without Engineering Skills
         </h2>
-        <div className="bg-zinc-900 text-white p-10 rounded-[3rem] border-t-8 border-amber-500 space-y-6">
+        <div className="bg-zinc-900 text-white p-4 sm:p-5 rounded-2xl border-t-8 border-amber-500 space-y-6">
            <p className="text-sm font-medium text-zinc-400 leading-relaxed">
              Today, no-code and low-code platforms enable anyone to build sophisticated applications, automation workflows, AI agents, and web experiences without writing code. This democratization removes the primary barrier aspiring PMs faced.
            </p>
@@ -93,12 +92,12 @@ export const Day36Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Layers className="text-amber-600" />
           How to Build Your Proof of Work Portfolio
         </h2>
-        <div className="space-y-6">
+        <div className="space-y-2.5">
            {[
              { title: "Start with Problems You Personally Experience", desc: "Solve pain points you understand intimately. You'll stay motivated and be your own first user. A simple budgeting tool beats a half-finished finance suite.", icon: Briefcase },
              { title: "Ship Small and Ship Often", desc: "Better to ship ten small projects than spend six months on one. Aim to ship your first project within a week (5-10 hours of work) to learn the complete cycle fast.", icon: Rocket },
@@ -106,7 +105,7 @@ export const Day36Content = () => {
              { title: "Document Your Process and Learnings", desc: "Write case studies for each: the problem, how you validated it, key decisions, metrics tracked, and what you'd do differently next time.", icon: FileText },
              { title: "Iterate Based on Feedback", desc: "The best portfolio projects show evolution. Version 2 and 3 after analyzing usage patterns prove you can actually manage a product lifecycle.", icon: RefreshCw }
            ].map((step, i) => (
-             <div key={i} className="flex gap-6 p-8 bg-zinc-50 border border-zinc-200 rounded-[2.5rem] items-start">
+             <div key={i} className="flex gap-3 md:gap-3.5 p-4 sm:p-5 bg-zinc-50 border border-zinc-200 rounded-2xl items-start">
                 <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center text-amber-600 shrink-0 shadow-sm border border-zinc-100">
                   <step.icon className="w-6 h-6" />
                 </div>
@@ -119,14 +118,14 @@ export const Day36Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Lightbulb className="text-amber-600" />
           Project Ideas You Can Build This Week
         </h2>
         
-        <div className="space-y-6">
-           <div className="p-8 bg-white border border-zinc-100 rounded-[3rem] shadow-sm space-y-4">
+        <div className="space-y-2.5">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
               <div className="flex items-center gap-3">
                  <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600 shadow-inner">
                    <BarChart className="w-5 h-5" />
@@ -137,7 +136,7 @@ export const Day36Content = () => {
               <p className="text-xs font-medium text-zinc-600">A simple web dashboard where users log habits, mood, and sleep. Use Claude or Lovable to create the interface and a simple database for persistence.</p>
            </div>
 
-           <div className="p-8 bg-white border border-zinc-100 rounded-[3rem] shadow-sm space-y-4">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
               <div className="flex items-center gap-3">
                  <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600 shadow-inner">
                    <MessageSquare className="w-5 h-5" />
@@ -148,7 +147,7 @@ export const Day36Content = () => {
               <p className="text-xs font-medium text-zinc-600">Generates contextual behavioral questions based on role and industry. Use the Google AI Studio API for the brain and a simple form interface.</p>
            </div>
 
-           <div className="p-8 bg-white border border-zinc-100 rounded-[3rem] shadow-sm space-y-4">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
               <div className="flex items-center gap-3">
                  <div className="w-10 h-10 rounded-xl bg-pink-50 flex items-center justify-center text-pink-600 shadow-inner">
                    <Smartphone className="w-5 h-5" />
@@ -161,19 +160,29 @@ export const Day36Content = () => {
         </div>
       </section>
 
-      <section className="bg-zinc-950 text-white p-10 rounded-[3rem] border-t-8 border-amber-500">
-        <h2 className="text-2xl font-black text-amber-400 flex items-center gap-3 mb-6">
-          <Sparkles className="text-amber-400" />
-          Final Insight
-        </h2>
-        <div className="space-y-4">
-           <p className="text-sm font-bold text-zinc-300 leading-relaxed italic">
-             "Technical credibility increases when you've shipped. You don't need to be an engineer, but showing you can use tools to translate vision into a working URL accessible to anyone in the world is the ultimate PM superpower."
-           </p>
-        </div>
-      </section>
+            <CornsilkSection
+        title="Rapid Prototyping & Shipping No-Code MVPs"
+        titleColor="blue"
+        items={[
+                {
+                          "subtitle": "Full-Stack No-Code Stacks",
+                          "headerColor": "red",
+                          "description": "Combine frontend builders (Webflow, Bubble) with databases (Supabase, Airtable) and automations (Make, Zapier) to ship live products."
+                },
+                {
+                          "subtitle": "Speed of Validation",
+                          "headerColor": "blue",
+                          "description": "Validate real demand by acquiring paying customers and collecting behavioral metrics before dedicating months of engineering time."
+                },
+                {
+                          "subtitle": "Proof of Execution for Aspiring PMs",
+                          "headerColor": "red",
+                          "description": "Stand out in hiring pipelines by demonstrating end-to-end product ownership, live user adoption, and revenue generation."
+                }
+      ]}
+      />
 
-      <div className="pt-8 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
+      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
         <p></p>
         <p></p>
       </div>

@@ -1,3 +1,4 @@
+import { CornsilkSection } from '../../components/CornsilkSection';
 import React from 'react';
 import { 
   Briefcase, Target, ExternalLink, MonitorPlay, 
@@ -8,11 +9,9 @@ import {
 
 export const Day42Content = () => {
   return (
-    <div className="space-y-10 text-left">
-      <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 42: PM Interview Rounds - Case Study & Product Sense 🚀</h1>
-      
-      <section className="bg-amber-50 p-10 rounded-[3rem] border border-amber-100">
-        <div className="flex flex-col gap-4">
+    <div className="space-y-4 md:space-y-5 text-left">
+      <section className="bg-amber-50 p-4 sm:p-5 rounded-2xl border border-amber-100">
+        <div className="flex flex-col gap-1.5">
           <span className="text-[10px] font-black uppercase tracking-widest text-amber-600">Job ready</span>
           <p className="text-lg font-black text-amber-900 leading-relaxed italic">
             "Interviews aren't just about giving the 'right' answer—they are about demonstrating your structured thinking and ability to handle ambiguity."
@@ -20,12 +19,12 @@ export const Day42Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Briefcase className="text-amber-600" />
           Round One: Case Study Round
         </h2>
-        <div className="bg-white border border-zinc-100 p-8 rounded-[2.5rem] shadow-sm space-y-6">
+        <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm space-y-6">
            <h3 className="text-[10px] font-black uppercase tracking-widest text-zinc-400">What is evaluated:</h3>
            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {[
@@ -47,7 +46,7 @@ export const Day42Content = () => {
                 href="https://believed-mist-f1a.notion.site/Assignments-14251b6fbd0e8055830cd5ecf8147313" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="flex items-center gap-4 p-6 rounded-3xl bg-zinc-900 text-white hover:bg-black transition-all group"
+                className="flex items-center gap-4 p-4 rounded-3xl bg-zinc-900 text-white hover:bg-black transition-all group"
               >
                 <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center text-amber-400 shrink-0">
                   <ExternalLink className="w-6 h-6" />
@@ -61,13 +60,13 @@ export const Day42Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Target className="text-amber-600" />
           Round Two: Product Sense Round
         </h2>
-        <div className="bg-zinc-50 p-8 rounded-[3rem] border border-zinc-200 space-y-8">
-           <div className="flex flex-col md:flex-row gap-6 items-center">
+        <div className="bg-zinc-50 p-4 sm:p-5 rounded-2xl border border-zinc-200 space-y-8">
+           <div className="flex flex-col md:flex-row gap-3 md:gap-3.5 items-center">
               <div className="flex-1 space-y-4">
                  <h3 className="text-xl font-black text-zinc-900">Mastering Product Sense</h3>
                  <p className="text-sm font-medium text-zinc-500 leading-relaxed">
@@ -95,12 +94,12 @@ export const Day42Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Sparkles className="text-amber-600" />
           Practice Questions
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-3.5">
            {[
              { title: "Design a movie-booking app for elderly users", company: "Flipkart", icon: Smartphone },
              { title: "Design a Google Pixel tablet for restaurants", company: "Google", icon: Layout },
@@ -109,7 +108,7 @@ export const Day42Content = () => {
              { title: "Design a car parking system", company: "Google, Atlassian, Meta", icon: Activity },
              { title: "Design a gardening / hobby app", company: "Atlassian, Adobe", icon: Search }
            ].map((item, i) => (
-             <div key={i} className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm space-y-4 hover:border-amber-200 transition-colors group">
+             <div key={i} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4 hover:border-amber-200 transition-colors group">
                 <div className="w-12 h-12 rounded-2xl bg-zinc-50 flex items-center justify-center text-amber-600 group-hover:bg-amber-600 group-hover:text-white transition-colors shadow-inner">
                   <item.icon className="w-6 h-6" />
                 </div>
@@ -125,21 +124,29 @@ export const Day42Content = () => {
         </div>
       </section>
 
-      <section className="bg-zinc-950 text-white p-10 rounded-[3rem] border-t-8 border-amber-500">
-        <div className="flex items-start gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-400 shrink-0">
-            <Lightbulb className="w-6 h-6" />
-          </div>
-          <div className="space-y-4">
-            <h4 className="text-[10px] font-black uppercase tracking-widest text-amber-400">Interview Tip</h4>
-            <p className="text-lg font-black italic text-zinc-300 leading-relaxed">
-              "Never jump to the solution. Spend the first 5 minutes clarifying the objective, identifying user segments, and selecting the most impactful pain point."
-            </p>
-          </div>
-        </div>
-      </section>
+            <CornsilkSection
+        title="Product Sense & Design Interview Mastery"
+        titleColor="blue"
+        items={[
+                {
+                          "subtitle": "CIRCLES Framework Execution",
+                          "headerColor": "red",
+                          "description": "Structure open-ended questions systematically: Clarify goals, Identify personas, Report needs, Cut priorities, List solutions, Evaluate, and Summarize."
+                },
+                {
+                          "subtitle": "Bold Yet Feasible Ideation",
+                          "headerColor": "blue",
+                          "description": "Pitch 3 distinct solution ideas ranging from safe iterative enhancements to 10x moonshots, demonstrating creative range and technical feasibility."
+                },
+                {
+                          "subtitle": "Metrics & Trade-Off Defensibility",
+                          "headerColor": "red",
+                          "description": "Define comprehensive North Star, counter, and ecosystem health metrics while defending why chosen trade-offs optimize customer value."
+                }
+      ]}
+      />
 
-      <div className="pt-8 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
+      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
         <p></p>
         <p></p>
       </div>

@@ -1,3 +1,4 @@
+import { CornsilkSection } from '../../components/CornsilkSection';
 
 import React from 'react';
 import { 
@@ -8,13 +9,11 @@ import {
 
 export const Day14Content = () => {
   return (
-    <div className="space-y-10 text-left">
-      <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 14: Introduction to SQL (SELECT, WHERE, Basics) 🚀</h1>
-      
-      <section className="bg-emerald-50 p-10 rounded-[3rem] border border-emerald-100">
-        <div className="flex flex-col gap-4">
+    <div className="space-y-4 md:space-y-5 text-left">
+      <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
+        <div className="flex flex-col gap-1.5">
           <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600">Data</span>
-          <p className="text-lg font-medium text-emerald-900 leading-relaxed italic">
+          <p className="text-sm sm:text-base font-medium text-blue-900 leading-relaxed italic">
             "Data is the voice of your users. SQL lets you listen."
           </p>
           <p className="text-sm font-bold text-emerald-700">
@@ -23,8 +22,8 @@ export const Day14Content = () => {
         </div>
       </section>
 
-      <section className="space-y-6">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-2.5">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Target className="text-indigo-600" />
           Learning Objectives
         </h2>
@@ -45,14 +44,14 @@ export const Day14Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Info className="text-indigo-600" />
           1. What is SQL and Why PMs Need It
         </h2>
         
-        <div className="space-y-6">
-          <div className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm space-y-4">
+        <div className="space-y-2.5">
+          <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
             <h4 className="font-black text-zinc-900 flex items-center gap-2">
               <Database className="w-5 h-5 text-indigo-600" />
               What is SQL?
@@ -72,12 +71,12 @@ export const Day14Content = () => {
             </ul>
           </div>
 
-          <div className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm space-y-4">
+          <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
             <h4 className="font-black text-zinc-900 flex items-center gap-2">
               <Zap className="w-5 h-5 text-indigo-600" />
               Why PMs Need SQL
             </h4>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
               <div className="space-y-2">
                 <p className="text-xs font-black uppercase text-zinc-400 tracking-widest">The Problem</p>
                 <p className="text-sm font-bold text-rose-600 italic">"Without SQL: You wait for analysts, ask vague questions, get delayed answers."</p>
@@ -108,19 +107,19 @@ export const Day14Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Terminal className="text-indigo-600" />
           Real PM Use Cases
         </h2>
         
-        <div className="space-y-8">
+        <div className="space-y-3.5 md:space-y-4">
           <div className="space-y-4">
             <div className="flex items-center gap-3">
                <span className="w-8 h-8 rounded-lg bg-zinc-900 text-white flex items-center justify-center font-black text-xs">C1</span>
                <h4 className="font-black text-zinc-900">Case 1: Feature Adoption</h4>
             </div>
-            <div className="bg-zinc-900 p-6 rounded-[2rem] border border-zinc-800 font-mono text-sm overflow-hidden">
+            <div className="bg-zinc-900 p-4 rounded-[2rem] border border-zinc-800 font-mono text-sm overflow-hidden">
               <pre className="text-indigo-300">
 {`SELECT feature_name, COUNT(DISTINCT user_id) as users
 FROM feature_usage
@@ -139,7 +138,7 @@ GROUP BY feature_name;`}
                <span className="w-8 h-8 rounded-lg bg-zinc-900 text-white flex items-center justify-center font-black text-xs">C2</span>
                <h4 className="font-black text-zinc-900">Case 2: Churn Analysis</h4>
             </div>
-            <div className="bg-zinc-900 p-6 rounded-[2rem] border border-zinc-800 font-mono text-sm overflow-hidden">
+            <div className="bg-zinc-900 p-4 rounded-[2rem] border border-zinc-800 font-mono text-sm overflow-hidden">
               <pre className="text-indigo-300">
 {`SELECT * FROM users
 WHERE last_active_date < '2025-01-01'
@@ -154,7 +153,29 @@ AND signup_date < '2024-12-01';`}
         </div>
       </section>
 
-      <div className="pt-8 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
+            <CornsilkSection
+        title="Foundational SQL Data Retrieval for PMs"
+        titleColor="blue"
+        items={[
+                {
+                          "subtitle": "Structured Data Exploration",
+                          "headerColor": "red",
+                          "description": "Query raw production databases directly using SELECT, WHERE, and LIMIT to validate customer bug reports and feature usage without data engineering delays."
+                },
+                {
+                          "subtitle": "Conditional Filtering Precision",
+                          "headerColor": "blue",
+                          "description": "Master AND, OR, IN, and LIKE pattern matching to isolate target user cohorts, geographic segments, and specific product release variants."
+                },
+                {
+                          "subtitle": "Independent Fact Verification",
+                          "headerColor": "red",
+                          "description": "Empower yourself to verify critical adoption and drop-off numbers independently during leadership reviews and stakeholder roadmapping debates."
+                }
+      ]}
+      />
+
+      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
         <p></p>
         <p></p>
       </div>

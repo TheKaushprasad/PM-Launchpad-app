@@ -1,3 +1,4 @@
+import { CornsilkSection } from '../../components/CornsilkSection';
 import React from 'react';
 import { 
   Bot, Brain, Cpu, Zap, Layers, Activity, 
@@ -10,11 +11,9 @@ import {
 
 export const Day35Content = () => {
   return (
-    <div className="space-y-10 text-left">
-      <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 35: AI Agents for Product Managers 🚀</h1>
-      
-      <section className="bg-orange-50 p-10 rounded-[3rem] border border-orange-100">
-        <div className="flex flex-col gap-4">
+    <div className="space-y-4 md:space-y-5 text-left">
+      <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
+        <div className="flex flex-col gap-1.5">
           <span className="text-[10px] font-black uppercase tracking-widest text-orange-600">AI AGENT</span>
           <h2 className="text-xl font-black text-orange-900">AI Agents for Product Managers: What They Are and Why Building Them Matters</h2>
           <p className="text-sm font-medium text-orange-800 leading-relaxed">
@@ -25,7 +24,7 @@ export const Day35Content = () => {
           </p>
           
           <div className="mt-6 space-y-6">
-            <div className="aspect-video bg-zinc-900 rounded-[2.5rem] overflow-hidden border border-zinc-800 shadow-2xl relative">
+            <div className="aspect-video bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-800 shadow-2xl relative">
                <iframe 
                   src="https://www.youtube.com/embed/ZHH3sr234zY" 
                   className="w-full h-full" 
@@ -46,19 +45,19 @@ export const Day35Content = () => {
         </div>
       </section>
 
-      <section className="space-y-6">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-2.5">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Info className="text-orange-600" />
           What Are AI Agents?
         </h2>
-        <div className="bg-white border border-zinc-100 p-8 rounded-[2.5rem] shadow-sm space-y-6">
+        <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm space-y-6">
            <p className="text-sm font-medium text-zinc-600 leading-relaxed">
              An AI agent is an autonomous system that perceives its environment, makes decisions, and takes actions to achieve specific goals without constant human intervention. Unlike traditional software that follows predefined rules or AI chatbots that simply respond to prompts, agents can plan multi-step tasks, use tools, adapt strategies based on feedback, and work toward objectives over extended periods.
            </p>
            
-           <div className="bg-zinc-900 text-white p-8 rounded-[2rem] space-y-4">
+           <div className="bg-zinc-900 text-white p-4 sm:p-5 rounded-[2rem] space-y-4">
               <h4 className="text-[10px] font-black uppercase tracking-widest text-orange-400">The Difference</h4>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
                  <div className="space-y-2">
                     <p className="text-xs font-black text-zinc-300">Chatbot:</p>
                     <p className="text-sm italic text-zinc-500">Answers the question "What's the weather?"</p>
@@ -72,12 +71,12 @@ export const Day35Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Layers className="text-orange-600" />
           Defining Characteristics
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-3.5">
            {[
              { title: "Autonomy", desc: "Agents operate independently once given objectives. You define the goal and the agent figures out how to achieve it.", icon: Bot },
              { title: "Goal-directed behavior", desc: "Focuses agents on outcomes. Instead of 'run query,' say 'find churn risk' and it decides the patterns to investigate.", icon: Target },
@@ -86,7 +85,7 @@ export const Day35Content = () => {
              { title: "Memory and context", desc: "Maintain continuity across interactions. They remember previous conversations and learn from past actions.", icon: Database },
              { title: "Perception and feedback", desc: "Observe results of actions and adjust. If a strategy isn't working, agents notice and try different approaches.", icon: RefreshCw }
            ].map((item, i) => (
-             <div key={i} className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm space-y-4">
+             <div key={i} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
                 <div className="w-12 h-12 rounded-2xl bg-orange-50 flex items-center justify-center text-orange-600 shadow-inner">
                   <item.icon className="w-6 h-6" />
                 </div>
@@ -97,8 +96,8 @@ export const Day35Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Activity className="text-orange-600" />
           Types of AI Agents
         </h2>
@@ -110,7 +109,7 @@ export const Day35Content = () => {
              { title: "Utility-based agents", desc: "Optimize for specific metrics or preferences. An agent negotiating prices might maximize savings while minimizing time." },
              { title: "Learning agents", desc: "Improve performance over time through experience. Recommendation agents that personalize suggestions based on behavior." }
            ].map((type, i) => (
-             <div key={i} className="flex gap-6 p-6 bg-zinc-50 border border-zinc-200 rounded-[2rem] items-start">
+             <div key={i} className="flex gap-3 md:gap-3.5 p-4 bg-zinc-50 border border-zinc-200 rounded-[2rem] items-start">
                 <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-indigo-600 font-black text-sm shadow-sm shrink-0 border border-zinc-100">{i+1}</div>
                 <div>
                    <h4 className="font-black text-zinc-900 text-sm mb-0.5">{type.title}</h4>
@@ -121,31 +120,31 @@ export const Day35Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Briefcase className="text-orange-600" />
           Why AI Agents Matter for Product Managers
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-           <div className="p-8 bg-white border border-zinc-100 rounded-[3rem] shadow-sm space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
               <h4 className="font-black text-zinc-900">New Product Possibilities</h4>
               <p className="text-xs font-medium text-zinc-500 leading-relaxed">
                 Instead of building tools users must learn to operate, you build agents that accomplish tasks for users. The product does the work rather than merely enabling it.
               </p>
            </div>
-           <div className="p-8 bg-white border border-zinc-100 rounded-[3rem] shadow-sm space-y-4">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
               <h4 className="font-black text-zinc-900">Competitive Differentiation</h4>
               <p className="text-xs font-medium text-zinc-500 leading-relaxed">
                 The question shifts from "does your product have AI?" to "can your product accomplish complex tasks autonomously?"
               </p>
            </div>
-           <div className="p-8 bg-white border border-zinc-100 rounded-[3rem] shadow-sm space-y-4">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
               <h4 className="font-black text-zinc-900">Value Propositions Transform</h4>
               <p className="text-xs font-medium text-zinc-500 leading-relaxed">
                 Time savings, error reduction, and capability extension become core value drivers. A product that saves users 20 hours per week justifies premium pricing.
               </p>
            </div>
-           <div className="p-8 bg-white border border-zinc-100 rounded-[3rem] shadow-sm space-y-4">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
               <h4 className="font-black text-zinc-900">Business Models Evolve</h4>
               <p className="text-xs font-medium text-zinc-500 leading-relaxed">
                 Outcome-based pricing becomes feasible—charge for tasks completed rather than seats or features.
@@ -154,8 +153,8 @@ export const Day35Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Rocket className="text-orange-600" />
           Why Product Managers Should Build AI Agents
         </h2>
@@ -177,13 +176,13 @@ export const Day35Content = () => {
         </ul>
       </section>
 
-      <section className="space-y-12">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Zap className="text-orange-600" />
           Enter n8n: Agent Building for Product Managers
         </h2>
         
-        <div className="bg-zinc-900 text-white p-10 rounded-[3rem] space-y-8 border-t-8 border-orange-500">
+        <div className="bg-zinc-900 text-white p-4 sm:p-5 rounded-2xl space-y-8 border-t-8 border-orange-500">
            <div className="space-y-4">
               <h3 className="text-xl font-black text-orange-400">What is n8n?</h3>
               <p className="text-sm font-medium text-zinc-400 leading-relaxed">
@@ -191,8 +190,8 @@ export const Day35Content = () => {
               </p>
            </div>
 
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="space-y-6">
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
+              <div className="space-y-2.5">
                  <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-500">How n8n Works</h4>
                  <ul className="space-y-3">
                     {[
@@ -210,7 +209,7 @@ export const Day35Content = () => {
                     ))}
                  </ul>
               </div>
-              <div className="bg-white/5 p-6 rounded-3xl border border-white/10 space-y-4">
+              <div className="bg-white/5 p-4 rounded-3xl border border-white/10 space-y-4">
                  <h4 className="text-[10px] font-black uppercase tracking-widest text-orange-400">Example: Feedback Agent</h4>
                  <div className="space-y-3">
                     {[
@@ -230,9 +229,9 @@ export const Day35Content = () => {
            </div>
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-2.5">
            <h3 className="text-xl font-black text-zinc-900">Why n8n Works for Product Managers</h3>
-           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-3.5">
               {[
                 { title: "Low barrier to entry", desc: "If you can create a flowchart, you can build agents in n8n." },
                 { title: "Rapid iteration", desc: "Experiment, test, and refine logic all in the same day." },
@@ -241,7 +240,7 @@ export const Day35Content = () => {
                 { title: "Gradual complexity", desc: "Start simple and add memory or error handling over time." },
                 { title: "Template community", desc: "Clone and customize workflows shared by other users." }
               ].map((benefit, i) => (
-                <div key={i} className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm space-y-2">
+                <div key={i} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-sm space-y-2">
                    <h4 className="font-black text-zinc-900 text-xs uppercase tracking-widest text-orange-600">{benefit.title}</h4>
                    <p className="text-[11px] font-bold text-zinc-500 leading-relaxed">{benefit.desc}</p>
                 </div>
@@ -250,12 +249,12 @@ export const Day35Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Layers className="text-orange-600" />
           Other Agent Building Platforms
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-3.5">
            {[
              { name: "Zapier and Make", desc: "Business-process-focused visual automation, extremely accessible." },
              { name: "LangChain", desc: "Developer framework for building powerful AI applications and agents." },
@@ -264,7 +263,7 @@ export const Day35Content = () => {
              { name: "LlamaIndex", desc: "Specialized for agents working with private data and RAG systems." },
              { name: "Relevance AI", desc: "Low-code templates for lead qualification and content creation." }
            ].map((platform, i) => (
-             <div key={i} className="p-8 bg-zinc-50 border border-zinc-200 rounded-[2.5rem] flex flex-col gap-2">
+             <div key={i} className="p-4 sm:p-5 bg-zinc-50 border border-zinc-200 rounded-2xl flex flex-col gap-2">
                 <h4 className="font-black text-indigo-900 text-sm uppercase tracking-widest">{platform.name}</h4>
                 <p className="text-xs font-bold text-zinc-500 leading-relaxed">{platform.desc}</p>
              </div>
@@ -272,19 +271,29 @@ export const Day35Content = () => {
         </div>
       </section>
 
-      <section className="bg-zinc-900 text-white p-10 rounded-[3rem] border-t-8 border-orange-500">
-        <h2 className="text-2xl font-black text-orange-400 flex items-center gap-3 mb-6">
-          <Sparkles className="text-orange-400" />
-          The Final Insight
-        </h2>
-        <div className="space-y-4">
-           <p className="text-sm font-bold text-zinc-300 leading-relaxed italic">
-             "The shift from GenAI as a tool to Agentic AI as a worker is the most significant change in product strategy of the decade. Building agents isn't just about automation—it's about redefining the relationship between your user and your product."
-           </p>
-        </div>
-      </section>
+            <CornsilkSection
+        title="Autonomous Agent Design & Tool Calling"
+        titleColor="blue"
+        items={[
+                {
+                          "subtitle": "ReAct Loops & Tool Calling",
+                          "headerColor": "blue",
+                          "description": "Architect autonomous agents capable of iterative thought, external tool execution, and observation feedback loops to solve multi-step goals."
+                },
+                {
+                          "subtitle": "State Machines & Error Recovery",
+                          "headerColor": "red",
+                          "description": "Implement stateful graphs (LangGraph/CrewAI) with self-healing retry logic to prevent agents from falling into infinite execution loops."
+                },
+                {
+                          "subtitle": "Production Agent Metrics",
+                          "headerColor": "blue",
+                          "description": "Track task completion rates, cost per solved ticket, and step-level latency to measure true operational efficiency and ROI."
+                }
+      ]}
+      />
 
-      <div className="pt-8 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
+      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
         <p></p>
         <p></p>
       </div>

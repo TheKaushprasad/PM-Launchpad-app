@@ -1,3 +1,4 @@
+import { CornsilkSection } from '../../components/CornsilkSection';
 import React from 'react';
 // Added Bot icon to fix "Cannot find name" error on line 85
 import { 
@@ -8,11 +9,9 @@ import {
 
 export const Day40Content = () => {
   return (
-    <div className="space-y-10 text-left">
-      <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 40: Building CV and optimising your linkedin 🚀</h1>
-      
-      <section className="bg-amber-50 p-10 rounded-[3rem] border border-amber-100">
-        <div className="flex flex-col gap-4">
+    <div className="space-y-4 md:space-y-5 text-left">
+      <section className="bg-amber-50 p-4 sm:p-5 rounded-2xl border border-amber-100">
+        <div className="flex flex-col gap-1.5">
           <span className="text-[10px] font-black uppercase tracking-widest text-amber-600">Job ready</span>
           <h2 className="text-xl font-black text-amber-900">Crafting Your Professional Identity</h2>
           <p className="text-sm font-medium text-amber-800 leading-relaxed italic">
@@ -21,17 +20,17 @@ export const Day40Content = () => {
         </div>
       </section>
 
-      <section className="space-y-6">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-2.5">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <FileText className="text-amber-600" />
           Building a Winning PM CV
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-3.5">
           <a 
             href="https://believed-mist-f1a.notion.site/CV-template-for-APM-14551b6fbd0e80779ba5f5ade6f00fc5" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="flex items-center gap-4 p-6 rounded-3xl bg-white border border-zinc-100 hover:border-amber-200 hover:shadow-md transition-all group"
+            className="flex items-center gap-4 p-4 rounded-3xl bg-white border border-zinc-100 hover:border-amber-200 hover:shadow-md transition-all group"
           >
             <div className="w-12 h-12 rounded-2xl bg-amber-50 flex items-center justify-center text-amber-600 shrink-0">
               <Link className="w-6 h-6" />
@@ -45,7 +44,7 @@ export const Day40Content = () => {
             href="https://resumeworded.com/" 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="flex items-center gap-4 p-6 rounded-3xl bg-white border border-zinc-100 hover:border-amber-200 hover:shadow-md transition-all group"
+            className="flex items-center gap-4 p-4 rounded-3xl bg-white border border-zinc-100 hover:border-amber-200 hover:shadow-md transition-all group"
           >
             <div className="w-12 h-12 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-600 shrink-0">
               <ShieldCheck className="w-6 h-6" />
@@ -58,19 +57,19 @@ export const Day40Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Share2 className="text-amber-600" />
           LinkedIn Profile Optimization
         </h2>
-        <div className="bg-zinc-50 p-10 rounded-[3rem] border border-zinc-200 space-y-6">
+        <div className="bg-zinc-50 p-4 sm:p-5 rounded-2xl border border-zinc-200 space-y-6">
            <h3 className="text-xl font-black text-zinc-900">How to use the Expert Prompt?</h3>
            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="p-6 bg-white rounded-3xl border border-zinc-100 shadow-sm flex items-center gap-4">
+              <div className="p-4 bg-white rounded-3xl border border-zinc-100 shadow-sm flex items-center gap-4">
                  <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600 font-black">1</div>
                  <p className="text-xs font-bold text-zinc-700">Copy paste the prompt in chatgpt</p>
               </div>
-              <div className="p-6 bg-white rounded-3xl border border-zinc-100 shadow-sm flex items-center gap-4">
+              <div className="p-4 bg-white rounded-3xl border border-zinc-100 shadow-sm flex items-center gap-4">
                  <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600 font-black">2</div>
                  <p className="text-xs font-bold text-zinc-700">Paste your LinkedinProfile data</p>
               </div>
@@ -82,8 +81,8 @@ export const Day40Content = () => {
              <Sparkles className="text-amber-500 w-5 h-5" />
              The Recruiter-Grade Analysis Prompt
            </h3>
-           <div className="bg-zinc-950 text-white p-8 md:p-12 rounded-[3rem] relative overflow-hidden group">
-              <div className="absolute top-0 right-0 p-8 opacity-5"><Bot className="w-48 h-48" /></div>
+           <div className="bg-zinc-950 text-white p-4 sm:p-5 md:p-12 rounded-2xl relative overflow-hidden group">
+              <div className="absolute top-0 right-0 p-4 sm:p-5 opacity-5"><Bot className="w-48 h-48" /></div>
               <div className="relative z-10 font-mono text-[11px] md:text-xs text-zinc-400 leading-relaxed max-h-[500px] overflow-y-auto no-scrollbar">
                 <p className="text-amber-400 mb-4 font-black">COPY THIS ENTIRE TEXT:</p>
                 <div className="space-y-4 whitespace-pre-wrap">
@@ -136,21 +135,29 @@ Provide: • Overall profile score (0–100) • Shortlisting probability: Low /
         </div>
       </section>
 
-      <section className="bg-zinc-950 text-white p-10 rounded-[3rem] border-t-8 border-amber-500">
-        <div className="flex items-start gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-400 shrink-0">
-            <Sparkles className="w-6 h-6" />
-          </div>
-          <div className="space-y-4">
-            <h4 className="text-[10px] font-black uppercase tracking-widest text-amber-400">Remember</h4>
-            <p className="text-lg font-black italic text-zinc-300 leading-relaxed">
-              "Recruiters spending time on your profile are looking for reasons to rule you OUT. Don't give them any. Focus on metrics, brand names, and clear outcomes."
-            </p>
-          </div>
-        </div>
-      </section>
+            <CornsilkSection
+        title="High-Conversion Resume & LinkedIn Strategy"
+        titleColor="blue"
+        items={[
+                {
+                          "subtitle": "Google X-Y-Z Impact Bullets",
+                          "headerColor": "red",
+                          "description": "Frame every resume bullet with 'Accomplished [X], as measured by [Y], by doing [Z]' to showcase measurable business and product impact."
+                },
+                {
+                          "subtitle": "Keyword Alignment & ATS Optimization",
+                          "headerColor": "blue",
+                          "description": "Seamlessly weave core PM competencies (discovery, roadmapping, SQL, A/B testing, PRDs) into headline, summary, and experience sections."
+                },
+                {
+                          "subtitle": "Social Proof & Thought Leadership",
+                          "headerColor": "red",
+                          "description": "Publish concise product teardowns, framework summaries, and course reflections on LinkedIn to build inbound recruiter visibility."
+                }
+      ]}
+      />
 
-      <div className="pt-8 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
+      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
         <p></p>
         <p></p>
       </div>

@@ -1,3 +1,4 @@
+import { CornsilkSection } from '../../components/CornsilkSection';
 
 import React from 'react';
 import { 
@@ -9,20 +10,18 @@ import {
 // Fixing missing 'Scale' import on line 3 and ensuring it is available for use on line 238
 export const Day2Content = () => {
   return (
-    <div className="space-y-10 text-left">
-      <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 2: The Product Development Lifecycle (PDLC) 🚀</h1>
-      
-      <section className="bg-blue-50 p-10 rounded-[3rem] border border-blue-100">
-        <div className="flex flex-col gap-4">
+    <div className="space-y-4 md:space-y-5 text-left">
+      <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
+        <div className="flex flex-col gap-1.5">
           <span className="text-[10px] font-black uppercase tracking-widest text-blue-600">Foundation</span>
-          <p className="text-lg font-medium text-blue-900 leading-relaxed">
+          <p className="text-sm sm:text-base font-medium text-blue-900 leading-relaxed">
             Theme: How products move? Learn how products go from problem discovery → launch → continuous improvement.
           </p>
         </div>
       </section>
 
-      <section className="space-y-6">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-2.5">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Target className="text-indigo-600" />
           Learning Objectives
         </h2>
@@ -42,8 +41,8 @@ export const Day2Content = () => {
         </div>
       </section>
 
-      <section className="space-y-6">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-2.5">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Layers className="text-indigo-600" />
           1. What is PDLC?
         </h2>
@@ -51,7 +50,7 @@ export const Day2Content = () => {
           Product Development Lifecycle (PDLC) is the structured process of taking a product from problem discovery → launch → continuous improvement, ensuring decisions are user-driven, data-backed, and business-aligned.
         </p>
         
-        <div className="bg-zinc-950 p-8 rounded-[2.5rem] border border-zinc-800 overflow-hidden text-white">
+        <div className="bg-zinc-950 p-4 sm:p-5 rounded-2xl border border-zinc-800 overflow-hidden text-white">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm font-medium border-collapse">
               <thead>
@@ -98,10 +97,10 @@ export const Day2Content = () => {
         </div>
       </section>
 
-      <section className="space-y-12">
-        <h2 className="text-2xl font-black text-zinc-900">PDLC Phases in Detail</h2>
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900">PDLC Phases in Detail</h2>
         
-        <div className="space-y-12">
+        <div className="space-y-3.5 md:space-y-4">
           {[
             {
               id: "01",
@@ -166,8 +165,8 @@ export const Day2Content = () => {
           ].map((p) => (
             <div key={p.id} className="relative group">
               <div className="absolute -left-12 top-0 text-5xl font-black text-zinc-100 group-hover:text-indigo-50 transition-colors hidden lg:block">{p.id}</div>
-              <div className={`p-8 md:p-10 rounded-[2.5rem] border bg-white border-zinc-100 shadow-sm space-y-8`}>
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+              <div className={`p-4 sm:p-5 md:p-4 sm:p-5 rounded-2xl border bg-white border-zinc-100 shadow-sm space-y-8`}>
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 md:gap-3.5">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 rounded-2xl bg-zinc-50 flex items-center justify-center text-indigo-600 shadow-sm">
                       <p.icon className="w-6 h-6" />
@@ -179,11 +178,11 @@ export const Day2Content = () => {
                   </div>
                 </div>
                 
-                <div className="bg-zinc-50 p-6 rounded-2xl italic font-medium text-zinc-600 border-l-4 border-indigo-500">
+                <div className="bg-zinc-50 p-4 rounded-2xl italic font-medium text-zinc-600 border-l-4 border-indigo-500">
                   {p.goal}
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
                   <div className="space-y-4">
                     <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Activities</p>
                     <ul className="space-y-2">
@@ -218,28 +217,34 @@ export const Day2Content = () => {
         </div>
       </section>
 
-      <section className="bg-zinc-950 text-white p-12 rounded-[3.5rem] space-y-8">
-        <h2 className="text-2xl font-black text-indigo-400">Key Takeaways</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {[
-            { num: "1", text: "The best PMs don’t build features — they solve problems." },
-            { num: "2", text: "PDLC creates structure, clarity, and alignment across the org." },
-            { num: "3", text: "Launch is not the end — iteration is where results come from." }
-          ].map((t) => (
-            <div key={t.num} className="space-y-4">
-              <div className="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center font-black text-lg">{t.num}</div>
-              <p className="text-sm font-bold leading-relaxed text-zinc-300">{t.text}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+            <CornsilkSection
+        title="Critical Execution Phases in the PDLC"
+        titleColor="blue"
+        items={[
+                {
+                          "subtitle": "Continuous Discovery",
+                          "headerColor": "blue",
+                          "description": "Validate customer problem statements through generative interviews, telemetry analytics, and competitive audits before committing engineering bandwidth."
+                },
+                {
+                          "subtitle": "Disciplined Scoping & PRD",
+                          "headerColor": "red",
+                          "description": "Author concise, unambiguous PRDs with clear MVP boundaries, non-goals, and measurable success metrics to prevent mid-sprint scope creep."
+                },
+                {
+                          "subtitle": "Post-Launch Feedback Loops",
+                          "headerColor": "blue",
+                          "description": "Close the development cycle through cohort retention tracking, CSAT monitoring, and qualitative reviews to drive data-informed roadmap iterations."
+                }
+      ]}
+      />
 
-      <section className="space-y-6">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-2.5">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Scale className="text-indigo-600" />
           SDLC VS PDLC
         </h2>
-        <div className="bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm overflow-hidden">
+        <div className="bg-white border border-zinc-100 rounded-2xl shadow-sm overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm font-medium border-collapse">
               <thead>
@@ -291,7 +296,7 @@ export const Day2Content = () => {
         </div>
       </section>
 
-      <div className="pt-8 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
+      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
         <p></p>
         <p></p>
       </div>

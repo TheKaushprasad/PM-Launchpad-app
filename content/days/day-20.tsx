@@ -1,3 +1,4 @@
+import { CornsilkSection } from '../../components/CornsilkSection';
 
 import React from 'react';
 import { 
@@ -10,11 +11,9 @@ import {
 
 export const Day20Content = () => {
   return (
-    <div className="space-y-10 text-left">
-      <h1 className="text-3xl font-black tracking-tight text-zinc-900">Day 20: Learn Power BI 🚀</h1>
-      
-      <section className="bg-emerald-50 p-10 rounded-[3rem] border border-emerald-100">
-        <div className="flex flex-col gap-4">
+    <div className="space-y-4 md:space-y-5 text-left">
+      <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
+        <div className="flex flex-col gap-1.5">
           <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600">Data</span>
           <p className="text-lg font-black text-emerald-900 leading-relaxed italic">
             "Today’s Goal: Build a strong foundation in Power BI by understanding how raw data is transformed, modeled, calculated, and finally presented as interactive dashboards."
@@ -25,8 +24,8 @@ export const Day20Content = () => {
         </div>
       </section>
 
-      <section className="space-y-6">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-2.5">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Target className="text-indigo-600" />
           Learning Objectives
         </h2>
@@ -47,8 +46,8 @@ export const Day20Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Info className="text-indigo-600" />
           Power BI for Product Managers: What It Is and Why It Matters
         </h2>
@@ -59,7 +58,7 @@ export const Day20Content = () => {
           This is where Power BI comes in. Understanding what it does, how it helps product managers, and whether you should invest time learning it can significantly impact your effectiveness in the role.
         </p>
 
-        <div className="p-8 bg-white border border-zinc-100 rounded-[2.5rem] shadow-sm space-y-4">
+        <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
            <h4 className="font-black text-zinc-900 flex items-center gap-2">
              <Layout className="w-5 h-5 text-indigo-600" />
              What Is Power BI?
@@ -86,13 +85,13 @@ export const Day20Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Zap className="text-indigo-600" />
           How Power BI Helps Product Managers
         </h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-3.5">
            {[
              { 
                title: "Connecting Disparate Sources", 
@@ -145,7 +144,7 @@ export const Day20Content = () => {
                icon: Info
              }
            ].map((benefit, i) => (
-             <div key={i} className="p-6 bg-white border border-zinc-100 rounded-3xl shadow-sm flex items-start gap-4 hover:border-emerald-200 transition-colors group">
+             <div key={i} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-sm flex items-start gap-4 hover:border-emerald-200 transition-colors group">
                 <div className="w-12 h-12 rounded-2xl bg-zinc-50 flex items-center justify-center text-emerald-600 shrink-0 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
                   <benefit.icon className="w-6 h-6" />
                 </div>
@@ -158,32 +157,36 @@ export const Day20Content = () => {
         </div>
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Sparkles className="text-indigo-600" />
           Why Product Managers Should Learn Power BI
         </h2>
-        <div className="bg-zinc-900 text-white p-10 rounded-[3rem] border-t-8 border-indigo-500 space-y-8">
-           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-              {[
-                { title: "Self-Sufficiency", text: "Answer your own questions rather than waiting days for analysts." },
-                { title: "Communication Multiplier", text: "Humans process visuals faster. Charts are more persuasive than arguments." },
-                { title: "Strategic Rigor", text: "Building dashboards forces you to think critically about what metrics truly matter." },
-                { title: "Career Advancement", text: "Proficiency signals you can navigate data independently and make evidence-based decisions." },
-                { title: "Language of Data", text: "Speak the same language as data teams, marketing, and finance partners." },
-                { title: "Efficiency Gains", text: "Dashboards serve you repeatedly. Upfront investment pays dividends continuously." }
-              ].map((reason, i) => (
-                <div key={i} className="space-y-2">
-                   <h4 className="font-black text-indigo-300 uppercase tracking-widest text-[10px]">{reason.title}</h4>
-                   <p className="text-sm font-bold leading-relaxed text-zinc-300">{reason.text}</p>
-                </div>
-              ))}
-           </div>
-        </div>
+              <CornsilkSection
+        title="Enterprise BI & Data Storytelling with Power BI"
+        titleColor="blue"
+        items={[
+                {
+                          "subtitle": "Data Modeling & Star Schemas",
+                          "headerColor": "red",
+                          "description": "Construct clean Star Schema relationships in Power BI to ensure fast query performance and reliable cross-table filtering."
+                },
+                {
+                          "subtitle": "DAX Metric Formulations",
+                          "headerColor": "blue",
+                          "description": "Author custom DAX measures for rolling averages, retention rates, and churn probabilities to power sophisticated automated dashboards."
+                },
+                {
+                          "subtitle": "Automated Executive Reporting",
+                          "headerColor": "red",
+                          "description": "Set up scheduled refreshes and role-based access to keep cross-functional stakeholders aligned on live North Star KPIs automatically."
+                }
+      ]}
+      />
       </section>
 
-      <section className="space-y-8">
-        <h2 className="text-2xl font-black text-zinc-900 flex items-center gap-3">
+      <section className="space-y-3.5 md:space-y-4">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Layers className="text-indigo-600" />
           Specific Capabilities for PMs
         </h2>
@@ -200,7 +203,7 @@ export const Day20Content = () => {
              { name: "Automated Refresh", desc: "Schedule daily or hourly refreshes so stakeholders never see stale snapshots." },
              { name: "Mobile Optimization", desc: "Check your critical metrics on the go from your phone or tablet." }
            ].map((cap, i) => (
-             <div key={i} className="p-6 bg-zinc-50 border border-zinc-200 rounded-[2rem] flex flex-col gap-2">
+             <div key={i} className="p-4 bg-zinc-50 border border-zinc-200 rounded-[2rem] flex flex-col gap-2">
                 <h4 className="font-black text-indigo-900 text-sm uppercase tracking-widest">{cap.name}</h4>
                 <p className="text-xs font-bold text-zinc-500 leading-relaxed">{cap.desc}</p>
              </div>
@@ -208,8 +211,8 @@ export const Day20Content = () => {
         </div>
       </section>
 
-      <section className="bg-zinc-50 p-10 rounded-[3rem] border border-zinc-200">
-        <h2 className="text-xl font-black text-zinc-900 mb-6 flex items-center gap-3">
+      <section className="bg-zinc-50 p-4 sm:p-5 rounded-2xl border border-zinc-200">
+        <h2 className="text-xl font-black text-zinc-900 mb-2.5 flex items-center gap-3">
           <ShieldCheck className="text-emerald-500" />
           Dashboards Pro-Tip
         </h2>
@@ -218,7 +221,7 @@ export const Day20Content = () => {
         </p>
       </section>
 
-      <div className="pt-8 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
+      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
         <p></p>
         <p></p>
       </div>

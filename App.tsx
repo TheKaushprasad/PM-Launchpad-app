@@ -82,7 +82,9 @@ const MainShell = () => {
     const scrollContainerRef = useRef<HTMLElement>(null);
     
     useEffect(() => {
-        if (scrollContainerRef.current) {
+        // When navigating to general pages (dashboard, profile, tools, etc.), scroll to top.
+        // For day lessons, let LessonDetail restore the user's exact persisted reading position.
+        if (scrollContainerRef.current && !location.pathname.includes('/day/')) {
             scrollContainerRef.current.scrollTo(0, 0);
         }
         setMobileOpen(false);
