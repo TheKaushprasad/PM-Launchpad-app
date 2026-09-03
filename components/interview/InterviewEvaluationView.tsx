@@ -182,8 +182,8 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-2xl font-black text-zinc-900 tracking-tight">Rubric Evaluation (5 Pillars)</h2>
-            <p className="text-xs text-zinc-500 font-medium">Standardized L5/L6 competency breakdown (20 points per pillar).</p>
+            <h2 className="text-2xl font-black text-zinc-900 tracking-tight">How you did across the 5 core areas</h2>
+            <p className="text-xs text-zinc-500 font-medium">Detailed feedback and coaching on each stage of the interview (20 points each).</p>
           </div>
         </div>
 
@@ -235,35 +235,76 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
                 </div>
 
                 {isExpanded && (
-                  <div className="px-6 pb-6 pt-2 border-t border-zinc-100 grid grid-cols-1 md:grid-cols-2 gap-6 bg-zinc-50/30">
-                    {/* Strengths */}
-                    <div className="space-y-3">
-                      <span className="text-xs font-black uppercase tracking-wider text-emerald-700 flex items-center gap-1.5">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-600" /> Strengths & Demonstrated Behaviors
-                      </span>
-                      <ul className="space-y-2">
-                        {data.strengths.map((s, idx) => (
-                          <li key={idx} className="text-xs font-semibold text-zinc-700 flex items-start gap-2 bg-white p-3 rounded-xl border border-emerald-100 shadow-sm">
-                            <span className="text-emerald-500 font-bold">•</span>
-                            <span>{s}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                  <div className="px-6 pb-6 pt-3 border-t border-zinc-100 space-y-5 bg-zinc-50/40">
+                    {/* Why this score makes sense vs What would have made this stronger */}
+                    {(data.whyTheyEarnedThisScore || data.whyTheyDidNotScoreHigher) && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {data.whyTheyEarnedThisScore && (
+                          <div className="p-3.5 rounded-2xl bg-emerald-50/70 border border-emerald-100/80 text-xs">
+                            <span className="font-extrabold text-emerald-800 uppercase tracking-wider block text-[10px] mb-1">
+                              Why this score makes sense:
+                            </span>
+                            <p className="text-emerald-950 font-medium leading-relaxed">{data.whyTheyEarnedThisScore}</p>
+                          </div>
+                        )}
+                        {data.whyTheyDidNotScoreHigher && (
+                          <div className="p-3.5 rounded-2xl bg-amber-50/70 border border-amber-100/80 text-xs">
+                            <span className="font-extrabold text-amber-800 uppercase tracking-wider block text-[10px] mb-1">
+                              What would have made this stronger:
+                            </span>
+                            <p className="text-amber-950 font-medium leading-relaxed">{data.whyTheyDidNotScoreHigher}</p>
+                          </div>
+                        )}
+                      </div>
+                    )}
 
-                    {/* Improvements */}
-                    <div className="space-y-3">
-                      <span className="text-xs font-black uppercase tracking-wider text-amber-700 flex items-center gap-1.5">
-                        <AlertCircle className="w-4 h-4 text-amber-600" /> Growth Opportunities
-                      </span>
-                      <ul className="space-y-2">
-                        {data.improvements.map((imp, idx) => (
-                          <li key={idx} className="text-xs font-semibold text-zinc-700 flex items-start gap-2 bg-white p-3 rounded-xl border border-amber-100 shadow-sm">
-                            <span className="text-amber-500 font-bold">•</span>
-                            <span>{imp}</span>
-                          </li>
-                        ))}
-                      </ul>
+                    {/* Verbatim Evidence Quotes */}
+                    {data.evidence && data.evidence.length > 0 && (
+                      <div className="p-3.5 rounded-2xl bg-zinc-100/80 border border-zinc-200 text-xs space-y-1.5">
+                        <span className="font-extrabold text-zinc-700 uppercase tracking-wider block text-[10px]">
+                          What stood out from your answers:
+                        </span>
+                        <div className="space-y-1">
+                          {data.evidence.map((ev, eIdx) => (
+                            <div key={eIdx} className="text-zinc-600 font-mono text-[11px] flex items-start gap-1.5">
+                              <span className="text-indigo-600 font-bold">›</span>
+                              <span>{ev}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {/* Strengths */}
+                      <div className="space-y-3">
+                        <span className="text-xs font-black uppercase tracking-wider text-emerald-700 flex items-center gap-1.5">
+                          <CheckCircle2 className="w-4 h-4 text-emerald-600" /> What worked well
+                        </span>
+                        <ul className="space-y-2">
+                          {data.strengths.map((s, idx) => (
+                            <li key={idx} className="text-xs font-semibold text-zinc-700 flex items-start gap-2 bg-white p-3 rounded-xl border border-emerald-100 shadow-sm">
+                              <span className="text-emerald-500 font-bold">•</span>
+                              <span>{s}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      {/* Improvements */}
+                      <div className="space-y-3">
+                        <span className="text-xs font-black uppercase tracking-wider text-amber-700 flex items-center gap-1.5">
+                          <AlertCircle className="w-4 h-4 text-amber-600" /> Suggestions to practice
+                        </span>
+                        <ul className="space-y-2">
+                          {data.improvements.map((imp, idx) => (
+                            <li key={idx} className="text-xs font-semibold text-zinc-700 flex items-start gap-2 bg-white p-3 rounded-xl border border-amber-100 shadow-sm">
+                              <span className="text-amber-500 font-bold">•</span>
+                              <span>{imp}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -278,7 +319,7 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
         <div className="bg-emerald-50/40 rounded-[2.5rem] p-8 border border-emerald-100 shadow-sm space-y-4">
           <div className="flex items-center gap-2 text-emerald-800">
             <CheckCircle2 className="w-6 h-6 text-emerald-600" />
-            <h3 className="font-extrabold text-xl tracking-tight">Top Performed Strengths</h3>
+            <h3 className="font-extrabold text-xl tracking-tight">Key strengths demonstrated</h3>
           </div>
           <ul className="space-y-3">
             {evaluation.topStrengths.map((str, i) => (
@@ -295,7 +336,7 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
         <div className="bg-amber-50/40 rounded-[2.5rem] p-8 border border-amber-100 shadow-sm space-y-4">
           <div className="flex items-center gap-2 text-amber-800">
             <AlertCircle className="w-6 h-6 text-amber-600" />
-            <h3 className="font-extrabold text-xl tracking-tight">Critical Traps & Growth Areas</h3>
+            <h3 className="font-extrabold text-xl tracking-tight">Highest-priority growth areas</h3>
           </div>
           <ul className="space-y-3">
             {evaluation.criticalGrowthAreas.map((area, i) => (
@@ -320,9 +361,9 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
               </div>
               <div>
                 <h3 className="text-xl font-black text-zinc-900 tracking-tight">
-                  Exemplar Benchmark Breakdown
+                  How a strong Senior PM might approach this
                 </h3>
-                <p className="text-xs text-zinc-500 font-medium">How an L6 Senior PM structures this exact case.</p>
+                <p className="text-xs text-zinc-500 font-medium">A helpful walkthrough of how to crack this exact question.</p>
               </div>
             </div>
 
@@ -337,12 +378,12 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
           {showBenchmark && (
             <div className="space-y-6 pt-4 border-t border-zinc-100">
               <div className="p-5 rounded-2xl bg-indigo-50/50 border border-indigo-100 text-xs font-medium text-indigo-950 leading-relaxed">
-                <strong className="block font-black text-sm text-indigo-900 mb-1">Strategic Approach:</strong>
+                <strong className="block font-black text-sm text-indigo-900 mb-1">Recommended Approach:</strong>
                 {evaluation.exemplarAnswer.recommendedApproach}
               </div>
 
               <div className="space-y-3">
-                <h4 className="font-extrabold text-xs uppercase tracking-wider text-zinc-500">Step-by-Step Architecture</h4>
+                <h4 className="font-extrabold text-xs uppercase tracking-wider text-zinc-500">Step-by-Step Walkthrough</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {evaluation.exemplarAnswer.stepByStepStructure.map((step, i) => (
                     <div key={i} className="p-4 rounded-2xl bg-zinc-50 border border-zinc-200/80 space-y-1.5">
@@ -356,6 +397,36 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
                   ))}
                 </div>
               </div>
+
+              {evaluation.exemplarAnswer.highestLeverageImprovement && (
+                <div className="p-6 rounded-3xl bg-gradient-to-br from-indigo-50/80 via-purple-50/40 to-pink-50/30 border border-indigo-200/80 shadow-sm space-y-4">
+                  <div className="flex items-center gap-2 text-indigo-900">
+                    <Sparkles className="w-5 h-5 text-indigo-600" />
+                    <h4 className="font-extrabold text-sm tracking-tight uppercase tracking-wider">
+                      One thing to practice next
+                    </h4>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                    <div className="p-3.5 rounded-2xl bg-white/90 border border-indigo-100 space-y-1">
+                      <span className="font-black text-[10px] uppercase tracking-wider text-zinc-500 block">Focus Area:</span>
+                      <p className="font-bold text-zinc-900">{evaluation.exemplarAnswer.highestLeverageImprovement.focusArea}</p>
+                    </div>
+                    <div className="p-3.5 rounded-2xl bg-white/90 border border-indigo-100 space-y-1">
+                      <span className="font-black text-[10px] uppercase tracking-wider text-amber-700 block">What you did in this session:</span>
+                      <p className="font-medium text-zinc-800">{evaluation.exemplarAnswer.highestLeverageImprovement.currentBehavior}</p>
+                    </div>
+                    <div className="p-3.5 rounded-2xl bg-white/90 border border-indigo-100 space-y-1">
+                      <span className="font-black text-[10px] uppercase tracking-wider text-emerald-600 block">What to aim for instead:</span>
+                      <p className="font-medium text-zinc-800">{evaluation.exemplarAnswer.highestLeverageImprovement.targetBehavior}</p>
+                    </div>
+                    <div className="p-3.5 rounded-2xl bg-indigo-900 text-white space-y-1">
+                      <span className="font-black text-[10px] uppercase tracking-wider text-indigo-200 block">Actionable Practice Drill:</span>
+                      <p className="font-medium text-indigo-100">{evaluation.exemplarAnswer.highestLeverageImprovement.practiceDrill}</p>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {evaluation.exemplarAnswer.interviewerSecretNotes && (
                 <div className="p-4 rounded-2xl bg-zinc-900 text-zinc-300 text-xs font-mono space-y-1">

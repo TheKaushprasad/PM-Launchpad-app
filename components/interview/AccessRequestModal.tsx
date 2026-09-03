@@ -1,22 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Camera, Mic, CheckCircle2, Shield, AlertCircle, X } from 'lucide-react';
+import { Camera, Mic, CheckCircle2, Shield, AlertCircle, X, ArrowRight } from 'lucide-react';
+import { InterviewMode } from '../../types/interview';
 
 interface AccessRequestModalProps {
   isOpen: boolean;
   onClose: () => void;
   onContinue?: () => void;
+  mode?: InterviewMode;
 }
 
 export const AccessRequestModal: React.FC<AccessRequestModalProps> = ({
   isOpen,
   onClose,
-  onContinue
+  onContinue,
+  mode = 'avatar'
 }) => {
   const [cameraStatus, setCameraStatus] = useState<'idle' | 'granted' | 'denied'>('idle');
   const [micStatus, setMicStatus] = useState<'idle' | 'granted' | 'denied'>('idle');
   const [isRequesting, setIsRequesting] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const isVoiceOnly = mode === 'voice';
 
   // Check initial permission states if supported by browser Permissions API
   useEffect(() => {
@@ -25,11 +30,13 @@ export const AccessRequestModal: React.FC<AccessRequestModalProps> = ({
     const checkExistingPermissions = async () => {
       try {
         if (navigator.permissions && navigator.permissions.query) {
-          try {
-            const camPermission = await navigator.permissions.query({ name: 'camera' as any });
-            if (camPermission.state === 'granted') setCameraStatus('granted');
-            else if (camPermission.state === 'denied') setCameraStatus('denied');
-          } catch (e) {}
+          if (!isVoiceOnly) {
+            try {
+              const camPermission = await navigator.permissions.query({ name: 'camera' as any });
+              if (camPermission.state === 'granted') setCameraStatus('granted');
+              else if (camPermission.state === 'denied') setCameraStatus('denied');
+            } catch (e) {}
+          }
 
           try {
             const micPermission = await navigator.permissions.query({ name: 'microphone' as any });
@@ -41,7 +48,7 @@ export const AccessRequestModal: React.FC<AccessRequestModalProps> = ({
     };
 
     checkExistingPermissions();
-  }, [isOpen]);
+  }, [isOpen, isVoiceOnly]);
 
   const handleGrantAccess = async () => {
     setIsRequesting(true);
@@ -49,59 +56,66 @@ export const AccessRequestModal: React.FC<AccessRequestModalProps> = ({
 
     try {
       if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        setErrorMessage("Media devices API is not supported in this browser.");
+        setErrorMessage("Media devices API is not available in this browser environment. You can still enter and type your answers.");
         setIsRequesting(false);
         return;
       }
 
-      // Request both Camera and Microphone permissions
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: true,
-        audio: true
-      });
+      if (isVoiceOnly) {
+        // Voice-only mode only needs microphone
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        stream.getTracks().forEach((track) => track.stop());
+        setMicStatus('granted');
+      } else {
+        // Avatar mode tries camera & mic with graceful single-device fallback
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({
+            video: true,
+            audio: true
+          });
+          stream.getTracks().forEach((track) => track.stop());
+          setCameraStatus('granted');
+          setMicStatus('granted');
+        } catch (bothErr) {
+          // If both fail, attempt microphone separately
+          try {
+            const audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            audioStream.getTracks().forEach((t) => t.stop());
+            setMicStatus('granted');
+          } catch (audioErr) {
+            setMicStatus('denied');
+          }
 
-      // Stop stream immediately after acquiring permission
-      stream.getTracks().forEach((track) => track.stop());
+          // Attempt camera separately
+          try {
+            const videoStream = await navigator.mediaDevices.getUserMedia({ video: true });
+            videoStream.getTracks().forEach((t) => t.stop());
+            setCameraStatus('granted');
+          } catch (videoErr) {
+            setCameraStatus('denied');
+          }
+        }
+      }
 
-      setCameraStatus('granted');
-      setMicStatus('granted');
       setIsRequesting(false);
 
       if (onContinue) {
         setTimeout(() => {
           onContinue();
-        }, 500);
-      } else {
-        setTimeout(() => {
-          onClose();
-        }, 500);
+        }, 400);
       }
     } catch (err: any) {
-      console.warn("Permission request error:", err);
+      console.warn("Permission request notice:", err);
       setIsRequesting(false);
+      setErrorMessage("Permissions were declined or unavailable. You can still proceed directly into the studio and use text or audio fallbacks.");
+    }
+  };
 
-      // Attempt audio-only or video-only fallback detection
-      try {
-        const audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        audioStream.getTracks().forEach((t) => t.stop());
-        setMicStatus('granted');
-      } catch (e) {
-        setMicStatus('denied');
-      }
-
-      try {
-        const videoStream = await navigator.mediaDevices.getUserMedia({ video: true });
-        videoStream.getTracks().forEach((t) => t.stop());
-        setCameraStatus('granted');
-      } catch (e) {
-        setCameraStatus('denied');
-      }
-
-      if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
-        setErrorMessage("Permissions were declined in browser settings. You can still proceed or update your browser permissions.");
-      } else {
-        setErrorMessage("Could not connect to media devices. Please verify your hardware connection.");
-      }
+  const handleProceedDirectly = () => {
+    if (onContinue) {
+      onContinue();
+    } else {
+      onClose();
     }
   };
 
@@ -111,7 +125,7 @@ export const AccessRequestModal: React.FC<AccessRequestModalProps> = ({
     <AnimatePresence>
       <div 
         id="access-request-modal-overlay"
-        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-950/75 backdrop-blur-sm"
+        className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-zinc-950/80 backdrop-blur-md"
       >
         <motion.div
           id="access-request-card"
@@ -127,87 +141,96 @@ export const AccessRequestModal: React.FC<AccessRequestModalProps> = ({
               <div className="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
                 <Shield className="w-4 h-4" />
               </div>
-              <h2 className="text-lg font-black text-zinc-900 tracking-tight">
-                Access request
-              </h2>
+              <div>
+                <h2 className="text-lg font-black text-zinc-900 tracking-tight">
+                  Studio Media Access
+                </h2>
+                <p className="text-[11px] text-zinc-500 font-medium">
+                  {isVoiceOnly ? 'Voice-Only Simulation' : 'AI Avatar Interview Studio'}
+                </p>
+              </div>
             </div>
             <button
               id="access-request-close-btn"
               onClick={onClose}
               className="px-3 py-1 rounded-xl text-xs font-bold text-zinc-500 hover:text-zinc-800 hover:bg-zinc-100 transition-colors flex items-center gap-1"
             >
-              <span>close</span>
+              <span>Close</span>
               <X className="w-3.5 h-3.5" />
             </button>
           </div>
 
           {/* Body */}
-          <div className="p-6 space-y-5">
-            <p className="text-sm font-medium text-zinc-600 leading-relaxed">
-              The app requests access to the following permissions:
+          <div className="p-6 space-y-4">
+            <p className="text-xs font-medium text-zinc-600 leading-relaxed">
+              {isVoiceOnly 
+                ? "Voice-Only Mode uses your microphone for hands-free speech-to-text. Camera is never required."
+                : "The AI Avatar Studio can use your microphone for speech-to-text and your webcam for candidate video mirror."}
             </p>
 
             {/* Permissions List */}
             <div className="space-y-3">
-              {/* Camera Permission Item */}
-              <div 
-                id="permission-item-camera"
-                className="p-4 rounded-2xl bg-zinc-50 border border-zinc-200/80 flex items-center justify-between gap-3"
-              >
-                <div className="flex items-center gap-3">
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-                    cameraStatus === 'granted' 
-                      ? 'bg-emerald-100 text-emerald-600' 
-                      : 'bg-indigo-100 text-indigo-600'
-                  }`}>
-                    <Camera className="w-5 h-5" />
+              {/* Camera Permission Item (Only for Avatar mode) */}
+              {!isVoiceOnly && (
+                <div 
+                  id="permission-item-camera"
+                  className="p-3.5 rounded-2xl bg-zinc-50 border border-zinc-200/80 flex items-center justify-between gap-3"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${
+                      cameraStatus === 'granted' 
+                        ? 'bg-emerald-100 text-emerald-600' 
+                        : 'bg-indigo-100 text-indigo-600'
+                    }`}>
+                      <Camera className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <h3 className="font-extrabold text-sm text-zinc-900">Webcam Mirror</h3>
+                      <p className="text-[11px] text-zinc-500 font-medium">Candidate video mirror (optional)</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-extrabold text-sm text-zinc-900">Camera</h3>
-                    <p className="text-xs text-zinc-500 font-medium">Used for video mirror & candidate simulation</p>
-                  </div>
-                </div>
 
-                <div>
-                  {cameraStatus === 'granted' ? (
-                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-200">
-                      <CheckCircle2 className="w-3.5 h-3.5" /> Granted
-                    </span>
-                  ) : (
-                    <span className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">
-                      Required
-                    </span>
-                  )}
+                  <div>
+                    {cameraStatus === 'granted' ? (
+                      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-200">
+                        <CheckCircle2 className="w-3 h-3" /> Granted
+                      </span>
+                    ) : (
+                      <span className="text-[11px] font-bold text-zinc-400">
+                        Optional
+                      </span>
+                    )}
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* Microphone Permission Item */}
               <div 
                 id="permission-item-microphone"
-                className="p-4 rounded-2xl bg-zinc-50 border border-zinc-200/80 flex items-center justify-between gap-3"
+                className="p-3.5 rounded-2xl bg-zinc-50 border border-zinc-200/80 flex items-center justify-between gap-3"
               >
                 <div className="flex items-center gap-3">
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
+                  <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${
                     micStatus === 'granted' 
                       ? 'bg-emerald-100 text-emerald-600' 
                       : 'bg-indigo-100 text-indigo-600'
                   }`}>
-                    <Mic className="w-5 h-5" />
+                    <Mic className="w-4 h-4" />
                   </div>
                   <div>
                     <h3 className="font-extrabold text-sm text-zinc-900">Microphone</h3>
-                    <p className="text-xs text-zinc-500 font-medium">Used for real-time speech-to-text response recognition</p>
+                    <p className="text-[11px] text-zinc-500 font-medium">Real-time speech-to-text input</p>
                   </div>
                 </div>
 
                 <div>
                   {micStatus === 'granted' ? (
                     <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-200">
-                      <CheckCircle2 className="w-3.5 h-3.5" /> Granted
+                      <CheckCircle2 className="w-3 h-3" /> Granted
                     </span>
                   ) : (
-                    <span className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">
-                      Required
+                    <span className="text-[11px] font-bold text-zinc-500">
+                      Recommended
                     </span>
                   )}
                 </div>
@@ -215,7 +238,7 @@ export const AccessRequestModal: React.FC<AccessRequestModalProps> = ({
             </div>
 
             {errorMessage && (
-              <div className="p-3.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs font-medium flex items-start gap-2">
+              <div className="p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs font-medium flex items-start gap-2">
                 <AlertCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
                 <span>{errorMessage}</span>
               </div>
@@ -225,11 +248,12 @@ export const AccessRequestModal: React.FC<AccessRequestModalProps> = ({
           {/* Footer Actions */}
           <div className="px-6 py-4 border-t border-zinc-100 bg-zinc-50 flex items-center justify-between gap-3">
             <button
-              id="access-request-footer-close-btn"
-              onClick={onClose}
-              className="px-4 py-2.5 rounded-xl border border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-100 text-xs font-bold transition-colors"
+              id="access-request-footer-proceed-btn"
+              onClick={handleProceedDirectly}
+              className="px-4 py-2.5 rounded-xl border border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-100 text-xs font-bold transition-colors flex items-center gap-1.5"
             >
-              close
+              <span>Enter Studio Anyway</span>
+              <ArrowRight className="w-3.5 h-3.5 text-zinc-400" />
             </button>
 
             <button
@@ -241,15 +265,15 @@ export const AccessRequestModal: React.FC<AccessRequestModalProps> = ({
               {isRequesting ? (
                 <>
                   <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  <span>Requesting...</span>
+                  <span>Checking...</span>
                 </>
-              ) : cameraStatus === 'granted' && micStatus === 'granted' ? (
+              ) : (isVoiceOnly ? micStatus === 'granted' : (cameraStatus === 'granted' && micStatus === 'granted')) ? (
                 <>
                   <CheckCircle2 className="w-4 h-4" />
-                  <span>Permissions Granted</span>
+                  <span>Ready • Enter Studio</span>
                 </>
               ) : (
-                <span>Allow Access</span>
+                <span>Allow & Connect</span>
               )}
             </button>
           </div>

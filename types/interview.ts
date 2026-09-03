@@ -52,9 +52,12 @@ export interface RubricPillarScore {
   name: string;
   score: number; // 0-20
   maxScore: number; // 20
+  feedback: string;
+  evidence?: string[];
+  whyTheyEarnedThisScore?: string;
+  whyTheyDidNotScoreHigher?: string;
   strengths: string[];
   improvements: string[];
-  feedback: string;
 }
 
 export interface InterviewEvaluation {
@@ -80,6 +83,12 @@ export interface InterviewEvaluation {
     recommendedApproach: string;
     stepByStepStructure: { step: string; detail: string }[];
     interviewerSecretNotes: string;
+    highestLeverageImprovement?: {
+      focusArea: string;
+      currentBehavior: string;
+      targetBehavior: string;
+      practiceDrill: string;
+    };
   };
   transcriptSummary: string;
 }

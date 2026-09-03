@@ -28,7 +28,8 @@ import {
   Layers,
   ArrowRight,
   Shield,
-  Zap
+  Zap,
+  Play
 } from 'lucide-react';
 import { 
   InterviewScenario, 
@@ -418,19 +419,46 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
     }
   };
 
+  const enterStudioImmediately = () => {
+    const fallbackText = `Hi there! I'm ${persona.name}. Thanks for joining today's session. Today we are looking into ${scenario.title} for ${scenario.company}. ${scenario.problemStatement} Whenever you're ready, how would you like to structure your analysis?`;
+    setMessages((prev) => {
+      if (prev.length > 0) return prev;
+      return [{
+        id: 'msg_init_' + Date.now(),
+        role: 'interviewer',
+        text: fallbackText,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      }];
+    });
+    setCurrentSubtitle((prev) => prev || fallbackText);
+    setIsSessionPreparing(false);
+    setIsTimerRunning(true);
+    speakTextWithHumanVoice(fallbackText);
+  };
+
   // Preparation Step Simulation & Case Loading
   useEffect(() => {
     let mounted = true;
+    let safetyTimeout: any = null;
+    const abortController = new AbortController();
 
     const prepTimer1 = setTimeout(() => {
       if (mounted) setPrepStep(2);
-    }, 1200);
+    }, 800);
 
     const prepTimer2 = setTimeout(() => {
       if (mounted) setPrepStep(3);
-    }, 2400);
+    }, 1600);
 
     async function initialGreeting() {
+      // Auto-fallback timer if backend chat API takes more than 3 seconds
+      safetyTimeout = setTimeout(() => {
+        if (mounted) {
+          abortController.abort();
+          enterStudioImmediately();
+        }
+      }, 3000);
+
       try {
         const initialMsg: ConversationMessage = {
           id: 'init_start',
@@ -442,6 +470,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
         const res = await fetch('/api/interview/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
+          signal: abortController.signal,
           body: JSON.stringify({
             scenario,
             persona,
@@ -450,6 +479,8 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
             targetSeconds: targetDurationSeconds
           })
         });
+
+        if (safetyTimeout) clearTimeout(safetyTimeout);
 
         let openerText = "";
         let openerAudioData: any = null;
@@ -476,19 +507,10 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
           speakTextWithHumanVoice(openerText, openerAudioData);
         }
       } catch (err) {
-        console.error("Initial interview greeting failed:", err);
+        if (safetyTimeout) clearTimeout(safetyTimeout);
+        console.warn("Initial interview greeting transition:", err);
         if (mounted) {
-          const fallbackText = `Hi there! I'm ${persona.name}. Thanks for joining today's session. Today we are looking into ${scenario.title} for ${scenario.company}. ${scenario.problemStatement} Whenever you're ready, how would you like to structure your analysis?`;
-          setMessages([{
-            id: 'fallback_1',
-            role: 'interviewer',
-            text: fallbackText,
-            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-          }]);
-          setCurrentSubtitle(fallbackText);
-          setIsSessionPreparing(false);
-          setIsTimerRunning(true);
-          speakTextWithHumanVoice(fallbackText);
+          enterStudioImmediately();
         }
       }
     }
@@ -497,8 +519,10 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
 
     return () => {
       mounted = false;
+      if (safetyTimeout) clearTimeout(safetyTimeout);
       clearTimeout(prepTimer1);
       clearTimeout(prepTimer2);
+      abortController.abort();
     };
   }, []);
 
@@ -847,7 +871,8 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
           scenario,
           persona,
           messages,
-          elapsedSeconds
+          elapsedSeconds,
+          scratchpadNotes: scratchpadNotes || ''
         })
       });
 
@@ -1069,12 +1094,24 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
           </div>
 
           {/* Bottom Status & Voice Engine Notice */}
-          <div className="flex items-center justify-between pt-2 text-xs text-zinc-500 font-medium">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-3 border-t border-zinc-100 text-xs text-zinc-500 font-medium">
             <div className="flex items-center gap-2">
               <Radio className="w-3.5 h-3.5 text-emerald-500 animate-pulse" />
               <span>Studio Voice & Rubric Engine Initializing...</span>
             </div>
-            <span className="font-bold text-zinc-700">Starting in a moment</span>
+
+            <div className="flex items-center gap-3">
+              <span className="font-bold text-zinc-600 hidden sm:inline">Starting in a moment</span>
+              <button
+                id="skip-prep-enter-studio-btn"
+                type="button"
+                onClick={enterStudioImmediately}
+                className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs shadow-md shadow-indigo-200 transition-all flex items-center gap-1.5 cursor-pointer"
+              >
+                <span>Enter Studio Now</span>
+                <Play className="w-3.5 h-3.5 fill-current" />
+              </button>
+            </div>
           </div>
         </motion.div>
       </div>

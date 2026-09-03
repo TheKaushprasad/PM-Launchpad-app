@@ -65,17 +65,10 @@ export const SetupModal: React.FC<SetupModalProps> = ({
   ];
 
   const handleLaunch = () => {
-    // If mode uses camera or mic and user hasn't seen the access request yet
-    if ((selectedMode === 'avatar' || selectedMode === 'voice') && !hasPromptedPermissions) {
-      setShowAccessRequestModal(true);
-      return;
-    }
-
     onStartSession(scenario, selectedPersona, selectedMode);
   };
 
   const handlePermissionContinue = () => {
-    setHasPromptedPermissions(true);
     setShowAccessRequestModal(false);
     onStartSession(scenario, selectedPersona, selectedMode);
   };
@@ -84,11 +77,8 @@ export const SetupModal: React.FC<SetupModalProps> = ({
     <>
       <AccessRequestModal
         isOpen={showAccessRequestModal}
-        onClose={() => {
-          setHasPromptedPermissions(true);
-          setShowAccessRequestModal(false);
-          onStartSession(scenario, selectedPersona, selectedMode);
-        }}
+        mode={selectedMode}
+        onClose={() => setShowAccessRequestModal(false)}
         onContinue={handlePermissionContinue}
       />
 
