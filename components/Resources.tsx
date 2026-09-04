@@ -32,9 +32,11 @@ import {
   HelpCircle,
   PieChart,
   Eye,
-  Globe
+  Globe,
+  ArrowRight
 } from 'lucide-react';
-import { useOutletContext } from 'react-router-dom';
+import { useOutletContext, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 interface ContextType {
   isCollapsed: boolean;
@@ -848,12 +850,30 @@ const assignmentData = [
 
 export const Resources: React.FC = () => {
   const { isCollapsed } = useOutletContext<ContextType>();
+  const { completedCount, interviewHistory } = useAuth();
+  const navigate = useNavigate();
+
   const [activeView, setActiveView] = useState<'main' | 'certs' | 'casebooks' | 'assignments' | 'questions'>('main');
   const [openCerts, setOpenCerts] = useState<number[]>([0]);
   const [openCompanies, setOpenCompanies] = useState<string[]>(['Google']);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedRoleFilter, setSelectedRoleFilter] = useState('All');
   const [selectedQuestionCategory, setSelectedQuestionCategory] = useState('All');
+
+  // Dynamic resource counts
+  const totalCerts = useMemo(() => {
+    return certificationData.reduce((acc, cat) => acc + cat.items.length, 0);
+  }, []);
+
+  const totalAssignments = assignmentData.length;
+  const totalCasebooks = casebookData.items.length;
+  
+  const totalQuestions = useMemo(() => {
+    return companyQuestionsData.reduce((acc, comp) => acc + comp.items.length, 0);
+  }, []);
+
+  const hasProgress = completedCount > 0 || (interviewHistory && interviewHistory.length > 0);
+  const bottomCtaText = hasProgress ? 'CONTINUE YOUR JOURNEY' : 'START LEARNING';
 
   const toggleCert = (index: number) => {
     setOpenCerts(prev => 
@@ -909,9 +929,9 @@ export const Resources: React.FC = () => {
   };
 
   const containerVariants = {
-    hidden: { opacity: 0, y: 10 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
-    exit: { opacity: 0, y: -10, transition: { duration: 0.3 } }
+    hidden: { opacity: 0, y: 8 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.3 } },
+    exit: { opacity: 0, y: -8, transition: { duration: 0.2 } }
   };
 
   return (
@@ -920,87 +940,239 @@ export const Resources: React.FC = () => {
       animate="visible"
       exit="exit"
       variants={containerVariants}
-      className={`pb-20 transition-all duration-500 mx-auto ${isCollapsed ? 'max-w-[1600px] px-4 md:px-12' : 'max-w-[1200px] px-4 md:px-6'}`}
+      className={`pb-16 transition-all duration-300 mx-auto ${isCollapsed ? 'max-w-[1360px] px-4 sm:px-6 lg:px-8' : 'max-w-[1180px] px-4 sm:px-6 lg:px-8'}`}
     >
-      <header className="relative bg-zinc-950 rounded-[2.5rem] md:rounded-[3.5rem] p-8 md:p-16 text-white overflow-hidden shadow-2xl mb-12">
-        <div className="absolute top-0 right-0 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-[#79BAEC]/20 rounded-full blur-[80px] md:blur-[120px] -translate-y-1/2 translate-x-1/3"></div>
-        <div className="relative z-10 max-w-4xl">
+      {/* Hero Section: Compact, high-contrast, ~15-20% reduced height */}
+      <header className="relative bg-zinc-950 rounded-3xl md:rounded-[2.25rem] p-6 sm:p-8 md:p-10 text-white overflow-hidden shadow-xl border border-zinc-800/80 mb-8">
+        <div className="absolute top-0 right-0 w-[420px] md:w-[540px] h-[420px] md:h-[540px] bg-[#79BAEC]/15 rounded-full blur-[100px] pointer-events-none -translate-y-1/3 translate-x-1/4"></div>
+        <div className="relative z-10 max-w-3xl">
             {activeView !== 'main' && (
-              <button onClick={() => setActiveView('main')} className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 border border-white/10 text-white text-xs font-black uppercase tracking-widest mb-8 hover:bg-white/20 transition-all">
-                <ArrowLeft className="w-4 h-4" /> Back to Resources
+              <button 
+                onClick={() => setActiveView('main')} 
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/10 text-white text-xs font-bold uppercase tracking-wider mb-5 transition-all cursor-pointer"
+              >
+                <ArrowLeft className="w-3.5 h-3.5" /> Back to Library
               </button>
             )}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/10 text-indigo-300 text-[10px] font-black uppercase tracking-widest mb-6 backdrop-blur-md">
-                <Library className="w-3.5 h-3.5 fill-current" /> 
-                Knowledge & Credential Hub
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 border border-white/10 text-indigo-300 text-[11px] font-bold uppercase tracking-wider mb-4 backdrop-blur-md">
+                <Library className="w-3.5 h-3.5 text-indigo-400" /> 
+                <span>Knowledge & Credential Hub</span>
             </div>
-            <h1 className="text-4xl md:text-7xl font-black mb-6 tracking-tighter leading-[0.95]">
-                {activeView === 'main' ? 'Curated' : activeView === 'certs' ? 'Industry' : activeView === 'assignments' ? 'Interview' : activeView === 'casebooks' ? 'B-School' : 'Company'} <br/>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-black mb-3 tracking-tight text-white leading-tight">
+                {activeView === 'main' ? 'Curated' : activeView === 'certs' ? 'Industry' : activeView === 'assignments' ? 'Interview' : activeView === 'casebooks' ? 'B-School' : 'Company'}{' '}
                 <span className="text-[#79BAEC]">
                   {activeView === 'main' ? 'Resources.' : activeView === 'certs' ? 'Certifications.' : activeView === 'assignments' ? 'Assignments.' : activeView === 'casebooks' ? 'Casebooks.' : 'Questions.'}
                 </span>
             </h1>
-            <p className="text-zinc-400 text-sm md:text-xl max-w-2xl leading-relaxed font-medium">
-                Everything you need from certifications to top-tier company interview preparation.
+            <p className="text-zinc-400 text-sm sm:text-base max-w-2xl leading-relaxed font-normal">
+                {activeView === 'main' 
+                  ? 'Everything you need to build PM skills, strengthen your credentials, and prepare for top-tier interviews.'
+                  : activeView === 'certs' 
+                  ? 'Industry-recognized certification pathways and courses to validate your technical, analytical, and PM expertise.'
+                  : activeView === 'assignments'
+                  ? 'Real-world product assignment briefs and decks used by hiring teams at high-growth startups and top tech firms.'
+                  : activeView === 'casebooks'
+                  ? 'Curated PM case repositories, frameworks, and problem sets compiled by premier business school product clubs.'
+                  : 'Exhaustive company-wise PM interview question banks spanning Product Sense, RCA, Guesstimates, and Strategy.'}
             </p>
         </div>
       </header>
 
       <AnimatePresence mode="wait">
         {activeView === 'main' && (
-          <motion.div key="main" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <button onClick={() => setActiveView('certs')} className="group relative h-[380px] rounded-[3rem] overflow-hidden text-left shadow-xl border border-zinc-100 bg-white">
-              <div className="absolute inset-0 bg-gradient-to-br from-indigo-600/5 to-transparent group-hover:from-indigo-600/10 transition-all duration-700"></div>
-              <div className="p-8 h-full flex flex-col justify-between relative z-10">
-                <div className="w-14 h-14 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow-xl group-hover:scale-110 transition-all duration-500">
-                  <Award className="w-7 h-7" />
+          <motion.div 
+            key="main" 
+            initial={{ opacity: 0, y: 8 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.2 }}
+            className="space-y-4"
+          >
+            {/* Section label */}
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-bold uppercase tracking-wider text-zinc-400">
+                EXPLORE THE LIBRARY
+              </span>
+            </div>
+
+            {/* 4 Cards Grid: 4 columns on desktop, 2x2 on tablet, 1 column on mobile */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6">
+              {/* Card 1: Certifications */}
+              <div 
+                onClick={() => setActiveView('certs')}
+                className="group relative bg-white rounded-2xl border border-zinc-200/90 hover:border-indigo-300 p-6 flex flex-col justify-between transition-all duration-200 hover:-translate-y-1 hover:shadow-lg text-left cursor-pointer overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-gradient-to-b from-indigo-50/25 via-transparent to-transparent pointer-events-none" />
+                <div className="relative z-10 flex flex-col h-full">
+                  {/* Icon Container: 44x44px rounded square with accent */}
+                  <div className="w-11 h-11 rounded-xl bg-indigo-600 text-white flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform duration-200 mb-6">
+                    <Award className="w-5 h-5" />
+                  </div>
+
+                  {/* Category & Title */}
+                  <div className="mb-2">
+                    <span className="text-[10px] font-extrabold uppercase tracking-wider text-indigo-600 block mb-1">
+                      Certifications
+                    </span>
+                    <h2 className="text-lg sm:text-xl font-extrabold text-zinc-900 tracking-tight leading-snug">
+                      Certifications
+                    </h2>
+                  </div>
+
+                  {/* Outcome-focused description */}
+                  <p className="text-xs text-zinc-500 font-normal leading-relaxed mb-5">
+                    Industry-recognized certifications to strengthen your PM credentials.
+                  </p>
+
+                  {/* Metadata */}
+                  <div className="mt-auto pt-3">
+                    <span className="inline-flex items-center text-[11px] font-bold text-zinc-500 bg-zinc-100/90 border border-zinc-200/70 px-2.5 py-1 rounded-md">
+                      {certificationData.length} certification tracks · {totalCerts} courses
+                    </span>
+                  </div>
+
+                  {/* Text-based CTA with animated arrow */}
+                  <div className="pt-4 mt-5 border-t border-zinc-100 flex items-center justify-between text-indigo-600 group-hover:text-indigo-700">
+                    <span className="text-[11px] font-extrabold tracking-wider uppercase">
+                      EXPLORE CERTIFICATIONS
+                    </span>
+                    <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" />
+                  </div>
                 </div>
-                <div>
-                  <h2 className="text-2xl font-black text-zinc-900 tracking-tighter mb-3">Certifications</h2>
-                  <p className="text-[11px] font-bold text-zinc-500 leading-relaxed">Industry-validated pathways for PM and AI core skills.</p>
-                </div>
-                <div className="flex items-center gap-3 text-indigo-600 font-black text-[9px] uppercase tracking-widest">Explore Tracks <Sparkles className="w-3 h-3 fill-current" /></div>
               </div>
-            </button>
-            <button onClick={() => setActiveView('assignments')} className="group relative h-[380px] rounded-[3rem] overflow-hidden text-left shadow-xl border border-zinc-100 bg-white">
-              <div className="absolute inset-0 bg-gradient-to-br from-amber-600/5 to-transparent group-hover:from-amber-600/10 transition-all duration-700"></div>
-              <div className="p-8 h-full flex flex-col justify-between relative z-10">
-                <div className="w-14 h-14 rounded-2xl bg-amber-500 text-white flex items-center justify-center shadow-xl group-hover:scale-110 transition-all duration-500">
-                  <Briefcase className="w-7 h-7" />
+
+              {/* Card 2: PM Assignments */}
+              <div 
+                onClick={() => setActiveView('assignments')}
+                className="group relative bg-white rounded-2xl border border-zinc-200/90 hover:border-amber-300 p-6 flex flex-col justify-between transition-all duration-200 hover:-translate-y-1 hover:shadow-lg text-left cursor-pointer overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-gradient-to-b from-amber-50/25 via-transparent to-transparent pointer-events-none" />
+                <div className="relative z-10 flex flex-col h-full">
+                  {/* Icon Container: 44x44px rounded square with accent */}
+                  <div className="w-11 h-11 rounded-xl bg-amber-500 text-white flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform duration-200 mb-6">
+                    <Briefcase className="w-5 h-5" />
+                  </div>
+
+                  {/* Category & Title */}
+                  <div className="mb-2">
+                    <span className="text-[10px] font-extrabold uppercase tracking-wider text-amber-600 block mb-1">
+                      PM Assignments
+                    </span>
+                    <h2 className="text-lg sm:text-xl font-extrabold text-zinc-900 tracking-tight leading-snug">
+                      PM Assignments
+                    </h2>
+                  </div>
+
+                  {/* Outcome-focused description */}
+                  <p className="text-xs text-zinc-500 font-normal leading-relaxed mb-5">
+                    Real-world product tasks inspired by hiring processes at top tech companies.
+                  </p>
+
+                  {/* Metadata */}
+                  <div className="mt-auto pt-3">
+                    <span className="inline-flex items-center text-[11px] font-bold text-zinc-500 bg-zinc-100/90 border border-zinc-200/70 px-2.5 py-1 rounded-md">
+                      {totalAssignments}+ assignments
+                    </span>
+                  </div>
+
+                  {/* Text-based CTA with animated arrow */}
+                  <div className="pt-4 mt-5 border-t border-zinc-100 flex items-center justify-between text-amber-600 group-hover:text-amber-700">
+                    <span className="text-[11px] font-extrabold tracking-wider uppercase">
+                      VIEW ASSIGNMENTS
+                    </span>
+                    <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" />
+                  </div>
                 </div>
-                <div>
-                  <h2 className="text-2xl font-black text-zinc-900 tracking-tighter mb-3">PM Assignments</h2>
-                  <p className="text-[11px] font-bold text-zinc-500 leading-relaxed">Real-world hiring tasks from top tech companies.</p>
-                </div>
-                <div className="flex items-center gap-3 text-amber-600 font-black text-[9px] uppercase tracking-widest">View 50+ Tasks <Zap className="w-3 h-3 fill-current" /></div>
               </div>
-            </button>
-            <button onClick={() => setActiveView('casebooks')} className="group relative h-[380px] rounded-[3rem] overflow-hidden text-left shadow-xl border border-zinc-100 bg-white">
-              <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/5 to-transparent group-hover:from-emerald-600/10 transition-all duration-700"></div>
-              <div className="p-8 h-full flex flex-col justify-between relative z-10">
-                <div className="w-14 h-14 rounded-2xl bg-emerald-600 text-white flex items-center justify-center shadow-xl group-hover:scale-110 transition-all duration-500">
-                  <BookOpen className="w-7 h-7" />
+
+              {/* Card 3: Casebooks */}
+              <div 
+                onClick={() => setActiveView('casebooks')}
+                className="group relative bg-white rounded-2xl border border-zinc-200/90 hover:border-emerald-300 p-6 flex flex-col justify-between transition-all duration-200 hover:-translate-y-1 hover:shadow-lg text-left cursor-pointer overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-gradient-to-b from-emerald-50/25 via-transparent to-transparent pointer-events-none" />
+                <div className="relative z-10 flex flex-col h-full">
+                  {/* Icon Container: 44x44px rounded square with accent */}
+                  <div className="w-11 h-11 rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform duration-200 mb-6">
+                    <BookOpen className="w-5 h-5" />
+                  </div>
+
+                  {/* Category & Title */}
+                  <div className="mb-2">
+                    <span className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-600 block mb-1">
+                      Casebooks
+                    </span>
+                    <h2 className="text-lg sm:text-xl font-extrabold text-zinc-900 tracking-tight leading-snug">
+                      Casebooks
+                    </h2>
+                  </div>
+
+                  {/* Outcome-focused description */}
+                  <p className="text-xs text-zinc-500 font-normal leading-relaxed mb-5">
+                    Structured product cases from IMs and leading business schools.
+                  </p>
+
+                  {/* Metadata */}
+                  <div className="mt-auto pt-3">
+                    <span className="inline-flex items-center text-[11px] font-bold text-zinc-500 bg-zinc-100/90 border border-zinc-200/70 px-2.5 py-1 rounded-md">
+                      {totalCasebooks} case studies
+                    </span>
+                  </div>
+
+                  {/* Text-based CTA with animated arrow */}
+                  <div className="pt-4 mt-5 border-t border-zinc-100 flex items-center justify-between text-emerald-600 group-hover:text-emerald-700">
+                    <span className="text-[11px] font-extrabold tracking-wider uppercase">
+                      EXPLORE CASEBOOKS
+                    </span>
+                    <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" />
+                  </div>
                 </div>
-                <div>
-                  <h2 className="text-2xl font-black text-zinc-900 tracking-tighter mb-3">Casebooks</h2>
-                  <p className="text-[11px] font-bold text-zinc-500 leading-relaxed">Repositories from IIMs and prestigious institutions.</p>
-                </div>
-                <div className="flex items-center gap-3 text-emerald-600 font-black text-[9px] uppercase tracking-widest">View Repository <Sparkles className="w-3 h-3 fill-current" /></div>
               </div>
-            </button>
-            <button onClick={() => setActiveView('questions')} className="group relative h-[380px] rounded-[3rem] overflow-hidden text-left shadow-xl border border-zinc-100 bg-white">
-              <div className="absolute inset-0 bg-gradient-to-br from-rose-600/5 to-transparent group-hover:from-rose-600/10 transition-all duration-700"></div>
-              <div className="p-8 h-full flex flex-col justify-between relative z-10">
-                <div className="w-14 h-14 rounded-2xl bg-rose-600 text-white flex items-center justify-center shadow-xl group-hover:scale-110 transition-all duration-500">
-                  <Building2 className="w-7 h-7" />
+
+              {/* Card 4: Company Qs */}
+              <div 
+                onClick={() => setActiveView('questions')}
+                className="group relative bg-white rounded-2xl border border-zinc-200/90 hover:border-rose-300 p-6 flex flex-col justify-between transition-all duration-200 hover:-translate-y-1 hover:shadow-lg text-left cursor-pointer overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-gradient-to-b from-rose-50/25 via-transparent to-transparent pointer-events-none" />
+                <div className="relative z-10 flex flex-col h-full">
+                  {/* Icon Container: 44x44px rounded square with accent */}
+                  <div className="w-11 h-11 rounded-xl bg-rose-600 text-white flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform duration-200 mb-6">
+                    <Building2 className="w-5 h-5" />
+                  </div>
+
+                  {/* Category & Title */}
+                  <div className="mb-2">
+                    <span className="text-[10px] font-extrabold uppercase tracking-wider text-rose-600 block mb-1">
+                      Company Qs
+                    </span>
+                    <h2 className="text-lg sm:text-xl font-extrabold text-zinc-900 tracking-tight leading-snug">
+                      Company Qs
+                    </h2>
+                  </div>
+
+                  {/* Outcome-focused description */}
+                  <p className="text-xs text-zinc-500 font-normal leading-relaxed mb-5">
+                    Real interview questions and patterns from top tech companies.
+                  </p>
+
+                  {/* Metadata */}
+                  <div className="mt-auto pt-3">
+                    <span className="inline-flex items-center text-[11px] font-bold text-zinc-500 bg-zinc-100/90 border border-zinc-200/70 px-2.5 py-1 rounded-md">
+                      {totalQuestions}+ interview questions
+                    </span>
+                  </div>
+
+                  {/* Text-based CTA with animated arrow */}
+                  <div className="pt-4 mt-5 border-t border-zinc-100 flex items-center justify-between text-rose-600 group-hover:text-rose-700">
+                    <span className="text-[11px] font-extrabold tracking-wider uppercase">
+                      PRACTICE COMPANY QUESTIONS
+                    </span>
+                    <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" />
+                  </div>
                 </div>
-                <div>
-                  <h2 className="text-2xl font-black text-zinc-900 tracking-tighter mb-3">Company Qs</h2>
-                  <p className="text-[11px] font-bold text-zinc-500 leading-relaxed">Actual interview questions from 30+ top tech firms.</p>
-                </div>
-                <div className="flex items-center gap-3 text-rose-600 font-black text-[9px] uppercase tracking-widest">Master Prep <Target className="w-3 h-3 fill-current" /></div>
               </div>
-            </button>
+            </div>
           </motion.div>
         )}
 
@@ -1164,13 +1336,27 @@ export const Resources: React.FC = () => {
         )}
       </AnimatePresence>
 
-      <div className="mt-20 bg-zinc-950 rounded-[3rem] p-10 text-center relative overflow-hidden shadow-2xl">
-        <div className="absolute top-0 right-0 p-8 opacity-10"><Award className="w-40 h-40 text-[#79BAEC]" /></div>
-        <div className="relative z-10 space-y-6">
-          <h2 className="text-3xl font-black text-white tracking-tighter">Ready to showcase your skills?</h2>
-          <p className="text-zinc-400 font-medium max-w-xl mx-auto italic">
-            "Knowledge is your foundation. Case studies and assignments are your proof. Build both to become unstoppable in your PM journey."
+      {/* Bottom Showcase & Journey CTA Banner */}
+      <div className="mt-12 md:mt-16 bg-zinc-950 rounded-3xl md:rounded-[2.25rem] p-7 sm:p-9 md:p-10 text-white relative overflow-hidden shadow-xl border border-zinc-800/80">
+        <div className="absolute right-4 md:right-10 top-1/2 -translate-y-1/2 opacity-10 pointer-events-none text-zinc-400">
+          <Award className="w-36 h-36 sm:w-44 sm:h-44 stroke-[1.2]" />
+        </div>
+        <div className="relative z-10 max-w-xl space-y-3 sm:space-y-4">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+            Ready to showcase your skills?
+          </h2>
+          <p className="text-zinc-400 text-xs sm:text-sm font-normal leading-relaxed">
+            Build the knowledge. Practice the cases. Then prove what you can do.
           </p>
+          <div className="pt-2">
+            <button
+              onClick={() => navigate('/dashboard')}
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white hover:bg-zinc-100 text-zinc-950 font-extrabold text-xs uppercase tracking-wider transition-all duration-200 shadow-sm cursor-pointer group"
+            >
+              <span>{bottomCtaText}</span>
+              <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
+            </button>
+          </div>
         </div>
       </div>
     </motion.div>

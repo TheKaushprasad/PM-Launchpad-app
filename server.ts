@@ -1524,9 +1524,15 @@ Analyze the entire transcript and scratchpad as an experienced Senior PM mentor.
     });
   }
 
-  app.listen(PORT, "0.0.0.0", () => {
+  const server = app.listen(PORT, "0.0.0.0", () => {
     console.log(`Server running on http://localhost:${PORT}`);
+  });
+
+  server.on("error", (err: any) => {
+    console.error("Server listen error:", err);
   });
 }
 
-startServer();
+startServer().catch((err) => {
+  console.error("Failed to start server:", err);
+});

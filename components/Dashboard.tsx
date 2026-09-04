@@ -116,6 +116,13 @@ export const Dashboard: React.FC = () => {
   const userName = userProfile?.name || userProfile?.displayName || user?.displayName || 'PM Aspiring Talent';
   const targetRole = userProfile?.career?.targetRole || userProfile?.targetRole || 'Product Manager';
 
+  // Determine current active lesson in sequence (first uncompleted or actively in-progress lesson)
+  const currentActiveLesson = LESSONS.find(l => {
+    const p = progressMap[l.day];
+    return !p?.completed;
+  }) || LESSONS[0];
+  const currentLessonDay = currentActiveLesson?.day;
+
   return (
     <motion.div 
       variants={container}
@@ -134,119 +141,154 @@ export const Dashboard: React.FC = () => {
         </button>
       )}
 
-      {/* Hero Welcome & Quick Stats */}
-      <header className="relative bg-zinc-950 rounded-[2.5rem] md:rounded-[3rem] p-8 md:p-14 text-white overflow-hidden shadow-2xl">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-indigo-600/15 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3"></div>
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-purple-600/10 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/4"></div>
+      {/* Hero Welcome & Quick Stats (Compact command center ~18% height reduction, ~40px padding) */}
+      <header className="relative bg-zinc-950 rounded-2xl sm:rounded-3xl md:rounded-[2rem] px-6 py-6 sm:px-8 sm:py-7 md:px-10 md:py-8 text-white overflow-hidden shadow-xl shadow-zinc-950/25 border border-zinc-800/60">
+        <div className="absolute top-0 right-0 w-[450px] h-[450px] bg-indigo-600/15 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3 pointer-events-none" aria-hidden="true" />
+        <div className="absolute bottom-0 left-0 w-[350px] h-[350px] bg-purple-600/10 rounded-full blur-[90px] translate-y-1/2 -translate-x-1/4 pointer-events-none" aria-hidden="true" />
         
-        <div className="relative z-10 max-w-4xl space-y-6">
-          <motion.div variants={item} className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/10 text-indigo-300 text-[10px] font-black uppercase tracking-widest backdrop-blur-md">
-            <Sparkles className="w-3.5 h-3.5 fill-current text-indigo-400" /> 
-            <span>Personalised Career Command Center</span>
+        <div className="relative z-10 max-w-4xl space-y-5">
+          <motion.div variants={item} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.08] border border-white/10 text-indigo-300 text-[10px] font-black uppercase tracking-wider backdrop-blur-md">
+            <Sparkles className="w-3 h-3 fill-current text-indigo-400" /> 
+            <span>PERSONALISED CAREER COMMAND CENTER</span>
           </motion.div>
 
-          <motion.div variants={item} className="space-y-2">
-            <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight leading-[1.05] text-white">
+          <motion.div variants={item} className="space-y-1.5">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight leading-tight text-white">
               Welcome back, <br/>
               <span className="text-[#79BAEC]">{userName}</span>
             </h1>
-            <p className="text-zinc-400 text-sm md:text-base max-w-2xl leading-relaxed font-medium">
+            <p className="text-zinc-400 text-xs sm:text-sm max-w-2xl leading-relaxed font-medium">
               Master product management craft, sharpen key PM competencies, and track your launchpad curriculum progress.
             </p>
           </motion.div>
 
-          {/* Quick Metrics Bar */}
-          <motion.div variants={item} className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 border-t border-white/10">
-            <div className="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xs space-y-1">
-              <div className="flex items-center gap-1.5 text-zinc-400 text-[10px] font-black uppercase tracking-wider">
-                <Target className="w-3.5 h-3.5 text-indigo-400" />
-                <span>Target Role</span>
+          {/* Quick Metrics Bar - Visual Hierarchy: Primary Values Dominant */}
+          <motion.div variants={item} className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 pt-4 border-t border-white/10">
+            {/* Target Role */}
+            <div className="p-3 sm:p-3.5 rounded-xl bg-white/[0.05] border border-white/[0.08] flex flex-col justify-between">
+              <div className="flex items-center gap-1.5 text-zinc-400 text-[10px] font-bold uppercase tracking-wider mb-1.5">
+                <Target className="w-3 h-3 text-indigo-400 shrink-0" />
+                <span className="truncate">Target Role</span>
               </div>
-              <div className="text-base sm:text-lg font-black text-white truncate" title={targetRole}>
+              <div className="text-sm sm:text-base font-black text-white truncate" title={targetRole}>
                 {targetRole}
               </div>
             </div>
 
-            <div className="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xs space-y-1">
-              <div className="flex items-center gap-1.5 text-zinc-400 text-[10px] font-black uppercase tracking-wider">
-                <UserIcon className="w-3.5 h-3.5 text-[#79BAEC]" />
-                <span>Profile Strength</span>
+            {/* Profile Strength */}
+            <div className="p-3 sm:p-3.5 rounded-xl bg-white/[0.05] border border-white/[0.08] flex flex-col justify-between">
+              <div className="flex items-center gap-1.5 text-zinc-400 text-[10px] font-bold uppercase tracking-wider mb-1.5">
+                <UserIcon className="w-3 h-3 text-[#79BAEC] shrink-0" />
+                <span className="truncate">Profile Strength</span>
               </div>
-              <div className="text-xl sm:text-2xl font-black text-white">
+              <div className="text-xl sm:text-2xl font-black text-white tracking-tight">
                 {completenessPercentage}%
               </div>
             </div>
 
-            <div className="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xs space-y-1">
-              <div className="flex items-center gap-1.5 text-zinc-400 text-[10px] font-black uppercase tracking-wider">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                <span>Curriculum</span>
+            {/* Curriculum */}
+            <div className="p-3 sm:p-3.5 rounded-xl bg-white/[0.05] border border-white/[0.08] flex flex-col justify-between">
+              <div className="flex items-center gap-1.5 text-zinc-400 text-[10px] font-bold uppercase tracking-wider mb-1.5">
+                <CheckCircle2 className="w-3 h-3 text-emerald-400 shrink-0" />
+                <span className="truncate">Curriculum</span>
               </div>
-              <div className="text-xl sm:text-2xl font-black text-white">
-                {completedCount}/45 <span className="text-xs text-zinc-400 font-normal">({curriculumPercentage}%)</span>
+              <div className="flex items-baseline gap-2 flex-wrap">
+                <span className="text-xl sm:text-2xl font-black text-white tracking-tight">
+                  {completedCount} / 45
+                </span>
+                <span className="text-[11px] text-zinc-400 font-medium">
+                  {curriculumPercentage}% complete
+                </span>
               </div>
             </div>
 
-            <div className="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xs space-y-1">
-              <div className="flex items-center gap-1.5 text-zinc-400 text-[10px] font-black uppercase tracking-wider">
-                <Flame className="w-3.5 h-3.5 text-amber-400" />
-                <span>Daily Streak</span>
+            {/* Daily Streak */}
+            <div className="p-3 sm:p-3.5 rounded-xl bg-white/[0.05] border border-white/[0.08] flex flex-col justify-between">
+              <div className="flex items-center gap-1.5 text-zinc-400 text-[10px] font-bold uppercase tracking-wider mb-1.5">
+                <Flame className="w-3 h-3 text-amber-400 shrink-0" />
+                <span className="truncate">Daily Streak</span>
               </div>
-              <div className="text-xl sm:text-2xl font-black text-white">
-                {userProfile?.streakDays || 1} Days
+              <div className="text-xl sm:text-2xl font-black text-white tracking-tight">
+                {userProfile?.streakDays || 1} {(userProfile?.streakDays || 1) === 1 ? 'Day' : 'Days'}
               </div>
             </div>
           </motion.div>
         </div>
       </header>
 
-      {/* Curriculum Grid Section */}
-      <div className="space-y-8 pt-4">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-zinc-100 pb-6">
+      {/* Curriculum Grid Section (~40px intentional transition from hero) */}
+      <div className="space-y-6 mt-10">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 border-b border-zinc-150 pb-5">
           <motion.div variants={item}>
-            <div className="inline-flex items-center gap-2 text-[#79BAEC] mb-2">
-               <GraduationCap className="w-5 h-5" />
+            <div className="inline-flex items-center gap-1.5 text-[#79BAEC] mb-1.5">
+               <GraduationCap className="w-4 h-4" />
                <span className="text-[10px] font-black uppercase tracking-[0.2em]">Learning Path</span>
             </div>
-            <h2 className="text-2xl md:text-3xl font-black text-zinc-900 tracking-tight">
+            <h2 className="text-2xl sm:text-3xl font-black text-zinc-900 tracking-tight">
               {getModuleTitle()}
             </h2>
           </motion.div>
           
+          {/* Filter Pills Row - Consistent height, padding, border radius, and high contrast active state */}
           <motion.div variants={item} className="flex flex-wrap items-center gap-2">
              <button
+                type="button"
                 onClick={() => setFilterMode('all')}
-                className={`px-3.5 py-1.5 rounded-xl font-bold text-xs transition-all ${filterMode === 'all' ? 'bg-zinc-900 text-white shadow-sm' : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'}`}
+                className={`h-9 px-3.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all duration-150 cursor-pointer ${
+                  filterMode === 'all' 
+                    ? 'bg-zinc-900 text-white shadow-xs' 
+                    : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200/80 hover:text-zinc-900'
+                }`}
              >
                 All Lessons
              </button>
              <button
+                type="button"
                 onClick={() => setFilterMode('completed')}
-                className={`px-3.5 py-1.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all ${filterMode === 'completed' ? 'bg-emerald-600 text-white shadow-sm' : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'}`}
+                className={`h-9 px-3.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all duration-150 cursor-pointer ${
+                  filterMode === 'completed' 
+                    ? 'bg-zinc-900 text-white shadow-xs' 
+                    : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200/80 hover:text-zinc-900'
+                }`}
              >
-                <CheckCircle2 className="w-3.5 h-3.5" />
-                Completed ({completedCount})
+                <CheckCircle2 className={`w-3.5 h-3.5 ${filterMode === 'completed' ? 'text-emerald-400' : 'text-zinc-500'}`} />
+                <span>Completed ({completedCount})</span>
              </button>
              <button
+                type="button"
                 onClick={() => setFilterMode('syllabus')}
-                className={`px-3.5 py-1.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all ${filterMode === 'syllabus' ? 'bg-[#2D5A81] text-white shadow-sm ring-2 ring-[#79BAEC]/30' : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'}`}
+                className={`h-9 px-3.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all duration-150 cursor-pointer ${
+                  filterMode === 'syllabus' 
+                    ? 'bg-zinc-900 text-white shadow-xs' 
+                    : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200/80 hover:text-zinc-900'
+                }`}
              >
-                <BookOpen className="w-3.5 h-3.5" />
-                Full Syllabus
+                <BookOpen className={`w-3.5 h-3.5 ${filterMode === 'syllabus' ? 'text-indigo-300' : 'text-zinc-500'}`} />
+                <span>Full Syllabus</span>
              </button>
              <button
+                type="button"
                 onClick={() => setFilterMode('bookmarked')}
-                className={`px-3.5 py-1.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all ${filterMode === 'bookmarked' ? 'bg-amber-500 text-white shadow-sm' : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'}`}
+                className={`h-9 px-3.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all duration-150 cursor-pointer ${
+                  filterMode === 'bookmarked' 
+                    ? 'bg-zinc-900 text-white shadow-xs' 
+                    : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200/80 hover:text-zinc-900'
+                }`}
              >
-                <Bookmark className="w-3.5 h-3.5" />
-                Bookmarked {bookmarkedCount > 0 ? `(${bookmarkedCount})` : ''}
+                <Bookmark className={`w-3.5 h-3.5 ${filterMode === 'bookmarked' ? 'fill-amber-400 text-amber-400' : 'text-zinc-500'}`} />
+                <span>Bookmarked {bookmarkedCount > 0 ? `(${bookmarkedCount})` : ''}</span>
              </button>
              <button
+                type="button"
                 onClick={() => setFilterMode('notes')}
-                className={`px-3.5 py-1.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all ${filterMode === 'notes' ? 'bg-indigo-600 text-white shadow-sm ring-2 ring-indigo-400/30' : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'}`}
+                className={`h-9 px-3.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all duration-150 cursor-pointer ${
+                  filterMode === 'notes' 
+                    ? 'bg-zinc-900 text-white shadow-xs' 
+                    : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200/80 hover:text-zinc-900'
+                }`}
              >
-                <FileEdit className="w-3.5 h-3.5" />
-                Saved Notes {savedNotesCount > 0 ? `(${savedNotesCount})` : ''}
+                <FileEdit className={`w-3.5 h-3.5 ${filterMode === 'notes' ? 'text-indigo-300' : 'text-zinc-500'}`} />
+                <span>Saved Notes {savedNotesCount > 0 ? `(${savedNotesCount})` : ''}</span>
              </button>
           </motion.div>
         </div>
@@ -361,12 +403,16 @@ export const Dashboard: React.FC = () => {
             initial="hidden"
             animate="show"
             key={`${path}-${filterMode}`}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch"
           >
             {filteredLessons.length > 0 ? (
               filteredLessons.map((lesson, idx) => (
-                <motion.div key={lesson.day} variants={item}>
-                  <DayCard lesson={lesson} index={idx} />
+                <motion.div key={lesson.day} variants={item} className="h-full">
+                  <DayCard 
+                    lesson={lesson} 
+                    index={idx} 
+                    isCurrentLesson={lesson.day === currentLessonDay}
+                  />
                 </motion.div>
               ))
             ) : (
