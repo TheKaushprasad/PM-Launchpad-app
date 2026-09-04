@@ -16,6 +16,7 @@ import { SetupModal } from './SetupModal';
 import { AccessRequestModal } from './AccessRequestModal';
 import { InterviewStage } from './InterviewStage';
 import { useAuth } from '../../context/AuthContext';
+import { AuthModal } from '../auth/AuthModal';
 
 export const InterviewHub: React.FC = () => {
   const [selectedTrack, setSelectedTrack] = useState<string>('all');
@@ -23,9 +24,11 @@ export const InterviewHub: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [showHistoryModal, setShowHistoryModal] = useState<boolean>(false);
   const [showAccessModal, setShowAccessModal] = useState<boolean>(false);
+  const [authModalOpen, setAuthModalOpen] = useState<boolean>(false);
+  const [pendingScenario, setPendingScenario] = useState<InterviewScenario | null>(null);
 
-  const { interviewHistory } = useAuth();
-  const history = interviewHistory;
+  const { user, interviewHistory } = useAuth();
+  const history = interviewHistory || [];
 
   // Active Session & Setup Modal State
   const [setupScenario, setSetupScenario] = useState<InterviewScenario | null>(null);
@@ -34,6 +37,15 @@ export const InterviewHub: React.FC = () => {
     persona: InterviewerPersona;
     mode: InterviewMode;
   } | null>(null);
+
+  const handleStartInterview = (sc: InterviewScenario) => {
+    if (!user) {
+      setPendingScenario(sc);
+      setAuthModalOpen(true);
+      return;
+    }
+    setSetupScenario(sc);
+  };
 
   const tracks = [
     { id: 'all', label: 'All Tracks', icon: Layers, count: INTERVIEW_SCENARIOS.length },
@@ -87,7 +99,13 @@ export const InterviewHub: React.FC = () => {
               Gemini 3.7 Powered Studio
             </span>
             <button
-              onClick={() => setShowAccessModal(true)}
+              onClick={() => {
+                if (!user) {
+                  setAuthModalOpen(true);
+                  return;
+                }
+                setShowAccessModal(true);
+              }}
               className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-indigo-600/80 hover:bg-indigo-600 text-white text-xs font-bold uppercase tracking-wider transition-all shadow-xs cursor-pointer"
             >
               <Shield className="w-3.5 h-3.5" />
@@ -178,7 +196,13 @@ export const InterviewHub: React.FC = () => {
 
             {/* Past Scorecards Button (Secondary Action) */}
             <button
-              onClick={() => setShowHistoryModal(true)}
+              onClick={() => {
+                if (!user) {
+                  setAuthModalOpen(true);
+                  return;
+                }
+                setShowHistoryModal(true);
+              }}
               className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-50/80 hover:bg-indigo-100 border border-indigo-200/80 text-indigo-700 text-xs font-bold transition-all shrink-0 cursor-pointer group self-start lg:self-auto"
             >
               <History className="w-3.5 h-3.5 text-indigo-600" />
@@ -268,7 +292,8 @@ export const InterviewHub: React.FC = () => {
             return (
               <div
                 key={sc.id}
-                className="group bg-white rounded-2xl border border-zinc-200/90 p-6 flex flex-col justify-between transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:border-zinc-300"
+                onClick={() => handleStartInterview(sc)}
+                className="group bg-white rounded-2xl border border-zinc-200/90 p-6 flex flex-col justify-between transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:border-zinc-300 cursor-pointer"
               >
                 <div className="space-y-3.5">
                   {/* Top Header: Company badge (left) & Difficulty · Duration metadata (right) */}
@@ -338,7 +363,11 @@ export const InterviewHub: React.FC = () => {
                 {/* Primary CTA Button */}
                 <div className="pt-5 mt-5 border-t border-zinc-100">
                   <button
-                    onClick={() => setSetupScenario(sc)}
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleStartInterview(sc);
+                    }}
                     className="w-full h-11 px-5 rounded-xl bg-zinc-900 hover:bg-black text-white font-extrabold text-xs uppercase tracking-wider shadow-sm transition-all duration-200 flex items-center justify-between group-hover:bg-black cursor-pointer"
                   >
                     <span className="tracking-wider">{ctaText}</span>
@@ -350,6 +379,24 @@ export const InterviewHub: React.FC = () => {
           })}
         </div>
       )}
+
+      {/* Auth Modal for Unauthenticated Users */}
+      <AuthModal
+        isOpen={authModalOpen}
+        onClose={() => {
+          setAuthModalOpen(false);
+          setPendingScenario(null);
+        }}
+        initialMode="login"
+        redirectTo="/interview-studio"
+        onSuccess={() => {
+          setAuthModalOpen(false);
+          if (pendingScenario) {
+            setSetupScenario(pendingScenario);
+            setPendingScenario(null);
+          }
+        }}
+      />
 
       {/* Access Request Modal */}
       <AccessRequestModal

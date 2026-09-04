@@ -154,19 +154,27 @@ const App: React.FC = () => {
               } 
             />
 
-            {/* App Shell Wrapper for Dashboard, Tools, Profile, and Resources - Strictly Protected */}
-            <Route 
-              element={
-                <ProtectedRoute>
-                  <MainShell />
-                </ProtectedRoute>
-              }
-            >
+            {/* App Shell Wrapper for Dashboard, Tools, Profile, and Resources */}
+            <Route element={<MainShell />}>
                 {/* User Profile & Account Settings */}
-                <Route path="/profile" element={<Profile />} />
+                <Route 
+                  path="/profile" 
+                  element={
+                    <ProtectedRoute>
+                      <Profile />
+                    </ProtectedRoute>
+                  } 
+                />
 
                 {/* Dashboard & All Modules Routes */}
-                <Route path="/dashboard">
+                <Route 
+                  path="/dashboard"
+                  element={
+                    <ProtectedRoute>
+                      <Outlet />
+                    </ProtectedRoute>
+                  }
+                >
                     <Route index element={<Dashboard />} />
                     <Route path="about" element={<About />} />
                     <Route path="foundations" element={<Dashboard />} />
@@ -188,17 +196,47 @@ const App: React.FC = () => {
                 {/* AI Mock Interview Studio Routes */}
                 <Route path="/interview-studio" element={<InterviewHub />} />
                 <Route path="/practice" element={<InterviewHub />} />
-                <Route path="/resume-auditor" element={<ResumeAuditor />} />
+                <Route 
+                  path="/resume-auditor" 
+                  element={
+                    <ProtectedRoute>
+                      <ResumeAuditor />
+                    </ProtectedRoute>
+                  } 
+                />
                 <Route path="/linkedin" element={<Navigate to="/tools/linkedin-optimiser" replace />} />
 
                 {/* Career Tools Suite Routes */}
                 <Route path="/tools">
+                    {/* Publicly accessible Tools Hub */}
                     <Route index element={<ToolsHub />} />
-                    <Route path="linkedin-optimiser" element={<LinkedInOptimiser />} />
-                    <Route path="resume-auditor" element={<ResumeAuditor />} />
+                    {/* Protected Individual Tools requiring authentication */}
+                    <Route 
+                      path="linkedin-optimiser" 
+                      element={
+                        <ProtectedRoute>
+                          <LinkedInOptimiser />
+                        </ProtectedRoute>
+                      } 
+                    />
+                    <Route 
+                      path="resume-auditor" 
+                      element={
+                        <ProtectedRoute>
+                          <ResumeAuditor />
+                        </ProtectedRoute>
+                      } 
+                    />
                     <Route path="interview-studio" element={<InterviewHub />} />
                     <Route path="practice" element={<InterviewHub />} />
-                    <Route path="profile" element={<Profile />} />
+                    <Route 
+                      path="profile" 
+                      element={
+                        <ProtectedRoute>
+                          <Profile />
+                        </ProtectedRoute>
+                      } 
+                    />
                 </Route>
             </Route>
 

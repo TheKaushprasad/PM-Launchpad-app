@@ -140,7 +140,7 @@ export const LandingPage: React.FC = () => {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                onClick={() => handleProtectedAction('/tools')}
+                onClick={() => navigate('/tools')}
                 className="text-sm font-semibold text-zinc-600 hover:text-indigo-600 transition-colors tracking-tight flex items-center gap-1.5"
             >
                 <Sparkles className="w-4 h-4 text-indigo-600" /> Tools
@@ -150,7 +150,7 @@ export const LandingPage: React.FC = () => {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.15 }}
-                onClick={() => handleProtectedAction('/interview-studio')}
+                onClick={() => navigate('/interview-studio')}
                 className="text-sm font-semibold text-zinc-600 hover:text-indigo-600 transition-colors tracking-tight flex items-center gap-1.5"
             >
                 <Zap className="w-4 h-4 text-emerald-600" /> AI Mock Interview
@@ -160,7 +160,7 @@ export const LandingPage: React.FC = () => {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                onClick={() => handleProtectedAction('/resources')}
+                onClick={() => navigate('/resources')}
                 className="text-sm font-semibold text-zinc-600 hover:text-indigo-600 transition-colors tracking-tight flex items-center gap-1.5"
             >
                 <Library className="w-4 h-4 text-zinc-500" /> Resources
@@ -284,19 +284,19 @@ export const LandingPage: React.FC = () => {
                     Curriculum
                 </button>
                 <button 
-                    onClick={() => { setMobileMenuOpen(false); handleProtectedAction('/tools'); }}
+                    onClick={() => { setMobileMenuOpen(false); navigate('/tools'); }}
                     className="block w-full text-left text-lg font-semibold text-zinc-700 py-1.5 tracking-tight flex items-center gap-2"
                 >
                     <Sparkles className="w-5 h-5 text-indigo-600" /> Tools
                 </button>
                 <button 
-                    onClick={() => { setMobileMenuOpen(false); handleProtectedAction('/interview-studio'); }}
+                    onClick={() => { setMobileMenuOpen(false); navigate('/interview-studio'); }}
                     className="block w-full text-left text-lg font-semibold text-zinc-700 py-1.5 tracking-tight flex items-center gap-2"
                 >
                     <Zap className="w-5 h-5 text-emerald-600" /> AI Mock Interview
                 </button>
                 <button 
-                    onClick={() => { setMobileMenuOpen(false); handleProtectedAction('/resources'); }}
+                    onClick={() => { setMobileMenuOpen(false); navigate('/resources'); }}
                     className="block w-full text-left text-lg font-semibold text-zinc-700 py-1.5 tracking-tight flex items-center gap-2"
                 >
                     <Library className="w-5 h-5 text-zinc-600" /> Resources
@@ -643,7 +643,7 @@ export const LandingPage: React.FC = () => {
             {/* Tool 3: AI Mock Interview Studio */}
             <motion.div 
               whileHover={{ y: -6 }}
-              onClick={() => handleProtectedAction('/interview-studio')}
+              onClick={() => navigate('/interview-studio')}
               className="p-7 rounded-3xl bg-zinc-50 border border-zinc-200/80 hover:border-indigo-300 hover:shadow-xl transition-all cursor-pointer flex flex-col justify-between group"
             >
               <div className="space-y-4">
@@ -669,7 +669,7 @@ export const LandingPage: React.FC = () => {
             {/* Tool 4: Career Toolkit & Resources */}
             <motion.div 
               whileHover={{ y: -6 }}
-              onClick={() => handleProtectedAction('/resources')}
+              onClick={() => navigate('/resources')}
               className="p-7 rounded-3xl bg-zinc-50 border border-zinc-200/80 hover:border-indigo-300 hover:shadow-xl transition-all cursor-pointer flex flex-col justify-between group"
             >
               <div className="space-y-4">
