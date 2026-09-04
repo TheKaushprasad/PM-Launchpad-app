@@ -70,6 +70,8 @@ export interface InterviewEvaluation {
   durationSeconds: number;
   overallScore: number; // 0-100
   verdict: HiringVerdict;
+  confidence?: 'High' | 'Medium' | 'Low' | string;
+  candidateTurnCount?: number;
   pillars: {
     clarification: RubricPillarScore;
     framework: RubricPillarScore;

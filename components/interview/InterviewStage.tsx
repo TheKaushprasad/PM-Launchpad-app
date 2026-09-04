@@ -901,84 +901,299 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
     } catch (err) {
       console.error("Evaluation error:", err);
       
-      const candidateTurnCount = messages.filter(m => m.role === 'candidate').length;
-      const baseScore = Math.min(85, Math.max(58, 62 + candidateTurnCount * 4));
-      const verdict = baseScore >= 80 ? "Strong Yes" : baseScore >= 68 ? "Lean Yes" : "Lean No";
+      const candidateMessages = messages.filter((m: any) => 
+        (m.role === 'candidate' || m.role === 'user') && 
+        typeof m.text === 'string' && 
+        m.text.trim().length > 0 && 
+        !m.id?.startsWith('init_start')
+      );
+      const candidateTurnCount = candidateMessages.length;
       
-      const fallbackEval: InterviewEvaluation = {
-        id: 'eval_' + Date.now(),
-        scenarioId: scenario.id,
-        scenarioTitle: scenario.title,
-        track: scenario.track,
-        personaId: persona.id,
-        completedAt: new Date().toISOString(),
-        durationSeconds: elapsedSeconds,
-        overallScore: baseScore,
-        verdict,
-        transcriptSummary: `The candidate tackled ${scenario.title} across ${candidateTurnCount} conversational turns with ${persona.name}.`,
-        pillars: {
-          clarification: {
-            name: "Clarification & Scope Definition",
-            score: Math.round(baseScore * 0.2),
-            maxScore: 20,
-            feedback: "Addressed core problem scope and explored primary user personas.",
-            strengths: ["Clear problem framing", "Clarified timeline"],
-            improvements: ["Probe external factors earlier", "Define counter-metrics"]
+      let fallbackEval: InterviewEvaluation;
+
+      if (candidateTurnCount === 0) {
+        fallbackEval = {
+          id: 'eval_' + Date.now(),
+          scenarioId: scenario.id,
+          scenarioTitle: scenario.title,
+          track: scenario.track,
+          personaId: persona.id,
+          completedAt: new Date().toISOString(),
+          durationSeconds: elapsedSeconds,
+          candidateTurnCount: 0,
+          overallScore: 0,
+          verdict: "Strong No",
+          confidence: "High",
+          transcriptSummary: "The interview ended before you had a chance to give a substantive answer, so there isn't enough evidence here to assess your PM thinking. The 0 reflects the fact that no candidate response was recorded in this session—not a judgment about your underlying PM ability.",
+          pillars: {
+            clarification: {
+              name: "Clarification & Scope",
+              score: 0,
+              maxScore: 20,
+              feedback: "We didn't get far enough to see how you would frame or clarify the problem.",
+              evidence: [],
+              whyTheyEarnedThisScore: "We didn't get far enough to see how you would frame or clarify the problem.",
+              whyTheyDidNotScoreHigher: "No candidate response was recorded to evaluate problem framing or scoping.",
+              strengths: [],
+              improvements: ["Start by clarifying the problem and relevant scope."]
+            },
+            framework: {
+              name: "Structured Thinking",
+              score: 0,
+              maxScore: 20,
+              feedback: "We didn't get far enough to see how you would structure the investigation.",
+              evidence: [],
+              whyTheyEarnedThisScore: "We didn't get far enough to see how you would structure the investigation.",
+              whyTheyDidNotScoreHigher: "No candidate response was recorded to evaluate problem structure.",
+              strengths: [],
+              improvements: ["Establish a simple structure for how you would investigate the problem."]
+            },
+            analyticalRigor: {
+              name: "Analysis & Reasoning",
+              score: 0,
+              maxScore: 20,
+              feedback: "There wasn't a candidate response to evaluate for hypothesis generation or analytical reasoning.",
+              evidence: [],
+              whyTheyEarnedThisScore: "There wasn't a candidate response to evaluate for hypothesis generation or analytical reasoning.",
+              whyTheyDidNotScoreHigher: "Analytical reasoning was not tested because no candidate response was recorded.",
+              strengths: [],
+              improvements: ["Make sure the interview contains enough of your reasoning to evaluate your approach."]
+            },
+            communication: {
+              name: "Communication",
+              score: 0,
+              maxScore: 20,
+              feedback: "There wasn't enough candidate dialogue to assess communication.",
+              evidence: [],
+              whyTheyEarnedThisScore: "There wasn't enough candidate dialogue to assess communication.",
+              whyTheyDidNotScoreHigher: "Communication could not be assessed because no candidate dialogue was recorded.",
+              strengths: [],
+              improvements: ["Engage in spoken or written dialogue during the interview session."]
+            },
+            synthesis: {
+              name: "Final Recommendation",
+              score: 0,
+              maxScore: 20,
+              feedback: "The interview ended before you reached a recommendation.",
+              evidence: [],
+              whyTheyEarnedThisScore: "The interview ended before you reached a recommendation.",
+              whyTheyDidNotScoreHigher: "No final recommendation was delivered.",
+              strengths: [],
+              improvements: ["Leave time at the end of the interview to deliver a clear recommendation."]
+            }
           },
-          framework: {
-            name: "Structured Framework & Decomposition",
-            score: Math.round(baseScore * 0.2),
-            maxScore: 20,
-            feedback: `Applied structured breakdown consistent with ${scenario.suggestedFramework || 'MECE principles'}.`,
-            strengths: ["Logical signposting", "Systematic flow"],
-            improvements: ["Ensure mutual exclusivity of branches", "State top-level pillars before details"]
-          },
-          analyticalRigor: {
-            name: "Analytical Rigor & Logical Depth",
-            score: Math.round(baseScore * 0.2),
-            maxScore: 20,
-            feedback: "Demonstrated sound hypothesis generation and quantitative intuition.",
-            strengths: ["Hypothesis-driven thinking", "Identified core drivers"],
-            improvements: ["Validate assumptions with baseline metrics", "Isolate platform cohorts"]
-          },
-          communication: {
-            name: "Communication & Conciseness",
-            score: Math.round(baseScore * 0.2),
-            maxScore: 20,
-            feedback: "Maintained clear verbal pacing and active engagement with the interviewer.",
-            strengths: ["Professional executive tone", "Active listening"],
-            improvements: ["Deliver bottom-line conclusions upfront", "Keep answers concise"]
-          },
-          synthesis: {
-            name: "Synthesis & Final Recommendation",
-            score: Math.round(baseScore * 0.2),
-            maxScore: 20,
-            feedback: "Delivered actionable next steps and acknowledged execution risks.",
-            strengths: ["Concrete prioritization", "Identified guardrails"],
-            improvements: ["Quantify business upside", "Outline 30-60-90 day milestone roadmap"]
-          }
-        },
-        topStrengths: [
-          "Structured problem decomposition and clear verbal pacing",
-          "Sound user empathy and domain understanding",
-          "Responsive to interviewer questions and prompts"
-        ],
-        criticalGrowthAreas: [
-          "State top-line conclusions before diving into deep operational details",
-          "Anchor quantitative assertions with explicit baseline benchmarks",
-          "Proactively address launch guardrails and competitor responses"
-        ],
-        exemplarAnswer: {
-          recommendedApproach: `For ${scenario.title}, master candidates clarify metrics, construct a MECE driver tree, and deliver a prioritized experiment roadmap with clear guardrails.`,
-          stepByStepStructure: [
-            { step: "Step 1: Clarification & Bounds", detail: "Bound the scope, verify timeline, and clarify primary business goals." },
-            { step: "Step 2: Core Decomposition", detail: "Break the challenge down using the recommended framework." },
-            { step: "Step 3: Hypothesis Engine", detail: "Isolate root causes or priority solutions with data-driven reasoning." },
-            { step: "Step 4: Executive Recommendation", detail: "Synthesize bottom-line recommendation, launch phases, and guardrails." }
+          topStrengths: [
+            "There wasn't enough of an interview to identify a meaningful strength yet."
           ],
-          interviewerSecretNotes: "Focus on structured reasoning and clear trade-off evaluation."
+          criticalGrowthAreas: [
+            "Start by clarifying the problem and relevant scope.",
+            "Establish a simple structure for how you would investigate the problem.",
+            "Make sure the interview contains enough of your reasoning to evaluate your approach."
+          ],
+          exemplarAnswer: {
+            recommendedApproach: `A strong Senior PM tackling ${scenario.title} would clarify the metric definition, validate telemetry, segment the affected population across dimensions, test prioritized hypotheses, and deliver concrete mitigations and guardrails.`,
+            stepByStepStructure: [
+              { step: "Step 1: Clarify & Validate Telemetry", detail: "Clarify whether the metric drop is relative or absolute, and verify data logging integrity." },
+              { step: "Step 2: Systematic Segmentation", detail: "Break down the metric across user journey, platform, geography, and app release versions." },
+              { step: "Step 3: Hypothesis Generation & Testing", detail: "Formulate top testable hypotheses and identify data cuts to confirm or eliminate them." },
+              { step: "Step 4: Recommendation & Guardrails", detail: "Propose immediate mitigations and preventative guardrails." }
+            ],
+            interviewerSecretNotes: "Top performers state their hypothesis and expected data signal before asking for numbers."
+          }
+        };
+      } else {
+        const totalCandidateWords = candidateMessages.reduce((sum: number, m: any) => sum + (m.text?.trim().split(/\s+/).length || 0), 0);
+        
+        if (totalCandidateWords < 20) {
+          fallbackEval = {
+            id: 'eval_' + Date.now(),
+            scenarioId: scenario.id,
+            scenarioTitle: scenario.title,
+            track: scenario.track,
+            personaId: persona.id,
+            completedAt: new Date().toISOString(),
+            durationSeconds: elapsedSeconds,
+            candidateTurnCount,
+            overallScore: 6,
+            verdict: "Strong No",
+            confidence: "High",
+            transcriptSummary: "You initiated the session, but your responses were limited to brief acknowledgments or greetings without substantive PM problem-solving. Points are only awarded for demonstrated candidate analysis, so there is not yet enough evidence to evaluate your approach.",
+            pillars: {
+              clarification: {
+                name: "Clarification & Scope",
+                score: 1,
+                maxScore: 20,
+                feedback: "Only brief dialogue was recorded, so problem scope clarification was not sufficiently demonstrated.",
+                evidence: candidateMessages.map((m: any) => `"${m.text}"`).slice(0, 2),
+                whyTheyEarnedThisScore: "You engaged briefly, but did not ask clarifying questions regarding metric definitions, timeline, or affected user segments.",
+                whyTheyDidNotScoreHigher: "Clarifying questions and scope boundaries were not established in your responses.",
+                strengths: [],
+                improvements: ["Start by clarifying whether the issue is sudden or gradual, and which specific user cohorts are affected."]
+              },
+              framework: {
+                name: "Structured Thinking",
+                score: 1,
+                maxScore: 20,
+                feedback: "A structured investigation framework was not established in the session.",
+                evidence: [],
+                whyTheyEarnedThisScore: "No problem breakdown or roadmap was laid out.",
+                whyTheyDidNotScoreHigher: "An investigation structure or category breakdown was missing.",
+                strengths: [],
+                improvements: ["Outline 2-3 logical investigation buckets upfront before diving into details."]
+              },
+              analyticalRigor: {
+                name: "Analysis & Reasoning",
+                score: 1,
+                maxScore: 20,
+                feedback: "Hypothesis generation and analytical reasoning were not tested.",
+                evidence: [],
+                whyTheyEarnedThisScore: "No specific hypotheses, data requests, or calculations were explored.",
+                whyTheyDidNotScoreHigher: "Analytical reasoning requires formulating and prioritizing testable hypotheses.",
+                strengths: [],
+                improvements: ["State your hypothesis and what data signal would validate or disprove it."]
+              },
+              communication: {
+                name: "Communication",
+                score: 3,
+                maxScore: 20,
+                feedback: "You responded to the interviewer, but communication was too brief to evaluate pacing or synthesis.",
+                evidence: candidateMessages.map((m: any) => `"${m.text}"`).slice(0, 2),
+                whyTheyEarnedThisScore: "You acknowledged the interviewer, but dialogue was limited to brief turns.",
+                whyTheyDidNotScoreHigher: "Longer, substantive explanations are needed to assess communication conciseness and structure.",
+                strengths: [],
+                improvements: ["Explain your reasoning step-by-step aloud rather than giving single-phrase answers."]
+              },
+              synthesis: {
+                name: "Final Recommendation",
+                score: 0,
+                maxScore: 20,
+                feedback: "The interview concluded before reaching a synthesis or final recommendation.",
+                evidence: [],
+                whyTheyEarnedThisScore: "The session ended prior to the solution or summary stage.",
+                whyTheyDidNotScoreHigher: "No recommendation or action plan was delivered.",
+                strengths: [],
+                improvements: ["Reserve 2-3 minutes at the end of the interview to deliver a crisp executive summary."]
+              }
+            },
+            topStrengths: [
+              "There wasn't enough substantive interview dialogue to identify a standout PM strength yet."
+            ],
+            criticalGrowthAreas: [
+              "Start by clarifying the problem perimeter and relevant scope.",
+              "Establish a simple structure for how you would investigate the problem.",
+              "Make sure the interview contains enough of your reasoning to evaluate your approach."
+            ],
+            exemplarAnswer: {
+              recommendedApproach: `A strong Senior PM tackling ${scenario.title} would start by verifying the metric drop and scoping which user cohorts are affected. They'd then break the problem into 2–3 clear investigation areas, test their top hypothesis first, and close with a realistic action plan and guardrails.`,
+              stepByStepStructure: [
+                { step: "Step 1: Clarify & Validate Telemetry", detail: "Check whether the metric drop is relative or absolute, and isolate whether it's specific to an app version or platform." },
+                { step: "Step 2: Systematic Segmentation", detail: "Group potential causes into Funnel Issues, Technical Regressions, and External Market Factors." },
+                { step: "Step 3: Hypothesis Generation & Testing", detail: "Formulate testable hypotheses and identify the fastest data cut to validate or eliminate them." },
+                { step: "Step 4: Recommendation & Guardrails", detail: "Deliver a crisp summary with immediate mitigations, guardrail metrics, and longer-term prevention." }
+              ],
+              interviewerSecretNotes: "Top performers state the testable hypothesis before asking for data cuts."
+            }
+          };
+        } else {
+          const cScore = Math.min(14, Math.max(6, Math.round(candidateTurnCount * 1.5)));
+          const fScore = Math.min(14, Math.max(6, Math.round(candidateTurnCount * 1.5)));
+          const aScore = Math.min(14, Math.max(6, Math.round(candidateTurnCount * 1.5)));
+          const mScore = Math.min(14, Math.max(8, Math.round(candidateTurnCount * 1.6)));
+          const sScore = Math.min(12, Math.max(4, Math.round(candidateTurnCount * 1.2)));
+          const total = cScore + fScore + aScore + mScore + sScore;
+
+          fallbackEval = {
+            id: 'eval_' + Date.now(),
+            scenarioId: scenario.id,
+            scenarioTitle: scenario.title,
+            track: scenario.track,
+            personaId: persona.id,
+            completedAt: new Date().toISOString(),
+            durationSeconds: elapsedSeconds,
+            candidateTurnCount,
+            overallScore: total,
+            verdict: total >= 70 ? "Lean Yes" : total >= 50 ? "Lean No" : "Strong No",
+            confidence: "Medium",
+            transcriptSummary: `You worked through a ${Math.floor(elapsedSeconds / 60)}-minute session on ${scenario.title} across ${candidateTurnCount} turns. You demonstrated active engagement with ${persona.name}, and with tighter prioritization and explicit hypothesis testing, your investigation can become even stronger.`,
+            pillars: {
+              clarification: {
+                name: "Clarification & Scope",
+                score: cScore,
+                maxScore: 20,
+                feedback: "You addressed the problem context and engaged on scope.",
+                evidence: candidateMessages.map((m: any) => `"${m.text.slice(0, 60)}..."`).slice(0, 2),
+                whyTheyEarnedThisScore: "You engaged on problem scope before exploring solutions.",
+                whyTheyDidNotScoreHigher: "Remember to verify telemetry data integrity and isolate user cohorts upfront.",
+                strengths: ["Engaged on problem scope before jumping into solutions"],
+                improvements: ["Explicitly probe telemetry integrity and whether the metric change is relative or absolute."]
+              },
+              framework: {
+                name: "Structured Thinking",
+                score: fScore,
+                maxScore: 20,
+                feedback: "You broke the problem into distinct areas to investigate.",
+                evidence: [],
+                whyTheyEarnedThisScore: "You provided directional signposts during the discussion.",
+                whyTheyDidNotScoreHigher: "Explain upfront which bucket you will explore first and why.",
+                strengths: ["Maintained directional structure throughout your answers"],
+                improvements: ["Before exploring individual ideas, rank your top 2 investigation buckets explicitly."]
+              },
+              analyticalRigor: {
+                name: "Analysis & Reasoning",
+                score: aScore,
+                maxScore: 20,
+                feedback: "You explored potential drivers and responded to new details.",
+                evidence: [],
+                whyTheyEarnedThisScore: "You analyzed plausible factors contributing to the issue.",
+                whyTheyDidNotScoreHigher: "State your expected data signal before requesting numbers.",
+                strengths: ["Explored plausible drivers of the metric change"],
+                improvements: ["State your testable hypothesis explicitly before asking for data cuts."]
+              },
+              communication: {
+                name: "Communication",
+                score: mScore,
+                maxScore: 20,
+                feedback: "You communicated collaboratively with the interviewer.",
+                evidence: [],
+                whyTheyEarnedThisScore: "You maintained interactive dialogue across turns.",
+                whyTheyDidNotScoreHigher: "Lead with your bottom line before detailing your reasoning.",
+                strengths: ["Maintained collaborative conversational flow"],
+                improvements: ["Lead with the answer first (BLUF), then unpack the supporting logic."]
+              },
+              synthesis: {
+                name: "Final Recommendation",
+                score: sScore,
+                maxScore: 20,
+                feedback: "You worked toward wrapping up the investigation.",
+                evidence: [],
+                whyTheyEarnedThisScore: "You provided next steps based on the discussion.",
+                whyTheyDidNotScoreHigher: "Distinguish quick immediate mitigations from longer-term guardrail fixes.",
+                strengths: ["Addressed mitigations and next steps"],
+                improvements: ["Distinguish immediate 30-day mitigations from longer-term architectural guardrails."]
+              }
+            },
+            topStrengths: [
+              "You engaged collaboratively with the interviewer and stayed focused on the problem.",
+              "You explored multiple potential factors rather than fixating on a single cause."
+            ],
+            criticalGrowthAreas: [
+              "State your testable hypothesis and expected data signal before asking for numbers.",
+              "Outline your investigation roadmap upfront so the interviewer knows where you plan to go.",
+              "Lead with the bottom-line takeaway before walking through supporting details."
+            ],
+            exemplarAnswer: {
+              recommendedApproach: `A strong Senior PM tackling ${scenario.title} would start by verifying the metric drop and scoping which user cohorts are affected. They'd then break the problem into 2–3 clear investigation areas, test their top hypothesis first, and close with a realistic action plan and guardrails.`,
+              stepByStepStructure: [
+                { step: "Step 1: Clarify & Validate Telemetry", detail: "Check whether the metric drop is relative or absolute, and isolate whether it's specific to an app version or platform." },
+                { step: "Step 2: Systematic Segmentation", detail: "Group potential causes into Funnel Issues, Technical Regressions, and External Market Factors." },
+                { step: "Step 3: Hypothesis Generation & Testing", detail: "Formulate testable hypotheses and identify the fastest data cut to validate or eliminate them." },
+                { step: "Step 4: Recommendation & Guardrails", detail: "Deliver a crisp summary with immediate mitigations, guardrail metrics, and longer-term prevention." }
+              ],
+              interviewerSecretNotes: "Top performers state the testable hypothesis before asking for data cuts."
+            }
+          };
         }
-      };
+      }
 
       setEvaluationResult(fallbackEval);
     } finally {
