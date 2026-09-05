@@ -828,25 +828,37 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       createdAt: analysis.createdAt || now
     };
 
-    try {
-      await setDoc(docRef, analysisToSave);
-      
-      // Update top-level user profile with latest score
-      const userDocRef = doc(db, 'users', user.uid);
-      await setDoc(userDocRef, {
-        latestLinkedInScore: analysis.overallScore,
-        latestLinkedInAnalysisDate: now,
-        updatedAt: now
-      }, { merge: true });
+    // Optimistically update top-level profile in local state
+    setUserProfile(prev => prev ? {
+      ...prev,
+      latestLinkedInScore: analysis.overallScore,
+      latestLinkedInAnalysisDate: now,
+      updatedAt: now
+    } : null);
 
-      setUserProfile(prev => prev ? {
-        ...prev,
-        latestLinkedInScore: analysis.overallScore,
-        latestLinkedInAnalysisDate: now,
-        updatedAt: now
-      } : null);
+    try {
+      // Cleanly remove any undefined fields that could cause Firestore setDoc rejection
+      const cleanedAnalysis = JSON.parse(JSON.stringify(analysisToSave));
+
+      // Safety timeout race to prevent indefinite hanging in sandboxed iframes
+      const writePromise = async () => {
+        await setDoc(docRef, cleanedAnalysis);
+        const userDocRef = doc(db, 'users', user.uid);
+        await setDoc(userDocRef, {
+          latestLinkedInScore: analysis.overallScore,
+          latestLinkedInAnalysisDate: now,
+          updatedAt: now
+        }, { merge: true });
+      };
+
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error('Firestore persistence write timeout')), 4500);
+      });
+
+      await Promise.race([writePromise(), timeoutPromise]);
     } catch (err) {
-      handleFirestoreError(err, OperationType.CREATE, docPath);
+      console.warn('Firestore notice saving LinkedIn analysis:', err);
+      // We do not throw fatal exceptions from background persistence
     }
   };
 

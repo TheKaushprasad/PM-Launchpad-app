@@ -108,6 +108,7 @@ export function segregateRawProfileText(
   let currentSection = 'header';
   const sectionMap: Record<string, string[]> = {
     header: [],
+    contact: [],
     about: [],
     experience: [],
     education: [],
@@ -117,14 +118,15 @@ export function segregateRawProfileText(
     projects: []
   };
 
-  // Common section header regex triggers in LinkedIn exports/page copies
+  // Common section header regex triggers in LinkedIn exports/page copies (supports colons, hashes, and spacing)
   const headerPatterns: Array<{ name: string; regex: RegExp }> = [
-    { name: 'about', regex: /^(?:About|Summary|About me|Professional Summary)\s*$/i },
-    { name: 'experience', regex: /^(?:Experience|Work Experience|Employment History|Professional Experience)\s*$/i },
-    { name: 'education', regex: /^(?:Education|Academic Background|Degrees)\s*$/i },
-    { name: 'skills', regex: /^(?:Skills|Top Skills|Skills & endorsements|Key Competencies|Core Skills)\s*$/i },
-    { name: 'certifications', regex: /^(?:Licenses & certifications|Certifications|Certificates|Credentials)\s*$/i },
-    { name: 'featured', regex: /^(?:Featured|Projects|Portfolio|Publications)\s*$/i }
+    { name: 'about', regex: /^[#\s*]*(?:About|Summary|About me|Professional Summary|Executive Summary|Bio)[:\s]*$/i },
+    { name: 'experience', regex: /^[#\s*]*(?:Experience|Work Experience|Employment History|Professional Experience|Career History)[:\s]*$/i },
+    { name: 'education', regex: /^[#\s*]*(?:Education|Academic Background|Degrees|Education History)[:\s]*$/i },
+    { name: 'skills', regex: /^[#\s*]*(?:Skills|Top Skills|Skills & endorsements|Key Competencies|Core Skills|Technical Skills)[:\s]*$/i },
+    { name: 'certifications', regex: /^[#\s*]*(?:Licenses & certifications|Certifications|Certificates|Credentials)[:\s]*$/i },
+    { name: 'featured', regex: /^[#\s*]*(?:Featured|Projects|Portfolio|Publications)[:\s]*$/i },
+    { name: 'contact', regex: /^[#\s*]*(?:Contact|Contact Info)[:\s]*$/i }
   ];
 
   for (const line of lines) {
@@ -247,6 +249,9 @@ export function segregateRawProfileText(
   if (sectionMap.certifications.length > 0) {
     structured.certifications = sectionMap.certifications.filter(c => c.length > 3 && c.length < 100);
   }
+
+  // Preserve full source text in other metadata so AI prompt has complete context
+  structured.other = { rawText: cleanText };
 
   return structured;
 }
@@ -784,6 +789,7 @@ ${structuredProfile.skills.join(', ') || 'No skills provided.'}
 
 Certifications:
 ${structuredProfile.certifications.join(', ') || 'None'}
+${structuredProfile.other?.rawText ? `\nFull Profile Document Context:\n${structuredProfile.other.rawText.slice(0, 4000)}` : ''}
 </PROFILE_DATA>
 
 OUTPUT FORMAT:
@@ -871,31 +877,6 @@ Return a JSON object with this exact structure:
       }
     ]
   },
-  "segregatedProfile": {
-    "name": string,
-    "headline": string,
-    "location": string,
-    "about": string,
-    "experience": [
-      {
-        "company": string,
-        "title": string,
-        "startDate": string,
-        "endDate": string,
-        "description": string,
-        "bullets": [string]
-      }
-    ],
-    "education": [
-      {
-        "institution": string,
-        "degree": string,
-        "field": string
-      }
-    ],
-    "skills": [string],
-    "certifications": [string]
-  },
   "keywordGap": {
     "strongKeywords": [ { "keyword": string, "count": number, "context": string } ],
     "missingKeywords": [ { "keyword": string, "importance": "Critical" | "Recommended", "whyItMatters": string } ],
@@ -926,14 +907,16 @@ Return a JSON object with this exact structure:
       "tasks": [ { "id": string, "title": string, "description": string, "category": string, "impact": "High" | "Medium" | "Low", "completed": false } ]
     }
   ]
-}`;
+}
+
+Note: Focus the experience bullet rewrites on the top 1-2 most prominent roles (1-2 high-leverage bullets each) demonstrating the Action + Context + Result (ACAR) transformation.`;
 
   try {
     const rawResult = await generateAIResponse({
       prompt,
       systemInstruction,
       jsonMode: true,
-      maxOutputTokens: 6000
+      maxOutputTokens: 3500
     });
 
     const parsed = JSON.parse(rawResult);

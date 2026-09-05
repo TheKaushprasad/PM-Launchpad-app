@@ -66,15 +66,18 @@ async function startServer() {
       });
 
       // Priority list of active, supported models from skill guidelines
+      // Flash Lite is placed after 3.8-flash as an immediate independent capacity failover
       const candidateModels = [
-        'gemini-3.7-flash',
+        'gemini-3.8-flash',
+        'gemini-3.1-flash-lite',
         'gemini-flash-latest',
-        'gemini-3.1-flash-lite'
+        'gemini-3.7-flash'
       ];
 
       let lastError: any = null;
 
-      for (const modelName of candidateModels) {
+      for (let i = 0; i < candidateModels.length; i++) {
+        const modelName = candidateModels[i];
         try {
           const config: any = {
             systemInstruction,
@@ -100,10 +103,18 @@ async function startServer() {
         } catch (err: any) {
           lastError = err;
           const errMsg = err?.message || String(err);
-          console.warn(`[AI Proxy]: Model ${modelName} encountered error: ${errMsg}`);
+          const isUnavailable = errMsg.includes("503") || errMsg.includes("UNAVAILABLE") || errMsg.includes("high demand") || errMsg.includes("429");
           
-          // If responseMimeType caused issues, try without responseMimeType
-          if (jsonMode) {
+          if (isUnavailable) {
+            console.log(`[AI Proxy]: Model ${modelName} temporary high demand/unavailable. Gracefully failing over to ${candidateModels[i + 1] || 'next provider'}...`);
+            // Brief backoff before next model to avoid rate burst
+            await new Promise(resolve => setTimeout(resolve, 300));
+          } else {
+            console.log(`[AI Proxy]: Model ${modelName} returned status: ${errMsg.slice(0, 100)}. Gracefully trying fallback...`);
+          }
+
+          // If responseMimeType caused issues (and not a 503/429 service outage), try without responseMimeType
+          if (jsonMode && !isUnavailable) {
             try {
               const fallbackResponse = await ai.models.generateContent({
                 model: modelName,
@@ -500,6 +511,115 @@ Return strictly valid JSON with 3 days:
         });
       }
 
+      // 1. Primary Engine: High-speed native PDF parsing directly in Node (takes ~15-30ms)
+      try {
+        const pdfBuffer = Buffer.from(fileBase64, 'base64');
+        const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
+        const loadingTask = pdfjs.getDocument({
+          data: new Uint8Array(pdfBuffer),
+          useSystemFonts: true,
+          disableFontFace: true,
+          isEvalSupported: false
+        });
+        const pdfDoc = await loadingTask.promise;
+        const numPages = Math.min(pdfDoc.numPages, 20);
+        const pageTexts: string[] = [];
+
+        for (let pageNum = 1; pageNum <= numPages; pageNum++) {
+          const page = await pdfDoc.getPage(pageNum);
+          const textContent = await page.getTextContent();
+          let lastY: number | null = null;
+          let pageText = "";
+
+          for (const item of textContent.items as any[]) {
+            if (!item || !('str' in item) || !item.str) continue;
+            if (lastY !== null && Math.abs(item.transform[5] - lastY) > 5) {
+              pageText += "\n";
+            } else if (pageText.length > 0 && !pageText.endsWith(" ") && !pageText.endsWith("\n")) {
+              pageText += " ";
+            }
+            pageText += item.str;
+            lastY = item.transform[5];
+          }
+          if (pageText.trim()) {
+            pageTexts.push(pageText.trim());
+          }
+        }
+
+        const combinedPdfText = pageTexts.join("\n\n").trim();
+        if (combinedPdfText.length >= 25) {
+          console.log(`[Fast Node PDF Parser] Successfully parsed ${combinedPdfText.length} chars from ${numPages} pages in <30ms`);
+          return res.json({
+            success: true,
+            text: combinedPdfText,
+            fileName: fileName || "Profile.pdf",
+            wordCount: combinedPdfText.split(/\s+/).filter(Boolean).length
+          });
+        }
+      } catch (nodePdfErr) {
+        console.warn("[Fast Node PDF Parser Notice, trying zlib stream / AI]:", nodePdfErr);
+      }
+
+      // 2. Direct Stream Extraction Engine (handles both uncompressed and zlib FlateDecode streams)
+      try {
+        const pdfBuffer = Buffer.from(fileBase64, 'base64');
+        const rawString = pdfBuffer.toString('latin1');
+        const tjMatches: string[] = [];
+        const tjRegex = /\(((?:\\.|[^\(\)])*)\)\s*Tj/g;
+        let m;
+        while ((m = tjRegex.exec(rawString)) !== null) {
+          const clean = m[1].replace(/\\([()\\])/g, '$1').trim();
+          if (clean.length > 0) tjMatches.push(clean);
+        }
+        const arrayTjRegex = /\[((?:[^\]]*))\s*\]\s*TJ/g;
+        while ((m = arrayTjRegex.exec(rawString)) !== null) {
+          const inner = m[1];
+          const innerStrRegex = /\(((?:\\.|[^\(\)])*)\)/g;
+          let im;
+          const rowParts: string[] = [];
+          while ((im = innerStrRegex.exec(inner)) !== null) {
+            const clean = im[1].replace(/\\([()\\])/g, '$1');
+            if (clean) rowParts.push(clean);
+          }
+          if (rowParts.length > 0) tjMatches.push(rowParts.join(''));
+        }
+
+        // Also decompress FlateDecode streams using native zlib
+        try {
+          const zlib = await import("zlib");
+          const streamRegex = /stream\r?\n([\s\S]*?)\r?\nendstream/g;
+          let sm;
+          while ((sm = streamRegex.exec(rawString)) !== null) {
+            try {
+              const streamBytes = Buffer.from(sm[1], 'latin1');
+              const decompressed = zlib.inflateSync(streamBytes).toString('latin1');
+              let tm;
+              while ((tm = tjRegex.exec(decompressed)) !== null) {
+                const clean = tm[1].replace(/\\([()\\])/g, '$1').trim();
+                if (clean.length > 0) tjMatches.push(clean);
+              }
+            } catch (_) {
+              // Not a standard zlib stream
+            }
+          }
+        } catch (_) {}
+
+        if (tjMatches.length >= 15) {
+          const fastExtracted = tjMatches.join(' ').replace(/\s{2,}/g, ' ').trim();
+          if (fastExtracted.length > 60) {
+            console.log(`[Fast Stream Parser] Extracted ${fastExtracted.length} chars directly from PDF streams`);
+            return res.json({
+              success: true,
+              text: fastExtracted,
+              fileName: fileName || "Profile.pdf",
+              wordCount: fastExtracted.split(/\s+/).filter(Boolean).length
+            });
+          }
+        }
+      } catch (streamErr) {
+        console.warn("[Fast PDF Stream Extraction Notice]:", streamErr);
+      }
+
       const geminiKey = process.env.GEMINI_API_KEY;
       if (!geminiKey || geminiKey.trim() === "" || geminiKey === "undefined") {
         throw new Error("GEMINI_API_KEY is required on the server to parse PDF documents.");
@@ -524,6 +644,7 @@ Guidelines:
       const candidateModels = [
         'gemini-3.1-flash-lite',
         'gemini-flash-latest',
+        'gemini-3.8-flash',
         'gemini-3.7-flash'
       ];
 
@@ -562,7 +683,7 @@ Guidelines:
           }
         } catch (err: any) {
           lastErr = err;
-          console.warn(`[Parse Resume Document]: Model ${modelName} failed:`, err?.message || err);
+          console.log(`[Parse Resume Document]: Model ${modelName} unavailable, trying next candidate...`);
         }
       }
 
@@ -1071,27 +1192,52 @@ Pure text, 1-2 sentences, actionable and clear. No markdown asterisks.
           httpOptions: { headers: { 'User-Agent': 'aistudio-build' } }
         });
 
-        const response = await ai.models.generateContent({
-          model: "gemini-3.7-flash",
-          contents: [
-            {
-              parts: [
+        const transcribeModels = [
+          "gemini-3.5-transcribe",
+          "gemini-3.1-flash-lite",
+          "gemini-3.8-flash",
+          "gemini-flash-latest",
+          "gemini-3.7-flash"
+        ];
+
+        let transcript = "";
+        let lastTranscribeErr: any = null;
+
+        for (const modelName of transcribeModels) {
+          try {
+            const response = await ai.models.generateContent({
+              model: modelName,
+              contents: [
                 {
-                  inlineData: {
-                    mimeType: mimeType.includes("webm") ? "audio/webm" : mimeType.includes("mp4") ? "audio/mp4" : "audio/wav",
-                    data: audioBase64
-                  }
-                },
-                {
-                  text: "Transcribe the candidate's speech verbatim without extra commentary or formatting. Output only the plain transcribed words."
+                  parts: [
+                    {
+                      inlineData: {
+                        mimeType: mimeType.includes("webm") ? "audio/webm" : mimeType.includes("mp4") ? "audio/mp4" : "audio/wav",
+                        data: audioBase64
+                      }
+                    },
+                    {
+                      text: "Transcribe the candidate's speech verbatim without extra commentary or formatting. Output only the plain transcribed words."
+                    }
+                  ]
                 }
               ]
-            }
-          ]
-        });
+            });
 
-        const transcript = response.text ? response.text.trim() : "";
-        return res.json({ transcript });
+            if (response && response.text) {
+              transcript = response.text.trim();
+              break;
+            }
+          } catch (mErr: any) {
+            lastTranscribeErr = mErr;
+            console.log(`[Audio Transcribe]: Model ${modelName} unavailable, attempting next model...`);
+          }
+        }
+
+        if (transcript || !lastTranscribeErr) {
+          return res.json({ transcript });
+        }
+        throw lastTranscribeErr || new Error("All transcription models failed");
       }
 
       res.status(400).json({ error: "No AI key available for audio transcription" });

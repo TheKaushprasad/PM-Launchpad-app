@@ -116,11 +116,13 @@ export const LinkedInOptimiser: React.FC = () => {
     manualProfileData?: any;
     linkedinUrl?: string;
     useSample?: boolean;
+    sourceFileName?: string;
+    sourceType?: 'pdf' | 'paste' | 'sample';
   }) => {
     setIsLoading(true);
     setProgress(15);
     setScrapeNotice(null);
-    setLoadingPhase('Segregating profile sections (Headline, About, Experience, Skills)...');
+    setLoadingPhase(params.sourceFileName ? `Analyzing LinkedIn PDF (${params.sourceFileName})...` : 'Segregating profile sections (Headline, About, Experience, Skills)...');
 
     // Progress simulation
     const timer1 = setTimeout(() => {
@@ -133,17 +135,26 @@ export const LinkedInOptimiser: React.FC = () => {
       setLoadingPhase('Scoring 8 dimensions, ATS keywords, and generating rewrites...');
     }, 2800);
 
+    // Watchdog timer so the user is never stuck on the loading screen
+    const watchdogTimer = setTimeout(() => {
+      setIsLoading(false);
+      setViewState(prev => (prev === 'form' ? 'dashboard' : prev));
+    }, 20000);
+
     try {
       if (params.useSample) {
         const sample = getSampleAnalysis(params.targetRole);
-        setTimeout(async () => {
+        sample.sourceType = 'sample';
+        setTimeout(() => {
           setAnalysisResult(sample);
-          if (user) {
-            await recordLinkedInAnalysis(sample);
-          }
           setIsLoading(false);
           setViewState('dashboard');
-        }, 1500);
+          if (user) {
+            recordLinkedInAnalysis(sample).catch(err => {
+              console.warn('Background sample save notice:', err);
+            });
+          }
+        }, 800);
         return;
       }
 
@@ -169,25 +180,49 @@ export const LinkedInOptimiser: React.FC = () => {
 
       setProgress(100);
       setLoadingPhase('Audit complete!');
-      const result: LinkedInAnalysisResult = data.result;
+      const result: LinkedInAnalysisResult = {
+        ...data.result,
+        sourceFileName: params.sourceFileName,
+        sourceType: params.sourceType || (params.sourceFileName ? 'pdf' : 'paste')
+      };
       setAnalysisResult(result);
+
+      // Instantly clear loading overlay and transition to scorecard dashboard
+      setTimeout(() => {
+        setIsLoading(false);
+        setViewState('dashboard');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 350);
+
+      // Decoupled background persistence so database sync never blocks the UI
       if (user) {
-        await recordLinkedInAnalysis(result);
+        recordLinkedInAnalysis(result).catch(err => {
+          console.warn('Background LinkedIn audit persistence note:', err);
+        });
       }
-      setViewState('dashboard');
     } catch (err: any) {
       console.error('LinkedIn Audit Error:', err);
       // Fallback to sample if unexpected network or server error occurred
       const fallback = getSampleAnalysis(params.targetRole);
+      fallback.sourceFileName = params.sourceFileName;
+      fallback.sourceType = params.sourceType || 'sample';
       setAnalysisResult(fallback);
+
+      setTimeout(() => {
+        setIsLoading(false);
+        setViewState('dashboard');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 350);
+
       if (user) {
-        await recordLinkedInAnalysis(fallback);
+        recordLinkedInAnalysis(fallback).catch(err => {
+          console.warn('Background fallback persistence note:', err);
+        });
       }
-      setViewState('dashboard');
     } finally {
       clearTimeout(timer1);
       clearTimeout(timer2);
-      setIsLoading(false);
+      clearTimeout(watchdogTimer);
     }
   };
 
@@ -233,6 +268,20 @@ export const LinkedInOptimiser: React.FC = () => {
                 <p className="text-xs text-zinc-500 font-medium italic">
                   Auditing keywords, bullet metrics, and recruiter discoverability against industry standards.
                 </p>
+                {progress >= 100 && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsLoading(false);
+                      setViewState('dashboard');
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
+                    className="w-full py-2.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md transition-all cursor-pointer flex items-center justify-center gap-1.5 animate-pulse"
+                  >
+                    <span>View Audit Scorecard</span>
+                    <span>&rarr;</span>
+                  </button>
+                )}
               </div>
             </motion.div>
           )}

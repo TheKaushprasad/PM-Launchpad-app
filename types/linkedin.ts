@@ -160,4 +160,6 @@ export interface LinkedInAnalysisResult {
   structuredProfile: StructuredProfile;
   rawScrapedExcerpt?: string;
   isMockSample?: boolean;
+  sourceFileName?: string;
+  sourceType?: 'pdf' | 'paste' | 'sample';
 }

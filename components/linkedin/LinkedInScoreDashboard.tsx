@@ -96,14 +96,14 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
   };
 
   const categoriesList = [
-    { key: 'headline', label: 'Headline', score: analysis.categories.headline, max: 15, tab: 'headline' },
-    { key: 'about', label: 'About', score: analysis.categories.about, max: 15, tab: 'about' },
-    { key: 'experience', label: 'Experience', score: analysis.categories.experience, max: 20, tab: 'experience' },
-    { key: 'skills', label: 'Skills', score: analysis.categories.skills, max: 10, tab: 'skills' },
-    { key: 'education', label: 'Education', score: analysis.categories.education, max: 5, tab: 'overview' },
-    { key: 'completeness', label: 'Completeness', score: analysis.categories.completeness, max: 10, tab: 'completeness' },
-    { key: 'branding', label: 'Branding', score: analysis.categories.branding, max: 10, tab: 'overview' },
-    { key: 'discoverability', label: 'Discoverability', score: analysis.categories.discoverability, max: 10, tab: 'skills' },
+    { key: 'headline', label: 'Headline', score: analysis.categories?.headline ?? 0, max: 15, tab: 'headline' },
+    { key: 'about', label: 'About', score: analysis.categories?.about ?? 0, max: 15, tab: 'about' },
+    { key: 'experience', label: 'Experience', score: analysis.categories?.experience ?? 0, max: 20, tab: 'experience' },
+    { key: 'skills', label: 'Skills', score: analysis.categories?.skills ?? 0, max: 10, tab: 'skills' },
+    { key: 'education', label: 'Education', score: analysis.categories?.education ?? 0, max: 5, tab: 'overview' },
+    { key: 'completeness', label: 'Completeness', score: analysis.categories?.completeness ?? 0, max: 10, tab: 'completeness' },
+    { key: 'branding', label: 'Branding', score: analysis.categories?.branding ?? 0, max: 10, tab: 'overview' },
+    { key: 'discoverability', label: 'Discoverability', score: analysis.categories?.discoverability ?? 0, max: 10, tab: 'skills' },
   ];
 
   const handleCustomRewrite = async () => {
@@ -156,6 +156,15 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
               <>
                 <span className="text-zinc-300">•</span>
                 <span className="text-zinc-600 font-medium">{analysis.experienceLevel}</span>
+              </>
+            )}
+            {analysis.sourceFileName && (
+              <>
+                <span className="text-zinc-300">•</span>
+                <span className="inline-flex items-center gap-1 text-indigo-700 bg-indigo-50 font-bold px-2 py-0.5 rounded-md border border-indigo-200/60">
+                  <FileText className="w-3 h-3 text-indigo-600" />
+                  <span>{analysis.sourceFileName}</span>
+                </span>
               </>
             )}
           </div>
@@ -221,7 +230,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
                   Key Strengths
                 </span>
                 <p className="text-zinc-300 text-[11px] leading-relaxed">
-                  {analysis.strengths[0] || 'Clear baseline title alignment'}
+                  {analysis.strengths?.[0] || 'Clear baseline title alignment'}
                 </p>
               </div>
 
@@ -231,7 +240,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
                   Primary Weakness
                 </span>
                 <p className="text-zinc-300 text-[11px] leading-relaxed">
-                  {analysis.weaknesses[0] || 'Lacks measurable business metrics'}
+                  {analysis.weaknesses?.[0] || 'Lacks measurable business metrics'}
                 </p>
               </div>
             </div>
@@ -348,7 +357,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
                   Strengths & Competitive Advantages
                 </h4>
                 <ul className="space-y-2.5">
-                  {analysis.strengths.map((str, i) => (
+                  {(analysis.strengths || []).map((str, i) => (
                     <li key={i} className="flex items-start gap-2 text-xs font-medium text-zinc-700">
                       <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
                       <span>{str}</span>
@@ -363,7 +372,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
                   Identified Weaknesses & Bottlenecks
                 </h4>
                 <ul className="space-y-2.5">
-                  {analysis.weaknesses.map((w, i) => (
+                  {(analysis.weaknesses || []).map((w, i) => (
                     <li key={i} className="flex items-start gap-2 text-xs font-medium text-zinc-700">
                       <AlertTriangle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
                       <span>{w}</span>
