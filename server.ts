@@ -1,5 +1,4 @@
 import express from "express";
-import { createServer as createViteServer } from "vite";
 import path from "path";
 import OpenAI from "openai";
 import dotenv from "dotenv";
@@ -2227,6 +2226,7 @@ async function startServer() {
 
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
+    const { createServer: createViteServer } = await import("vite");
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa",
@@ -2261,8 +2261,12 @@ async function startServer() {
   });
 }
 
-// In Vercel serverless functions, VERCEL=1 is set; don't bind to port automatically
-if (!process.env.VERCEL) {
+// Only run standalone server when executed directly as entrypoint, never when imported as a module
+const isDirectExecution = typeof process !== 'undefined' && 
+  process.argv[1] && 
+  (process.argv[1].endsWith('server.ts') || process.argv[1].endsWith('server.cjs') || process.argv[1].endsWith('server.js'));
+
+if (!process.env.VERCEL && isDirectExecution) {
   startServer().catch((err) => {
     console.error("Failed to start server:", err);
   });
