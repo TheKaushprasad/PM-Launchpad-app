@@ -419,6 +419,7 @@ export const HomeAuthSection: React.FC = () => {
           <AnimatePresence>
             {resendStatus && (
               <motion.div
+                key="home-auth-resend-status"
                 initial={{ opacity: 0, y: -4 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -4 }}
@@ -461,6 +462,7 @@ export const HomeAuthSection: React.FC = () => {
           <AnimatePresence>
             {errorMessage && (
               <motion.div
+                key="home-auth-error-banner"
                 initial={{ opacity: 0, y: -6 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -6 }}
@@ -486,6 +488,7 @@ export const HomeAuthSection: React.FC = () => {
 
             {successMessage && !accountCreatedSuccess && (
               <motion.div
+                key="home-auth-success-banner"
                 initial={{ opacity: 0, y: -6 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -6 }}

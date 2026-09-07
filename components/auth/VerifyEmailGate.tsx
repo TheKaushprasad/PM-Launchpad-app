@@ -244,6 +244,7 @@ export const VerifyEmailGate: React.FC<VerifyEmailGateProps> = ({ from = '/dashb
           <AnimatePresence>
             {checkStatus && (
               <motion.div
+                key="verification-check-status-banner"
                 initial={{ opacity: 0, y: -6 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -6 }}
@@ -264,6 +265,7 @@ export const VerifyEmailGate: React.FC<VerifyEmailGateProps> = ({ from = '/dashb
 
             {resendStatus && (
               <motion.div
+                key="verification-resend-status-banner"
                 initial={{ opacity: 0, y: -6 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -6 }}

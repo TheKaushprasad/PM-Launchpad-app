@@ -22,9 +22,8 @@ import {
 
 dotenv.config();
 
-async function startServer() {
+export async function createExpressApp() {
   const app = express();
-  const PORT = 3000;
 
   app.use(express.json({ limit: '10mb' }));
   app.use(express.urlencoded({ extended: true, limit: '10mb' }));
@@ -36,7 +35,7 @@ async function startServer() {
       env: process.env.NODE_ENV,
       hasOpenAIKey: !!process.env.OPENAI_API_KEY,
       hasResendKey: !!process.env.RESEND_API_KEY,
-      port: PORT
+      port: 3000
     });
   });
 
@@ -2220,6 +2219,13 @@ Return a valid JSON object matching this schema:
     }
   });
 
+  return app;
+}
+
+async function startServer() {
+  const PORT = 3000;
+  const app = await createExpressApp();
+
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
@@ -2256,6 +2262,9 @@ Return a valid JSON object matching this schema:
   });
 }
 
-startServer().catch((err) => {
-  console.error("Failed to start server:", err);
-});
+// In Vercel serverless functions, VERCEL=1 is set; don't bind to port automatically
+if (!process.env.VERCEL) {
+  startServer().catch((err) => {
+    console.error("Failed to start server:", err);
+  });
+}

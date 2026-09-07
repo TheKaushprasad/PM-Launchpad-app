@@ -459,6 +459,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 <AnimatePresence>
                   {resendStatus && (
                     <motion.div
+                      key="auth-modal-resend-status"
                       initial={{ opacity: 0, y: -4 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -4 }}
@@ -507,6 +508,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 <AnimatePresence>
                   {errorMessage && (
                     <motion.div
+                      key="auth-modal-error-banner"
                       initial={{ opacity: 0, y: -6 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -6 }}
@@ -519,6 +521,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
                   {successMessage && !accountCreatedSuccess && (
                     <motion.div
+                      key="auth-modal-success-banner"
                       initial={{ opacity: 0, y: -6 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -6 }}
