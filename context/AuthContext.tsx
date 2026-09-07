@@ -690,9 +690,28 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
       // Send verification email to verify the user's email address
       try {
-        await sendEmailVerification(newUser);
+        const returnUrl = typeof window !== 'undefined' ? `${window.location.origin}/#/dashboard` : undefined;
+        const res = await fetch('/api/auth/send-verification-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: newUser.email || params.email.trim(),
+            name: params.name.trim(),
+            returnUrl,
+            isNewSignUp: true,
+          }),
+        });
+        if (!res.ok) {
+          // Fallback to client Firebase SDK if server endpoint returned non-200
+          await sendEmailVerification(newUser);
+        }
       } catch (verifErr) {
-        console.warn("Could not dispatch initial sendEmailVerification:", verifErr);
+        console.warn("Could not dispatch custom verification email, using client fallback:", verifErr);
+        try {
+          await sendEmailVerification(newUser);
+        } catch (fbErr) {
+          console.warn("Could not dispatch initial sendEmailVerification:", fbErr);
+        }
       }
 
       return newUser;
@@ -702,13 +721,30 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
-  // Send verification email on demand
+  // Send verification email on demand (via Resend with Firebase client fallback)
   const sendVerificationEmail = async (userToVerify?: User): Promise<void> => {
     const targetUser = userToVerify || auth.currentUser || user;
-    if (!targetUser) {
+    if (!targetUser || !targetUser.email) {
       throw new Error("No active user to send verification email to.");
     }
-    await sendEmailVerification(targetUser);
+    try {
+      const returnUrl = typeof window !== 'undefined' ? `${window.location.origin}/#/dashboard` : undefined;
+      const res = await fetch('/api/auth/send-verification-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: targetUser.email,
+          name: targetUser.displayName || userProfile?.displayName || userProfile?.name || undefined,
+          returnUrl,
+        }),
+      });
+      if (!res.ok) {
+        await sendEmailVerification(targetUser);
+      }
+    } catch (err) {
+      console.warn("Server email dispatch notice, trying Firebase client fallback:", err);
+      await sendEmailVerification(targetUser);
+    }
   };
 
   // Reload user auth token and check if email is verified
@@ -941,13 +977,30 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
-  // Reset Password
+  // Reset Password via Resend custom transactional email
   const resetPassword = async (email: string) => {
+    const cleanEmail = email.trim();
+    if (!cleanEmail) {
+      throw new Error("Please enter your email address.");
+    }
     try {
-      await sendPasswordResetEmail(auth, email.trim());
+      const res = await fetch('/api/auth/send-password-reset-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: cleanEmail }),
+      });
+      if (!res.ok) {
+        // Fallback to client Firebase SDK
+        await sendPasswordResetEmail(auth, cleanEmail);
+      }
     } catch (err: any) {
-      console.error("Password reset failed:", err);
-      throw err;
+      console.warn("Server reset email notice, trying Firebase client fallback:", err);
+      try {
+        await sendPasswordResetEmail(auth, cleanEmail);
+      } catch (fbErr) {
+        console.error("Password reset failed:", fbErr);
+        throw fbErr;
+      }
     }
   };
 

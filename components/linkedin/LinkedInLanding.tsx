@@ -16,19 +16,19 @@ export const LinkedInLanding: React.FC<LinkedInLandingProps> = ({
   onSeeExample
 }) => {
   return (
-    <div className="space-y-16 py-4">
+    <div className="w-full space-y-0">
       {/* Hero Section */}
-      <section className="relative overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-zinc-950 via-zinc-900 to-indigo-950 p-8 sm:p-12 md:p-16 text-white border border-zinc-800 shadow-2xl">
+      <section className="relative overflow-hidden rounded-[2rem] sm:rounded-[2.25rem] bg-gradient-to-br from-zinc-950 via-zinc-900 to-indigo-950 pt-10 sm:pt-14 pb-8 sm:pb-10 px-6 sm:px-10 md:px-12 text-white border border-zinc-800 shadow-2xl">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none -translate-y-1/2 translate-x-1/3" />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-sky-500/10 rounded-full blur-[100px] pointer-events-none translate-y-1/2 -translate-x-1/4" />
 
-        <div className="relative z-10 max-w-3xl space-y-6">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 text-indigo-300 text-xs font-bold backdrop-blur-md">
+        <div className="relative z-10 max-w-3xl">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 text-indigo-300 text-xs font-bold backdrop-blur-md mb-4">
             <Sparkles className="w-3.5 h-3.5" />
             <span>AI-Powered LinkedIn Auditor & Personal Branding Coach</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight leading-[1.05]">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight leading-[1.05] mb-4">
             Turn Your LinkedIn Profile Into a <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#79BAEC] to-indigo-400">Recruiter Magnet.</span>
           </h1>
 
@@ -37,7 +37,7 @@ export const LinkedInLanding: React.FC<LinkedInLandingProps> = ({
           </p>
 
           {/* Primary & Secondary CTA */}
-          <div className="flex flex-wrap items-center gap-4 pt-4">
+          <div className="flex flex-wrap items-center gap-4 mt-7">
             <button
               id="cta-optimise-linkedin"
               onClick={onStartAudit}
@@ -58,7 +58,7 @@ export const LinkedInLanding: React.FC<LinkedInLandingProps> = ({
           </div>
 
           {/* Value pill highlights */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-8 border-t border-white/10 text-xs text-zinc-300">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6 pt-6 border-t border-white/10 text-xs text-zinc-300">
             <div className="flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
               <span>100-Point Scoring</span>
@@ -80,13 +80,13 @@ export const LinkedInLanding: React.FC<LinkedInLandingProps> = ({
       </section>
 
       {/* How It Works */}
-      <section className="space-y-8">
-        <div className="text-center max-w-xl mx-auto space-y-2">
-          <div className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-indigo-600">
+      <section className="mt-14">
+        <div className="text-center max-w-xl mx-auto">
+          <div className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-indigo-600 mb-3">
             <Zap className="w-3.5 h-3.5" />
-            Simple 4-Step Process
+            <span>Simple 4-Step Process</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-black text-zinc-900 tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-black text-zinc-900 tracking-tight mb-2">
             How The LinkedIn Optimiser Works
           </h2>
           <p className="text-zinc-500 text-sm font-medium">
@@ -94,7 +94,7 @@ export const LinkedInLanding: React.FC<LinkedInLandingProps> = ({
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-8">
           {[
             {
               step: '01',
@@ -139,11 +139,11 @@ export const LinkedInLanding: React.FC<LinkedInLandingProps> = ({
       </section>
 
       {/* What We Analyse: 8 Categories Breakdown */}
-      <section className="space-y-8 bg-zinc-50 rounded-[2.5rem] p-8 sm:p-12 border border-zinc-200/70">
+      <section className="mt-14 bg-zinc-50 rounded-[2.5rem] p-8 sm:p-12 border border-zinc-200/70">
         <div className="max-w-2xl space-y-2">
           <div className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-indigo-600">
             <Layers className="w-3.5 h-3.5" />
-            Recruiter-Grade Scoring Rubric
+            <span>Recruiter-Grade Scoring Rubric</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-black text-zinc-900 tracking-tight">
             What We Analyse (100 Points Total)
@@ -153,7 +153,7 @@ export const LinkedInLanding: React.FC<LinkedInLandingProps> = ({
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
           {[
             { name: 'Headline', points: '15 Pts', desc: 'Keyword density, value proposition, and differentiation.', badge: 'High Impact' },
             { name: 'About Section', points: '15 Pts', desc: 'Narrative hook, 10-second readability, and quantified proof.', badge: 'High Impact' },
@@ -183,7 +183,7 @@ export const LinkedInLanding: React.FC<LinkedInLandingProps> = ({
       </section>
 
       {/* Interactive Sample Preview Card */}
-      <section className="bg-white rounded-[2.5rem] p-8 sm:p-12 border border-zinc-200 shadow-sm space-y-8">
+      <section className="mt-14 bg-white rounded-[2.5rem] p-8 sm:p-12 border border-zinc-200 shadow-sm space-y-8">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-100 pb-6">
           <div>
             <span className="text-[10px] font-black uppercase tracking-widest text-indigo-600">Sample Audit Snapshot</span>

@@ -6,6 +6,7 @@ import {
   ArrowRight, LogOut, ShieldCheck, Sparkles, Inbox, Clock
 } from 'lucide-react';
 import { useAuth, getFriendlyAuthErrorMessage } from '../../context/AuthContext';
+import { auth } from '../../firebase';
 import { Logo } from '../Logo';
 
 interface VerifyEmailGateProps {
@@ -48,7 +49,30 @@ export const VerifyEmailGate: React.FC<VerifyEmailGateProps> = ({ from = '/dashb
     }
 
     try {
-      const verified = await reloadUser();
+      let verified = await reloadUser();
+
+      // If manual check and user is signed in, attempt backend confirmation sync
+      if (!verified && !isBackground && auth.currentUser) {
+        try {
+          const idToken = await auth.currentUser.getIdToken(true);
+          const res = await fetch('/api/auth/confirm-user-verification', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${idToken}`,
+            },
+          });
+          if (res.ok) {
+            const data = await res.json();
+            if (data.success) {
+              verified = await reloadUser();
+            }
+          }
+        } catch (serverVerifErr) {
+          console.warn('Backend verification check notice:', serverVerifErr);
+        }
+      }
+
       if (verified) {
         if (!isBackground) {
           setCheckStatus({

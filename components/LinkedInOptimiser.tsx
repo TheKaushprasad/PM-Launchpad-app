@@ -236,11 +236,9 @@ export const LinkedInOptimiser: React.FC = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className={`min-h-screen bg-[#FDFDFD] text-zinc-900 transition-all duration-300 ${
-        isCollapsed ? 'pl-20' : 'pl-64'
-      } pr-6 sm:pr-10 py-8`}
+      className="min-h-screen bg-[#FDFDFD] text-zinc-900 transition-all duration-300 px-4 sm:px-6 lg:px-8 py-5 sm:py-7"
     >
-      <div className="max-w-7xl mx-auto space-y-8">
+      <div className="w-full max-w-[1240px] mx-auto space-y-8">
         {/* Loading Overlay */}
         <AnimatePresence>
           {isLoading && (

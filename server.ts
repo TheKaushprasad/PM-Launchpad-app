@@ -7,6 +7,18 @@ import fs from "fs";
 import { scrapeLinkedInProfile, validateLinkedInUrl } from "./services/firecrawl";
 import { normalizeProfileData, analyzeProfileWithAI, getSampleAnalysis, TARGET_ROLE_KEYWORDS } from "./services/profileAnalyzer";
 import { evaluateResumeAlgorithmically } from "./lib/resumeAuditEngine";
+import { 
+  generateVerificationLink, 
+  generatePasswordResetLink,
+  isFirebaseAdminConfigured,
+  verifyUserEmailByUid,
+  getAdminAuth
+} from "./services/firebaseAdmin";
+import { 
+  sendVerificationEmailViaResend, 
+  sendPasswordResetEmailViaResend, 
+  sendWelcomeEmailViaResend 
+} from "./services/resendService";
 
 dotenv.config();
 
@@ -23,6 +35,7 @@ async function startServer() {
       status: "ok", 
       env: process.env.NODE_ENV,
       hasOpenAIKey: !!process.env.OPENAI_API_KEY,
+      hasResendKey: !!process.env.RESEND_API_KEY,
       port: PORT
     });
   });
@@ -2006,6 +2019,204 @@ Return a valid JSON object matching this schema:
     } catch (error: any) {
       console.error("[Interview Evaluation Error]:", error);
       res.status(500).json({ error: error.message || "Failed to generate interview evaluation" });
+    }
+  });
+
+  // ==========================================
+  // Custom Transactional Auth Email Endpoints
+  // Powered by Firebase Admin SDK & Resend
+  // ==========================================
+
+  // Status & Health of Email Service
+  app.get("/api/auth/email-service-status", (req, res) => {
+    const adminReady = isFirebaseAdminConfigured();
+    res.json({
+      status: "ok",
+      hasResendKey: !!process.env.RESEND_API_KEY,
+      isFirebaseAdminConfigured: adminReady,
+      sender: "TheNoobPM <no-reply@thenoobpm.com>",
+      configuredDomain: "thenoobpm.com"
+    });
+  });
+
+  // 1. Send Email Verification Link via Resend
+  app.post("/api/auth/send-verification-email", async (req, res) => {
+    const { email, name, returnUrl, isNewSignUp } = req.body;
+
+    if (!email || typeof email !== "string" || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      return res.status(400).json({ error: "A valid email address is required" });
+    }
+
+    const cleanEmail = email.trim().toLowerCase();
+
+    // Check if Firebase Admin service account is configured
+    if (!isFirebaseAdminConfigured()) {
+      return res.status(503).json({
+        success: false,
+        fallbackToClient: true,
+        error: "Firebase Admin is awaiting full FIREBASE_SERVICE_ACCOUNT_KEY JSON. Falling back to client-side verification.",
+      });
+    }
+
+    try {
+      // Generate Firebase Action Link using Admin SDK with appropriate return URL
+      const callerOrigin = (req.headers.origin as string) || (req.headers.referer ? new URL(req.headers.referer as string).origin : "") || process.env.APP_URL || "https://www.thenoobpm.com";
+      const targetReturnUrl = returnUrl || `${callerOrigin.replace(/\/+$/, '')}/#/dashboard`;
+      const linkResult = await generateVerificationLink(cleanEmail, targetReturnUrl);
+
+      // Dispatch custom branded email via Resend with official Firebase action link (guaranteed to work across all environments)
+      const emailResult = await sendVerificationEmailViaResend({
+        to: cleanEmail,
+        name: typeof name === "string" ? name.trim() : undefined,
+        verificationUrl: linkResult.rawActionLink,
+      });
+
+      // If new sign up, optionally dispatch the welcome email in parallel
+      if (isNewSignUp) {
+        sendWelcomeEmailViaResend({
+          to: cleanEmail,
+          name: typeof name === "string" ? name.trim() : undefined,
+        }).catch((wErr) => {
+          console.warn("[WelcomeEmail] Non-blocking notice: could not send welcome email:", wErr?.message);
+        });
+      }
+
+      return res.json({
+        success: true,
+        message: "Verification email sent successfully",
+        emailId: emailResult.id,
+      });
+    } catch (err: any) {
+      console.error("[SendVerificationEmail Error]:", err?.message || err);
+      
+      // If user not found in Firebase
+      if (err?.code === "auth/user-not-found") {
+        return res.status(404).json({ error: "No user account was found with this email address." });
+      }
+
+      return res.status(500).json({
+        success: false,
+        fallbackToClient: true,
+        error: "Failed to dispatch verification email. Please try again or contact support."
+      });
+    }
+  });
+
+  // 2. Send Password Reset Link via Resend
+  app.post("/api/auth/send-password-reset-email", async (req, res) => {
+    const { email, returnUrl } = req.body;
+
+    if (!email || typeof email !== "string" || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      return res.status(400).json({ error: "A valid email address is required" });
+    }
+
+    const cleanEmail = email.trim().toLowerCase();
+
+    // Check if Firebase Admin service account is configured
+    if (!isFirebaseAdminConfigured()) {
+      return res.status(503).json({
+        success: false,
+        fallbackToClient: true,
+        error: "Firebase Admin is awaiting full FIREBASE_SERVICE_ACCOUNT_KEY JSON. Falling back to client-side password reset.",
+      });
+    }
+
+    try {
+      // Generate Firebase password reset link using Admin SDK
+      const callerOrigin = (req.headers.origin as string) || (req.headers.referer ? new URL(req.headers.referer as string).origin : "") || process.env.APP_URL || "https://www.thenoobpm.com";
+      const targetReturnUrl = returnUrl || `${callerOrigin.replace(/\/+$/, '')}/#/auth/action?mode=resetPassword`;
+      const linkResult = await generatePasswordResetLink(cleanEmail, targetReturnUrl);
+
+      // Dispatch custom branded email via Resend
+      const emailResult = await sendPasswordResetEmailViaResend({
+        to: cleanEmail,
+        resetUrl: linkResult.rawActionLink,
+      });
+
+      return res.json({
+        success: true,
+        message: "If an account exists for this email, password reset instructions have been sent.",
+        emailId: emailResult.id,
+      });
+    } catch (err: any) {
+      console.error("[SendPasswordResetEmail Notice]:", err?.code || err?.message || err);
+
+      // Security practice: Always return 200 for password reset requests to prevent account enumeration
+      if (err?.code === "auth/user-not-found") {
+        return res.json({
+          success: true,
+          message: "If an account exists for this email, password reset instructions have been sent."
+        });
+      }
+
+      return res.status(500).json({
+        success: false,
+        fallbackToClient: true,
+        error: "Failed to send password reset email. Please try again later."
+      });
+    }
+  });
+
+  // 3. Confirm User Verification (authenticated route)
+  app.post("/api/auth/confirm-user-verification", async (req, res) => {
+    if (!isFirebaseAdminConfigured()) {
+      return res.status(503).json({ error: "Firebase Admin is not configured" });
+    }
+
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({ error: "Authorization header missing or invalid" });
+    }
+
+    const idToken = authHeader.split("Bearer ")[1].trim();
+
+    try {
+      const auth = getAdminAuth();
+      const decoded = await auth.verifyIdToken(idToken);
+      if (!decoded.uid) {
+        return res.status(401).json({ error: "Invalid user token" });
+      }
+
+      await verifyUserEmailByUid(decoded.uid);
+      console.log(`[EmailVerification] Direct verification confirmed for user UID ${decoded.uid} (${decoded.email})`);
+
+      return res.json({
+        success: true,
+        emailVerified: true,
+        message: "Email verified successfully",
+      });
+    } catch (err: any) {
+      console.error("[ConfirmUserVerification Error]:", err?.message || err);
+      return res.status(400).json({ error: "Could not confirm user verification" });
+    }
+  });
+
+  // 4. Send Welcome Email via Resend
+  app.post("/api/auth/send-welcome-email", async (req, res) => {
+    const { email, name } = req.body;
+
+    if (!email || typeof email !== "string" || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      return res.status(400).json({ error: "A valid email address is required" });
+    }
+
+    const cleanEmail = email.trim().toLowerCase();
+
+    try {
+      const emailResult = await sendWelcomeEmailViaResend({
+        to: cleanEmail,
+        name: typeof name === "string" ? name.trim() : undefined,
+      });
+
+      return res.json({
+        success: true,
+        message: "Welcome email sent successfully",
+        emailId: emailResult.id,
+      });
+    } catch (err: any) {
+      console.error("[SendWelcomeEmail Error]:", err?.message || err);
+      return res.status(500).json({
+        error: "Failed to send welcome email."
+      });
     }
   });
 

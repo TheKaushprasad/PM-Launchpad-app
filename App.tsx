@@ -13,11 +13,33 @@ import { InterviewHub } from './components/interview/InterviewHub';
 import { Profile } from './components/Profile';
 import { Onboarding } from './components/auth/Onboarding';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
+import { AuthActionPage } from './components/auth/AuthActionPage';
 import { Menu, X, AlertTriangle } from 'lucide-react';
 import { AnimatePresence } from 'framer-motion';
 import { Logo } from './components/Logo';
 import { Analytics } from '@vercel/analytics/react';
 import { AuthProvider } from './context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+
+// Action Link Redirector to catch Firebase direct action queries (e.g. ?mode=verifyEmail&oobCode=...)
+const AuthActionRedirector = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (window.location.search) {
+      const searchParams = new URLSearchParams(window.location.search);
+      const mode = searchParams.get('mode');
+      const oobCode = searchParams.get('oobCode');
+
+      if (mode && oobCode && !location.pathname.includes('/auth/action')) {
+        navigate(`/auth/action${window.location.search}`, { replace: true });
+      }
+    }
+  }, [location, navigate]);
+
+  return null;
+};
 
 // GA4 Tracker Component to handle SPA page views
 const GAPageTracker = () => {
@@ -141,9 +163,13 @@ const App: React.FC = () => {
     <AuthProvider>
       <Router>
          <GAPageTracker />
+         <AuthActionRedirector />
           <Routes>
             <Route path="/" element={<LandingPage />} />
             
+            {/* Custom Firebase Auth Action Handler (Verification, Password Reset) */}
+            <Route path="/auth/action" element={<AuthActionPage />} />
+
             {/* Dedicated Onboarding Route */}
             <Route 
               path="/onboarding" 
