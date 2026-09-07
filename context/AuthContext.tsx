@@ -984,10 +984,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       throw new Error("Please enter your email address.");
     }
     try {
+      const returnUrl = typeof window !== 'undefined' ? `${window.location.origin}/#/auth/action?mode=resetPassword` : undefined;
       const res = await fetch('/api/auth/send-password-reset-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: cleanEmail }),
+        body: JSON.stringify({ email: cleanEmail, returnUrl }),
       });
       if (!res.ok) {
         // Fallback to client Firebase SDK
