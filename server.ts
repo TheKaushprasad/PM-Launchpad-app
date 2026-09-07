@@ -530,8 +530,7 @@ Return strictly valid JSON with 3 days:
         const loadingTask = pdfjs.getDocument({
           data: new Uint8Array(pdfBuffer),
           useSystemFonts: true,
-          disableFontFace: true,
-          isEvalSupported: false
+          disableFontFace: true
         });
         const pdfDoc = await loadingTask.promise;
         const numPages = Math.min(pdfDoc.numPages, 20);
@@ -883,7 +882,7 @@ Return only the JSON object. No preamble, no markdown code fences, no explanatio
           success: true,
           audit: {
             ...fallbackAudit,
-            jobSuitability: fallbackAudit.job_suitability || fallbackAudit.jobSuitability,
+            jobSuitability: fallbackAudit.jobSuitability,
             targetRole,
             wordCount: resumeText.trim().split(/\s+/).length,
             analyzedAt: new Date().toISOString()
