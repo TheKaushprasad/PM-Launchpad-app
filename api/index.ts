@@ -1,46 +1,41 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import path from "path";
-import fs from "fs";
 
 let cachedApp: any = null;
 
 async function getExpressApp() {
   if (cachedApp) return cachedApp;
 
-  // 1. Try pre-bundled production CommonJS artifact (in api/ directory or dist/)
-  const distServerPaths = [
-    path.join(__dirname, "_server.cjs"),
-    path.join(process.cwd(), "api", "_server.cjs"),
-    path.join(process.cwd(), "dist", "server.cjs"),
-    path.join(__dirname, "..", "dist", "server.cjs"),
-    path.join(__dirname, "dist", "server.cjs")
-  ];
+  // 1. Try importing pre-bundled CommonJS server in the same directory (api/_server.cjs)
+  try {
+    // @ts-ignore
+    const serverModule = await import("./_server.cjs");
+    const createFn = serverModule.createExpressApp || serverModule.default?.createExpressApp;
+    if (typeof createFn === "function") {
+      cachedApp = await createFn();
+      return cachedApp;
+    }
+  } catch (err) {
+    console.warn("[Vercel Serverless] Could not import ./_server.cjs:", err);
+  }
 
-  for (const p of distServerPaths) {
-    if (fs.existsSync(p)) {
-      try {
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
-        const serverModule = require(p);
-        if (serverModule && typeof serverModule.createExpressApp === "function") {
-          cachedApp = await serverModule.createExpressApp();
-          return cachedApp;
-        }
-      } catch (err) {
-        console.warn(`[Vercel Serverless] Failed loading from ${p}:`, err);
-      }
+  // 2. Try importing root server
+  try {
+    const rootServer = await import("../server.js");
+    const createFn = rootServer.createExpressApp || rootServer.default?.createExpressApp;
+    if (typeof createFn === "function") {
+      cachedApp = await createFn();
+      return cachedApp;
+    }
+  } catch {
+    const rootServer = await import("../server");
+    const createFn = rootServer.createExpressApp || rootServer.default?.createExpressApp;
+    if (typeof createFn === "function") {
+      cachedApp = await createFn();
+      return cachedApp;
     }
   }
 
-  // 2. Direct TypeScript import fallback
-  try {
-    const { createExpressApp } = await import("../server.js");
-    cachedApp = await createExpressApp();
-    return cachedApp;
-  } catch {
-    const { createExpressApp } = await import("../server");
-    cachedApp = await createExpressApp();
-    return cachedApp;
-  }
+  throw new Error("Could not load createExpressApp from any known server entry point");
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -53,7 +48,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       error: "API Handler Execution Failed",
       message: err?.message || String(err),
       cwd: process.cwd(),
-      dirname: typeof __dirname !== "undefined" ? __dirname : "undefined",
     });
   }
 }
