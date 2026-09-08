@@ -3788,7 +3788,7 @@ if (!process.env.VERCEL && isDirectExecution) {
   });
 }
 
-// api/index.ts
+// api-handler.ts
 var cachedApp = null;
 async function handler(req, res) {
   try {
