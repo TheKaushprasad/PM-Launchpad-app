@@ -11,6 +11,7 @@ import {
 import { Logo } from './Logo';
 import { useAuth } from '../context/AuthContext';
 import { AuthModal } from './auth/AuthModal';
+import { TestimonialSlider } from './TestimonialSlider';
 
 export const LandingPage: React.FC = () => {
   const navigate = useNavigate();
@@ -88,11 +89,11 @@ export const LandingPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-50 font-sans text-zinc-900 overflow-x-hidden selection:bg-indigo-100 selection:text-indigo-900">
+    <div className="min-h-screen bg-[#F8FAFC] font-sans text-[#0F172A] overflow-x-hidden selection:bg-[#EEF2FF] selection:text-[#4338CA]">
       
       {/* Scroll Progress Bar */}
       <motion.div 
-        className="fixed top-0 left-0 right-0 h-1 bg-indigo-600 origin-left z-[60]"
+        className="fixed top-0 left-0 right-0 h-1 bg-[#4338CA] origin-left z-[60]"
         style={{ scaleX: scrollYProgress }}
       />
 
@@ -109,8 +110,8 @@ export const LandingPage: React.FC = () => {
       />
 
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 bg-white/85 backdrop-blur-lg border-b border-zinc-200/60">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      <nav className="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-md border-b border-[#E2E8F0]">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -119,8 +120,8 @@ export const LandingPage: React.FC = () => {
           >
              <Logo className="w-10 h-10" />
              <div className="flex flex-col">
-               <span className="font-bold text-xl tracking-tighter text-zinc-900">The NooB PM</span>
-               <span className="text-[9px] font-black uppercase tracking-widest text-indigo-600 -mt-1 hidden sm:block">One-Stop PM Solution</span>
+               <span className="font-bold text-xl tracking-tighter text-[#0F172A]">The NooB PM</span>
+               <span className="text-[9px] font-black uppercase tracking-widest text-[#4338CA] -mt-1 hidden sm:block">One-Stop PM Solution</span>
              </div>
           </motion.div>
 
@@ -131,7 +132,7 @@ export const LandingPage: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.05 }}
               onClick={() => scrollToSection('curriculum')}
-              className="text-sm font-semibold text-zinc-600 hover:text-indigo-600 transition-colors tracking-tight"
+              className="text-sm font-semibold text-[#334155] hover:text-[#4338CA] transition-colors tracking-tight cursor-pointer"
             >
               Curriculum
             </motion.button>
@@ -141,9 +142,9 @@ export const LandingPage: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
                 onClick={() => navigate('/tools')}
-                className="text-sm font-semibold text-zinc-600 hover:text-indigo-600 transition-colors tracking-tight flex items-center gap-1.5"
+                className="text-sm font-semibold text-[#334155] hover:text-[#4338CA] transition-colors tracking-tight flex items-center gap-1.5 cursor-pointer"
             >
-                <Sparkles className="w-4 h-4 text-indigo-600" /> Tools
+                <Sparkles className="w-4 h-4 text-[#4338CA]" /> Tools
             </motion.button>
 
             <motion.button 
@@ -151,9 +152,9 @@ export const LandingPage: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.15 }}
                 onClick={() => navigate('/interview-studio')}
-                className="text-sm font-semibold text-zinc-600 hover:text-indigo-600 transition-colors tracking-tight flex items-center gap-1.5"
+                className="text-sm font-semibold text-[#334155] hover:text-[#4338CA] transition-colors tracking-tight flex items-center gap-1.5 cursor-pointer"
             >
-                <Zap className="w-4 h-4 text-emerald-600" /> AI Mock Interview
+                <Zap className="w-4 h-4 text-[#10B981]" /> AI Mock Interview
             </motion.button>
 
             <motion.button 
@@ -161,9 +162,9 @@ export const LandingPage: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
                 onClick={() => navigate('/resources')}
-                className="text-sm font-semibold text-zinc-600 hover:text-indigo-600 transition-colors tracking-tight flex items-center gap-1.5"
+                className="text-sm font-semibold text-[#334155] hover:text-[#4338CA] transition-colors tracking-tight flex items-center gap-1.5 cursor-pointer"
             >
-                <Library className="w-4 h-4 text-zinc-500" /> Resources
+                <Library className="w-4 h-4 text-[#475569]" /> Resources
             </motion.button>
 
             <motion.a 
@@ -173,7 +174,7 @@ export const LandingPage: React.FC = () => {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.25 }}
-                className="text-sm font-semibold text-emerald-600 hover:text-emerald-700 transition-colors tracking-tight"
+                className="text-sm font-semibold text-[#10B981] hover:text-[#059669] transition-colors tracking-tight"
             >
                 Community
             </motion.a>
@@ -182,20 +183,20 @@ export const LandingPage: React.FC = () => {
             <motion.div 
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
-                className="flex items-center gap-3 pl-4 border-l border-zinc-200"
+                className="flex items-center gap-3 pl-4 border-l border-[#E2E8F0]"
             >
               {user ? (
                 <div className="flex items-center gap-3">
                   <button 
                     onClick={() => navigate('/dashboard')} 
-                    className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl shadow-md shadow-indigo-200 transition-all hover:-translate-y-0.5 tracking-tight"
+                    className="px-4 py-2 bg-[#4338CA] hover:bg-[#3730A3] text-white text-xs font-bold rounded-xl shadow-xs transition-all hover:-translate-y-0.5 tracking-tight cursor-pointer"
                   >
                     My Command Center
                   </button>
                   <button
                     onClick={logout}
                     title="Sign Out"
-                    className="p-2 text-zinc-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors"
+                    className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors cursor-pointer"
                   >
                     <LogOut className="w-4 h-4" />
                   </button>
@@ -205,14 +206,14 @@ export const LandingPage: React.FC = () => {
                   <button 
                     id="nav-login-btn"
                     onClick={() => openAuth('login')} 
-                    className="px-3.5 py-2 text-zinc-700 hover:text-indigo-600 hover:bg-zinc-100 text-xs font-bold rounded-xl transition-all tracking-tight flex items-center gap-1.5"
+                    className="px-3.5 py-2 text-[#334155] hover:text-[#4338CA] hover:bg-slate-50 text-xs font-bold rounded-xl transition-all tracking-tight flex items-center gap-1.5 cursor-pointer"
                   >
                     <LogIn className="w-3.5 h-3.5" /> Sign In
                   </button>
                   <button 
                     id="nav-signup-btn"
                     onClick={() => openAuth('signup')} 
-                    className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl shadow-md shadow-indigo-200 transition-all hover:-translate-y-0.5 tracking-tight flex items-center gap-1.5"
+                    className="px-4 py-2 bg-[#4338CA] hover:bg-[#3730A3] text-white text-xs font-bold rounded-xl shadow-xs transition-all hover:-translate-y-0.5 tracking-tight flex items-center gap-1.5 cursor-pointer"
                   >
                     <UserPlus className="w-3.5 h-3.5" /> Get Started Free
                   </button>
@@ -222,7 +223,7 @@ export const LandingPage: React.FC = () => {
           </div>
 
           {/* Mobile Menu Toggle */}
-          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden p-2 text-zinc-600">
+          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden p-2 text-[#334155]">
              {mobileMenuOpen ? <X /> : <Menu />}
           </button>
         </div>
@@ -238,24 +239,24 @@ export const LandingPage: React.FC = () => {
             className="fixed top-20 left-0 right-0 bg-white border-b border-zinc-200 z-40 md:hidden overflow-hidden shadow-2xl"
           >
              <div className="p-6 space-y-4">
-                {user ? (
-                  <div className="p-4 rounded-2xl bg-zinc-50 border border-zinc-200 flex items-center justify-between">
+                 {user ? (
+                  <div className="p-4 rounded-2xl bg-[#F8FAFC] border border-[#E2E8F0] flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       {user.photoURL ? (
                         <img src={user.photoURL} alt="Avatar" className="w-9 h-9 rounded-full" />
                       ) : (
-                        <div className="w-9 h-9 rounded-full bg-indigo-600 text-white font-bold flex items-center justify-center text-sm">
+                        <div className="w-9 h-9 rounded-full bg-[#4338CA] text-white font-bold flex items-center justify-center text-sm">
                           {user.displayName ? user.displayName[0].toUpperCase() : 'U'}
                         </div>
                       )}
                       <div>
-                        <p className="font-bold text-sm text-zinc-900">{user.displayName || 'PM Aspiring Talent'}</p>
-                        <p className="text-xs text-zinc-500">{user.email}</p>
+                        <p className="font-bold text-sm text-[#0F172A]">{user.displayName || 'PM Aspiring Talent'}</p>
+                        <p className="text-xs text-[#64748B]">{user.email}</p>
                       </div>
                     </div>
                     <button
                       onClick={logout}
-                      className="p-2 text-zinc-400 hover:text-rose-600"
+                      className="p-2 text-slate-400 hover:text-rose-600"
                     >
                       <LogOut className="w-4 h-4" />
                     </button>
@@ -264,13 +265,13 @@ export const LandingPage: React.FC = () => {
                   <div className="grid grid-cols-2 gap-2 pb-2">
                     <button
                       onClick={() => { setMobileMenuOpen(false); openAuth('login'); }}
-                      className="w-full py-2.5 rounded-xl border border-zinc-200 bg-zinc-50 text-zinc-800 font-bold text-sm flex items-center justify-center gap-1.5"
+                      className="w-full py-2.5 rounded-xl border border-[#E2E8F0] bg-white text-[#334155] font-bold text-sm flex items-center justify-center gap-1.5"
                     >
                       <LogIn className="w-4 h-4" /> Sign In
                     </button>
                     <button
                       onClick={() => { setMobileMenuOpen(false); openAuth('signup'); }}
-                      className="w-full py-2.5 rounded-xl bg-indigo-600 text-white font-bold text-sm flex items-center justify-center gap-1.5 shadow-md shadow-indigo-200"
+                      className="w-full py-2.5 rounded-xl bg-[#4338CA] text-white font-bold text-sm flex items-center justify-center gap-1.5 shadow-xs"
                     >
                       <UserPlus className="w-4 h-4" /> Sign Up
                     </button>
@@ -279,31 +280,31 @@ export const LandingPage: React.FC = () => {
 
                 <button 
                     onClick={() => { setMobileMenuOpen(false); scrollToSection('curriculum'); }}
-                    className="block w-full text-left text-lg font-semibold text-zinc-700 py-1.5 tracking-tight"
+                    className="block w-full text-left text-lg font-semibold text-[#334155] py-1.5 tracking-tight"
                 >
                     Curriculum
                 </button>
                 <button 
                     onClick={() => { setMobileMenuOpen(false); navigate('/tools'); }}
-                    className="block w-full text-left text-lg font-semibold text-zinc-700 py-1.5 tracking-tight flex items-center gap-2"
+                    className="block w-full text-left text-lg font-semibold text-[#334155] py-1.5 tracking-tight flex items-center gap-2"
                 >
-                    <Sparkles className="w-5 h-5 text-indigo-600" /> Tools
+                    <Sparkles className="w-5 h-5 text-[#4338CA]" /> Tools
                 </button>
                 <button 
                     onClick={() => { setMobileMenuOpen(false); navigate('/interview-studio'); }}
-                    className="block w-full text-left text-lg font-semibold text-zinc-700 py-1.5 tracking-tight flex items-center gap-2"
+                    className="block w-full text-left text-lg font-semibold text-[#334155] py-1.5 tracking-tight flex items-center gap-2"
                 >
-                    <Zap className="w-5 h-5 text-emerald-600" /> AI Mock Interview
+                    <Zap className="w-5 h-5 text-[#10B981]" /> AI Mock Interview
                 </button>
                 <button 
                     onClick={() => { setMobileMenuOpen(false); navigate('/resources'); }}
-                    className="block w-full text-left text-lg font-semibold text-zinc-700 py-1.5 tracking-tight flex items-center gap-2"
+                    className="block w-full text-left text-lg font-semibold text-[#334155] py-1.5 tracking-tight flex items-center gap-2"
                 >
-                    <Library className="w-5 h-5 text-zinc-600" /> Resources
+                    <Library className="w-5 h-5 text-[#475569]" /> Resources
                 </button>
                 <button 
                     onClick={() => { setMobileMenuOpen(false); handleProtectedAction('/dashboard'); }}
-                    className="block w-full text-left text-lg font-semibold text-indigo-600 py-1.5 tracking-tight font-bold"
+                    className="block w-full text-left text-lg font-semibold text-[#4338CA] py-1.5 tracking-tight font-bold"
                 >
                     Career Command Center
                 </button>
@@ -311,7 +312,7 @@ export const LandingPage: React.FC = () => {
                     href="https://chat.whatsapp.com/F93j47M4UL43DUJS1QrEgU"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block w-full text-left text-lg font-semibold text-emerald-600 py-1.5 tracking-tight"
+                    className="block w-full text-left text-lg font-semibold text-[#10B981] py-1.5 tracking-tight"
                 >
                     Join Community
                 </a>
@@ -321,12 +322,8 @@ export const LandingPage: React.FC = () => {
       </AnimatePresence>
 
       {/* Hero Section */}
-      <section className="pt-32 md:pt-40 pb-20 px-6 relative overflow-hidden">
-         {/* Ambient Glows */}
-         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-indigo-500/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3 pointer-events-none"></div>
-         <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/3 pointer-events-none"></div>
-
-         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center relative z-10">
+      <section className="pt-32 md:pt-40 pb-8 sm:pb-10 px-4 sm:px-6 lg:px-8 relative overflow-hidden bg-gradient-to-b from-[#EEF2FF]/60 via-[#F8FAFC] to-[#F0F9FF]/40">
+         <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center relative z-10">
             {/* Left Column: Hero Headline & Tagline */}
             <motion.div 
                 initial={{ opacity: 0, y: 30 }}
@@ -335,12 +332,12 @@ export const LandingPage: React.FC = () => {
                 className="lg:col-span-7 flex flex-col items-start text-left"
             >
                 {/* Main Heading */}
-                <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold text-zinc-900 tracking-tighter leading-[0.95] mb-6">
+                <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold text-[#0F172A] tracking-tighter leading-[0.95] mb-6">
                     NooB In. <br/>
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600">PM Out.</span>
+                    <span className="text-[#4338CA]">PM Out.</span>
                 </h1>
 
-                <p className="text-lg sm:text-xl text-zinc-600 mb-8 leading-relaxed font-medium tracking-tight max-w-xl">
+                <p className="text-lg sm:text-xl text-[#475569] mb-8 leading-relaxed font-medium tracking-tight max-w-xl">
                     Everything you need to break into Product Management in one unified platform
                 </p>
 
@@ -349,22 +346,22 @@ export const LandingPage: React.FC = () => {
                     <button 
                       id="hero-start-learning-cta"
                       onClick={() => handleProtectedAction('/dashboard')} 
-                      className="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl font-bold text-base sm:text-lg shadow-xl shadow-indigo-200 transition-all hover:-translate-y-0.5 flex items-center gap-2 tracking-tight"
+                      className="px-8 py-4 bg-[#4338CA] hover:bg-[#3730A3] text-white rounded-xl sm:rounded-2xl font-bold text-base sm:text-lg shadow-md shadow-indigo-950/10 transition-all hover:-translate-y-0.5 flex items-center gap-2 tracking-tight cursor-pointer"
                     >
                       <Rocket className="w-5 h-5" /> start learning <ArrowRight className="w-5 h-5" />
                     </button>
                 </div>
 
                 {/* Social Proof & Badges */}
-                <div className="flex flex-wrap items-center gap-4 text-xs sm:text-sm font-semibold text-zinc-500 tracking-tight pt-2">
+                <div className="flex flex-wrap items-center gap-4 text-xs sm:text-sm font-semibold text-[#475569] tracking-tight pt-2">
                     <div className="flex -space-x-2.5">
                         {[1,2,3,4].map(i => (
-                            <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-zinc-200 flex items-center justify-center overflow-hidden">
+                            <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center overflow-hidden">
                                 <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${i+25}`} alt="user" referrerPolicy="no-referrer" />
                             </div>
                         ))}
                     </div>
-                    <span>Trusted by 2,000+ Aspiring PMs & Students</span>
+                    <span>Trusted by 1,000+ Aspiring PMs & Students</span>
                 </div>
             </motion.div>
 
@@ -375,7 +372,7 @@ export const LandingPage: React.FC = () => {
                 transition={{ duration: 0.7, delay: 0.15 }}
                 className="lg:col-span-5 relative"
             >
-                <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/20 to-violet-500/20 rounded-[2.5rem] rotate-2 blur-xl -z-10"></div>
+                <div className="absolute inset-0 bg-slate-200/50 rounded-[2.5rem] rotate-1 blur-xl -z-10"></div>
                 
                 {/* Dark PM Workspace App Window Mockup */}
                 <div className="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 shadow-2xl text-white relative overflow-hidden select-none">
@@ -570,45 +567,48 @@ export const LandingPage: React.FC = () => {
          </div>
       </section>
 
+      {/* Testimonial Section */}
+      <TestimonialSlider />
+
       {/* ONE-STOP SOLUTION ECOSYSTEM SECTION */}
-      <section id="ecosystem" className="py-20 bg-white border-y border-zinc-100">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 text-indigo-600 text-[10px] font-black uppercase tracking-widest">
+      <section id="ecosystem" className="py-12 sm:py-16 bg-white border-y border-[#E2E8F0]">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12 space-y-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#EEF2FF] border border-[#E2E8F0] text-[#4338CA] text-[10px] font-black uppercase tracking-widest mb-1">
               <Compass className="w-3.5 h-3.5" /> All-In-One Product Management Platform
             </div>
-            <h2 className="text-3xl md:text-5xl font-black text-zinc-900 tracking-tight leading-tight">
+            <h2 className="text-3xl md:text-5xl font-black text-[#0F172A] tracking-tight leading-tight">
               Your Entire PM Transition. <br className="hidden sm:inline" />
-              <span className="text-indigo-600">All Under One Roof.</span>
+              <span className="text-[#4338CA]">All Under One Roof.</span>
             </h2>
-            <p className="text-base md:text-lg text-zinc-500 leading-relaxed font-medium">
+            <p className="text-base md:text-lg text-[#475569] leading-relaxed font-medium">
               No need to juggle 5 different tools, scattered YouTube playlists, and expensive bootcamps. The NooB PM provides everything you need to upskill, practice, optimize, and land your offer.
             </p>
           </div>
 
           {/* 4 Pillars of the One-Stop Platform */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
             {/* Tool 1: 45-Day Curriculum */}
             <motion.div 
-              whileHover={{ y: -6 }}
+              whileHover={{ y: -5 }}
               onClick={() => handleProtectedAction('/dashboard')}
-              className="p-7 rounded-3xl bg-zinc-50 border border-zinc-200/80 hover:border-indigo-300 hover:shadow-xl transition-all cursor-pointer flex flex-col justify-between group"
+              className="p-6 sm:p-7 rounded-3xl bg-white border border-[#E2E8F0] hover:border-[#4338CA]/40 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between h-full group"
             >
               <div className="space-y-4">
-                <div className="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <div className="w-12 h-12 rounded-2xl bg-[#EEF2FF] text-[#4338CA] flex items-center justify-center group-hover:scale-110 transition-transform">
                   <GraduationCap className="w-6 h-6" />
                 </div>
                 <div className="space-y-1.5">
-                  <span className="text-[10px] font-black uppercase tracking-wider text-indigo-600">Step 1 • Master Fundamentals</span>
-                  <h3 className="text-lg font-black text-zinc-900 group-hover:text-indigo-600 transition-colors">
+                  <span className="text-[10px] font-black uppercase tracking-wider text-[#4338CA]">Step 1 • Master Fundamentals</span>
+                  <h3 className="text-lg font-black text-[#0F172A] group-hover:text-[#4338CA] transition-colors">
                     45-Day PM Launchpad
                   </h3>
-                  <p className="text-xs text-zinc-500 leading-relaxed font-medium">
+                  <p className="text-xs text-[#475569] leading-relaxed font-medium">
                     Structured day-by-day interactive curriculum covering 8 core PM pillars: PRDs, System Design, SQL, Strategy, and AI Workflows.
                   </p>
                 </div>
               </div>
-              <div className="pt-5 mt-4 border-t border-zinc-200/60 flex items-center justify-between text-xs font-bold text-indigo-600">
+              <div className="pt-4 mt-5 border-t border-[#E2E8F0] flex items-center justify-between text-xs font-bold text-[#4338CA]">
                 <span>Start Learning</span>
                 <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </div>
@@ -616,25 +616,25 @@ export const LandingPage: React.FC = () => {
 
             {/* Tool 2: LinkedIn Optimiser */}
             <motion.div 
-              whileHover={{ y: -6 }}
+              whileHover={{ y: -5 }}
               onClick={() => handleProtectedAction('/tools/linkedin-optimiser')}
-              className="p-7 rounded-3xl bg-zinc-50 border border-zinc-200/80 hover:border-indigo-300 hover:shadow-xl transition-all cursor-pointer flex flex-col justify-between group"
+              className="p-6 sm:p-7 rounded-3xl bg-white border border-[#E2E8F0] hover:border-[#0EA5E9]/40 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between h-full group"
             >
               <div className="space-y-4">
-                <div className="w-12 h-12 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <div className="w-12 h-12 rounded-2xl bg-[#F0F9FF] text-[#0EA5E9] flex items-center justify-center group-hover:scale-110 transition-transform">
                   <Sparkles className="w-6 h-6" />
                 </div>
                 <div className="space-y-1.5">
-                  <span className="text-[10px] font-black uppercase tracking-wider text-blue-600">Step 2 • Stand Out to Recruiters</span>
-                  <h3 className="text-lg font-black text-zinc-900 group-hover:text-indigo-600 transition-colors">
+                  <span className="text-[10px] font-black uppercase tracking-wider text-[#0EA5E9]">Step 2 • Stand Out to Recruiters</span>
+                  <h3 className="text-lg font-black text-[#0F172A] group-hover:text-[#0EA5E9] transition-colors">
                     LinkedIn Optimiser
                   </h3>
-                  <p className="text-xs text-zinc-500 leading-relaxed font-medium">
+                  <p className="text-xs text-[#475569] leading-relaxed font-medium">
                     AI-powered 100-point profile audit with ATS keyword gap analysis, headline generation, and impact-driven bullet rewrites.
                   </p>
                 </div>
               </div>
-              <div className="pt-5 mt-4 border-t border-zinc-200/60 flex items-center justify-between text-xs font-bold text-blue-600">
+              <div className="pt-4 mt-5 border-t border-[#E2E8F0] flex items-center justify-between text-xs font-bold text-[#0EA5E9]">
                 <span>Audit My Profile</span>
                 <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </div>
@@ -642,25 +642,25 @@ export const LandingPage: React.FC = () => {
 
             {/* Tool 3: AI Mock Interview Studio */}
             <motion.div 
-              whileHover={{ y: -6 }}
+              whileHover={{ y: -5 }}
               onClick={() => navigate('/interview-studio')}
-              className="p-7 rounded-3xl bg-zinc-50 border border-zinc-200/80 hover:border-indigo-300 hover:shadow-xl transition-all cursor-pointer flex flex-col justify-between group"
+              className="p-6 sm:p-7 rounded-3xl bg-white border border-[#E2E8F0] hover:border-[#10B981]/40 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between h-full group"
             >
               <div className="space-y-4">
-                <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <div className="w-12 h-12 rounded-2xl bg-[#ECFDF5] text-[#10B981] flex items-center justify-center group-hover:scale-110 transition-transform">
                   <Zap className="w-6 h-6" />
                 </div>
                 <div className="space-y-1.5">
-                  <span className="text-[10px] font-black uppercase tracking-wider text-emerald-600">Step 3 • Ace the Rounds</span>
-                  <h3 className="text-lg font-black text-zinc-900 group-hover:text-emerald-600 transition-colors">
+                  <span className="text-[10px] font-black uppercase tracking-wider text-[#10B981]">Step 3 • Ace the Rounds</span>
+                  <h3 className="text-lg font-black text-[#0F172A] group-hover:text-[#10B981] transition-colors">
                     AI Mock Interview Studio
                   </h3>
-                  <p className="text-xs text-zinc-500 leading-relaxed font-medium">
+                  <p className="text-xs text-[#475569] leading-relaxed font-medium">
                     Simulate real-world Product Sense, Execution/Metrics, Technical, and Behavioral rounds with instant AI rubric scores.
                   </p>
                 </div>
               </div>
-              <div className="pt-5 mt-4 border-t border-zinc-200/60 flex items-center justify-between text-xs font-bold text-emerald-600">
+              <div className="pt-4 mt-5 border-t border-[#E2E8F0] flex items-center justify-between text-xs font-bold text-[#10B981]">
                 <span>Practice Interview</span>
                 <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </div>
@@ -668,25 +668,25 @@ export const LandingPage: React.FC = () => {
 
             {/* Tool 4: Career Toolkit & Resources */}
             <motion.div 
-              whileHover={{ y: -6 }}
+              whileHover={{ y: -5 }}
               onClick={() => navigate('/resources')}
-              className="p-7 rounded-3xl bg-zinc-50 border border-zinc-200/80 hover:border-indigo-300 hover:shadow-xl transition-all cursor-pointer flex flex-col justify-between group"
+              className="p-6 sm:p-7 rounded-3xl bg-white border border-[#E2E8F0] hover:border-[#4338CA]/40 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between h-full group"
             >
               <div className="space-y-4">
-                <div className="w-12 h-12 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <div className="w-12 h-12 rounded-2xl bg-[#EEF2FF] text-[#4338CA] flex items-center justify-center group-hover:scale-110 transition-transform">
                   <Library className="w-6 h-6" />
                 </div>
                 <div className="space-y-1.5">
-                  <span className="text-[10px] font-black uppercase tracking-wider text-purple-600">Step 4 • Build Portfolio</span>
-                  <h3 className="text-lg font-black text-zinc-900 group-hover:text-purple-600 transition-colors">
+                  <span className="text-[10px] font-black uppercase tracking-wider text-[#4338CA]">Step 4 • Build Portfolio</span>
+                  <h3 className="text-lg font-black text-[#0F172A] group-hover:text-[#4338CA] transition-colors">
                     PM Toolkit & Frameworks
                   </h3>
-                  <p className="text-xs text-zinc-500 leading-relaxed font-medium">
+                  <p className="text-xs text-[#475569] leading-relaxed font-medium">
                     Complete certifications, build industry-standard PM artifacts, and turn real PM assignments and casebooks into an outstanding product portfolio.
                   </p>
                 </div>
               </div>
-              <div className="pt-5 mt-4 border-t border-zinc-200/60 flex items-center justify-between text-xs font-bold text-purple-600">
+              <div className="pt-4 mt-5 border-t border-[#E2E8F0] flex items-center justify-between text-xs font-bold text-[#4338CA]">
                 <span>Explore Resources</span>
                 <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </div>
@@ -696,19 +696,19 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* Curriculum Preview Section */}
-      <section id="curriculum" className="py-24 bg-zinc-50">
-         <div className="max-w-7xl mx-auto px-6">
-            <div className="text-center mb-16">
-                <div className="inline-flex items-center gap-2 px-3 py-1 bg-white border border-zinc-200 rounded-full text-indigo-600 text-[10px] font-black uppercase tracking-widest mb-3">
+      <section id="curriculum" className="py-16 sm:py-20 bg-[#F8FAFC] border-b border-[#E2E8F0]">
+         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-10 sm:mb-12">
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-white border border-[#E2E8F0] rounded-full text-[#4338CA] text-[10px] font-black uppercase tracking-widest mb-2.5">
                   <Layers className="w-3.5 h-3.5" /> Complete Skill Blueprint
                 </div>
-                <h2 className="text-3xl md:text-5xl font-bold text-zinc-900 mb-6 tracking-tight">8 Professional Pillars</h2>
-                <p className="text-base md:text-lg text-zinc-600 max-w-2xl mx-auto leading-relaxed font-medium">
+                <h2 className="text-3xl md:text-4xl font-extrabold text-[#0F172A] mb-3 tracking-tight">8 Professional Pillars</h2>
+                <p className="text-base md:text-lg text-[#475569] max-w-2xl mx-auto leading-relaxed font-medium">
                     A comprehensive curriculum calibrated against top hiring standards to ensure you are thoroughly prepared for APM and PM roles.
                 </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
                 {[
                     { icon: Briefcase, title: 'Foundations', desc: 'Mindset, PDLC, PLC, user problems, and essential PRD/BRD documentation.' },
                     { icon: Users, title: 'User Research', desc: 'Customer interviews, JTBD frameworks, empathy maps, and competitive tear-downs.' },
@@ -723,13 +723,15 @@ export const LandingPage: React.FC = () => {
                         key={i}
                         whileHover={{ y: -5 }}
                         onClick={() => handleProtectedAction('/dashboard')}
-                        className="p-8 rounded-3xl bg-white border border-zinc-200/80 hover:border-indigo-300 hover:shadow-xl transition-all shadow-xs cursor-pointer"
+                        className="p-6 rounded-2xl bg-white border border-[#E2E8F0] hover:border-[#4338CA]/40 hover:shadow-md transition-all shadow-xs cursor-pointer flex flex-col justify-between"
                     >
-                        <div className="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600 shadow-xs mb-6">
-                            <feature.icon className="w-6 h-6" />
+                        <div>
+                            <div className="w-11 h-11 bg-[#EEF2FF] rounded-xl flex items-center justify-center text-[#4338CA] shadow-2xs mb-4">
+                                <feature.icon className="w-6 h-6" />
+                            </div>
+                            <h3 className="text-base font-bold text-[#0F172A] mb-1.5 tracking-tight">{feature.title}</h3>
+                            <p className="text-xs text-[#475569] leading-relaxed font-medium">{feature.desc}</p>
                         </div>
-                        <h3 className="text-lg font-black text-zinc-900 mb-2 tracking-tight">{feature.title}</h3>
-                        <p className="text-xs text-zinc-500 leading-relaxed font-medium">{feature.desc}</p>
                     </motion.div>
                 ))}
             </div>
@@ -737,21 +739,20 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* Features & Action-Driven Section */}
-      <section id="features" className="py-24 bg-zinc-950 text-white relative overflow-hidden">
-         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(#312e81_1px,transparent_1px)] [background-size:24px_24px] opacity-25"></div>
-         <div className="absolute top-1/2 right-0 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[140px] pointer-events-none"></div>
+      <section id="features" className="py-16 sm:py-20 bg-[#0F172A] text-white relative overflow-hidden">
+         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(#334155_1px,transparent_1px)] [background-size:24px_24px] opacity-15"></div>
          
-         <div className="max-w-7xl mx-auto px-6 relative z-10">
-             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-14 items-center">
                  <div>
-                     <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 border border-white/10 rounded-full text-indigo-300 text-[10px] font-black uppercase tracking-widest mb-4">
-                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Action-Oriented Learning
+                     <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 border border-white/10 rounded-full text-slate-300 text-[10px] font-black uppercase tracking-widest mb-4">
+                       <CheckCircle2 className="w-3.5 h-3.5 text-[#10B981]" /> Action-Oriented Learning
                      </div>
-                     <h2 className="text-3xl md:text-5xl font-black mb-6 tracking-tight leading-tight">
+                     <h2 className="text-3xl md:text-5xl font-black mb-6 tracking-tight leading-tight text-white">
                         Built for Action, <br/>
-                        <span className="text-[#79BAEC]">Not Just Passive Reading.</span>
+                        <span className="text-[#7DD3FC]">Not Just Passive Reading.</span>
                      </h2>
-                     <p className="text-zinc-300 text-base md:text-lg mb-8 leading-relaxed font-medium">
+                     <p className="text-slate-300 text-base md:text-lg mb-8 leading-relaxed font-medium">
                          Generic courses give you hours of passive video lectures. The NooB PM gives you an active command center with daily hands-on assignments, instant AI feedback, and portfolio deliverables.
                      </p>
                      <ul className="space-y-4 mb-8">
@@ -760,8 +761,8 @@ export const LandingPage: React.FC = () => {
                            'Instant LinkedIn Profile and CV Audit and ATS Scoring',
                            'AI Mock Interview with Live Scoring'
                          ].map(item => (
-                             <li key={item} className="flex items-center gap-3 text-base sm:text-lg font-semibold tracking-tight text-zinc-200">
-                                 <CheckCircle className="w-5 h-5 text-emerald-400 shrink-0" />
+                             <li key={item} className="flex items-center gap-3 text-base sm:text-lg font-semibold tracking-tight text-slate-200">
+                                 <CheckCircle className="w-5 h-5 text-[#10B981] shrink-0" />
                                  <span>{item}</span>
                              </li>
                          ))}
@@ -771,14 +772,14 @@ export const LandingPage: React.FC = () => {
                        {!user ? (
                          <button
                            onClick={() => openAuth('signup')}
-                           className="px-8 py-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-2xl font-bold text-base tracking-tight shadow-xl shadow-indigo-600/30 flex items-center gap-2 transition-all hover:-translate-y-0.5"
+                           className="px-8 py-4 bg-[#4338CA] hover:bg-[#3730A3] text-white rounded-xl sm:rounded-2xl font-bold text-base tracking-tight shadow-md shadow-indigo-950/30 flex items-center gap-2 transition-all hover:-translate-y-0.5 cursor-pointer"
                          >
                            <UserPlus className="w-5 h-5" /> Start Your PM Journey <ArrowRight className="w-5 h-5" />
                          </button>
                        ) : (
                          <button
                            onClick={() => navigate('/dashboard')}
-                           className="px-8 py-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-2xl font-bold text-base tracking-tight shadow-xl shadow-indigo-600/30 flex items-center gap-2 transition-all hover:-translate-y-0.5"
+                           className="px-8 py-4 bg-[#4338CA] hover:bg-[#3730A3] text-white rounded-xl sm:rounded-2xl font-bold text-base tracking-tight shadow-md shadow-indigo-950/30 flex items-center gap-2 transition-all hover:-translate-y-0.5 cursor-pointer"
                          >
                            <Rocket className="w-5 h-5" /> Go to Dashboard <ArrowRight className="w-5 h-5" />
                          </button>
@@ -787,31 +788,30 @@ export const LandingPage: React.FC = () => {
                  </div>
 
                  <div className="relative">
-                     <div className="absolute -inset-4 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full opacity-20 blur-3xl"></div>
-                     <div className="bg-zinc-900 rounded-3xl p-8 border border-zinc-800 relative space-y-4 shadow-2xl">
-                         <div className="text-xs font-black text-zinc-400 uppercase tracking-widest pb-2 border-b border-zinc-800">
+                     <div className="bg-[#1E293B] rounded-3xl p-7 sm:p-8 border border-[#334155] relative space-y-4 shadow-xl">
+                         <div className="text-xs font-black text-slate-400 uppercase tracking-widest pb-2 border-b border-[#334155]">
                            The 3-Step PM Launchpad Loop
                          </div>
                          <div className="space-y-4">
-                             <div className="flex items-start gap-4 p-4 bg-zinc-800/80 rounded-2xl border border-zinc-700/80">
-                                 <div className="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-black text-sm shrink-0">1</div>
+                             <div className="flex items-start gap-4 p-4 bg-[#0F172A]/70 rounded-2xl border border-[#334155]">
+                                 <div className="w-10 h-10 rounded-xl bg-[#4338CA] text-white flex items-center justify-center font-black text-sm shrink-0">1</div>
                                  <div>
                                      <h4 className="font-bold tracking-tight text-white text-base">Learn Core Frameworks</h4>
-                                     <p className="text-xs text-zinc-400 font-medium mt-0.5">Understand real PM trade-offs, metrics, SQL, and product design with concise daily lessons.</p>
+                                     <p className="text-xs text-slate-400 font-medium mt-0.5">Understand real PM trade-offs, metrics, SQL, and product design with concise daily lessons.</p>
                                  </div>
                              </div>
-                             <div className="flex items-start gap-4 p-4 bg-zinc-800/80 rounded-2xl border border-zinc-700/80">
-                                 <div className="w-10 h-10 rounded-xl bg-purple-600 text-white flex items-center justify-center font-black text-sm shrink-0">2</div>
+                             <div className="flex items-start gap-4 p-4 bg-[#0F172A]/70 rounded-2xl border border-[#334155]">
+                                 <div className="w-10 h-10 rounded-xl bg-[#4338CA] text-white flex items-center justify-center font-black text-sm shrink-0">2</div>
                                  <div>
                                      <h4 className="font-bold tracking-tight text-white text-base">Complete Live Deliverables</h4>
-                                     <p className="text-xs text-zinc-400 font-medium mt-0.5">Draft PRDs, run data analyses, and build case studies that you can showcase directly in interviews.</p>
+                                     <p className="text-xs text-slate-400 font-medium mt-0.5">Draft PRDs, run data analyses, and build case studies that you can showcase directly in interviews.</p>
                                  </div>
                              </div>
-                             <div className="flex items-start gap-4 p-4 bg-zinc-800/80 rounded-2xl border border-zinc-700/80">
-                                 <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-black text-sm shrink-0">3</div>
+                             <div className="flex items-start gap-4 p-4 bg-[#0F172A]/70 rounded-2xl border border-[#334155]">
+                                 <div className="w-10 h-10 rounded-xl bg-[#10B981] text-white flex items-center justify-center font-black text-sm shrink-0">3</div>
                                  <div>
                                      <h4 className="font-bold tracking-tight text-white text-base">Optimize Profile & Practice Rounds</h4>
-                                     <p className="text-xs text-zinc-400 font-medium mt-0.5">Audit your LinkedIn profile for recruiters and rehearse Product Sense interviews with AI feedback.</p>
+                                     <p className="text-xs text-slate-400 font-medium mt-0.5">Audit your LinkedIn profile for recruiters and rehearse Product Sense interviews with AI feedback.</p>
                                  </div>
                              </div>
                          </div>
@@ -822,22 +822,22 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* Footer */}
-      <footer className="bg-white py-12 border-t border-zinc-200">
-          <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+      <footer className="bg-white py-10 sm:py-12 border-t border-[#E2E8F0]">
+          <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
               <div className="flex items-center gap-3">
                   <Logo className="w-8 h-8" />
                   <div>
-                    <span className="font-bold text-zinc-900 tracking-tight block">The NooB PM</span>
-                    <span className="text-[10px] text-zinc-400 font-medium">One-stop solution for aspiring product managers</span>
+                    <span className="font-bold text-[#0F172A] tracking-tight block">The NooB PM</span>
+                    <span className="text-[10px] text-[#64748B] font-medium">One-stop solution for aspiring product managers</span>
                   </div>
               </div>
-              <p className="text-zinc-500 text-xs font-medium">© {new Date().getFullYear()} The NooB PM. Open Source Education & PM Career Platform.</p>
+              <p className="text-[#64748B] text-xs font-medium">© {new Date().getFullYear()} The NooB PM. Open Source Education & PM Career Platform.</p>
               <div className="flex gap-6">
                   <a 
                     href="https://www.linkedin.com/company/the-noob-pm/?viewAsMember=true" 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="text-zinc-400 hover:text-indigo-600 transition-colors font-medium text-sm"
+                    className="text-[#475569] hover:text-[#4338CA] transition-colors font-medium text-sm"
                   >
                     LinkedIn
                   </a>
@@ -845,7 +845,7 @@ export const LandingPage: React.FC = () => {
                     href="https://www.instagram.com/the_noob_pm/reels/" 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="text-zinc-400 hover:text-indigo-600 transition-colors font-medium text-sm"
+                    className="text-[#475569] hover:text-[#4338CA] transition-colors font-medium text-sm"
                   >
                     Instagram
                   </a>
@@ -853,7 +853,7 @@ export const LandingPage: React.FC = () => {
                     href="https://www.youtube.com/@THE_NOOB_PM/posts" 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="text-zinc-400 hover:text-indigo-600 transition-colors font-medium text-sm"
+                    className="text-[#475569] hover:text-[#4338CA] transition-colors font-medium text-sm"
                   >
                     YouTube
                   </a>
