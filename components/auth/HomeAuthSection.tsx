@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Mail, Lock, User as UserIcon, GraduationCap, Briefcase, 
   Building2, Calendar, Award, Sparkles, AlertCircle, 
-  Eye, EyeOff, Loader2, ArrowRight, CheckCircle2, ShieldCheck, RefreshCw, ExternalLink
+  Eye, EyeOff, Loader2, ArrowRight, CheckCircle2, ShieldCheck, RefreshCw
 } from 'lucide-react';
 import { useAuth, UserType, SignUpParams, isValidEmail } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -31,16 +31,6 @@ export const HomeAuthSection: React.FC = () => {
   const [accountCreatedSuccess, setAccountCreatedSuccess] = useState(false);
   const [resendingEmail, setResendingEmail] = useState(false);
   const [resendStatus, setResendStatus] = useState<string | null>(null);
-  const [unverifiedEmail, setUnverifiedEmail] = useState<string | null>(null);
-  const [resendCooldown, setResendCooldown] = useState(0);
-
-  useEffect(() => {
-    if (resendCooldown <= 0) return;
-    const timer = setInterval(() => {
-      setResendCooldown((prev) => (prev > 0 ? prev - 1 : 0));
-    }, 1000);
-    return () => clearInterval(timer);
-  }, [resendCooldown]);
 
   // Common fields
   const [email, setEmail] = useState('');
@@ -84,9 +74,6 @@ export const HomeAuthSection: React.FC = () => {
 
   const parseFirebaseError = (err: any): string => {
     const code = err?.code || '';
-    if (code === 'auth/unverified-email') {
-      return 'Your email address is not verified yet. Please check your inbox and verify your email before logging in.';
-    }
     if (code === 'auth/operation-not-allowed') {
       return 'Email/Password accounts are not enabled yet in this Firebase project. Click "Continue with Google" below for instant 1-click access!';
     }
@@ -102,11 +89,8 @@ export const HomeAuthSection: React.FC = () => {
     if (code === 'auth/user-not-found' || code === 'auth/wrong-password' || code === 'auth/invalid-credential') {
       return 'Incorrect email or password. Please verify your credentials.';
     }
-    if (code === 'auth/popup-closed-by-user' || code === 'auth/cancelled-popup-request') {
-      return 'Google sign-in was cancelled or closed.';
-    }
-    if (code === 'auth/popup-blocked') {
-      return 'The sign-in popup was blocked by your browser or preview window. Please allow popups or open the app in a new tab.';
+    if (code === 'auth/popup-closed-by-user') {
+      return 'Google sign-in popup was closed before completing.';
     }
     if (code === 'auth/too-many-requests') {
       return 'Too many attempts. Please try again later or reset your password.';
@@ -119,7 +103,6 @@ export const HomeAuthSection: React.FC = () => {
     setErrorMessage(null);
     setSuccessMessage(null);
     setEmailTouched(true);
-    setUnverifiedEmail(null);
 
     if (!email.trim() || !password) {
       setErrorMessage('Please enter both email and password.');
@@ -138,9 +121,6 @@ export const HomeAuthSection: React.FC = () => {
         navigate('/dashboard');
       }, 600);
     } catch (err: any) {
-      if (err?.code === 'auth/unverified-email') {
-        setUnverifiedEmail(err?.email || email.trim());
-      }
       setErrorMessage(parseFirebaseError(err));
     } finally {
       setLoading(false);
@@ -218,33 +198,20 @@ export const HomeAuthSection: React.FC = () => {
     }
   };
 
-  const handleResendVerification = async (customEmail?: string) => {
-    const targetEmail = customEmail || unverifiedEmail || email.trim();
-    if (!targetEmail) {
-      setErrorMessage('Please enter your email address to resend the verification link.');
-      return;
-    }
-    if (resendCooldown > 0 || resendingEmail) return;
-
+  const handleResendVerification = async () => {
     setResendingEmail(true);
     setResendStatus(null);
     try {
-      await sendVerificationEmail(targetEmail, name.trim() || undefined);
-      setResendStatus(`Verification email resent to ${targetEmail}! Please check your inbox and spam folder.`);
-      setResendCooldown(60);
+      await sendVerificationEmail();
+      setResendStatus('Verification email resent! Please check your inbox.');
     } catch (err: any) {
-      const msg = parseFirebaseError(err);
-      setResendStatus(msg);
-      if (msg.includes('recently sent') || err?.code === 'auth/too-many-requests') {
-        setResendCooldown(60);
-      }
+      setResendStatus(parseFirebaseError(err));
     } finally {
       setResendingEmail(false);
     }
   };
 
   const handleGoogleAuth = async () => {
-    if (googleLoading) return;
     setErrorMessage(null);
     setSuccessMessage(null);
     setGoogleLoading(true);
@@ -270,10 +237,9 @@ export const HomeAuthSection: React.FC = () => {
         navigate('/dashboard');
       }, 600);
     } catch (err: any) {
-      if (err?.code === 'auth/popup-closed-by-user' || err?.code === 'auth/cancelled-popup-request') {
-        return;
+      if (err?.code !== 'auth/popup-closed-by-user') {
+        setErrorMessage(parseFirebaseError(err));
       }
-      setErrorMessage(parseFirebaseError(err));
     } finally {
       setGoogleLoading(false);
     }
@@ -481,22 +447,17 @@ export const HomeAuthSection: React.FC = () => {
           <div className="w-full space-y-2 pt-1">
             <button
               type="button"
-              onClick={() => {
-                setAccountCreatedSuccess(false);
-                setMode('login');
-                setPassword('');
-                setSuccessMessage('Please check your email and click the verification link before logging in.');
-              }}
+              onClick={() => navigate('/dashboard')}
               className="w-full py-2.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md shadow-indigo-200 flex items-center justify-center gap-2 transition-all active:scale-[0.99] cursor-pointer"
             >
-              <span>I've Verified My Email — Sign In</span>
+              <span>Continue to Dashboard</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
 
             <button
               type="button"
               disabled={resendingEmail}
-              onClick={() => handleResendVerification(email.trim())}
+              onClick={handleResendVerification}
               className="w-full py-2 px-3 rounded-xl border border-zinc-200 hover:bg-zinc-50 text-zinc-700 font-semibold text-xs flex items-center justify-center gap-2 transition-colors cursor-pointer disabled:opacity-50"
             >
               {resendingEmail ? (
@@ -524,58 +485,16 @@ export const HomeAuthSection: React.FC = () => {
                   <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
                   <span className="leading-snug">{errorMessage}</span>
                 </div>
-
-                {unverifiedEmail && (
-                  <div className="p-2.5 rounded-lg bg-white/80 border border-rose-200 text-rose-900 text-xs space-y-2">
-                    <p className="text-[11px] text-zinc-700">
-                      Need a new verification link? Click below to resend it to <strong>{unverifiedEmail}</strong>:
-                    </p>
-                    <button
-                      type="button"
-                      disabled={resendingEmail || resendCooldown > 0}
-                      onClick={() => handleResendVerification(unverifiedEmail)}
-                      className="w-full py-2 px-3 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      {resendingEmail ? (
-                        <Loader2 className="w-3.5 h-3.5 animate-spin text-white" />
-                      ) : (
-                        <Mail className="w-3.5 h-3.5" />
-                      )}
-                      <span>
-                        {resendingEmail
-                          ? 'Sending Link...'
-                          : resendCooldown > 0
-                          ? `Resend link (wait ${resendCooldown}s)`
-                          : 'Resend Verification Link'}
-                      </span>
-                    </button>
-                    {resendStatus && (
-                      <p className="text-[11px] font-semibold text-emerald-700 text-center">{resendStatus}</p>
-                    )}
-                  </div>
-                )}
                 {mode !== 'forgot' && (
-                  <div className="space-y-1.5 pt-0.5">
-                    {(errorMessage.toLowerCase().includes('popup') || errorMessage.toLowerCase().includes('pop-up') || errorMessage.toLowerCase().includes('blocked')) && (
-                      <button
-                        type="button"
-                        onClick={() => window.open(window.location.href, '_blank')}
-                        className="w-full py-2 px-3 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-xs transition-all cursor-pointer"
-                      >
-                        <ExternalLink className="w-3.5 h-3.5" />
-                        <span>Open in New Tab to Sign In</span>
-                      </button>
-                    )}
-                    <button
-                      type="button"
-                      onClick={handleGoogleAuth}
-                      disabled={googleLoading}
-                      className="w-full py-2 px-3 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer"
-                    >
-                      <Sparkles className="w-3.5 h-3.5" />
-                      <span>Try Google 1-Tap Again</span>
-                    </button>
-                  </div>
+                  <button
+                    type="button"
+                    onClick={handleGoogleAuth}
+                    disabled={googleLoading}
+                    className="w-full py-2 px-3 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer"
+                  >
+                    <Sparkles className="w-3.5 h-3.5" />
+                    <span>Continue with Google 1-Tap</span>
+                  </button>
                 )}
               </motion.div>
             )}

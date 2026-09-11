@@ -193,59 +193,7 @@ function buildActionLinkResult(rawLink: string, defaultMode: string): GeneratedA
 }
 
 /**
- * In-memory cache for action links to prevent hitting Firebase Identity Toolkit rate limits (TOO_MANY_ATTEMPTS_TRY_LATER)
- * Firebase action codes remain valid for up to 24-72 hours.
- */
-interface CachedActionLink {
-  result: GeneratedActionLink;
-  createdAt: number;
-}
-
-const verificationLinkCache = new Map<string, CachedActionLink>();
-const passwordResetLinkCache = new Map<string, CachedActionLink>();
-
-// Reuse existing link within 15 minutes to guarantee instant response without tripping rate limits
-const LINK_CACHE_TTL_MS = 15 * 60 * 1000;
-// Fallback threshold if Firebase throttles the API (up to 2 hours)
-const LINK_FALLBACK_MAX_AGE_MS = 2 * 60 * 60 * 1000;
-
-/**
- * Checks if a Firebase Auth error is caused by rate limiting (TOO_MANY_ATTEMPTS_TRY_LATER)
- */
-export function isFirebaseRateLimitError(err: any): boolean {
-  if (!err) return false;
-  if (err.code === 'auth/too-many-requests') return true;
-
-  const combined = [
-    err.message,
-    err.code,
-    err?.cause?.message,
-    err?.cause?.response?.text,
-    JSON.stringify(err?.httpResponse?.data || {}),
-    JSON.stringify(err?.cause?.response?.parsedData || {}),
-  ].filter(Boolean).join(' ');
-
-  return combined.includes('TOO_MANY_ATTEMPTS_TRY_LATER') || combined.includes('TOO_MANY_ATTEMPTS');
-}
-
-/**
- * Look up user details in Firebase Admin Auth safely
- */
-export async function getAdminUserByEmail(email: string) {
-  if (!isFirebaseAdminConfigured()) return null;
-  const auth = getAdminAuth();
-  try {
-    return await auth.getUserByEmail(email.trim().toLowerCase());
-  } catch (err: any) {
-    if (err?.code === 'auth/user-not-found') {
-      return null;
-    }
-    throw err;
-  }
-}
-
-/**
- * Generate a Firebase Email Verification link using Firebase Admin SDK with caching and rate-limit shield
+ * Generate a Firebase Email Verification link using Firebase Admin SDK
  */
 export async function generateVerificationLink(
   email: string,
@@ -257,16 +205,6 @@ export async function generateVerificationLink(
     );
   }
 
-  const cleanEmail = email.trim().toLowerCase();
-
-  // Check cache to avoid hitting Firebase's rate limits
-  const cached = verificationLinkCache.get(cleanEmail);
-  const now = Date.now();
-  if (cached && now - cached.createdAt < LINK_CACHE_TTL_MS) {
-    console.log(`[FirebaseAdmin] Reusing fresh cached verification link for ${cleanEmail} (anti-rate-limit shield)`);
-    return cached.result;
-  }
-
   const auth = getAdminAuth();
   // Setting handleCodeInApp to false ensures Google Firebase Auth processes the verification
   // directly in the browser and displays the official verification confirmation, then redirects to returnUrl.
@@ -275,32 +213,12 @@ export async function generateVerificationLink(
     handleCodeInApp: false,
   };
 
-  try {
-    const rawLink = await auth.generateEmailVerificationLink(cleanEmail, actionCodeSettings);
-    const result = buildActionLinkResult(rawLink, 'verifyEmail');
-    verificationLinkCache.set(cleanEmail, { result, createdAt: now });
-    return result;
-  } catch (err: any) {
-    if (isFirebaseRateLimitError(err)) {
-      // If we have an older cached link within fallback window, salvage the operation
-      if (cached && now - cached.createdAt < LINK_FALLBACK_MAX_AGE_MS) {
-        console.warn(`[FirebaseAdmin] Firebase throttled generateVerificationLink for ${cleanEmail}. Rescuing with valid cached link (${Math.round((now - cached.createdAt) / 1000)}s old).`);
-        return cached.result;
-      }
-
-      const rateLimitErr: any = new Error(
-        'Too many verification requests have been sent for this email address. Please check your inbox and spam folder, or wait a few minutes before trying again.'
-      );
-      rateLimitErr.code = 'auth/too-many-requests';
-      rateLimitErr.isRateLimit = true;
-      throw rateLimitErr;
-    }
-    throw err;
-  }
+  const rawLink = await auth.generateEmailVerificationLink(email.trim(), actionCodeSettings);
+  return buildActionLinkResult(rawLink, 'verifyEmail');
 }
 
 /**
- * Generate a Firebase Password Reset link using Firebase Admin SDK with caching and rate-limit shield
+ * Generate a Firebase Password Reset link using Firebase Admin SDK
  */
 export async function generatePasswordResetLink(
   email: string,
@@ -312,41 +230,14 @@ export async function generatePasswordResetLink(
     );
   }
 
-  const cleanEmail = email.trim().toLowerCase();
-
-  const cached = passwordResetLinkCache.get(cleanEmail);
-  const now = Date.now();
-  if (cached && now - cached.createdAt < LINK_CACHE_TTL_MS) {
-    console.log(`[FirebaseAdmin] Reusing fresh cached password reset link for ${cleanEmail}`);
-    return cached.result;
-  }
-
   const auth = getAdminAuth();
   const actionCodeSettings: ActionCodeSettings = {
     url: returnUrl,
     handleCodeInApp: false,
   };
 
-  try {
-    const rawLink = await auth.generatePasswordResetLink(cleanEmail, actionCodeSettings);
-    const result = buildActionLinkResult(rawLink, 'resetPassword');
-    passwordResetLinkCache.set(cleanEmail, { result, createdAt: now });
-    return result;
-  } catch (err: any) {
-    if (isFirebaseRateLimitError(err)) {
-      if (cached && now - cached.createdAt < LINK_FALLBACK_MAX_AGE_MS) {
-        console.warn(`[FirebaseAdmin] Firebase throttled generatePasswordResetLink for ${cleanEmail}. Rescuing with valid cached link.`);
-        return cached.result;
-      }
-      const rateLimitErr: any = new Error(
-        'Too many password reset requests have been sent for this email. Please check your inbox or try again in a few minutes.'
-      );
-      rateLimitErr.code = 'auth/too-many-requests';
-      rateLimitErr.isRateLimit = true;
-      throw rateLimitErr;
-    }
-    throw err;
-  }
+  const rawLink = await auth.generatePasswordResetLink(email.trim(), actionCodeSettings);
+  return buildActionLinkResult(rawLink, 'resetPassword');
 }
 
 /**

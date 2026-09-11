@@ -132,9 +132,6 @@ export function getFriendlyAuthErrorMessage(err: any): string {
   if (code === 'auth/operation-not-allowed') {
     return "Email/password sign-in isn't enabled yet. Please enable Email/Password in Firebase Authentication settings or continue with Google.";
   }
-  if (code === 'auth/unverified-email') {
-    return 'Your email address is not verified yet. Please check your inbox and verify your email before logging in.';
-  }
   if (code === 'auth/invalid-credential' || code === 'auth/wrong-password' || code === 'auth/user-not-found') {
     return 'Email or password is incorrect.';
   }
@@ -147,11 +144,11 @@ export function getFriendlyAuthErrorMessage(err: any): string {
   if (code === 'auth/invalid-email') {
     return 'Please enter a valid email address.';
   }
-  if (code === 'auth/popup-closed-by-user' || code === 'auth/cancelled-popup-request') {
-    return 'Google sign-in was cancelled or closed.';
+  if (code === 'auth/popup-closed-by-user') {
+    return 'Google sign-in was cancelled.';
   }
   if (code === 'auth/popup-blocked') {
-    return 'Your browser or preview window blocked the sign-in pop-up. Please allow popups or open the app in a new tab.';
+    return 'Your browser blocked the Google sign-in popup. Please allow popups and try again.';
   }
   if (code === 'auth/requires-recent-login') {
     return 'For security, please log out and log back in before performing this action.';
@@ -175,7 +172,7 @@ interface AuthContextType {
   signInWithGoogle: (additionalProfile?: Partial<SignUpParams>) => Promise<User | null>;
   signInWithEmail: (email: string, password: string) => Promise<User>;
   signUpWithEmail: (params: SignUpParams) => Promise<User>;
-  sendVerificationEmail: (target?: User | string, customName?: string) => Promise<void>;
+  sendVerificationEmail: (userToVerify?: User) => Promise<void>;
   reloadUser: () => Promise<boolean>;
   updateUserProfileData: (updates: Partial<FirebaseUserProfile>) => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
@@ -244,9 +241,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     progressMapRef.current = progressMap;
   }, [progressMap]);
 
-  // Track in-flight Google Auth to prevent multiple concurrent popups (auth/cancelled-popup-request)
-  const inFlightGoogleAuthRef = useRef<Promise<User> | null>(null);
-
   // Guest Save Details Modal prompt state
   const [showSaveDetailsModal, setShowSaveDetailsModal] = useState<boolean>(false);
   const [saveDetailsActionType, setSaveDetailsActionType] = useState<'notes' | 'bookmark' | 'video' | 'complete' | 'general'>('general');
@@ -277,30 +271,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     let profileUnsubscribe: (() => void) | null = null;
 
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      if (currentUser) {
-        const isGoogle = currentUser.providerData?.some(p => p.providerId === 'google.com');
-        if (!currentUser.emailVerified && !isGoogle) {
-          try {
-            await currentUser.reload();
-          } catch (e) {
-            // Ignore offline or reload errors
-          }
-        }
-
-        if (!currentUser.emailVerified && !isGoogle) {
-          console.warn("[Auth] Unverified email account detected. Signing out until verification is complete.");
-          try {
-            await firebaseSignOut(auth);
-          } catch (e) {
-            // ignore
-          }
-          setUser(null);
-          setUserProfile(null);
-          setLoading(false);
-          return;
-        }
-      }
-
       setUser(currentUser);
       
       if (profileUnsubscribe) {
@@ -632,56 +602,35 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     return () => unsubscribe();
   }, [user]);
 
-  // Sign In with Google Popup (Optimized with in-flight lock to prevent auth/cancelled-popup-request and safe handling for popup-blocked)
+  // Sign In with Google Popup (Optimized for instant return without 30s iframe/popup postMessage delay)
   const signInWithGoogle = async (additionalProfile?: Partial<SignUpParams>): Promise<User> => {
-    if (auth.currentUser) {
-      setUser(auth.currentUser);
-      return auth.currentUser;
-    }
+    try {
+      if (auth.currentUser) {
+        setUser(auth.currentUser);
+        return auth.currentUser;
+      }
 
-    // Reuse in-flight Google sign-in if one is already active to prevent concurrent popup cancellations
-    if (inFlightGoogleAuthRef.current) {
-      return inFlightGoogleAuthRef.current;
-    }
-
-    const executionPromise = (async (): Promise<User> => {
+      // Fast-resolve listener: fires as soon as Firebase Auth identifies the user session
       let authUnsub: (() => void) | null = null;
-      let currentUser: User | null = null;
-
-      try {
-        // Fast-resolve listener: fires as soon as Firebase Auth identifies the user session
-        const authStatePromise = new Promise<User>((resolve) => {
-          authUnsub = onAuthStateChanged(auth, (detectedUser) => {
-            if (detectedUser) {
-              resolve(detectedUser);
-            }
-          });
+      const authStatePromise = new Promise<User>((resolve) => {
+        authUnsub = onAuthStateChanged(auth, (detectedUser) => {
+          if (detectedUser) {
+            resolve(detectedUser);
+          }
         });
+      });
 
-        // Trigger standard popup directly within the user-activation tick
-        const popupPromise = signInWithPopup(auth, googleProvider).then((res) => res.user);
+      // Trigger standard popup
+      const popupPromise = signInWithPopup(auth, googleProvider).then((res) => res.user);
 
-        // Race popup completion against onAuthStateChanged detection
-        currentUser = await Promise.race([
-          popupPromise,
-          authStatePromise
-        ]);
-      } catch (err: any) {
-        const code = err?.code || '';
-        if (code === 'auth/popup-closed-by-user' || code === 'auth/cancelled-popup-request') {
-          console.warn("[Auth] Google sign-in cancelled or window closed:", code);
-          throw err;
-        }
-        if (code === 'auth/popup-blocked') {
-          console.warn("[Auth] Google sign-in popup blocked by browser or preview sandbox.");
-          throw err;
-        }
-        console.warn("[Auth] Google sign-in notice:", err?.code || err?.message || err);
-        throw err;
-      } finally {
-        if (authUnsub) {
-          (authUnsub as () => void)();
-        }
+      // Race popup completion against onAuthStateChanged detection
+      const currentUser = await Promise.race([
+        popupPromise,
+        authStatePromise
+      ]);
+
+      if (authUnsub) {
+        (authUnsub as () => void)();
       }
 
       if (currentUser) {
@@ -775,13 +724,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       }
 
       return currentUser;
-    })();
-
-    inFlightGoogleAuthRef.current = executionPromise;
-    try {
-      return await executionPromise;
-    } finally {
-      inFlightGoogleAuthRef.current = null;
+    } catch (err: any) {
+      console.error("Google sign in failed:", err);
+      throw err;
     }
   };
 
@@ -789,36 +734,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const signInWithEmail = async (email: string, password: string): Promise<User> => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email.trim(), password);
-      const signedInUser = userCredential.user;
-
-      // Perform a fresh reload to verify current emailVerified status from Firebase servers
-      try {
-        await signedInUser.reload();
-      } catch (reloadErr) {
-        console.warn("Could not reload user during signInWithEmail:", reloadErr);
-      }
-
-      const isGoogle = signedInUser.providerData?.some(p => p.providerId === 'google.com');
-      if (!signedInUser.emailVerified && !isGoogle) {
-        const unverifiedEmail = signedInUser.email || email.trim();
-        // Immediately sign out from Firebase so unverified session is not kept active
-        try {
-          await firebaseSignOut(auth);
-        } catch (e) {
-          // ignore
-        }
-        setUser(null);
-        setUserProfile(null);
-
-        const unverifiedError: any = new Error(
-          "Your email address is not verified yet. Please check your inbox and verify your email before logging in."
-        );
-        unverifiedError.code = 'auth/unverified-email';
-        unverifiedError.email = unverifiedEmail;
-        throw unverifiedError;
-      }
-
-      return signedInUser;
+      return userCredential.user;
     } catch (err: any) {
       console.warn("Email sign in error:", err?.code || err?.message || err);
       throw err;
@@ -928,15 +844,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         }
       }
 
-      // Enforce email verification: Immediately sign out newly registered user so they cannot access the app without verification
-      try {
-        await firebaseSignOut(auth);
-      } catch (soErr) {
-        console.warn("Signout after signup error:", soErr);
-      }
-      setUser(null);
-      setUserProfile(null);
-
       return newUser;
     } catch (err: any) {
       console.warn("Sign up error:", err?.code || err?.message || err);
@@ -945,89 +852,28 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   // Send verification email on demand (via Resend with Firebase client fallback)
-  const sendVerificationEmail = async (target?: User | string, customName?: string): Promise<void> => {
-    let emailToSend: string | null = null;
-    let nameToSend: string | undefined = customName;
-    let targetUser: User | null = null;
-
-    if (typeof target === 'string') {
-      emailToSend = target.trim();
-    } else if (target && target.email) {
-      targetUser = target;
-      emailToSend = target.email;
-      nameToSend = nameToSend || target.displayName || undefined;
-    } else if (auth.currentUser && auth.currentUser.email) {
-      targetUser = auth.currentUser;
-      emailToSend = auth.currentUser.email;
-      nameToSend = nameToSend || auth.currentUser.displayName || userProfile?.displayName || userProfile?.name || undefined;
-    } else if (user && user.email) {
-      targetUser = user;
-      emailToSend = user.email;
-      nameToSend = nameToSend || user.displayName || userProfile?.displayName || userProfile?.name || undefined;
+  const sendVerificationEmail = async (userToVerify?: User): Promise<void> => {
+    const targetUser = userToVerify || auth.currentUser || user;
+    if (!targetUser || !targetUser.email) {
+      throw new Error("No active user to send verification email to.");
     }
-
-    if (!emailToSend) {
-      throw new Error("No active email address provided to send verification link to.");
-    }
-
     try {
       const returnUrl = typeof window !== 'undefined' ? `${window.location.origin}/#/dashboard` : undefined;
       const res = await fetch('/api/auth/send-verification-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          email: emailToSend,
-          name: nameToSend,
+          email: targetUser.email,
+          name: targetUser.displayName || userProfile?.displayName || userProfile?.name || undefined,
           returnUrl,
         }),
       });
-
-      const data = await res.json().catch(() => ({}));
-
-      if (res.ok) {
-        if (data?.alreadyVerified) {
-          // If the server confirms user is already verified, update local user if present
-          if (auth.currentUser) {
-            await reloadUser();
-          }
-        }
-        return;
-      }
-
-      // If rate limited, do not hammer client SDK
-      if (res.status === 429 || data?.rateLimited) {
-        const rateLimitMsg = data?.error || "Verification link was recently sent. Please check your inbox (and spam folder) or wait a couple of minutes.";
-        throw new Error(rateLimitMsg);
-      }
-
-      // If user not found
-      if (res.status === 404) {
-        throw new Error(data?.error || "No user account was found with this email address. Please sign up first.");
-      }
-
-      // For other errors, attempt client fallback if a signed-in unverified user is available
-      if (targetUser && !targetUser.emailVerified) {
+      if (!res.ok) {
         await sendEmailVerification(targetUser);
-      } else {
-        throw new Error(data?.error || "Failed to dispatch verification email. Please try again.");
       }
-    } catch (err: any) {
-      if (err?.message?.includes('recently sent') || err?.message?.includes('inbox') || err?.code === 'auth/too-many-requests') {
-        throw err;
-      }
-      if (targetUser && !targetUser.emailVerified) {
-        console.warn("Server email dispatch notice, trying Firebase client fallback:", err);
-        try {
-          await sendEmailVerification(targetUser);
-        } catch (fbErr: any) {
-          if (fbErr?.code === 'auth/too-many-requests') {
-            throw new Error("Too many verification emails requested. Please check your inbox and wait a few minutes before trying again.");
-          }
-          throw fbErr;
-        }
-      } else {
-        throw err;
-      }
+    } catch (err) {
+      console.warn("Server email dispatch notice, trying Firebase client fallback:", err);
+      await sendEmailVerification(targetUser);
     }
   };
 

@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { 
   X, Mail, Lock, User as UserIcon, GraduationCap, Briefcase, 
   Building2, Sparkles, AlertCircle, 
-  Eye, EyeOff, Loader2, ArrowRight, ArrowLeft, CheckCircle2, RefreshCw, Check, ExternalLink
+  Eye, EyeOff, Loader2, ArrowRight, ArrowLeft, CheckCircle2, RefreshCw, Check
 } from 'lucide-react';
 import { useAuth, UserType, SignUpParams, getFriendlyAuthErrorMessage, isValidEmail } from '../../context/AuthContext';
 import { Logo } from '../Logo';
@@ -62,16 +62,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   const [emailTouched, setEmailTouched] = useState(false);
   const [resendingEmail, setResendingEmail] = useState(false);
   const [resendStatus, setResendStatus] = useState<string | null>(null);
-  const [unverifiedEmail, setUnverifiedEmail] = useState<string | null>(null);
-  const [resendCooldown, setResendCooldown] = useState(0);
-
-  useEffect(() => {
-    if (resendCooldown <= 0) return;
-    const timer = setInterval(() => {
-      setResendCooldown((prev) => (prev > 0 ? prev - 1 : 0));
-    }, 1000);
-    return () => clearInterval(timer);
-  }, [resendCooldown]);
 
   // Sync mode when initialMode changes or modal opens
   useEffect(() => {
@@ -79,15 +69,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({
       setMode(initialMode);
       setSignupStep(1);
       setErrorMessage(null);
-      if ((location.state as any)?.verificationComplete) {
-        setSuccessMessage('Email verified successfully! Please sign in with your credentials.');
-      } else {
-        setSuccessMessage(null);
-      }
+      setSuccessMessage(null);
       setAccountCreatedSuccess(false);
       setEmailTouched(false);
       setResendStatus(null);
-      setUnverifiedEmail(null);
       setLoading(false);
       setGoogleLoading(false);
     }
@@ -203,7 +188,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     setErrorMessage(null);
     setSuccessMessage(null);
     setEmailTouched(true);
-    setUnverifiedEmail(null);
 
     if (!email.trim() || !password) {
       setErrorMessage('Please enter both email and password.');
@@ -227,9 +211,6 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         }
       }, 500);
     } catch (err: any) {
-      if (err?.code === 'auth/unverified-email') {
-        setUnverifiedEmail(err?.email || email.trim());
-      }
       setErrorMessage(getFriendlyAuthErrorMessage(err));
     } finally {
       setLoading(false);
@@ -293,26 +274,14 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     }
   };
 
-  const handleResendVerification = async (customEmail?: string) => {
-    const targetEmail = customEmail || unverifiedEmail || email.trim();
-    if (!targetEmail) {
-      setErrorMessage('Please enter your email address to receive the verification link.');
-      return;
-    }
-    if (resendCooldown > 0 || resendingEmail) return;
-
+  const handleResendVerification = async () => {
     setResendingEmail(true);
     setResendStatus(null);
     try {
-      await sendVerificationEmail(targetEmail, name.trim() || undefined);
-      setResendStatus(`Verification link resent to ${targetEmail}! Please check your inbox and spam folder.`);
-      setResendCooldown(60);
+      await sendVerificationEmail();
+      setResendStatus('Verification email resent successfully! Please check your inbox.');
     } catch (err: any) {
-      const msg = getFriendlyAuthErrorMessage(err);
-      setResendStatus(msg);
-      if (msg.includes('recently sent') || err?.code === 'auth/too-many-requests') {
-        setResendCooldown(60);
-      }
+      setResendStatus(getFriendlyAuthErrorMessage(err));
     } finally {
       setResendingEmail(false);
     }
@@ -357,8 +326,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         }
       }, 500);
     } catch (err: any) {
-      if (err?.code === 'auth/popup-closed-by-user' || err?.code === 'auth/cancelled-popup-request') {
-        // User voluntarily closed the Google popup window or request was superseded
+      if (err?.code === 'auth/popup-closed-by-user') {
+        // User voluntarily closed the Google popup window
         return;
       }
       setErrorMessage(getFriendlyAuthErrorMessage(err));
@@ -494,19 +463,18 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 </div>
 
                 <div className="space-y-2 max-w-sm mx-auto">
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-50 border border-amber-200 text-amber-800 rounded-full text-[11px] font-bold tracking-wide">
-                    <Mail className="w-3.5 h-3.5 text-amber-600" />
-                    <span>Verification Required</span>
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-full text-[11px] font-bold tracking-wide">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                    <span>Account Active</span>
                   </div>
                   <h4 className="text-xl font-black text-zinc-900 tracking-tight">
-                    Verify your email, {firstName}!
+                    You're all set, {firstName}!
                   </h4>
                   <p className="text-xs text-zinc-600 leading-relaxed font-normal">
-                    We dispatched a verification link to{' '}
+                    Your personalized PM curriculum and prep workspace are ready. We also dispatched a quick verification link to{' '}
                     <span className="font-semibold text-zinc-900 bg-zinc-100 px-1.5 py-0.5 rounded break-all">
                       {email || 'your email'}
                     </span>.
-                    You must click the link to verify your email before logging in.
                   </p>
                 </div>
 
@@ -529,20 +497,22 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   <button
                     type="button"
                     onClick={() => {
-                      setAccountCreatedSuccess(false);
-                      setMode('login');
-                      setPassword('');
-                      setSuccessMessage('Please check your inbox and verify your email before signing in.');
+                      onClose();
+                      if (onSuccess) {
+                        onSuccess();
+                      } else {
+                        navigate(getDestinationPath(), { replace: true });
+                      }
                     }}
                     className="w-full h-12 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs uppercase tracking-wider shadow-md shadow-indigo-200 flex items-center justify-center gap-2 transition-all active:scale-[0.99] cursor-pointer"
                   >
-                    <span>I've Verified My Email — Sign In →</span>
+                    <span>START DAY 1 →</span>
                   </button>
 
                   <button
                     type="button"
                     disabled={resendingEmail}
-                    onClick={() => handleResendVerification(email.trim())}
+                    onClick={handleResendVerification}
                     className="w-full py-2.5 px-4 rounded-xl border border-zinc-200 hover:bg-zinc-50 text-zinc-600 font-semibold text-xs flex items-center justify-center gap-2 transition-colors cursor-pointer disabled:opacity-50"
                   >
                     {resendingEmail ? (
@@ -564,53 +534,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                       initial={{ opacity: 0, y: -6 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -6 }}
-                      className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-medium space-y-2"
+                      className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-medium flex items-start gap-2.5"
                     >
-                      <div className="flex items-start gap-2.5">
-                        <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
-                        <span className="leading-snug">{errorMessage}</span>
-                      </div>
-
-                      {unverifiedEmail && (
-                        <div className="p-2.5 rounded-lg bg-white/90 border border-rose-200 text-zinc-800 text-xs space-y-2">
-                          <p className="text-[11px] text-zinc-600">
-                            Haven't received or need a new link? Resend it to <strong>{unverifiedEmail}</strong>:
-                          </p>
-                          <button
-                            type="button"
-                            disabled={resendingEmail || resendCooldown > 0}
-                            onClick={() => handleResendVerification(unverifiedEmail)}
-                            className="w-full py-2 px-3 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-                          >
-                            {resendingEmail ? (
-                              <Loader2 className="w-3.5 h-3.5 animate-spin text-white" />
-                            ) : (
-                              <Mail className="w-3.5 h-3.5" />
-                            )}
-                            <span>
-                              {resendingEmail
-                                ? 'Sending Link...'
-                                : resendCooldown > 0
-                                ? `Resend link (wait ${resendCooldown}s)`
-                                : 'Resend Verification Link'}
-                            </span>
-                          </button>
-                          {resendStatus && (
-                            <p className="text-[11px] font-semibold text-emerald-700 text-center">{resendStatus}</p>
-                          )}
-                        </div>
-                      )}
-
-                      {(errorMessage.toLowerCase().includes('popup') || errorMessage.toLowerCase().includes('pop-up') || errorMessage.toLowerCase().includes('blocked')) && (
-                        <button
-                          type="button"
-                          onClick={() => window.open(window.location.href, '_blank')}
-                          className="w-full py-1.5 px-3 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer"
-                        >
-                          <ExternalLink className="w-3.5 h-3.5" />
-                          <span>Open App in New Tab to Sign In</span>
-                        </button>
-                      )}
+                      <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
+                      <span className="leading-snug">{errorMessage}</span>
                     </motion.div>
                   )}
 

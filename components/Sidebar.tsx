@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   LayoutDashboard, BookOpen, Search, BarChart2, Smartphone, 
   Bot, Info, ChevronRight, ChevronDown, Sparkles, Zap, Code, Briefcase,
-  Library, LogIn, LogOut, Layers, User as UserIcon, Loader2
+  Library, LogIn, LogOut, Layers, User as UserIcon
 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -40,24 +40,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
   const { user, userProfile, signInWithGoogle, logout, completedCount } = useAuth();
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
-  const [googleSigningIn, setGoogleSigningIn] = useState(false);
-
-  const handleSidebarGoogleSignIn = async () => {
-    if (googleSigningIn) return;
-    setGoogleSigningIn(true);
-    try {
-      await signInWithGoogle();
-    } catch (err: any) {
-      if (err?.code === 'auth/popup-closed-by-user' || err?.code === 'auth/cancelled-popup-request') {
-        return;
-      }
-      // If popup blocked or other issue, open the auth modal so user has clear guidance and email alternative
-      setAuthMode('login');
-      setAuthModalOpen(true);
-    } finally {
-      setGoogleSigningIn(false);
-    }
-  };
 
   const isModuleActive = MODULE_ITEMS.some(m => location.pathname === m.path || location.pathname.startsWith(m.path));
   const [modulesOpen, setModulesOpen] = useState<boolean>(true);
@@ -158,16 +140,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
                   <span>Sign In / Sign Up</span>
                 </button>
                 <button
-                  type="button"
-                  onClick={handleSidebarGoogleSignIn}
-                  disabled={googleSigningIn}
-                  className="w-full p-2 rounded-xl bg-zinc-50 hover:bg-zinc-100 border border-zinc-200 text-zinc-700 flex items-center justify-center gap-2 font-bold text-[11px] transition-all disabled:opacity-60 cursor-pointer"
+                  onClick={() => signInWithGoogle()}
+                  className="w-full p-2 rounded-xl bg-zinc-50 hover:bg-zinc-100 border border-zinc-200 text-zinc-700 flex items-center justify-center gap-2 font-bold text-[11px] transition-all"
                 >
-                  {googleSigningIn ? (
-                    <Loader2 className="w-3.5 h-3.5 animate-spin text-zinc-600" />
-                  ) : (
-                    <span>Google 1-Tap</span>
-                  )}
+                  <span>Google 1-Tap</span>
                 </button>
               </div>
             )}
