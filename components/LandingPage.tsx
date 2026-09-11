@@ -168,7 +168,7 @@ export const LandingPage: React.FC = () => {
             </motion.button>
 
             <motion.a 
-                href="https://chat.whatsapp.com/F93j47M4UL43DUJS1QrEgU"
+                href="https://chat.whatsapp.com/GhkzK8bDAUwLAKfLw7hfbW"
                 target="_blank"
                 rel="noopener noreferrer"
                 initial={{ opacity: 0, y: -10 }}
@@ -303,13 +303,13 @@ export const LandingPage: React.FC = () => {
                     <Library className="w-5 h-5 text-[#475569]" /> Resources
                 </button>
                 <button 
-                    onClick={() => { setMobileMenuOpen(false); handleProtectedAction('/dashboard'); }}
+                    onClick={() => { setMobileMenuOpen(false); navigate('/dashboard'); }}
                     className="block w-full text-left text-lg font-semibold text-[#4338CA] py-1.5 tracking-tight font-bold"
                 >
                     Career Command Center
                 </button>
                 <a 
-                    href="https://chat.whatsapp.com/F93j47M4UL43DUJS1QrEgU"
+                    href="https://chat.whatsapp.com/GhkzK8bDAUwLAKfLw7hfbW"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="block w-full text-left text-lg font-semibold text-[#10B981] py-1.5 tracking-tight"
@@ -345,7 +345,7 @@ export const LandingPage: React.FC = () => {
                 <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-8">
                     <button 
                       id="hero-start-learning-cta"
-                      onClick={() => handleProtectedAction('/dashboard')} 
+                      onClick={() => navigate('/dashboard')} 
                       className="px-8 py-4 bg-[#4338CA] hover:bg-[#3730A3] text-white rounded-xl sm:rounded-2xl font-bold text-base sm:text-lg shadow-md shadow-indigo-950/10 transition-all hover:-translate-y-0.5 flex items-center gap-2 tracking-tight cursor-pointer"
                     >
                       <Rocket className="w-5 h-5" /> start learning <ArrowRight className="w-5 h-5" />
@@ -591,7 +591,7 @@ export const LandingPage: React.FC = () => {
             {/* Tool 1: 45-Day Curriculum */}
             <motion.div 
               whileHover={{ y: -5 }}
-              onClick={() => handleProtectedAction('/dashboard')}
+              onClick={() => navigate('/dashboard')}
               className="p-6 sm:p-7 rounded-3xl bg-white border border-[#E2E8F0] hover:border-[#4338CA]/40 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between h-full group"
             >
               <div className="space-y-4">
@@ -722,7 +722,7 @@ export const LandingPage: React.FC = () => {
                     <motion.div 
                         key={i}
                         whileHover={{ y: -5 }}
-                        onClick={() => handleProtectedAction('/dashboard')}
+                        onClick={() => navigate('/dashboard')}
                         className="p-6 rounded-2xl bg-white border border-[#E2E8F0] hover:border-[#4338CA]/40 hover:shadow-md transition-all shadow-xs cursor-pointer flex flex-col justify-between"
                     >
                         <div>
@@ -771,7 +771,7 @@ export const LandingPage: React.FC = () => {
                      <div className="flex flex-wrap gap-4">
                        {!user ? (
                          <button
-                           onClick={() => openAuth('signup')}
+                           onClick={() => navigate('/dashboard')}
                            className="px-8 py-4 bg-[#4338CA] hover:bg-[#3730A3] text-white rounded-xl sm:rounded-2xl font-bold text-base tracking-tight shadow-md shadow-indigo-950/30 flex items-center gap-2 transition-all hover:-translate-y-0.5 cursor-pointer"
                          >
                            <UserPlus className="w-5 h-5" /> Start Your PM Journey <ArrowRight className="w-5 h-5" />

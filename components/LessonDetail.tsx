@@ -6,10 +6,11 @@ import {
   ArrowLeft, ArrowRight, ExternalLink, BookOpen, Clock, Play, Zap, 
   MonitorPlay, ChevronLeft, ChevronRight, PenTool, List, CheckCircle, 
   Sparkles, CheckCircle2, Bookmark, FileEdit, Cloud, Save, RotateCcw,
-  Compass
+  Compass, Lock, LogIn, Check, X
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
+import { AuthModal } from './auth/AuthModal';
 
 const getYoutubeId = (url: string) => {
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
@@ -27,9 +28,12 @@ export const LessonDetail: React.FC = () => {
     progressMap, 
     toggleLessonComplete, 
     toggleLessonBookmark, 
+    toggleVideoComplete,
     updateLessonNotes,
     updateLessonScrollPosition,
-    user 
+    user,
+    markDaysAsComplete,
+    triggerSaveDetailsPopup
   } = useAuth();
 
   const currentDay = parseInt(id || '0', 10);
@@ -48,6 +52,68 @@ export const LessonDetail: React.FC = () => {
   const [notes, setNotes] = useState<string>(currentProgress.notes || '');
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved'>('idle');
   const [savedNotesTimestamp, setSavedNotesTimestamp] = useState<string | null>(null);
+
+  // Conditional Auth Gating & Day 8 Milestone Popup State
+  const [authModalOpen, setAuthModalOpen] = useState<boolean>(() => !user && currentDay > 7);
+  const [showDay8Popup, setShowDay8Popup] = useState<boolean>(false);
+  const [day8CompletedToast, setDay8CompletedToast] = useState<boolean>(false);
+
+  // Automatically prompt auth modal when non-logged-in user tries to access days 8 to 45
+  useEffect(() => {
+    if (!user && currentDay > 7) {
+      setAuthModalOpen(true);
+    }
+  }, [user, currentDay]);
+
+  // Check if Day 8 completion popup should be displayed
+  const days0To7 = [0, 1, 2, 3, 4, 5, 6, 7];
+  const all0To7Completed = days0To7.every(d => progressMap[d]?.completed);
+
+  useEffect(() => {
+    if (currentDay === 8) {
+      const hasAnswered = user 
+        ? sessionStorage.getItem(`pm_day8_popup_answered_${user.uid}`)
+        : sessionStorage.getItem('pm_day8_popup_answered_guest');
+
+      if (!all0To7Completed && !hasAnswered) {
+        const timer = setTimeout(() => {
+          setShowDay8Popup(true);
+        }, 300);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [currentDay, user, all0To7Completed]);
+
+  const handleDay8Yes = async () => {
+    const days0To7List = [0, 1, 2, 3, 4, 5, 6, 7];
+    if (markDaysAsComplete) {
+      await markDaysAsComplete(days0To7List);
+    } else {
+      for (const d of days0To7List) {
+        if (!progressMap[d]?.completed) {
+          await toggleLessonComplete(d);
+        }
+      }
+    }
+    if (user) {
+      sessionStorage.setItem(`pm_day8_popup_answered_${user.uid}`, 'yes');
+    } else {
+      sessionStorage.setItem('pm_day8_popup_answered_guest', 'yes');
+    }
+    setShowDay8Popup(false);
+    setDay8CompletedToast(true);
+    setTimeout(() => setDay8CompletedToast(false), 4500);
+  };
+
+  const handleDay8No = () => {
+    // If user click no do not take any action
+    if (user) {
+      sessionStorage.setItem(`pm_day8_popup_answered_${user.uid}`, 'no');
+    } else {
+      sessionStorage.setItem('pm_day8_popup_answered_guest', 'no');
+    }
+    setShowDay8Popup(false);
+  };
 
   // Reading Position & Scroll Tracking State
   const [readingPercentage, setReadingPercentage] = useState<number>(0);
@@ -330,11 +396,17 @@ export const LessonDetail: React.FC = () => {
   const handleNotesBlur = () => {
     if (notesRef.current !== lastSavedNotesRef.current) {
       performSaveNotes(currentDay, notesRef.current, true);
+      if (!user && notesRef.current.trim().length > 0) {
+        triggerSaveDetailsPopup('notes');
+      }
     }
   };
 
   const handleSaveNotes = () => {
     performSaveNotes(currentDay, notes, true);
+    if (!user) {
+      triggerSaveDetailsPopup('notes');
+    }
   };
 
   useEffect(() => {
@@ -362,6 +434,56 @@ export const LessonDetail: React.FC = () => {
             <p className="text-zinc-500 mb-6 font-medium">The lesson you are looking for doesn't exist.</p>
             <button onClick={() => navigate('/dashboard')} className="px-6 py-3 bg-indigo-600 text-white rounded-xl font-bold tracking-tight hover:bg-indigo-700 transition-colors">Return to Dashboard</button>
         </div>
+    );
+  }
+
+  // Access Control: Day 0 to Day 7 are free preview without login. Days 8+ require login.
+  if (!user && currentDay > 7) {
+    return (
+      <div className="max-w-2xl mx-auto py-12 px-4 sm:px-6">
+        <div className="bg-white rounded-3xl p-8 sm:p-12 border border-zinc-200/90 shadow-xl text-center space-y-6">
+          <div className="w-16 h-16 rounded-2xl bg-indigo-50 border border-indigo-100 text-indigo-600 flex items-center justify-center mx-auto shadow-xs">
+            <Lock className="w-8 h-8" />
+          </div>
+
+          <div className="space-y-3">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 text-amber-800 text-xs font-bold border border-amber-200/80">
+              <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+              <span>Free Access: Day 0 to Day 7</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-black text-zinc-900 tracking-tight">
+              Please Log In to Access Day {currentDay}
+            </h2>
+            <p className="text-sm sm:text-base text-zinc-600 leading-relaxed font-medium max-w-lg mx-auto">
+              Days 0 through 7 are completely free to learn without an account. To access Day {currentDay} and continue through Day 45, interactive assignments, and cloud progress tracking, please log in.
+            </p>
+          </div>
+
+          <div className="pt-2 flex flex-col sm:flex-row gap-3 justify-center items-center">
+            <button
+              onClick={() => setAuthModalOpen(true)}
+              className="w-full sm:w-auto px-8 py-3.5 bg-[#4338CA] hover:bg-[#3730A3] active:scale-95 text-white font-bold text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <LogIn className="w-4 h-4" />
+              <span>Log In to Access</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => navigate('/dashboard')}
+              className="w-full sm:w-auto px-6 py-3.5 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 font-bold text-sm rounded-xl transition-all cursor-pointer"
+            >
+              Back to Free Days (0–7)
+            </button>
+          </div>
+        </div>
+
+        <AuthModal
+          isOpen={authModalOpen}
+          onClose={() => setAuthModalOpen(false)}
+          initialMode="login"
+          redirectTo={`/dashboard/day/${currentDay}`}
+        />
+      </div>
     );
   }
 
@@ -520,6 +642,46 @@ export const LessonDetail: React.FC = () => {
         </div>
       </div>
 
+      {/* Day 8 Milestone Section: "Have you completed Day 0 to Day 07?" */}
+      {currentDay === 8 && (
+        <div className="bg-white rounded-2xl p-5 sm:p-6 border border-zinc-200/90 shadow-sm relative overflow-hidden mb-3.5">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="space-y-1.5">
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-black uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+                  Launchpad Milestone
+                </span>
+                <span className="text-xs font-bold text-zinc-400">• Day 0 to Day 7 Progress</span>
+              </div>
+              <h3 className="text-base sm:text-lg font-black text-zinc-900 tracking-tight">
+                Have you completed Day 0 to Day 07?
+              </h3>
+              <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed font-medium max-w-2xl">
+                If you've already finished the initial days, click "Yes" to mark Day 0 through Day 07 as done in your launchpad progress tracker.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2.5 shrink-0">
+              {all0To7Completed ? (
+                <div className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-bold">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                  <span>Day 0 to Day 07 Completed</span>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={handleDay8Yes}
+                  className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold text-xs sm:text-sm rounded-xl shadow-md shadow-emerald-600/20 flex items-center justify-center gap-2 transition-all cursor-pointer"
+                >
+                  <Check className="w-4 h-4" />
+                  <span>Yes, mark as done</span>
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 md:gap-4 items-start">
           
           {/* Main Content Column */}
@@ -536,7 +698,22 @@ export const LessonDetail: React.FC = () => {
                             <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
                             <span className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Interactive Tutorial</span>
                         </div>
-                        <MonitorPlay className="w-3.5 h-3.5 text-indigo-400" />
+                        <div className="flex items-center gap-2">
+                            <button
+                                type="button"
+                                onClick={() => toggleVideoComplete(currentDay)}
+                                className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                                    currentProgress.videoCompleted 
+                                      ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' 
+                                      : 'bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700'
+                                }`}
+                                title="Mark video as complete"
+                            >
+                                <CheckCircle2 className={`w-3.5 h-3.5 ${currentProgress.videoCompleted ? 'text-emerald-400 fill-emerald-500/20' : 'text-zinc-400'}`} />
+                                <span>{currentProgress.videoCompleted ? 'Video Completed' : 'Mark Video Complete'}</span>
+                            </button>
+                            <MonitorPlay className="w-3.5 h-3.5 text-indigo-400" />
+                        </div>
                     </div>
                     <div className="aspect-video w-full">
                         <iframe 
@@ -606,9 +783,17 @@ export const LessonDetail: React.FC = () => {
                                 return (
                                 <div key={idx} className="group">
                                     {youtubeId ? (
-                                        <button 
+                                        <div 
+                                            role="button"
+                                            tabIndex={0}
                                             onClick={() => setActiveVideo(embedUrl)}
-                                            className={`w-full flex flex-col gap-2 p-2 rounded-xl transition-all border ${isActive ? 'bg-indigo-50 border-indigo-200 ring-2 ring-indigo-100' : 'bg-zinc-50 border-zinc-100 hover:bg-white hover:border-indigo-100 hover:shadow-xs'}`}
+                                            onKeyDown={(e) => {
+                                                if (e.key === 'Enter' || e.key === ' ') {
+                                                    e.preventDefault();
+                                                    setActiveVideo(embedUrl);
+                                                }
+                                            }}
+                                            className={`w-full flex flex-col gap-2 p-2 rounded-xl transition-all border cursor-pointer select-none ${isActive ? 'bg-indigo-50 border-indigo-200 ring-2 ring-indigo-100' : 'bg-zinc-50 border-zinc-100 hover:bg-white hover:border-indigo-100 hover:shadow-xs'}`}
                                         >
                                             <div className="relative aspect-video rounded-lg overflow-hidden bg-zinc-800">
                                                 <img 
@@ -626,9 +811,27 @@ export const LessonDetail: React.FC = () => {
                                                 <span className={`block text-xs font-bold leading-tight line-clamp-2 ${isActive ? 'text-indigo-900' : 'text-zinc-700'}`}>
                                                     {res.title}
                                                 </span>
-                                                <span className="text-[9px] font-black text-zinc-400 uppercase tracking-widest mt-0.5 block">Video Lesson</span>
+                                                <div className="flex items-center justify-between mt-1">
+                                                    <span className="text-[9px] font-black text-zinc-400 uppercase tracking-widest block">Video Lesson</span>
+                                                    <button
+                                                        type="button"
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            toggleVideoComplete(currentDay);
+                                                        }}
+                                                        className={`text-[9px] font-bold px-1.5 py-0.5 rounded flex items-center gap-1 transition-all ${
+                                                            currentProgress.videoCompleted
+                                                                ? 'text-emerald-700 bg-emerald-50 border border-emerald-200'
+                                                                : 'text-zinc-500 hover:text-indigo-600 bg-white border border-zinc-200'
+                                                        }`}
+                                                        title="Mark video as completed"
+                                                    >
+                                                        <CheckCircle2 className="w-2.5 h-2.5" />
+                                                        <span>{currentProgress.videoCompleted ? 'Completed' : 'Mark Complete'}</span>
+                                                    </button>
+                                                </div>
                                             </div>
-                                        </button>
+                                        </div>
                                     ) : (
                                         <a 
                                             href={res.url} 
@@ -813,6 +1016,82 @@ export const LessonDetail: React.FC = () => {
             </div>
         )}
       </div>
+
+      {/* Day 8 Milestone Popup Notification: Have you completed Day 0 to Day 07? */}
+      <AnimatePresence>
+        {showDay8Popup && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 15 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 15 }}
+              className="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full border border-zinc-200/90 shadow-2xl relative overflow-hidden"
+            >
+              <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-50/70 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+
+              <div className="relative z-10 space-y-4">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="w-12 h-12 rounded-2xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 shadow-xs">
+                    <CheckCircle2 className="w-6 h-6" />
+                  </div>
+                  <button
+                    onClick={handleDay8No}
+                    className="p-1.5 text-zinc-400 hover:text-zinc-600 rounded-lg hover:bg-zinc-100 transition-colors"
+                    title="Dismiss without action"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+
+                <div className="space-y-1.5">
+                  <span className="text-[10px] font-black uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full border border-indigo-100">
+                    Day 8 Milestone
+                  </span>
+                  <h3 className="text-xl font-black text-zinc-900 tracking-tight leading-snug">
+                    Have you completed Day 0 to Day 07?
+                  </h3>
+                  <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed font-medium">
+                    If you've already finished the initial days, click "Yes" to mark Day 0 through Day 07 as done in your launchpad progress tracker.
+                  </p>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-2.5 pt-2">
+                  <button
+                    onClick={handleDay8Yes}
+                    className="flex-1 py-3 px-4 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold text-xs sm:text-sm rounded-xl shadow-md shadow-emerald-600/20 flex items-center justify-center gap-2 transition-all cursor-pointer"
+                  >
+                    <Check className="w-4 h-4" />
+                    <span>Yes, mark as done</span>
+                  </button>
+                  <button
+                    onClick={handleDay8No}
+                    className="py-3 px-5 bg-zinc-100 hover:bg-zinc-200 active:scale-95 text-zinc-700 font-bold text-xs sm:text-sm rounded-xl transition-all cursor-pointer"
+                  >
+                    <span>No</span>
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Success Toast for Day 8 completion */}
+      <AnimatePresence>
+        {day8CompletedToast && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed top-20 right-6 z-50 bg-zinc-900 text-white px-4 py-3 rounded-2xl shadow-xl border border-zinc-800 flex items-center gap-3 text-xs font-bold"
+          >
+            <div className="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
+              <Check className="w-3.5 h-3.5" />
+            </div>
+            <span>Day 0 to Day 07 marked as completed!</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 };

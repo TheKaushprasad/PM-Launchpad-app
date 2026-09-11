@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { 
   X, Mail, Lock, User as UserIcon, GraduationCap, Briefcase, 
   Building2, Sparkles, AlertCircle, 
-  Eye, EyeOff, Loader2, ArrowRight, ArrowLeft, CheckCircle2, RefreshCw, Check
+  Eye, EyeOff, Loader2, ArrowRight, ArrowLeft, CheckCircle2, RefreshCw, Check, ExternalLink
 } from 'lucide-react';
 import { useAuth, UserType, SignUpParams, getFriendlyAuthErrorMessage, isValidEmail } from '../../context/AuthContext';
 import { Logo } from '../Logo';
@@ -49,7 +49,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { signInWithEmail, signUpWithEmail, signInWithGoogle, resetPassword, sendVerificationEmail } = useAuth();
+  const { user, signInWithEmail, signUpWithEmail, signInWithGoogle, resetPassword, sendVerificationEmail } = useAuth();
   
   const [mode, setMode] = useState<'login' | 'signup' | 'forgot'>(initialMode);
   const [signupStep, setSignupStep] = useState<1 | 2>(1);
@@ -77,6 +77,24 @@ export const AuthModal: React.FC<AuthModalProps> = ({
       setGoogleLoading(false);
     }
   }, [isOpen, initialMode]);
+
+  // Instantly complete login & dismiss modal as soon as user is authenticated
+  useEffect(() => {
+    if (user && isOpen && !accountCreatedSuccess) {
+      setGoogleLoading(false);
+      setLoading(false);
+      setSuccessMessage('Signed in successfully!');
+      const timer = setTimeout(() => {
+        onClose();
+        if (onSuccess) {
+          onSuccess();
+        } else {
+          navigate(getDestinationPath(), { replace: true });
+        }
+      }, 350);
+      return () => clearTimeout(timer);
+    }
+  }, [user, isOpen, accountCreatedSuccess]);
 
   // Common fields (Step 1)
   const [email, setEmail] = useState('');
@@ -308,6 +326,10 @@ export const AuthModal: React.FC<AuthModalProps> = ({
         }
       }, 500);
     } catch (err: any) {
+      if (err?.code === 'auth/popup-closed-by-user' || err?.code === 'auth/cancelled-popup-request') {
+        // User voluntarily closed the Google popup window or request was superseded
+        return;
+      }
       setErrorMessage(getFriendlyAuthErrorMessage(err));
     } finally {
       setGoogleLoading(false);
@@ -512,10 +534,22 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                       initial={{ opacity: 0, y: -6 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -6 }}
-                      className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-medium flex items-start gap-2.5"
+                      className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-medium space-y-2"
                     >
-                      <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
-                      <span className="leading-snug">{errorMessage}</span>
+                      <div className="flex items-start gap-2.5">
+                        <AlertCircle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
+                        <span className="leading-snug">{errorMessage}</span>
+                      </div>
+                      {(errorMessage.toLowerCase().includes('popup') || errorMessage.toLowerCase().includes('pop-up') || errorMessage.toLowerCase().includes('blocked')) && (
+                        <button
+                          type="button"
+                          onClick={() => window.open(window.location.href, '_blank')}
+                          className="w-full py-1.5 px-3 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                        >
+                          <ExternalLink className="w-3.5 h-3.5" />
+                          <span>Open App in New Tab to Sign In</span>
+                        </button>
+                      )}
                     </motion.div>
                   )}
 

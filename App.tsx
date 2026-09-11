@@ -20,6 +20,7 @@ import { Logo } from './components/Logo';
 import { Analytics } from '@vercel/analytics/react';
 import { AuthProvider } from './context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { SaveDetailsModal } from './components/auth/SaveDetailsModal';
 
 // Action Link Redirector to catch Firebase direct action queries (e.g. ?mode=verifyEmail&oobCode=...)
 const AuthActionRedirector = () => {
@@ -195,11 +196,7 @@ const App: React.FC = () => {
                 {/* Dashboard & All Modules Routes */}
                 <Route 
                   path="/dashboard"
-                  element={
-                    <ProtectedRoute>
-                      <Outlet />
-                    </ProtectedRoute>
-                  }
+                  element={<Outlet />}
                 >
                     <Route index element={<Dashboard />} />
                     <Route path="about" element={<About />} />
@@ -269,6 +266,7 @@ const App: React.FC = () => {
             <Route path="*" element={<Navigate to="/" replace />} />
          </Routes>
          <Analytics />
+         <SaveDetailsModal />
       </Router>
     </AuthProvider>
   );

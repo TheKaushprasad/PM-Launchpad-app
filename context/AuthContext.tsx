@@ -113,6 +113,7 @@ export interface LessonProgressState {
   completed: boolean;
   notes?: string;
   bookmarked?: boolean;
+  videoCompleted?: boolean;
   scrollPosition?: number;
   scrollPercentage?: number;
   lastReadAt?: string;
@@ -143,11 +144,11 @@ export function getFriendlyAuthErrorMessage(err: any): string {
   if (code === 'auth/invalid-email') {
     return 'Please enter a valid email address.';
   }
-  if (code === 'auth/popup-closed-by-user') {
-    return 'Google sign-in was cancelled.';
+  if (code === 'auth/popup-closed-by-user' || code === 'auth/cancelled-popup-request') {
+    return 'Google sign-in was cancelled or closed.';
   }
   if (code === 'auth/popup-blocked') {
-    return 'Your browser blocked the Google sign-in popup. Please allow popups and try again.';
+    return 'Your browser or preview window blocked the sign-in pop-up. Please allow popups or open the app in a new tab.';
   }
   if (code === 'auth/requires-recent-login') {
     return 'For security, please log out and log back in before performing this action.';
@@ -193,10 +194,19 @@ interface AuthContextType {
   interviewHistory: InterviewSessionHistory[];
   completedCount: number;
   toggleLessonComplete: (day: number) => Promise<void>;
+  toggleVideoComplete: (day: number) => Promise<void>;
+  markDaysAsComplete: (days: number[]) => Promise<void>;
   updateLessonNotes: (day: number, notes: string) => Promise<void>;
   toggleLessonBookmark: (day: number) => Promise<void>;
   updateLessonScrollPosition: (day: number, scrollPosition: number, scrollPercentage: number) => Promise<void>;
   recordInterviewSession: (session: InterviewSessionHistory, evaluationSummary?: string) => Promise<void>;
+
+  // Guest Unauthenticated Save Details Prompt
+  showSaveDetailsModal: boolean;
+  saveDetailsActionType: 'notes' | 'bookmark' | 'video' | 'complete' | 'general';
+  triggerSaveDetailsPopup: (actionType?: 'notes' | 'bookmark' | 'video' | 'complete' | 'general') => void;
+  closeSaveDetailsPopup: () => void;
+  savePendingGuestData: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -223,19 +233,40 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [loading, setLoading] = useState<boolean>(true);
   const [userAnalyses, setUserAnalyses] = useState<LinkedInAnalysisResult[]>([]);
   const [storedResumes, setStoredResumes] = useState<StoredResumeDocument[]>([]);
-  const [progressMap, setProgressMap] = useState<Record<number, LessonProgressState>>(() => {
-    try {
-      const savedProgress = localStorage.getItem('pm_launchpad_progress');
-      if (savedProgress) {
-        return JSON.parse(savedProgress);
-      }
-    } catch (e) {}
-    return {};
-  });
+  
+  // Progress map starts clean {} for unauthenticated guests, or loaded per-user
+  const [progressMap, setProgressMap] = useState<Record<number, LessonProgressState>>({});
   const progressMapRef = useRef<Record<number, LessonProgressState>>(progressMap);
   useEffect(() => {
     progressMapRef.current = progressMap;
   }, [progressMap]);
+
+  // Track in-flight Google Auth to prevent multiple concurrent popups (auth/cancelled-popup-request)
+  const inFlightGoogleAuthRef = useRef<Promise<User> | null>(null);
+
+  // Guest Save Details Modal prompt state
+  const [showSaveDetailsModal, setShowSaveDetailsModal] = useState<boolean>(false);
+  const [saveDetailsActionType, setSaveDetailsActionType] = useState<'notes' | 'bookmark' | 'video' | 'complete' | 'general'>('general');
+
+  const triggerSaveDetailsPopup = (actionType: 'notes' | 'bookmark' | 'video' | 'complete' | 'general' = 'general') => {
+    if (!auth.currentUser) {
+      setSaveDetailsActionType(actionType);
+      setShowSaveDetailsModal(true);
+    }
+  };
+
+  const closeSaveDetailsPopup = () => {
+    setShowSaveDetailsModal(false);
+  };
+
+  const savePendingGuestData = () => {
+    try {
+      const current = progressMapRef.current;
+      if (current && Object.keys(current).length > 0) {
+        localStorage.setItem('pm_pending_guest_progress', JSON.stringify(current));
+      }
+    } catch (e) {}
+  };
   const [interviewHistory, setInterviewHistory] = useState<InterviewSessionHistory[]>([]);
 
   // 1. Listen for Auth State Changes & Sync User Profile
@@ -316,7 +347,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setUserProfile(null);
         setUserAnalyses([]);
         setProgressMap({});
+        progressMapRef.current = {};
+        setStoredResumes([]);
         setInterviewHistory([]);
+        try {
+          localStorage.removeItem('pm_launchpad_progress');
+        } catch (e) {}
         setLoading(false);
       }
     });
@@ -408,15 +444,59 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   // 3. Real-time Lesson Progress Listener
   useEffect(() => {
     if (!user) {
+      setProgressMap({});
+      progressMapRef.current = {};
       try {
-        const savedProgress = localStorage.getItem('pm_launchpad_progress');
-        if (savedProgress) {
-          const parsed = JSON.parse(savedProgress);
-          progressMapRef.current = parsed;
-          setProgressMap(parsed);
-        }
+        localStorage.removeItem('pm_launchpad_progress');
       } catch (e) {}
       return;
+    }
+
+    // Load authenticated user's cached progress if present
+    try {
+      const userCached = localStorage.getItem(`pm_launchpad_progress_${user.uid}`);
+      if (userCached) {
+        const parsed = JSON.parse(userCached);
+        progressMapRef.current = parsed;
+        setProgressMap(parsed);
+      }
+    } catch (e) {}
+
+    // Check if there is pending guest progress saved before sign in to migrate
+    try {
+      const pendingRaw = localStorage.getItem('pm_pending_guest_progress');
+      if (pendingRaw) {
+        const pendingMap: Record<number, LessonProgressState> = JSON.parse(pendingRaw);
+        const entries = Object.entries(pendingMap);
+        if (entries.length > 0) {
+          const now = new Date().toISOString();
+          entries.forEach(async ([dayStr, item]) => {
+            const day = Number(dayStr);
+            if (isNaN(day)) return;
+            const docRef = doc(db, 'users', user.uid, 'progress', `day_${day}`);
+            const payload = cleanFirestorePayload({
+              userId: user.uid,
+              day,
+              completed: !!item.completed,
+              notes: item.notes || '',
+              bookmarked: !!item.bookmarked,
+              videoCompleted: !!item.videoCompleted,
+              scrollPosition: item.scrollPosition || 0,
+              scrollPercentage: item.scrollPercentage || 0,
+              updatedAt: item.updatedAt || now,
+              ...(item.completed ? { completedAt: item.completedAt || now } : {})
+            });
+            try {
+              await setDoc(docRef, payload, { merge: true });
+            } catch (err) {
+              console.warn(`Error writing pending progress for day ${day}:`, err);
+            }
+          });
+          localStorage.removeItem('pm_pending_guest_progress');
+        }
+      }
+    } catch (e) {
+      console.warn('Error reading pending guest progress:', e);
     }
 
     const progressColRef = collection(db, 'users', user.uid, 'progress');
@@ -434,6 +514,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
               ...(typeof data.completed === 'boolean' ? { completed: data.completed } : {}),
               ...(typeof data.notes === 'string' ? { notes: data.notes } : {}),
               ...(typeof data.bookmarked === 'boolean' ? { bookmarked: data.bookmarked } : {}),
+              ...(typeof data.videoCompleted === 'boolean' ? { videoCompleted: data.videoCompleted } : {}),
               ...(typeof data.scrollPosition === 'number' ? { scrollPosition: data.scrollPosition } : {}),
               ...(typeof data.scrollPercentage === 'number' ? { scrollPercentage: data.scrollPercentage } : {}),
               ...(data.lastReadAt ? { lastReadAt: data.lastReadAt } : {}),
@@ -453,6 +534,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             merged[dayNum] = {
               completed: remoteItem.completed !== undefined ? remoteItem.completed : (localItem?.completed ?? false),
               bookmarked: remoteItem.bookmarked !== undefined ? remoteItem.bookmarked : (localItem?.bookmarked ?? false),
+              videoCompleted: remoteItem.videoCompleted !== undefined ? remoteItem.videoCompleted : (localItem?.videoCompleted ?? false),
               notes: remoteItem.notes !== undefined ? remoteItem.notes : (localItem?.notes || ''),
               scrollPosition: remoteItem.scrollPosition !== undefined ? remoteItem.scrollPosition : localItem?.scrollPosition,
               scrollPercentage: remoteItem.scrollPercentage !== undefined ? remoteItem.scrollPercentage : localItem?.scrollPercentage,
@@ -463,7 +545,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           }
           progressMapRef.current = merged;
           try {
-            localStorage.setItem('pm_launchpad_progress', JSON.stringify(merged));
+            localStorage.setItem(`pm_launchpad_progress_${user.uid}`, JSON.stringify(merged));
           } catch (e) {}
           return merged;
         });
@@ -523,80 +605,156 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     return () => unsubscribe();
   }, [user]);
 
-  // Sign In with Google Popup
-  const signInWithGoogle = async (additionalProfile?: Partial<SignUpParams>) => {
-    try {
-      const result = await signInWithPopup(auth, googleProvider);
-      const currentUser = result.user;
+  // Sign In with Google Popup (Optimized with in-flight lock to prevent auth/cancelled-popup-request and safe handling for popup-blocked)
+  const signInWithGoogle = async (additionalProfile?: Partial<SignUpParams>): Promise<User> => {
+    if (auth.currentUser) {
+      setUser(auth.currentUser);
+      return auth.currentUser;
+    }
+
+    // Reuse in-flight Google sign-in if one is already active to prevent concurrent popup cancellations
+    if (inFlightGoogleAuthRef.current) {
+      return inFlightGoogleAuthRef.current;
+    }
+
+    const executionPromise = (async (): Promise<User> => {
+      let authUnsub: (() => void) | null = null;
+      let currentUser: User | null = null;
+
+      try {
+        // Fast-resolve listener: fires as soon as Firebase Auth identifies the user session
+        const authStatePromise = new Promise<User>((resolve) => {
+          authUnsub = onAuthStateChanged(auth, (detectedUser) => {
+            if (detectedUser) {
+              resolve(detectedUser);
+            }
+          });
+        });
+
+        // Trigger standard popup directly within the user-activation tick
+        const popupPromise = signInWithPopup(auth, googleProvider).then((res) => res.user);
+
+        // Race popup completion against onAuthStateChanged detection
+        currentUser = await Promise.race([
+          popupPromise,
+          authStatePromise
+        ]);
+      } catch (err: any) {
+        const code = err?.code || '';
+        if (code === 'auth/popup-closed-by-user' || code === 'auth/cancelled-popup-request') {
+          console.warn("[Auth] Google sign-in cancelled or window closed:", code);
+          throw err;
+        }
+        if (code === 'auth/popup-blocked') {
+          console.warn("[Auth] Google sign-in popup blocked by browser or preview sandbox.");
+          throw err;
+        }
+        console.warn("[Auth] Google sign-in notice:", err?.code || err?.message || err);
+        throw err;
+      } finally {
+        if (authUnsub) {
+          (authUnsub as () => void)();
+        }
+      }
+
       if (currentUser) {
+        // Set user immediately in state so UI reacts instantly
+        setUser(currentUser);
+
         if (additionalProfile?.name && (!currentUser.displayName || currentUser.displayName === 'PM Aspiring Talent')) {
-          try {
-            await updateProfile(currentUser, { displayName: additionalProfile.name });
-          } catch (e) {
-            console.warn("Could not update auth display name:", e);
-          }
+          updateProfile(currentUser, { displayName: additionalProfile.name }).catch((e) =>
+            console.warn("Could not update auth display name:", e)
+          );
         }
 
         const userDocRef = doc(db, 'users', currentUser.uid);
-        const docSnap = await getDoc(userDocRef).catch(() => null);
         const now = new Date().toISOString();
-
-        const uType = additionalProfile?.userType || (docSnap?.exists() ? docSnap.data()?.userType : undefined);
+        const uType = additionalProfile?.userType || 'student';
         const isStudent = uType === 'student' || uType === 'college_student';
         const isProfessional = uType === 'professional' || uType === 'working_professional';
 
-        const profileData: FirebaseUserProfile = {
+        const quickProfile: FirebaseUserProfile = {
           uid: currentUser.uid,
           userId: currentUser.uid,
-          name: additionalProfile?.name || currentUser.displayName || (docSnap?.exists() ? docSnap.data()?.name : 'PM Aspiring Talent'),
-          displayName: additionalProfile?.name || currentUser.displayName || (docSnap?.exists() ? docSnap.data()?.displayName : 'PM Aspiring Talent'),
+          name: additionalProfile?.name || currentUser.displayName || 'PM Aspiring Talent',
+          displayName: additionalProfile?.name || currentUser.displayName || 'PM Aspiring Talent',
           email: currentUser.email || '',
           photoURL: currentUser.photoURL || '',
           authProvider: 'google',
-          ...(uType ? { userType: uType } : {}),
+          userType: uType,
           ...(isStudent ? {
             education: {
-              passingOutYear: additionalProfile?.passingOutYear || additionalProfile?.graduationYear || docSnap?.data()?.education?.passingOutYear || '2025',
-              degree: additionalProfile?.degree || docSnap?.data()?.education?.degree || '',
-              collegeName: additionalProfile?.collegeName || docSnap?.data()?.education?.collegeName || ''
+              passingOutYear: additionalProfile?.passingOutYear || additionalProfile?.graduationYear || '2026',
+              degree: additionalProfile?.degree || '',
+              collegeName: additionalProfile?.collegeName || ''
             },
-            collegeName: additionalProfile?.collegeName || docSnap?.data()?.collegeName || '',
-            degree: additionalProfile?.degree || docSnap?.data()?.degree || '',
-            graduationYear: additionalProfile?.passingOutYear || additionalProfile?.graduationYear || docSnap?.data()?.graduationYear || '2025',
+            collegeName: additionalProfile?.collegeName || '',
+            degree: additionalProfile?.degree || '',
+            graduationYear: additionalProfile?.passingOutYear || additionalProfile?.graduationYear || '2026',
           } : {}),
           ...(isProfessional ? {
             professional: {
-              companyName: additionalProfile?.companyName || docSnap?.data()?.professional?.companyName || '',
-              designation: additionalProfile?.designation || docSnap?.data()?.professional?.designation || '',
-              yearsOfExperience: additionalProfile?.yearsOfExperience || additionalProfile?.experienceYears || docSnap?.data()?.professional?.yearsOfExperience || '1-3 years'
+              companyName: additionalProfile?.companyName || '',
+              designation: additionalProfile?.designation || '',
+              yearsOfExperience: additionalProfile?.yearsOfExperience || additionalProfile?.experienceYears || '1-3 years'
             },
-            companyName: additionalProfile?.companyName || docSnap?.data()?.companyName || '',
-            designation: additionalProfile?.designation || docSnap?.data()?.designation || '',
-            experienceYears: additionalProfile?.yearsOfExperience || additionalProfile?.experienceYears || docSnap?.data()?.experienceYears || '1-3 years',
+            companyName: additionalProfile?.companyName || '',
+            designation: additionalProfile?.designation || '',
+            experienceYears: additionalProfile?.yearsOfExperience || additionalProfile?.experienceYears || '1-3 years',
           } : {}),
           career: {
-            targetRole: additionalProfile?.targetRole || docSnap?.data()?.career?.targetRole || 'Product Manager',
-            industry: additionalProfile?.industry || docSnap?.data()?.career?.industry || 'SaaS'
+            targetRole: additionalProfile?.targetRole || 'Product Manager',
+            industry: additionalProfile?.industry || 'SaaS'
           },
-          targetRole: additionalProfile?.targetRole || docSnap?.data()?.targetRole || 'Product Manager',
-          industry: additionalProfile?.industry || docSnap?.data()?.industry || 'SaaS',
-          linkedinUrl: additionalProfile?.linkedinUrl || docSnap?.data()?.linkedinUrl || '',
-          completedDaysCount: docSnap?.exists() ? (docSnap.data()?.completedDaysCount || 0) : 0,
-          streakDays: docSnap?.exists() ? (docSnap.data()?.streakDays || 1) : 1,
-          createdAt: docSnap?.exists() ? (docSnap.data()?.createdAt || now) : now,
+          targetRole: additionalProfile?.targetRole || 'Product Manager',
+          industry: additionalProfile?.industry || 'SaaS',
+          linkedinUrl: additionalProfile?.linkedinUrl || '',
+          completedDaysCount: 0,
+          streakDays: 1,
+          createdAt: now,
           updatedAt: now
         };
 
-        await Promise.race([
-          setDoc(userDocRef, profileData, { merge: true }),
-          new Promise((resolve) => setTimeout(resolve, 2000))
-        ]).catch(e => console.warn("Google user profile save warning:", e));
-        setUserProfile(profileData);
+        // Optimistically populate profile immediately
+        setUserProfile((prev) => prev || quickProfile);
+
+        // Non-blocking background Firestore sync (never hangs UI)
+        (async () => {
+          try {
+            const docSnap = await Promise.race([
+              getDoc(userDocRef),
+              new Promise<null>((resolve) => setTimeout(() => resolve(null), 500))
+            ]).catch(() => null);
+
+            const mergedProfile: FirebaseUserProfile = (docSnap && 'exists' in docSnap && docSnap.exists())
+              ? {
+                  ...(docSnap.data() as FirebaseUserProfile),
+                  ...quickProfile,
+                  completedDaysCount: docSnap.data()?.completedDaysCount || 0,
+                  streakDays: docSnap.data()?.streakDays || 1,
+                  createdAt: docSnap.data()?.createdAt || now,
+                  updatedAt: now
+                }
+              : quickProfile;
+
+            setUserProfile(mergedProfile);
+            await setDoc(userDocRef, mergedProfile, { merge: true }).catch((e) =>
+              console.warn("Google user profile save warning:", e)
+            );
+          } catch (profileErr) {
+            console.warn("Background Google profile sync notice:", profileErr);
+          }
+        })();
       }
+
       return currentUser;
-    } catch (err: any) {
-      console.error("Google sign in failed:", err);
-      throw err;
+    })();
+
+    inFlightGoogleAuthRef.current = executionPromise;
+    try {
+      return await executionPromise;
+    } finally {
+      inFlightGoogleAuthRef.current = null;
     }
   };
 
@@ -1012,6 +1170,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       setUser(null);
       setUserProfile(null);
       setUserAnalyses([]);
+      setStoredResumes([]);
+      setProgressMap({});
+      progressMapRef.current = {};
+      setInterviewHistory([]);
+      try {
+        localStorage.removeItem('pm_launchpad_progress');
+      } catch (e) {}
     } catch (err) {
       console.error("Sign out error:", err);
     }
@@ -1051,8 +1216,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const now = new Date().toISOString();
     const currentState = progressMapRef.current[day] || { completed: false, notes: '', bookmarked: false };
     const newCompleted = !currentState.completed;
-    const currentNotes = currentState.notes || '';
-    const currentBookmarked = !!currentState.bookmarked;
 
     const updatedState: LessonProgressState = {
       ...currentState,
@@ -1063,36 +1226,147 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
     const updatedMap = { ...progressMapRef.current, [day]: updatedState };
     progressMapRef.current = updatedMap;
+    setProgressMap(updatedMap);
+
+    if (!user) {
+      // Unauthenticated guest: transient state only, prompt to log in to save
+      triggerSaveDetailsPopup('complete');
+      return;
+    }
+
     const count = Object.values(updatedMap).filter(p => p.completed).length;
 
     try {
+      localStorage.setItem(`pm_launchpad_progress_${user.uid}`, JSON.stringify(updatedMap));
+    } catch (e) {}
+
+    const docPath = `users/${user.uid}/progress/day_${day}`;
+    const docRef = doc(db, 'users', user.uid, 'progress', `day_${day}`);
+    try {
+      const payload = cleanFirestorePayload({
+        userId: user.uid,
+        day,
+        completed: newCompleted,
+        completedAt: newCompleted ? now : null,
+        updatedAt: now
+      });
+
+      await setDoc(docRef, payload, { merge: true });
+
+      const userDocRef = doc(db, 'users', user.uid);
+      await setDoc(userDocRef, {
+        completedDaysCount: count,
+        updatedAt: now
+      }, { merge: true });
+    } catch (err) {
+      console.warn(`Firestore write non-blocking (${docPath}):`, err);
+    }
+  };
+
+  // Toggle Video Completion
+  const toggleVideoComplete = async (day: number) => {
+    const now = new Date().toISOString();
+    const currentState = progressMapRef.current[day] || { completed: false, notes: '', bookmarked: false };
+    const newVideoCompleted = !currentState.videoCompleted;
+
+    const updatedState: LessonProgressState = {
+      ...currentState,
+      videoCompleted: newVideoCompleted,
+      updatedAt: now
+    };
+
+    const updatedMap = { ...progressMapRef.current, [day]: updatedState };
+    progressMapRef.current = updatedMap;
+    setProgressMap(updatedMap);
+
+    if (!user) {
+      // Unauthenticated guest: transient state only, prompt to log in to save
+      triggerSaveDetailsPopup('video');
+      return;
+    }
+
+    try {
+      localStorage.setItem(`pm_launchpad_progress_${user.uid}`, JSON.stringify(updatedMap));
+    } catch (e) {}
+
+    const docPath = `users/${user.uid}/progress/day_${day}`;
+    const docRef = doc(db, 'users', user.uid, 'progress', `day_${day}`);
+    try {
+      const payload = cleanFirestorePayload({
+        userId: user.uid,
+        day,
+        videoCompleted: newVideoCompleted,
+        updatedAt: now
+      });
+
+      await setDoc(docRef, payload, { merge: true });
+    } catch (err) {
+      console.warn(`Firestore write non-blocking (${docPath}):`, err);
+    }
+  };
+
+  // Bulk Mark Days As Complete
+  const markDaysAsComplete = async (days: number[]) => {
+    const now = new Date().toISOString();
+    const updatedMap = { ...progressMapRef.current };
+
+    for (const day of days) {
+      const currentState = updatedMap[day] || { completed: false, notes: '', bookmarked: false };
+      updatedMap[day] = {
+        ...currentState,
+        completed: true,
+        completedAt: currentState.completedAt || now,
+        updatedAt: now
+      };
+    }
+
+    progressMapRef.current = updatedMap;
+    setProgressMap(updatedMap);
+
+    const count = Object.values(updatedMap).filter(p => p.completed).length;
+    setUserProfile(prev => prev ? { ...prev, completedDaysCount: count } : prev);
+
+    if (!user) {
+      try {
+        localStorage.setItem('pm_launchpad_guest_progress', JSON.stringify(updatedMap));
+        localStorage.setItem('pm_pending_guest_progress', JSON.stringify(updatedMap));
+      } catch (e) {}
+      triggerSaveDetailsPopup('complete');
+      return;
+    }
+
+    try {
+      localStorage.setItem(`pm_launchpad_progress_${user.uid}`, JSON.stringify(updatedMap));
       localStorage.setItem('pm_launchpad_progress', JSON.stringify(updatedMap));
     } catch (e) {}
 
-    setProgressMap(updatedMap);
-
-    if (user) {
-      const docPath = `users/${user.uid}/progress/day_${day}`;
-      const docRef = doc(db, 'users', user.uid, 'progress', `day_${day}`);
-      try {
+    try {
+      const promises = days.map(day => {
+        const docRef = doc(db, 'users', user.uid, 'progress', `day_${day}`);
+        const currentState = updatedMap[day];
         const payload = cleanFirestorePayload({
           userId: user.uid,
           day,
-          completed: newCompleted,
-          completedAt: newCompleted ? now : null,
+          completed: true,
+          notes: currentState?.notes || '',
+          bookmarked: !!currentState?.bookmarked,
+          videoCompleted: !!currentState?.videoCompleted,
+          scrollPosition: currentState?.scrollPosition || 0,
+          scrollPercentage: currentState?.scrollPercentage || 0,
+          completedAt: currentState?.completedAt || now,
           updatedAt: now
         });
+        return setDoc(docRef, payload, { merge: true });
+      });
+      await Promise.all(promises);
 
-        await setDoc(docRef, payload, { merge: true });
-
-        const userDocRef = doc(db, 'users', user.uid);
-        await setDoc(userDocRef, {
-          completedDaysCount: count,
-          updatedAt: now
-        }, { merge: true });
-      } catch (err) {
-        console.warn(`Firestore write non-blocking (${docPath}):`, err);
-      }
+      const userDocRef = doc(db, 'users', user.uid);
+      await setDoc(userDocRef, {
+        completedDaysCount: count,
+        updatedAt: now
+      }, { merge: true });
+    } catch (err) {
+      console.warn('Firestore bulk markDaysAsComplete write non-blocking:', err);
     }
   };
 
@@ -1110,28 +1384,29 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
     const updatedMap = { ...progressMapRef.current, [day]: updatedState };
     progressMapRef.current = updatedMap;
-
-    try {
-      localStorage.setItem('pm_launchpad_progress', JSON.stringify(updatedMap));
-    } catch (e) {}
-
     setProgressMap(updatedMap);
 
-    if (user) {
-      const docPath = `users/${user.uid}/progress/day_${day}`;
-      const docRef = doc(db, 'users', user.uid, 'progress', `day_${day}`);
-      try {
-        const payload = cleanFirestorePayload({
-          userId: user.uid,
-          day,
-          notes: cleanNotes,
-          updatedAt: now
-        });
+    if (!user) {
+      return;
+    }
 
-        await setDoc(docRef, payload, { merge: true });
-      } catch (err) {
-        console.warn(`Firestore write non-blocking (${docPath}):`, err);
-      }
+    try {
+      localStorage.setItem(`pm_launchpad_progress_${user.uid}`, JSON.stringify(updatedMap));
+    } catch (e) {}
+
+    const docPath = `users/${user.uid}/progress/day_${day}`;
+    const docRef = doc(db, 'users', user.uid, 'progress', `day_${day}`);
+    try {
+      const payload = cleanFirestorePayload({
+        userId: user.uid,
+        day,
+        notes: cleanNotes,
+        updatedAt: now
+      });
+
+      await setDoc(docRef, payload, { merge: true });
+    } catch (err) {
+      console.warn(`Firestore write non-blocking (${docPath}):`, err);
     }
   };
 
@@ -1149,28 +1424,30 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
     const updatedMap = { ...progressMapRef.current, [day]: updatedState };
     progressMapRef.current = updatedMap;
-
-    try {
-      localStorage.setItem('pm_launchpad_progress', JSON.stringify(updatedMap));
-    } catch (e) {}
-
     setProgressMap(updatedMap);
 
-    if (user) {
-      const docPath = `users/${user.uid}/progress/day_${day}`;
-      const docRef = doc(db, 'users', user.uid, 'progress', `day_${day}`);
-      try {
-        const payload = cleanFirestorePayload({
-          userId: user.uid,
-          day,
-          bookmarked: newBookmarked,
-          updatedAt: now
-        });
+    if (!user) {
+      triggerSaveDetailsPopup('bookmark');
+      return;
+    }
 
-        await setDoc(docRef, payload, { merge: true });
-      } catch (err) {
-        console.warn(`Firestore write non-blocking (${docPath}):`, err);
-      }
+    try {
+      localStorage.setItem(`pm_launchpad_progress_${user.uid}`, JSON.stringify(updatedMap));
+    } catch (e) {}
+
+    const docPath = `users/${user.uid}/progress/day_${day}`;
+    const docRef = doc(db, 'users', user.uid, 'progress', `day_${day}`);
+    try {
+      const payload = cleanFirestorePayload({
+        userId: user.uid,
+        day,
+        bookmarked: newBookmarked,
+        updatedAt: now
+      });
+
+      await setDoc(docRef, payload, { merge: true });
+    } catch (err) {
+      console.warn(`Firestore write non-blocking (${docPath}):`, err);
     }
   };
 
@@ -1207,30 +1484,31 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
     const updatedMap = { ...progressMapRef.current, [day]: updatedState };
     progressMapRef.current = updatedMap;
-
-    try {
-      localStorage.setItem('pm_launchpad_progress', JSON.stringify(updatedMap));
-    } catch (e) {}
-
     setProgressMap(updatedMap);
 
+    if (!user) {
+      return;
+    }
+
+    try {
+      localStorage.setItem(`pm_launchpad_progress_${user.uid}`, JSON.stringify(updatedMap));
+    } catch (e) {}
+
     // 3. Debounced cloud persistence to Firestore
-    if (user) {
-      const docPath = `users/${user.uid}/progress/day_${day}`;
-      const docRef = doc(db, 'users', user.uid, 'progress', `day_${day}`);
-      try {
-        const payload = cleanFirestorePayload({
-          userId: user.uid,
-          day,
-          scrollPosition: cleanScrollTop,
-          scrollPercentage: cleanPercentage,
-          lastReadAt: now,
-          updatedAt: now
-        });
-        await setDoc(docRef, payload, { merge: true });
-      } catch (err) {
-        // Non-blocking catch for scroll streaming
-      }
+    const docPath = `users/${user.uid}/progress/day_${day}`;
+    const docRef = doc(db, 'users', user.uid, 'progress', `day_${day}`);
+    try {
+      const payload = cleanFirestorePayload({
+        userId: user.uid,
+        day,
+        scrollPosition: cleanScrollTop,
+        scrollPercentage: cleanPercentage,
+        lastReadAt: now,
+        updatedAt: now
+      });
+      await setDoc(docRef, payload, { merge: true });
+    } catch (err) {
+      // Non-blocking catch for scroll streaming
     }
   };
 
@@ -1303,10 +1581,17 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         interviewHistory,
         completedCount,
         toggleLessonComplete,
+        toggleVideoComplete,
+        markDaysAsComplete,
         updateLessonNotes,
         toggleLessonBookmark,
         updateLessonScrollPosition,
-        recordInterviewSession
+        recordInterviewSession,
+        showSaveDetailsModal,
+        saveDetailsActionType,
+        triggerSaveDetailsPopup,
+        closeSaveDetailsPopup,
+        savePendingGuestData
       }}
     >
       {children}

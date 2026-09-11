@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Mail, Lock, User as UserIcon, GraduationCap, Briefcase, 
   Building2, Calendar, Award, Sparkles, AlertCircle, 
-  Eye, EyeOff, Loader2, ArrowRight, CheckCircle2, ShieldCheck, RefreshCw
+  Eye, EyeOff, Loader2, ArrowRight, CheckCircle2, ShieldCheck, RefreshCw, ExternalLink
 } from 'lucide-react';
 import { useAuth, UserType, SignUpParams, isValidEmail } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -52,6 +52,19 @@ export const HomeAuthSection: React.FC = () => {
 
   const showEmailInvalid = emailTouched && (!email.trim() || !isValidEmail(email));
 
+  // Instantly redirect upon successful authentication
+  useEffect(() => {
+    if (user && (googleLoading || loading)) {
+      setGoogleLoading(false);
+      setLoading(false);
+      setSuccessMessage('Authenticated successfully! Redirecting...');
+      const timer = setTimeout(() => {
+        navigate('/dashboard');
+      }, 400);
+      return () => clearTimeout(timer);
+    }
+  }, [user, googleLoading, loading]);
+
   const handleEmailChange = (val: string) => {
     setEmail(val);
     if (errorMessage && errorMessage.toLowerCase().includes('email')) {
@@ -76,8 +89,11 @@ export const HomeAuthSection: React.FC = () => {
     if (code === 'auth/user-not-found' || code === 'auth/wrong-password' || code === 'auth/invalid-credential') {
       return 'Incorrect email or password. Please verify your credentials.';
     }
-    if (code === 'auth/popup-closed-by-user') {
-      return 'Google sign-in popup was closed before completing.';
+    if (code === 'auth/popup-closed-by-user' || code === 'auth/cancelled-popup-request') {
+      return 'Google sign-in was cancelled or closed.';
+    }
+    if (code === 'auth/popup-blocked') {
+      return 'The sign-in popup was blocked by your browser or preview window. Please allow popups or open the app in a new tab.';
     }
     if (code === 'auth/too-many-requests') {
       return 'Too many attempts. Please try again later or reset your password.';
@@ -199,6 +215,7 @@ export const HomeAuthSection: React.FC = () => {
   };
 
   const handleGoogleAuth = async () => {
+    if (googleLoading) return;
     setErrorMessage(null);
     setSuccessMessage(null);
     setGoogleLoading(true);
@@ -224,9 +241,10 @@ export const HomeAuthSection: React.FC = () => {
         navigate('/dashboard');
       }, 600);
     } catch (err: any) {
-      if (err?.code !== 'auth/popup-closed-by-user') {
-        setErrorMessage(parseFirebaseError(err));
+      if (err?.code === 'auth/popup-closed-by-user' || err?.code === 'auth/cancelled-popup-request') {
+        return;
       }
+      setErrorMessage(parseFirebaseError(err));
     } finally {
       setGoogleLoading(false);
     }
@@ -473,15 +491,27 @@ export const HomeAuthSection: React.FC = () => {
                   <span className="leading-snug">{errorMessage}</span>
                 </div>
                 {mode !== 'forgot' && (
-                  <button
-                    type="button"
-                    onClick={handleGoogleAuth}
-                    disabled={googleLoading}
-                    className="w-full py-2 px-3 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer"
-                  >
-                    <Sparkles className="w-3.5 h-3.5" />
-                    <span>Continue with Google 1-Tap</span>
-                  </button>
+                  <div className="space-y-1.5 pt-0.5">
+                    {(errorMessage.toLowerCase().includes('popup') || errorMessage.toLowerCase().includes('pop-up') || errorMessage.toLowerCase().includes('blocked')) && (
+                      <button
+                        type="button"
+                        onClick={() => window.open(window.location.href, '_blank')}
+                        className="w-full py-2 px-3 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-xs transition-all cursor-pointer"
+                      >
+                        <ExternalLink className="w-3.5 h-3.5" />
+                        <span>Open in New Tab to Sign In</span>
+                      </button>
+                    )}
+                    <button
+                      type="button"
+                      onClick={handleGoogleAuth}
+                      disabled={googleLoading}
+                      className="w-full py-2 px-3 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer"
+                    >
+                      <Sparkles className="w-3.5 h-3.5" />
+                      <span>Try Google 1-Tap Again</span>
+                    </button>
+                  </div>
                 )}
               </motion.div>
             )}
