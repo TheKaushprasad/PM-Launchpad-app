@@ -196,7 +196,11 @@ const App: React.FC = () => {
                 {/* Dashboard & All Modules Routes */}
                 <Route 
                   path="/dashboard"
-                  element={<Outlet />}
+                  element={
+                    <ProtectedRoute requireEmailVerification={true}>
+                      <Outlet />
+                    </ProtectedRoute>
+                  }
                 >
                     <Route index element={<Dashboard />} />
                     <Route path="about" element={<About />} />
@@ -214,15 +218,36 @@ const App: React.FC = () => {
                 </Route>
 
                 {/* Top-level Resources Routes */}
-                <Route path="/resources" element={<Resources />} />
+                <Route 
+                  path="/resources" 
+                  element={
+                    <ProtectedRoute requireEmailVerification={true}>
+                      <Resources />
+                    </ProtectedRoute>
+                  } 
+                />
 
                 {/* AI Mock Interview Studio Routes */}
-                <Route path="/interview-studio" element={<InterviewHub />} />
-                <Route path="/practice" element={<InterviewHub />} />
+                <Route 
+                  path="/interview-studio" 
+                  element={
+                    <ProtectedRoute requireEmailVerification={true}>
+                      <InterviewHub />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
+                  path="/practice" 
+                  element={
+                    <ProtectedRoute requireEmailVerification={true}>
+                      <InterviewHub />
+                    </ProtectedRoute>
+                  } 
+                />
                 <Route 
                   path="/resume-auditor" 
                   element={
-                    <ProtectedRoute>
+                    <ProtectedRoute requireEmailVerification={true}>
                       <ResumeAuditor />
                     </ProtectedRoute>
                   } 
@@ -231,13 +256,20 @@ const App: React.FC = () => {
 
                 {/* Career Tools Suite Routes */}
                 <Route path="/tools">
-                    {/* Publicly accessible Tools Hub */}
-                    <Route index element={<ToolsHub />} />
+                    {/* Tools Hub */}
+                    <Route 
+                      index 
+                      element={
+                        <ProtectedRoute requireEmailVerification={true}>
+                          <ToolsHub />
+                        </ProtectedRoute>
+                      } 
+                    />
                     {/* Protected Individual Tools requiring authentication */}
                     <Route 
                       path="linkedin-optimiser" 
                       element={
-                        <ProtectedRoute>
+                        <ProtectedRoute requireEmailVerification={true}>
                           <LinkedInOptimiser />
                         </ProtectedRoute>
                       } 
@@ -245,17 +277,31 @@ const App: React.FC = () => {
                     <Route 
                       path="resume-auditor" 
                       element={
-                        <ProtectedRoute>
+                        <ProtectedRoute requireEmailVerification={true}>
                           <ResumeAuditor />
                         </ProtectedRoute>
                       } 
                     />
-                    <Route path="interview-studio" element={<InterviewHub />} />
-                    <Route path="practice" element={<InterviewHub />} />
+                    <Route 
+                      path="interview-studio" 
+                      element={
+                        <ProtectedRoute requireEmailVerification={true}>
+                          <InterviewHub />
+                        </ProtectedRoute>
+                      } 
+                    />
+                    <Route 
+                      path="practice" 
+                      element={
+                        <ProtectedRoute requireEmailVerification={true}>
+                          <InterviewHub />
+                        </ProtectedRoute>
+                      } 
+                    />
                     <Route 
                       path="profile" 
                       element={
-                        <ProtectedRoute>
+                        <ProtectedRoute requireEmailVerification={true}>
                           <Profile />
                         </ProtectedRoute>
                       } 

@@ -190,7 +190,11 @@ export const AuthActionPage: React.FC = () => {
         setCountdown((prev) => {
           if (prev <= 1) {
             clearInterval(timer);
-            navigate('/dashboard', { replace: true });
+            if (auth.currentUser) {
+              navigate('/dashboard', { replace: true });
+            } else {
+              navigate('/', { replace: true, state: { requireAuth: true, verificationComplete: true } });
+            }
             return 0;
           }
           return prev - 1;
@@ -296,10 +300,16 @@ export const AuthActionPage: React.FC = () => {
               </div>
 
               <button
-                onClick={() => navigate('/dashboard', { replace: true })}
+                onClick={() => {
+                  if (auth.currentUser) {
+                    navigate('/dashboard', { replace: true });
+                  } else {
+                    navigate('/', { replace: true, state: { requireAuth: true, verificationComplete: true } });
+                  }
+                }}
                 className="w-full py-3.5 px-5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl flex items-center justify-center gap-2 transition-all shadow-md shadow-blue-500/20 active:scale-[0.98]"
               >
-                <span>Continue to PM Workspace</span>
+                <span>{auth.currentUser ? 'Continue to PM Workspace' : 'Proceed to Sign In'}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>

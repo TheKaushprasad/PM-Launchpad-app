@@ -11,7 +11,9 @@ import {
   generatePasswordResetLink,
   isFirebaseAdminConfigured,
   verifyUserEmailByUid,
-  getAdminAuth
+  getAdminAuth,
+  getAdminUserByEmail,
+  isFirebaseRateLimitError
 } from "./services/firebaseAdmin";
 import { 
   sendVerificationEmailViaResend, 
@@ -2056,15 +2058,33 @@ Return a valid JSON object matching this schema:
     }
 
     try {
-      // Generate Firebase Action Link using Admin SDK with appropriate return URL
+      // 1. Inspect user in Firebase Auth: verify they exist, and check if already verified
+      const userRecord = await getAdminUserByEmail(cleanEmail);
+      if (!userRecord) {
+        return res.status(404).json({
+          success: false,
+          error: "No user account was found with this email address. Please sign up first."
+        });
+      }
+
+      if (userRecord.emailVerified) {
+        return res.json({
+          success: true,
+          alreadyVerified: true,
+          message: "Your email address is already verified! You can proceed to sign in."
+        });
+      }
+
+      // 2. Generate Firebase Action Link using Admin SDK with appropriate return URL
       const callerOrigin = (req.headers.origin as string) || (req.headers.referer ? new URL(req.headers.referer as string).origin : "") || process.env.APP_URL || "https://www.thenoobpm.com";
       const targetReturnUrl = returnUrl || `${callerOrigin.replace(/\/+$/, '')}/#/dashboard`;
       const linkResult = await generateVerificationLink(cleanEmail, targetReturnUrl);
 
-      // Dispatch custom branded email via Resend with official Firebase action link (guaranteed to work across all environments)
+      // 3. Dispatch custom branded email via Resend with official Firebase action link (guaranteed to work across all environments)
+      const recipientName = typeof name === "string" && name.trim() ? name.trim() : (userRecord.displayName || undefined);
       const emailResult = await sendVerificationEmailViaResend({
         to: cleanEmail,
-        name: typeof name === "string" ? name.trim() : undefined,
+        name: recipientName,
         verificationUrl: linkResult.rawActionLink,
       });
 
@@ -2072,7 +2092,7 @@ Return a valid JSON object matching this schema:
       if (isNewSignUp) {
         sendWelcomeEmailViaResend({
           to: cleanEmail,
-          name: typeof name === "string" ? name.trim() : undefined,
+          name: recipientName,
         }).catch((wErr) => {
           console.warn("[WelcomeEmail] Non-blocking notice: could not send welcome email:", wErr?.message);
         });
@@ -2084,12 +2104,23 @@ Return a valid JSON object matching this schema:
         emailId: emailResult.id,
       });
     } catch (err: any) {
-      console.error("[SendVerificationEmail Error]:", err?.message || err);
-      
-      // If user not found in Firebase
       if (err?.code === "auth/user-not-found") {
-        return res.status(404).json({ error: "No user account was found with this email address." });
+        return res.status(404).json({
+          success: false,
+          error: "No user account was found with this email address. Please sign up first."
+        });
       }
+
+      if (err?.code === "auth/too-many-requests" || isFirebaseRateLimitError(err)) {
+        console.warn(`[SendVerificationEmail RateLimit]: Firebase throttled requests for ${cleanEmail}`);
+        return res.status(429).json({
+          success: false,
+          rateLimited: true,
+          error: "Verification link was recently sent. Please check your inbox and spam folder, or wait a couple of minutes before requesting a new link."
+        });
+      }
+
+      console.error("[SendVerificationEmail Error]:", err?.code || err?.message || err);
 
       return res.status(500).json({
         success: false,
@@ -2136,15 +2167,24 @@ Return a valid JSON object matching this schema:
         emailId: emailResult.id,
       });
     } catch (err: any) {
-      console.error("[SendPasswordResetEmail Notice]:", err?.code || err?.message || err);
-
-      // Security practice: Always return 200 for password reset requests to prevent account enumeration
+      // Security practice: Always return 200 for user-not-found to prevent account enumeration
       if (err?.code === "auth/user-not-found") {
         return res.json({
           success: true,
           message: "If an account exists for this email, password reset instructions have been sent."
         });
       }
+
+      if (err?.code === "auth/too-many-requests" || isFirebaseRateLimitError(err)) {
+        console.warn(`[SendPasswordResetEmail RateLimit]: Throttled for ${cleanEmail}`);
+        return res.status(429).json({
+          success: false,
+          rateLimited: true,
+          error: "Password reset link was recently requested. Please check your inbox and spam folder, or wait a few minutes before trying again."
+        });
+      }
+
+      console.error("[SendPasswordResetEmail Notice]:", err?.code || err?.message || err);
 
       return res.status(500).json({
         success: false,

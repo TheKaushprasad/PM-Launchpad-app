@@ -132,6 +132,9 @@ export function getFriendlyAuthErrorMessage(err: any): string {
   if (code === 'auth/operation-not-allowed') {
     return "Email/password sign-in isn't enabled yet. Please enable Email/Password in Firebase Authentication settings or continue with Google.";
   }
+  if (code === 'auth/unverified-email') {
+    return 'Your email address is not verified yet. Please check your inbox and verify your email before logging in.';
+  }
   if (code === 'auth/invalid-credential' || code === 'auth/wrong-password' || code === 'auth/user-not-found') {
     return 'Email or password is incorrect.';
   }
@@ -172,7 +175,7 @@ interface AuthContextType {
   signInWithGoogle: (additionalProfile?: Partial<SignUpParams>) => Promise<User | null>;
   signInWithEmail: (email: string, password: string) => Promise<User>;
   signUpWithEmail: (params: SignUpParams) => Promise<User>;
-  sendVerificationEmail: (userToVerify?: User) => Promise<void>;
+  sendVerificationEmail: (target?: User | string, customName?: string) => Promise<void>;
   reloadUser: () => Promise<boolean>;
   updateUserProfileData: (updates: Partial<FirebaseUserProfile>) => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
@@ -274,6 +277,30 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     let profileUnsubscribe: (() => void) | null = null;
 
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        const isGoogle = currentUser.providerData?.some(p => p.providerId === 'google.com');
+        if (!currentUser.emailVerified && !isGoogle) {
+          try {
+            await currentUser.reload();
+          } catch (e) {
+            // Ignore offline or reload errors
+          }
+        }
+
+        if (!currentUser.emailVerified && !isGoogle) {
+          console.warn("[Auth] Unverified email account detected. Signing out until verification is complete.");
+          try {
+            await firebaseSignOut(auth);
+          } catch (e) {
+            // ignore
+          }
+          setUser(null);
+          setUserProfile(null);
+          setLoading(false);
+          return;
+        }
+      }
+
       setUser(currentUser);
       
       if (profileUnsubscribe) {
@@ -762,7 +789,36 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const signInWithEmail = async (email: string, password: string): Promise<User> => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email.trim(), password);
-      return userCredential.user;
+      const signedInUser = userCredential.user;
+
+      // Perform a fresh reload to verify current emailVerified status from Firebase servers
+      try {
+        await signedInUser.reload();
+      } catch (reloadErr) {
+        console.warn("Could not reload user during signInWithEmail:", reloadErr);
+      }
+
+      const isGoogle = signedInUser.providerData?.some(p => p.providerId === 'google.com');
+      if (!signedInUser.emailVerified && !isGoogle) {
+        const unverifiedEmail = signedInUser.email || email.trim();
+        // Immediately sign out from Firebase so unverified session is not kept active
+        try {
+          await firebaseSignOut(auth);
+        } catch (e) {
+          // ignore
+        }
+        setUser(null);
+        setUserProfile(null);
+
+        const unverifiedError: any = new Error(
+          "Your email address is not verified yet. Please check your inbox and verify your email before logging in."
+        );
+        unverifiedError.code = 'auth/unverified-email';
+        unverifiedError.email = unverifiedEmail;
+        throw unverifiedError;
+      }
+
+      return signedInUser;
     } catch (err: any) {
       console.warn("Email sign in error:", err?.code || err?.message || err);
       throw err;
@@ -872,6 +928,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         }
       }
 
+      // Enforce email verification: Immediately sign out newly registered user so they cannot access the app without verification
+      try {
+        await firebaseSignOut(auth);
+      } catch (soErr) {
+        console.warn("Signout after signup error:", soErr);
+      }
+      setUser(null);
+      setUserProfile(null);
+
       return newUser;
     } catch (err: any) {
       console.warn("Sign up error:", err?.code || err?.message || err);
@@ -880,28 +945,89 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   // Send verification email on demand (via Resend with Firebase client fallback)
-  const sendVerificationEmail = async (userToVerify?: User): Promise<void> => {
-    const targetUser = userToVerify || auth.currentUser || user;
-    if (!targetUser || !targetUser.email) {
-      throw new Error("No active user to send verification email to.");
+  const sendVerificationEmail = async (target?: User | string, customName?: string): Promise<void> => {
+    let emailToSend: string | null = null;
+    let nameToSend: string | undefined = customName;
+    let targetUser: User | null = null;
+
+    if (typeof target === 'string') {
+      emailToSend = target.trim();
+    } else if (target && target.email) {
+      targetUser = target;
+      emailToSend = target.email;
+      nameToSend = nameToSend || target.displayName || undefined;
+    } else if (auth.currentUser && auth.currentUser.email) {
+      targetUser = auth.currentUser;
+      emailToSend = auth.currentUser.email;
+      nameToSend = nameToSend || auth.currentUser.displayName || userProfile?.displayName || userProfile?.name || undefined;
+    } else if (user && user.email) {
+      targetUser = user;
+      emailToSend = user.email;
+      nameToSend = nameToSend || user.displayName || userProfile?.displayName || userProfile?.name || undefined;
     }
+
+    if (!emailToSend) {
+      throw new Error("No active email address provided to send verification link to.");
+    }
+
     try {
       const returnUrl = typeof window !== 'undefined' ? `${window.location.origin}/#/dashboard` : undefined;
       const res = await fetch('/api/auth/send-verification-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          email: targetUser.email,
-          name: targetUser.displayName || userProfile?.displayName || userProfile?.name || undefined,
+          email: emailToSend,
+          name: nameToSend,
           returnUrl,
         }),
       });
-      if (!res.ok) {
-        await sendEmailVerification(targetUser);
+
+      const data = await res.json().catch(() => ({}));
+
+      if (res.ok) {
+        if (data?.alreadyVerified) {
+          // If the server confirms user is already verified, update local user if present
+          if (auth.currentUser) {
+            await reloadUser();
+          }
+        }
+        return;
       }
-    } catch (err) {
-      console.warn("Server email dispatch notice, trying Firebase client fallback:", err);
-      await sendEmailVerification(targetUser);
+
+      // If rate limited, do not hammer client SDK
+      if (res.status === 429 || data?.rateLimited) {
+        const rateLimitMsg = data?.error || "Verification link was recently sent. Please check your inbox (and spam folder) or wait a couple of minutes.";
+        throw new Error(rateLimitMsg);
+      }
+
+      // If user not found
+      if (res.status === 404) {
+        throw new Error(data?.error || "No user account was found with this email address. Please sign up first.");
+      }
+
+      // For other errors, attempt client fallback if a signed-in unverified user is available
+      if (targetUser && !targetUser.emailVerified) {
+        await sendEmailVerification(targetUser);
+      } else {
+        throw new Error(data?.error || "Failed to dispatch verification email. Please try again.");
+      }
+    } catch (err: any) {
+      if (err?.message?.includes('recently sent') || err?.message?.includes('inbox') || err?.code === 'auth/too-many-requests') {
+        throw err;
+      }
+      if (targetUser && !targetUser.emailVerified) {
+        console.warn("Server email dispatch notice, trying Firebase client fallback:", err);
+        try {
+          await sendEmailVerification(targetUser);
+        } catch (fbErr: any) {
+          if (fbErr?.code === 'auth/too-many-requests') {
+            throw new Error("Too many verification emails requested. Please check your inbox and wait a few minutes before trying again.");
+          }
+          throw fbErr;
+        }
+      } else {
+        throw err;
+      }
     }
   };
 
