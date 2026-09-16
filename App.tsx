@@ -14,13 +14,14 @@ import { Profile } from './components/Profile';
 import { Onboarding } from './components/auth/Onboarding';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { AuthActionPage } from './components/auth/AuthActionPage';
-import { Menu, X, AlertTriangle } from 'lucide-react';
+import { Menu, X, AlertTriangle, Loader2 } from 'lucide-react';
 import { AnimatePresence } from 'framer-motion';
 import { Logo } from './components/Logo';
 import { Analytics } from '@vercel/analytics/react';
-import { AuthProvider } from './context/AuthContext';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { SaveDetailsModal } from './components/auth/SaveDetailsModal';
+import { VerifyEmailGate } from './components/auth/VerifyEmailGate';
 
 // Action Link Redirector to catch Firebase direct action queries (e.g. ?mode=verifyEmail&oobCode=...)
 const AuthActionRedirector = () => {
@@ -98,6 +99,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
 }
 
 const MainShell = () => {
+    const { user, loading, isEmailVerified } = useAuth();
     const [mobileOpen, setMobileOpen] = useState(false);
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [isFocusMode, setIsFocusMode] = useState(false);
@@ -112,6 +114,24 @@ const MainShell = () => {
         }
         setMobileOpen(false);
     }, [location.pathname]);
+
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-[#FDFDFD] flex items-center justify-center">
+                <div className="flex flex-col items-center gap-3">
+                    <Loader2 className="w-8 h-8 text-indigo-600 animate-spin" />
+                    <span className="text-xs font-bold text-zinc-400 uppercase tracking-widest">
+                        Loading session...
+                    </span>
+                </div>
+            </div>
+        );
+    }
+
+    // Strict Gate: If a user is signed in but has not verified their email, enforce VerifyEmailGate across the app
+    if (user && !isEmailVerified) {
+        return <VerifyEmailGate from={location.pathname} />;
+    }
     
     return (
         <div className="flex h-screen bg-zinc-50 text-zinc-900 font-sans overflow-hidden">

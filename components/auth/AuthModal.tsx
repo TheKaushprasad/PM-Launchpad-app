@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { 
   X, Mail, Lock, User as UserIcon, GraduationCap, Briefcase, 
   Building2, Sparkles, AlertCircle, 
-  Eye, EyeOff, Loader2, ArrowRight, ArrowLeft, CheckCircle2, RefreshCw, Check
+  Eye, EyeOff, Loader2, ArrowRight, ArrowLeft, CheckCircle2, RefreshCw, Check, Clock
 } from 'lucide-react';
 import { useAuth, UserType, SignUpParams, getFriendlyAuthErrorMessage, isValidEmail } from '../../context/AuthContext';
 import { Logo } from '../Logo';
@@ -454,27 +454,28 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 className="py-3 px-1 text-center space-y-5 flex flex-col items-center justify-center"
               >
                 <div className="relative">
-                  <div className="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center shadow-md shadow-emerald-100 border border-emerald-100">
-                    <Sparkles className="w-8 h-8 text-emerald-600" />
+                  <div className="w-16 h-16 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center shadow-md shadow-amber-100/50 border border-amber-200">
+                    <Mail className="w-8 h-8 text-amber-600 animate-pulse" />
                   </div>
-                  <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-emerald-600 text-white rounded-full flex items-center justify-center ring-2 ring-white">
-                    <CheckCircle2 className="w-4 h-4" />
+                  <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-amber-500 text-white rounded-full flex items-center justify-center ring-2 ring-white shadow-xs">
+                    <Clock className="w-3.5 h-3.5" />
                   </div>
                 </div>
 
                 <div className="space-y-2 max-w-sm mx-auto">
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-full text-[11px] font-bold tracking-wide">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>Account Active</span>
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-50 border border-amber-200 text-amber-800 rounded-full text-[11px] font-bold tracking-wide">
+                    <Clock className="w-3.5 h-3.5 text-amber-600" />
+                    <span>Verification Required</span>
                   </div>
                   <h4 className="text-xl font-black text-zinc-900 tracking-tight">
-                    You're all set, {firstName}!
+                    Check your inbox, {firstName}!
                   </h4>
                   <p className="text-xs text-zinc-600 leading-relaxed font-normal">
-                    Your personalized PM curriculum and prep workspace are ready. We also dispatched a quick verification link to{' '}
+                    We've dispatched a verification link to{' '}
                     <span className="font-semibold text-zinc-900 bg-zinc-100 px-1.5 py-0.5 rounded break-all">
                       {email || 'your email'}
                     </span>.
+                    You must verify your email address before accessing your PM workspace and curriculum.
                   </p>
                 </div>
 
@@ -485,9 +486,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                       initial={{ opacity: 0, y: -4 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -4 }}
-                      className="w-full max-w-sm p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold flex items-center justify-center gap-2"
+                      className="w-full max-w-sm p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs font-semibold flex items-center justify-center gap-2"
                     >
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                      <CheckCircle2 className="w-4 h-4 text-amber-600 shrink-0" />
                       <span>{resendStatus}</span>
                     </motion.div>
                   )}
@@ -506,7 +507,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     }}
                     className="w-full h-12 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs uppercase tracking-wider shadow-md shadow-indigo-200 flex items-center justify-center gap-2 transition-all active:scale-[0.99] cursor-pointer"
                   >
-                    <span>START DAY 1 →</span>
+                    <span>PROCEED TO VERIFICATION →</span>
                   </button>
 
                   <button

@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Mail, Lock, User as UserIcon, GraduationCap, Briefcase, 
   Building2, Calendar, Award, Sparkles, AlertCircle, 
-  Eye, EyeOff, Loader2, ArrowRight, CheckCircle2, ShieldCheck, RefreshCw
+  Eye, EyeOff, Loader2, ArrowRight, CheckCircle2, ShieldCheck, RefreshCw, Clock
 } from 'lucide-react';
 import { useAuth, UserType, SignUpParams, isValidEmail } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -13,6 +13,7 @@ export const HomeAuthSection: React.FC = () => {
   const { 
     user, 
     userProfile, 
+    isEmailVerified,
     signInWithEmail, 
     signUpWithEmail, 
     signInWithGoogle, 
@@ -289,9 +290,15 @@ export const HomeAuthSection: React.FC = () => {
                 <h3 className="text-base sm:text-lg font-black text-zinc-900 leading-tight">
                   {user.displayName || 'PM Aspiring Talent'}
                 </h3>
-                <span className="text-[10px] font-black uppercase tracking-wider bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full border border-emerald-200 flex items-center gap-1">
-                  <ShieldCheck className="w-3 h-3" /> Active
-                </span>
+                {isEmailVerified ? (
+                  <span className="text-[10px] font-black uppercase tracking-wider bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full border border-emerald-200 flex items-center gap-1">
+                    <ShieldCheck className="w-3 h-3" /> Active
+                  </span>
+                ) : (
+                  <span className="text-[10px] font-black uppercase tracking-wider bg-amber-50 text-amber-700 px-2 py-0.5 rounded-full border border-amber-200 flex items-center gap-1">
+                    <Clock className="w-3 h-3 text-amber-600" /> Verification Required
+                  </span>
+                )}
               </div>
               <p className="text-xs text-zinc-500 font-medium">{user.email}</p>
             </div>
@@ -336,17 +343,29 @@ export const HomeAuthSection: React.FC = () => {
           )}
         </div>
 
+        {!isEmailVerified && (
+          <div className="p-3.5 bg-amber-50 border border-amber-200 rounded-2xl flex items-start gap-3 text-xs text-amber-900">
+            <Mail className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+            <div className="space-y-1">
+              <span className="font-bold block text-amber-950">Email Verification Required</span>
+              <p className="text-[11px] text-amber-800 leading-relaxed font-normal">
+                A verification link was sent to <span className="font-semibold text-amber-950">{user.email}</span>. Please verify your email before accessing the dashboard and curriculum.
+              </p>
+            </div>
+          </div>
+        )}
+
         <div className="grid grid-cols-2 gap-3 pt-2">
           <button
             onClick={() => navigate('/dashboard')}
-            className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-bold rounded-xl shadow-lg shadow-indigo-200 transition-all flex items-center justify-center gap-2"
+            className={`w-full py-3 ${!isEmailVerified ? 'bg-amber-600 hover:bg-amber-700 shadow-amber-200' : 'bg-indigo-600 hover:bg-indigo-700 shadow-indigo-200'} text-white text-xs sm:text-sm font-bold rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer`}
           >
-            <span>Open Dashboard</span>
+            <span>{isEmailVerified ? 'Open Dashboard' : 'Verify Email to Access'}</span>
             <ArrowRight className="w-4 h-4" />
           </button>
           <button
             onClick={logout}
-            className="w-full py-3 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 text-xs sm:text-sm font-bold rounded-xl transition-all"
+            className="w-full py-3 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 text-xs sm:text-sm font-bold rounded-xl transition-all cursor-pointer"
           >
             Sign Out
           </button>

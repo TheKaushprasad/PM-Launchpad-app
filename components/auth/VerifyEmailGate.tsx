@@ -49,29 +49,8 @@ export const VerifyEmailGate: React.FC<VerifyEmailGateProps> = ({ from = '/dashb
     }
 
     try {
-      let verified = await reloadUser();
-
-      // If manual check and user is signed in, attempt backend confirmation sync
-      if (!verified && !isBackground && auth.currentUser) {
-        try {
-          const idToken = await auth.currentUser.getIdToken(true);
-          const res = await fetch('/api/auth/confirm-user-verification', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${idToken}`,
-            },
-          });
-          if (res.ok) {
-            const data = await res.json();
-            if (data.success) {
-              verified = await reloadUser();
-            }
-          }
-        } catch (serverVerifErr) {
-          console.warn('Backend verification check notice:', serverVerifErr);
-        }
-      }
+      // Reload user from Firebase Auth to check if the email verification link was clicked
+      const verified = await reloadUser();
 
       if (verified) {
         if (!isBackground) {
@@ -86,7 +65,7 @@ export const VerifyEmailGate: React.FC<VerifyEmailGateProps> = ({ from = '/dashb
       } else if (!isBackground) {
         setCheckStatus({
           type: 'error',
-          message: 'Verification pending. Please make sure you clicked the link in your email, or click Resend below.'
+          message: 'Verification pending. Please check your inbox and click the verification link in the email sent to you before checking again.'
         });
       }
     } catch (err: any) {

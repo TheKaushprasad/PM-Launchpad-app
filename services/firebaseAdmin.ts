@@ -239,14 +239,3 @@ export async function generatePasswordResetLink(
   const rawLink = await auth.generatePasswordResetLink(email.trim(), actionCodeSettings);
   return buildActionLinkResult(rawLink, 'resetPassword');
 }
-
-/**
- * Verify a user's email directly by UID via Firebase Admin SDK
- */
-export async function verifyUserEmailByUid(uid: string) {
-  if (!isFirebaseAdminConfigured()) {
-    throw new Error('FIREBASE_SERVICE_ACCOUNT_KEY is required for admin user operations.');
-  }
-  const auth = getAdminAuth();
-  return await auth.updateUser(uid, { emailVerified: true });
-}

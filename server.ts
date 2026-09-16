@@ -10,7 +10,6 @@ import {
   generateVerificationLink, 
   generatePasswordResetLink,
   isFirebaseAdminConfigured,
-  verifyUserEmailByUid,
   getAdminAuth
 } from "./services/firebaseAdmin";
 import { 
@@ -2154,41 +2153,7 @@ Return a valid JSON object matching this schema:
     }
   });
 
-  // 3. Confirm User Verification (authenticated route)
-  app.post("/api/auth/confirm-user-verification", async (req, res) => {
-    if (!isFirebaseAdminConfigured()) {
-      return res.status(503).json({ error: "Firebase Admin is not configured" });
-    }
-
-    const authHeader = req.headers.authorization;
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return res.status(401).json({ error: "Authorization header missing or invalid" });
-    }
-
-    const idToken = authHeader.split("Bearer ")[1].trim();
-
-    try {
-      const auth = getAdminAuth();
-      const decoded = await auth.verifyIdToken(idToken);
-      if (!decoded.uid) {
-        return res.status(401).json({ error: "Invalid user token" });
-      }
-
-      await verifyUserEmailByUid(decoded.uid);
-      console.log(`[EmailVerification] Direct verification confirmed for user UID ${decoded.uid} (${decoded.email})`);
-
-      return res.json({
-        success: true,
-        emailVerified: true,
-        message: "Email verified successfully",
-      });
-    } catch (err: any) {
-      console.error("[ConfirmUserVerification Error]:", err?.message || err);
-      return res.status(400).json({ error: "Could not confirm user verification" });
-    }
-  });
-
-  // 4. Send Welcome Email via Resend
+  // 3. Send Welcome Email via Resend
   app.post("/api/auth/send-welcome-email", async (req, res) => {
     const { email, name } = req.body;
 

@@ -6,7 +6,7 @@ import {
   Layers, Menu, X, BarChart2, FileText, Code, Bot, Smartphone, Rocket,
   Sparkles, Library, LogIn, UserPlus, LogOut, GraduationCap, ShieldCheck,
   Target, Award, Compass, MessageSquare, CheckCircle, ChevronRight,
-  TrendingUp, Globe, Sparkle, PlayCircle, Star
+  TrendingUp, Globe, Sparkle, PlayCircle, Star, Mail
 } from 'lucide-react';
 import { Logo } from './Logo';
 import { useAuth } from '../context/AuthContext';
@@ -16,7 +16,7 @@ import { TestimonialSlider } from './TestimonialSlider';
 export const LandingPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { user, userProfile, logout } = useAuth();
+  const { user, userProfile, logout, isEmailVerified } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authModalMode, setAuthModalMode] = useState<'login' | 'signup'>('signup');
@@ -189,9 +189,10 @@ export const LandingPage: React.FC = () => {
                 <div className="flex items-center gap-3">
                   <button 
                     onClick={() => navigate('/dashboard')} 
-                    className="px-4 py-2 bg-[#4338CA] hover:bg-[#3730A3] text-white text-xs font-bold rounded-xl shadow-xs transition-all hover:-translate-y-0.5 tracking-tight cursor-pointer"
+                    className={`px-4 py-2 ${!isEmailVerified ? 'bg-amber-600 hover:bg-amber-700 shadow-amber-200/50' : 'bg-[#4338CA] hover:bg-[#3730A3] shadow-xs'} text-white text-xs font-bold rounded-xl shadow-xs transition-all hover:-translate-y-0.5 tracking-tight cursor-pointer flex items-center gap-1.5`}
                   >
-                    My Command Center
+                    {!isEmailVerified && <Mail className="w-3.5 h-3.5" />}
+                    {!isEmailVerified ? 'Verify Email' : 'My Command Center'}
                   </button>
                   <button
                     onClick={logout}
@@ -361,7 +362,7 @@ export const LandingPage: React.FC = () => {
                             </div>
                         ))}
                     </div>
-                    <span>Trusted by 1,000+ Aspiring PMs & Students</span>
+                    <span>Trusted by 1,000+ Aspiring Product Managers</span>
                 </div>
             </motion.div>
 
