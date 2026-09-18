@@ -42,14 +42,17 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
   const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
 
   const isModuleActive = MODULE_ITEMS.some(m => location.pathname === m.path || location.pathname.startsWith(m.path));
-  const [modulesOpen, setModulesOpen] = useState<boolean>(true);
+  // Under /#/dashboard, the Modules dropdown should not be already expanded unless the user clicks on it
+  const [modulesOpen, setModulesOpen] = useState<boolean>(() => isModuleActive);
 
-  // Keep modules expanded if a module route is active
+  // Keep modules expanded if a module route is active; keep collapsed under /dashboard unless user clicks on it
   useEffect(() => {
     if (isModuleActive) {
       setModulesOpen(true);
+    } else if (location.pathname === '/dashboard') {
+      setModulesOpen(false);
     }
-  }, [isModuleActive]);
+  }, [isModuleActive, location.pathname]);
 
   return (
     <>
@@ -187,6 +190,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
             <div className="pt-2 pb-1">
               <button
                 type="button"
+                id="sidebar-modules-dropdown-btn"
+                aria-expanded={modulesOpen}
+                aria-controls="sidebar-modules-dropdown-menu"
                 onClick={() => setModulesOpen(prev => !prev)}
                 className={`w-full flex items-center justify-between px-5 py-3 rounded-2xl text-xs font-black uppercase tracking-[0.15em] transition-all select-none ${
                   isModuleActive 
@@ -214,6 +220,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
               <AnimatePresence initial={false}>
                 {modulesOpen && (
                   <motion.div
+                    id="sidebar-modules-dropdown-menu"
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: 'auto' }}
                     exit={{ opacity: 0, height: 0 }}

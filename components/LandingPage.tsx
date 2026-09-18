@@ -618,7 +618,7 @@ export const LandingPage: React.FC = () => {
             {/* Tool 2: LinkedIn Optimiser */}
             <motion.div 
               whileHover={{ y: -5 }}
-              onClick={() => handleProtectedAction('/tools/linkedin-optimiser')}
+              onClick={() => navigate('/tools')}
               className="p-6 sm:p-7 rounded-3xl bg-white border border-[#E2E8F0] hover:border-[#0EA5E9]/40 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between h-full group"
             >
               <div className="space-y-4">

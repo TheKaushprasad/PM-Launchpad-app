@@ -220,7 +220,7 @@ export const TestimonialSlider: React.FC = () => {
         {/* Top Header Row: Eyebrow + Navigation Buttons aligned horizontally */}
         <div className="flex items-center justify-between gap-4 mb-2 sm:mb-2.5">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EEF2FF] border border-[#E2E8F0] text-[#4338CA] text-[10px] font-black uppercase tracking-widest">
-            <MessageSquare className="w-3.5 h-3.5" /> What PMs Are Saying
+            <MessageSquare className="w-3.5 h-3.5" /> What Product aspirants are saying
           </div>
 
           {/* Controls: navigation buttons aligned on the same row */}
