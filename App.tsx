@@ -1,5 +1,5 @@
 import React, { Component, useState, useEffect, useRef, ReactNode } from 'react';
-import { HashRouter as Router, Routes, Route, Navigate, useLocation, Outlet, useOutletContext } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Navigate, useLocation, Outlet, useOutletContext, Link } from 'react-router-dom';
 import { Sidebar } from './components/Sidebar';
 import { Dashboard } from './components/Dashboard';
 import { LessonDetail } from './components/LessonDetail';
@@ -134,7 +134,7 @@ const MainShell = () => {
     }
     
     return (
-        <div className="flex h-screen bg-zinc-50 text-zinc-900 font-sans overflow-hidden">
+        <div className="flex h-screen bg-slate-50 text-slate-900 font-sans overflow-hidden">
             {!isFocusMode && (
                 <Sidebar 
                     mobileOpen={mobileOpen} 
@@ -145,14 +145,32 @@ const MainShell = () => {
             )}
             <div className="flex-1 flex flex-col min-w-0 h-full relative">
                 {!isFocusMode && (
-                    <header className="md:hidden bg-white/80 backdrop-blur-md border-b border-zinc-200 p-4 flex items-center justify-between flex-shrink-0 z-30 sticky top-0">
-                        <div className="flex items-center gap-2">
-                            <Logo className="w-8 h-8" />
-                            <span className="font-bold text-lg text-zinc-800 tracking-tight">The NooB PM</span>
+                    <header className="bg-white/95 backdrop-blur-md border-b border-slate-200/80 px-4 sm:px-6 py-2.5 flex items-center justify-between flex-shrink-0 z-30 sticky top-0">
+                        {/* Left Side: Logo with mobile-only hamburger */}
+                        <div className="flex items-center gap-3">
+                            <button
+                                type="button"
+                                onClick={() => setMobileOpen(!mobileOpen)}
+                                className="md:hidden p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition-colors border border-slate-200/80 shadow-2xs cursor-pointer flex items-center justify-center shrink-0"
+                                aria-label="Open menu"
+                                title="Open menu"
+                            >
+                                <Menu className="w-5 h-5 text-slate-700" />
+                            </button>
+
+                            <Link to="/" className="flex items-center gap-2.5 hover:opacity-90 transition-opacity">
+                                <Logo className="w-8 h-8 shrink-0" />
+                                <div>
+                                    <span className="font-black text-sm text-slate-900 tracking-tight block leading-none">The NooB PM</span>
+                                    <span className="text-[8px] font-black text-[#0284C7] uppercase tracking-wider block mt-0.5">ONE-STOP PM SOLUTION</span>
+                                </div>
+                            </Link>
                         </div>
-                        <button onClick={() => setMobileOpen(!mobileOpen)} className="p-2 text-zinc-600 hover:bg-zinc-100 rounded-full">
-                            {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-                        </button>
+
+                        {/* Right Side */}
+                        <div className="flex items-center gap-2">
+                            {/* Clean header right side */}
+                        </div>
                     </header>
                 )}
                 <main ref={scrollContainerRef} className="flex-1 overflow-y-auto scroll-smooth">
@@ -214,6 +232,7 @@ const App: React.FC = () => {
                 />
 
                 {/* Dashboard & All Modules Routes */}
+                <Route path="/modules" element={<Navigate to="/dashboard" replace />} />
                 <Route 
                   path="/dashboard"
                   element={<Outlet />}

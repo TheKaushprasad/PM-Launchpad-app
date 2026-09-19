@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { MODULES, LESSONS, getCategoryColor, getCategoryIcon } from '../constants';
 import { DayCard } from './DayCard';
 import { About } from './About';
+import { RocketIllustration } from './RocketIllustration';
 import { motion } from 'framer-motion';
 import { 
-  GraduationCap, Target, RefreshCw, 
-  CheckCircle2, Bookmark, Flame, Sparkles, User as UserIcon, BookOpen,
-  FileEdit, ArrowRight, Clock
+  GraduationCap, RefreshCw, 
+  CheckCircle2, Bookmark, Flame, Sparkles, BookOpen,
+  FileEdit, ArrowRight, Clock, Briefcase, BarChart2
 } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -141,103 +142,128 @@ export const Dashboard: React.FC = () => {
         </button>
       )}
 
-      {/* Hero Welcome & Quick Stats (Compact command center ~18% height reduction, ~40px padding) */}
-      <header className="relative bg-zinc-950 rounded-2xl sm:rounded-3xl md:rounded-[2rem] px-6 py-6 sm:px-8 sm:py-7 md:px-10 md:py-8 text-white overflow-hidden shadow-xl shadow-zinc-950/25 border border-zinc-800/60">
-        <div className="absolute top-0 right-0 w-[450px] h-[450px] bg-indigo-600/15 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3 pointer-events-none" aria-hidden="true" />
-        <div className="absolute bottom-0 left-0 w-[350px] h-[350px] bg-purple-600/10 rounded-full blur-[90px] translate-y-1/2 -translate-x-1/4 pointer-events-none" aria-hidden="true" />
+      {/* Hero Welcome & Command Center Banner */}
+      <header className="relative bg-[#0A0F1D] rounded-3xl md:rounded-[28px] p-6 sm:p-8 lg:p-10 text-white overflow-hidden shadow-2xl border border-slate-800/80">
+        {/* Ambient atmospheric glows */}
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-indigo-600/15 rounded-full blur-3xl pointer-events-none" aria-hidden="true" />
+        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" aria-hidden="true" />
         
-        <div className="relative z-10 max-w-4xl space-y-5">
-          <motion.div variants={item} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.08] border border-white/10 text-indigo-300 text-[10px] font-black uppercase tracking-wider backdrop-blur-md">
-            <Sparkles className="w-3 h-3 fill-current text-indigo-400" /> 
-            <span>PERSONALISED CAREER COMMAND CENTER</span>
-          </motion.div>
+        {/* Hero Top Content: Left Info & Right 3D Rocket */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
+          <div className="space-y-4 max-w-xl text-left">
+            <motion.div variants={item} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.08] border border-white/10 text-indigo-300 text-[10.5px] font-extrabold uppercase tracking-wider backdrop-blur-md">
+              <Sparkles className="w-3 h-3 fill-current text-indigo-400" /> 
+              <span>PERSONALISED CAREER COMMAND CENTER</span>
+            </motion.div>
 
-          <motion.div variants={item} className="space-y-1.5">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight leading-tight text-white">
-              Welcome back, <br/>
-              <span className="text-[#79BAEC]">{userName}</span>
-            </h1>
-            <p className="text-zinc-400 text-xs sm:text-sm max-w-2xl leading-relaxed font-medium">
-              Master product management craft, sharpen key PM competencies, and track your launchpad curriculum progress.
-            </p>
-          </motion.div>
+            <motion.div variants={item} className="space-y-2">
+              <h1 className="text-3xl sm:text-4xl lg:text-[40px] font-black tracking-tight leading-tight text-white">
+                Welcome back, <br/>
+                <span className="text-[#38BDF8]">{userName}</span> 👋
+              </h1>
+              <p className="text-slate-300 text-xs sm:text-sm font-normal leading-relaxed">
+                Master product management craft, sharpen key PM competencies, and track your launchpad curriculum progress.
+              </p>
+            </motion.div>
+          </div>
 
-          {/* Quick Metrics Bar - Visual Hierarchy: Primary Values Dominant */}
-          <motion.div variants={item} className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 pt-4 border-t border-white/10">
-            {/* Target Role */}
-            <div className="p-3 sm:p-3.5 rounded-xl bg-white/[0.05] border border-white/[0.08] flex flex-col justify-between">
-              <div className="flex items-center gap-1.5 text-zinc-400 text-[10px] font-bold uppercase tracking-wider mb-1.5">
-                <Target className="w-3 h-3 text-indigo-400 shrink-0" />
-                <span className="truncate">Target Role</span>
+          {/* Right 3D Rocket Graphic with floating badge and playful text */}
+          <div className="hidden md:flex justify-end shrink-0">
+            <RocketIllustration className="w-72 lg:w-88 h-48 lg:h-56" />
+          </div>
+        </div>
+
+        {/* 4 Quick Metric Boxes */}
+        <motion.div variants={item} className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-8 pt-6 border-t border-white/10 relative z-10">
+          {/* Target Role */}
+          <div className="p-3 sm:p-3.5 rounded-2xl bg-white/[0.04] border border-white/[0.08] flex items-center gap-3.5">
+            <div className="w-11 h-11 rounded-xl bg-[#1E1B4B] flex items-center justify-center shrink-0 border border-indigo-500/30 shadow-inner">
+              <Briefcase className="w-5 h-5 text-indigo-400" />
+            </div>
+            <div className="min-w-0">
+              <div className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">
+                TARGET ROLE
               </div>
-              <div className="text-sm sm:text-base font-black text-white truncate" title={targetRole}>
+              <div className="text-sm sm:text-base font-bold text-white truncate" title={targetRole}>
                 {targetRole}
               </div>
             </div>
+          </div>
 
-            {/* Profile Strength */}
-            <div className="p-3 sm:p-3.5 rounded-xl bg-white/[0.05] border border-white/[0.08] flex flex-col justify-between">
-              <div className="flex items-center gap-1.5 text-zinc-400 text-[10px] font-bold uppercase tracking-wider mb-1.5">
-                <UserIcon className="w-3 h-3 text-[#79BAEC] shrink-0" />
-                <span className="truncate">Profile Strength</span>
+          {/* Profile Strength */}
+          <div className="p-3 sm:p-3.5 rounded-2xl bg-white/[0.04] border border-white/[0.08] flex items-center gap-3.5">
+            <div className="w-11 h-11 rounded-xl bg-[#082F49] flex items-center justify-center shrink-0 border border-sky-500/30 shadow-inner">
+              <BarChart2 className="w-5 h-5 text-sky-400" />
+            </div>
+            <div className="min-w-0">
+              <div className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">
+                PROFILE STRENGTH
               </div>
-              <div className="text-xl sm:text-2xl font-black text-white tracking-tight">
+              <div className="text-xl font-black text-white tracking-tight">
                 {completenessPercentage}%
               </div>
             </div>
+          </div>
 
-            {/* Curriculum */}
-            <div className="p-3 sm:p-3.5 rounded-xl bg-white/[0.05] border border-white/[0.08] flex flex-col justify-between">
-              <div className="flex items-center gap-1.5 text-zinc-400 text-[10px] font-bold uppercase tracking-wider mb-1.5">
-                <CheckCircle2 className="w-3 h-3 text-emerald-400 shrink-0" />
-                <span className="truncate">Curriculum</span>
+          {/* Curriculum */}
+          <div className="p-3 sm:p-3.5 rounded-2xl bg-white/[0.04] border border-white/[0.08] flex items-center gap-3.5">
+            <div className="w-11 h-11 rounded-xl bg-[#064E3B] flex items-center justify-center shrink-0 border border-emerald-500/30 shadow-inner">
+              <BookOpen className="w-5 h-5 text-emerald-400" />
+            </div>
+            <div className="min-w-0">
+              <div className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">
+                CURRICULUM
               </div>
-              <div className="flex items-baseline gap-2 flex-wrap">
-                <span className="text-xl sm:text-2xl font-black text-white tracking-tight">
+              <div className="flex items-baseline gap-1.5 flex-wrap">
+                <span className="text-xl font-black text-white tracking-tight">
                   {completedCount} / 45
                 </span>
-                <span className="text-[11px] text-zinc-400 font-medium">
+                <span className="text-[11px] text-slate-400 font-medium">
                   {curriculumPercentage}% complete
                 </span>
               </div>
             </div>
+          </div>
 
-            {/* Daily Streak */}
-            <div className="p-3 sm:p-3.5 rounded-xl bg-white/[0.05] border border-white/[0.08] flex flex-col justify-between">
-              <div className="flex items-center gap-1.5 text-zinc-400 text-[10px] font-bold uppercase tracking-wider mb-1.5">
-                <Flame className="w-3 h-3 text-amber-400 shrink-0" />
-                <span className="truncate">Daily Streak</span>
+          {/* Daily Streak */}
+          <div className="p-3 sm:p-3.5 rounded-2xl bg-white/[0.04] border border-white/[0.08] flex items-center gap-3.5">
+            <div className="w-11 h-11 rounded-xl bg-[#451A03] flex items-center justify-center shrink-0 border border-amber-500/30 shadow-inner">
+              <Flame className="w-5 h-5 text-amber-400" />
+            </div>
+            <div className="min-w-0">
+              <div className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">
+                DAILY STREAK
               </div>
-              <div className="text-xl sm:text-2xl font-black text-white tracking-tight">
+              <div className="text-xl font-black text-white tracking-tight">
                 {userProfile?.streakDays || 1} {(userProfile?.streakDays || 1) === 1 ? 'Day' : 'Days'}
               </div>
             </div>
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
       </header>
 
-      {/* Curriculum Grid Section (~40px intentional transition from hero) */}
+      {/* Curriculum Grid Section */}
       <div className="space-y-6 mt-10">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 border-b border-zinc-150 pb-5">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 border-b border-slate-200/80 pb-5">
           <motion.div variants={item}>
-            <div className="inline-flex items-center gap-1.5 text-[#79BAEC] mb-1.5">
-               <GraduationCap className="w-4 h-4" />
-               <span className="text-[10px] font-black uppercase tracking-[0.2em]">Learning Path</span>
+            <div className="inline-flex items-center gap-1.5 text-blue-600 mb-1">
+               <GraduationCap className="w-4 h-4 text-blue-600" />
+               <span className="text-xs font-black uppercase tracking-wider text-blue-600">LEARNING PATH</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-black text-zinc-900 tracking-tight">
-              {getModuleTitle()}
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+              Curriculum <span className="text-blue-600">Modules</span>
             </h2>
           </motion.div>
           
-          {/* Filter Pills Row - Consistent height, padding, border radius, and high contrast active state */}
+          {/* Filter Pills Row matching modules.png */}
           <motion.div variants={item} className="flex flex-wrap items-center gap-2">
              <button
                 type="button"
                 onClick={() => setFilterMode('all')}
-                className={`h-9 px-3.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all duration-150 cursor-pointer ${
+                className={`h-9 px-4 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all duration-150 cursor-pointer ${
                   filterMode === 'all' 
-                    ? 'bg-zinc-900 text-white shadow-xs' 
-                    : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200/80 hover:text-zinc-900'
+                    ? 'bg-[#111827] text-white shadow-xs' 
+                    : 'bg-white hover:bg-slate-50 text-slate-700 border border-slate-200/90'
                 }`}
              >
                 All Lessons
@@ -247,11 +273,11 @@ export const Dashboard: React.FC = () => {
                 onClick={() => setFilterMode('completed')}
                 className={`h-9 px-3.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all duration-150 cursor-pointer ${
                   filterMode === 'completed' 
-                    ? 'bg-zinc-900 text-white shadow-xs' 
-                    : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200/80 hover:text-zinc-900'
+                    ? 'bg-[#111827] text-white shadow-xs' 
+                    : 'bg-white hover:bg-slate-50 text-slate-700 border border-slate-200/90'
                 }`}
              >
-                <CheckCircle2 className={`w-3.5 h-3.5 ${filterMode === 'completed' ? 'text-emerald-400' : 'text-zinc-500'}`} />
+                <CheckCircle2 className={`w-3.5 h-3.5 ${filterMode === 'completed' ? 'text-emerald-400' : 'text-slate-500'}`} />
                 <span>Completed ({completedCount})</span>
              </button>
              <button
@@ -259,11 +285,11 @@ export const Dashboard: React.FC = () => {
                 onClick={() => setFilterMode('syllabus')}
                 className={`h-9 px-3.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all duration-150 cursor-pointer ${
                   filterMode === 'syllabus' 
-                    ? 'bg-zinc-900 text-white shadow-xs' 
-                    : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200/80 hover:text-zinc-900'
+                    ? 'bg-[#111827] text-white shadow-xs' 
+                    : 'bg-white hover:bg-slate-50 text-slate-700 border border-slate-200/90'
                 }`}
              >
-                <BookOpen className={`w-3.5 h-3.5 ${filterMode === 'syllabus' ? 'text-indigo-300' : 'text-zinc-500'}`} />
+                <BookOpen className={`w-3.5 h-3.5 ${filterMode === 'syllabus' ? 'text-indigo-300' : 'text-slate-500'}`} />
                 <span>Full Syllabus</span>
              </button>
              <button
@@ -271,24 +297,24 @@ export const Dashboard: React.FC = () => {
                 onClick={() => setFilterMode('bookmarked')}
                 className={`h-9 px-3.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all duration-150 cursor-pointer ${
                   filterMode === 'bookmarked' 
-                    ? 'bg-zinc-900 text-white shadow-xs' 
-                    : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200/80 hover:text-zinc-900'
+                    ? 'bg-[#111827] text-white shadow-xs' 
+                    : 'bg-white hover:bg-slate-50 text-slate-700 border border-slate-200/90'
                 }`}
              >
-                <Bookmark className={`w-3.5 h-3.5 ${filterMode === 'bookmarked' ? 'fill-amber-400 text-amber-400' : 'text-zinc-500'}`} />
-                <span>Bookmarked {bookmarkedCount > 0 ? `(${bookmarkedCount})` : ''}</span>
+                <Bookmark className={`w-3.5 h-3.5 ${filterMode === 'bookmarked' ? 'fill-amber-400 text-amber-400' : 'text-slate-500'}`} />
+                <span>Bookmarked ({bookmarkedCount})</span>
              </button>
              <button
                 type="button"
                 onClick={() => setFilterMode('notes')}
                 className={`h-9 px-3.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all duration-150 cursor-pointer ${
                   filterMode === 'notes' 
-                    ? 'bg-zinc-900 text-white shadow-xs' 
-                    : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200/80 hover:text-zinc-900'
+                    ? 'bg-[#111827] text-white shadow-xs' 
+                    : 'bg-white hover:bg-slate-50 text-slate-700 border border-slate-200/90'
                 }`}
              >
-                <FileEdit className={`w-3.5 h-3.5 ${filterMode === 'notes' ? 'text-indigo-300' : 'text-zinc-500'}`} />
-                <span>Saved Notes {savedNotesCount > 0 ? `(${savedNotesCount})` : ''}</span>
+                <FileEdit className={`w-3.5 h-3.5 ${filterMode === 'notes' ? 'text-indigo-300' : 'text-slate-500'}`} />
+                <span>Saved Notes ({savedNotesCount})</span>
              </button>
           </motion.div>
         </div>

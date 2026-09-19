@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { 
   LayoutDashboard, BookOpen, Search, BarChart2, Smartphone, 
   Bot, Info, ChevronRight, ChevronDown, Sparkles, Zap, Code, Briefcase,
-  Library, LogIn, LogOut, Layers, User as UserIcon
+  Library, LogIn, LogOut, Layers, User as UserIcon, Menu, X
 } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Logo } from './Logo';
 import { useAuth } from '../context/AuthContext';
@@ -30,29 +30,32 @@ const MODULE_ITEMS = [
 
 const OTHER_NAV_ITEMS = [
   { label: 'AI Mock Interview', icon: Sparkles, path: '/interview-studio', badge: 'AI' },
-  { label: 'Resources', icon: Library, path: '/resources' },
+  { label: 'Resources', icon: BookOpen, path: '/resources' },
   { label: 'Career Tools', icon: Zap, path: '/tools' },
   { label: 'User Profile', icon: UserIcon, path: '/profile' },
 ];
 
-export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, collapsed }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, collapsed, setCollapsed }) => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { user, userProfile, signInWithGoogle, logout, completedCount } = useAuth();
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
 
-  const isModuleActive = MODULE_ITEMS.some(m => location.pathname === m.path || location.pathname.startsWith(m.path));
+  const isModuleActive = location.pathname === '/dashboard' || location.pathname === '/modules' || MODULE_ITEMS.some(m => location.pathname === m.path || location.pathname.startsWith(m.path));
   // Under /#/dashboard, the Modules dropdown should not be already expanded unless the user clicks on it
-  const [modulesOpen, setModulesOpen] = useState<boolean>(() => isModuleActive);
+  const [modulesOpen, setModulesOpen] = useState<boolean>(() => {
+    return location.pathname.startsWith('/dashboard/') && location.pathname !== '/dashboard';
+  });
 
-  // Keep modules expanded if a module route is active; keep collapsed under /dashboard unless user clicks on it
+  // Keep modules expanded if an individual module sub-route is active; keep collapsed under /dashboard unless user clicks on it
   useEffect(() => {
-    if (isModuleActive) {
+    if (location.pathname.startsWith('/dashboard/') && location.pathname !== '/dashboard') {
       setModulesOpen(true);
     } else if (location.pathname === '/dashboard') {
       setModulesOpen(false);
     }
-  }, [isModuleActive, location.pathname]);
+  }, [location.pathname]);
 
   return (
     <>
@@ -82,22 +85,44 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
           ${mobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
         `}
       >
-        <div className={`p-8 ${collapsed ? 'px-4 flex justify-center' : ''}`}>
-           <Link to="/" className="flex items-center gap-3 group">
-              <Logo className="w-12 h-12" />
-              {!collapsed && (
-                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                  <span className="block font-black text-xl text-zinc-900 tracking-tighter leading-none">The NooB PM</span>
-                </motion.div>
+        <div className={`p-5 sm:p-6 ${collapsed ? 'px-3 flex flex-col items-center gap-3' : 'flex items-center justify-between'}`}>
+           <div className="flex items-center gap-2.5">
+              {setCollapsed && (
+                <button
+                  type="button"
+                  onClick={() => setCollapsed(!collapsed)}
+                  className="hidden md:flex p-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition-colors cursor-pointer border border-slate-200/70 shadow-2xs items-center justify-center shrink-0"
+                  title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+                  aria-label="Toggle sidebar"
+                >
+                  <Menu className="w-5 h-5 text-slate-700" />
+                </button>
               )}
-           </Link>
+              <Link to="/" className="flex items-center gap-2.5 group">
+                 <Logo className="w-9 h-9 shrink-0" />
+                 {!collapsed && (
+                   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                     <span className="block font-black text-lg text-slate-900 tracking-tight leading-none">The NooB PM</span>
+                     <span className="text-[8px] font-black text-[#0284C7] uppercase tracking-wider block mt-0.5">ONE-STOP PM SOLUTION</span>
+                   </motion.div>
+                 )}
+              </Link>
+           </div>
+           <button
+             type="button"
+             onClick={() => setMobileOpen(false)}
+             className="md:hidden p-1.5 text-slate-500 hover:bg-slate-100 rounded-lg cursor-pointer"
+             aria-label="Close sidebar"
+           >
+             <X className="w-5 h-5" />
+           </button>
         </div>
 
         {/* User Auth Profile / Progress Bar */}
         {!collapsed && (
           <div className="px-6 pb-2">
             {user ? (
-              <div className="p-3.5 rounded-2xl bg-zinc-50 border border-zinc-200/80 shadow-sm space-y-2">
+              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 shadow-xs space-y-2">
                 <div className="flex items-center justify-between gap-2">
                   <Link to="/profile" className="flex items-center gap-2.5 min-w-0 hover:opacity-80 transition-opacity">
                     {user.photoURL ? (
@@ -107,12 +132,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
                         className="w-8 h-8 rounded-full border border-indigo-200 object-cover shrink-0" 
                       />
                     ) : (
-                      <div className="w-8 h-8 rounded-full bg-indigo-600 text-white font-bold text-xs flex items-center justify-center shrink-0">
+                      <div className="w-8 h-8 rounded-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center shrink-0">
                         {user.displayName ? user.displayName[0].toUpperCase() : 'U'}
                       </div>
                     )}
                     <div className="min-w-0">
-                      <span className="text-xs font-black text-zinc-900 block truncate leading-tight">
+                      <span className="text-xs font-black text-slate-900 block truncate leading-tight">
                         {user.displayName || 'PM Aspiring Talent'}
                       </span>
                     </div>
@@ -120,32 +145,38 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
                   <button 
                     onClick={logout}
                     title="Sign Out"
-                    className="p-1.5 rounded-lg text-zinc-400 hover:text-rose-600 hover:bg-rose-50 transition-colors shrink-0"
+                    className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors shrink-0 cursor-pointer"
                   >
                     <LogOut className="w-4 h-4" />
                   </button>
                 </div>
 
                 {/* Progress */}
-                <div className="pt-2 border-t border-zinc-200/60 flex items-center justify-end text-[10px] font-bold">
-                  <span className="text-zinc-600 bg-white px-2 py-0.5 rounded-full border border-zinc-200">
+                <div className="pt-2 border-t border-slate-200/60 flex items-center justify-end text-[10px] font-bold">
+                  <span className="text-slate-600 bg-white px-2 py-0.5 rounded-full border border-slate-200">
                     {completedCount}/45 Days
                   </span>
                 </div>
               </div>
             ) : (
-              <div className="space-y-1.5">
+              <div className="space-y-2">
                 <button
-                  onClick={() => { setAuthMode('login'); setAuthModalOpen(true); }}
-                  className="w-full p-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white flex items-center justify-center gap-2 font-bold text-xs transition-all shadow-sm group"
+                  onClick={() => { setAuthMode('signup'); setAuthModalOpen(true); }}
+                  className="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white flex items-center justify-center gap-2 font-bold text-xs shadow-md transition-all cursor-pointer group"
                 >
-                  <LogIn className="w-4 h-4" />
-                  <span>Sign In / Sign Up</span>
+                  <Sparkles className="w-3.5 h-3.5 text-blue-200" />
+                  <span>Sign Up / Sign In →</span>
                 </button>
                 <button
                   onClick={() => signInWithGoogle()}
-                  className="w-full p-2 rounded-xl bg-zinc-50 hover:bg-zinc-100 border border-zinc-200 text-zinc-700 flex items-center justify-center gap-2 font-bold text-[11px] transition-all"
+                  className="w-full py-2 px-3 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-center gap-2 font-bold text-xs shadow-2xs transition-all cursor-pointer"
                 >
+                  <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" />
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" />
+                  </svg>
                   <span>Google 1-Tap</span>
                 </button>
               </div>
@@ -188,34 +219,50 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
           {/* 2. Collapsible Modules Section Directly Below Dashboard */}
           {!collapsed ? (
             <div className="pt-2 pb-1">
-              <button
-                type="button"
-                id="sidebar-modules-dropdown-btn"
-                aria-expanded={modulesOpen}
-                aria-controls="sidebar-modules-dropdown-menu"
-                onClick={() => setModulesOpen(prev => !prev)}
-                className={`w-full flex items-center justify-between px-5 py-3 rounded-2xl text-xs font-black uppercase tracking-[0.15em] transition-all select-none ${
+              <div
+                className={`w-full flex items-center justify-between px-5 py-3 rounded-2xl text-xs font-black uppercase tracking-[0.15em] transition-all select-none cursor-pointer ${
                   isModuleActive 
-                    ? 'text-[#2D5A81] bg-sky-50/70 hover:bg-sky-100/70' 
-                    : 'text-zinc-500 hover:text-zinc-800 hover:bg-zinc-50'
+                    ? 'text-blue-600 bg-sky-50 border border-sky-100 shadow-2xs' 
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
                 }`}
+                onClick={() => {
+                  if (location.pathname !== '/dashboard') {
+                    navigate('/dashboard');
+                  } else {
+                    setModulesOpen(prev => !prev);
+                  }
+                }}
               >
                 <div className="flex items-center gap-3">
-                  <Layers className={`w-4 h-4 ${isModuleActive ? 'text-[#2D5A81]' : 'text-zinc-400'}`} />
+                  <Layers className={`w-4 h-4 ${isModuleActive ? 'text-blue-600' : 'text-slate-400'}`} />
                   <span>Modules</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-zinc-200/70 text-zinc-700">
+                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                    isModuleActive 
+                      ? 'bg-blue-100 text-blue-700' 
+                      : 'bg-slate-200/80 text-slate-700'
+                  }`}>
                     8
                   </span>
-                  <motion.div
-                    animate={{ rotate: modulesOpen ? 180 : 0 }}
-                    transition={{ duration: 0.2 }}
+                  <button
+                    type="button"
+                    aria-label="Toggle modules list"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setModulesOpen(prev => !prev);
+                    }}
+                    className="p-0.5 rounded hover:bg-black/5 transition-colors"
                   >
-                    <ChevronDown className="w-4 h-4 text-zinc-400" />
-                  </motion.div>
+                    <motion.div
+                      animate={{ rotate: modulesOpen ? 180 : 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <ChevronDown className={`w-4 h-4 ${isModuleActive ? 'text-blue-600' : 'text-slate-400'}`} />
+                    </motion.div>
+                  </button>
                 </div>
-              </button>
+              </div>
 
               <AnimatePresence initial={false}>
                 {modulesOpen && (
