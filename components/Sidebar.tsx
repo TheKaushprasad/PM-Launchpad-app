@@ -103,7 +103,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
                  {!collapsed && (
                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                      <span className="block font-black text-lg text-slate-900 tracking-tight leading-none">The NooB PM</span>
-                     <span className="text-[8px] font-black text-[#0284C7] uppercase tracking-wider block mt-0.5">ONE-STOP PM SOLUTION</span>
+                     <span className="text-[8px] font-black text-emerald-600 uppercase tracking-wider block mt-0.5">ONE-STOP PM SOLUTION</span>
                    </motion.div>
                  )}
               </Link>

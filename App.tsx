@@ -145,7 +145,7 @@ const MainShell = () => {
             )}
             <div className="flex-1 flex flex-col min-w-0 h-full relative">
                 {!isFocusMode && (
-                    <header className="bg-white/95 backdrop-blur-md border-b border-slate-200/80 px-4 sm:px-6 py-2.5 flex items-center justify-between flex-shrink-0 z-30 sticky top-0">
+                    <header className="md:hidden bg-white/95 backdrop-blur-md border-b border-slate-200/80 px-4 sm:px-6 py-2.5 flex items-center justify-between flex-shrink-0 z-30 sticky top-0">
                         {/* Left Side: Logo with mobile-only hamburger */}
                         <div className="flex items-center gap-3">
                             <button
@@ -162,7 +162,7 @@ const MainShell = () => {
                                 <Logo className="w-8 h-8 shrink-0" />
                                 <div>
                                     <span className="font-black text-sm text-slate-900 tracking-tight block leading-none">The NooB PM</span>
-                                    <span className="text-[8px] font-black text-[#0284C7] uppercase tracking-wider block mt-0.5">ONE-STOP PM SOLUTION</span>
+                                    <span className="text-[8px] font-black text-emerald-600 uppercase tracking-wider block mt-0.5">ONE-STOP PM SOLUTION</span>
                                 </div>
                             </Link>
                         </div>
@@ -258,37 +258,16 @@ const App: React.FC = () => {
                 {/* AI Mock Interview Studio Routes */}
                 <Route path="/interview-studio" element={<InterviewHub />} />
                 <Route path="/practice" element={<InterviewHub />} />
-                <Route 
-                  path="/resume-auditor" 
-                  element={
-                    <ProtectedRoute>
-                      <ResumeAuditor />
-                    </ProtectedRoute>
-                  } 
-                />
+                <Route path="/resume-auditor" element={<ResumeAuditor />} />
                 <Route path="/linkedin" element={<Navigate to="/tools/linkedin-optimiser" replace />} />
 
                 {/* Career Tools Suite Routes */}
                 <Route path="/tools">
                     {/* Publicly accessible Tools Hub */}
                     <Route index element={<ToolsHub />} />
-                    {/* Protected Individual Tools requiring authentication */}
-                    <Route 
-                      path="linkedin-optimiser" 
-                      element={
-                        <ProtectedRoute>
-                          <LinkedInOptimiser />
-                        </ProtectedRoute>
-                      } 
-                    />
-                    <Route 
-                      path="resume-auditor" 
-                      element={
-                        <ProtectedRoute>
-                          <ResumeAuditor />
-                        </ProtectedRoute>
-                      } 
-                    />
+                    {/* Publicly accessible Career Tools */}
+                    <Route path="linkedin-optimiser" element={<LinkedInOptimiser />} />
+                    <Route path="resume-auditor" element={<ResumeAuditor />} />
                     <Route path="interview-studio" element={<InterviewHub />} />
                     <Route path="practice" element={<InterviewHub />} />
                     <Route 

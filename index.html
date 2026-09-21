@@ -86,6 +86,33 @@
       .clip-path-arrow {
         clip-path: polygon(0% 0%, 85% 0%, 100% 50%, 85% 100%, 0% 100%, 15% 50%);
       }
+
+      @keyframes marquee-scroll {
+        0% {
+          transform: translate3d(0, 0, 0);
+        }
+        100% {
+          transform: translate3d(-50%, 0, 0);
+        }
+      }
+
+      .animate-marquee {
+        display: flex;
+        width: max-content;
+        animation: marquee-scroll 55s linear infinite;
+        will-change: transform;
+      }
+
+      .animate-marquee:hover,
+      .marquee-container:hover .animate-marquee {
+        animation-play-state: paused;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .animate-marquee {
+          animation-play-state: paused;
+        }
+      }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   </head>

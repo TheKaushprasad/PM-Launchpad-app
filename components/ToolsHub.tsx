@@ -56,13 +56,6 @@ export const ToolsHub: React.FC = () => {
       return;
     }
 
-    // Prompt unauthenticated users to login before accessing protected tools
-    if (!user) {
-      setPendingRedirect(actionUrl);
-      setAuthModalOpen(true);
-      return;
-    }
-
     navigate(actionUrl);
   };
 

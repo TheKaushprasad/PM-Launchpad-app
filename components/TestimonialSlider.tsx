@@ -1,71 +1,55 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { ChevronLeft, ChevronRight, Quote, Star, CheckCircle2, MessageSquare } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Quote, Star, CheckCircle2, MessageSquare, User } from 'lucide-react';
 
 interface Testimonial {
   name: string;
   role: string;
   company: string;
   quote: string;
-  initials: string;
-  avatarColor: string;
 }
 
 const testimonials: Testimonial[] = [
   {
     name: "Sanskruti Palekar",
     role: "Business Analyst",
-    company: "Micron Industries",
-    quote: "Very helpful website",
-    initials: "SP",
-    avatarColor: "bg-[#EEF2FF] text-[#4338CA] border-[#E2E8F0]"
+    company: "Micron Industries Private Limited",
+    quote: "Very helpful website"
   },
   {
     name: "Srijita Chatterjee",
     role: "AI Product Manager",
     company: "Travelved",
-    quote: "Best website to prepare for PM roles.",
-    initials: "SC",
-    avatarColor: "bg-[#F0F9FF] text-[#0EA5E9] border-[#E2E8F0]"
+    quote: "Best website to prepare for PM roles."
   },
   {
     name: "Neeraj Gupta",
     role: "Business Delivery Executive",
     company: "IDfy",
-    quote: "Extremely valuable and goldmines for aspiring Product Managers",
-    initials: "NG",
-    avatarColor: "bg-[#ECFDF5] text-[#10B981] border-[#E2E8F0]"
+    quote: "Extremely valuable and goldmines for aspiring Product Managers"
   },
   {
     name: "Rachana Tripathi",
     role: "Product Manager",
     company: "Repro India Limited",
-    quote: "This stuff is actually cool !",
-    initials: "RT",
-    avatarColor: "bg-[#EEF2FF] text-[#4338CA] border-[#E2E8F0]"
+    quote: "This stuff is actually cool !"
   },
   {
     name: "Dimpal Dewasi",
     role: "Product Management Trainee",
-    company: "Airpay",
-    quote: "Amazing Resource",
-    initials: "DD",
-    avatarColor: "bg-[#F0F9FF] text-[#0EA5E9] border-[#E2E8F0]"
+    company: "airpay",
+    quote: "Amazing Resource"
   },
   {
     name: "Crystal King",
     role: "Founder",
     company: "Drama Land",
-    quote: "The Strategy and data part of the course is amazing",
-    initials: "CK",
-    avatarColor: "bg-[#ECFDF5] text-[#10B981] border-[#E2E8F0]"
+    quote: "The Strategy and data part of the course is amazing"
   },
   {
     name: "Kunal Chaudhary",
     role: "Co-Founder",
     company: "Krishi Culture",
-    quote: "From starting to ending course cover all the things a PM should know and help them to improve their skills",
-    initials: "KC",
-    avatarColor: "bg-[#EEF2FF] text-[#4338CA] border-[#E2E8F0]"
+    quote: "From starting to ending couse cover all the things a PM should know and help them to improve their skills"
   }
 ];
 
@@ -277,12 +261,11 @@ export const TestimonialSlider: React.FC = () => {
             {marqueeCards.map((t, idx) => (
               <div
                 key={idx}
-                className="w-[82vw] sm:w-[320px] md:w-[335px] shrink-0 bg-white border border-[#E2E8F0] hover:border-[#4338CA]/40 rounded-2xl p-5 sm:p-6 shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group cursor-default"
-                style={{ minHeight: '215px' }}
+                className="w-[82vw] sm:w-[320px] md:w-[335px] h-[230px] shrink-0 bg-white border border-[#E2E8F0] hover:border-[#4338CA]/40 rounded-2xl p-5 sm:p-6 shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group cursor-default"
               >
                 <div>
                   {/* Top Bar: 5 Stars + Subtle Quote Icon */}
-                  <div className="flex items-center justify-between mb-3.5">
+                  <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-1" aria-label="5 out of 5 stars">
                       {[1, 2, 3, 4, 5].map((star) => (
                         <Star 
@@ -297,8 +280,8 @@ export const TestimonialSlider: React.FC = () => {
                   </div>
 
                   {/* Testimonial Quote */}
-                  <div className="min-h-[52px] flex items-center">
-                    <p className="text-[14px] sm:text-[15px] font-medium text-[#0F172A] leading-snug sm:leading-relaxed">
+                  <div className="overflow-hidden">
+                    <p className="text-[14px] sm:text-[15px] font-medium text-[#0F172A] leading-snug sm:leading-relaxed line-clamp-3">
                       “{t.quote.replace(/^[“"]|[”"]$/g, '')}”
                     </p>
                   </div>
@@ -306,8 +289,8 @@ export const TestimonialSlider: React.FC = () => {
 
                 {/* Author Area */}
                 <div className="pt-3.5 mt-4 border-t border-[#E2E8F0] flex items-center gap-3">
-                  <div className={`w-9 h-9 rounded-full border ${t.avatarColor} font-bold text-xs flex items-center justify-center shrink-0 shadow-2xs`}>
-                    {t.initials}
+                  <div className="w-9 h-9 rounded-full bg-slate-100 border border-slate-200 text-slate-500 flex items-center justify-center shrink-0 shadow-2xs">
+                    <User className="w-4 h-4" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-1">

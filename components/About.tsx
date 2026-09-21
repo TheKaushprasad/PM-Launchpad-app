@@ -211,7 +211,7 @@ export const About: React.FC = () => {
                 Instagram
               </a>
               <a 
-                href="https://www.youtube.com/@THE_NOOB_PM/posts" 
+                href="https://www.youtube.com/@THE_NOOB_PM" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="text-zinc-400 hover:text-indigo-600 transition-colors font-medium text-xs"
