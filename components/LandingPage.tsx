@@ -604,7 +604,7 @@ export const LandingPage: React.FC = () => {
               {/* Eyebrow Pill */}
               <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#ECFDF5] border border-[#A7F3D0] text-[#065F46] text-xs font-bold tracking-tight">
                 <span>🔑</span>
-                <span>From Learning to Landing</span>
+                <span>From Learning to Landing a Job</span>
               </div>
 
               {/* Main Headline */}
