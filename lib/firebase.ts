@@ -3,10 +3,8 @@ import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 import { 
   getFirestore, 
   initializeFirestore, 
-  doc, 
-  getDocFromServer,
   persistentLocalCache,
-  persistentSingleTabManager
+  persistentMultipleTabManager
 } from 'firebase/firestore';
 import defaultFirebaseConfig from '../firebase-applet-config.json';
 
@@ -26,15 +24,15 @@ const activeFirebaseConfig = {
 // Initialize Firebase App without duplicate instances during HMR
 export const app = getApps().length === 0 ? initializeApp(activeFirebaseConfig) : getApp();
 
-// Initialize Firestore with auto-detect long polling to prevent websocket/stream dropped connections in iframes
+// Initialize Firestore with force long-polling to prevent WebSocket connection failures in sandbox/iframe environments
 export const db = (() => {
   const databaseId = activeFirebaseConfig.firestoreDatabaseId || '(default)';
   try {
     return initializeFirestore(app, {
-      experimentalAutoDetectLongPolling: true,
+      experimentalForceLongPolling: true,
       ignoreUndefinedProperties: true,
       localCache: persistentLocalCache({
-        tabManager: persistentSingleTabManager({})
+        tabManager: persistentMultipleTabManager()
       })
     }, databaseId);
   } catch {
@@ -46,18 +44,6 @@ export const db = (() => {
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({ prompt: 'select_account' });
-
-// Connection verification test
-async function testFirestoreConnection() {
-  try {
-    await getDocFromServer(doc(db, 'test', 'connection'));
-  } catch (error) {
-    if (error instanceof Error && error.message.includes('the client is offline')) {
-      console.warn("Firestore client operating in offline cache mode.");
-    }
-  }
-}
-testFirestoreConnection();
 
 // Error Handling Definition
 export enum OperationType {
@@ -90,6 +76,20 @@ export function handleFirestoreError(error: unknown, operationType: OperationTyp
   const errMsg = error instanceof Error ? error.message : String(error);
   const errCode = (error as { code?: string })?.code;
 
+  const isOfflineOrUnavailable = 
+    errCode === 'unavailable' ||
+    errCode === 'failed-precondition' ||
+    errMsg.includes('offline') || 
+    errMsg.includes('the client is offline') ||
+    errMsg.includes('unavailable') ||
+    errMsg.includes('Could not reach Cloud Firestore backend');
+
+  // If client is offline or backend is temporarily unreachable, handle gracefully without crashing
+  if (isOfflineOrUnavailable) {
+    console.warn(`Firestore offline/pending (${operationType} on ${path}): ${errMsg}`);
+    return;
+  }
+
   const errInfo: FirestoreErrorInfo = {
     error: errMsg,
     authInfo: {
@@ -106,12 +106,6 @@ export function handleFirestoreError(error: unknown, operationType: OperationTyp
     operationType,
     path
   };
-
-  // If client is offline or unavailable, warn gracefully without fatal throwing
-  if (errMsg.includes('offline') || errMsg.includes('the client is offline') || errCode === 'unavailable') {
-    console.warn(`Firestore offline/pending (${operationType} on ${path}): ${errMsg}`);
-    return;
-  }
 
   console.error('Firestore Error: ', JSON.stringify(errInfo));
   throw new Error(JSON.stringify(errInfo));
