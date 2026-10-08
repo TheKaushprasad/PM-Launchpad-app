@@ -40,6 +40,7 @@ export async function createExpressApp() {
     res.json({ 
       status: "ok", 
       env: process.env.NODE_ENV,
+      hasGeminiKey: !!process.env.GEMINI_API_KEY?.trim(),
       hasOpenAIKey: !!process.env.OPENAI_API_KEY,
       hasResendKey: !!process.env.RESEND_API_KEY,
       port: 3000
