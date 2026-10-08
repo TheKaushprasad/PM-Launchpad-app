@@ -15,6 +15,10 @@ export interface EvaluationRequestPayload {
   userId?: string;
   sessionId?: string;
   authHeader?: string;
+  // Eval harness only; the app never sends these.
+  model?: string;
+  provider?: 'gemini' | 'openai';
+  disableFailover?: boolean;
 }
 
 export type EvaluationServiceResult =
@@ -137,19 +141,29 @@ export async function runEvaluationEngine(
   // 4. Multi-model failover chain with retry on schema failure
   const geminiKey = process.env.GEMINI_API_KEY;
   const openAiKey = process.env.OPENAI_API_KEY;
-  const candidateModels = [
+  const OPENAI_EVAL_MODEL = "gpt-4o-mini";
+  const forceOpenAI = process.env.FORCE_EVAL_PROVIDER === 'openai' || payload.provider === 'openai';
+  let candidateModels = forceOpenAI ? [] : [
     'gemini-3.8-flash',
     'gemini-3.1-flash-lite',
     'gemini-flash-latest',
     'gemini-3.7-flash'
   ];
+  if (payload.model) candidateModels = candidateModels.filter((m) => m === payload.model);
+  if (payload.disableFailover) candidateModels = candidateModels.slice(0, 1);
+
+  // OpenAI runs as a fallback, unless a Gemini model or provider was forced
+  const allowOpenAI = payload.provider !== 'gemini'
+    && (!payload.model || payload.model === OPENAI_EVAL_MODEL)
+    && !(payload.disableFailover && candidateModels.length > 0);
+  if (candidateModels.length === 0 && !allowOpenAI) {
+    throw new Error(`Model ${payload.model} is not in the evaluator failover chain`);
+  }
 
   let rawValidatedEval: RawEvaluation | null = null;
   let winningModel = "gemini-3.8-flash";
   let totalRetries = 0;
   const temperature = 0.1;
-  const forceOpenAI = process.env.FORCE_EVAL_PROVIDER === 'openai';
-
   if (!forceOpenAI && geminiKey && geminiKey.trim() !== "" && geminiKey !== "undefined" && geminiKey !== "null") {
     const ai = new GoogleGenAI({
       apiKey: geminiKey
@@ -226,11 +240,11 @@ export async function runEvaluationEngine(
   }
 
   // Fallback to OpenAI if configured and Gemini chain failed (or if forced via FORCE_EVAL_PROVIDER=openai)
-  if (!rawValidatedEval && openAiKey && openAiKey.trim() !== "" && openAiKey !== "undefined") {
+  if (!rawValidatedEval && allowOpenAI && openAiKey && openAiKey.trim() !== "" && openAiKey !== "undefined") {
     try {
       const openai = new OpenAI({ apiKey: openAiKey });
       const completion = await openai.chat.completions.create({
-        model: "gpt-4o-mini",
+        model: OPENAI_EVAL_MODEL,
         temperature,
         seed: 42,
         response_format: {
@@ -253,7 +267,7 @@ export async function runEvaluationEngine(
         const valid = RawEvaluationSchema.safeParse(parsed);
         if (valid.success) {
           rawValidatedEval = valid.data;
-          winningModel = "gpt-4o-mini";
+          winningModel = OPENAI_EVAL_MODEL;
         } else {
           const zodErrorPaths = valid.error.issues
             .map((issue) => `${issue.path.join('.') || 'root'}: ${issue.message}`)
