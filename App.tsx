@@ -10,6 +10,8 @@ import { ToolsHub } from './components/ToolsHub';
 import { LinkedInOptimiser } from './components/LinkedInOptimiser';
 import { ResumeAuditor } from './components/ResumeAuditor';
 import { InterviewHub } from './components/interview/InterviewHub';
+import { ProjectsHub } from './components/projects/ProjectsHub';
+import { ProjectDetail } from './components/projects/ProjectDetail';
 import { Profile } from './components/Profile';
 import { Onboarding } from './components/auth/Onboarding';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
@@ -259,6 +261,10 @@ const App: React.FC = () => {
                 <Route path="/interview-studio" element={<InterviewHub />} />
                 <Route path="/practice" element={<InterviewHub />} />
                 <Route path="/resume-auditor" element={<ResumeAuditor />} />
+
+                {/* Real-World PM Projects Routes */}
+                <Route path="/projects" element={<ProjectsHub />} />
+                <Route path="/projects/:projectId" element={<ProjectDetail />} />
                 <Route path="/linkedin" element={<Navigate to="/tools/linkedin-optimiser" replace />} />
 
                 {/* Career Tools Suite Routes */}
