@@ -33,6 +33,23 @@ Each criterion is one of two types:
 Judge only what the evaluation says, not whether you agree with its scores.
 Return JSON: {"results":[{"index":number,"pass":boolean,"reason":"one sentence"}]} with one entry per criterion.`;
 
+const GEMINI_JUDGE_MODELS = ['gemini-3.8-flash', 'gemini-flash-latest', 'gemini-3.1-flash-lite'];
+const BUSY_RETRY_DELAYS_MS = [3000, 8000];
+
+const isBusy = (e: any) => /\b(503|429)\b|UNAVAILABLE|RESOURCE_EXHAUSTED/.test(e?.message ?? '');
+
+/** Retries a call that failed because the model was busy, then rethrows. */
+async function withBusyRetry<T>(fn: () => Promise<T>): Promise<T> {
+  for (let attempt = 0; ; attempt++) {
+    try {
+      return await fn();
+    } catch (e) {
+      if (!isBusy(e) || attempt >= BUSY_RETRY_DELAYS_MS.length) throw e;
+      await new Promise((r) => setTimeout(r, BUSY_RETRY_DELAYS_MS[attempt]));
+    }
+  }
+}
+
 /** Strips fields the judge doesn't need so it reads what a user would see. */
 function evaluationView(output: any) {
   const pillars = Object.fromEntries(
@@ -61,8 +78,9 @@ function evaluationView(output: any) {
 
 /**
  * Checks the evaluator output against the case's mustNotCredit / mustMention
- * criteria with a separate LLM call. Uses EVAL_JUDGE_MODEL (default
- * gemini-3.8-flash) and falls back to OpenAI only when no Gemini key is set.
+ * criteria with a separate LLM call. Uses EVAL_JUDGE_MODEL if set, otherwise
+ * gemini-3.8-flash with busy retries and Gemini fallbacks, then gpt-4o when
+ * OPENAI_API_KEY is set.
  * Throws on failure: the threshold step treats a missing judge as a FAIL.
  */
 export async function runJudge(bCase: BenchmarkCase, output: any): Promise<JudgeResult> {
@@ -81,34 +99,52 @@ export async function runJudge(bCase: BenchmarkCase, output: any): Promise<Judge
 
   const geminiKey = process.env.GEMINI_API_KEY?.trim();
   const openAiKey = process.env.OPENAI_API_KEY?.trim();
+  const errors: string[] = [];
   let text = '';
   let judgeModel = '';
 
   if (geminiKey) {
-    judgeModel = process.env.EVAL_JUDGE_MODEL || 'gemini-3.8-flash';
+    // EVAL_JUDGE_MODEL pins one model; otherwise busy models fall through the chain
+    const models = process.env.EVAL_JUDGE_MODEL ? [process.env.EVAL_JUDGE_MODEL] : GEMINI_JUDGE_MODELS;
     const ai = new GoogleGenAI({ apiKey: geminiKey });
-    const res = await ai.models.generateContent({
-      model: judgeModel,
-      contents: prompt,
-      config: { systemInstruction: SYSTEM, temperature: 0, responseMimeType: 'application/json' },
-    });
-    text = res?.text ?? '';
-  } else if (openAiKey) {
-    judgeModel = process.env.EVAL_JUDGE_MODEL || 'gpt-4o';
-    const openai = new OpenAI({ apiKey: openAiKey });
-    const res = await openai.chat.completions.create({
-      model: judgeModel,
-      temperature: 0,
-      response_format: { type: 'json_object' },
-      messages: [
-        { role: 'system', content: SYSTEM },
-        { role: 'user', content: prompt },
-      ],
-    });
-    text = res.choices[0]?.message?.content ?? '';
-  } else {
-    throw new Error('Judge needs GEMINI_API_KEY or OPENAI_API_KEY');
+    for (const model of models) {
+      try {
+        const res = await withBusyRetry(() =>
+          ai.models.generateContent({
+            model,
+            contents: prompt,
+            config: { systemInstruction: SYSTEM, temperature: 0, responseMimeType: 'application/json' },
+          })
+        );
+        text = res?.text ?? '';
+        judgeModel = model;
+        break;
+      } catch (e: any) {
+        errors.push(`${model}: ${e?.message ?? e}`);
+      }
+    }
   }
+  if (!text && openAiKey) {
+    const model = 'gpt-4o';
+    try {
+      const openai = new OpenAI({ apiKey: openAiKey });
+      const res = await openai.chat.completions.create({
+        model,
+        temperature: 0,
+        response_format: { type: 'json_object' },
+        messages: [
+          { role: 'system', content: SYSTEM },
+          { role: 'user', content: prompt },
+        ],
+      });
+      text = res.choices[0]?.message?.content ?? '';
+      judgeModel = model;
+    } catch (e: any) {
+      errors.push(`${model}: ${e?.message ?? e}`);
+    }
+  }
+  if (!geminiKey && !openAiKey) throw new Error('Judge needs GEMINI_API_KEY or OPENAI_API_KEY');
+  if (!text) throw new Error(`Judge failed on every model. ${errors.join(' | ')}`);
 
   const parsed = JudgeOutputSchema.safeParse(JSON.parse(text));
   if (!parsed.success) throw new Error(`Judge returned invalid JSON: ${parsed.error.message}`);

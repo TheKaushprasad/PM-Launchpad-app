@@ -142,6 +142,7 @@ export async function runEvaluationEngine(
   const geminiKey = process.env.GEMINI_API_KEY;
   const openAiKey = process.env.OPENAI_API_KEY;
   const OPENAI_EVAL_MODEL = "gpt-4o-mini";
+  const BUSY_RETRY_DELAY_MS = 3000;
   const forceOpenAI = process.env.FORCE_EVAL_PROVIDER === 'openai' || payload.provider === 'openai';
   let candidateModels = forceOpenAI ? [] : [
     'gemini-3.8-flash',
@@ -222,10 +223,11 @@ export async function runEvaluationEngine(
           }
         } catch (apiErr: any) {
           console.warn(`[EvaluatorEngine] Model ${modelName} API error:`, apiErr?.message || apiErr);
-          // If 429/503 service outage, break to next model immediately without wasting retry
+          // 429/503 spikes are usually brief: wait once and retry this model, then move to the next one
           const msg = apiErr?.message || "";
           if (msg.includes("503") || msg.includes("UNAVAILABLE") || msg.includes("429")) {
-            break;
+            if (modelAttempt > 0) break;
+            await new Promise((resolve) => setTimeout(resolve, BUSY_RETRY_DELAY_MS));
           }
         }
 

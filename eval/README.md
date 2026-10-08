@@ -29,7 +29,7 @@ It prints a threshold table and exits 1 if any active check fails. The full repo
 | Consistency (with `--consistency`) | score std dev ≤ 5, pillar spread ≤ 1, no verdict flips across runs |
 | Human calibration | skipped until 10+ cases have `humanLabels` |
 
-The judge uses `EVAL_JUDGE_MODEL` (default `gemini-3.8-flash`), or `gpt-4o` when only `OPENAI_API_KEY` is set.
+The judge uses `gemini-3.8-flash`, retries when Google says the model is busy, then falls back to other Gemini models and finally `gpt-4o` if `OPENAI_API_KEY` is set. Set `EVAL_JUDGE_MODEL` to pin one Gemini model.
 
 ## Adding a case
 
