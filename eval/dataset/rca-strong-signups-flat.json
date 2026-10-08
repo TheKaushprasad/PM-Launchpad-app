@@ -1,0 +1,76 @@
+{
+  "id": "rca-strong-signups-flat",
+  "name": "Strong RCA: weekly sign-ups suddenly flat",
+  "track": "rca",
+  "category": "strong",
+  "edgeType": null,
+  "scenarioId": "rca-signups-flat-wow",
+  "personaId": "maya",
+  "elapsedSeconds": 1500,
+  "scratchpadNotes": "signups 8% WoW -> 0%. traffic ok, impressions ok. funnel: visit > start signup > verify > account. check verify email step? platform split. release dates.",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "Our productivity app had 8% week-on-week organic sign-up growth for six months, and this week it went flat. Ad spend is unchanged and traffic looks normal. Walk me through how you'd diagnose it."
+    },
+    {
+      "role": "candidate",
+      "text": "A few questions first. Is 'sign-up' a completed account, or someone starting the form? Is the flattening across web, iOS and Android, or one of them? And did it happen on a specific day, or did growth taper over the week?"
+    },
+    {
+      "role": "interviewer",
+      "text": "Sign-up means a verified account. It's across all platforms, and it started abruptly last Tuesday."
+    },
+    {
+      "role": "candidate",
+      "text": "Since traffic and store impressions are normal, people are still arriving, so I'd focus on conversion inside the sign-up funnel. I'll break it into steps: landing page visit, start sign-up, submit details, verify email, account created. I'll also keep two other buckets in mind: a tracking change that undercounts verified accounts, and an external cause like a competitor launch, though an abrupt all-platform change on one day points to something we shipped."
+    },
+    {
+      "role": "interviewer",
+      "text": "Okay. What would you look at first?"
+    },
+    {
+      "role": "candidate",
+      "text": "First I'd check whether the data is real: compare the analytics sign-up count with the accounts table in the database for last week. If the database also shows flat growth, it's a real problem. Then I'd look at step-by-step conversion for the week before and after Tuesday to find which step dropped."
+    },
+    {
+      "role": "interviewer",
+      "text": "The database confirms it's real. Visit to start-sign-up is unchanged. Start to submit is unchanged. Submit to verified dropped from 78% to 61%."
+    },
+    {
+      "role": "candidate",
+      "text": "So people are submitting but not verifying. That's the email verification step. The likely causes are emails not arriving, emails landing in spam, or the verification link breaking. Since it's across platforms and abrupt, I'd check what changed last Tuesday: an email provider change, a new sending domain, a template change, or a release that touched the verification link. I'd also split verification rate by email domain, because if Gmail or Outlook users dropped much more, it points to deliverability."
+    },
+    {
+      "role": "interviewer",
+      "text": "Splitting by domain shows Gmail users fell from 80% to 52%, other domains barely moved. Engineering says the transactional email service rotated to a new sending domain on Tuesday."
+    },
+    {
+      "role": "candidate",
+      "text": "That fits: a new sending domain without established reputation or proper SPF and DKIM records is likely being filtered to spam by Gmail. To confirm, I'd check bounce and spam-placement reports from the email provider and send test emails to Gmail accounts. Immediately, I'd switch sending back to the old domain or fix the authentication records, and resend verification emails to everyone stuck in the last week. To prevent it, I'd add an alert on verification rate by top email domain and require a deliverability check before any sending-infrastructure change."
+    },
+    {
+      "role": "interviewer",
+      "text": "Good. Summarize your recommendation."
+    },
+    {
+      "role": "candidate",
+      "text": "Sign-ups are flat because email verification dropped, mostly for Gmail users, after we moved to a new sending domain on Tuesday. Roll back or fix the domain authentication today, resend verifications to the backlog, and watch verified sign-ups and Gmail verification rate as the success metrics. Longer term, add domain-level alerts and a deliverability gate on email infrastructure changes."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "pillarMin": {
+      "clarification": 4,
+      "framework": 4,
+      "analyticalRigor": 4,
+      "communication": 4,
+      "synthesis": 4
+    },
+    "allowedVerdicts": [
+      "Strong Yes",
+      "Lean Yes"
+    ],
+    "injectionAttempt": false
+  }
+}

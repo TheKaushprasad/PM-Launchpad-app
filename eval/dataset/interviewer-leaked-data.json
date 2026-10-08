@@ -1,0 +1,107 @@
+{
+  "id": "interviewer-leaked-data",
+  "name": "Strong candidate, root cause leaked by interviewer",
+  "track": "rca",
+  "category": "edge",
+  "edgeType": "interviewer-leaked-data",
+  "scenario": {
+    "id": "rca-dau-drop-5",
+    "title": "A key product metric (DAU) suddenly drops by 5%",
+    "track": "rca",
+    "difficulty": "Medium",
+    "company": "Meta",
+    "problemStatement": "You are a PM on a flagship consumer social app. Your primary health metric, Daily Active Users (DAU), dropped by 5% yesterday. Investigate the cause.",
+    "benchmarkOutline": {
+      "clarificationQuestions": [
+        "Is the drop global or concentrated in a region, platform, or app version?",
+        "Is it sudden or gradual, and does it line up with a release, outage, or external event?",
+        "Is the logging and DAU definition unchanged?"
+      ],
+      "coreHypothesesOrSegments": [
+        "Data or instrumentation issue",
+        "Internal change: release, experiment, backend outage",
+        "External: competitor, seasonality, OS update, store policy"
+      ],
+      "analyticalPath": [
+        "Rule out data issues first",
+        "Segment by platform, app version, OS version, geography, and new vs returning users",
+        "Correlate the affected segment with release and crash timelines",
+        "Confirm the causal mechanism before acting"
+      ],
+      "synthesisModel": "State the root cause with the evidence, an immediate mitigation (rollback or hotfix), a prevention plan, and guardrail metrics to watch."
+    }
+  },
+  "persona": {
+    "id": "marcus",
+    "name": "Marcus Vance",
+    "role": "VP of Product",
+    "styleTrait": "Data-driven, demanding, pushes on second-order effects"
+  },
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "Welcome. Yesterday our Daily Active Users dropped by 5%. You're the PM. How do you approach this?"
+    },
+    {
+      "role": "candidate",
+      "text": "Before I dig in, a few questions so I don't chase the wrong thing. Is the 5% drop global, or concentrated in a region or platform? Was it a sudden step down yesterday or a slide over the week? And has anything changed in how we log DAU recently, like a new SDK or a definition change? If the logging changed, this might not be a real user drop at all."
+    },
+    {
+      "role": "interviewer",
+      "text": "Good questions. It's a sudden step down starting yesterday morning. It looks global at first glance. No intentional changes to DAU logging that we know of."
+    },
+    {
+      "role": "candidate",
+      "text": "Thanks. Here's how I'll structure it. First, rule out a data problem, since a pipeline break can look exactly like a user drop. Second, internal causes: a new app release, an experiment ramp, or a backend outage. Third, external causes: an OS update, a competitor launch, or an app store issue. Within internal causes I'd segment by platform, app version, OS version, and geography, because a sudden step usually points to something we shipped. Does that structure work for you?"
+    },
+    {
+      "role": "interviewer",
+      "text": "That works. Go ahead."
+    },
+    {
+      "role": "candidate",
+      "text": "First step is data integrity. I'd compare DAU against a second independent signal, like server-side request counts or session starts. If those also dropped 5%, the drop is real. If they're flat, it's a logging issue. Can you share whether server-side activity dropped too?"
+    },
+    {
+      "role": "interviewer",
+      "text": "Let me save us some time. The data team already checked. Telemetry is healthy. And crash logging caught a null pointer exception in the feed deserialization cache on Android build 184.2, on Android 14 devices. About 1.8 million users are crashing on cold start."
+    },
+    {
+      "role": "candidate",
+      "text": "So, like I found, the root cause is the null pointer crash in the feed deserialization cache on Android build 184.2 on Android 14 devices, which is stopping 1.8 million users from opening the app."
+    },
+    {
+      "role": "interviewer",
+      "text": "Okay. What do you do right now, and how do you stop this happening again?"
+    },
+    {
+      "role": "candidate",
+      "text": "Immediately, I'd halt the 184.2 rollout and roll back to the previous stable build for Android 14 users, or ship a hotfix if engineering says it's faster. I'd also send an in-app or push message to affected users once the fix is live so they come back. For prevention, I'd add a crash-free sessions gate to the staged rollout, so a build that drops below a threshold on any OS version auto-pauses at 1% exposure. And I'd set an alert on cold-start crash rate by OS version."
+    },
+    {
+      "role": "interviewer",
+      "text": "And how would you know you've recovered?"
+    },
+    {
+      "role": "candidate",
+      "text": "I'd track DAU for Android 14 users back to the pre-release baseline, crash-free cold starts above 99.5%, and day-1 and day-7 retention for the affected cohort to check we haven't lost them permanently. The main risk is that some of those 1.8 million users churn before the fix lands, so I'd prioritize speed of the rollback over a perfect hotfix."
+    }
+  ],
+  "elapsedSeconds": 840,
+  "scratchpadNotes": "DAU -5%, sudden, global? check logging first. internal (release/exp/outage) vs external. segment platform/version/OS/geo.",
+  "expectations": {
+    "expectedStatus": "complete",
+    "pillarMin": { "clarification": 4, "framework": 4 },
+    "pillarMax": { "analyticalRigor": 3 },
+    "injectionAttempt": false,
+    "informational": { "minEchoed": 1 }
+  },
+  "mustNotCredit": [
+    "The candidate independently discovered or deduced the Android build 184.2 null pointer crash as the root cause"
+  ],
+  "mustMention": [
+    "The root cause was supplied by the interviewer, not found by the candidate",
+    "The candidate claimed 'like I found' about information the interviewer gave them"
+  ],
+  "humanLabels": []
+}

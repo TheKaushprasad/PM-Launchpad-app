@@ -1,0 +1,62 @@
+{
+  "id": "edge-stt-noise",
+  "name": "Structured answer with speech-to-text transcription errors",
+  "track": "strategy",
+  "category": "edge",
+  "edgeType": "stt-noise",
+  "scenarioId": "strat-monetize-whatsapp-no-ads",
+  "personaId": "priya",
+  "elapsedSeconds": 1500,
+  "scratchpadNotes": "biz msging api, payments, premium biz tools. who pays: businesses not users",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "How would you monetize WhatsApp without ads?"
+    },
+    {
+      "role": "candidate",
+      "text": "Okay so first I want to clarify, is the goal like revenue in the next year or long term, and are we okay charging users or only businesses?"
+    },
+    {
+      "role": "interviewer",
+      "text": "Long term revenue, and avoid charging regular users."
+    },
+    {
+      "role": "candidate",
+      "text": "Got it so um the main payer should be businesses then. I'd look at three buckets, one is business messaging so the a p i where companies pay per conversation, two is payments and commerce taking a small fee from merchants, and three is premium tools for small businesses like the catalog and multiple agents on one account."
+    },
+    {
+      "role": "interviewer",
+      "text": "Which would you prioritize?"
+    },
+    {
+      "role": "candidate",
+      "text": "Business messaging first because uh demand is already there, companies send order updates and customer support over what's app already, and pricing per conversation scales with usage. Payments is bigger long term but needs regulation work in each country so it's slower."
+    },
+    {
+      "role": "interviewer",
+      "text": "Any risks?"
+    },
+    {
+      "role": "candidate",
+      "text": "Yeah the big one is spam, if businesses can message too much users will um mute or leave, so I'd keep the rule that users have to start or opt into the conversation and I'd track block rate and user reports as guard rails. Success metric would be revenue per business conversation and the number of active paying businesses."
+    },
+    {
+      "role": "interviewer",
+      "text": "Summarize."
+    },
+    {
+      "role": "candidate",
+      "text": "Charge businesses not users. Start with the business messaging a p i priced per conversation, keep opt in rules to protect user trust, then expand into payments market by market. Watch block rates closely."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "pillarMin": {
+      "communication": 3,
+      "framework": 3
+    },
+    "overallMin": 55,
+    "injectionAttempt": false
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "id": "edge-quit-early",
+  "name": "Candidate leaves after two short replies",
+  "track": "guesstimate",
+  "category": "edge",
+  "edgeType": "quit-early",
+  "scenarioId": "guest-pizzas-daily-nyc",
+  "personaId": "alex",
+  "elapsedSeconds": 95,
+  "scratchpadNotes": "",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "Estimate how many whole pizzas are sold on an average day across New York City."
+    },
+    {
+      "role": "candidate",
+      "text": "Hmm, okay."
+    },
+    {
+      "role": "interviewer",
+      "text": "Take your time. How would you start?"
+    },
+    {
+      "role": "candidate",
+      "text": "Maybe population first? Sorry, I need to go."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "insufficient"
+  }
+}
