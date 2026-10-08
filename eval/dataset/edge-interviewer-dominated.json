@@ -1,0 +1,71 @@
+{
+  "id": "edge-interviewer-dominated",
+  "name": "Interviewer does the reasoning, candidate agrees",
+  "track": "rca",
+  "category": "edge",
+  "edgeType": "interviewer-dominated",
+  "scenarioId": "rca-dau-drop-5",
+  "personaId": "maya",
+  "elapsedSeconds": 1320,
+  "scratchpadNotes": "DAU -5%",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "Yesterday our DAU dropped 5%. How would you approach it?"
+    },
+    {
+      "role": "candidate",
+      "text": "I would like to understand more about the problem first please."
+    },
+    {
+      "role": "interviewer",
+      "text": "Sure. A good way is to first check whether it's a data issue, then look at internal changes like releases, then external factors. Does that make sense?"
+    },
+    {
+      "role": "candidate",
+      "text": "Yes that makes a lot of sense, I agree with that structure."
+    },
+    {
+      "role": "interviewer",
+      "text": "Great. Then you'd segment by platform and app version. If you did that, you'd find Android on the latest build is down 20% while iOS is flat. What would that tell you?"
+    },
+    {
+      "role": "candidate",
+      "text": "That would tell us that the problem is related to Android, like you said."
+    },
+    {
+      "role": "interviewer",
+      "text": "Right, likely a bad release. You'd check the crash logs, find a startup crash, roll back the build, and add a crash-rate gate to staged rollouts. Would you agree?"
+    },
+    {
+      "role": "candidate",
+      "text": "Yes, I agree, rolling back the build and adding a gate sounds good to me."
+    },
+    {
+      "role": "interviewer",
+      "text": "Anything to add?"
+    },
+    {
+      "role": "candidate",
+      "text": "No, I think you covered everything that I would have said."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "pillarMax": {
+      "clarification": 3,
+      "framework": 3,
+      "analyticalRigor": 3,
+      "communication": 3,
+      "synthesis": 3
+    },
+    "allowedVerdicts": [
+      "Strong No",
+      "Lean No"
+    ],
+    "injectionAttempt": false
+  },
+  "mustNotCredit": [
+    "The segmentation, root cause, or rollback plan as the candidate's own reasoning, since the interviewer supplied all of it"
+  ]
+}

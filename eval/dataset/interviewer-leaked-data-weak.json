@@ -1,0 +1,68 @@
+{
+  "id": "interviewer-leaked-data-weak",
+  "name": "Weak candidate, root cause leaked by interviewer",
+  "track": "rca",
+  "category": "edge",
+  "edgeType": "interviewer-leaked-data",
+  "scenario": {
+    "id": "rca-dau-drop-5",
+    "title": "A key product metric (DAU) suddenly drops by 5%",
+    "track": "rca",
+    "difficulty": "Medium",
+    "company": "Meta",
+    "problemStatement": "You are a PM on a flagship consumer social app. Your primary health metric, Daily Active Users (DAU), dropped by 5% yesterday. Investigate the cause.",
+    "benchmarkOutline": {
+      "clarificationQuestions": [
+        "Is the drop global or concentrated in a region, platform, or app version?",
+        "Is it sudden or gradual, and does it line up with a release, outage, or external event?",
+        "Is the logging and DAU definition unchanged?"
+      ],
+      "coreHypothesesOrSegments": [
+        "Data or instrumentation issue",
+        "Internal change: release, experiment, backend outage",
+        "External: competitor, seasonality, OS update, store policy"
+      ],
+      "analyticalPath": [
+        "Rule out data issues first",
+        "Segment by platform, app version, OS version, geography, and new vs returning users",
+        "Correlate the affected segment with release and crash timelines",
+        "Confirm the causal mechanism before acting"
+      ],
+      "synthesisModel": "State the root cause with the evidence, an immediate mitigation (rollback or hotfix), a prevention plan, and guardrail metrics to watch."
+    }
+  },
+  "persona": {
+    "id": "marcus",
+    "name": "Marcus Vance",
+    "role": "VP of Product",
+    "styleTrait": "Data-driven, demanding, pushes on second-order effects"
+  },
+  "messages": [
+    { "role": "interviewer", "text": "Welcome. Yesterday our Daily Active Users (DAU) dropped by 5% globally. As the PM, how do you investigate this?" },
+    { "role": "candidate", "text": "Thanks Marcus. A 5% drop in DAU is quite concerning. I would probably start by asking the engineering team what broke." },
+    { "role": "interviewer", "text": "We want a structured PM root-cause analysis first. Before asking engineers, how do you verify data telemetry and define your investigation framework?" },
+    { "role": "candidate", "text": "Right, I would look at the dashboards to see if the telemetry is working properly and check if the charts are going down." },
+    { "role": "interviewer", "text": "Well, our data team looked into it earlier this morning. To save time: the telemetry pipelines are completely healthy, but our crash logging service caught a severe null pointer exception in the feed deserialization cache on Android build 184.2 on Android 14 devices, accounting for 1.8M users crashing on cold start." },
+    { "role": "candidate", "text": "Aha! The root cause of the 5% DAU drop is a null pointer exception in the feed deserialization cache on Android build 184.2 on Android 14 devices that is causing 1.8M users to crash on cold start." },
+    { "role": "interviewer", "text": "Yes, I just told you that exact technical diagnostic. How would you have isolated this yourself analytically, and what is your mitigation plan?" },
+    { "role": "candidate", "text": "Well, like I found, because build 184.2 has that deserializer null pointer crash affecting 1.8M users on Android 14, we know the issue is an Android release defect." },
+    { "role": "interviewer", "text": "What steps do you take right now to stop user bleeding and prevent future occurrences?" },
+    { "role": "candidate", "text": "We should tell the engineers to fix the feed deserialization null pointer bug on build 184.2 and deploy a new build." }
+  ],
+  "elapsedSeconds": 680,
+  "scratchpadNotes": "DAU down 5%. ask eng? check dashboards",
+  "expectations": {
+    "expectedStatus": "complete",
+    "pillarMax": { "clarification": 2, "framework": 2, "analyticalRigor": 2 },
+    "allowedVerdicts": ["Strong No"],
+    "injectionAttempt": false,
+    "informational": { "minEchoed": 1 }
+  },
+  "mustNotCredit": [
+    "The candidate independently discovered or deduced the Android build 184.2 null pointer crash as the root cause"
+  ],
+  "mustMention": [
+    "The root cause was supplied by the interviewer, not found by the candidate"
+  ],
+  "humanLabels": []
+}

@@ -270,6 +270,7 @@ export function validateEvidenceItem(
  * - Reindexes quotes found in a different candidate turn (overwrites item.turnIndex and counts in reindexed).
  * - Records groundingStats { total, valid, dropped, echoed, reindexed }.
  * - If a pillar ends up with zero valid evidence and its score is >= 4, cap that pillar at 3.
+ * - If any of a pillar's evidence echoed the interviewer and its score is >= 4, cap that pillar at 3.
  */
 export function groundAndCapPillars(
   pillars: {
@@ -305,6 +306,7 @@ export function groundAndCapPillars(
     total += originalEvidence.length;
 
     const validatedEvidence: RawEvidenceItem[] = [];
+    let pillarEchoed = 0;
 
     for (const ev of originalEvidence) {
       const status = validateEvidenceItemDetailed(ev, transcriptTurns, key);
@@ -317,6 +319,7 @@ export function groundAndCapPillars(
         reindexed++;
       } else if (status === 'echoed') {
         echoed++;
+        pillarEchoed++;
         dropped++;
       } else {
         dropped++;
@@ -333,6 +336,14 @@ export function groundAndCapPillars(
       pillar.whyTheyDidNotScoreHigher = pillar.whyTheyDidNotScoreHigher 
         ? `${pillar.whyTheyDidNotScoreHigher} ${capNotice}` 
         : capNotice;
+    } else if (pillarEchoed > 0 && pillar.score >= 4) {
+      // Rule: a high score the evaluator justified partly with the interviewer's own words is capped at 3
+      pillar.score = 3;
+      cappedPillars.push(key);
+      const echoNotice = "Capped at 3: part of your analysis repeated information the interviewer gave you, so it can't count as a finding you reached yourself.";
+      pillar.whyTheyDidNotScoreHigher = pillar.whyTheyDidNotScoreHigher
+        ? `${pillar.whyTheyDidNotScoreHigher} ${echoNotice}`
+        : echoNotice;
     }
   }
 

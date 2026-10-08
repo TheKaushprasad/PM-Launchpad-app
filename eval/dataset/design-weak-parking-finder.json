@@ -1,0 +1,62 @@
+{
+  "id": "design-weak-parking-finder",
+  "name": "Weak product design: feature list without users or prioritization",
+  "track": "design",
+  "category": "weak",
+  "edgeType": null,
+  "scenarioId": "design-parking-finder-app",
+  "personaId": "maya",
+  "elapsedSeconds": 900,
+  "scratchpadNotes": "features: map, AR, AI, payments, social, rewards, EV",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "Design a parking finder app for drivers in congested downtown areas."
+    },
+    {
+      "role": "candidate",
+      "text": "Great, so the app will have a map that shows all parking spots in the city, and it will use AI to predict which ones are free."
+    },
+    {
+      "role": "interviewer",
+      "text": "Who are you designing for?"
+    },
+    {
+      "role": "candidate",
+      "text": "Everyone who drives, so all drivers. Then we add augmented reality so when you hold up your phone it shows arrows to the parking spot."
+    },
+    {
+      "role": "interviewer",
+      "text": "Drivers usually can't hold up their phone while driving. Any thoughts on that?"
+    },
+    {
+      "role": "candidate",
+      "text": "We can add voice too. Also a social feature where users can share parking spots with friends, and a rewards program where you get points for parking."
+    },
+    {
+      "role": "interviewer",
+      "text": "Which of these would you build first, and why?"
+    },
+    {
+      "role": "candidate",
+      "text": "All of them are important, so I would build all of them together in the first version. We should also add EV charging and car wash booking because those are popular."
+    },
+    {
+      "role": "interviewer",
+      "text": "How would you know if the app is successful?"
+    },
+    {
+      "role": "candidate",
+      "text": "If a lot of people download it and give it good ratings, then it is successful."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "overallMax": 50,
+    "allowedVerdicts": [
+      "Strong No",
+      "Lean No"
+    ],
+    "injectionAttempt": false
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "id": "strategy-strong-netflix-free-tier",
+  "name": "Strong strategy: Netflix free ad-supported tier",
+  "track": "strategy",
+  "category": "strong",
+  "edgeType": null,
+  "scenarioId": "strat-netflix-free-ad-tier",
+  "personaId": "priya",
+  "elapsedSeconds": 1680,
+  "scratchpadNotes": "goal? growth in emerging mkts vs ARPU. cannibalization of $6.99 ads tier. content cost fixed. ad fill rates EM low. test: 1-2 markets, back catalog only",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "Netflix is considering a completely free, ad-supported tier alongside its paid plans. Should they launch it?"
+    },
+    {
+      "role": "candidate",
+      "text": "Before I answer, what's the main goal: subscriber growth, revenue growth, or defending against free streaming services like Tubi and Pluto? And is this global or aimed at specific markets?"
+    },
+    {
+      "role": "interviewer",
+      "text": "Leadership cares about long-term revenue. Emerging markets are the main interest, but assume it could go global."
+    },
+    {
+      "role": "candidate",
+      "text": "Then I'll evaluate it on three things. First, incremental revenue: new ad revenue from people who would never pay, minus revenue lost from paying members who downgrade. Second, strategic fit: does it strengthen Netflix's position against free services and YouTube, or dilute the premium brand? Third, feasibility: content licensing rights for free distribution and ad market depth in each region."
+    },
+    {
+      "role": "interviewer",
+      "text": "Walk me through the revenue math."
+    },
+    {
+      "role": "candidate",
+      "text": "The key risk is cannibalization of the $6.99 ads tier. If a free tier offers the same catalog, many of those subscribers drop to free and Netflix loses about $7 a month plus some ad revenue difference. In emerging markets, ad CPMs are low, maybe a tenth of US rates, so a free user might generate well under a dollar a month. You'd need roughly ten or more new free users for every downgrade just to break even. Content costs are mostly fixed, so the free users aren't expensive to serve beyond streaming costs."
+    },
+    {
+      "role": "interviewer",
+      "text": "So is it a no?"
+    },
+    {
+      "role": "candidate",
+      "text": "Not for every market. The cannibalization risk is lowest where few people pay today, like India or Southeast Asia, and the upside is building a habit with users who later upgrade. I'd design the free tier to limit cannibalization: back catalog only, no new originals, lower resolution, and a cap on hours. That keeps a clear reason to pay."
+    },
+    {
+      "role": "interviewer",
+      "text": "How would you decide whether it's working?"
+    },
+    {
+      "role": "candidate",
+      "text": "I'd launch in one or two emerging markets with low paid penetration. The primary metric is total revenue per market including ads, with guardrails on paid churn and downgrade rate. I'd also track free-to-paid conversion within six months. If downgrades exceed a threshold or total revenue per market falls, we pull back."
+    },
+    {
+      "role": "interviewer",
+      "text": "Give me your final recommendation."
+    },
+    {
+      "role": "candidate",
+      "text": "Don't launch a global free tier. Run a limited free tier in a couple of low-penetration emerging markets with back-catalog content and viewing limits, measure total revenue and free-to-paid conversion over two quarters, and expand only if cannibalization stays low. The biggest risk is downgrades from the ads tier, so the content and quality limits are essential."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "pillarMin": {
+      "clarification": 4,
+      "framework": 4,
+      "analyticalRigor": 4,
+      "communication": 4,
+      "synthesis": 4
+    },
+    "allowedVerdicts": [
+      "Strong Yes",
+      "Lean Yes"
+    ],
+    "injectionAttempt": false
+  }
+}

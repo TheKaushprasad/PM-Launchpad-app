@@ -1,0 +1,59 @@
+{
+  "id": "guesstimate-average-nyc-pizzas",
+  "name": "Average guesstimate: sound structure, shaky assumptions",
+  "track": "guesstimate",
+  "category": "average",
+  "edgeType": null,
+  "scenarioId": "guest-pizzas-daily-nyc",
+  "personaId": "alex",
+  "elapsedSeconds": 1080,
+  "scratchpadNotes": "8.5M residents + 1.5M visitors = 10M. 1 slice/week? 8 slices/pie",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "Estimate how many whole pizzas are sold on an average day across New York City."
+    },
+    {
+      "role": "candidate",
+      "text": "Do you mean pizzas from restaurants only, or also frozen pizzas from supermarkets? And should I count slices as fractions of a pie?"
+    },
+    {
+      "role": "interviewer",
+      "text": "Restaurants and pizzerias only. Count slices as fractions of whole pies."
+    },
+    {
+      "role": "candidate",
+      "text": "Okay. I'll go demand side. New York has about 8.5 million residents and around 1.5 million commuters and tourists on a given day, so about 10 million people."
+    },
+    {
+      "role": "candidate",
+      "text": "I'll assume the average person eats pizza about once a week, and when they do, they eat about two slices. So per day that's 10 million times 2 slices divided by 7, which is roughly 2.9 million slices a day."
+    },
+    {
+      "role": "interviewer",
+      "text": "Is once a week reasonable for everyone, including young kids and elderly people?"
+    },
+    {
+      "role": "candidate",
+      "text": "Probably not for everyone, but some people eat it more often, so I think it averages out. I'll keep once a week."
+    },
+    {
+      "role": "candidate",
+      "text": "With 8 slices per pie, 2.9 million slices is about 360,000 pizzas a day. So my answer is roughly 360,000 pizzas daily in New York City."
+    },
+    {
+      "role": "interviewer",
+      "text": "How would you sanity-check that?"
+    },
+    {
+      "role": "candidate",
+      "text": "I could check the supply side: if there are about 2,000 pizzerias, that's 180 pizzas per pizzeria per day, which seems high but possible for busy Manhattan spots. I'd say the real number is probably a bit lower, maybe 250,000 to 350,000."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "overallMin": 40,
+    "overallMax": 80,
+    "injectionAttempt": false
+  }
+}

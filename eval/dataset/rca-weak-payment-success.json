@@ -1,0 +1,62 @@
+{
+  "id": "rca-weak-payment-success",
+  "name": "Weak RCA: jumps to a conclusion on payment success rate",
+  "track": "rca",
+  "category": "weak",
+  "edgeType": null,
+  "scenarioId": "rca-payment-success-decrease",
+  "personaId": "alex",
+  "elapsedSeconds": 780,
+  "scratchpadNotes": "PSR down. bank issue?",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "Payment success rate across all merchants fell from 86.5% to 84.8% over the past five days. How would you investigate?"
+    },
+    {
+      "role": "candidate",
+      "text": "This is probably a bank outage. Banks have downtime all the time, so I would call our banking partners and ask them what happened."
+    },
+    {
+      "role": "interviewer",
+      "text": "Before calling anyone, how would you know whether it's a bank issue or something else?"
+    },
+    {
+      "role": "candidate",
+      "text": "I think it's mostly banks because that is the most common reason. Maybe also the internet was slow for users. I would look at the dashboard and see if it went down."
+    },
+    {
+      "role": "interviewer",
+      "text": "The dashboard is what showed the drop. What would you break the number down by?"
+    },
+    {
+      "role": "candidate",
+      "text": "We could look at it by bank I guess. And then tell the bank with the most failures to fix their system and maybe give users a discount so they try again."
+    },
+    {
+      "role": "interviewer",
+      "text": "What if failures are spread evenly across banks?"
+    },
+    {
+      "role": "candidate",
+      "text": "Then it might be users entering wrong card details, so we can add a tooltip on the card number field to help them type it properly. That should improve the success rate."
+    },
+    {
+      "role": "interviewer",
+      "text": "Okay. Anything else before we wrap up?"
+    },
+    {
+      "role": "candidate",
+      "text": "No, I think the main thing is to talk to the banks and add the tooltip, and the rate will go back up."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "overallMax": 50,
+    "allowedVerdicts": [
+      "Strong No",
+      "Lean No"
+    ],
+    "injectionAttempt": false
+  }
+}

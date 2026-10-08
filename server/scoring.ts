@@ -60,9 +60,16 @@ export function convertToDisplayScore(rawScore: number): number {
 }
 
 /**
+ * Highest overall score a session flagged for prompt injection can receive.
+ * 69 is the top of the "Lean No" band, so injection can never earn a Yes verdict.
+ */
+export const INJECTION_OVERALL_CAP = 69;
+
+/**
  * Enforces prompt injection penalty:
  * If injectionAttempt is true, cap communication at raw score 2,
  * and add an explicit note to communication improvements.
+ * The overall score is separately capped at INJECTION_OVERALL_CAP.
  */
 export function applyInjectionDefense(rawEval: RawEvaluation): void {
   if (!rawEval.injectionAttempt) return;
@@ -111,7 +118,8 @@ export function formatEvaluationResponse({
   applyInjectionDefense(rawEval);
 
   // Compute total score and verdict deterministically in code
-  const overallScore = computeOverallScore(rawEval.pillars);
+  const pillarScore = computeOverallScore(rawEval.pillars);
+  const overallScore = rawEval.injectionAttempt ? Math.min(pillarScore, INJECTION_OVERALL_CAP) : pillarScore;
   const verdict = computeVerdict(overallScore);
 
   const formatPillar = (pillar: RawPillarScore, defaultName: string) => {
