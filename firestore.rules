@@ -73,6 +73,14 @@ service cloud.firestore {
         allow delete: if isOwner(userId) && isValidId(resumeId);
       }
 
+      // Real-World Project Submissions Sub-collection
+      // Submissions and AI feedback are written server-side via the Firebase Admin SDK.
+      // Clients can only read their own submissions.
+      match /project_submissions/{projectId} {
+        allow get, list: if isOwner(userId);
+        allow delete: if isOwner(userId) && isValidId(projectId);
+      }
+
       // Interview Sessions Sub-collection
       // Evaluations, scores, verdicts, rubric pillars, and audit drift-tracking metrics
       // are persisted server-side via the Firebase Admin SDK.

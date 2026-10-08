@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   LayoutDashboard, BookOpen, Search, BarChart2, Smartphone, 
   Bot, Info, ChevronRight, ChevronDown, Sparkles, Zap, Code, Briefcase,
-  Library, LogIn, LogOut, Layers, User as UserIcon, Menu, X
+  Library, LogIn, LogOut, Layers, User as UserIcon, Menu, X, FolderKanban
 } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -30,6 +30,7 @@ const MODULE_ITEMS = [
 
 const OTHER_NAV_ITEMS = [
   { label: 'AI Mock Interview', icon: Sparkles, path: '/interview-studio', badge: 'AI' },
+  { label: 'Real-World Projects', icon: FolderKanban, path: '/projects' },
   { label: 'Resources', icon: BookOpen, path: '/resources' },
   { label: 'Career Tools', icon: Zap, path: '/tools' },
   { label: 'User Profile', icon: UserIcon, path: '/profile' },

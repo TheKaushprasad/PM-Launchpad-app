@@ -152,12 +152,7 @@ export async function runEvaluationEngine(
 
   if (!forceOpenAI && geminiKey && geminiKey.trim() !== "" && geminiKey !== "undefined" && geminiKey !== "null") {
     const ai = new GoogleGenAI({
-      apiKey: geminiKey,
-      httpOptions: {
-        headers: {
-          'User-Agent': 'aistudio-build'
-        }
-      }
+      apiKey: geminiKey
     });
 
     for (let mIdx = 0; mIdx < candidateModels.length; mIdx++) {

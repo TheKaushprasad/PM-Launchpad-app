@@ -1,20 +1,24 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# The NooB PM
 
-# Run and deploy your AI Studio app
+Source for [thenoobpm.com](https://thenoobpm.com): a career platform for aspiring product managers with learning tracks, AI mock interviews, resume and LinkedIn tools, and real-world projects.
 
-This contains everything you need to run your app locally.
+**Stack:** React + Vite frontend, Express API (`server.ts`, served on Vercel via `api-handler.ts`), Firebase Auth and Firestore, Gemini (with OpenAI fallback) for AI features.
 
-View your app in AI Studio: https://ai.studio/apps/02bc883c-ea67-47f0-bf74-b76c386d5c68
+## Run locally
 
-## Run Locally
+**Prerequisites:** Node.js
 
-**Prerequisites:**  Node.js
+1. Install dependencies: `npm install`
+2. Create a `.env` file with the keys you need:
+   - `GEMINI_API_KEY` (AI features)
+   - `OPENAI_API_KEY` (optional fallback)
+   - `FIREBASE_SERVICE_ACCOUNT_KEY` (server-side auth checks and saving results)
+   - `RESEND_API_KEY`, `APP_URL` (transactional emails)
+   - `FIRECRAWL_API_KEY` (LinkedIn profile scraping)
+3. Start the app: `npm run dev` (http://localhost:3000)
 
+Typecheck with `npm run lint` and build with `npm run build`.
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## Deploying
+
+Vercel deploys `main` to production and builds a preview for every pull request. Firestore security rules in `firestore.rules` are deployed separately with the Firebase CLI (`firebase deploy --only firestore:rules`).
