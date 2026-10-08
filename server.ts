@@ -10,8 +10,10 @@ import {
   generateVerificationLink, 
   generatePasswordResetLink,
   isFirebaseAdminConfigured,
-  getAdminAuth
+  getAdminAuth,
+  getFirebaseAdmin
 } from "./services/firebaseAdmin";
+import { getFirestore } from "firebase-admin/firestore";
 import { 
   sendVerificationEmailViaResend, 
   sendPasswordResetEmailViaResend, 
@@ -1282,6 +1284,19 @@ Pure text, 1-2 sentences, actionable and clear. No markdown asterisks.
 
       if (!scenario || !messages || !Array.isArray(messages)) {
         return res.status(400).json({ error: "Insufficient session data for evaluation" });
+      }
+
+      // Verify that sessionId, if provided, belongs to that user before writing
+      if (sessionId && typeof sessionId === 'string') {
+        const cleanSessionId = sessionId.replace(/[^a-zA-Z0-9_\-]/g, '_');
+        const db = getFirestore(getFirebaseAdmin());
+        const sessionDoc = await db.collection('users').doc(userId).collection('interview_sessions').doc(cleanSessionId).get();
+        if (sessionDoc.exists) {
+          const docData = sessionDoc.data();
+          if (docData?.userId && docData.userId !== userId) {
+            return res.status(403).json({ error: "Forbidden: Session does not belong to this user" });
+          }
+        }
       }
 
       // Pipeline execution: validate -> groundAndCapPillars -> compute scores -> persist
