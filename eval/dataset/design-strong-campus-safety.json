@@ -1,0 +1,84 @@
+{
+  "id": "design-strong-campus-safety",
+  "name": "Strong design: campus safety app with discreet SOS and walk escort",
+  "track": "design",
+  "category": "strong",
+  "edgeType": null,
+  "scenarioId": "design-campus-safety-app-university",
+  "personaId": "alex",
+  "elapsedSeconds": 1680,
+  "scratchpadNotes": "univ-run? dispatch integration? users: walking home late (most usage), active danger (rare, critical), bystander. pains: can't unlock phone in danger, 911 no location, feeling unsafe. MVP: SafeWalk + silent SOS (cancel window) + lit-route map. NSM: dispatch time-to-location. guard: false alarms/wk",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "Design a campus safety app for university students, especially for people walking around campus late at night."
+    },
+    {
+      "role": "candidate",
+      "text": "Okay, let me get some context. Who's the customer here, is the university buying this and rolling it out, or is it a consumer app students download? Does campus police have a dispatch system we can integrate with? And how big a campus are we talking, a dense urban one or a big spread-out one with dark parking lots?"
+    },
+    {
+      "role": "interviewer",
+      "text": "The university buys it and pushes it to all students. Campus police have a dispatch system and they're willing to integrate. Think of a large campus, around 40,000 students, lots of open space."
+    },
+    {
+      "role": "candidate",
+      "text": "Thanks. And do we know anything about what's going wrong today? Like, is it response time, or students not feeling safe, or underreporting?"
+    },
+    {
+      "role": "interviewer",
+      "text": "The safety office's complaint is that when students do call, police spend too long figuring out where they are. And surveys say a lot of students avoid the library late at night because they feel unsafe walking back."
+    },
+    {
+      "role": "candidate",
+      "text": "That's helpful, because it's two different problems. I'd split users into three moments. The everyday one: a student leaving the library at midnight who isn't in danger but feels uneasy; that's high frequency, and it's about peace of mind. The rare critical one: someone actually being followed or attacked, where every second matters and they may not be able to look at their phone. And the bystander who sees something and wants to report it without getting involved. I'd design for the first two, because the first drives whether anyone has the app installed and open, and the second is where the location problem you mentioned lives."
+    },
+    {
+      "role": "interviewer",
+      "text": "Fine. What do you build?"
+    },
+    {
+      "role": "candidate",
+      "text": "For the walk home: you pick your dorm, and a friend or a campus safety officer can follow your dot until you arrive. If you stop moving for a minute or go way off route, the app asks 'are you okay?', and if you don't answer, it alerts whoever is watching. The map also routes you along lit paths that pass blue-light poles. For the emergency moment: three presses of the side button, in your pocket, triggers a silent SOS that sends your precise location, including building and floor, straight into the dispatch system, and opens the mic. I thought about a big red button on the home screen, but if you're scared and someone's next to you, unlocking the phone and finding a button is the exact thing you can't do."
+    },
+    {
+      "role": "interviewer",
+      "text": "What worries you about the silent trigger?"
+    },
+    {
+      "role": "candidate",
+      "text": "False alarms, mostly. Three presses happen by accident in a bag, and if police get a few hundred ghost alerts a week, they'll stop treating them as urgent, which is worse than no app. So there's a short vibration countdown you can cancel with a squeeze, and dispatch sees a confidence signal, like whether the phone was moving fast or the walk escort was active. The other risk is privacy: students won't install something that tracks them all the time, so location is only shared during an active walk or an SOS, and we say that loudly in onboarding. And there's an equity issue: older Android phones may not support the button gesture, so there needs to be a lock-screen widget fallback."
+    },
+    {
+      "role": "interviewer",
+      "text": "How would you prioritize between those features if you only had one quarter?"
+    },
+    {
+      "role": "candidate",
+      "text": "I'd score them on frequency of need, severity, and dependency on integrations. The silent SOS with location is the highest severity and directly fixes the dispatch problem, but it's the riskiest to get wrong. The walk escort is the highest frequency and builds the daily habit that makes the SOS available when needed. Lit-route maps are nice but depend on lighting data we may not have. So quarter one is walk escort with friends plus SOS with location into dispatch; officer monitoring and route lighting come next."
+    },
+    {
+      "role": "interviewer",
+      "text": "Okay, summarize."
+    },
+    {
+      "role": "candidate",
+      "text": "Ship a campus safety app built around two moments: a walk-home escort that friends can watch, and a silent pocket SOS that drops precise building-level location into campus dispatch, with a cancel window to keep false alarms down. North Star is median time from SOS to an officer knowing the exact location, which is the problem the safety office named. Secondary is weekly walk-escort usage. Guardrails are false alarms per week and uninstalls after onboarding. I'd pilot with one residential area and the night shift at dispatch for a month, tune the false-alarm rate, then roll out campus-wide at the start of a semester."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "pillarMin": {
+      "clarification": 4,
+      "framework": 4,
+      "analyticalRigor": 4,
+      "synthesis": 4
+    },
+    "allowedVerdicts": [
+      "Strong Yes",
+      "Lean Yes"
+    ],
+    "overallMin": 70,
+    "injectionAttempt": false
+  }
+}

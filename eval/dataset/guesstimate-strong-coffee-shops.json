@@ -1,0 +1,76 @@
+{
+  "id": "guesstimate-strong-coffee-shops",
+  "name": "Strong guesstimate: coffee shops for a 10M city, segmented demand and self-corrected sanity check",
+  "track": "guesstimate",
+  "category": "strong",
+  "edgeType": null,
+  "scenarioId": "guest-coffee-shops-10m-city",
+  "personaId": "maya",
+  "elapsedSeconds": 1140,
+  "scratchpadNotes": "shops = daily out-of-home cups / cups per shop. 10M -> 7.5M adults. daily buyers 15%? x1.3, weekly 30% x 2/7. shop 12h x ~25/hr = 300. US ~1 per 9k ppl? -> dense city 2-3x. daily buyers -> 10%. ~5.4k",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "Estimate how many coffee shops a city of 10 million people can sustain. Chains, independents, specialty bars, all of it."
+    },
+    {
+      "role": "candidate",
+      "text": "Before I start, a few things. Is this a coffee-drinking city, like a big US or European city, or a tea-dominant one? Do we count places where coffee is a side item, like fast-food counters, gas stations, bakeries? And by sustain, I am assuming steady state, so the number of shops the demand can keep profitable today, not a forecast."
+    },
+    {
+      "role": "interviewer",
+      "text": "Think of a large, fairly affluent city where coffee is common. Leave out fast-food chains, gas stations and convenience stores. Kiosks and coffee carts that are mainly about coffee count. Steady state is right."
+    },
+    {
+      "role": "candidate",
+      "text": "Okay. Since the shop count is what we are solving for, I will go demand side: total out-of-home cups per day, divided by how many cups a typical shop has to sell to stay open. The nice thing about that structure is the two halves are independent, so I can sanity check each one separately. For demand I want to split people by habit, because a daily commuter buying a latte every morning and someone who goes to a cafe on Saturdays behave very differently."
+    },
+    {
+      "role": "interviewer",
+      "text": "Makes sense, go ahead."
+    },
+    {
+      "role": "candidate",
+      "text": "So 10 million people, take out kids under fifteen, call it 75 percent adults, 7.5 million. First segment, daily buyers: I will say 15 percent of adults buy coffee out on a typical weekday, and some buy twice, so 1.3 cups each. That is about 1.1 million people times 1.3, roughly 1.46 million cups. Second segment, occasional buyers: 30 percent of adults, about two cups a week. 2.25 million times 2 divided by 7 is about 640 thousand a day. Rest drink at home or not at all. Total demand is around 2.1 million cups a day."
+    },
+    {
+      "role": "interviewer",
+      "text": "And the supply side?"
+    },
+    {
+      "role": "candidate",
+      "text": "For a single shop, say open twelve hours. The morning rush might be 60 cups an hour for two or three hours, the afternoon maybe 10 to 15. Averaged over the day I will use 25 cups an hour, so about 300 cups a day, which feels like the level where rent and two or three staff are covered. So 2.1 million over 300 gives about 7,000 shops."
+    },
+    {
+      "role": "interviewer",
+      "text": "How confident are you in that?"
+    },
+    {
+      "role": "candidate",
+      "text": "Let me check it against something. Nationally in the US I remember roughly 35 to 40 thousand coffee shops for about 335 million people, so about one per nine thousand people. Mine is one per 1,400, which is six times the national rate. A dense city should be higher than the national average because of commuting and less driving, but I would expect two to three times, not six. The number I trust least is the 15 percent daily buyers, so I will bring that down to 10 percent. That makes daily buyers 750 thousand times 1.3, about 975 thousand cups, plus the same 640 thousand occasional, so 1.6 million cups. Divided by 300 that is about 5,400 shops, one per roughly 1,850 people, closer to three times the national rate."
+    },
+    {
+      "role": "interviewer",
+      "text": "Okay, wrap it up for me."
+    },
+    {
+      "role": "candidate",
+      "text": "My estimate is about 5,000 to 5,500 coffee shops, and I would give a range of 4,000 to 7,000. The biggest lever is the share of adults who buy coffee out every day: each 5 points moves the answer by around 1,600 shops. To pin it down, I would look at card transaction data for coffee merchants in the city, or a quick commuter survey, and for the supply side ask a chain like Starbucks what daily transactions a store needs to break even."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "pillarMin": {
+      "clarification": 4,
+      "framework": 4,
+      "analyticalRigor": 4,
+      "synthesis": 4
+    },
+    "allowedVerdicts": [
+      "Strong Yes",
+      "Lean Yes"
+    ],
+    "overallMin": 70,
+    "injectionAttempt": false
+  }
+}

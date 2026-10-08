@@ -1,0 +1,79 @@
+{
+  "id": "design-average-book-recommendations",
+  "name": "Average design: book app with standard flow, thin clarification and generic metrics",
+  "track": "design",
+  "category": "average",
+  "edgeType": null,
+  "scenarioId": "design-book-recommendation-app",
+  "personaId": "marcus",
+  "elapsedSeconds": 1200,
+  "scratchpadNotes": "casual readers 6-12/yr. users: commuter, bedtime reader, book club. pains: what to read next, losing momentum. ideas: mood search, samples, streaks, friends. MVP: mood + samples. metrics: DAU, books finished",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "Design a book recommendation app for casual readers, people who want to read maybe six to twelve books a year."
+    },
+    {
+      "role": "candidate",
+      "text": "Okay, is this mobile?"
+    },
+    {
+      "role": "interviewer",
+      "text": "Yes, mobile."
+    },
+    {
+      "role": "candidate",
+      "text": "Okay. So I'll go through users, pain points, solutions, and then prioritize. For users, I'm thinking the commuter who reads on the train, the bedtime reader who wants to read instead of scrolling, and people in book clubs. I'll focus on the bedtime reader since that's probably the most common."
+    },
+    {
+      "role": "interviewer",
+      "text": "Why that one?"
+    },
+    {
+      "role": "candidate",
+      "text": "I think it's just the most relatable. A lot of people say they want to read before bed and then end up on their phone instead."
+    },
+    {
+      "role": "interviewer",
+      "text": "Okay. Pain points?"
+    },
+    {
+      "role": "candidate",
+      "text": "The main ones are not knowing what to read next, getting bored around chapter two and dropping the book, and feeling like Goodreads is for hardcore readers so they don't use it. There's also price, books are expensive."
+    },
+    {
+      "role": "interviewer",
+      "text": "What would you build?"
+    },
+    {
+      "role": "candidate",
+      "text": "A few features. First, a mood picker, where you say 'cozy mystery' or 'something like the show I just watched' and it suggests books. Second, a sample feed where you can read the first few pages before you commit. Third, a reading streak with a small daily goal, like ten minutes a night. And fourth, a way to see what friends are reading."
+    },
+    {
+      "role": "interviewer",
+      "text": "If you could only build one or two of those, which?"
+    },
+    {
+      "role": "candidate",
+      "text": "I'd go with the mood picker and the samples, because they solve the discovery problem, which is the biggest pain point. The streak is good too but it's more of a retention thing. Friends could come later."
+    },
+    {
+      "role": "interviewer",
+      "text": "Alright, summarize."
+    },
+    {
+      "role": "candidate",
+      "text": "So the app is for casual bedtime readers, the MVP is a mood picker plus sample pages, and I'd measure daily active users and number of books finished per user."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "allowedVerdicts": [
+      "Lean Yes",
+      "Lean No"
+    ],
+    "overallMin": 40,
+    "overallMax": 80,
+    "injectionAttempt": false
+  }
+}

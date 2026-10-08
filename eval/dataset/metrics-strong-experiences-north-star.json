@@ -1,0 +1,104 @@
+{
+  "id": "metrics-strong-experiences-north-star",
+  "name": "Strong metrics: North Star for a two-sided local experiences marketplace",
+  "track": "metrics",
+  "category": "strong",
+  "edgeType": null,
+  "scenario": {
+    "id": "metrics-experiences-north-star",
+    "title": "Choose a North Star metric for a local experiences marketplace",
+    "track": "metrics",
+    "difficulty": "Hard",
+    "company": "Airbnb",
+    "problemStatement": "You run Experiences, a marketplace where travelers book activities hosted by locals (cooking classes, tours). Leadership wants a single North Star metric for the business. What do you pick and why?",
+    "benchmarkOutline": {
+      "clarificationQuestions": [
+        "What stage is the product in and what is the current growth constraint (supply or demand)?",
+        "How does the business make money (take rate on bookings)?",
+        "Who are the stakeholders: guests, hosts, the core stays business?",
+        "What time horizon should the North Star capture?"
+      ],
+      "coreHypothesesOrSegments": [
+        "Guest value: booked and completed experiences that were enjoyed",
+        "Host value: earnings and utilization",
+        "Business value: gross booking value and take rate",
+        "Ecosystem: cross-sell with stays, trust and safety"
+      ],
+      "analyticalPath": [
+        "Compare candidate North Stars (GBV, bookings, completed nights, active hosts) and justify one",
+        "Decompose into supply and demand driver trees",
+        "Add counter-metrics for quality, cancellations, and host health",
+        "Address lag vs lead and gaming"
+      ],
+      "synthesisModel": "A single defensible North Star with a two-sided driver tree, guardrails for quality and trust, and how leadership should use it."
+    }
+  },
+  "personaId": "marcus",
+  "elapsedSeconds": 1680,
+  "scratchpadNotes": "stage? constraint supply vs demand? revenue = take rate on bookings. candidates: GBV / bookings / completed + reviewed experiences. NSM = completed experiences w/ 4+ rating per week. demand: search->book conv, guests/trip. supply: listed hosts, avail slots, fill rate. guard: cancel rate, host 90d retention, refunds/safety.",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "Leadership wants one North Star for Experiences, our marketplace for local activities like cooking classes and walking tours. What would you choose?"
+    },
+    {
+      "role": "candidate",
+      "text": "A couple of things first. Where is the business today: still proving the model, or scaling? And is the current constraint on supply, not enough good hosts in key cities, or on demand? Also, how do we make money, is it a take rate on each booking? And is Experiences expected to stand alone or to support the stays business?"
+    },
+    {
+      "role": "interviewer",
+      "text": "It's in the scaling phase in about 40 cities. Demand is the constraint in most cities, supply is fine. We take 20% of each booking. And yes, leadership also cares that Experiences makes people book more trips."
+    },
+    {
+      "role": "candidate",
+      "text": "Got it. So the core value exchange is a guest has a memorable activity, a host earns money, and we take 20%, with a halo on stays. Let me compare a few candidates. Gross booking value is closest to revenue, but it rewards pushing expensive experiences and it's blind to whether the experience was any good. Number of bookings has the same quality blind spot, plus bookings that get cancelled still count. I'd pick completed experiences per week that receive a rating of four stars or above. It only counts value that actually got delivered, it's something both guests and hosts care about, and it's harder to game because you need the experience to actually happen and be good."
+    },
+    {
+      "role": "interviewer",
+      "text": "Why not bookings with a quality filter later? Ratings come in days after the event."
+    },
+    {
+      "role": "candidate",
+      "text": "That's the lag cost, yes, typically ratings land within a few days, so the weekly number is always a little stale. I think it's worth it because the failure mode of optimizing raw bookings in a marketplace is real: you get low-quality hosts, cancellations, and guests who never come back. To deal with the lag, I'd report bookings as a leading input every day and the North Star weekly. Also, I'd note that only maybe half of guests leave ratings, so I'd define it as completed experiences without a negative signal, meaning no rating under four, no refund, no complaint, so non-raters aren't excluded."
+    },
+    {
+      "role": "interviewer",
+      "text": "Okay. How do you break it down?"
+    },
+    {
+      "role": "candidate",
+      "text": "Since demand is the constraint, I'd make the demand side the deeper branch. Completed good experiences equals guests searching for experiences, times search-to-booking conversion, times bookings per guest, times completion rate, times share without a negative signal. Searchers splits into people coming from a stays booking, which is the cross-sell, and people coming directly. On the supply side, which is lighter for now, available slots per city and fill rate, so we notice if a city becomes supply constrained."
+    },
+    {
+      "role": "interviewer",
+      "text": "Leadership will ask how this could backfire."
+    },
+    {
+      "role": "candidate",
+      "text": "Three ways. One, if teams push conversion with heavy discounts, the North Star rises but the 20% take shrinks, so take rate and GBV per experience are guardrails. Two, hosts could be pushed to over-schedule and then cancel, so host cancellation rate and host 90-day retention are guardrails. And three, trust and safety incidents, which a rating-based metric won't catch fast enough, so incident rate per thousand experiences is a hard guardrail with a ceiling, not something we trade off."
+    },
+    {
+      "role": "interviewer",
+      "text": "Summarize what you'd present."
+    },
+    {
+      "role": "candidate",
+      "text": "North Star: completed experiences per week with no negative signal. Inputs leaders review weekly: experience searchers split by stays cross-sell versus direct, search-to-book conversion, bookings per guest, completion rate. Guardrails: take rate, host cancellation rate, host 90-day retention, and safety incidents per thousand. And one halo metric reviewed quarterly, stays booked by guests within a year of their first experience versus a matched group, since that's the strategic reason the business exists. Any experiment that raises the North Star but drops take rate by more than a point, or increases host cancellations, shouldn't ship without a review."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "pillarMin": {
+      "clarification": 4,
+      "framework": 4,
+      "analyticalRigor": 4,
+      "synthesis": 4
+    },
+    "allowedVerdicts": [
+      "Strong Yes",
+      "Lean Yes"
+    ],
+    "overallMin": 70,
+    "injectionAttempt": false
+  }
+}

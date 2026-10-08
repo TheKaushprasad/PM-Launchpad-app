@@ -3,6 +3,14 @@ import { CaseExpectations } from './checks/expectations';
 
 export type CaseCategory = 'strong' | 'average' | 'weak' | 'edge';
 
+/**
+ * Interview tracks the dataset covers. "metrics" has an evaluator rubric
+ * (server/prompts/tracks/metrics.txt) but no app scenarios yet, so metrics
+ * cases embed their scenario.
+ */
+export const TRACKS = ['rca', 'guesstimate', 'strategy', 'design', 'metrics'] as const;
+export type Track = (typeof TRACKS)[number];
+
 export type EdgeType =
   | 'injection'
   | 'quit-early'
@@ -59,7 +67,7 @@ export const CaseFileSchema = z
   .object({
     id: z.string().regex(/^[a-z0-9-]+$/),
     name: z.string().min(1),
-    track: z.enum(['rca', 'guesstimate', 'strategy', 'design']),
+    track: z.enum(TRACKS),
     category: z.enum(['strong', 'average', 'weak', 'edge']),
     edgeType: z
       .enum(['injection', 'quit-early', 'interviewer-dominated', 'interviewer-leaked-data', 'stt-noise'])

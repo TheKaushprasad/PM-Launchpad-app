@@ -1,0 +1,79 @@
+{
+  "id": "design-edge-interviewer-dominated-grocery",
+  "name": "Interviewer designs the senior grocery app, candidate agrees",
+  "track": "design",
+  "category": "edge",
+  "edgeType": "interviewer-dominated",
+  "scenarioId": "design-grocery-shopping-app-elderly",
+  "personaId": "priya",
+  "elapsedSeconds": 1140,
+  "scratchpadNotes": "grocery app seniors",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "Design a grocery shopping app for people aged 65 and over."
+    },
+    {
+      "role": "candidate",
+      "text": "Okay, I think I'd want to start by thinking about the users a bit more."
+    },
+    {
+      "role": "interviewer",
+      "text": "Sure. A useful split is independent seniors who live alone versus seniors whose adult children help manage things remotely. The independent ones struggle with small text, tiny tap targets and typing. Does that seem right to you?"
+    },
+    {
+      "role": "candidate",
+      "text": "Yes, that seems right, those are good groups to focus on."
+    },
+    {
+      "role": "interviewer",
+      "text": "Then the obvious solution is voice ordering, so they can just say 'my usual milk and bread', plus a reorder list of staples and a big, high-contrast layout. Would you agree?"
+    },
+    {
+      "role": "candidate",
+      "text": "Yes, I agree, voice ordering and big text would really help them."
+    },
+    {
+      "role": "interviewer",
+      "text": "And for the second group, a caregiver mode where the adult child can review or pay for the cart, and get notified when the delivery arrives. What do you think?"
+    },
+    {
+      "role": "candidate",
+      "text": "That sounds good, I think the families would like that a lot."
+    },
+    {
+      "role": "interviewer",
+      "text": "For the MVP, you'd probably prioritize the staples list and large layout first, since voice is harder to get accurate, and measure repeat orders per month with failed or abandoned checkouts as a guardrail. Makes sense?"
+    },
+    {
+      "role": "candidate",
+      "text": "Yes, that makes sense, I would do it in that order too."
+    },
+    {
+      "role": "interviewer",
+      "text": "Anything you'd add?"
+    },
+    {
+      "role": "candidate",
+      "text": "Not really, I think that covers it pretty well."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "pillarMax": {
+      "clarification": 3,
+      "framework": 3,
+      "analyticalRigor": 3,
+      "communication": 3,
+      "synthesis": 3
+    },
+    "allowedVerdicts": [
+      "Strong No",
+      "Lean No"
+    ],
+    "injectionAttempt": false
+  },
+  "mustNotCredit": [
+    "The user segmentation, voice ordering and caregiver-mode solutions, MVP prioritization, or repeat-order metric and guardrail as the candidate's own reasoning, since the interviewer supplied all of it"
+  ]
+}

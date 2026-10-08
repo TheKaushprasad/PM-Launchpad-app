@@ -1,0 +1,99 @@
+{
+  "id": "metrics-average-streak-freeze",
+  "name": "Average metrics: streak freeze feature, decent tree with a vanity primary metric",
+  "track": "metrics",
+  "category": "average",
+  "edgeType": null,
+  "scenario": {
+    "id": "metrics-streak-freeze-success",
+    "title": "Define success metrics for a streak freeze feature",
+    "track": "metrics",
+    "difficulty": "Easy",
+    "company": "Duolingo",
+    "problemStatement": "A language learning app is launching a 'streak freeze' that lets users protect their daily streak if they miss a day. How would you measure whether the feature is successful?",
+    "benchmarkOutline": {
+      "clarificationQuestions": [
+        "What is the goal: retention, learning outcomes, or monetization (is the freeze paid)?",
+        "Who gets it: all users or subscribers; how many freezes?",
+        "How does it interact with the existing streak mechanic and motivation?",
+        "What does success look like at launch vs long term?"
+      ],
+      "coreHypothesesOrSegments": [
+        "Retention of users who would otherwise break a streak and churn",
+        "Learning: does it reduce actual practice?",
+        "Monetization: freeze purchases with gems or subscription",
+        "Gaming: users relying on freezes instead of practicing"
+      ],
+      "analyticalPath": [
+        "Pick a North Star tied to retention after a missed day",
+        "Inputs: freeze usage, return-after-freeze rate",
+        "Guardrails: lessons per user, freeze dependency",
+        "Experiment design with holdout"
+      ],
+      "synthesisModel": "North Star + inputs + guardrails with an experiment decision rule."
+    }
+  },
+  "personaId": "maya",
+  "elapsedSeconds": 1140,
+  "scratchpadNotes": "streak freeze. goal = retention. metrics: freezes used, streak length avg, D30 retention, lessons/day. guardrail?",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "We're launching a streak freeze, so if a user misses a day their streak doesn't reset. How would you measure success?"
+    },
+    {
+      "role": "candidate",
+      "text": "Is the goal mostly retention? I'm assuming the idea is that when people lose a long streak they get discouraged and quit."
+    },
+    {
+      "role": "interviewer",
+      "text": "Yes, retention is the goal. The freeze is free, one per week."
+    },
+    {
+      "role": "candidate",
+      "text": "Okay. Then I'd say the main success metric is average streak length, because if the freeze works, streaks should get longer. Under that I'd look at how many users use a freeze, how many of those come back the next day, and then D30 retention overall."
+    },
+    {
+      "role": "interviewer",
+      "text": "Is average streak length the right primary metric?"
+    },
+    {
+      "role": "candidate",
+      "text": "Hmm, I guess the freeze mechanically makes streaks longer, even if behavior doesn't change. So it could go up just because of how it's counted. Maybe D30 retention is better as the main metric then, and streak length is more of a secondary thing."
+    },
+    {
+      "role": "interviewer",
+      "text": "Okay. What else would you track?"
+    },
+    {
+      "role": "candidate",
+      "text": "I'd break it into a funnel. First, awareness: what percent of users know they have a freeze. Then usage: percent of users who miss a day and have a freeze applied. Then the key one, return rate after a freeze is used, so did they come back within a day or two. And then longer-term retention for that group compared to people in a control group who broke their streak."
+    },
+    {
+      "role": "interviewer",
+      "text": "Any risks?"
+    },
+    {
+      "role": "candidate",
+      "text": "Maybe people practice less because they know they have a backup. So lessons per week per user could go down a bit. I'd watch that, although one freeze a week is pretty limited."
+    },
+    {
+      "role": "interviewer",
+      "text": "How would you decide to launch?"
+    },
+    {
+      "role": "candidate",
+      "text": "I'd run an A/B test and if D30 retention goes up and lessons per week doesn't drop too much, we launch. I'd present D30 retention, freeze usage, return rate after freeze, and lessons per week."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "allowedVerdicts": [
+      "Lean Yes",
+      "Lean No"
+    ],
+    "overallMin": 40,
+    "overallMax": 80,
+    "injectionAttempt": false
+  }
+}

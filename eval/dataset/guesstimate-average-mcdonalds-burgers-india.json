@@ -1,0 +1,71 @@
+{
+  "id": "guesstimate-average-mcdonalds-burgers-india",
+  "name": "Average guesstimate: McDonald's India burgers via outlets, hand-waved basket assumption, no cross-check, generic range",
+  "track": "guesstimate",
+  "category": "average",
+  "edgeType": null,
+  "scenarioId": "guest-mcdonalds-burgers-india",
+  "personaId": "marcus",
+  "elapsedSeconds": 960,
+  "scratchpadNotes": "outlets ~500. 600 orders/day. 1.5 burgers/order -> 900/day. x30. 13.5M",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "Estimate how many McDonald's burgers are sold per month in India."
+    },
+    {
+      "role": "candidate",
+      "text": "Just to check, does burger include chicken and veg burgers and wraps, or only burgers? And a month is 30 days?"
+    },
+    {
+      "role": "interviewer",
+      "text": "Burgers of any kind, veg or chicken. Wraps don't count. 30 days is fine."
+    },
+    {
+      "role": "candidate",
+      "text": "I will go from the supply side, outlets times burgers per outlet. I think McDonald's has around 500 outlets in India, across the two franchise partners in the north-east and the west-south. For each outlet I will estimate orders per day and burgers per order, then multiply by 30."
+    },
+    {
+      "role": "interviewer",
+      "text": "Okay."
+    },
+    {
+      "role": "candidate",
+      "text": "A typical outlet in a mall or a high street is busy at lunch and dinner. I will say about 600 orders a day. On average an order has maybe one and a half burgers, since families order several and some people just get one. So 600 times 1.5 is 900 burgers per outlet per day."
+    },
+    {
+      "role": "interviewer",
+      "text": "Does every order include a burger?"
+    },
+    {
+      "role": "candidate",
+      "text": "Not every one, some people only get fries or a McFlurry or coffee. But the family orders have more burgers so I think 1.5 still roughly covers it. I will keep 900."
+    },
+    {
+      "role": "interviewer",
+      "text": "Are all 500 outlets as busy as a mall outlet?"
+    },
+    {
+      "role": "candidate",
+      "text": "Probably the highway and smaller city ones are slower, and the delivery orders in the metros add some, so I think it evens out. 500 outlets times 900 is 450,000 burgers a day, and times 30 is 13.5 million burgers a month."
+    },
+    {
+      "role": "interviewer",
+      "text": "What's your final number?"
+    },
+    {
+      "role": "candidate",
+      "text": "About 13.5 million burgers a month, could be anywhere from 10 to 15 million depending on the assumptions. The orders per day number is the biggest one."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "allowedVerdicts": [
+      "Lean Yes",
+      "Lean No"
+    ],
+    "overallMin": 40,
+    "overallMax": 80,
+    "injectionAttempt": false
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "id": "metrics-average-grocery-north-star",
+  "name": "Average metrics: North Star for grocery delivery, reasonable pick with sloppy ratio",
+  "track": "metrics",
+  "category": "average",
+  "edgeType": null,
+  "scenario": {
+    "id": "metrics-grocery-delivery-north-star",
+    "title": "North Star metric for a grocery delivery vertical",
+    "track": "metrics",
+    "difficulty": "Medium",
+    "company": "Uber Eats",
+    "problemStatement": "A food delivery app has launched grocery delivery in 15 cities. As the PM, define the North Star metric for the grocery vertical and the key metrics underneath it.",
+    "benchmarkOutline": {
+      "clarificationQuestions": [
+        "Is the goal growth of grocery standalone or increasing overall customer frequency across verticals?",
+        "Business model: delivery fees, basket margin, partner commissions?",
+        "Stage: early launch or scaling; supply constraints (stores, couriers)?",
+        "Who are the stakeholders: customers, stores, couriers?"
+      ],
+      "coreHypothesesOrSegments": [
+        "Customer value: complete, on-time baskets with correct items",
+        "Merchant value: incremental orders",
+        "Courier value: earnings per hour",
+        "Business: basket size, margin, cross-vertical frequency"
+      ],
+      "analyticalPath": [
+        "Compare candidate North Stars (GMV, orders, weekly ordering customers)",
+        "Decompose into acquisition, frequency, basket",
+        "Guardrails: substitution/missing items, delivery time, courier earnings, restaurant cannibalization",
+        "Lead vs lag"
+      ],
+      "synthesisModel": "North Star with driver tree and guardrails, plus how it ties to the overall app."
+    }
+  },
+  "personaId": "priya",
+  "elapsedSeconds": 1260,
+  "scratchpadNotes": "grocery 15 cities. NSM = weekly grocery orders. drivers: new users x freq x basket. guardrails: missing items, late %, food cannibalization",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "We launched grocery delivery in 15 cities inside our food delivery app. What should the North Star be for grocery?"
+    },
+    {
+      "role": "candidate",
+      "text": "How new is it? And are we trying to make grocery big on its own, or is it more about getting existing food delivery customers to use the app more often?"
+    },
+    {
+      "role": "interviewer",
+      "text": "About six months in. Leadership sees grocery as a way to make the app a weekly habit, beyond the occasional takeout order."
+    },
+    {
+      "role": "candidate",
+      "text": "Okay, so the habit angle matters. I'd go with weekly grocery orders as the North Star. GMV is tempting but it's driven by basket size and price, and the goal is habit, so I'd rather count orders. Weekly works because grocery is naturally a weekly shop."
+    },
+    {
+      "role": "interviewer",
+      "text": "Why orders instead of weekly ordering customers?"
+    },
+    {
+      "role": "candidate",
+      "text": "Fair, those are close. Orders could be inflated by a small number of heavy users. Weekly ordering customers is maybe more aligned with habit. I'd probably still keep orders because it's simpler to move, but I'd watch both."
+    },
+    {
+      "role": "interviewer",
+      "text": "Okay. Break it down for me."
+    },
+    {
+      "role": "candidate",
+      "text": "Weekly orders equals number of grocery customers times order frequency. Customers comes from new customers, which is mostly existing food users trying grocery, plus retained ones. Frequency is orders per customer per week. Then there's basket size, which matters for revenue, average items or dollars per order. And I'd say conversion rate of grocery store page visits to orders is about 30 percent, so that's the lever on the app side."
+    },
+    {
+      "role": "interviewer",
+      "text": "Where's that 30% from?"
+    },
+    {
+      "role": "candidate",
+      "text": "Sorry, that's a guess, I don't actually know the number. I meant we should track it, not that I know it's 30. I'd check it in the data."
+    },
+    {
+      "role": "interviewer",
+      "text": "What could go wrong with the North Star?"
+    },
+    {
+      "role": "candidate",
+      "text": "Quality, mainly. If items are missing or substituted badly, people won't come back, so missing-item rate is a guardrail. Late deliveries too. And there's a chance grocery takes away from restaurant orders, so I'd keep an eye on food orders per user. So the final dashboard would be weekly grocery orders as the North Star, then new grocery customers, orders per customer, basket size, and missing items and late deliveries as guardrails."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "allowedVerdicts": [
+      "Lean Yes",
+      "Lean No"
+    ],
+    "overallMin": 40,
+    "overallMax": 80,
+    "injectionAttempt": false
+  }
+}

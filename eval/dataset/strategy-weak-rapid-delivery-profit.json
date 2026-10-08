@@ -1,0 +1,73 @@
+{
+  "id": "strategy-weak-rapid-delivery-profit",
+  "name": "Weak strategy: quick-commerce profitability, scattered tactics and no plan",
+  "track": "strategy",
+  "category": "weak",
+  "edgeType": null,
+  "scenarioId": "strat-rapid-delivery-path-to-profitability",
+  "personaId": "marcus",
+  "elapsedSeconds": 960,
+  "scratchpadNotes": "raise fees? cut riders. ads. more stores",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "You're the new strategy chief at a 10-minute grocery delivery app. It's burning $25 million a month across 300 dark stores. How do you get it to profitability within 18 months?"
+    },
+    {
+      "role": "candidate",
+      "text": "Okay so first I would raise the delivery fee, because if we're losing money the simplest thing is to charge more. Maybe add a small fee on every order too."
+    },
+    {
+      "role": "interviewer",
+      "text": "Customers are quite price sensitive in this market. What happens to order volume if you do that?"
+    },
+    {
+      "role": "candidate",
+      "text": "Some people might leave, but the ones who stay will be more profitable. Also we could reduce the number of riders and have each rider do more deliveries."
+    },
+    {
+      "role": "interviewer",
+      "text": "Wouldn't fewer riders break the 10-minute promise?"
+    },
+    {
+      "role": "candidate",
+      "text": "Maybe we could say 15 minutes instead, people probably won't mind that much. We could also put ads in the app, and do discounts to get more people ordering so the stores are busier."
+    },
+    {
+      "role": "interviewer",
+      "text": "You've said raise prices and also offer discounts. How do those fit together?"
+    },
+    {
+      "role": "candidate",
+      "text": "I guess the discounts would be for new users and the fees for everyone else. And we could open more dark stores in new cities to grow faster, since bigger companies are usually more profitable."
+    },
+    {
+      "role": "interviewer",
+      "text": "Each new store loses money for months before it ramps. How does adding stores help you get to profitability in 18 months?"
+    },
+    {
+      "role": "candidate",
+      "text": "Hmm, I'm not sure. Maybe it takes longer than 18 months then. There are a lot of options."
+    },
+    {
+      "role": "interviewer",
+      "text": "If you had to tell the board one plan, what would it be?"
+    },
+    {
+      "role": "candidate",
+      "text": "I would try a bit of everything, the fees, ads, fewer riders, and see what works best over the next few months."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "allowedVerdicts": [
+      "Strong No",
+      "Lean No"
+    ],
+    "overallMax": 50,
+    "injectionAttempt": false,
+    "pillarMax": {
+      "synthesis": 2
+    }
+  }
+}

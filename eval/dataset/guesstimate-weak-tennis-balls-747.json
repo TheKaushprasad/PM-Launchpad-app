@@ -1,0 +1,66 @@
+{
+  "id": "guesstimate-weak-tennis-balls-747",
+  "name": "Weak guesstimate: tennis balls in a 747 with no scoping, unit error three orders of magnitude off, no sanity check",
+  "track": "guesstimate",
+  "category": "weak",
+  "edgeType": null,
+  "scenarioId": "guest-tennis-balls-boeing-747",
+  "personaId": "alex",
+  "elapsedSeconds": 660,
+  "scratchpadNotes": "70 x 6 x 6 = 2520. ball 0.1? 25,200",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "How many tennis balls could fit inside a Boeing 747?"
+    },
+    {
+      "role": "candidate",
+      "text": "Okay, a 747 is big. I think it is about 70 meters long, and inside maybe 6 meters wide and 6 meters high. So 70 times 6 times 6 is 2,520 cubic meters."
+    },
+    {
+      "role": "interviewer",
+      "text": "Okay. What are you including in that space?"
+    },
+    {
+      "role": "candidate",
+      "text": "Just the inside of the plane, all of it. Then a tennis ball is about 10 centimeters, so that is 0.1, so one ball is 0.1 cubic meters. 2,520 divided by 0.1 is 25,200 tennis balls."
+    },
+    {
+      "role": "interviewer",
+      "text": "What about the seats, galleys, the cargo hold? And the gaps between balls?"
+    },
+    {
+      "role": "candidate",
+      "text": "I think it is fine to ignore the seats, you could take them out. The gaps are small. I will keep it at about 25,000."
+    },
+    {
+      "role": "interviewer",
+      "text": "Does 25,000 feel right to you? Think about a smaller space you know."
+    },
+    {
+      "role": "candidate",
+      "text": "Yeah it feels okay, it is a lot of balls. A plane is big but balls are also kind of big."
+    },
+    {
+      "role": "interviewer",
+      "text": "Anything you would change, or what drives the answer most?"
+    },
+    {
+      "role": "candidate",
+      "text": "Not really, I think 25,000 is my answer. Maybe a bit more or less."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "allowedVerdicts": [
+      "Strong No",
+      "Lean No"
+    ],
+    "overallMax": 50,
+    "injectionAttempt": false,
+    "pillarMax": {
+      "clarification": 2,
+      "analyticalRigor": 2
+    }
+  }
+}

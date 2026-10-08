@@ -1,0 +1,79 @@
+{
+  "id": "design-average-mall-navigation",
+  "name": "Average design: mall navigation with decent pains but a feature-first pitch and loose prioritization",
+  "track": "design",
+  "category": "average",
+  "edgeType": null,
+  "scenarioId": "design-indoor-mall-navigation-app",
+  "personaId": "alex",
+  "elapsedSeconds": 1320,
+  "scratchpadNotes": "mall app, 4 floors, 200 stores. users: shoppers, families w/ strollers, tourists. pains: lost, which floor, restrooms, car. AR arrows, stroller mode, find car, deals. NSM = sessions",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "Design an indoor navigation app for a huge shopping mall, think 200-plus stores across four floors."
+    },
+    {
+      "role": "candidate",
+      "text": "Okay. Is this built by the mall owner, or something like Google Maps doing indoor maps for lots of malls?"
+    },
+    {
+      "role": "interviewer",
+      "text": "The mall owner, a company that runs about thirty of these malls."
+    },
+    {
+      "role": "candidate",
+      "text": "Got it. So the users would be regular shoppers, families with strollers, and tourists who've never been there. The pain points are getting lost between floors, not finding restrooms or elevators, forgetting where you parked, and directories that are out of date or broken."
+    },
+    {
+      "role": "interviewer",
+      "text": "Which of those matters most?"
+    },
+    {
+      "role": "candidate",
+      "text": "I'd say getting lost between floors, because that's what everyone hits. Parking is a big one too. Honestly they're all pretty important, so I'd try to cover them."
+    },
+    {
+      "role": "interviewer",
+      "text": "Okay. What would you build?"
+    },
+    {
+      "role": "candidate",
+      "text": "The main thing is AR arrows. You hold up your phone and there are arrows on the floor taking you to the store. GPS doesn't work indoors, so we'd use Bluetooth beacons around the mall to figure out where you are. Then a stroller mode that only uses elevators, a 'find my car' button that saves where you parked, and a deals section that shows coupons for stores along your route, which would also make money for the mall."
+    },
+    {
+      "role": "interviewer",
+      "text": "Holding a phone up to walk through a crowded mall, do people actually do that?"
+    },
+    {
+      "role": "candidate",
+      "text": "Hmm, that's a good point, people might not want to hold it up the whole time. We could also have a regular 2D map, with the AR as an option."
+    },
+    {
+      "role": "interviewer",
+      "text": "How would you decide what goes in the first version?"
+    },
+    {
+      "role": "candidate",
+      "text": "I'd look at impact and effort. AR is high impact but high effort, the 2D map and stroller mode are lower effort, find my car is pretty easy. So maybe the first version is the 2D map with beacons, stroller mode, and find my car, and AR comes later. Deals I'd add early because the mall would want revenue."
+    },
+    {
+      "role": "interviewer",
+      "text": "Okay. Wrap up and tell me how you'd measure it."
+    },
+    {
+      "role": "candidate",
+      "text": "The first version would be a beacon-based map with turn-by-turn directions, stroller mode, find my car, and deals. I'd measure monthly active users and number of navigation sessions, and also how many people redeem the deals."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "allowedVerdicts": [
+      "Lean Yes",
+      "Lean No"
+    ],
+    "overallMin": 40,
+    "overallMax": 80,
+    "injectionAttempt": false
+  }
+}

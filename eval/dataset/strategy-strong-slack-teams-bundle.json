@@ -1,0 +1,68 @@
+{
+  "id": "strategy-strong-slack-teams-bundle",
+  "name": "Strong strategy: Slack's response to free Teams bundling",
+  "track": "strategy",
+  "category": "strong",
+  "edgeType": null,
+  "scenarioId": "strat-slack-response-teams-free-bundling",
+  "personaId": "marcus",
+  "elapsedSeconds": 1740,
+  "scratchpadNotes": "buyer = CIO/CFO, user = employees. where losing? new vs existing. Slack Connect retention. don't fight on internal chat price. pillars: Connect network, Salesforce AI/workflows, EU unbundling. metric: renewal rate in accts w/ Connect",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "Microsoft is bundling Teams for free with Microsoft 365. CIOs are asking why they should keep paying $12 a user for Slack. You're Slack's CEO. What's your response?"
+    },
+    {
+      "role": "candidate",
+      "text": "Before I go into strategy, I want to understand where we're actually bleeding. Are we losing new deals, or are existing customers churning at renewal? And is it concentrated in certain segments, like large enterprises versus tech companies? Also, I'd like to know where the EU antitrust case on Teams bundling stands, since that changes how much the bundle can be forced on buyers."
+    },
+    {
+      "role": "interviewer",
+      "text": "Renewals are the issue, mostly in large enterprises outside tech. The EU has pushed Microsoft to offer 365 without Teams in Europe. And one data point: accounts with ten or more Slack Connect channels renew at over 99%."
+    },
+    {
+      "role": "candidate",
+      "text": "That last number is the key. So the bundle wins with the economic buyer, the CIO looking at a duplicate line item, while Slack wins with end users and with companies that collaborate across company boundaries. I don't think we can win a price fight on internal chat, because Microsoft's marginal cost is zero and they can always go lower. So the question is where Slack has a moat Teams can't copy cheaply. I see three: Slack Connect as a network across companies, Slack as the place where work actually gets done through integrations and AI agents, and the regulatory pressure on bundling."
+    },
+    {
+      "role": "interviewer",
+      "text": "Teams has external chat too. Why is Slack Connect a moat?"
+    },
+    {
+      "role": "candidate",
+      "text": "Fair challenge. Teams external access exists, but it's clunky across tenants, and the real moat isn't the feature, it's the network. If a company has fifty shared channels with its agencies, vendors and customers, switching to Teams means asking all fifty counterparties to move too, and many of them run Slack. That's a switching cost the CIO feels directly, which is why those accounts renew at 99%. Microsoft could improve the feature, but they can't move the graph quickly. The play is to push Connect adoption in every at-risk enterprise account before renewal."
+    },
+    {
+      "role": "interviewer",
+      "text": "And the workflow piece? Isn't that just more integrations?"
+    },
+    {
+      "role": "candidate",
+      "text": "It's more than that because of Salesforce. If sales reps can update opportunities, approve discounts and talk to a Salesforce AI agent inside a Slack channel, Slack stops being a chat line item and becomes the front end of the CRM the company already pays for. Then the CFO comparison isn't Slack versus free Teams, it's whether to break their sales workflow. The risk is that this only lands in Salesforce-heavy customers, so I'd prioritize that overlap first, which is a big part of large enterprise. Commercially, I'd also bundle Slack into Salesforce enterprise agreements so the incremental price is close to zero for those accounts."
+    },
+    {
+      "role": "interviewer",
+      "text": "Okay. Wrap it up."
+    },
+    {
+      "role": "candidate",
+      "text": "My response is: don't compete on internal chat price. Make Slack the network and the workflow layer. First quarter: a renewal defense program that drives every at-risk enterprise account to ten-plus Connect channels, and Salesforce bundle pricing for the overlap accounts. Over the year, ship Salesforce AI agents natively in Slack so it becomes where CRM work happens. In parallel, push regulators in the US to follow the EU on unbundling. The metric I'd hold us to is enterprise gross renewal rate, with Connect channel count and agent usage as leading indicators. The risk is that Microsoft matches the cross-company experience, and the fallback there is going deeper into the Salesforce workflow so the switching cost is about CRM, not chat."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "pillarMin": {
+      "clarification": 4,
+      "framework": 4,
+      "communication": 4,
+      "synthesis": 4
+    },
+    "allowedVerdicts": [
+      "Strong Yes",
+      "Lean Yes"
+    ],
+    "overallMin": 70,
+    "injectionAttempt": false
+  }
+}

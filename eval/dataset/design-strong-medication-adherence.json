@@ -1,0 +1,84 @@
+{
+  "id": "design-strong-medication-adherence",
+  "name": "Strong design: medication adherence app for polypharmacy patients",
+  "track": "design",
+  "category": "strong",
+  "edgeType": null,
+  "scenarioId": "design-medication-tracking-app",
+  "personaId": "maya",
+  "elapsedSeconds": 1560,
+  "scratchpadNotes": "who: 4+ meds chronic. self-managing 60s vs caregiver-managed vs busy pro. pain: which pill?, timing w/ meals, refills run out, interactions. idea: scan label -> schedule + pill photo; routine-anchored reminders; refill 5d; caregiver missed-dose alert. NSM: % doses on time 30d. guardrail: notif opt-out, false 'taken'",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "Design a medication adherence app for patients with chronic conditions who take four or more prescriptions a day."
+    },
+    {
+      "role": "candidate",
+      "text": "Before I jump in, a few things. Is this a standalone app, or are we a pharmacy or health system with access to prescription data? Is the goal clinical outcomes, like fewer hospitalizations, or is it a retention play for a pharmacy? And are we thinking phone only, or is hardware like a smart pillbox on the table?"
+    },
+    {
+      "role": "interviewer",
+      "text": "Assume we're a large pharmacy chain, so we can pull prescription records with patient consent. Business goal is adherence, which drives refills and outcomes. Phone first, hardware is optional later."
+    },
+    {
+      "role": "candidate",
+      "text": "Okay, great. One more: are there any doses where a miss is actually dangerous, like insulin or blood thinners? That changes how aggressive we can be with escalation."
+    },
+    {
+      "role": "interviewer",
+      "text": "Yes, a meaningful share of these patients are on drugs where a missed or doubled dose is a real risk."
+    },
+    {
+      "role": "candidate",
+      "text": "Got it. So I see three segments. First, the self-managing older patient, say late sixties, on six or seven pills spread across the day; their problem is less forgetting and more confusion, like 'did I already take the white oval one?'. Second, the caregiver-managed patient, where an adult daughter is coordinating meds for a parent she doesn't live with. Third, the working professional with hypertension or diabetes who just forgets because their routine shifts. I'd focus on the first segment, because they're the biggest share of polypharmacy, they're where double-dosing risk lives, and the caregiver need actually hangs off them anyway."
+    },
+    {
+      "role": "interviewer",
+      "text": "Makes sense. What are the main pain points for that person?"
+    },
+    {
+      "role": "candidate",
+      "text": "I'd rank them. Number one is identification and the 'did I take it' doubt, because that's where both misses and dangerous double doses come from. Two, reminders that don't fit their life; a phone buzzing at 8:00 when they eat breakfast at 9:15 gets ignored. Three, running out, they notice the bottle is empty on a Sunday. Four, interaction worries when a new specialist adds something. I'd park four for the pharmacist, since we already have a pharmacist channel and the app shouldn't pretend to give clinical advice."
+    },
+    {
+      "role": "interviewer",
+      "text": "Okay, what would you build?"
+    },
+    {
+      "role": "candidate",
+      "text": "Picture her first morning: she points the phone at each bottle, we read the label and match it to her pharmacy record, so setup is two minutes instead of typing drug names. Every dose card shows a photo of the actual pill, its shape and color, and a big 'taken' button that logs the time, so when she's unsure at lunch she opens it and sees 'taken 9:20'. Reminders are anchored to routines, 'with breakfast', and they learn from when she actually taps taken. Refills auto-request five days before she runs out. And for the high-risk drugs, if she misses by two hours, she gets a second nudge, then her caregiver gets a text. I considered a smart pillbox; it's the most accurate signal, but it's cost and setup friction for a 70-year-old, so I'd make it a phase two for people who keep missing."
+    },
+    {
+      "role": "interviewer",
+      "text": "What are the risks with that design?"
+    },
+    {
+      "role": "candidate",
+      "text": "A few. People will tap 'taken' without taking it, just to stop the reminder, so we can't treat that log as ground truth; I'd cross-check against refill timing, which is our real signal. Caregiver alerts can feel like surveillance, so the patient has to opt in and choose what's shared. Also alert fatigue: if we nag on every vitamin, they'll mute us, so escalation only applies to the drugs the pharmacist flags as critical. And the label scan will misread sometimes, so the pharmacist confirms the schedule before it goes live."
+    },
+    {
+      "role": "interviewer",
+      "text": "Good. Wrap it up for me."
+    },
+    {
+      "role": "candidate",
+      "text": "I'd ship an MVP for self-managing older patients: label scan with pharmacist confirmation, pill photos with a 'taken' log, routine-based reminders, and automatic refills, with caregiver alerts only for flagged high-risk drugs. North Star is proportion of days covered from refill data, since tap logs can be gamed; secondary is on-time 'taken' rate. Guardrails are notification opt-outs and caregiver-alert opt-outs. I'd pilot in a few hundred stores with patients who are already late on refills, compare against a holdout, and only then add the pillbox for people who still struggle."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "pillarMin": {
+      "clarification": 4,
+      "framework": 4,
+      "analyticalRigor": 4,
+      "synthesis": 4
+    },
+    "allowedVerdicts": [
+      "Strong Yes",
+      "Lean Yes"
+    ],
+    "overallMin": 70,
+    "injectionAttempt": false
+  }
+}

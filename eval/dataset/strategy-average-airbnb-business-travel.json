@@ -1,0 +1,71 @@
+{
+  "id": "strategy-average-airbnb-business-travel",
+  "name": "Average strategy: Airbnb business travel, good segmentation but hedged recommendation",
+  "track": "strategy",
+  "category": "average",
+  "edgeType": null,
+  "scenarioId": "strat-airbnb-business-travel-market",
+  "personaId": "maya",
+  "elapsedSeconds": 1380,
+  "scratchpadNotes": "road warriors vs extended stay vs offsites. needs: wifi, desk, check-in, Concur billing. hotels win 1-night. host incentives?",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "Airbnb is considering a big push into corporate business travel to compete with Marriott and Hilton. Should they, and how?"
+    },
+    {
+      "role": "candidate",
+      "text": "What does success look like for this, is it a revenue target, or more about filling weekday nights which are weaker for Airbnb? And over what timeframe?"
+    },
+    {
+      "role": "interviewer",
+      "text": "Think three years. The main motivation is weekday occupancy and a more predictable revenue stream."
+    },
+    {
+      "role": "candidate",
+      "text": "Got it. I'd split business travel into a few segments, because they're really different. There's the solo road warrior doing one or two nights for a client meeting, there's extended stays like relocations or a consultant on a three-month project, and there are team offsites where a group wants to be together. Each has different needs."
+    },
+    {
+      "role": "interviewer",
+      "text": "Go on. Where does Airbnb stand in each?"
+    },
+    {
+      "role": "candidate",
+      "text": "For the one-night traveler, hotels are hard to beat. They want instant check-in, consistent Wi-Fi, a desk, and they want the booking to show up in Concur automatically. Airbnb is inconsistent on all of that. For extended stays, Airbnb is better, you get a kitchen and space, and it's cheaper for long periods. For offsites, Airbnb is kind of unique, because hotels don't really have a big house with ten bedrooms and a shared living room."
+    },
+    {
+      "role": "interviewer",
+      "text": "So what would you build?"
+    },
+    {
+      "role": "candidate",
+      "text": "Probably a work-certified badge for listings, with verified Wi-Fi speed and a real desk. Concur and Navan integration for billing. And maybe a dedicated offsite search with large homes. I'd also need hosts to opt in, so some kind of incentive like better ranking."
+    },
+    {
+      "role": "interviewer",
+      "text": "Wouldn't Marriott respond? They have corporate contracts and loyalty programs."
+    },
+    {
+      "role": "candidate",
+      "text": "Yeah, they'd probably push their extended-stay brands harder. I don't have a great answer for that, but I think the offsite use case is hard for them to copy."
+    },
+    {
+      "role": "interviewer",
+      "text": "Okay. So should Airbnb go after this or not?"
+    },
+    {
+      "role": "candidate",
+      "text": "I think it depends. If they can get enough hosts to meet the work standard, it could be really big. I'd probably start with all three segments in a few cities and see which one takes off, then double down. The risk is quality, since one bad stay can lose a corporate account, so I'd look at reviews closely."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "allowedVerdicts": [
+      "Lean Yes",
+      "Lean No"
+    ],
+    "overallMin": 40,
+    "overallMax": 80,
+    "injectionAttempt": false
+  }
+}

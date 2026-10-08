@@ -1,0 +1,70 @@
+{
+  "id": "rca-weak-orders-down-traffic-stable",
+  "name": "Weak RCA: orders down with stable traffic, scattered guesses and no funnel",
+  "track": "rca",
+  "category": "weak",
+  "edgeType": null,
+  "scenarioId": "rca-orders-down-15-traffic-stable",
+  "personaId": "maya",
+  "elapsedSeconds": 840,
+  "scratchpadNotes": "orders -15%. prices? competitor sale? discount",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "At Zalando, weekly completed orders fell 15% week-on-week, but unique visitors and page views are flat. How would you approach this?"
+    },
+    {
+      "role": "candidate",
+      "text": "My first thought is a competitor is running a big sale, so people are looking on our site but buying somewhere else. That happens a lot in fashion."
+    },
+    {
+      "role": "interviewer",
+      "text": "Possibly. How would you check whether that's actually what's happening?"
+    },
+    {
+      "role": "candidate",
+      "text": "I'd look at competitor websites and see if they have sales on. Also maybe our prices went up, so I'd ask the pricing team."
+    },
+    {
+      "role": "interviewer",
+      "text": "Pricing hasn't changed, and marketing spend is the same as last month. Is there anything in our own data you'd look at?"
+    },
+    {
+      "role": "candidate",
+      "text": "Yeah, maybe the site is slow. Or people don't like the new products this season. I'd probably send a survey to users asking why they didn't buy."
+    },
+    {
+      "role": "interviewer",
+      "text": "A survey would take a while. Is there a faster way to see where shoppers are dropping off?"
+    },
+    {
+      "role": "candidate",
+      "text": "I guess we could look at the checkout. But honestly I still think it's the competitor thing, it's a really common reason."
+    },
+    {
+      "role": "interviewer",
+      "text": "Let's say we did look, and add-to-bag rates are normal but cart-to-checkout dropped sharply. What does that tell you?"
+    },
+    {
+      "role": "candidate",
+      "text": "That people are adding things and then leaving. So they're probably comparing prices with the competitor. We could send them a discount code for what's in their cart."
+    },
+    {
+      "role": "interviewer",
+      "text": "Okay. How would you wrap up?"
+    },
+    {
+      "role": "candidate",
+      "text": "I'd send discount emails to people with abandoned carts and maybe match the competitor's sale prices, and that should get orders back up."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "overallMax": 50,
+    "pillarMax": {
+      "framework": 2
+    },
+    "allowedVerdicts": ["Strong No", "Lean No"],
+    "injectionAttempt": false
+  }
+}

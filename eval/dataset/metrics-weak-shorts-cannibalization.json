@@ -1,0 +1,101 @@
+{
+  "id": "metrics-weak-shorts-cannibalization",
+  "name": "Weak metrics: misreads a short-form vs long-form A/B tradeoff",
+  "track": "metrics",
+  "category": "weak",
+  "edgeType": null,
+  "scenario": {
+    "id": "metrics-shorts-longform-ab",
+    "title": "A/B tradeoff: short-form watch time up, long-form down",
+    "track": "metrics",
+    "difficulty": "Hard",
+    "company": "YouTube",
+    "problemStatement": "A video platform tested putting short-form videos higher on the home page. Short-form watch time rose 15%, long-form watch time fell 4%, and total watch time is up 1%. Do you ship it?",
+    "benchmarkOutline": {
+      "clarificationQuestions": [
+        "What is the primary success metric: total watch time, satisfaction, revenue?",
+        "How do monetization rates differ between short and long-form?",
+        "Creator ecosystem impact: long-form creator earnings?",
+        "Test duration and novelty effects"
+      ],
+      "coreHypothesesOrSegments": [
+        "Revenue per user (ads load differs by format)",
+        "Long-term retention and satisfaction",
+        "Creator ecosystem health",
+        "Novelty effects"
+      ],
+      "analyticalPath": [
+        "Convert watch time effects into revenue and satisfaction",
+        "Segment by user type",
+        "Check long-term holdout",
+        "Decision rule with guardrails"
+      ],
+      "synthesisModel": "Ship/no-ship rubric with revenue, retention, and creator guardrails."
+    }
+  },
+  "personaId": "alex",
+  "elapsedSeconds": 780,
+  "scratchpadNotes": "shorts +15, long -4, total +1. ship",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "We tested moving short-form videos higher on the home page. Short-form watch time went up 15%, long-form went down 4%, and total watch time is up 1%. Would you ship it?"
+    },
+    {
+      "role": "candidate",
+      "text": "Yes, definitely ship. Short-form went up 15%, which is way bigger than the 4% drop, so it's a big net win."
+    },
+    {
+      "role": "interviewer",
+      "text": "Those percentages are on different bases though. Long-form is most of total watch time."
+    },
+    {
+      "role": "candidate",
+      "text": "Okay, but total is still up 1%, so it's positive. Any increase in watch time is good."
+    },
+    {
+      "role": "interviewer",
+      "text": "Is watch time worth the same in both formats?"
+    },
+    {
+      "role": "candidate",
+      "text": "I think a minute is a minute. People are spending more time on the platform, which means more engagement and they like it more."
+    },
+    {
+      "role": "interviewer",
+      "text": "What about revenue, or the creators who make long-form videos?"
+    },
+    {
+      "role": "candidate",
+      "text": "Revenue should go up with more watch time. Creators can just start making short videos if that's what people want. That's how platforms evolve."
+    },
+    {
+      "role": "interviewer",
+      "text": "Would you want to know anything else before deciding?"
+    },
+    {
+      "role": "candidate",
+      "text": "Not really, the data is pretty clear. Maybe how many users were in the test."
+    },
+    {
+      "role": "interviewer",
+      "text": "Okay, give me your final recommendation."
+    },
+    {
+      "role": "candidate",
+      "text": "Ship it to everyone, because short-form watch time is up 15% and total is up. We should keep pushing short-form."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "allowedVerdicts": [
+      "Strong No",
+      "Lean No"
+    ],
+    "overallMax": 50,
+    "injectionAttempt": false,
+    "pillarMax": {
+      "analyticalRigor": 2
+    }
+  }
+}
