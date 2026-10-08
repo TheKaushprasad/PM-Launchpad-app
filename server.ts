@@ -76,12 +76,7 @@ export async function createExpressApp() {
     if (hasValidGeminiKey) {
       const { GoogleGenAI } = await import("@google/genai");
       const ai = new GoogleGenAI({
-        apiKey: geminiKey,
-        httpOptions: {
-          headers: {
-            'User-Agent': 'aistudio-build',
-          }
-        }
+        apiKey: geminiKey
       });
 
       // Priority list of active, supported models from skill guidelines
@@ -645,8 +640,7 @@ Return strictly valid JSON with 3 days:
 
       const { GoogleGenAI } = await import("@google/genai");
       const ai = new GoogleGenAI({
-        apiKey: geminiKey,
-        httpOptions: { headers: { 'User-Agent': 'aistudio-build' } }
+        apiKey: geminiKey
       });
 
       const extractionPrompt = `You are a high-precision ATS document extraction engine. 
@@ -921,8 +915,7 @@ Return only the JSON object. No preamble, no markdown code fences, no explanatio
       try {
         const { GoogleGenAI, Modality } = await import("@google/genai");
         const ai = new GoogleGenAI({
-          apiKey: geminiKey,
-          httpOptions: { headers: { 'User-Agent': 'aistudio-build' } }
+          apiKey: geminiKey
         });
 
         const ttsPromise = ai.models.generateContent({
@@ -1128,8 +1121,7 @@ Pure text, 1-2 sentences, actionable and clear. No markdown asterisks.
         try {
           const { GoogleGenAI, Modality } = await import("@google/genai");
           const ai = new GoogleGenAI({
-            apiKey: geminiKey,
-            httpOptions: { headers: { 'User-Agent': 'aistudio-build' } }
+            apiKey: geminiKey
           });
 
           const ttsResponse = await ai.models.generateContent({
@@ -1199,8 +1191,7 @@ Pure text, 1-2 sentences, actionable and clear. No markdown asterisks.
       if (geminiKey && geminiKey.trim() !== "" && geminiKey !== "undefined") {
         const { GoogleGenAI } = await import("@google/genai");
         const ai = new GoogleGenAI({
-          apiKey: geminiKey,
-          httpOptions: { headers: { 'User-Agent': 'aistudio-build' } }
+          apiKey: geminiKey
         });
 
         const transcribeModels = [
