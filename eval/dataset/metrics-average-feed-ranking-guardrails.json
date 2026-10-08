@@ -1,0 +1,99 @@
+{
+  "id": "metrics-average-feed-ranking-guardrails",
+  "name": "Average metrics: guardrails for a professional feed ranking change, mechanical and thin",
+  "track": "metrics",
+  "category": "average",
+  "edgeType": null,
+  "scenario": {
+    "id": "metrics-feed-ranking-guardrails",
+    "title": "Set guardrail metrics for a feed ranking change",
+    "track": "metrics",
+    "difficulty": "Medium",
+    "company": "LinkedIn",
+    "problemStatement": "Your team is changing the feed ranking model of a professional network to boost posts with high comment counts. The goal metric is feed engagement. What guardrail metrics would you set before launching the experiment?",
+    "benchmarkOutline": {
+      "clarificationQuestions": [
+        "What exactly is the goal metric and how is engagement defined?",
+        "Who are the stakeholders: viewers, creators, advertisers?",
+        "What are the known risks of comment-optimized ranking (engagement bait, controversy)?",
+        "How long will the test run and what is the launch bar?"
+      ],
+      "coreHypothesesOrSegments": [
+        "Viewer experience and content quality",
+        "Creator health and distribution fairness",
+        "Ads revenue and ad engagement",
+        "Trust and safety: misinformation, toxicity, engagement bait"
+      ],
+      "analyticalPath": [
+        "Clarify the goal metric",
+        "List risks of the change and map each to a guardrail",
+        "Define thresholds and how guardrails override the goal metric",
+        "Distinguish short-term vs long-term effects"
+      ],
+      "synthesisModel": "A short list of guardrails with explicit thresholds, an owner per guardrail, and a rule for when a guardrail breach blocks launch."
+    }
+  },
+  "personaId": "alex",
+  "elapsedSeconds": 1080,
+  "scratchpadNotes": "goal: engagement (comments). guardrails - HEART? happiness, engagement, adoption, retention, task. hide post, sessions, ad revenue.",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "We're changing feed ranking to boost posts that get a lot of comments. The goal metric is feed engagement. What guardrails would you put in place before we run the test?"
+    },
+    {
+      "role": "candidate",
+      "text": "Okay, so the goal is more engagement. I'd use the HEART framework to make sure I cover everything: happiness, engagement, adoption, retention, and task success. For happiness, I'd look at a survey score or NPS. For engagement, that's our goal metric. For adoption, I guess the number of people using the feed. Retention would be weekly active users. Task success could be people finding relevant posts."
+    },
+    {
+      "role": "interviewer",
+      "text": "Those feel generic. What specifically could go wrong with boosting high-comment posts?"
+    },
+    {
+      "role": "candidate",
+      "text": "Right, good point. Posts with lots of comments might be controversial or engagement bait, like 'comment YES if you agree'. So people might comment more but actually like the feed less. So I'd add a guardrail on hiding posts or reporting posts, so if those go up we know quality dropped."
+    },
+    {
+      "role": "interviewer",
+      "text": "Good. Anything on the business side?"
+    },
+    {
+      "role": "candidate",
+      "text": "Yeah, ads. If people spend time in comment threads, maybe they scroll past fewer ads, so ad impressions per session should be a guardrail. And probably revenue overall. I'd say it shouldn't drop."
+    },
+    {
+      "role": "interviewer",
+      "text": "What about people who post content?"
+    },
+    {
+      "role": "candidate",
+      "text": "Creators, yes. If we boost comment-heavy posts, creators who post things like job updates or articles that get likes but few comments might get less reach. Over time they might stop posting. So I'd track number of posters per week. I'm not sure exactly how to measure the fairness part, maybe distribution of impressions."
+    },
+    {
+      "role": "interviewer",
+      "text": "How would you set thresholds?"
+    },
+    {
+      "role": "candidate",
+      "text": "I'd say none of the guardrails should go down by a significant amount. Maybe hide rate shouldn't go up more than a few percent. I'd want to run the test for two weeks and check."
+    },
+    {
+      "role": "interviewer",
+      "text": "So what's your final list?"
+    },
+    {
+      "role": "candidate",
+      "text": "The goal metric is engagement. Guardrails: hide and report rate, ad impressions and revenue, weekly active users, and number of weekly posters. If any of those go bad, we don't launch. Satisfaction survey too if we can get it."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "allowedVerdicts": [
+      "Lean Yes",
+      "Lean No"
+    ],
+    "overallMin": 40,
+    "overallMax": 80,
+    "injectionAttempt": false
+  }
+}

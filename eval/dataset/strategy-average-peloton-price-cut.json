@@ -1,0 +1,71 @@
+{
+  "id": "strategy-average-peloton-price-cut",
+  "name": "Average strategy: Peloton price cut, right instinct but sloppy LTV math",
+  "track": "strategy",
+  "category": "average",
+  "edgeType": null,
+  "scenarioId": "strat-peloton-lower-bike-prices",
+  "personaId": "alex",
+  "elapsedSeconds": 1260,
+  "scratchpadNotes": "$1445 -> $799? sub $44/mo. LTV = 44 x 48 = ~2100. price cut = more users. brand? rental option",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "Peloton is thinking about cutting the Bike from $1,445 to $799, or even giving it away with a 24-month subscription commitment. What's your view?"
+    },
+    {
+      "role": "candidate",
+      "text": "Is the goal here to grow subscribers, or to clear the inventory they're sitting on? I think that changes the answer."
+    },
+    {
+      "role": "interviewer",
+      "text": "Mostly subscriber growth. They do have extra inventory but that's secondary."
+    },
+    {
+      "role": "candidate",
+      "text": "Okay. So I'd think about it as a razor and blades model, where the bike gets people in and the subscription is where they make money. If the price is the main barrier, cutting it should bring in a lot more people, and each of those is worth a lot over time."
+    },
+    {
+      "role": "interviewer",
+      "text": "How much is a subscriber worth?"
+    },
+    {
+      "role": "candidate",
+      "text": "The subscription is $44 a month, and if people stay about four years, that's 44 times 48, so around $2,100 per customer. So even if we lose $600 on each bike from the price cut, we're still way ahead."
+    },
+    {
+      "role": "interviewer",
+      "text": "Does $2,100 account for costs on the subscription side?"
+    },
+    {
+      "role": "candidate",
+      "text": "Ah, right, it doesn't. I think margins on content are pretty high, so I'd say it's still well above the $600. The bigger thing is whether demand actually goes up. I'd assume the cheaper price maybe doubles sales, because $799 is a lot more people's budget."
+    },
+    {
+      "role": "interviewer",
+      "text": "What else would worry you about the cut?"
+    },
+    {
+      "role": "candidate",
+      "text": "Brand, probably. Peloton feels premium, and a big discount could make it look like it's struggling. Also people who paid full price last year might be annoyed. One alternative is a rental option, where you pay monthly for the bike and the content, so there's no big upfront cost and you don't have to drop the official price."
+    },
+    {
+      "role": "interviewer",
+      "text": "So what would you recommend?"
+    },
+    {
+      "role": "candidate",
+      "text": "I'd say lower the price, but maybe not all the way to $799, more like $999, and also test the rental program. Then see which one brings in more subscribers who stick around."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "allowedVerdicts": [
+      "Lean Yes",
+      "Lean No"
+    ],
+    "overallMin": 40,
+    "overallMax": 80,
+    "injectionAttempt": false
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "id": "guesstimate-stt-noise-food-delivery-nyc",
+  "name": "Structured NYC food delivery estimate with speech-to-text transcription errors",
+  "track": "guesstimate",
+  "category": "edge",
+  "edgeType": "stt-noise",
+  "scenarioId": "guest-annual-food-delivery-nyc",
+  "personaId": "priya",
+  "elapsedSeconds": 1380,
+  "scratchpadNotes": "restaurant meals only, all channels, annual. 3.3M HH. heavy 25% x 2.5/wk = 107M. mod 40% x 2.5/mo = 40M. light 35% x 4/yr = 4.6M. office ~10M. ~160M/yr = 440k/day. check 20k rest x 22",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "Estimate the total number of restaurant food delivery orders placed in New York City in a year."
+    },
+    {
+      "role": "candidate",
+      "text": "Okay so um first is this cooked restaurant food only or also grocery stuff like insta cart, and does it include orders people place directly with the restaurant by phone not just door dash and uber eats"
+    },
+    {
+      "role": "interviewer",
+      "text": "Cooked restaurant meals only, and yes, include direct orders and all the apps."
+    },
+    {
+      "role": "candidate",
+      "text": "Got it so I'll do it buy households since uh delivery is mostly ordered per apartment not per person. new york is about eight point five million people and around three point three million house holds and I'll split them in to heavy moderate and light users because the frequency is really different, and then add office lunches separate"
+    },
+    {
+      "role": "interviewer",
+      "text": "Sounds good."
+    },
+    {
+      "role": "candidate",
+      "text": "So heavy users say twenty five percent thats about eight hundred twenty five thousand homes ordering like two and a half times a week, times fifty two weeks is um around a hundred and seven million orders. moderate forty percent so one point three two million homes at two and a half times a month that's about forty million a year"
+    },
+    {
+      "role": "interviewer",
+      "text": "And the rest?"
+    },
+    {
+      "role": "candidate",
+      "text": "Light users thirty five percent around one point one five million homes maybe for orders a year so four point six million. then offices uh corporate lunches and team orders i'll say ten million a year. so total is a hundred seven plus forty plus four point six plus ten, roughly a hundred sixty million orders"
+    },
+    {
+      "role": "interviewer",
+      "text": "How would you sanity check that?"
+    },
+    {
+      "role": "candidate",
+      "text": "Divide by three sixty five that's about four hundred forty thousand orders a day. new york has I think around twenty five thousand restaurants say twenty thousand do delivery, so each one would need about twenty to orders a day which sounds right for a busy take out place so the to sides match"
+    },
+    {
+      "role": "interviewer",
+      "text": "Okay, summarize."
+    },
+    {
+      "role": "candidate",
+      "text": "About a hundred sixty million delivery orders a year so like four forty k a day, range maybe one thirty to one ninety million. the biggest swing is the share of heavy users, if it's twenty percent instead of twenty five you lose about twenty million orders. I'd validate with the app's order data by zip code or restaurant point of sale data."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "pillarMin": {
+      "framework": 3,
+      "communication": 3
+    },
+    "overallMin": 55,
+    "injectionAttempt": false
+  }
+}

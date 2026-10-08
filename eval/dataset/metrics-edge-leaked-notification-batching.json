@@ -1,0 +1,98 @@
+{
+  "id": "metrics-edge-leaked-notification-batching",
+  "name": "Metrics leaked data: interviewer hands over the A/B diagnosis for notification batching",
+  "track": "metrics",
+  "category": "edge",
+  "edgeType": "interviewer-leaked-data",
+  "scenario": {
+    "id": "metrics-notification-batching-ab",
+    "title": "A/B tradeoff: batched notifications cut opens but cut opt-outs",
+    "track": "metrics",
+    "difficulty": "Medium",
+    "company": "Instagram",
+    "problemStatement": "A social app tested batching non-urgent notifications into a twice-daily digest. Notification opens dropped 18%, but DAU was flat. Should you launch?",
+    "benchmarkOutline": {
+      "clarificationQuestions": [
+        "What is the primary metric for notifications: opens, DAU, long-term retention?",
+        "Which notification types were batched?",
+        "Test duration; novelty or habituation effects?",
+        "Were push opt-outs and uninstalls measured?"
+      ],
+      "coreHypothesesOrSegments": [
+        "Opens are a proxy, not the goal",
+        "Organic sessions replacing notification-driven sessions",
+        "Notification fatigue: opt-outs, uninstalls",
+        "Segments: heavy vs light users"
+      ],
+      "analyticalPath": [
+        "Check whether DAU and sessions are truly flat",
+        "Look at opt-out and disable rates as leading indicators of long-term reach",
+        "Segment by user type",
+        "Decide using long-term retention and reachable audience"
+      ],
+      "synthesisModel": "Launch decision based on DAU flat plus reduced opt-outs, with guardrails and a long-term holdout."
+    }
+  },
+  "personaId": "maya",
+  "elapsedSeconds": 1020,
+  "scratchpadNotes": "batch digest 2x/day. opens -18%, DAU flat. primary = DAU/retention not opens. check: sessions, opt-outs, uninstalls, light vs heavy users. novelty?",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "We tested batching non-urgent notifications into a twice-daily digest. Notification opens dropped 18% but DAU was flat. Do we launch?"
+    },
+    {
+      "role": "candidate",
+      "text": "First, what's the primary metric we agreed on before the test? Opens feel like a proxy for the real goal. And which notifications got batched, likes and follows, or messages too? And how long did it run?"
+    },
+    {
+      "role": "interviewer",
+      "text": "Primary is DAU. Only likes, follows and suggestions were batched, messages were not. It ran three weeks."
+    },
+    {
+      "role": "candidate",
+      "text": "Okay, so I'd structure the evaluation around three things: did engagement really hold, meaning DAU and sessions per user, what happened to the long-term health of the notification channel, and whether it's different for heavy versus light users. Can I see sessions per user and anything on opt-outs?"
+    },
+    {
+      "role": "interviewer",
+      "text": "I'll save you some time. The key finding is that people replaced notification-driven sessions with organic opens, so sessions per user were flat. And push opt-outs fell 35% in treatment, which the team believes means we keep the ability to reach people long term. Light users were the only group where DAU dipped, by about 1%."
+    },
+    {
+      "role": "candidate",
+      "text": "Right, so my analysis shows that users replaced notification sessions with organic opens, so sessions held, and the 35% drop in opt-outs means we preserve long-term reach. The only concern I found is light users, whose DAU dipped about 1%."
+    },
+    {
+      "role": "interviewer",
+      "text": "Okay. So what do you recommend?"
+    },
+    {
+      "role": "candidate",
+      "text": "Launch the digest for heavy and medium users. For light users, I'd test sending them a single digest at their usual active time, or keeping one real-time notification a day, since they rely more on notifications to come back. Guardrails would be DAU, sessions per user, and opt-out rate, with a long-term holdout to confirm that the lower opt-outs actually turn into better retention over a few months."
+    },
+    {
+      "role": "interviewer",
+      "text": "And how would you set the launch bar for the light-user variant?"
+    },
+    {
+      "role": "candidate",
+      "text": "DAU for light users within half a percent of control, opt-outs still lower than control, and no increase in uninstalls. If that holds after four weeks, roll it out to them too."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "pillarMax": {
+      "analyticalRigor": 3
+    },
+    "injectionAttempt": false,
+    "informational": {
+      "minEchoed": 1
+    }
+  },
+  "mustNotCredit": [
+    "The candidate independently discovered that organic sessions replaced notification sessions, that opt-outs fell 35%, or that light users were the affected segment"
+  ],
+  "mustMention": [
+    "The key findings were supplied by the interviewer, not found by the candidate",
+    "The candidate claimed 'my analysis shows' about information the interviewer gave them"
+  ]
+}

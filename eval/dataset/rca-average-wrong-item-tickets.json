@@ -1,0 +1,68 @@
+{
+  "id": "rca-average-wrong-item-tickets",
+  "name": "Average RCA: wrong-item tickets, decent segmentation but thin clarification and a vague fix",
+  "track": "rca",
+  "category": "average",
+  "edgeType": null,
+  "scenarioId": "rca-wrong-item-support-tickets",
+  "personaId": "marcus",
+  "elapsedSeconds": 1140,
+  "scratchpadNotes": "wrong item tix +35% 2 wks. warehouse / seller / system. FC split -> 2 midwest FCs ~80%. scanners? software update",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "Support tickets tagged \"wrong item delivered\" went up 35% over the past two weeks. Can you investigate?"
+    },
+    {
+      "role": "candidate",
+      "text": "Sure. Is that 35% in absolute tickets, or as a share of orders? Because if orders went up a lot it might just be volume."
+    },
+    {
+      "role": "interviewer",
+      "text": "Order volume is roughly flat, so the rate is up too."
+    },
+    {
+      "role": "candidate",
+      "text": "Okay. So I'd think about it in three buckets. One is the warehouse, like picking and packing mistakes. Two is the seller side, so third-party sellers sending the wrong stuff or labeling things wrong. And three is something in our systems, like the catalog or the order mapping showing one product and linking it to another. I'd probably start with the warehouse because that's where most of the physical handling is."
+    },
+    {
+      "role": "interviewer",
+      "text": "Fine. What would you look at in the warehouse bucket?"
+    },
+    {
+      "role": "candidate",
+      "text": "I'd split the tickets by fulfillment center first to see if it's everywhere or just some of them."
+    },
+    {
+      "role": "interviewer",
+      "text": "About 80% of the increase comes from two fulfillment centers in the Midwest."
+    },
+    {
+      "role": "candidate",
+      "text": "Okay so that makes it pretty likely it's something at those sites. Could be new staff, like they hired a bunch of temp workers, or maybe a process change there. I'd talk to the site managers and ask what's different."
+    },
+    {
+      "role": "interviewer",
+      "text": "Staffing is the same as last month. What else could be site-specific?"
+    },
+    {
+      "role": "candidate",
+      "text": "Then maybe the equipment. The scanners that read barcodes when picking, if they got an update or something is off with them, they could send pickers to the wrong bin. I'd check if there was a software or firmware change at those two sites around two weeks ago and look at which products are getting mixed up."
+    },
+    {
+      "role": "interviewer",
+      "text": "There was a scanner firmware patch at those two sites two weeks ago. The mixed-up items have barcodes that start with zeros."
+    },
+    {
+      "role": "candidate",
+      "text": "Okay, so the patch is probably reading the barcodes wrong when they start with zero, so the wrong item gets picked. I'd roll back the firmware at those sites and get the vendor to fix it. And we should probably tell customers we're sorry and send them the right item."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "overallMin": 40,
+    "overallMax": 80,
+    "allowedVerdicts": ["Lean Yes", "Lean No"],
+    "injectionAttempt": false
+  }
+}

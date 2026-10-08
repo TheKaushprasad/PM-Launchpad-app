@@ -1,0 +1,76 @@
+{
+  "id": "guesstimate-strong-cars-india-2023",
+  "name": "Strong guesstimate: India car sales 2023 via household replacement model, triangulated with OEM share",
+  "track": "guesstimate",
+  "category": "strong",
+  "edgeType": null,
+  "scenarioId": "guest-cars-sold-india-2023",
+  "personaId": "priya",
+  "elapsedSeconds": 1320,
+  "scratchpadNotes": "new PVs, domestic, CY2023, units. 1.4B / 4.4 = 320M HH. top ~20% can afford = 64M. own 35M -> replace /12 = 2.9M. non-owners 29M x 4% = 1.16M. ~4.1M. check: Maruti 1.7M / 0.42 = 4.05M. replacement cycle 9y -> 3.9M",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "Estimate the number of new cars sold in India in 2023."
+    },
+    {
+      "role": "candidate",
+      "text": "Let me scope it first. By cars I will take passenger vehicles, so hatchbacks, sedans, SUVs and MUVs, and leave out two-wheelers, three-wheelers and commercial vehicles like trucks. Is that right? Also, new vehicles only, not used car transactions? Domestic sales to customers, not production or exports? And calendar 2023, in units rather than rupees?"
+    },
+    {
+      "role": "interviewer",
+      "text": "Yes to all of that. New passenger vehicles, domestic sales, calendar year 2023, in units. Taxis bought as passenger cars can count."
+    },
+    {
+      "role": "candidate",
+      "text": "Great. I will do it two ways and see if they meet. The main one is demand side by household, because buying a car is a household decision and it is mostly limited by income. I will split buyers into replacement or upgrade buyers, who already own a car, and first-time buyers, since they behave differently. Then I will cross-check with the supply side using a big manufacturer and its market share."
+    },
+    {
+      "role": "interviewer",
+      "text": "Okay, start with the household side."
+    },
+    {
+      "role": "candidate",
+      "text": "India is about 1.4 billion people at around 4.4 people per household, so roughly 320 million households. Only the top end can afford a car. An entry hatchback is about 6 lakh rupees, and with an EMI that needs a household income of maybe 8 to 10 lakh a year, which I would put at roughly the top 20 percent. So about 64 million households in the car-buying pool."
+    },
+    {
+      "role": "interviewer",
+      "text": "Where does the 20 percent come from?"
+    },
+    {
+      "role": "candidate",
+      "text": "It is a rough proxy. If I think of the income pyramid, the top 1 percent is clearly in, the next band of salaried urban families is a big chunk, and rural households with land or a business add some. 15 to 25 percent felt right, so I took 20. Now splitting the 64 million: India has around 25 cars per thousand people, so about 35 million cars on the road, and I will assume they sit mostly in this pool, so 35 million owning households and 29 million that do not own yet. Owners replace on average every 12 years or so, since first owners sell into the used market and some keep cars a long time, so 35 million divided by 12 is about 2.9 million replacement or upgrade purchases. For first-time buyers, if 4 percent of the 29 million buy each year, that is about 1.16 million. Total is roughly 4.1 million."
+    },
+    {
+      "role": "interviewer",
+      "text": "Interesting. And the cross-check?"
+    },
+    {
+      "role": "candidate",
+      "text": "Do you have Maruti numbers, or should I assume them?"
+    },
+    {
+      "role": "interviewer",
+      "text": "Assume Maruti Suzuki sold about 1.7 million passenger vehicles in India in 2023, around 41 to 42 percent share."
+    },
+    {
+      "role": "candidate",
+      "text": "1.7 million divided by 0.42 is about 4.05 million. So the supply side lands at about 4.05 million and the household side at 4.1 million, which is close enough that I am comfortable. My answer is about 4.1 million new passenger vehicles in 2023, with a range of 3.8 to 4.4 million. The most sensitive input is the replacement cycle: if owners replace every 9 years instead of 12, replacement goes from 2.9 to 3.9 million and the total crosses 5 million, which would conflict with the Maruti check, so I think 10 to 12 years is right. To validate, I would pull registrations from the VAHAN database or the SIAM annual numbers, and split by first-time versus repeat buyers from dealer or loan data."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "pillarMin": {
+      "clarification": 4,
+      "framework": 4,
+      "analyticalRigor": 4,
+      "synthesis": 4
+    },
+    "allowedVerdicts": [
+      "Strong Yes",
+      "Lean Yes"
+    ],
+    "overallMin": 70,
+    "injectionAttempt": false
+  }
+}

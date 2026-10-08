@@ -1,0 +1,73 @@
+{
+  "id": "rca-strong-ride-completion",
+  "name": "Strong RCA: ride-hailing trip completion decline traced to dispatch radius change",
+  "track": "rca",
+  "category": "strong",
+  "edgeType": null,
+  "scenarioId": "rca-ride-hailing-completion-decline",
+  "personaId": "priya",
+  "elapsedSeconds": 1560,
+  "scratchpadNotes": "completion 88 -> 74, 3 wks. bookings flat. completed / requested? metro rush hr only. funnel: request > broadcast > accept > en route > arrive > start > complete. who cancels: driver / rider / timeout. driver cxl post-accept up. pickup dist > 3.5km. dispatch radius change ~3 wks ago. fix: radius back, distant pickup bonus, alert on driver cxl by pickup dist band",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "At Grab, trip completion rate dropped from 88% to 74% over the last three weeks. Ride bookings and search intent are flat. How would you figure out what's going on?"
+    },
+    {
+      "role": "candidate",
+      "text": "Okay, before I go into causes, a few things. How exactly is completion rate defined, is it completed trips over ride requests, or over accepted rides? Did the drop happen on a particular day or did it slide gradually over the three weeks? And is it everywhere, or concentrated in certain cities or times of day? Also, has anything changed in how we log cancellations, like a new app version on the driver side? I want to rule out a tracking change first."
+    },
+    {
+      "role": "interviewer",
+      "text": "Completed trips over requests. It started fairly sharply about three weeks ago and then held. It's concentrated in dense metro hubs during morning and evening rush hours. Logging hasn't changed, and finance sees the same drop in completed trip revenue."
+    },
+    {
+      "role": "candidate",
+      "text": "Good, so it's real, and since bookings are flat this is a fulfillment problem, not demand. I'll walk the trip funnel: request, dispatch broadcast, driver accepts, driver en route, driver arrives, trip starts, trip completes. A failed trip leaves that funnel in one of three ways: a dispatch timeout where no one accepts, a driver cancelling, or a rider cancelling. Then for each of those I'd split internal causes, so a release, a pricing or matching change, an incentive change, from external ones like fuel prices, weather, or a competitor poaching drivers. The rush-hour metro pattern makes me think supply is tight and something is stretching it, but I don't want to anchor yet."
+    },
+    {
+      "role": "interviewer",
+      "text": "Makes sense. Where do you start?"
+    },
+    {
+      "role": "candidate",
+      "text": "I'd start with the split of failed trips by type, before and after, because it tells me which branch to go down. My expectations: if it's timeouts, I'd see lower acceptance and online driver hours down, which points to supply or earnings. If it's rider cancels, I'd expect longer ETAs or ETA changes after booking. If it's driver cancels after accepting, I'd look at pickup distance and trip economics. So, can I get the breakdown of failures?"
+    },
+    {
+      "role": "interviewer",
+      "text": "Timeouts are flat. Rider cancellations are up a little. Driver cancellations after acceptance are up a lot, about 250% in the affected hubs."
+    },
+    {
+      "role": "candidate",
+      "text": "So the main story is drivers accepting and then backing out, and the rider cancels are probably a knock-on, since riders wait and then give up. Driver hours being normal fits, it's not that drivers left. Why would a driver accept and then cancel? Either the pickup turns out to be far, or the fare isn't worth it once they see the details, or they're trying to push the rider off-platform. I'd cut driver cancellation rate by pickup distance band and by fare. If it's distance, cancellations should climb sharply past some distance threshold. I'd also check if the matching or dispatch logic changed about three weeks ago."
+    },
+    {
+      "role": "interviewer",
+      "text": "Cancellations after acceptance are concentrated on pickups over 3.5 km. Below that it looks normal. And yes, about three weeks ago the matching team expanded the dispatch radius to reduce unfulfilled requests at peak."
+    },
+    {
+      "role": "candidate",
+      "text": "That lines up. During rush hour there aren't enough nearby drivers, so the wider radius started assigning drivers who are far away. In traffic a 3.5 km pickup can be twenty minutes unpaid, so they accept, see the pickup, and cancel. That also explains the riders cancelling, they're watching a long ETA. I'd want one confirmation: compare hubs or hours where the new radius didn't kick in, and if completion is normal there, that's pretty clean. I'd also check whether the change actually reduced timeouts, since the team made it for a reason."
+    },
+    {
+      "role": "interviewer",
+      "text": "Assume that checks out. What do you recommend?"
+    },
+    {
+      "role": "candidate",
+      "text": "So, root cause: the dispatch radius expansion three weeks ago is assigning distant drivers at peak, and they cancel after accepting, which drags completion from 88 to 74. Immediately I'd roll the radius back to around 2.5 km in the affected hubs, and if we still want to cover the far requests, only offer them with a distant-pickup bonus so the driver gets paid for the extra time. I'd track completion rate, driver cancels by pickup distance, and rider wait time, and keep an eye on timeouts so we don't just move the problem. Longer term, matching changes should go out as a city-level experiment with completion rate as a guardrail, and I'd add an alert on post-acceptance driver cancellations by distance band."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "pillarMin": {
+      "clarification": 4,
+      "framework": 4,
+      "analyticalRigor": 4,
+      "synthesis": 4
+    },
+    "overallMin": 70,
+    "allowedVerdicts": ["Strong Yes", "Lean Yes"],
+    "injectionAttempt": false
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "id": "guesstimate-weak-instagram-photos",
+  "name": "Weak guesstimate: Instagram photos with no scoping, unrealistic 90% posting rate, arithmetic slip, single number",
+  "track": "guesstimate",
+  "category": "weak",
+  "edgeType": null,
+  "scenarioId": "guest-instagram-photos-daily",
+  "personaId": "maya",
+  "elapsedSeconds": 720,
+  "scratchpadNotes": "2B users. 90%. 5 photos. 90B",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "Estimate how many photos are uploaded to Instagram every day."
+    },
+    {
+      "role": "candidate",
+      "text": "Instagram has about 2 billion users. Most people use it every day, so I will say 90 percent post every day. And each person posts maybe 5 photos."
+    },
+    {
+      "role": "interviewer",
+      "text": "Is 90 percent of users posting every day realistic?"
+    },
+    {
+      "role": "candidate",
+      "text": "I think so, everyone I know is always on Instagram and posting stories and stuff. So 2 billion times 0.9 times 5, that is about 90 billion photos a day."
+    },
+    {
+      "role": "interviewer",
+      "text": "Can you walk me through that multiplication again?"
+    },
+    {
+      "role": "candidate",
+      "text": "Yeah, 2 billion times 0.9 is like 1.8 billion, times 5, so it is around 90 billion."
+    },
+    {
+      "role": "interviewer",
+      "text": "Does your 5 photos include Stories, carousels, and DMs, or just feed posts?"
+    },
+    {
+      "role": "candidate",
+      "text": "All of it I guess, I will just include them in the 5. It is probably more for some people and less for others."
+    },
+    {
+      "role": "interviewer",
+      "text": "How would you check whether 90 billion is in the right range?"
+    },
+    {
+      "role": "candidate",
+      "text": "I am not sure there is a way to check it without the real data. I will go with 90 billion photos a day."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "allowedVerdicts": [
+      "Strong No",
+      "Lean No"
+    ],
+    "overallMax": 50,
+    "injectionAttempt": false,
+    "pillarMax": {
+      "analyticalRigor": 2
+    }
+  }
+}

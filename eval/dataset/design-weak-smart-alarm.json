@@ -1,0 +1,82 @@
+{
+  "id": "design-weak-smart-alarm",
+  "name": "Weak design: smart alarm as an unprioritized gadget list with no users or metrics",
+  "track": "design",
+  "category": "weak",
+  "edgeType": null,
+  "scenarioId": "design-smart-alarm-clock",
+  "personaId": "marcus",
+  "elapsedSeconds": 780,
+  "scratchpadNotes": "loud, lights, vibrate, app, AI, coffee machine, smart home, spotify",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "Design a smart alarm clock for heavy sleepers, people who regularly sleep through their alarms."
+    },
+    {
+      "role": "candidate",
+      "text": "Okay, so the first thing is it should be really loud, way louder than a phone, and maybe have flashing lights too."
+    },
+    {
+      "role": "interviewer",
+      "text": "Who exactly are you designing for?"
+    },
+    {
+      "role": "candidate",
+      "text": "Heavy sleepers, like you said. Basically anyone who can't wake up."
+    },
+    {
+      "role": "interviewer",
+      "text": "Okay. What are their main problems?"
+    },
+    {
+      "role": "candidate",
+      "text": "They don't wake up because the alarm isn't loud enough. So yeah, loud is the main thing."
+    },
+    {
+      "role": "interviewer",
+      "text": "Anything beyond volume?"
+    },
+    {
+      "role": "candidate",
+      "text": "We could add vibration in the pillow, and an app so you can set it from your phone. And AI that learns when you sleep. It could also connect to your coffee machine and smart lights, and play Spotify."
+    },
+    {
+      "role": "interviewer",
+      "text": "That's a lot. If you could only ship one thing, what would it be and why?"
+    },
+    {
+      "role": "candidate",
+      "text": "I'd ship all of it, honestly, because together it's a really complete product and people like having lots of features."
+    },
+    {
+      "role": "interviewer",
+      "text": "What about someone who just hits snooze ten times?"
+    },
+    {
+      "role": "candidate",
+      "text": "We could take away the snooze button, then they have to get up."
+    },
+    {
+      "role": "interviewer",
+      "text": "How would you know if the product is working?"
+    },
+    {
+      "role": "candidate",
+      "text": "If people buy it and like it, I guess. Good reviews."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "allowedVerdicts": [
+      "Strong No",
+      "Lean No"
+    ],
+    "overallMax": 50,
+    "pillarMax": {
+      "synthesis": 2,
+      "analyticalRigor": 2
+    },
+    "injectionAttempt": false
+  }
+}

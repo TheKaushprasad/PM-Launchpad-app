@@ -1,0 +1,32 @@
+{
+  "id": "strategy-edge-quit-early-netflix-sports",
+  "name": "Strategy candidate leaves after two short replies",
+  "track": "strategy",
+  "category": "edge",
+  "edgeType": "quit-early",
+  "scenarioId": "strat-netflix-live-sports-pros-cons",
+  "personaId": "priya",
+  "elapsedSeconds": 120,
+  "scratchpadNotes": "",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "As Netflix's VP of Content Strategy, should Netflix bid on major live sports rights like the NFL or Premier League?"
+    },
+    {
+      "role": "candidate",
+      "text": "Hmm, sports. Okay."
+    },
+    {
+      "role": "interviewer",
+      "text": "Take a moment. Where would you start?"
+    },
+    {
+      "role": "candidate",
+      "text": "Pros and cons maybe? Sorry, I have to drop."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "insufficient"
+  }
+}

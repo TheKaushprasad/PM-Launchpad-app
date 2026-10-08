@@ -1,0 +1,77 @@
+{
+  "id": "guesstimate-strong-uber-requests-delhi",
+  "name": "Strong guesstimate: daily Uber requests in a 10M metro with funnel, unfulfilled requests and two sanity checks",
+  "track": "guesstimate",
+  "category": "strong",
+  "edgeType": null,
+  "scenarioId": "guest-uber-requests-metro",
+  "personaId": "marcus",
+  "elapsedSeconds": 1260,
+  "scratchpadNotes": "requests = taps incl cancel/unmatched, not price checks. weekday. Delhi-like. 10M -> 5.5M (20-60) -> 60% = 3.3M -> 12% daily = ~400k -> x1.8 = 720k rides -> Uber 50% = 360k done -> /0.75 = 480k req. check: metro 5-6M/day, drivers 40k x 10",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "Estimate the number of daily Uber ride requests in a metro city of about 10 million people."
+    },
+    {
+      "role": "candidate",
+      "text": "A couple of clarifications. When you say requests, do you mean every time someone taps request, including the ones that get cancelled or never matched, or only completed rides? Do price checks without a request count? And which kind of city, because a Delhi and a London have very different transit and income profiles. Also, a typical weekday?"
+    },
+    {
+      "role": "interviewer",
+      "text": "Count every time someone taps request, including cancelled or unmatched ones. Price checks don't count. Pick the city yourself, and yes, a typical weekday."
+    },
+    {
+      "role": "candidate",
+      "text": "I will go with a city like Delhi, where Uber competes with Ola and some local apps, there is a big metro network, and autos are common. My plan: start from the population, narrow to people who could realistically use ride-hailing, estimate how many use it on a given weekday and how many trips they take, take Uber's share to get completed rides, then gross up for requests that do not complete. Is there a market share number I should use for Uber, or should I assume one?"
+    },
+    {
+      "role": "interviewer",
+      "text": "Assume Uber has about half the ride-hailing market there."
+    },
+    {
+      "role": "candidate",
+      "text": "Okay. 10 million people, working age 20 to 60 is about 55 percent, so 5.5 million. Of those, I would say 60 percent have a smartphone and enough income to use ride-hailing regularly, so 3.3 million addressable. On a given weekday, maybe 12 percent of them actually take a ride-hail trip, since many commute by metro, bus or their own two-wheeler. That is about 400 thousand riders. Each takes about 1.8 trips, because a lot of them do a round trip but some go only one way, so roughly 720 thousand ride-hail trips across all apps."
+    },
+    {
+      "role": "interviewer",
+      "text": "And for Uber?"
+    },
+    {
+      "role": "candidate",
+      "text": "Half of 720 thousand is 360 thousand completed Uber rides. Now requests: in Delhi a good share of requests fail, either the driver cancels, the rider cancels after a long ETA, or nobody accepts at peak. I will assume one in four requests does not complete, so requests are 360 thousand divided by 0.75, about 480 thousand requests a day."
+    },
+    {
+      "role": "interviewer",
+      "text": "How would you know if that is reasonable?"
+    },
+    {
+      "role": "candidate",
+      "text": "Two checks. First, transit: the Delhi Metro carries something like 5 to 6 million trips a day. Total ride-hailing at 720 thousand is about an eighth of that, which feels right for a premium option. Second, supply: if Uber has around 40 thousand drivers active on a weekday, each doing about 10 trips, that is 400 thousand rides, close to my 360 thousand. Both point to the same range, so I will keep it."
+    },
+    {
+      "role": "interviewer",
+      "text": "Good. Final answer?"
+    },
+    {
+      "role": "candidate",
+      "text": "About 480 thousand ride requests on a typical weekday, of which around 360 thousand complete. My range is 400 to 600 thousand. The input that moves it most is the 12 percent daily usage among addressable people: at 15 percent the answer goes to about 600 thousand. Second is the failure rate, which swings a lot at peak and on rainy days. To validate, I would look at Uber's daily active riders in the city and the request-to-completion ratio from the marketplace data."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "pillarMin": {
+      "clarification": 4,
+      "framework": 4,
+      "analyticalRigor": 4,
+      "communication": 4,
+      "synthesis": 4
+    },
+    "allowedVerdicts": [
+      "Strong Yes",
+      "Lean Yes"
+    ],
+    "overallMin": 70,
+    "injectionAttempt": false
+  }
+}

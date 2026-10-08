@@ -1,0 +1,79 @@
+{
+  "id": "design-average-subscription-manager",
+  "name": "Average design: subscription manager with solid clarification but shallow trade-offs and synthesis",
+  "track": "design",
+  "category": "average",
+  "edgeType": null,
+  "scenarioId": "design-subscription-manager-app",
+  "personaId": "priya",
+  "elapsedSeconds": 1260,
+  "scratchpadNotes": "monetization? bank access? US. users: budget optimizer, free trial forgetter, shocked bill payer. pains: spread across cards, hard to cancel, forgot annual renewals. features: bank scan, dashboard, alerts, cancel for you",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "Design an app that helps people keep track of and cancel their recurring subscriptions."
+    },
+    {
+      "role": "candidate",
+      "text": "Before I start, how does the app make money, is it a subscription itself or a cut of savings? Do we get bank account access, through something like Plaid? And is this US only?"
+    },
+    {
+      "role": "interviewer",
+      "text": "Freemium, with a paid tier. Yes, assume bank connection is possible. US for now."
+    },
+    {
+      "role": "candidate",
+      "text": "Great. Are we a new startup or part of an existing bank?"
+    },
+    {
+      "role": "interviewer",
+      "text": "A startup."
+    },
+    {
+      "role": "candidate",
+      "text": "Okay. For users, I see three types. The budget optimizer who wants to cut waste, the person who signs up for free trials and forgets to cancel them, and someone who just got a big bill and wants to know what's going on. I'll focus on the free trial person, because that seems like the most common situation."
+    },
+    {
+      "role": "interviewer",
+      "text": "And their pain points?"
+    },
+    {
+      "role": "candidate",
+      "text": "Their subscriptions are spread across a couple of cards, so they don't see them all in one place. Canceling is annoying, some companies make you call or go through five screens. And they forget the date the trial converts. So I'd say visibility, cancellation and reminders."
+    },
+    {
+      "role": "interviewer",
+      "text": "What do you build?"
+    },
+    {
+      "role": "candidate",
+      "text": "You connect your bank, and we scan your transactions and pull out everything that repeats, and show it in a dashboard with the monthly total. Then we send you an alert two days before any renewal, especially trials and annual ones. And in the paid tier we cancel for you; you tap a button and we handle it. We could also offer a virtual card for free trials that just stops working after the trial."
+    },
+    {
+      "role": "interviewer",
+      "text": "Which is the hardest part to get right?"
+    },
+    {
+      "role": "candidate",
+      "text": "Probably cancel-for-you, because every company's process is different. We'd need to start with the top twenty or so services."
+    },
+    {
+      "role": "interviewer",
+      "text": "Okay, summarize."
+    },
+    {
+      "role": "candidate",
+      "text": "So it's a subscription tracker that connects to your bank, finds your subscriptions, alerts you before renewals, and cancels for you in the paid tier. I'd track the number of connected users and how many subscriptions get canceled."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "allowedVerdicts": [
+      "Lean Yes",
+      "Lean No"
+    ],
+    "overallMin": 40,
+    "overallMax": 80,
+    "injectionAttempt": false
+  }
+}

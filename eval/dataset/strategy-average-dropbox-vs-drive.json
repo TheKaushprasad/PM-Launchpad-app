@@ -1,0 +1,71 @@
+{
+  "id": "strategy-average-dropbox-vs-drive",
+  "name": "Average strategy: Dropbox vs Google Drive, sensible pillars but no clarification or prioritized bet",
+  "track": "strategy",
+  "category": "average",
+  "edgeType": null,
+  "scenarioId": "strat-dropbox-compete-google-drive",
+  "personaId": "priya",
+  "elapsedSeconds": 1140,
+  "scratchpadNotes": "can't win on GB price. creators - big files, fast sync. Dash = search across tools. Sign/DocSend. enterprise security",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "Google Drive and OneDrive give away 15GB and bundle Docs or Office. How should Dropbox compete?"
+    },
+    {
+      "role": "candidate",
+      "text": "So I think the first thing to say is that Dropbox can't win on storage price. Google and Microsoft have basically zero marginal cost and they bundle it with productivity tools people already use, so a gigabyte-for-gigabyte fight is a losing game."
+    },
+    {
+      "role": "interviewer",
+      "text": "Agreed. So where does Dropbox win?"
+    },
+    {
+      "role": "candidate",
+      "text": "I'd break it into a few areas. One is creative professionals, video editors, photographers, architects, who move huge files and need fast, reliable sync. Drive is not great with 50GB video projects. Two is being neutral across platforms, since a lot of companies use both Google and Microsoft and Slack and Notion, and Dropbox doesn't care which. Three is the document workflow products they already own, like e-signatures and DocSend."
+    },
+    {
+      "role": "interviewer",
+      "text": "How does platform neutrality turn into a product?"
+    },
+    {
+      "role": "candidate",
+      "text": "Something like Dropbox Dash, a search tool that finds your stuff across Drive, Slack, Notion and so on. Google won't build that well for competitor apps, so Dropbox has a natural opening there. Also AI makes this more valuable since people want one place to ask questions about all their files."
+    },
+    {
+      "role": "interviewer",
+      "text": "Google could build a cross-app search too. What stops them?"
+    },
+    {
+      "role": "candidate",
+      "text": "They could, but I think customers would trust a neutral player more. It's a bit like how people use a third-party password manager instead of the browser one. I'm not sure that holds for every company though."
+    },
+    {
+      "role": "interviewer",
+      "text": "Which of these would you prioritize?"
+    },
+    {
+      "role": "candidate",
+      "text": "I think all three are important and they support each other. Creators are the current paying base, Dash is the growth bet, and the workflow tools increase revenue per user. I'd invest in all three, maybe with a bit more on Dash because AI search is where the market is heading."
+    },
+    {
+      "role": "interviewer",
+      "text": "How would you know it's working?"
+    },
+    {
+      "role": "candidate",
+      "text": "Paid subscriber growth, and revenue per user going up. For Dash, probably how many people use it weekly."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "allowedVerdicts": [
+      "Lean Yes",
+      "Lean No"
+    ],
+    "overallMin": 40,
+    "overallMax": 80,
+    "injectionAttempt": false
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "id": "rca-average-app-rating-drop",
+  "name": "Average RCA: app rating drop, good clarification but loose analysis and no guardrails",
+  "track": "rca",
+  "category": "average",
+  "edgeType": null,
+  "scenarioId": "rca-app-store-rating-drop",
+  "personaId": "alex",
+  "elapsedSeconds": 1020,
+  "scratchpadNotes": "4.5 -> 4.3 iOS, 4 wks. review vol +40%. free vs premium? new version? prompt timing? reviews: battery, nav, ads",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "Spotify's iOS App Store rating dropped from 4.5 to 4.3 over the last four weeks. What's driving it?"
+    },
+    {
+      "role": "candidate",
+      "text": "Alright, so a few questions. Is this only iOS, or is Android down too? Did we ship a big release in this window? And has the number of reviews changed, or is it the same volume but more negative?"
+    },
+    {
+      "role": "interviewer",
+      "text": "Android is stable. We shipped a major UI release about four weeks ago. Review volume is up around 40%, and most of the one- and two-star reviews came in after that release."
+    },
+    {
+      "role": "candidate",
+      "text": "Okay, so it lines up with the release. I'd also want to know if these are free or premium users, and whether we changed when we ask people to rate the app, because if the prompt is showing at a bad moment that alone could bring in a lot of angry reviews."
+    },
+    {
+      "role": "interviewer",
+      "text": "Good questions. Let's say it's a mix of free and premium, and the rating prompt hasn't changed. What next?"
+    },
+    {
+      "role": "candidate",
+      "text": "So I'd read through the bad reviews and group them. My guess is it's the UI changes, people hate when you move their stuff around. There could also be bugs, or something about ads for free users."
+    },
+    {
+      "role": "interviewer",
+      "text": "When you cluster the keywords, the top ones are \"battery drain\", \"phone gets hot\", and \"queue button moved\"."
+    },
+    {
+      "role": "candidate",
+      "text": "So there's two things going on, the redesign annoying people with the queue button, and the battery. I think the redesign is probably the bigger part since it hits everyone who opens the app."
+    },
+    {
+      "role": "interviewer",
+      "text": "How would you check which one is bigger?"
+    },
+    {
+      "role": "candidate",
+      "text": "I guess I could count how many reviews mention each one. And for the battery, look at device data, like if it's certain iPhone models or iOS versions, and check CPU or battery telemetry from the new version."
+    },
+    {
+      "role": "interviewer",
+      "text": "Battery mentions are about twice the queue button ones. Telemetry shows background audio CPU usage up about 300% on older iPhones since that version."
+    },
+    {
+      "role": "candidate",
+      "text": "Okay so it's mostly battery then, the new version has a bug that's using way more CPU in the background on older phones. I'd get engineering to ship a hotfix for that, and maybe move the queue button back or make it easier to find. That should bring the rating back up over time."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "overallMin": 40,
+    "overallMax": 80,
+    "allowedVerdicts": ["Lean Yes", "Lean No"],
+    "injectionAttempt": false
+  }
+}

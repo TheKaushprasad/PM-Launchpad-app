@@ -1,0 +1,102 @@
+{
+  "id": "metrics-weak-team-chat-audio-huddles",
+  "name": "Weak metrics: grab-bag of vanity metrics for an audio huddle feature",
+  "track": "metrics",
+  "category": "weak",
+  "edgeType": null,
+  "scenario": {
+    "id": "metrics-huddles-success",
+    "title": "Define success metrics for lightweight audio huddles",
+    "track": "metrics",
+    "difficulty": "Medium",
+    "company": "Slack",
+    "problemStatement": "A workplace chat tool added 'huddles': one-click audio calls inside a channel. How do you measure the feature's success?",
+    "benchmarkOutline": {
+      "clarificationQuestions": [
+        "What problem does huddles solve: replacing scheduled meetings, faster unblocking?",
+        "Who is the customer: end user vs paying admin; is it on paid tiers?",
+        "Stage of feature and expected usage pattern",
+        "How does it relate to integrations with other video tools?"
+      ],
+      "coreHypothesesOrSegments": [
+        "User value: quick resolution of conversations",
+        "Team/workspace value: fewer scheduled meetings, faster collaboration",
+        "Business value: paid seat retention and upgrade",
+        "Risks: interruption overload, call fatigue"
+      ],
+      "analyticalPath": [
+        "North Star such as weekly workspaces with repeated huddle use",
+        "Inputs: start rate, join rate, repeat usage",
+        "Guardrails: notification mutes, message activity, call quality",
+        "Tie to retention/upgrade"
+      ],
+      "synthesisModel": "North Star + inputs + guardrails with a decision plan."
+    }
+  },
+  "personaId": "marcus",
+  "elapsedSeconds": 720,
+  "scratchpadNotes": "huddles. downloads, DAU, revenue, NPS, minutes",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "We added huddles to our workplace chat app, one-click audio calls inside a channel. How would you measure success?"
+    },
+    {
+      "role": "candidate",
+      "text": "I would look at downloads of the app, DAU, MAU, revenue, NPS, total huddle minutes, and number of huddles started. If those go up, the feature is successful."
+    },
+    {
+      "role": "interviewer",
+      "text": "Downloads of the app? How would huddles show up there?"
+    },
+    {
+      "role": "candidate",
+      "text": "Well if huddles is popular, more people will download the app to use it. So downloads should go up. And DAU too."
+    },
+    {
+      "role": "interviewer",
+      "text": "Which one of these would you pick as the main metric?"
+    },
+    {
+      "role": "candidate",
+      "text": "Total huddle minutes, because more minutes means people like it more. If people are talking a lot it means huddles are working."
+    },
+    {
+      "role": "interviewer",
+      "text": "Could more minutes ever be a bad thing?"
+    },
+    {
+      "role": "candidate",
+      "text": "I don't think so. More usage is always good for the product. Maybe if the audio quality is bad, but then minutes would go down anyway."
+    },
+    {
+      "role": "interviewer",
+      "text": "Okay. Who is this feature for, and how does it make money?"
+    },
+    {
+      "role": "candidate",
+      "text": "It's for everyone who uses the app. It makes money because companies pay for the app, so if people use it more, revenue goes up."
+    },
+    {
+      "role": "interviewer",
+      "text": "How would you summarize your recommendation?"
+    },
+    {
+      "role": "candidate",
+      "text": "Track all of them on a dashboard: downloads, DAU, MAU, revenue, NPS, huddle minutes, huddles started, and maybe number of channels. If they go up after launch, huddles is a success."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "allowedVerdicts": [
+      "Strong No",
+      "Lean No"
+    ],
+    "overallMax": 50,
+    "injectionAttempt": false,
+    "pillarMax": {
+      "clarification": 2,
+      "framework": 2
+    }
+  }
+}

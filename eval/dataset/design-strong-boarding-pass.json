@@ -1,0 +1,84 @@
+{
+  "id": "design-strong-boarding-pass",
+  "name": "Strong design: context-aware digital boarding pass",
+  "track": "design",
+  "category": "strong",
+  "edgeType": null,
+  "scenarioId": "design-better-boarding-pass",
+  "personaId": "priya",
+  "elapsedSeconds": 1440,
+  "scratchpadNotes": "airline app vs wallet? journey: leave home > security > gate > board > land. users: infrequent leisure (anxious), business frequent, family w/ kids. pain: gate/group buried, gate change missed, scan at gate fumbling. states: pre-airport / security / gate / boarding. offline cache. NSM: on-time boarding completion?",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "Let's design a better digital boarding pass."
+    },
+    {
+      "role": "candidate",
+      "text": "Sure. Can I ask whether we're the airline, building inside our own app, or something like Apple Wallet that has to work for every airline? And what's the motivation, is it customer satisfaction, or an operational thing like boarding taking too long?"
+    },
+    {
+      "role": "interviewer",
+      "text": "You're the airline. Leadership cares about two things: boarding delays at the gate, and customer complaints about missed gate changes."
+    },
+    {
+      "role": "candidate",
+      "text": "Great, those are concrete. Who's flying with us, mostly business travelers or a mix?"
+    },
+    {
+      "role": "interviewer",
+      "text": "A mix. About a third frequent business travelers, the rest leisure travelers who fly a couple of times a year."
+    },
+    {
+      "role": "candidate",
+      "text": "Okay. So the frequent flyer basically knows the airport; they want speed and they'll be annoyed by anything that slows them down. The occasional leisure traveler, maybe with kids, is anxious the whole way: 'which terminal, is my gate still B12, when is my group called'. I'd design mainly for the occasional traveler, because they're two-thirds of passengers and they're the ones crowding the gate early and missing changes, which are exactly the two problems leadership named. Then I'd make sure nothing I add slows down the frequent flyer."
+    },
+    {
+      "role": "interviewer",
+      "text": "Walk me through the pain points."
+    },
+    {
+      "role": "candidate",
+      "text": "If I trace the day: at home, they don't know when to leave. At security, the pass doesn't help them. In the terminal, the gate number is tiny, next to a loyalty tier banner, and if it changes they find out from an announcement they didn't hear. At the gate, they don't know when group 5 boards, so everyone stands up when boarding starts, which is the crowding. And at the scanner, they're fumbling to find the pass with low brightness. The ones that hit both business goals are gate changes and not knowing when your group boards."
+    },
+    {
+      "role": "interviewer",
+      "text": "So what's the design?"
+    },
+    {
+      "role": "candidate",
+      "text": "Instead of one static barcode, the pass changes with where you are in the trip. On the way to the airport, it shows terminal and when to leave. After security, it's a big gate number with walking time, and if the gate changes, it updates on the lock screen and buzzes, with a 'you have 14 minutes, it's an 8-minute walk' line. At the gate, it shows a countdown to your group, like 'group 5 in about 20 minutes, stay seated', which is what actually stops the crowding. When your group is called, it flips to a bright, oversized code. It all caches offline, because airport Wi-Fi is bad and batteries die."
+    },
+    {
+      "role": "interviewer",
+      "text": "Why not just send push notifications for gate changes? That's simpler."
+    },
+    {
+      "role": "candidate",
+      "text": "Fair, and we should send them, but notifications get lost among twenty others, and people screenshot their pass and never open the app, so a push to an app they're not looking at doesn't help. A live lock-screen pass is where their eyes already are. The trade-off is that it needs accurate gate and boarding data in real time; if our group countdown is wrong by ten minutes, people lose trust and stand up anyway. So I'd only show the countdown at airports where gate agents' boarding calls are already logged in the system, and show 'boarding soon' otherwise."
+    },
+    {
+      "role": "interviewer",
+      "text": "Okay, close it out."
+    },
+    {
+      "role": "candidate",
+      "text": "My recommendation is a live boarding pass with four states, travel, security, gate and boarding, aimed at occasional travelers, with the gate-change alert and group countdown as the MVP. The primary metric is boarding duration per flight, since that's the operational cost; secondary is complaints about missed gate changes. Guardrails: scan failures at the gate and opt-outs of live updates. I'd test on a handful of high-traffic routes with a control group using the old pass, and expand once boarding time moves without hurting scan success."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "pillarMin": {
+      "clarification": 4,
+      "framework": 4,
+      "analyticalRigor": 4,
+      "communication": 4
+    },
+    "allowedVerdicts": [
+      "Strong Yes",
+      "Lean Yes"
+    ],
+    "overallMin": 70,
+    "injectionAttempt": false
+  }
+}

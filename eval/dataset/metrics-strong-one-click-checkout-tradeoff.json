@@ -1,0 +1,104 @@
+{
+  "id": "metrics-strong-one-click-checkout-tradeoff",
+  "name": "Strong metrics: diagnosing a conversion vs returns A/B tradeoff",
+  "track": "metrics",
+  "category": "strong",
+  "edgeType": null,
+  "scenario": {
+    "id": "metrics-one-click-checkout-ab",
+    "title": "A/B test tradeoff: one-click checkout lifts conversion but returns rise",
+    "track": "metrics",
+    "difficulty": "Hard",
+    "company": "Shopify",
+    "problemStatement": "An e-commerce platform tested one-click checkout for returning customers. Checkout conversion rose 6%, but the return rate in the treatment group rose from 9% to 12%. Should you launch?",
+    "benchmarkOutline": {
+      "clarificationQuestions": [
+        "What is the primary decision metric and time window of the test?",
+        "How are returns costed: who pays shipping and restocking?",
+        "Are results consistent across categories, new vs heavy buyers, devices?",
+        "Was randomization and sample size sound; are returns fully matured?"
+      ],
+      "coreHypothesesOrSegments": [
+        "Net value: incremental orders minus incremental return costs",
+        "Impulse purchases vs accidental purchases",
+        "Category mix shift (apparel vs electronics)",
+        "Long-term customer satisfaction and repeat purchase"
+      ],
+      "analyticalPath": [
+        "Validate the test and return window maturity",
+        "Convert both effects into a common unit (net contribution margin per user)",
+        "Segment the return increase to find accidental orders",
+        "Propose mitigations and a decision threshold"
+      ],
+      "synthesisModel": "Launch/no-launch rubric based on net margin per user with guardrails for returns, complaints, and repeat purchase, plus a mitigation variant."
+    }
+  },
+  "personaId": "priya",
+  "elapsedSeconds": 1440,
+  "scratchpadNotes": "conv +6%, returns 9->12%. returns window matured? net margin/user = orders*AOV*margin - returns*cost. segment: category, accidental (returned <24h, 'ordered by mistake'), device. mitigation: undo window 30 min.",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "We tested one-click checkout for returning customers. Checkout conversion went up 6%, but the return rate in treatment went from 9% to 12%. Do we launch?"
+    },
+    {
+      "role": "candidate",
+      "text": "Let me make sure I'm reading this right. Conversion is orders over checkout sessions, and return rate is returned orders over orders, both measured per group? How long did the test run, and has the return window closed for the orders in it? Because if returns are allowed for 30 days and the test ended last week, the 12% might still be climbing in both arms."
+    },
+    {
+      "role": "interviewer",
+      "text": "Yes, per group. The test ran four weeks and we waited out the 30-day return window, so returns are final. Returns cost us about $11 each in shipping and handling, and average order value is $60 with about 30% margin."
+    },
+    {
+      "role": "candidate",
+      "text": "Great, so the data's mature. The key thing is these are two metrics in different units, so I want to put them into one: net contribution per returning customer. Say a group has 100 customers and a baseline of 50 orders. Control: 50 orders, 9% returned is 4.5 returns. Contribution is 50 times 18 dollars margin, minus 4.5 times 11, minus the margin we lose on returned items, so roughly 900 minus 50 minus 81, about 770. Treatment: 53 orders, 12% returned is about 6.4 returns. 53 times 18 is 954, minus 70, minus 115, about 770. So it's roughly a wash. The extra orders are almost exactly paid for by the extra returns."
+    },
+    {
+      "role": "interviewer",
+      "text": "Interesting. So you'd not launch?"
+    },
+    {
+      "role": "candidate",
+      "text": "Not as is, but I want to know why returns went up, because the answer changes the decision. There are two stories. One is that people are buying more on impulse and some of that is regret, which is sort of the cost of a lower-friction checkout. The other is accidental orders: people tapping buy without meaning to. Those are really different. Can I see returns split by reason code and by time between order and return request?"
+    },
+    {
+      "role": "interviewer",
+      "text": "Return reason 'ordered by mistake' went from 0.5% to 2.8% of orders in treatment. Other reasons barely changed."
+    },
+    {
+      "role": "candidate",
+      "text": "So most of the three-point increase is accidental orders, about 2.3 points of it. That's actually good news, because it's a fixable UX problem, not a fundamental tradeoff. Accidental orders are also bad beyond the cost, they're a trust issue. I'd guess they cluster on mobile where the button is easy to hit. My recommendation would be a variant with a short undo window, like 30 minutes to cancel before it ships, or a confirmation hold on mobile. If that removes most of the accidental orders, then treatment would be 53 orders with around 9.7% returns, and that's clearly positive, roughly plus 4 to 5 percent contribution."
+    },
+    {
+      "role": "interviewer",
+      "text": "How would you decide on the follow-up test?"
+    },
+    {
+      "role": "candidate",
+      "text": "Primary metric: net contribution per returning customer over the 30-day return window, because that's what actually captures both effects. Ship if it's positive and statistically significant. Guardrails: 'ordered by mistake' returns must stay under 1% of orders, customer support contacts per order can't rise more than 10%, and 60-day repeat purchase rate can't drop, since accidental orders might make people trust the store less. I'd also not judge it on conversion alone again, because conversion was exactly the metric that hid this problem."
+    },
+    {
+      "role": "interviewer",
+      "text": "And if the undo window doesn't help?"
+    },
+    {
+      "role": "candidate",
+      "text": "Then I wouldn't launch one-click broadly. I'd maybe keep it for categories where returns didn't rise, but that needs its own analysis. The summary for leadership: conversion up 6% looks great but it's net neutral after returns, because about three-quarters of the extra returns are accidental purchases. Fix that with an undo window, retest with net contribution per customer as the decision metric and mistake returns as a guardrail, and launch if contribution is up with mistake returns under 1%."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "pillarMin": {
+      "clarification": 4,
+      "analyticalRigor": 4,
+      "communication": 4,
+      "synthesis": 4
+    },
+    "allowedVerdicts": [
+      "Strong Yes",
+      "Lean Yes"
+    ],
+    "overallMin": 70,
+    "injectionAttempt": false
+  }
+}

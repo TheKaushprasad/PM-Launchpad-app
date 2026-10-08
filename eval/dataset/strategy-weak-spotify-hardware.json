@@ -1,0 +1,73 @@
+{
+  "id": "strategy-weak-spotify-hardware",
+  "name": "Weak strategy: Spotify hardware, enthusiasm without economics or competitive analysis",
+  "track": "strategy",
+  "category": "weak",
+  "edgeType": null,
+  "scenarioId": "strat-spotify-hardware-headphones",
+  "personaId": "alex",
+  "elapsedSeconds": 840,
+  "scratchpadNotes": "headphones yes! brand. playlists button. speakers too",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "Spotify is thinking about launching its own premium headphones and smart speakers. Should it?"
+    },
+    {
+      "role": "candidate",
+      "text": "Yes, I think they definitely should. Spotify has a huge brand and lots of people love it, so if they made headphones people would buy them. It's like how Apple has AirPods."
+    },
+    {
+      "role": "interviewer",
+      "text": "What would make Spotify headphones better than what Apple, Sony or Bose sell?"
+    },
+    {
+      "role": "candidate",
+      "text": "They could have a Spotify button that plays your Discover Weekly right away. And they'd have better recommendations built in. Maybe also a special colour so people recognise them."
+    },
+    {
+      "role": "interviewer",
+      "text": "How do you think about the economics? Spotify's gross margins are pretty thin."
+    },
+    {
+      "role": "candidate",
+      "text": "I think hardware would actually help with that because they get the money from selling the headphones, plus people keep paying for Premium. So it's extra revenue on top."
+    },
+    {
+      "role": "interviewer",
+      "text": "What about companies like Sonos and Bose that already have Spotify built in?"
+    },
+    {
+      "role": "candidate",
+      "text": "They would still keep Spotify in their products because everyone uses Spotify, so I don't think that's a problem."
+    },
+    {
+      "role": "interviewer",
+      "text": "Did you know Spotify already tried a hardware product, Car Thing, and discontinued it?"
+    },
+    {
+      "role": "candidate",
+      "text": "Oh, I didn't know that. Maybe it just wasn't marketed enough. Headphones are more popular than car stuff so it would be different."
+    },
+    {
+      "role": "interviewer",
+      "text": "So what's your final recommendation?"
+    },
+    {
+      "role": "candidate",
+      "text": "Launch headphones and speakers, and do a big marketing campaign with artists. Maybe give them free to Premium Family users to start."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "allowedVerdicts": [
+      "Strong No",
+      "Lean No"
+    ],
+    "overallMax": 50,
+    "injectionAttempt": false,
+    "pillarMax": {
+      "analyticalRigor": 2
+    }
+  }
+}

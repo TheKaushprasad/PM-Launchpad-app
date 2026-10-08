@@ -1,0 +1,76 @@
+{
+  "id": "strategy-strong-uber-eats-grocery",
+  "name": "Strong strategy: Uber Eats build vs buy vs partner for grocery",
+  "track": "strategy",
+  "category": "strong",
+  "edgeType": null,
+  "scenarioId": "strat-uber-eats-acquire-grocery-startup",
+  "personaId": "maya",
+  "elapsedSeconds": 1620,
+  "scratchpadNotes": "dark store owner or marketplace? goal: profit vs land grab. assets: couriers, 150M users. options: buy / build / partner. dark store -$3 to -$5/order vs partner +$2.50. off-peak courier hours. pilot 2 cities, Kroger/Albertsons",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "Uber Eats is weighing an $800M acquisition of a 15-minute grocery delivery startup, versus building its own grocery network or doing something else. What should Uber do?"
+    },
+    {
+      "role": "candidate",
+      "text": "A couple of things I want to pin down first. Is the target a dark-store operator that owns inventory and leases warehouses, or a marketplace that sends orders to existing supermarkets? And what is Uber optimizing for right now, profitability or grabbing share before DoorDash and Instacart lock up grocery?"
+    },
+    {
+      "role": "interviewer",
+      "text": "It's a dark-store operator, around 120 stores in Europe and the US. Uber's board has been clear that it wants profitable growth, not a land grab."
+    },
+    {
+      "role": "candidate",
+      "text": "Okay, that matters a lot. So Uber's real assets here are the courier fleet, the 150 million users who already open the app, and the logistics routing. What it doesn't have is retail or inventory expertise. I'll look at three options, buy, build, and partner, and judge each on unit economics, capital intensity and time to market, and whether it plays to those assets. My starting hypothesis is that owning inventory doesn't play to Uber's strengths, but let me test that."
+    },
+    {
+      "role": "interviewer",
+      "text": "Fine. What do you know or assume about the unit economics?"
+    },
+    {
+      "role": "candidate",
+      "text": "From what's public, instant dark-store players lose something like three to five dollars an order once you include rent, pickers and spoilage on fresh food. A partner model, where Uber couriers pick up from a Kroger or Carrefour, avoids rent and inventory, and if I take a typical delivery fee plus a markup or commission, contribution is probably positive, maybe two to three dollars an order. Is that roughly consistent with what you have?"
+    },
+    {
+      "role": "interviewer",
+      "text": "Yes, internal numbers say the target loses about $4 per order. Uber's existing grocery partnerships make around $2.50 contribution per order."
+    },
+    {
+      "role": "candidate",
+      "text": "So buying means paying $800 million to take on a business that loses four dollars an order, plus long lease liabilities, in exchange for speed. Building our own dark stores has the same economics, just slower. The partner model wins on margin, and there's an extra benefit: grocery orders peak mid-morning and mid-afternoon, which is exactly when meal delivery is quiet, so we raise courier utilization without adding fleet. The main counterargument is that partners control assortment and pricing, and the 15-minute promise is hard to hit from a big supermarket."
+    },
+    {
+      "role": "interviewer",
+      "text": "What if DoorDash buys the startup instead?"
+    },
+    {
+      "role": "candidate",
+      "text": "Honestly I'd be okay with that. They'd inherit the losses and the leases, and it would slow them down. The risk would be if they made dark stores work through scale, so I'd watch their per-order numbers. To defend, I'd lock in exclusive or preferred deals with two or three major chains in our top cities, and maybe offer a 30-minute promise instead of 15, which partners can hit and most customers don't really distinguish for a weekly shop."
+    },
+    {
+      "role": "interviewer",
+      "text": "Give me your recommendation."
+    },
+    {
+      "role": "candidate",
+      "text": "Don't acquire. Go with a partner-led grocery strategy. Phase one, the next six months: sign preferred deals with chains like Albertsons in the US and Carrefour in Europe across our top ten cities, aimed at off-peak courier hours. Success means grocery contribution margin stays above two dollars an order and courier utilization in off-peak hours goes up meaningfully, say ten points. Phase two, if that holds, add a small number of micro-fulfillment partnerships for top items to get faster delivery without owning stores. The main risk is a partner going exclusive with a competitor, so we lock in multi-year terms early, and if retention of grocery users is weak after six months we revisit the speed question before spending any acquisition money."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "pillarMin": {
+      "clarification": 4,
+      "framework": 4,
+      "analyticalRigor": 4,
+      "synthesis": 4
+    },
+    "allowedVerdicts": [
+      "Strong Yes",
+      "Lean Yes"
+    ],
+    "overallMin": 70,
+    "injectionAttempt": false
+  }
+}

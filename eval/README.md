@@ -9,12 +9,27 @@ npm run eval -- --validate          # offline dataset check, no API key needed
 npm run eval                        # full run (needs GEMINI_API_KEY in .env)
 npm run eval -- --tier smoke        # one case per track/category plus every trap case
 npm run eval -- --case edge-stt-noise,rca-strong-signups-flat
+npm run eval -- --track rca         # one interview type (rca, guesstimate, strategy, design, metrics)
+npm run eval -- --track rca --delay 15   # wait 15s between cases (default 5) for free-tier keys
 npm run eval -- --consistency 3     # also run each case 3x and check score stability
 npm run eval -- --model gemini-3.8-flash   # pin one model, failover off
 npm run eval -- --provider openai          # pin a provider, failover off
 ```
 
-It prints a threshold table and exits 1 if any active check fails. The full report, including every evaluator output, is written to `eval/results/` (git-ignored). Eval runs never write to Firestore, because no user or session id is sent to the engine.
+It prints a threshold table and a per-track summary (cases passed, mean score for strong / average / weak / edge candidates, and which cases failed), and exits 1 if any active check fails. The full report, including every evaluator output, is written to `eval/results/` (git-ignored). Eval runs never write to Firestore, because no user or session id is sent to the engine.
+
+## Dataset
+
+50 cases, 10 per interview type: rca, guesstimate, strategy, design and metrics. Each type mixes strong, average and weak candidates with trap cases (prompt injection, quitting early, an interviewer who does the work or leaks the answer, garbled speech-to-text). Expected bands:
+
+| Category | Expected verdict | Expected score |
+|---|---|---|
+| strong | Strong Yes or Lean Yes | 70+, plus pillar minimums |
+| average | Lean Yes or Lean No | 40 to 80 |
+| weak | Lean No or Strong No | 50 or below |
+| edge | depends on the trap | see each file |
+
+The app has no metrics scenarios yet, so metrics cases embed their own scenario; they are scored with the metrics rubric in `server/prompts/tracks/metrics.txt`.
 
 ## Checks
 

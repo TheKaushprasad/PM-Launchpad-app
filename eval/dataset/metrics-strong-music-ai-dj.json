@@ -1,0 +1,104 @@
+{
+  "id": "metrics-strong-music-ai-dj",
+  "name": "Strong metrics: success metrics for an AI DJ feature in a music app",
+  "track": "metrics",
+  "category": "strong",
+  "edgeType": null,
+  "scenario": {
+    "id": "metrics-ai-dj-success",
+    "title": "Define success metrics for an AI DJ feature",
+    "track": "metrics",
+    "difficulty": "Medium",
+    "company": "Spotify",
+    "problemStatement": "You are the PM for a new AI DJ feature in a music streaming app: a personalized, continuous stream with spoken commentary between tracks. It launched to 10% of Premium users. Define how you would measure its success.",
+    "benchmarkOutline": {
+      "clarificationQuestions": [
+        "What is the feature's goal: engagement, discovery, retention, or conversion to Premium?",
+        "Who is the target user and which markets/tiers have it?",
+        "How does it interact with existing listening surfaces (playlists, search, radio)?",
+        "Is this a launch-stage or mature-stage measurement question?"
+      ],
+      "coreHypothesesOrSegments": [
+        "Listener value: satisfying, low-effort listening sessions",
+        "Discovery value: new artists and tracks that stick",
+        "Business value: retention of Premium subscribers",
+        "Ecosystem: artist exposure and royalty mix; cannibalization of other surfaces"
+      ],
+      "analyticalPath": [
+        "Pick a North Star tied to user value (e.g. weekly DJ listening sessions with 20+ minutes or retained listening time)",
+        "Decompose into input metrics: adoption, session depth, skip rate, return rate, discovery saves",
+        "Add guardrails: total listening time across the app, Premium churn, artist concentration",
+        "Explain how to read results against the holdout"
+      ],
+      "synthesisModel": "North Star plus 3-4 input metrics plus guardrails, with a launch/ramp decision rule against the 90% holdout."
+    }
+  },
+  "personaId": "maya",
+  "elapsedSeconds": 1560,
+  "scratchpadNotes": "goal = retention via low-effort listening + discovery. NSM: weekly users w/ DJ session >=20min. inputs: try rate, D7 return, skips/hr, new-artist saves. guardrails: total app listening/user, premium churn, playlist cannibalization, artist concentration. holdout 90%.",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "We launched an AI DJ to 10% of Premium users. It plays a continuous personalized stream and talks between tracks. How would you measure whether it's a success?"
+    },
+    {
+      "role": "candidate",
+      "text": "Before I pick anything, I want to understand what the company wants from it. Is the bet mainly retention of Premium subscribers, or more about discovery, getting people to find new artists? And is this the launch phase where we're deciding whether to ramp, or are we setting long-term metrics? Also, is the 10% randomized, so I have a clean holdout?"
+    },
+    {
+      "role": "interviewer",
+      "text": "The strategic bet is reducing Premium churn by making listening effortless. Discovery is a nice secondary. We're deciding whether to ramp from 10% to everyone, and yes, it's a randomized 10%."
+    },
+    {
+      "role": "candidate",
+      "text": "Okay, that's helpful. So the value exchange is: the listener gets good music without having to choose, and we get retention. I'll structure this as one North Star, the inputs that drive it, and guardrails. For the North Star I'm torn between total DJ minutes and something session-based. Total minutes can be inflated by people leaving it on in the background while not really listening, so I'd go with weekly active DJ listeners who had at least one session of 20 minutes or more. That captures 'this replaced me picking music' better than raw minutes."
+    },
+    {
+      "role": "interviewer",
+      "text": "Why not just measure churn directly, since that's the bet?"
+    },
+    {
+      "role": "candidate",
+      "text": "Churn is the outcome we care about, but it's lagging. Monthly subscribers only get a chance to churn once a month, and the effect would be small and noisy at 10%. So churn is the thing I'd validate over a quarter, and the North Star is the leading indicator I'd expect to move first. I'd also check the relationship early: do users with repeated 20-minute DJ sessions retain better than similar users, as a sanity check that the leading metric actually predicts churn."
+    },
+    {
+      "role": "interviewer",
+      "text": "Fair. What sits underneath the North Star?"
+    },
+    {
+      "role": "candidate",
+      "text": "I'd break it into the funnel that gets someone to a good weekly session. First, trial rate: percent of exposed users who start a DJ session in their first week. Second, session quality: skips per hour and the share of sessions that reach 20 minutes. Third, habit: percent of trialists who come back to the DJ within seven days. And fourth, discovery: saves or follows of artists the user had never streamed before, per DJ hour. If the North Star is flat, those tell me whether it's an awareness problem, a quality problem, or a habit problem."
+    },
+    {
+      "role": "interviewer",
+      "text": "What could go wrong that these wouldn't catch?"
+    },
+    {
+      "role": "candidate",
+      "text": "A few things. Cannibalization: if DJ minutes just come out of playlist minutes, the North Star goes up but nothing's better, so total listening time per user in the treatment group versus holdout is my main guardrail. Second, the commentary itself could annoy people, so I'd watch the rate of muting the voice or exiting within the first two minutes. Third, there's an ecosystem angle: if the model keeps recommending the same popular artists, smaller artists lose exposure, so I'd track artist concentration, like the share of DJ streams going to the top 1% of artists. And Premium churn as the long-term guardrail obviously."
+    },
+    {
+      "role": "interviewer",
+      "text": "So would you ramp it? Give me the decision."
+    },
+    {
+      "role": "candidate",
+      "text": "Here's how I'd decide. Ramp to 50% if, after four weeks, the North Star is up meaningfully in treatment, D7 return to the DJ is above maybe 35%, and total listening per user in treatment is at least flat versus holdout, not down more than 1%. If total listening drops, I'd hold, because that means we're cannibalizing and possibly annoying people. Then hold a small long-term holdout for a quarter to read actual Premium churn. If churn is down even half a point in treatment, that's a strong case for full launch. Executive dashboard would just be: the North Star, trial rate, D7 return, skips per hour, and the two guardrails, total listening and churn."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "pillarMin": {
+      "clarification": 4,
+      "framework": 4,
+      "analyticalRigor": 4,
+      "synthesis": 4
+    },
+    "allowedVerdicts": [
+      "Strong Yes",
+      "Lean Yes"
+    ],
+    "overallMin": 70,
+    "injectionAttempt": false
+  }
+}
