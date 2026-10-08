@@ -41,6 +41,59 @@ export const InterviewEvaluationView: React.FC<InterviewEvaluationViewProps> = (
   const [expandedPillar, setExpandedPillar] = useState<string | null>('clarification');
   const [showBenchmark, setShowBenchmark] = useState<boolean>(true);
 
+  // Incomplete Session Guard: Show graceful message instead of arbitrary 0 score
+  if (evaluation?.status === 'insufficient') {
+    return (
+      <motion.div 
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="max-w-2xl mx-auto px-4 py-12"
+      >
+        <div className="bg-white rounded-[2.5rem] border border-amber-200/90 shadow-xl p-8 sm:p-12 text-center space-y-6">
+          <div className="w-16 h-16 rounded-3xl bg-amber-50 border border-amber-200 text-amber-600 flex items-center justify-center mx-auto shadow-inner">
+            <Clock className="w-8 h-8" />
+          </div>
+
+          <div className="space-y-2">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-bold uppercase tracking-wider">
+              <span>Interview Session Incomplete</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-black text-zinc-900 tracking-tight">
+              Not Enough Dialogue to Assess Fairly
+            </h2>
+            <p className="text-sm sm:text-base text-zinc-600 font-medium max-w-lg mx-auto leading-relaxed">
+              {evaluation.message || "Not enough of the interview was completed to assess fairly. Try finishing the case."}
+            </p>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-zinc-50 border border-zinc-200 text-left text-xs text-zinc-600 space-y-1.5 max-w-lg mx-auto">
+            <div className="font-bold text-zinc-800 flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5 text-indigo-600" /> Why this happened:
+            </div>
+            <p>
+              To ensure objective calibration against PM hiring standards, our evaluation engine requires at least 3 substantive candidate responses (more than 5 words each). This ensures we evaluate your real framework, hypothesis testing, and analytical depth rather than guessing.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+            <button
+              onClick={onRetry}
+              className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-sm shadow-lg shadow-indigo-600/20 transition-all hover:scale-[1.02] active:scale-[0.98]"
+            >
+              <RotateCcw className="w-4 h-4" /> Re-attempt Case
+            </button>
+            <button
+              onClick={onNewInterview}
+              className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-white border border-zinc-200 text-zinc-700 hover:bg-zinc-50 font-bold text-sm transition-all"
+            >
+              <ArrowLeft className="w-4 h-4" /> Back to Scenarios
+            </button>
+          </div>
+        </div>
+      </motion.div>
+    );
+  }
+
   const persona = INTERVIEWER_PERSONAS.find(p => p.id === evaluation.personaId) || INTERVIEWER_PERSONAS[0];
 
   const getVerdictBadge = (verdict: string) => {
@@ -130,6 +183,14 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
           </button>
         </div>
       </div>
+
+      {/* Non-blocking persistence warning if save failed */}
+      {evaluation.saved === false && (
+        <div className="bg-amber-50 border border-amber-200/90 text-amber-900 px-4 py-3 rounded-2xl flex items-center gap-3 text-sm font-semibold shadow-sm">
+          <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0" />
+          <span>We couldn't save this session to your history. Your results are shown below.</span>
+        </div>
+      )}
 
       {/* Hero Grand Scorecard */}
       <div className="relative rounded-[3rem] p-8 md:p-12 bg-zinc-950 text-white shadow-2xl overflow-hidden border border-zinc-800">
@@ -264,13 +325,26 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
                         <span className="font-extrabold text-zinc-700 uppercase tracking-wider block text-[10px]">
                           What stood out from your answers:
                         </span>
-                        <div className="space-y-1">
-                          {data.evidence.map((ev, eIdx) => (
-                            <div key={eIdx} className="text-zinc-600 font-mono text-[11px] flex items-start gap-1.5">
-                              <span className="text-indigo-600 font-bold">›</span>
-                              <span>{ev}</span>
-                            </div>
-                          ))}
+                        <div className="space-y-1.5">
+                          {data.evidence.map((ev, eIdx) => {
+                            const isObject = typeof ev === 'object' && ev !== null && 'quote' in ev;
+                            const quote = isObject ? (ev as any).quote : String(ev);
+                            const turnIndex = isObject ? (ev as any).turnIndex : null;
+
+                            return (
+                              <div key={eIdx} className="text-zinc-700 font-mono text-[11px] flex items-start gap-1.5 bg-white/70 p-2 rounded-xl border border-zinc-200/60">
+                                <span className="text-indigo-600 font-bold shrink-0">›</span>
+                                <div>
+                                  {turnIndex !== null && turnIndex > 0 && (
+                                    <span className="inline-block px-1.5 py-0.5 rounded bg-indigo-50 text-indigo-700 font-bold text-[9px] mr-1.5 border border-indigo-100 uppercase tracking-wider">
+                                      Turn {turnIndex}
+                                    </span>
+                                  )}
+                                  <span className="italic">"{quote}"</span>
+                                </div>
+                              </div>
+                            );
+                          })}
                         </div>
                       </div>
                     )}

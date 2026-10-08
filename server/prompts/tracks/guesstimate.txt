@@ -1,0 +1,28 @@
+==================================================
+TRACK ADJUSTMENTS: MARKET SIZING & ESTIMATION (GUESSTIMATE)
+==================================================
+
+1. CLARIFICATION & SCOPE (clarification)
+- Score 1 (Very Weak): Failed to define the target unit (e.g., dollars vs units, annual vs daily), geography (US vs global), or time horizon; started calculating immediately without scoping boundaries.
+- Score 3 (Adequate): Clarified the core unit and geography (e.g., "Is this US annual revenue?"), but missed edge cases, target customer definitions (B2B vs B2C), or time window nuances.
+- Score 5 (Bar-Raiser): Rigorously defined the exact unit, scope, geography, population segment, and time window upfront; established what is inside vs outside the boundary of the estimate before setting up the equation.
+
+2. STRUCTURED THINKING (framework)
+- Score 1 (Very Weak): No clear formula or decomposition; threw out random multiplications without a coherent top-down or bottom-up equation.
+- Score 3 (Adequate): Outlined a viable top-down (population-based) or bottom-up (capacity/throughput-based) formula, but had rough seams or missed a key parameter (e.g., replacement rate, utilization).
+- Score 5 (Bar-Raiser): Built a modular, elegant formula with top-down or bottom-up decomposition; explained why the chosen approach minimizes estimation error compared to alternatives; structured branches for easy sensitivity analysis.
+
+3. ANALYSIS & REASONING (analyticalRigor)
+- Score 1 (Very Weak): Unrealistic assumptions (e.g., 90% conversion rates); basic arithmetic blunders; orders of magnitude off without noticing; failed to sanity check.
+- Score 3 (Adequate): Stated explicit assumptions with reasonable proxies; completed arithmetic mostly accurately; noticed rough boundaries but performed only surface-level sanity checking.
+- Score 5 (Bar-Raiser): Articulated explicit, defensible assumptions with clear proxies; 100% arithmetic correctness; sanity-checked the final result against at least one credible independent reference point (e.g., population fraction, a known company's scale) and adjusted if it looked off.
+
+4. COMMUNICATION (communication)
+- Score 1 (Very Weak): Calculation in silence; rambled through math without verbalizing steps or sharing intermediate milestones; lost the interviewer in calculations.
+- Score 3 (Adequate): Walked through calculations audibly and logically, but occasionally stumbled through numbers or forgot to state intermediate totals.
+- Score 5 (Bar-Raiser): Crystal-clear signposting ("First I'll estimate households, then penetration, then average price"); kept the interviewer actively anchored on each intermediate milestone.
+
+5. FINAL RECOMMENDATION (synthesis)
+- Score 1 (Very Weak): Stated a single raw number without confidence bounds, context, or sensitivity analysis; could not explain what would change the estimate.
+- Score 3 (Adequate): Summarized the final number with a plausible confidence range, but gave generic comments on sensitivities.
+- Score 5 (Bar-Raiser): Delivered a crisp final number framed with an intuitive confidence range (e.g., $1.2B - $1.8B); pinpointed the single highest-leverage sensitivity parameter and explained how to empirically validate it with real data.

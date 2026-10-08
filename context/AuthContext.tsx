@@ -199,7 +199,7 @@ interface AuthContextType {
   updateLessonNotes: (day: number, notes: string) => Promise<void>;
   toggleLessonBookmark: (day: number) => Promise<void>;
   updateLessonScrollPosition: (day: number, scrollPosition: number, scrollPercentage: number) => Promise<void>;
-  recordInterviewSession: (session: InterviewSessionHistory, evaluationSummary?: string) => Promise<void>;
+  recordInterviewSession: (session: InterviewSessionHistory, evaluationSummary?: string, extraMetadata?: Record<string, any>) => Promise<void>;
 
   // Guest Unauthenticated Save Details Prompt
   showSaveDetailsModal: boolean;
@@ -585,7 +585,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             date: d.createdAt ? new Date(d.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Recent',
             score: d.score || 0,
             verdict: d.verdict || 'Lean Yes',
-            durationMinutes: d.durationMinutes || 15
+            durationMinutes: d.durationMinutes || 15,
+            scoringVersion: d.scoringVersion || (d.promptVersion ? 'v2' : 'v1')
           });
         });
         list.sort((a, b) => (b.id > a.id ? 1 : -1));
@@ -1485,37 +1486,19 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   // Record Interview Session to Firestore
-  const recordInterviewSession = async (session: InterviewSessionHistory, evaluationSummary = '') => {
+  const recordInterviewSession = async (
+    session: InterviewSessionHistory, 
+    evaluationSummary = '',
+    extraMetadata: Record<string, any> = {}
+  ) => {
     const updatedList = [session, ...interviewHistory];
     setInterviewHistory(updatedList);
     try {
       localStorage.setItem('pm_interview_history', JSON.stringify(updatedList));
     } catch (e) {}
 
-    if (user) {
-      const sanitizedSessionId = session.id.replace(/[^a-zA-Z0-9_\-]/g, '_');
-      const docPath = `users/${user.uid}/interview_sessions/${sanitizedSessionId}`;
-      const docRef = doc(db, 'users', user.uid, 'interview_sessions', sanitizedSessionId);
-      const now = new Date().toISOString();
-
-      try {
-        await setDoc(docRef, {
-          sessionId: sanitizedSessionId,
-          userId: user.uid,
-          scenarioId: session.scenarioId,
-          scenarioTitle: session.scenarioTitle.slice(0, 200),
-          company: session.company.slice(0, 100),
-          track: session.track,
-          score: session.score,
-          verdict: session.verdict,
-          durationMinutes: session.durationMinutes,
-          evaluationSummary: evaluationSummary.slice(0, 5000),
-          createdAt: now
-        });
-      } catch (err) {
-        handleFirestoreError(err, OperationType.CREATE, docPath);
-      }
-    }
+    // Server-side persistence via /api/interview/evaluate handles Firestore writes with Firebase Admin SDK.
+    // Client SDK only maintains local offline-ready cache and reads the resulting documents.
   };
 
   const completedCount = Object.values(progressMap).filter(p => p.completed).length;

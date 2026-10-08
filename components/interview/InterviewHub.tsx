@@ -807,6 +807,11 @@ export const InterviewHub: React.FC = () => {
             </div>
 
             <div className="p-6 overflow-y-auto space-y-3">
+              {history.length > 0 && (
+                <div className="p-2.5 rounded-lg bg-indigo-50/60 border border-indigo-100 text-[11px] text-zinc-600">
+                  Scores calibrated with the v2 rubric (0–100 weighted formula). Legacy scorecards from earlier sessions are marked with a <span className="font-bold text-amber-700">v1 (legacy)</span> tag.
+                </div>
+              )}
               {history.length === 0 ? (
                 <div className="text-center py-12 px-4">
                   <History className="w-8 h-8 text-zinc-300 mx-auto mb-2" />
@@ -819,9 +824,20 @@ export const InterviewHub: React.FC = () => {
                 history.map((h, i) => (
                   <div key={i} className="p-4 rounded-xl bg-zinc-50 border border-zinc-200 flex items-center justify-between gap-4">
                     <div>
-                      <span className="text-[10px] font-black uppercase tracking-wider text-indigo-600">
-                        {h.track.toUpperCase()} • {h.company}
-                      </span>
+                      <div className="flex items-center gap-2 mb-0.5">
+                        <span className="text-[10px] font-black uppercase tracking-wider text-indigo-600">
+                          {h.track.toUpperCase()} • {h.company}
+                        </span>
+                        {h.scoringVersion === 'v2' ? (
+                          <span className="text-[9px] font-black uppercase tracking-wider text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded border border-emerald-200" title="Scored with hardened v2 calibrated rubrics">
+                            v2
+                          </span>
+                        ) : (
+                          <span className="text-[9px] font-black uppercase tracking-wider text-amber-700 bg-amber-50 px-1.5 py-0.2 rounded border border-amber-200" title="Legacy evaluation (pre-v2 calibration)">
+                            v1 (legacy)
+                          </span>
+                        )}
+                      </div>
                       <h4 className="font-bold text-sm text-zinc-900">{h.scenarioTitle}</h4>
                       <span className="text-xs text-zinc-500 font-medium">{h.date} • {h.durationMinutes} mins</span>
                     </div>

@@ -48,12 +48,26 @@ export interface ConversationMessage {
   isSpoken?: boolean;
 }
 
+export interface EvidenceItem {
+  quote: string;
+  turnIndex: number;
+}
+
+export interface GroundingStats {
+  total: number;
+  valid: number;
+  dropped: number;
+  echoed?: number;
+  reindexed?: number;
+}
+
 export interface RubricPillarScore {
   name: string;
   score: number; // 0-20
+  rawScore?: number; // 1-5 raw score
   maxScore: number; // 20
   feedback: string;
-  evidence?: string[];
+  evidence?: (string | EvidenceItem)[];
   whyTheyEarnedThisScore?: string;
   whyTheyDidNotScoreHigher?: string;
   strengths: string[];
@@ -61,6 +75,8 @@ export interface RubricPillarScore {
 }
 
 export interface InterviewEvaluation {
+  status?: 'complete' | 'insufficient';
+  message?: string;
   id: string;
   scenarioId: string;
   scenarioTitle: string;
@@ -93,6 +109,17 @@ export interface InterviewEvaluation {
     };
   };
   transcriptSummary: string;
+  saved?: boolean;
+
+  // Drift Tracking & Audit Fields
+  scoringVersion?: string;
+  promptVersion?: string;
+  modelId?: string;
+  temperature?: number;
+  groundingStats?: GroundingStats;
+  injectionAttempt?: boolean;
+  latencyMs?: number;
+  retryCount?: number;
 }
 
 export interface InterviewSessionHistory {
@@ -105,4 +132,5 @@ export interface InterviewSessionHistory {
   score: number;
   verdict: HiringVerdict;
   durationMinutes: number;
+  scoringVersion?: string;
 }

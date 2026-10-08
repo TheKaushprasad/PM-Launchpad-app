@@ -28,6 +28,16 @@ service cloud.firestore {
       return resource.data;
     }
 
+    // Checks if write payload contains protected evaluation, scoring, rubric, audit, or container fields
+    function hasProtectedEvaluationFields() {
+      return incoming().keys().hasAny([
+        'score', 'overallScore', 'verdict', 'pillar', 'pillars',
+        'promptVersion', 'modelId', 'temperature', 'groundingStats',
+        'injectionAttempt', 'latencyMs', 'retryCount', 'candidateTurnCount',
+        'scoringVersion', 'evaluation', 'result', 'report'
+      ]);
+    }
+
     // Connection validation endpoint
     match /test/connection {
       allow read: if true;
@@ -64,12 +74,21 @@ service cloud.firestore {
       }
 
       // Interview Sessions Sub-collection
+      // Evaluations, scores, verdicts, rubric pillars, and audit drift-tracking metrics
+      // are persisted server-side via the Firebase Admin SDK.
+      // Clients can only read their results and cannot create or modify score, verdict, pillar, audit, or report containers.
       match /interview_sessions/{sessionId} {
         allow get, list: if isOwner(userId);
-        allow create, update: if isOwner(userId) && isValidId(sessionId);
+        allow create: if isOwner(userId) && isValidId(sessionId) && !hasProtectedEvaluationFields();
+        allow update: if isOwner(userId) && isValidId(sessionId) &&
+          !request.resource.data.diff(resource.data).affectedKeys().hasAny([
+            'score', 'overallScore', 'verdict', 'pillar', 'pillars',
+            'promptVersion', 'modelId', 'temperature', 'groundingStats',
+            'injectionAttempt', 'latencyMs', 'retryCount', 'candidateTurnCount',
+            'scoringVersion', 'evaluation', 'result', 'report'
+          ]);
         allow delete: if isOwner(userId) && isValidId(sessionId);
       }
     }
   }
 }
-

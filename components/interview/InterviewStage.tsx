@@ -57,7 +57,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
   mode,
   onExit
 }) => {
-  const { recordInterviewSession } = useAuth();
+  const { user, recordInterviewSession } = useAuth();
 
   // Initial Loading / Preparation State
   const [isSessionPreparing, setIsSessionPreparing] = useState<boolean>(true);
@@ -864,10 +864,17 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
     cleanupSpeech();
 
     try {
+      const token = user ? await user.getIdToken().catch(() => null) : null;
+      const sessionId = 'eval_' + Date.now();
+
       const res = await fetch('/api/interview/evaluate', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+        },
         body: JSON.stringify({
+          sessionId,
           scenario,
           persona,
           messages,
@@ -879,22 +886,34 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
       if (!res.ok) throw new Error("Evaluation generation failed");
       const evalData: InterviewEvaluation = await res.json();
 
-      // Save to Firebase Firestore & local session history
-      try {
-        const newHistoryItem = {
-          id: evalData.id || 'eval_' + Date.now(),
-          scenarioId: scenario.id,
-          scenarioTitle: scenario.title,
-          company: scenario.company,
-          track: scenario.track,
-          date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-          score: evalData.overallScore,
-          verdict: evalData.verdict,
-          durationMinutes: Math.ceil(elapsedSeconds / 60)
-        };
-        recordInterviewSession(newHistoryItem, evalData.transcriptSummary || '');
-      } catch (storageErr) {
-        console.warn("Firestore session save error:", storageErr);
+      // Read result and record to local session state (server persists to Firestore)
+      if (evalData.status !== 'insufficient') {
+        try {
+          const newHistoryItem = {
+            id: evalData.id || sessionId,
+            scenarioId: scenario.id,
+            scenarioTitle: scenario.title,
+            company: scenario.company,
+            track: scenario.track,
+            date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+            score: evalData.overallScore,
+            verdict: evalData.verdict,
+            durationMinutes: Math.ceil(elapsedSeconds / 60),
+            scoringVersion: evalData.scoringVersion || 'v2'
+          };
+          recordInterviewSession(newHistoryItem, evalData.transcriptSummary || '', {
+            scoringVersion: evalData.scoringVersion || 'v2',
+            promptVersion: evalData.promptVersion,
+            modelId: evalData.modelId,
+            temperature: evalData.temperature,
+            groundingStats: evalData.groundingStats,
+            injectionAttempt: evalData.injectionAttempt,
+            latencyMs: evalData.latencyMs,
+            retryCount: evalData.retryCount
+          });
+        } catch (storageErr) {
+          console.warn("Local session history error:", storageErr);
+        }
       }
 
       setEvaluationResult(evalData);

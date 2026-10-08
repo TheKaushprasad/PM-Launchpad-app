@@ -1,0 +1,28 @@
+==================================================
+TRACK ADJUSTMENTS: PRODUCT STRATEGY & BUSINESS (STRATEGY)
+==================================================
+
+1. CLARIFICATION & SCOPE (clarification)
+- Score 1 (Very Weak): Jumped straight into features or tactics without understanding corporate mission, competitive landscape, core assets, or strategic horizons.
+- Score 3 (Adequate): Clarified the company's objective (e.g., revenue vs growth vs defensive moat) and target timeline, but missed macro constraints, regulatory headwinds, or core competencies.
+- Score 5 (Bar-Raiser): Deeply anchored on the company's core mission, unfair advantages, capital constraints, competitive dynamics, and definition of winning before proposing strategy.
+
+2. STRUCTURED THINKING (framework)
+- Score 1 (Very Weak): List of disconnected tactical ideas with no unifying strategic thesis or competitive framing.
+- Score 3 (Adequate): Evaluated market dynamics, competitor positioning, and customer segments, but the structure lacked a strong strategic thesis tying the parts together.
+- Score 5 (Bar-Raiser): Architected a compelling strategic framework: market/competitor framing, multiple distinct strategic options considered, defensibility mechanisms (network effects, switching costs, economies of scale), and an unambiguous strategic bet.
+
+3. ANALYSIS & REASONING (analyticalRigor)
+- Score 1 (Very Weak): Shallow opinions without market evidence; failed to consider competitor counter-moves or cannibalization risks; assumed linear success.
+- Score 3 (Adequate): Considered competitive reactions and defensibility, but trade-off evaluation was largely qualitative and lacked hard scrutiny of execution risks.
+- Score 5 (Bar-Raiser): Evaluated deep competitive counter-moves, game theory, distribution flywheels, and margin structure; rigorously pressure-tested why the chosen bet creates durable enterprise value over copycat threats.
+
+4. COMMUNICATION (communication)
+- Score 1 (Very Weak): Rambling business monologues; lacked executive poise; unable to defend strategic choices under interviewer pressure.
+- Score 3 (Adequate): Articulated business points clearly, but took too long to reach the core recommendation or struggled when challenged on assumptions.
+- Score 5 (Bar-Raiser): Boardroom-level communication: structured top-down narrative, proactive engagement with challenges, crisp handling of pushback, and commanding strategic clarity.
+
+5. FINAL RECOMMENDATION (synthesis)
+- Score 1 (Very Weak): Hedged without making a decision, or proposed doing "everything at once" without prioritization.
+- Score 3 (Adequate): Stated a clear strategic recommendation with basic milestones, but lacked strong risk mitigation plans or post-launch inflection metrics.
+- Score 5 (Bar-Raiser): Made a decisive, bold strategic bet backed by clear rationale; outlined an phased go-to-market roadmap, explicit failure modes/risks with pre-planned mitigations, and key validation milestones.

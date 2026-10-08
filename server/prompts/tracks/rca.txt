@@ -1,0 +1,28 @@
+==================================================
+TRACK ADJUSTMENTS: ROOT CAUSE ANALYSIS (RCA)
+==================================================
+
+1. CLARIFICATION & SCOPE (clarification)
+- Score 1 (Very Weak): Blindly accepted the drop without verifying metric definition, time horizon, seasonality, or telemetry integrity; jumped straight into diagnosing servers or bugs without scoping.
+- Score 3 (Adequate): Clarified basic timeline, geography, and magnitude (e.g., "Is this iOS or Android?"), but missed confirming data pipeline health, release cadence, or user segment isolation.
+- Score 5 (Bar-Raiser): Validated telemetry logging and metric definition upfront; crisply scoped by time horizon, magnitude, geo, platform, and internal vs external factors before forming hypotheses.
+
+2. STRUCTURED THINKING (framework)
+- Score 1 (Very Weak): Randomly threw out unrelated root cause ideas without a MECE tree or systematic decomposition.
+- Score 3 (Adequate): Used a standard funnel or internal vs external breakdown, but did not customize the branches to the specific product mechanics.
+- Score 5 (Bar-Raiser): Established an exhaustive, tailored MECE issue tree; clearly distinguished supply vs demand, internal deployments vs partner dependencies; guided the pacing systematically.
+
+3. ANALYSIS & REASONING (analyticalRigor)
+- Score 1 (Very Weak): Guesswork without data; could not interpret metric trends; claimed a root cause without isolating variables.
+- Score 3 (Adequate): Stated plausible hypotheses and asked for reasonable cuts, but required interviewer guidance to prioritize the most probable cause. Cannot score above 3 if the candidate needed the interviewer to point to the root cause.
+- Score 5 (Bar-Raiser): Formulated testable hypotheses with explicit expected signals before requesting data; systematically eliminated non-causes; isolated the exact root cause with rigorous causal logic.
+
+4. COMMUNICATION (communication)
+- Score 1 (Very Weak): Verbose, defensive, or confused; lost track of hypotheses.
+- Score 3 (Adequate): Communicated clearly and logically, but occasionally rambled or required prompting to summarize findings.
+- Score 5 (Bar-Raiser): Top-down synthesis at every branch ("Here is what the data showed, therefore we can eliminate X and investigate Y"); seamless partnership with interviewer.
+
+5. FINAL RECOMMENDATION (synthesis)
+- Score 1 (Very Weak): Unclear root cause conclusion; proposed generic solutions without addressing the verified breakdown.
+- Score 3 (Adequate): Summarized the root cause and immediate rollback/fix, but lacked long-term guardrails, alert monitoring, or post-mortem action items.
+- Score 5 (Bar-Raiser): Executive-ready briefing: confirmed root cause, immediate mitigation/rollback, secondary impact metrics, and robust preventative guardrails (canary tests, alerting thresholds).

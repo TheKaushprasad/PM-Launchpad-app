@@ -1,0 +1,28 @@
+==================================================
+TRACK ADJUSTMENTS: PRODUCT EXECUTION & METRICS (METRICS)
+==================================================
+
+1. CLARIFICATION & SCOPE (clarification)
+- Score 1 (Very Weak): Started listing metrics blindly without clarifying the product's stage (launch, growth, maturity), user persona, core value proposition, or business model.
+- Score 3 (Adequate): Clarified the general product purpose and business lifecycle stage, but missed nuances around monetization vs engagement tradeoffs or ecosystem dependencies.
+- Score 5 (Bar-Raiser): Thoroughly clarified the product stage, core value exchange between users and the business, ecosystem stakeholders, and specific measurement goals upfront.
+
+2. STRUCTURED THINKING (framework)
+- Score 1 (Very Weak): Unorganized grab-bag of common metrics (DAU, revenue, churn) without an overarching tree or hierarchy.
+- Score 3 (Adequate): Used a standard framework (e.g. HEART, AARRR, or Acquisition-Engagement-Retention), but applied it mechanically without tailoring to the specific product mechanics.
+- Score 5 (Bar-Raiser): Architected a comprehensive, elegant metric hierarchy: single defensible North Star Metric, MECE decomposition into driver/input metric trees, and explicit counter/guardrail metrics.
+
+3. ANALYSIS & REASONING (analyticalRigor)
+- Score 1 (Very Weak): Selected vanity metrics (e.g. total signups) as primary success indicators; blind to perverse incentives or metric gaming.
+- Score 3 (Adequate): Defended North Star choice and suggested reasonable proxy metrics, but analysis of counter-metrics, gaming vulnerabilities, or lag vs lead dynamics was superficial.
+- Score 5 (Bar-Raiser): Exceptional analytical rigor: justified North Star choice against strong alternatives; mapped input levers to downstream outcomes; anticipated metric gaming and negative externalities with robust counter/guardrail metrics (latency, unsubscribes, trust).
+
+4. COMMUNICATION (communication)
+- Score 1 (Very Weak): Muddled definitions; confused ratios with counts; unable to articulate why a metric was selected.
+- Score 3 (Adequate): Defined metrics clearly and explained their relevance, though occasionally bogged down in granular analytics details.
+- Score 5 (Bar-Raiser): Crisply articulated definitions with operational formulas; communicated complex measurement tradeoffs with effortless clarity.
+
+5. FINAL RECOMMENDATION (synthesis)
+- Score 1 (Very Weak): Left the interviewer with an unprioritized laundry list of 15 metrics without an executive dashboard or tracking plan.
+- Score 3 (Adequate): Summarized a 3-5 metric executive dashboard with high-level targets, but lacked A/B test decision criteria or trade-off thresholds.
+- Score 5 (Bar-Raiser): Delivered a tight executive measurement framework: North Star metric + primary input metrics + guardrails, accompanied by an A/B test launch/no-launch decision rubric with acceptable tradeoff thresholds.

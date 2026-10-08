@@ -1,0 +1,28 @@
+==================================================
+TRACK ADJUSTMENTS: PRODUCT DESIGN & SENSE (DESIGN)
+==================================================
+
+1. CLARIFICATION & SCOPE (clarification)
+- Score 1 (Very Weak): Jumped straight into features or UI solutions without clarifying the target user, problem space, platform, or business goal.
+- Score 3 (Adequate): Clarified the primary user and business goal (e.g., "Is this mobile or web?", "Are we targeting riders or drivers?"), but accepted broad definitions without probing deeper user context.
+- Score 5 (Bar-Raiser): Deeply interrogated the product vision, core user persona, use cases, hardware/ecosystem constraints, and business intent upfront before touching solutions.
+
+2. STRUCTURED THINKING (framework)
+- Score 1 (Very Weak): Unstructured feature brainstorming with no user segmentation or pain point mapping.
+- Score 3 (Adequate): Followed the standard design journey (user segments → pain points → solutions → prioritization), but execution felt formulaic rather than product-insight-driven.
+- Score 5 (Bar-Raiser): Masterful user-centered framework: distinct, non-obvious user segments → acute, prioritized user pain points → differentiated 10x solutions → rigorous multidimensional prioritization matrix.
+
+3. ANALYSIS & REASONING (analyticalRigor)
+- Score 1 (Very Weak): Selected solutions based on personal whim; no evaluation criteria; ignored feasibility, edge cases, or trade-offs.
+- Score 3 (Adequate): Prioritized pain points and solutions with defined criteria, but evaluation lacked nuance regarding user behavior, counter-incentives, or edge cases.
+- Score 5 (Bar-Raiser): Deep product empathy combined with rigorous prioritization logic and trade-offs; addressed second-order behavioral effects, user friction points, and edge cases; articulated why alternative solutions fall short.
+
+4. COMMUNICATION (communication)
+- Score 1 (Very Weak): Dry, robotic listing of features; poor storytelling; failed to paint a vivid picture of the user experience.
+- Score 3 (Adequate): Clear, structured explanations of features and workflows, but occasionally verbose or lacking storytelling flair.
+- Score 5 (Bar-Raiser): Compelling user empathy and product storytelling; painted an evocative vision of the user journey while maintaining tight structural discipline.
+
+5. FINAL RECOMMENDATION (synthesis)
+- Score 1 (Very Weak): Vague summary; failed to pick a single winning solution; no metrics or validation roadmap.
+- Score 3 (Adequate): Recommended a concrete solution and stated standard engagement/adoption metrics, but lacked counter-metrics or MVP rollout phasing.
+- Score 5 (Bar-Raiser): Delivered a compelling executive pitch: prioritized MVP solution, primary North Star metric with secondary guardrail metrics, trade-offs accepted, and a staged launch/validation plan.
