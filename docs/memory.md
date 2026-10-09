@@ -12,6 +12,7 @@ Decisions, context and lessons learned that are not obvious from the code. Newes
 | Date | Decision | Why |
 |---|---|---|
 | 2026-10-09 | Keep project docs (`prd`, `rules`, `design`, `tasks`, `memory`, `architecture`) in `docs/` | One place for humans and AI assistants to get context |
+| 2026-10-09 | Add Taste Skill (design-taste-frontend, redesign-existing-projects) to `.claude/skills/`, copied from github.com/Leonxlnx/taste-skill at commit 18dfc92 (MIT) | Better-looking UI work from Claude Code on marketing and landing pages |
 | 2026-10-08 | Stay on the free Gemini tier for now | Cost; accepted the 20 requests per day limit and frequent 503s. Paid key is recommended before real traffic |
 | 2026-10-08 | Run golden-set evals one track per day, in this order: rca, guesstimate, strategy, design, metrics, on a separate eval-only key | A full 50-case run is about 60 calls and does not fit in one free-tier day |
 | 2026-10-08 | Build a 50-case golden dataset, 10 per interview type (PR #3) | Trustworthy scoring is the core promise of the interview product |
