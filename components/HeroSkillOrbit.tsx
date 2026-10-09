@@ -43,13 +43,15 @@ const useIsSmallScreen = () => {
 
 type Skill = (typeof SKILLS)[number];
 
-const OrbitCard: React.FC<{ skill: Skill; offset: number; lap: MotionValue<number>; order: number; still: boolean }> = ({
-  skill, offset, lap, order, still,
-}) => {
+const OrbitCard: React.FC<{
+  skill: Skill; offset: number; lap: MotionValue<number>; stage: MotionValue<number>; order: number; still: boolean;
+}> = ({ skill, offset, lap, stage, order, still }) => {
   // Angle 0 sits at the top (behind the character); cards travel clockwise.
   const angle = useTransform(lap, (p) => (p + offset) * Math.PI * 2 - Math.PI / 2);
-  const left = useTransform(angle, (a) => `${ORBIT.cx + ORBIT.rx * Math.cos(a)}%`);
-  const top = useTransform(angle, (a) => `${ORBIT.cy + ORBIT.ry * Math.sin(a)}%`);
+  // Moved with transforms in pixels (not left/top), so the browser can glide them
+  // between pixels on the GPU instead of snapping them and re-laying out each frame.
+  const x = useTransform([angle, stage], ([a, w]: number[]) => ((ORBIT.cx - 50 + ORBIT.rx * Math.cos(a)) / 100) * w);
+  const y = useTransform([angle, stage], ([a, w]: number[]) => ((ORBIT.cy - 50 + ORBIT.ry * Math.sin(a)) / 100) * w);
   // depth: 0 at the back of the orbit, 1 at the front
   const depth = useTransform(angle, (a) => (Math.sin(a) + 1) / 2);
   // Depth shows through fading only, so every skill stays the same size.
@@ -59,28 +61,30 @@ const OrbitCard: React.FC<{ skill: Skill; offset: number; lap: MotionValue<numbe
 
   return (
     <motion.li
-      className="absolute"
-      style={{ left, top, zIndex, x: '-50%', y: '-50%', opacity: still ? 1 : opacity }}
-      initial={still ? false : { filter: 'blur(6px)' }}
-      animate={{ filter: 'blur(0px)' }}
-      exit={{ filter: 'blur(6px)', transition: { duration: 0.2 } }}
+      className="absolute left-1/2 top-1/2 will-change-transform"
+      style={{ x, y, zIndex, opacity: still ? 1 : opacity }}
+      initial={still ? false : { scale: 0.9 }}
+      animate={{ scale: 1 }}
+      exit={{ scale: 0.9, transition: { duration: 0.2 } }}
       transition={{ duration: 0.6, delay: still ? 0 : 0.4 + order * 0.05 }}
     >
-      <motion.div
-        whileHover={still ? undefined : { y: -4, transition: { duration: 0.2 } }}
-        className="group flex items-center gap-1.5 sm:gap-2"
-      >
-        <span className="flex h-7 w-7 sm:h-8 sm:w-8 shrink-0 items-center justify-center rounded-full border border-emerald-200 bg-white text-[#065F46] shadow-[0_4px_12px_rgba(4,60,44,0.10)] transition-colors duration-300 group-hover:border-[#065F46] group-hover:bg-[#065F46] group-hover:text-white">
-          <Icon className="h-3.5 w-3.5 sm:h-4 sm:w-4" strokeWidth={2.2} aria-hidden="true" />
-        </span>
-        {/* The off-white halo keeps the name readable when it passes in front of the character. */}
-        <span
-          className="whitespace-nowrap text-[10px] sm:text-[11px] xl:text-xs font-semibold leading-tight text-[#0F2A3D] transition-colors duration-300 group-hover:text-[#065F46]"
-          style={{ textShadow: '0 0 2px #FAFAF9, 0 0 6px #FAFAF9, 0 0 10px #FAFAF9' }}
+      <div className="-translate-x-1/2 -translate-y-1/2">
+        <motion.div
+          whileHover={still ? undefined : { y: -4, transition: { duration: 0.2 } }}
+          className="group flex items-center gap-1.5 sm:gap-2"
         >
-          {skill.label}
-        </span>
-      </motion.div>
+          <span className="flex h-7 w-7 sm:h-8 sm:w-8 shrink-0 items-center justify-center rounded-full border border-emerald-200 bg-white text-[#065F46] shadow-[0_4px_12px_rgba(4,60,44,0.10)] transition-colors duration-300 group-hover:border-[#065F46] group-hover:bg-[#065F46] group-hover:text-white">
+            <Icon className="h-3.5 w-3.5 sm:h-4 sm:w-4" strokeWidth={2.2} aria-hidden="true" />
+          </span>
+          {/* The off-white halo keeps the name readable when it passes in front of the character. */}
+          <span
+            className="whitespace-nowrap text-[10px] sm:text-[11px] xl:text-xs font-semibold leading-tight text-[#0F2A3D] transition-colors duration-300 group-hover:text-[#065F46]"
+            style={{ textShadow: '0 0 2px #FAFAF9, 0 0 6px #FAFAF9, 0 0 10px #FAFAF9' }}
+          >
+            {skill.label}
+          </span>
+        </motion.div>
+      </div>
     </motion.li>
   );
 };
@@ -94,6 +98,19 @@ export const HeroSkillOrbit: React.FC = () => {
   // One lap = 1. Pauses while the pointer is over the orbit so cards can be read and hovered.
   const lap = useMotionValue(0.02);
   const paused = useRef(false);
+
+  // Stage width in pixels; the orbit is a square, so one number is enough.
+  const stageRef = useRef<HTMLDivElement>(null);
+  const stage = useMotionValue(0);
+  useEffect(() => {
+    const el = stageRef.current;
+    if (!el) return;
+    const measure = () => stage.set(el.clientWidth);
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [stage]);
   useAnimationFrame((_, delta) => {
     if (reduceMotion || paused.current) return;
     lap.set((lap.get() + delta / 1000 / SECONDS_PER_LAP) % 1);
@@ -101,6 +118,7 @@ export const HeroSkillOrbit: React.FC = () => {
 
   return (
     <div
+      ref={stageRef}
       className="hero-shot relative w-full max-w-[340px] sm:max-w-[500px] lg:max-w-[540px] aspect-square"
       onPointerEnter={() => { paused.current = true; }}
       onPointerLeave={() => { paused.current = false; }}
@@ -152,6 +170,7 @@ export const HeroSkillOrbit: React.FC = () => {
               skill={skill}
               offset={i / skills.length}
               lap={lap}
+              stage={stage}
               order={i}
               still={reduceMotion}
             />
