@@ -203,7 +203,7 @@ export const TestimonialSlider: React.FC = () => {
         
         {/* Top Header Row: Eyebrow + Navigation Buttons aligned horizontally */}
         <div className="flex items-center justify-between gap-4 mb-2 sm:mb-2.5">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EEF2FF] border border-[#E2E8F0] text-[#4338CA] text-[10px] font-black uppercase tracking-widest">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ECFDF5] border border-[#E2E8F0] text-[#065F46] text-[10px] font-black uppercase tracking-widest">
             <MessageSquare className="w-3.5 h-3.5" /> What Product aspirants are saying
           </div>
 
@@ -212,14 +212,14 @@ export const TestimonialSlider: React.FC = () => {
             <button
               onClick={() => nudge('prev')}
               aria-label="Nudge testimonials backward"
-              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-[#E2E8F0] bg-white hover:bg-slate-50 hover:border-[#4338CA] text-[#334155] hover:text-[#4338CA] flex items-center justify-center transition-all shadow-xs active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#4338CA]/30 cursor-pointer"
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-[#E2E8F0] bg-white hover:bg-slate-50 hover:border-[#065F46] text-[#334155] hover:text-[#065F46] flex items-center justify-center transition-all shadow-xs active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#065F46]/30 cursor-pointer"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
             <button
               onClick={() => nudge('next')}
               aria-label="Nudge testimonials forward"
-              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-[#E2E8F0] bg-white hover:bg-slate-50 hover:border-[#4338CA] text-[#334155] hover:text-[#4338CA] flex items-center justify-center transition-all shadow-xs active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#4338CA]/30 cursor-pointer"
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-[#E2E8F0] bg-white hover:bg-slate-50 hover:border-[#065F46] text-[#334155] hover:text-[#065F46] flex items-center justify-center transition-all shadow-xs active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#065F46]/30 cursor-pointer"
             >
               <ChevronRight className="w-4 h-4" />
             </button>
@@ -230,7 +230,7 @@ export const TestimonialSlider: React.FC = () => {
         <div className="max-w-2xl text-left mb-4 sm:mb-5">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#0F172A] tracking-tight leading-tight mb-1 sm:mb-1.5">
             Built by PMs.{' '}
-            <span className="text-[#4338CA]">
+            <span className="text-[#065F46]">
               Loved by learners.
             </span>
           </h2>
@@ -261,7 +261,7 @@ export const TestimonialSlider: React.FC = () => {
             {marqueeCards.map((t, idx) => (
               <div
                 key={idx}
-                className="w-[82vw] sm:w-[320px] md:w-[335px] h-[230px] shrink-0 bg-white border border-[#E2E8F0] hover:border-[#4338CA]/40 rounded-2xl p-5 sm:p-6 shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group cursor-default"
+                className="w-[82vw] sm:w-[320px] md:w-[335px] h-[230px] shrink-0 bg-white border border-[#E2E8F0] hover:border-[#065F46]/40 rounded-2xl p-5 sm:p-6 shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group cursor-default"
               >
                 <div>
                   {/* Top Bar: 5 Stars + Subtle Quote Icon */}
@@ -274,7 +274,7 @@ export const TestimonialSlider: React.FC = () => {
                         />
                       ))}
                     </div>
-                    <div className="w-7 h-7 rounded-lg bg-[#EEF2FF] border border-[#E2E8F0] flex items-center justify-center text-[#4338CA] group-hover:bg-[#4338CA] group-hover:text-white transition-colors">
+                    <div className="w-7 h-7 rounded-lg bg-[#ECFDF5] border border-[#E2E8F0] flex items-center justify-center text-[#065F46] group-hover:bg-[#065F46] group-hover:text-white transition-colors">
                       <Quote className="w-3.5 h-3.5" />
                     </div>
                   </div>
@@ -298,7 +298,7 @@ export const TestimonialSlider: React.FC = () => {
                         {t.name}
                       </span>
                       <span title="Verified Learner" className="inline-flex items-center">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-[#4338CA] shrink-0" />
+                        <CheckCircle2 className="w-3.5 h-3.5 text-[#065F46] shrink-0" />
                       </span>
                     </div>
                     <div className="text-xs text-[#64748B] font-medium truncate leading-tight mt-0.5">

@@ -19,7 +19,7 @@ export const CornsilkSection: React.FC<CornsilkSectionProps> = ({
   items,
   className = ''
 }) => {
-  const mainTitleClass = titleColor === 'red' ? 'text-[#B91C1C]' : 'text-[#1D4ED8]';
+  const mainTitleClass = titleColor === 'red' ? 'text-[#B91C1C]' : 'text-[#065F46]';
 
   return (
     <section 
@@ -32,7 +32,7 @@ export const CornsilkSection: React.FC<CornsilkSectionProps> = ({
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
         {items.map((item, idx) => {
           const color = item.headerColor || (idx % 2 === 0 ? 'red' : 'blue');
-          const headerClass = color === 'red' ? 'text-[#DC2626]' : 'text-[#2563EB]';
+          const headerClass = color === 'red' ? 'text-[#DC2626]' : 'text-[#047857]';
           return (
             <div key={idx} className="space-y-1">
               <h4 className={`text-xs md:text-sm font-black tracking-tight ${headerClass}`}>

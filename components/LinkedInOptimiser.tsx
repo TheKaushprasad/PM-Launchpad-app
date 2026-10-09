@@ -35,7 +35,7 @@ const BenchAnimation = () => {
           transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
         >
           {/* Body/Torso */}
-          <rect x="85" y="70" width="30" height="40" rx="10" fill="#6366F1" />
+          <rect x="85" y="70" width="30" height="40" rx="10" fill="#059669" />
           {/* Head */}
           <circle cx="100" cy="55" r="12" fill="#FFDBAC" />
           {/* Hair */}

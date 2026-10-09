@@ -143,7 +143,7 @@ export const Dashboard: React.FC = () => {
       )}
 
       {/* Hero Welcome & Command Center Banner */}
-      <header className="relative bg-[#0A0F1D] rounded-3xl md:rounded-[28px] p-6 sm:p-8 lg:p-10 text-white overflow-hidden shadow-2xl border border-slate-800/80">
+      <header className="relative bg-[#043C2C] rounded-3xl md:rounded-[28px] p-6 sm:p-8 lg:p-10 text-white overflow-hidden shadow-2xl border border-[#065F46]/60">
         {/* Ambient atmospheric glows */}
         <div className="absolute top-0 right-1/4 w-96 h-96 bg-indigo-600/15 rounded-full blur-3xl pointer-events-none" aria-hidden="true" />
         <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" aria-hidden="true" />
@@ -151,15 +151,11 @@ export const Dashboard: React.FC = () => {
         {/* Hero Top Content: Left Info & Right 3D Rocket */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
           <div className="space-y-4 max-w-xl text-left">
-            <motion.div variants={item} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.08] border border-white/10 text-indigo-300 text-[10.5px] font-extrabold uppercase tracking-wider backdrop-blur-md">
-              <Sparkles className="w-3 h-3 fill-current text-indigo-400" /> 
-              <span>PERSONALISED CAREER COMMAND CENTER</span>
-            </motion.div>
 
             <motion.div variants={item} className="space-y-2">
               <h1 className="text-3xl sm:text-4xl lg:text-[40px] font-black tracking-tight leading-tight text-white">
                 Welcome back, <br/>
-                <span className="text-[#38BDF8]">{userName}</span> 👋
+                <span className="text-[#6EE7B7]">{userName}</span> 👋
               </h1>
               <p className="text-slate-300 text-xs sm:text-sm font-normal leading-relaxed">
                 Master product management craft, sharpen key PM competencies, and track your launchpad curriculum progress.
@@ -177,7 +173,7 @@ export const Dashboard: React.FC = () => {
         <motion.div variants={item} className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-8 pt-6 border-t border-white/10 relative z-10">
           {/* Target Role */}
           <div className="p-3 sm:p-3.5 rounded-2xl bg-white/[0.04] border border-white/[0.08] flex items-center gap-3.5">
-            <div className="w-11 h-11 rounded-xl bg-[#1E1B4B] flex items-center justify-center shrink-0 border border-indigo-500/30 shadow-inner">
+            <div className="w-11 h-11 rounded-xl bg-[#064E3B] flex items-center justify-center shrink-0 border border-indigo-500/30 shadow-inner">
               <Briefcase className="w-5 h-5 text-indigo-400" />
             </div>
             <div className="min-w-0">
@@ -192,7 +188,7 @@ export const Dashboard: React.FC = () => {
 
           {/* Profile Strength */}
           <div className="p-3 sm:p-3.5 rounded-2xl bg-white/[0.04] border border-white/[0.08] flex items-center gap-3.5">
-            <div className="w-11 h-11 rounded-xl bg-[#082F49] flex items-center justify-center shrink-0 border border-sky-500/30 shadow-inner">
+            <div className="w-11 h-11 rounded-xl bg-[#064E3B] flex items-center justify-center shrink-0 border border-sky-500/30 shadow-inner">
               <BarChart2 className="w-5 h-5 text-sky-400" />
             </div>
             <div className="min-w-0">

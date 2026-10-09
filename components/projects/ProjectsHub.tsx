@@ -64,12 +64,12 @@ export const ProjectsHub: React.FC = () => {
         <span className="uppercase tracking-wider">REAL-WORLD PROJECTS</span>
       </div>
 
-      <header className="relative w-full bg-gradient-to-r from-[#080D1A] via-[#0C152B] to-[#1E1B4B] rounded-3xl p-7 sm:p-9 text-white overflow-hidden shadow-2xl border border-slate-800/80 mb-7">
+      <header className="relative w-full bg-gradient-to-r from-[#032A1F] via-[#043C2C] to-[#064E3B] rounded-3xl p-7 sm:p-9 text-white overflow-hidden shadow-2xl border border-[#065F46]/60 mb-7">
         <div className="absolute top-0 right-0 w-[420px] h-[420px] bg-gradient-to-bl from-purple-600/25 via-indigo-600/15 to-transparent rounded-full blur-[100px] pointer-events-none -translate-y-1/4 translate-x-1/4" aria-hidden="true" />
         <div className="relative z-10 max-w-2xl">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-3 tracking-tight leading-[1.08]">
             Build a portfolio <br />
-            <span className="text-[#38BDF8]">that proves you think like a PM.</span>
+            <span className="text-[#6EE7B7]">that proves you think like a PM.</span>
           </h1>
           <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
             Pick a case brief, write your answer like a real take-home assignment, and get structured AI feedback scored against the same criteria hiring managers use.
@@ -126,8 +126,8 @@ export const ProjectsHub: React.FC = () => {
                     <Clock className="w-3.5 h-3.5" />~{project.estimatedHours}h
                   </span>
                 )}
-                <span className="inline-flex items-center gap-1 text-xs font-black text-slate-900 group-hover:text-indigo-600 transition-colors">
-                  {submission ? 'VIEW FEEDBACK' : 'START PROJECT'}
+                <span className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-900 group-hover:text-indigo-600 transition-colors">
+                  {submission ? 'View feedback' : 'Start project'}
                   <ArrowRight className="w-3.5 h-3.5" />
                 </span>
               </div>

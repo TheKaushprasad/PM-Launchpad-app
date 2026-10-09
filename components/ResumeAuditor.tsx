@@ -378,7 +378,7 @@ export const ResumeAuditor: React.FC = () => {
 
   const getScoreBadge = (score: number) => {
     if (score >= 85) return { label: 'FAANG / Tier-1 Ready', color: 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20' };
-    if (score >= 70) return { label: 'Competitive • Minor Refinements', color: 'bg-indigo-500/10 text-indigo-600 border-indigo-500/20' };
+    if (score >= 70) return { label: 'Competitive • Minor Refinements', color: 'bg-[#3B82F6]/10 text-[#2563EB] border-[#3B82F6]/20' };
     if (score >= 55) return { label: 'Task-Focused • Needs Metric Reframing', color: 'bg-amber-500/10 text-amber-600 border-amber-500/20' };
     return { label: 'Action-Heavy • Critical PM Overhaul', color: 'bg-rose-500/10 text-rose-600 border-rose-500/20' };
   };
@@ -388,7 +388,7 @@ export const ResumeAuditor: React.FC = () => {
       case 'Strong Match':
         return 'bg-emerald-500/10 text-emerald-700 border-emerald-500/30';
       case 'Moderate Match':
-        return 'bg-indigo-500/10 text-indigo-700 border-indigo-500/30';
+        return 'bg-[#3B82F6]/10 text-[#1D4ED8] border-[#3B82F6]/30';
       case 'Gaps Detected':
         return 'bg-amber-500/10 text-amber-700 border-amber-500/30';
       default:
@@ -435,7 +435,7 @@ export const ResumeAuditor: React.FC = () => {
             <div className="text-center space-y-3">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-purple-50 border border-purple-200/80 rounded-full text-purple-700 text-xs font-bold shadow-xs">
                 <Sparkles className="w-3.5 h-3.5" />
-                <span>15+ Years Senior PM Hiring Manager AI System</span>
+                <span>Reviewed the way a PM hiring manager would</span>
               </div>
               <h1 className="text-3xl sm:text-4xl font-black text-zinc-900 tracking-tight">
                 PM Resume Auditor

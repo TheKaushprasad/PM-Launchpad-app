@@ -21,9 +21,26 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // One brand accent: the landing page's forest green. Older indigo, blue, sky,
+      // violet and purple classes resolve to it so the whole app shares one colour.
+      (function () {
+        var brand = {
+          50: '#ECFDF5', 100: '#D1FAE5', 200: '#A7F3D0', 300: '#6EE7B7', 400: '#34D399',
+          500: '#059669', 600: '#047857', 700: '#065F46', 800: '#064E3B', 900: '#043C2C', 950: '#022C22'
+        };
+        tailwind.config = {
+          theme: { extend: {
+            colors: { brand: brand, indigo: brand, blue: brand, sky: brand, violet: brand, purple: brand },
+            // Headings were set in the heaviest weight almost everywhere; one step lighter reads calmer.
+            fontWeight: { black: '800' }
+          } }
+        };
+      })();
+    </script>
     <style>
       :root {
-        --brand-indigo: #6366f1;
+        --brand: #047857;
       }
       html {
         font-size: 16px;
@@ -67,11 +84,12 @@
         font-weight: 800;
       }
 
-      .prose h1 { font-size: 2.5rem !important; margin-bottom: 2rem !important; }
-      .prose h2 { font-size: 1.875rem !important; margin-top: 2.5rem !important; margin-bottom: 1.25rem !important; }
-      .prose h3 { font-size: 1.5rem !important; margin-top: 2rem !important; margin-bottom: 1rem !important; }
+      /* Small uppercase labels inside lesson boxes keep their own size and spacing. */
+      .prose h1:not(.uppercase) { font-size: 2.5rem !important; margin-bottom: 2rem !important; }
+      .prose h2:not(.uppercase) { font-size: 1.875rem !important; margin-top: 2.5rem !important; margin-bottom: 1.25rem !important; }
+      .prose h3:not(.uppercase) { font-size: 1.5rem !important; margin-top: 2rem !important; margin-bottom: 1rem !important; }
       
-      .prose p {
+      .prose p:not(.uppercase) {
         font-size: 1.125rem !important;
         line-height: 1.7 !important;
         color: #3f3f46 !important;

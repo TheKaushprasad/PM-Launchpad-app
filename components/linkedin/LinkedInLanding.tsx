@@ -18,7 +18,7 @@ export const LinkedInLanding: React.FC<LinkedInLandingProps> = ({
   return (
     <div className="w-full space-y-0">
       {/* Hero Section */}
-      <section className="relative overflow-hidden rounded-[2rem] sm:rounded-[2.25rem] bg-gradient-to-br from-zinc-950 via-zinc-900 to-indigo-950 pt-10 sm:pt-14 pb-8 sm:pb-10 px-6 sm:px-10 md:px-12 text-white border border-zinc-800 shadow-2xl">
+      <section className="relative overflow-hidden rounded-[2rem] sm:rounded-[2.25rem] bg-gradient-to-br from-[#032A1F] via-[#043C2C] to-[#064E3B] pt-10 sm:pt-14 pb-8 sm:pb-10 px-6 sm:px-10 md:px-12 text-white border border-zinc-800 shadow-2xl">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none -translate-y-1/2 translate-x-1/3" />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-sky-500/10 rounded-full blur-[100px] pointer-events-none translate-y-1/2 -translate-x-1/4" />
 
@@ -29,7 +29,7 @@ export const LinkedInLanding: React.FC<LinkedInLandingProps> = ({
           </div>
 
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight leading-[1.05] mb-4">
-            Turn Your LinkedIn Profile Into a <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#79BAEC] to-indigo-400">Recruiter Magnet.</span>
+            Turn Your LinkedIn Profile Into a <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#34D399] to-indigo-400">Recruiter Magnet.</span>
           </h1>
 
           <p className="text-zinc-300 text-base sm:text-lg font-medium leading-relaxed max-w-2xl">
@@ -206,7 +206,7 @@ export const LinkedInLanding: React.FC<LinkedInLandingProps> = ({
             <div className="space-y-2">
               <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Overall Score</span>
               <div className="flex items-baseline gap-2">
-                <span className="text-5xl font-black text-[#79BAEC]">78</span>
+                <span className="text-5xl font-black text-[#34D399]">78</span>
                 <span className="text-xl text-zinc-400 font-bold">/100</span>
                 <span className="ml-auto px-2.5 py-1 bg-amber-500/20 text-amber-300 font-black text-xs rounded-lg">
                   Grade B+

@@ -101,7 +101,7 @@ export const InterviewEvaluationView: React.FC<InterviewEvaluationViewProps> = (
       case 'Strong Yes':
         return { color: 'bg-emerald-500 text-white border-emerald-600', shadow: 'shadow-emerald-500/20' };
       case 'Lean Yes':
-        return { color: 'bg-blue-500 text-white border-blue-600', shadow: 'shadow-blue-500/20' };
+        return { color: 'bg-[#3B82F6] text-white border-[#2563EB]', shadow: 'shadow-[#3B82F6]/20' };
       case 'Lean No':
         return { color: 'bg-amber-500 text-white border-amber-600', shadow: 'shadow-amber-500/20' };
       default:
@@ -111,7 +111,7 @@ export const InterviewEvaluationView: React.FC<InterviewEvaluationViewProps> = (
 
   const getScoreColor = (score: number) => {
     if (score >= 80) return 'text-emerald-600';
-    if (score >= 65) return 'text-blue-600';
+    if (score >= 65) return 'text-[#2563EB]';
     if (score >= 50) return 'text-amber-600';
     return 'text-rose-600';
   };

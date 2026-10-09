@@ -310,7 +310,7 @@ export const InterviewHub: React.FC = () => {
   return (
     <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
       {/* Top Banner / Hero Card */}
-      <div className="relative rounded-[2rem] bg-[#0A0F1D] border border-slate-800/80 p-6 sm:p-8 lg:p-9 text-white overflow-hidden shadow-xl">
+      <div className="relative rounded-[2rem] bg-[#043C2C] border border-[#065F46]/60 p-6 sm:p-8 lg:p-9 text-white overflow-hidden shadow-xl">
         {/* Subtle Ambient Background Gradients */}
         <div className="absolute top-0 right-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-[100px] pointer-events-none" />
         <div className="absolute bottom-0 right-10 w-80 h-80 bg-purple-600/10 rounded-full blur-[90px] pointer-events-none" />
@@ -320,25 +320,10 @@ export const InterviewHub: React.FC = () => {
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
             {/* Left Content Area */}
             <div className="max-w-2xl space-y-3.5">
-              {/* Feature Badge Pills */}
-              <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/15 border border-indigo-500/30 text-indigo-200 text-[11px] font-bold tracking-wide backdrop-blur-md">
-                  <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-                  <span>AI-POWERED INTERVIEW PRACTICE</span>
-                </div>
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-slate-300 text-[11px] font-bold tracking-wide backdrop-blur-md">
-                  <BarChart2 className="w-3.5 h-3.5 text-slate-400" />
-                  <span>LEARN. GET FEEDBACK. IMPROVE.</span>
-                </div>
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/20 border border-blue-500/30 text-blue-200 text-[11px] font-bold tracking-wide backdrop-blur-md">
-                  <Users className="w-3.5 h-3.5 text-blue-400" />
-                  <span>ACCESS INDUSTRY CASES</span>
-                </div>
-              </div>
 
               {/* Main Headline */}
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white leading-tight">
-                AI Mock <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-blue-400 to-indigo-300">Interview Studio</span>
+                AI Mock <span className="text-[#6EE7B7]">Interview Studio</span>
               </h1>
 
               {/* Subtitle */}
@@ -360,12 +345,12 @@ export const InterviewHub: React.FC = () => {
                     <stop offset="100%" stopColor="#CBD5E1" />
                   </linearGradient>
                   <linearGradient id="robotVisorGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor="#0B132B" />
-                    <stop offset="100%" stopColor="#1C2541" />
+                    <stop offset="0%" stopColor="#043C2C" />
+                    <stop offset="100%" stopColor="#064E3B" />
                   </linearGradient>
                   <linearGradient id="cyanGlow" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#38BDF8" />
-                    <stop offset="100%" stopColor="#60A5FA" />
+                    <stop offset="0%" stopColor="#6EE7B7" />
+                    <stop offset="100%" stopColor="#6EE7B7" />
                   </linearGradient>
                   <linearGradient id="tabletGlassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" stopColor="rgba(59, 130, 246, 0.28)" />
@@ -386,34 +371,34 @@ export const InterviewHub: React.FC = () => {
                   <rect x="18" y="24" width="55" height="7" rx="3.5" fill="rgba(255,255,255,0.4)" />
                   
                   {/* Checklist item 1 */}
-                  <circle cx="24" cy="52" r="5" fill="#38BDF8" />
-                  <path d="M21.5 52l1.8 1.8 3.5-3.5" stroke="#0B132B" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                  <circle cx="24" cy="52" r="5" fill="#6EE7B7" />
+                  <path d="M21.5 52l1.8 1.8 3.5-3.5" stroke="#043C2C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
                   <rect x="36" y="49" width="70" height="6" rx="3" fill="rgba(255,255,255,0.28)" />
 
                   {/* Checklist item 2 */}
-                  <circle cx="24" cy="74" r="5" fill="#38BDF8" />
-                  <path d="M21.5 74l1.8 1.8 3.5-3.5" stroke="#0B132B" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                  <circle cx="24" cy="74" r="5" fill="#6EE7B7" />
+                  <path d="M21.5 74l1.8 1.8 3.5-3.5" stroke="#043C2C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
                   <rect x="36" y="71" width="55" height="6" rx="3" fill="rgba(255,255,255,0.28)" />
 
                   {/* Checklist item 3 */}
-                  <circle cx="24" cy="96" r="5" fill="#38BDF8" />
-                  <path d="M21.5 96l1.8 1.8 3.5-3.5" stroke="#0B132B" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                  <circle cx="24" cy="96" r="5" fill="#6EE7B7" />
+                  <path d="M21.5 96l1.8 1.8 3.5-3.5" stroke="#043C2C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
                   <rect x="36" y="93" width="62" height="6" rx="3" fill="rgba(255,255,255,0.28)" />
                 </g>
 
                 {/* 3D Cute AI Robot */}
                 <g transform="translate(205, 52)">
                   {/* Ear Discs */}
-                  <ellipse cx="-28" cy="46" rx="7" ry="14" fill="#3B82F6" />
-                  <ellipse cx="-28" cy="46" rx="4" ry="9" fill="#93C5FD" />
-                  <ellipse cx="68" cy="46" rx="7" ry="14" fill="#3B82F6" />
-                  <ellipse cx="68" cy="46" rx="4" ry="9" fill="#93C5FD" />
+                  <ellipse cx="-28" cy="46" rx="7" ry="14" fill="#059669" />
+                  <ellipse cx="-28" cy="46" rx="4" ry="9" fill="#A7F3D0" />
+                  <ellipse cx="68" cy="46" rx="7" ry="14" fill="#059669" />
+                  <ellipse cx="68" cy="46" rx="4" ry="9" fill="#A7F3D0" />
 
                   {/* Head */}
                   <rect x="-24" y="8" width="88" height="74" rx="26" fill="url(#robotBodyGrad)" filter="url(#bubbleDropShadow)" />
                   
                   {/* Screen Visor */}
-                  <rect x="-14" y="20" width="68" height="50" rx="18" fill="url(#robotVisorGrad)" stroke="#2563EB" strokeWidth="1.2" />
+                  <rect x="-14" y="20" width="68" height="50" rx="18" fill="url(#robotVisorGrad)" stroke="#047857" strokeWidth="1.2" />
 
                   {/* Glowing Smiling Eyes */}
                   <path d="M -2 38 Q 4 30 10 38" stroke="url(#cyanGlow)" strokeWidth="3.5" strokeLinecap="round" fill="none" filter="url(#softGlow)" />
@@ -423,13 +408,13 @@ export const InterviewHub: React.FC = () => {
                   <path d="M 12 52 Q 19 59 26 52" stroke="url(#cyanGlow)" strokeWidth="2.8" strokeLinecap="round" fill="none" filter="url(#softGlow)" />
 
                   {/* Top Antenna */}
-                  <rect x="17" y="1" width="6" height="8" rx="3" fill="#3B82F6" />
-                  <circle cx="20" cy="0" r="4.5" fill="#60A5FA" filter="url(#softGlow)" />
+                  <rect x="17" y="1" width="6" height="8" rx="3" fill="#059669" />
+                  <circle cx="20" cy="0" r="4.5" fill="#6EE7B7" filter="url(#softGlow)" />
 
                   {/* Body Torso */}
                   <path d="M -8 82 Q 20 80 48 82 L 54 125 Q 20 134 -14 125 Z" fill="url(#robotBodyGrad)" />
-                  <rect x="10" y="93" width="20" height="12" rx="6" fill="#3B82F6" opacity="0.8" />
-                  <circle cx="20" cy="99" r="3" fill="#93C5FD" />
+                  <rect x="10" y="93" width="20" height="12" rx="6" fill="#059669" opacity="0.8" />
+                  <circle cx="20" cy="99" r="3" fill="#A7F3D0" />
 
                   {/* Arms */}
                   <ellipse cx="-20" cy="100" rx="9" ry="15" fill="url(#robotBodyGrad)" transform="rotate(22 -20 100)" />
@@ -443,7 +428,7 @@ export const InterviewHub: React.FC = () => {
                   <text x="47" y="19" textAnchor="middle" fill="#0F172A" fontSize="11" fontWeight="800" fontFamily="system-ui, sans-serif">
                     Practice
                   </text>
-                  <text x="47" y="32" textAnchor="middle" fill="#2563EB" fontSize="10.5" fontWeight="800" fontFamily="system-ui, sans-serif">
+                  <text x="47" y="32" textAnchor="middle" fill="#047857" fontSize="10.5" fontWeight="800" fontFamily="system-ui, sans-serif">
                     Like a PM
                   </text>
                 </g>
@@ -489,7 +474,7 @@ export const InterviewHub: React.FC = () => {
           <div className="pt-2 grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             {/* Metric 1 */}
             <div className="p-4 sm:p-5 rounded-2xl bg-white/[0.04] border border-white/[0.08] backdrop-blur-md flex items-center gap-3.5">
-              <div className="w-11 h-11 rounded-xl bg-[#1D4ED8] flex items-center justify-center shrink-0 shadow-inner">
+              <div className="w-11 h-11 rounded-xl bg-[#065F46] flex items-center justify-center shrink-0 shadow-inner">
                 <FileText className="w-5 h-5 text-white" />
               </div>
               <div>
@@ -500,7 +485,7 @@ export const InterviewHub: React.FC = () => {
 
             {/* Metric 2 */}
             <div className="p-4 sm:p-5 rounded-2xl bg-white/[0.04] border border-white/[0.08] backdrop-blur-md flex items-center gap-3.5">
-              <div className="w-11 h-11 rounded-xl bg-[#1D4ED8] flex items-center justify-center shrink-0 shadow-inner">
+              <div className="w-11 h-11 rounded-xl bg-[#065F46] flex items-center justify-center shrink-0 shadow-inner">
                 <Play className="w-5 h-5 text-white fill-white ml-0.5" />
               </div>
               <div>
@@ -513,7 +498,7 @@ export const InterviewHub: React.FC = () => {
 
             {/* Metric 3 */}
             <div className="p-4 sm:p-5 rounded-2xl bg-white/[0.04] border border-white/[0.08] backdrop-blur-md flex items-center gap-3.5">
-              <div className="w-11 h-11 rounded-xl bg-[#6D28D9] flex items-center justify-center shrink-0 shadow-inner">
+              <div className="w-11 h-11 rounded-xl bg-[#065F46] flex items-center justify-center shrink-0 shadow-inner">
                 <Trophy className="w-5 h-5 text-white" />
               </div>
               <div>
@@ -528,7 +513,7 @@ export const InterviewHub: React.FC = () => {
 
             {/* Metric 4 */}
             <div className="p-4 sm:p-5 rounded-2xl bg-white/[0.04] border border-white/[0.08] backdrop-blur-md flex items-center gap-3.5">
-              <div className="w-11 h-11 rounded-xl bg-[#6D28D9] flex items-center justify-center shrink-0 shadow-inner">
+              <div className="w-11 h-11 rounded-xl bg-[#065F46] flex items-center justify-center shrink-0 shadow-inner">
                 <Users className="w-5 h-5 text-white" />
               </div>
               <div>

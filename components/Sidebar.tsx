@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { 
   LayoutDashboard, BookOpen, Search, BarChart2, Smartphone, 
-  Bot, Info, ChevronRight, ChevronDown, Sparkles, Zap, Code, Briefcase,
+  Bot, Info, ChevronRight, ChevronDown, Sparkles, Zap, ArrowRight, Code, Briefcase,
   Library, LogIn, LogOut, Layers, User as UserIcon, Menu, X, FolderKanban
 } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -163,14 +163,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
               <div className="space-y-2">
                 <button
                   onClick={() => { setAuthMode('signup'); setAuthModalOpen(true); }}
-                  className="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white flex items-center justify-center gap-2 font-bold text-xs shadow-md transition-all cursor-pointer group"
+                  className="w-full py-2.5 px-3 rounded-xl bg-[#064E3B] hover:bg-[#043C2C] active:scale-[0.98] text-white flex items-center justify-center gap-2 font-semibold text-sm transition-all cursor-pointer"
                 >
-                  <Sparkles className="w-3.5 h-3.5 text-blue-200" />
-                  <span>Sign Up / Sign In →</span>
+                  <span>Sign in or sign up</span>
                 </button>
                 <button
                   onClick={() => signInWithGoogle()}
-                  className="w-full py-2 px-3 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 flex items-center justify-center gap-2 font-bold text-xs shadow-2xs transition-all cursor-pointer"
+                  className="w-full py-2 px-3 rounded-xl bg-white hover:bg-zinc-50 active:scale-[0.98] border border-zinc-200 text-zinc-700 flex items-center justify-center gap-2 font-semibold text-xs transition-all cursor-pointer"
                 >
                   <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24">
                     <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -178,7 +177,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
                     <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" />
                     <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" />
                   </svg>
-                  <span>Google 1-Tap</span>
+                  <span>Continue with Google</span>
                 </button>
               </div>
             )}
@@ -196,23 +195,23 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
                 className={`
                   relative flex items-center ${collapsed ? 'justify-center' : 'gap-4 px-5'} py-3.5 rounded-2xl text-[15px] font-bold transition-all duration-300 group
                   ${isDashActive 
-                    ? 'text-[#2D5A81] bg-[#79BAEC]/10' 
+                    ? 'text-[#065F46] bg-[#34D399]/10' 
                     : 'text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50'}
                 `}
               >
                 {isDashActive && (
                   <motion.div
                     layoutId="activeNav"
-                    className="absolute inset-0 bg-[#79BAEC]/5 rounded-2xl border border-[#79BAEC]/10"
+                    className="absolute inset-0 bg-[#34D399]/5 rounded-2xl border border-[#34D399]/10"
                   />
                 )}
-                <LayoutDashboard className={`w-[20px] h-[20px] relative z-10 ${isDashActive ? 'text-[#2D5A81]' : 'text-zinc-400 group-hover:text-zinc-700'}`} />
+                <LayoutDashboard className={`w-[20px] h-[20px] relative z-10 ${isDashActive ? 'text-[#065F46]' : 'text-zinc-400 group-hover:text-zinc-700'}`} />
                 {!collapsed && (
                   <div className="flex-1 flex items-center justify-between relative z-10">
                     <span className="tracking-tight">Dashboard</span>
                   </div>
                 )}
-                {!collapsed && isDashActive && <ChevronRight className="w-4 h-4 text-[#79BAEC] relative z-10" />}
+                {!collapsed && isDashActive && <ChevronRight className="w-4 h-4 text-[#34D399] relative z-10" />}
               </Link>
             );
           })()}
@@ -221,7 +220,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
           {!collapsed ? (
             <div className="pt-2 pb-1">
               <div
-                className={`w-full flex items-center justify-between px-5 py-3 rounded-2xl text-xs font-black uppercase tracking-[0.15em] transition-all select-none cursor-pointer ${
+                className={`w-full flex items-center justify-between px-5 py-3.5 rounded-2xl text-[15px] font-bold transition-all select-none cursor-pointer ${
                   isModuleActive 
                     ? 'text-blue-600 bg-sky-50 border border-sky-100 shadow-2xs' 
                     : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
@@ -234,8 +233,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
                   }
                 }}
               >
-                <div className="flex items-center gap-3">
-                  <Layers className={`w-4 h-4 ${isModuleActive ? 'text-blue-600' : 'text-slate-400'}`} />
+                <div className="flex items-center gap-4">
+                  <Layers className={`w-5 h-5 ${isModuleActive ? 'text-blue-600' : 'text-slate-400'}`} />
                   <span>Modules</span>
                 </div>
                 <div className="flex items-center gap-1.5">
@@ -286,13 +285,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
                           className={`
                             relative flex items-center gap-3.5 px-4 py-2.5 rounded-xl text-[14px] font-bold transition-all duration-200 group
                             ${isActive 
-                              ? 'text-[#2D5A81] bg-[#79BAEC]/15 font-black' 
+                              ? 'text-[#065F46] bg-[#34D399]/15 font-black' 
                               : 'text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50'}
                           `}
                         >
-                          <Icon className={`w-4 h-4 relative z-10 ${isActive ? 'text-[#2D5A81]' : 'text-zinc-400 group-hover:text-zinc-700'}`} />
+                          <Icon className={`w-4 h-4 relative z-10 ${isActive ? 'text-[#065F46]' : 'text-zinc-400 group-hover:text-zinc-700'}`} />
                           <span className="tracking-tight relative z-10 flex-1">{item.label}</span>
-                          {isActive && <ChevronRight className="w-3.5 h-3.5 text-[#2D5A81] relative z-10" />}
+                          {isActive && <ChevronRight className="w-3.5 h-3.5 text-[#065F46] relative z-10" />}
                         </Link>
                       );
                     })}
@@ -307,7 +306,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
           {/* Divider for Other App Sections */}
           {!collapsed ? (
             <div className="px-4 pt-4 pb-2">
-              <p className="text-[11px] font-black text-zinc-400 uppercase tracking-[0.2em]">Apps & Tools</p>
+              <p className="text-xs font-semibold text-zinc-400">Apps and tools</p>
             </div>
           ) : (
             <div className="h-px bg-zinc-100 my-4 mx-2" />
@@ -327,17 +326,17 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
                 className={`
                   relative flex items-center ${collapsed ? 'justify-center' : 'gap-4 px-5'} py-3.5 rounded-2xl text-[15px] font-bold transition-all duration-300 group
                   ${isActive 
-                    ? 'text-[#2D5A81] bg-[#79BAEC]/10' 
+                    ? 'text-[#065F46] bg-[#34D399]/10' 
                     : 'text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50'}
                 `}
               >
                 {isActive && (
                   <motion.div
                     layoutId="activeNav"
-                    className="absolute inset-0 bg-[#79BAEC]/5 rounded-2xl border border-[#79BAEC]/10"
+                    className="absolute inset-0 bg-[#34D399]/5 rounded-2xl border border-[#34D399]/10"
                   />
                 )}
-                <Icon className={`w-[20px] h-[20px] relative z-10 ${isActive ? 'text-[#2D5A81]' : 'text-zinc-400 group-hover:text-zinc-700'}`} />
+                <Icon className={`w-[20px] h-[20px] relative z-10 ${isActive ? 'text-[#065F46]' : 'text-zinc-400 group-hover:text-zinc-700'}`} />
                 {!collapsed && (
                   <div className="flex-1 flex items-center justify-between relative z-10">
                     <span className="tracking-tight">{item.label}</span>
@@ -348,7 +347,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
                     )}
                   </div>
                 )}
-                {!collapsed && isActive && !item.badge && <ChevronRight className="w-4 h-4 text-[#79BAEC] relative z-10" />}
+                {!collapsed && isActive && !item.badge && <ChevronRight className="w-4 h-4 text-[#34D399] relative z-10" />}
               </Link>
             );
           })}
@@ -356,17 +355,16 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
 
         {!collapsed && (
           <div className="p-6">
-            <div className="bg-zinc-950 rounded-[2rem] p-6 relative overflow-hidden">
-              <div className="absolute top-0 right-0 p-3 opacity-20"><Sparkles className="w-12 h-12 text-[#79BAEC]" /></div>
-              <p className="text-white text-sm font-black uppercase tracking-widest mb-2 relative z-10">Pro Upgrade</p>
-              <p className="text-zinc-400 text-[10px] leading-relaxed mb-5 relative z-10 font-bold">1-on-1 resume reviews and expert mock interviews.</p>
+            <div className="bg-[#ECFDF5] border border-[#A7F3D0] rounded-2xl p-4">
+              <p className="text-[#064E3B] text-sm font-bold mb-1">Want expert help?</p>
+              <p className="text-zinc-600 text-xs leading-relaxed mb-3">1-on-1 resume reviews and expert mock interviews.</p>
               <a 
                 href="https://docs.google.com/forms/u/0/d/1gntWQiHg_RBueOSOqZzVQiJ4UGfMIvyuAYUsiuxbOUc/preview" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="block w-full py-3 bg-[#79BAEC] text-zinc-950 text-[12px] font-black uppercase tracking-widest rounded-xl hover:bg-white transition-colors relative z-10 shadow-lg text-center"
+                className="inline-flex items-center gap-1 text-[#047857] hover:text-[#043C2C] text-xs font-semibold underline-offset-4 hover:underline"
               >
-                Unlock Now
+                Request a session <ArrowRight className="w-3.5 h-3.5" />
               </a>
             </div>
           </div>
