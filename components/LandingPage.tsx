@@ -10,6 +10,7 @@ import {
   Play, RotateCcw, Mic, Volume2, Sliders, User as UserIcon
 } from 'lucide-react';
 import { Logo } from './Logo';
+import { HeroSkillOrbit } from './HeroSkillOrbit';
 import { useAuth } from '../context/AuthContext';
 import { AuthModal } from './auth/AuthModal';
 
@@ -758,22 +759,9 @@ export const LandingPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Right Column: Floating Product Dashboard Preview Card */}
+            {/* Right Column: PM character with orbiting skill cards */}
             <div className="lg:col-span-6 relative flex justify-center">
-              
-              {/* Decorative warm polygon blob behind top-left of the card */}
-              <div className="absolute -top-6 -left-6 w-36 h-36 bg-amber-200/50 rounded-3xl -rotate-12 blur-lg pointer-events-none -z-10" />
-
-              {/* Real screenshot of the dashboard */}
-              <figure className="hero-shot w-full max-w-lg rounded-3xl border border-slate-200/80 bg-white p-2 shadow-[0_25px_60px_rgba(6,78,59,0.14)]">
-                <img
-                  src="/landing/dashboard-preview.jpg"
-                  alt="The NooB PM dashboard with curriculum progress, profile strength, daily streak and the first lesson cards"
-                  width={1200}
-                  height={750}
-                  className="w-full h-auto rounded-2xl"
-                />
-              </figure>
+              <HeroSkillOrbit />
             </div>
 
           </div>
