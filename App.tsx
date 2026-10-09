@@ -17,7 +17,7 @@ import { Onboarding } from './components/auth/Onboarding';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { AuthActionPage } from './components/auth/AuthActionPage';
 import { Menu, X, AlertTriangle, Loader2 } from 'lucide-react';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, MotionConfig } from 'framer-motion';
 import { Logo } from './components/Logo';
 import { Analytics } from '@vercel/analytics/react';
 import { AuthProvider, useAuth } from './context/AuthContext';
@@ -202,6 +202,8 @@ const LessonLayout = () => {
 const App: React.FC = () => {
   return (
     <AuthProvider>
+      {/* Respect the visitor's reduced-motion setting for every framer-motion animation. */}
+      <MotionConfig reducedMotion="user">
       <Router>
          <GAPageTracker />
          <AuthActionRedirector />
@@ -292,6 +294,7 @@ const App: React.FC = () => {
          <Analytics />
          <SaveDetailsModal />
       </Router>
+      </MotionConfig>
     </AuthProvider>
   );
 };

@@ -47,7 +47,7 @@
       }
       body {
         font-family: 'Inter', sans-serif;
-        background-color: #fcfdfe;
+        background-color: #fafaf9;
         color: #18181b;
         -webkit-font-smoothing: antialiased;
         overflow-x: hidden;
@@ -68,15 +68,75 @@
         background: transparent; 
       }
       ::-webkit-scrollbar-thumb {
-        background: #e2e8f0;
+        background: #d6e3dc;
         border-radius: 10px;
       }
       ::-webkit-scrollbar-thumb:hover {
-        background: #cbd5e1;
+        background: #a7c4b5;
+      }
+      html {
+        scrollbar-color: #d6e3dc transparent;
       }
 
+      /* Browser surfaces carry the brand too: selection, caret, focus ring, links. */
+      ::selection {
+        background: #a7f3d0;
+        color: #022c22;
+      }
+      input, textarea, [contenteditable="true"] {
+        caret-color: #047857;
+      }
+      :focus-visible {
+        outline: 2px solid #059669;
+        outline-offset: 2px;
+      }
+      a {
+        text-underline-offset: 3px;
+      }
+      h1, h2, h3 {
+        text-wrap: balance;
+      }
+      p {
+        text-wrap: pretty;
+      }
+
+      /* One easing for the whole app: quick start, soft landing. */
+      :root {
+        --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      }
       .page-transition {
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: opacity 0.3s var(--ease-out), transform 0.3s var(--ease-out);
+      }
+      button, a, [role="button"] {
+        transition-timing-function: var(--ease-out);
+      }
+
+      /* The landing page's one authored moment: "NooB In." then "PM Out.", then the product settles into focus. */
+      .hero-line {
+        animation: hero-line-in 0.7s var(--ease-out) both;
+      }
+      .hero-line-2 {
+        animation-delay: 0.16s;
+      }
+      .hero-shot {
+        animation: hero-shot-in 0.9s var(--ease-out) 0.32s both;
+      }
+      @keyframes hero-line-in {
+        from { opacity: 0; transform: translateY(0.35em); clip-path: inset(0 0 100% 0); }
+        to { opacity: 1; transform: none; clip-path: inset(-10% -5% -15% -5%); }
+      }
+      @keyframes hero-shot-in {
+        from { opacity: 0; transform: translateY(14px) scale(0.985); filter: blur(8px); }
+        to { opacity: 1; transform: none; filter: none; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          animation-delay: 0s !important;
+          scroll-behavior: auto !important;
+        }
       }
 
       h1, h2, h3, h4 {

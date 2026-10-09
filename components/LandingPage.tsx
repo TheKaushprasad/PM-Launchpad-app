@@ -467,7 +467,7 @@ export const LandingPage: React.FC = () => {
                   onClick={() => openAuth('signup')}
                   className="bg-[#064E3B] hover:bg-[#043C2C] text-white font-bold text-sm px-5 py-2 rounded-full shadow-xs hover:shadow-md transition-all cursor-pointer"
                 >
-                  Get Started Free
+                  Sign up free
                 </button>
               </>
             )}
@@ -568,7 +568,7 @@ export const LandingPage: React.FC = () => {
                       onClick={() => openAuth('signup')}
                       className="w-full bg-[#064E3B] text-white py-2.5 rounded-xl font-bold text-center"
                     >
-                      Get Started Free
+                      Sign up free
                     </button>
                   </>
                 )}
@@ -590,16 +590,11 @@ export const LandingPage: React.FC = () => {
             {/* Left Column: Copy & CTAs */}
             <div className="lg:col-span-6 space-y-6">
               
-              {/* Eyebrow Pill */}
-              <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#ECFDF5] border border-[#A7F3D0] text-[#065F46] text-xs font-bold tracking-tight">
-                <span>🔑</span>
-                <span>From Learning to Landing a Job</span>
-              </div>
 
               {/* Main Headline */}
               <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.05] text-slate-900">
-                <span>NooB In.</span>
-                <span className="block text-[#059669] mt-1">PM Out.</span>
+                <span className="hero-line block">NooB In.</span>
+                <span className="hero-line hero-line-2 block text-[#059669] mt-1">PM Out.</span>
               </h1>
 
               {/* Subheading */}
@@ -618,7 +613,7 @@ export const LandingPage: React.FC = () => {
                   onClick={() => navigate('/dashboard')}
                   className="bg-[#064E3B] hover:bg-[#043C2C] text-white px-7 py-3.5 rounded-xl font-bold text-base flex items-center justify-center gap-2 shadow-lg shadow-emerald-950/15 transition-all hover:-translate-y-0.5 cursor-pointer"
                 >
-                  <span>Start Learning Free</span>
+                  <span>Start learning free</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
 
@@ -626,7 +621,7 @@ export const LandingPage: React.FC = () => {
                   onClick={() => navigate('/interview-studio')}
                   className="bg-white hover:bg-slate-50 text-slate-800 border border-slate-300/90 px-6 py-3.5 rounded-xl font-bold text-base transition-all hover:-translate-y-0.5 shadow-2xs cursor-pointer flex items-center justify-center"
                 >
-                  Try AI Mock Interview
+                  Try a mock interview
                 </button>
               </div>
 
@@ -636,8 +631,6 @@ export const LandingPage: React.FC = () => {
                   <div className="flex -space-x-2.5 items-center">
                     {/* Person 1: Pink Hair Girl with red jacket & surprised/happy smile */}
                     <motion.div
-                      animate={{ y: [0, -3, 0] }}
-                      transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
                       className="relative z-40 w-9 h-9 rounded-full ring-2 ring-white shadow-sm overflow-hidden bg-[#E8EEF5] shrink-0"
                     >
                       <svg viewBox="0 0 100 100" className="w-full h-full">
@@ -669,8 +662,6 @@ export const LandingPage: React.FC = () => {
 
                     {/* Person 2: Pink Hijab with Heart Eyes & green accent */}
                     <motion.div
-                      animate={{ y: [0, 3.5, 0] }}
-                      transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
                       className="relative z-30 w-9 h-9 rounded-full ring-2 ring-white shadow-sm overflow-hidden bg-[#E8EEF5] shrink-0"
                     >
                       <svg viewBox="0 0 100 100" className="w-full h-full">
@@ -693,8 +684,6 @@ export const LandingPage: React.FC = () => {
 
                     {/* Person 3: Short Pink Buzzcut Guy in Blue Hoodie with Gritted/Nervous Smile */}
                     <motion.div
-                      animate={{ y: [0, -3, 0] }}
-                      transition={{ duration: 3.4, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}
                       className="relative z-20 w-9 h-9 rounded-full ring-2 ring-white shadow-sm overflow-hidden bg-[#E8EEF5] shrink-0"
                     >
                       <svg viewBox="0 0 100 100" className="w-full h-full">
@@ -726,8 +715,6 @@ export const LandingPage: React.FC = () => {
 
                     {/* Person 4: Tan Guy with Pink/White Beanie/Headband & Tank Top */}
                     <motion.div
-                      animate={{ y: [0, 3, 0] }}
-                      transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut", delay: 0.9 }}
                       className="relative z-10 w-9 h-9 rounded-full ring-2 ring-white shadow-sm overflow-hidden bg-[#E8EEF5] shrink-0"
                     >
                       <svg viewBox="0 0 100 100" className="w-full h-full">
@@ -778,7 +765,7 @@ export const LandingPage: React.FC = () => {
               <div className="absolute -top-6 -left-6 w-36 h-36 bg-amber-200/50 rounded-3xl -rotate-12 blur-lg pointer-events-none -z-10" />
 
               {/* Real screenshot of the dashboard */}
-              <figure className="w-full max-w-lg rounded-3xl border border-slate-200/80 bg-white p-2 shadow-[0_25px_60px_rgba(6,78,59,0.14)]">
+              <figure className="hero-shot w-full max-w-lg rounded-3xl border border-slate-200/80 bg-white p-2 shadow-[0_25px_60px_rgba(6,78,59,0.14)]">
                 <img
                   src="/landing/dashboard-preview.jpg"
                   alt="The NooB PM dashboard with curriculum progress, profile strength, daily streak and the first lesson cards"
@@ -793,80 +780,12 @@ export const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* VALUE PROPS BAR ("TRUSTED LEARNING JOURNEY") */}
-      <section className="py-12 bg-white/60 border-y border-slate-200/60">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          {/* Eyebrow pill */}
-          <div className="flex justify-center mb-8">
-            <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#ECFDF5] border border-[#A7F3D0] text-[#065F46] text-xs font-bold tracking-tight">
-              <span>↳</span>
-              <span>TRUSTED LEARNING JOURNEY</span>
-              <span>🎓</span>
-            </div>
-          </div>
-
-          {/* 4 Feature Blocks */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            
-            {/* 1: Structured Curriculum */}
-            <div className="flex items-start gap-3.5 p-4 rounded-2xl bg-white border border-slate-200/80 shadow-2xs hover:shadow-sm transition-shadow">
-              <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
-                <BookOpen className="w-5 h-5" />
-              </div>
-              <div>
-                <h4 className="text-sm font-bold text-slate-900">Structured Curriculum</h4>
-                <p className="text-xs text-slate-500 mt-0.5">From basics to advanced</p>
-              </div>
-            </div>
-
-            {/* 2: AI-Powered Tools */}
-            <div className="flex items-start gap-3.5 p-4 rounded-2xl bg-white border border-slate-200/80 shadow-2xs hover:shadow-sm transition-shadow">
-              <div className="w-10 h-10 rounded-xl bg-cyan-50 text-cyan-600 flex items-center justify-center shrink-0">
-                <Sparkles className="w-5 h-5" />
-              </div>
-              <div>
-                <h4 className="text-sm font-bold text-slate-900">AI-Powered Tools</h4>
-                <p className="text-xs text-slate-500 mt-0.5">Practice & improve faster</p>
-              </div>
-            </div>
-
-            {/* 3: Real-World Projects */}
-            <div className="flex items-start gap-3.5 p-4 rounded-2xl bg-white border border-slate-200/80 shadow-2xs hover:shadow-sm transition-shadow">
-              <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
-                <Folder className="w-5 h-5" />
-              </div>
-              <div>
-                <h4 className="text-sm font-bold text-slate-900">Real-World Projects</h4>
-                <p className="text-xs text-slate-500 mt-0.5">Build job-ready portfolio</p>
-              </div>
-            </div>
-
-            {/* 4: Supportive Community */}
-            <div className="flex items-start gap-3.5 p-4 rounded-2xl bg-white border border-slate-200/80 shadow-2xs hover:shadow-sm transition-shadow">
-              <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
-                <Users className="w-5 h-5" />
-              </div>
-              <div>
-                <h4 className="text-sm font-bold text-slate-900">Supportive Community</h4>
-                <p className="text-xs text-slate-500 mt-0.5">Learn together, grow together</p>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
 
       {/* TESTIMONIALS SECTION ("WHAT OUR LEARNERS SAY") - CONTINUOUS AUTO-SCROLLING MARQUEE */}
       <section className="py-20 w-full overflow-hidden bg-[#FCFDFE]">
         
         {/* Section Header Container */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
-          {/* Eyebrow pill */}
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ECFDF5] border border-[#A7F3D0] text-[#065F46] text-xs font-bold tracking-tight mb-4">
-            <span>💬</span>
-            <span>WHAT OUR LEARNERS SAY</span>
-          </div>
 
           <div>
             <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
@@ -936,10 +855,6 @@ export const LandingPage: React.FC = () => {
             
             {/* Left Column: Heading & Description */}
             <div className="lg:col-span-4 space-y-5">
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#ECFDF5] border border-[#A7F3D0] text-[#065F46] text-xs font-bold tracking-tight">
-                <span>⚡</span>
-                <span>ALL-IN-ONE PLATFORM</span>
-              </div>
 
               <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">
                 Your Entire PM Transition. <span className="text-[#059669] block">All Under One Roof.</span>
@@ -953,7 +868,7 @@ export const LandingPage: React.FC = () => {
                 onClick={() => navigate('/dashboard')}
                 className="bg-[#064E3B] hover:bg-[#043C2C] text-white px-6 py-3 rounded-xl font-bold text-sm inline-flex items-center gap-2 transition-all shadow-sm hover:shadow-md cursor-pointer"
               >
-                <span>Explore the Platform</span>
+                <span>Start learning free</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -1145,13 +1060,6 @@ export const LandingPage: React.FC = () => {
       {/* 8 PROFESSIONAL PILLARS (COMPLETE SKILL BLUEPRINT) */}
       <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Eyebrow Pill */}
-        <div className="flex justify-center mb-3">
-          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#ECFDF5] border border-[#A7F3D0] text-[#065F46] text-xs font-bold tracking-tight">
-            <span>👁</span>
-            <span>COMPLETE SKILL BLUEPRINT</span>
-          </div>
-        </div>
 
         {/* Section Heading */}
         <div className="text-center max-w-2xl mx-auto mb-12">
@@ -1163,30 +1071,30 @@ export const LandingPage: React.FC = () => {
           </p>
         </div>
 
-        {/* 8 Cards Grid (2 rows of 4) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {/* Track list: each row opens that track */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 border-t border-slate-200/80">
           {pillars.map((pillar) => {
             const Icon = pillar.icon;
             return (
-              <div
+              <button
+                type="button"
                 key={pillar.id}
-                className="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-2xs flex flex-col justify-between"
+                onClick={() => navigate(`/dashboard/${pillar.id}`)}
+                className="group flex items-start gap-4 py-5 border-b border-slate-200/80 text-left cursor-pointer"
               >
-                <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className={`w-10 h-10 rounded-xl ${pillar.iconBg} ${pillar.iconColor} flex items-center justify-center shrink-0`}>
-                      <Icon className="w-5 h-5" />
-                    </div>
-                  </div>
-
-                  <h3 className="text-sm font-bold text-slate-900">
+                <div className={`mt-0.5 w-9 h-9 rounded-xl ${pillar.iconBg} ${pillar.iconColor} flex items-center justify-center shrink-0`}>
+                  <Icon className="w-[18px] h-[18px]" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <h3 className="text-base font-bold text-slate-900 group-hover:text-[#047857] transition-colors duration-200">
                     {pillar.title}
                   </h3>
-                  <p className="text-xs text-slate-500 mt-1.5 leading-relaxed">
+                  <p className="text-sm text-slate-500 mt-1 leading-relaxed">
                     {pillar.desc}
                   </p>
                 </div>
-              </div>
+                <ArrowRight className="w-4 h-4 mt-1.5 text-slate-300 group-hover:text-[#047857] group-hover:translate-x-0.5 transition-all duration-200 shrink-0" />
+              </button>
             );
           })}
         </div>
@@ -1201,10 +1109,6 @@ export const LandingPage: React.FC = () => {
             {/* Left Column */}
             <div className="lg:col-span-5 space-y-6">
               
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-900/60 border border-emerald-700/60 text-emerald-300 text-xs font-bold tracking-tight">
-                <span>🎯</span>
-                <span>ACTION-ORIENTED LEARNING</span>
-              </div>
 
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight text-white">
                 Built for Action, Not Just Passive Reading.
@@ -1241,7 +1145,7 @@ export const LandingPage: React.FC = () => {
                 onClick={() => navigate('/dashboard')}
                 className="bg-white hover:bg-slate-100 text-[#07281E] px-7 py-3.5 rounded-xl font-bold text-sm inline-flex items-center gap-2 shadow-lg transition-all hover:-translate-y-0.5 cursor-pointer mt-4"
               >
-                <span>Start Your PM Journey</span>
+                <span>Start learning free</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -1358,10 +1262,6 @@ export const LandingPage: React.FC = () => {
             </svg>
           </div>
 
-          {/* Eyebrow Pill */}
-          <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-white/90 border border-emerald-300/60 text-emerald-800 text-[11px] font-bold uppercase tracking-wider mb-4">
-            <span>READY TO START?</span>
-          </div>
 
           <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
             Ready to become a Product Manager?
@@ -1376,7 +1276,7 @@ export const LandingPage: React.FC = () => {
               onClick={() => navigate('/dashboard')}
               className="w-full sm:w-auto bg-[#064E3B] hover:bg-[#043C2C] text-white px-7 py-3.5 rounded-xl font-bold text-sm shadow-md transition-all hover:-translate-y-0.5 cursor-pointer flex items-center justify-center gap-2"
             >
-              <span>Get Started</span>
+              <span>Start learning free</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>

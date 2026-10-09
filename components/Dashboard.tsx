@@ -5,7 +5,7 @@ import { About } from './About';
 import { RocketIllustration } from './RocketIllustration';
 import { motion } from 'framer-motion';
 import { 
-  GraduationCap, RefreshCw, 
+  RefreshCw, 
   CheckCircle2, Bookmark, Flame, Sparkles, BookOpen,
   FileEdit, ArrowRight, Clock, Briefcase, BarChart2
 } from 'lucide-react';
@@ -114,7 +114,7 @@ export const Dashboard: React.FC = () => {
   const completenessPercentage = calculateProfileCompleteness();
   const curriculumPercentage = Math.round((completedCount / 45) * 100);
 
-  const userName = userProfile?.name || userProfile?.displayName || user?.displayName || 'PM Aspiring Talent';
+  const userName = userProfile?.name || userProfile?.displayName || user?.displayName || '';
   const targetRole = userProfile?.career?.targetRole || userProfile?.targetRole || 'Product Manager';
 
   // Determine current active lesson in sequence (first uncompleted or actively in-progress lesson)
@@ -143,7 +143,7 @@ export const Dashboard: React.FC = () => {
       )}
 
       {/* Hero Welcome & Command Center Banner */}
-      <header className="relative bg-[#043C2C] rounded-3xl md:rounded-[28px] p-6 sm:p-8 lg:p-10 text-white overflow-hidden shadow-2xl border border-[#065F46]/60">
+      <header className="relative bg-[#043C2C] rounded-3xl p-6 sm:p-8 lg:p-10 text-white overflow-hidden shadow-2xl border border-[#065F46]/60">
         {/* Ambient atmospheric glows */}
         <div className="absolute top-0 right-1/4 w-96 h-96 bg-indigo-600/15 rounded-full blur-3xl pointer-events-none" aria-hidden="true" />
         <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" aria-hidden="true" />
@@ -154,8 +154,8 @@ export const Dashboard: React.FC = () => {
 
             <motion.div variants={item} className="space-y-2">
               <h1 className="text-3xl sm:text-4xl lg:text-[40px] font-black tracking-tight leading-tight text-white">
-                Welcome back, <br/>
-                <span className="text-[#6EE7B7]">{userName}</span> 👋
+                {userName ? 'Welcome back,' : 'Welcome to'} <br/>
+                <span className="text-[#6EE7B7]">{userName || 'The NooB PM'}</span>
               </h1>
               <p className="text-slate-300 text-xs sm:text-sm font-normal leading-relaxed">
                 Master product management craft, sharpen key PM competencies, and track your launchpad curriculum progress.
@@ -242,10 +242,6 @@ export const Dashboard: React.FC = () => {
       <div className="space-y-6 mt-10">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-5 border-b border-slate-200/80 pb-5">
           <motion.div variants={item}>
-            <div className="inline-flex items-center gap-1.5 text-blue-600 mb-1">
-               <GraduationCap className="w-4 h-4 text-blue-600" />
-               <span className="text-xs font-black uppercase tracking-wider text-blue-600">LEARNING PATH</span>
-            </div>
             <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
               Curriculum <span className="text-blue-600">Modules</span>
             </h2>
@@ -400,7 +396,7 @@ export const Dashboard: React.FC = () => {
                 ))}
               </div>
             ) : (
-              <div className="py-20 text-center bg-white rounded-[3rem] border border-dashed border-zinc-200 p-8 space-y-4 max-w-xl mx-auto">
+              <div className="py-20 text-center bg-white rounded-3xl border border-dashed border-zinc-200 p-8 space-y-4 max-w-xl mx-auto">
                 <div className="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mx-auto shadow-sm">
                   <FileEdit className="w-7 h-7" />
                 </div>
@@ -438,7 +434,7 @@ export const Dashboard: React.FC = () => {
                 </motion.div>
               ))
             ) : (
-              <div className="col-span-full py-24 text-center bg-white rounded-[3rem] border border-dashed border-zinc-200 space-y-3">
+              <div className="col-span-full py-24 text-center bg-white rounded-3xl border border-dashed border-zinc-200 space-y-3">
                 <p className="text-zinc-500 font-bold text-base">
                   {filterMode === 'bookmarked' ? 'No bookmarked lessons yet. Click the bookmark icon on any lesson to save it here!' : 'No lessons found in this section.'}
                 </p>

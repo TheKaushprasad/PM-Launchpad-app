@@ -248,7 +248,7 @@ export const LinkedInOptimiser: React.FC = () => {
               exit={{ opacity: 0, scale: 0.95 }}
               className="fixed inset-0 z-50 bg-zinc-950/80 backdrop-blur-md flex items-center justify-center p-6"
             >
-              <div className="bg-white rounded-[3rem] p-10 max-w-md w-full text-center space-y-6 shadow-2xl border border-zinc-100">
+              <div className="bg-white rounded-3xl p-10 max-w-md w-full text-center space-y-6 shadow-2xl border border-zinc-100">
                 <BenchAnimation />
                 <div className="space-y-3">
                   <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-zinc-400">

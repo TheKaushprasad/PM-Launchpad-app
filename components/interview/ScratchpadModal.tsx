@@ -82,7 +82,7 @@ export const ScratchpadModal: React.FC<ScratchpadModalProps> = ({
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          className="bg-white rounded-[2.5rem] border border-zinc-200 shadow-2xl w-full max-w-4xl max-h-[85vh] flex flex-col overflow-hidden text-zinc-900"
+          className="bg-white rounded-3xl border border-zinc-200 shadow-2xl w-full max-w-4xl max-h-[85vh] flex flex-col overflow-hidden text-zinc-900"
         >
           {/* Top Bar Header */}
           <div className="px-6 py-4 border-b border-zinc-100 flex items-center justify-between bg-zinc-50/80">
@@ -160,7 +160,7 @@ export const ScratchpadModal: React.FC<ScratchpadModalProps> = ({
 
             {/* TAB 2: CALCULATOR */}
             {activeTab === 'calculator' && (
-              <div className="max-w-md mx-auto bg-zinc-900 text-white rounded-[2rem] p-6 shadow-xl border border-zinc-800">
+              <div className="max-w-md mx-auto bg-zinc-900 text-white rounded-3xl p-6 shadow-xl border border-zinc-800">
                 {/* Screen */}
                 <div className="bg-zinc-950 p-4 rounded-2xl mb-6 text-right font-mono border border-zinc-800">
                   <div className="text-xs text-zinc-400 min-h-[20px] overflow-x-auto whitespace-nowrap">
