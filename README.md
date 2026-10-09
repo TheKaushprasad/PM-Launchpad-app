@@ -22,3 +22,7 @@ Typecheck with `npm run lint` and build with `npm run build`.
 ## Deploying
 
 Vercel deploys `main` to production and builds a preview for every pull request. Firestore security rules in `firestore.rules` are deployed separately with the Firebase CLI (`firebase deploy --only firestore:rules`).
+
+## Project docs
+
+See [`docs/`](docs/): [PRD](docs/prd.md), [architecture](docs/architecture.md), [design](docs/design.md), [rules](docs/rules.md), [tasks](docs/tasks.md) and [memory](docs/memory.md).
