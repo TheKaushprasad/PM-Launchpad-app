@@ -462,7 +462,7 @@ export const LessonDetail: React.FC = () => {
           <div className="pt-2 flex flex-col sm:flex-row gap-3 justify-center items-center">
             <button
               onClick={() => setAuthModalOpen(true)}
-              className="w-full sm:w-auto px-8 py-3.5 bg-[#4338CA] hover:bg-[#3730A3] active:scale-95 text-white font-bold text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full sm:w-auto px-8 py-3.5 bg-[#065F46] hover:bg-[#064E3B] active:scale-95 text-white font-bold text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
             >
               <LogIn className="w-4 h-4" />
               <span>Log In to Access</span>

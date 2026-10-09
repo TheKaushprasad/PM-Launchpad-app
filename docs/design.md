@@ -1,6 +1,6 @@
 # Design
 
-The visual language and UX patterns of thenoobpm.com, taken from the current code. Last updated 2026-10-09. Use this as the reference when adding or changing a page so new work looks like the rest of the site.
+The visual language and UX patterns of thenoobpm.com, taken from the current code. Last updated 2026-10-09 (green brand colour). Use this as the reference when adding or changing a page so new work looks like the rest of the site.
 
 ## 1. Brand
 
@@ -10,7 +10,7 @@ The visual language and UX patterns of thenoobpm.com, taken from the current cod
 
 ## 2. Colour
 
-Tailwind's default palette, loaded from the CDN. Neutrals do most of the work; indigo is the brand accent.
+Tailwind's default palette, loaded from the CDN. Neutrals do most of the work; forest green is the one brand accent. A `tailwind.config` block in `index.html` maps the old `indigo`, `blue`, `sky`, `violet` and `purple` classes (and a new `brand` name) to the green scale, so new work should use `brand-*` and older classes still render green.
 
 | Role | Tailwind classes | Notes |
 |---|---|---|
@@ -20,14 +20,14 @@ Tailwind's default palette, loaded from the CDN. Neutrals do most of the work; i
 | Muted text and labels | `text-zinc-400`, `text-slate-400` | Small uppercase labels |
 | Borders and dividers | `border-zinc-200`, `border-slate-200` | 1px, the default card border |
 | Subtle fills | `bg-zinc-50`, `bg-zinc-100` | Inputs, chips, hover states |
-| Brand accent | `text-indigo-600`, `bg-indigo-50`, `bg-indigo-600` | Primary buttons, links, active nav, loaders (`--brand-indigo: #6366f1`) |
+| Brand accent | `text-brand-600`, `bg-brand-50`, `bg-[#064E3B]` for primary buttons | Buttons, links, active nav, loaders (`--brand: #047857`); dark surfaces `#043C2C` |
 | Success | `text-emerald-600/700`, `bg-emerald-50` | Completed lessons, strong scores, Beginner badge |
 | Warning | `text-amber-700`, `bg-amber-50`, `border-amber-200` | Intermediate badge, cautions |
 | Danger | `text-rose-*`, `text-red-*` | Errors, weak scores, Advanced badge |
-| Info | `text-blue-600`, sky `#38BDF8`, `#79BAEC` | Illustrations, secondary highlights |
-| Dark surfaces | `#0F172A` (slate-900) | Hero blocks, interview stage |
+| Info / Lean Yes | `#3B82F6`, `#2563EB` as arbitrary values | `blue-*` classes now render green, so a real blue needs a hex value |
+| Dark surfaces | `#043C2C`, `#064E3B` | Hero banners |
 
-Persona gradients (interview avatars): Maya amber to rose, Alex blue to indigo, Priya purple to pink, Marcus emerald to teal.
+Persona gradients (interview avatars): Maya amber to rose, Alex blue to indigo, Priya purple to pink, Marcus emerald to teal. Alex and Priya use hex values so they stay blue and purple.
 
 Score and verdict colours should stay consistent everywhere: Strong Yes and 85+ in emerald, Lean Yes in indigo or blue, Lean No in amber, Strong No in rose.
 
@@ -35,7 +35,8 @@ Score and verdict colours should stay consistent everywhere: Strong Yes and 85+ 
 
 - **Inter** (300 to 900) for everything; set on `body`.
 - **Caveat** (500 to 700) for handwritten accents only (annotations, playful callouts), never for body text.
-- Headings: weight 800, letter-spacing `-0.025em`.
+- Headings: weight 800, letter-spacing `-0.025em`. `font-black` is capped at 800 in the Tailwind config.
+- Small labels inside lessons: use the `uppercase` class; the lesson `.prose` size overrides skip uppercase elements.
 - Lesson prose (`.prose`): h1 2.5rem, h2 1.875rem, h3 1.5rem; paragraphs 1.125rem, line-height 1.7, colour `#3f3f46`, max width 75ch.
 - Small labels: `text-xs font-bold uppercase tracking-widest text-zinc-400`.
 
@@ -89,6 +90,7 @@ Score and verdict colours should stay consistent everywhere: Strong Yes and 85+ 
 
 ## 9. Gaps to fix
 
-- Tailwind comes from the CDN with no config file, so there is no single source of design tokens and zinc and slate are used interchangeably. Pick one neutral (zinc) for new work.
+- Tailwind comes from the CDN; its only config is the inline block in `index.html`. Zinc and slate are still used interchangeably. Pick one neutral (zinc) for new work.
+- Illustrations (`RocketIllustration.tsx`), the logo and `Resources.tsx` company colours still use their original hex blues on purpose.
 - No dark mode.
 - Fonts are loaded twice in `index.html` (Caveat in the head, Inter later); consolidate when touching it.

@@ -114,7 +114,7 @@ export const SaveDetailsModal: React.FC = () => {
                   <button
                     type="button"
                     onClick={handleOpenLogin}
-                    className="flex-1 py-3 px-4 bg-[#4338CA] hover:bg-[#3730A3] active:scale-95 text-white font-bold text-xs sm:text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+                    className="flex-1 py-3 px-4 bg-[#065F46] hover:bg-[#064E3B] active:scale-95 text-white font-bold text-xs sm:text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
                   >
                     <LogIn className="w-4 h-4" />
                     <span>Log In to Save</span>

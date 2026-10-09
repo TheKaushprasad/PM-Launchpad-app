@@ -21,32 +21,32 @@ export const ToolsHub: React.FC = () => {
     {
       title: "LinkedIn Profile Optimiser",
       badge: "Stand Out",
-      badgeStyle: "bg-[#E0F2FE] text-[#0284C7]",
+      badgeStyle: "bg-[#ECFDF5] text-[#047857]",
       description: "Turn your LinkedIn profile into a recruiter-ready profile with AI-powered recommendations.",
       iconType: "linkedin",
-      iconContainerStyle: "bg-[#E0F2FE] text-[#0284C7]",
+      iconContainerStyle: "bg-[#ECFDF5] text-[#047857]",
       features: [
         "Headline Suggestions", 
         "About Section Audit", 
         "Search SEO Check"
       ],
       action: "/tools/linkedin-optimiser",
-      cta: "OPTIMISE PROFILE"
+      cta: "Optimise profile"
     },
     {
       title: "PM Resume Auditor",
       badge: "Get Feedback",
-      badgeStyle: "bg-[#F5F3FF] text-[#7C3AED]",
+      badgeStyle: "bg-[#ECFDF5] text-[#047857]",
       description: "Find the biggest weaknesses in your PM resume and get high-leverage improvements.",
       iconType: "resume",
-      iconContainerStyle: "bg-[#F5F3FF] text-[#7C3AED]",
+      iconContainerStyle: "bg-[#ECFDF5] text-[#047857]",
       features: [
         "Impact & Metric Scoring (0/10)", 
         "PM Ownership Framing (0/10)", 
         "ATS Readability & Bullet Rewrite"
       ],
       action: "/tools/resume-auditor",
-      cta: "AUDIT RESUME"
+      cta: "Audit resume"
     }
   ];
 
@@ -117,7 +117,7 @@ export const ToolsHub: React.FC = () => {
         </div>
 
         {/* Hero Section Banner */}
-        <header className="relative w-full bg-gradient-to-r from-[#080D1A] via-[#0C152B] to-[#1E1B4B] rounded-3xl p-7 sm:p-9 md:p-11 text-white overflow-hidden shadow-2xl border border-slate-800/80 mb-7 sm:mb-8">
+        <header className="relative w-full bg-gradient-to-r from-[#032A1F] via-[#043C2C] to-[#064E3B] rounded-3xl p-7 sm:p-9 md:p-11 text-white overflow-hidden shadow-2xl border border-[#065F46]/60 mb-7 sm:mb-8">
           {/* Subtle vibrant background glow shapes */}
           <div 
             className="absolute top-0 right-0 w-[480px] h-[480px] bg-gradient-to-bl from-purple-600/25 via-indigo-600/15 to-transparent rounded-full blur-[100px] pointer-events-none -translate-y-1/4 translate-x-1/4" 
@@ -132,7 +132,7 @@ export const ToolsHub: React.FC = () => {
             <div className="max-w-xl">
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[54px] font-extrabold mb-3 sm:mb-4 tracking-tight leading-[1.08] text-white">
                 Tools to Get <br />
-                <span className="text-[#38BDF8]">You Hired.</span>
+                <span className="text-[#6EE7B7]">You Hired.</span>
               </h1>
 
               <p className="text-slate-300 text-sm sm:text-base leading-relaxed font-normal max-w-lg">
@@ -167,8 +167,8 @@ export const ToolsHub: React.FC = () => {
                       <stop offset="100%" stopColor="#EEF2F6" />
                     </linearGradient>
                     <linearGradient id="lensGrad" x1="0" y1="0" x2="1" y2="1">
-                      <stop offset="0%" stopColor="#93C5FD" stopOpacity="0.65" />
-                      <stop offset="100%" stopColor="#3B82F6" stopOpacity="0.25" />
+                      <stop offset="0%" stopColor="#A7F3D0" stopOpacity="0.65" />
+                      <stop offset="100%" stopColor="#059669" stopOpacity="0.25" />
                     </linearGradient>
                     <linearGradient id="darkBadgeGrad" x1="0" y1="0" x2="1" y2="1">
                       <stop offset="0%" stopColor="#1E293B" />
@@ -184,12 +184,12 @@ export const ToolsHub: React.FC = () => {
                     <rect x="70" y="15" width="135" height="185" rx="16" fill="url(#docGrad)" stroke="#FFFFFF" strokeWidth="2" />
                     
                     {/* User profile avatar icon at top left */}
-                    <rect x="85" y="32" width="28" height="28" rx="8" fill="#38BDF8" />
+                    <rect x="85" y="32" width="28" height="28" rx="8" fill="#6EE7B7" />
                     <circle cx="99" cy="42" r="5" fill="#FFFFFF" />
                     <path d="M 91 55 C 91 49 107 49 107 55 Z" fill="#FFFFFF" />
 
                     {/* Resume Header lines */}
-                    <rect x="122" y="36" width="65" height="6" rx="3" fill="#93C5FD" />
+                    <rect x="122" y="36" width="65" height="6" rx="3" fill="#A7F3D0" />
                     <rect x="122" y="48" width="45" height="5" rx="2.5" fill="#CBD5E1" />
 
                     {/* Resume Body lines & bullet placeholders */}
@@ -205,7 +205,7 @@ export const ToolsHub: React.FC = () => {
 
                   {/* 2. Floating Tilted Dark Card: Update ↗ / Optimise / Get Hired */}
                   <g transform="rotate(4 220 85)" filter="url(#docShadow)">
-                    <rect x="165" y="45" width="112" height="78" rx="16" fill="url(#darkBadgeGrad)" stroke="#38BDF8" strokeWidth="1.2" />
+                    <rect x="165" y="45" width="112" height="78" rx="16" fill="url(#darkBadgeGrad)" stroke="#6EE7B7" strokeWidth="1.2" />
                     
                     {/* Text rows inside the badge */}
                     <text x="178" y="70" fill="#FFFFFF" fontSize="11" fontWeight="800" fontFamily="system-ui, sans-serif">
@@ -214,7 +214,7 @@ export const ToolsHub: React.FC = () => {
                     <text x="178" y="88" fill="#FFFFFF" fontSize="11" fontWeight="800" fontFamily="system-ui, sans-serif">
                       Optimise
                     </text>
-                    <text x="178" y="106" fill="#38BDF8" fontSize="11" fontWeight="800" fontFamily="system-ui, sans-serif">
+                    <text x="178" y="106" fill="#6EE7B7" fontSize="11" fontWeight="800" fontFamily="system-ui, sans-serif">
                       Get Hired
                     </text>
                   </g>
@@ -222,7 +222,7 @@ export const ToolsHub: React.FC = () => {
                   {/* 3. Floating 3D Magnifying Glass */}
                   <g filter="url(#docShadow)">
                     {/* Magnifying Glass Lens */}
-                    <circle cx="160" cy="140" r="28" fill="url(#lensGrad)" stroke="#2563EB" strokeWidth="5" />
+                    <circle cx="160" cy="140" r="28" fill="url(#lensGrad)" stroke="#047857" strokeWidth="5" />
                     {/* Glass Specular Reflection */}
                     <path d="M 144 125 A 20 20 0 0 1 176 125 A 20 20 0 0 0 144 125 Z" fill="#FFFFFF" fillOpacity="0.4" />
                     {/* Magnifying Glass Handle */}
@@ -290,7 +290,7 @@ export const ToolsHub: React.FC = () => {
                   e.stopPropagation();
                   handleAction(tool.action);
                 }}
-                className="w-full py-4 px-6 rounded-2xl bg-[#0F172A] hover:bg-slate-800 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-between transition-colors shadow-xs group/btn cursor-pointer"
+                className="w-full py-4 px-6 rounded-2xl bg-[#064E3B] hover:bg-[#043C2C] active:scale-[0.98] text-white font-semibold text-sm flex items-center justify-between transition-colors shadow-xs group/btn cursor-pointer"
               >
                 <span>{tool.cta}</span>
                 <ArrowRight className="w-4 h-4 transition-transform duration-200 ease-out group-hover/btn:translate-x-1" />
@@ -302,7 +302,7 @@ export const ToolsHub: React.FC = () => {
         {/* Bottom Manual Review Banner Card */}
         <div className="mt-6 sm:mt-7 w-full bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-7 shadow-xs hover:shadow-md transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-5">
           <div className="flex items-center gap-4 sm:gap-5 min-w-0">
-            <div className="w-12 h-12 rounded-2xl bg-[#EEF2FF] text-[#4F46E5] flex items-center justify-center shrink-0 shadow-xs">
+            <div className="w-12 h-12 rounded-2xl bg-[#ECFDF5] text-[#047857] flex items-center justify-center shrink-0 shadow-xs">
               <Users className="w-6 h-6 stroke-[2]" />
             </div>
             <div className="min-w-0">
@@ -319,7 +319,7 @@ export const ToolsHub: React.FC = () => {
             href="https://docs.google.com/forms/u/0/d/1gntWQiHg_RBueOSOqZzVQiJ4UGfMIvyuAYUsiuxbOUc/preview" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="px-6 py-3.5 rounded-2xl bg-[#E0F2FE] hover:bg-[#BAE6FD] text-[#0284C7] font-bold text-xs uppercase tracking-wider transition-colors shadow-xs flex items-center justify-center gap-2 shrink-0 self-start sm:self-auto cursor-pointer"
+            className="px-6 py-3.5 rounded-2xl bg-[#ECFDF5] hover:bg-[#A7F3D0] text-[#047857] font-bold text-xs uppercase tracking-wider transition-colors shadow-xs flex items-center justify-center gap-2 shrink-0 self-start sm:self-auto cursor-pointer"
           >
             <span>BOOK A REVIEW</span>
             <ArrowRight className="w-4 h-4" />

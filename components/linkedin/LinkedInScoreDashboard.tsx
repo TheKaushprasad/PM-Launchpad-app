@@ -179,7 +179,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
       </div>
 
       {/* Hero Scorecard Section */}
-      <section className="bg-gradient-to-br from-zinc-950 via-zinc-900 to-indigo-950 rounded-[2.5rem] p-8 sm:p-10 text-white shadow-2xl relative overflow-hidden border border-zinc-800">
+      <section className="bg-gradient-to-br from-[#032A1F] via-[#043C2C] to-[#064E3B] rounded-[2.5rem] p-8 sm:p-10 text-white shadow-2xl relative overflow-hidden border border-zinc-800">
         <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-[100px] pointer-events-none" />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
@@ -187,7 +187,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
           <div className="lg:col-span-5 flex flex-col sm:flex-row items-center gap-6 border-b lg:border-b-0 lg:border-r border-white/10 pb-6 lg:pb-0 lg:pr-8">
             <div className="relative w-36 h-36 flex items-center justify-center rounded-full bg-white/5 border-4 border-indigo-500/30 shrink-0">
               <div className="text-center">
-                <span className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#79BAEC] to-indigo-300">
+                <span className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#34D399] to-indigo-300">
                   {analysis.overallScore}
                 </span>
                 <span className="text-xs text-zinc-400 font-bold block">/ 100</span>
@@ -264,7 +264,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
                 <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
                   <div 
                     className={`h-full rounded-full transition-all ${
-                      pct >= 85 ? 'bg-emerald-400' : pct >= 70 ? 'bg-[#79BAEC]' : 'bg-amber-400'
+                      pct >= 85 ? 'bg-emerald-400' : pct >= 70 ? 'bg-[#34D399]' : 'bg-amber-400'
                     }`}
                     style={{ width: `${pct}%` }}
                   />

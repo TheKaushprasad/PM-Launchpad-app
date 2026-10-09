@@ -243,7 +243,7 @@ export const Profile: React.FC = () => {
       <div className="max-w-5xl mx-auto space-y-6 pb-20">
 
         {/* Hero Banner Header */}
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#070B19] via-[#0E172E] to-[#1E1B4B] p-6 sm:p-8 md:p-10 shadow-lg border border-slate-800">
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#032A1F] via-[#043C2C] to-[#064E3B] p-6 sm:p-8 md:p-10 shadow-lg border border-slate-800">
           {/* Subtle Ambient Radial Light */}
           <div className="absolute top-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute bottom-0 right-10 w-80 h-80 bg-indigo-500/15 rounded-full blur-3xl pointer-events-none" />
@@ -259,7 +259,7 @@ export const Profile: React.FC = () => {
 
               {/* Title */}
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-tight">
-                User Profile &amp; <span className="text-[#38BDF8]">Account</span>
+                User Profile &amp; <span className="text-[#6EE7B7]">Account</span>
               </h1>
 
               {/* Subtitle */}
@@ -302,7 +302,7 @@ export const Profile: React.FC = () => {
                 <div className="absolute -inset-1 bg-gradient-to-r from-blue-500/25 to-indigo-500/35 rounded-3xl blur-md" />
                 
                 {/* Physical Card */}
-                <div className="relative w-64 sm:w-72 bg-gradient-to-br from-white via-[#F0F4FF] to-[#DBEAFE] rounded-2xl p-4 sm:p-5 shadow-2xl border border-white/80">
+                <div className="relative w-64 sm:w-72 bg-gradient-to-br from-white via-[#ECFDF5] to-[#D1FAE5] rounded-2xl p-4 sm:p-5 shadow-2xl border border-white/80">
                   <div className="flex items-center gap-3.5">
                     {/* Avatar circle / square */}
                     <div className="w-13 h-13 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-md shrink-0">
@@ -323,7 +323,7 @@ export const Profile: React.FC = () => {
                   </div>
 
                   {/* 3D Shiny Blue Gear Cog on Bottom Right */}
-                  <div className="absolute -bottom-3 -right-3 w-12 h-12 rounded-2xl bg-gradient-to-br from-[#2563EB] to-[#1D4ED8] text-white flex items-center justify-center shadow-xl border-2 border-white">
+                  <div className="absolute -bottom-3 -right-3 w-12 h-12 rounded-2xl bg-gradient-to-br from-[#047857] to-[#065F46] text-white flex items-center justify-center shadow-xl border-2 border-white">
                     <svg className="w-7 h-7 text-white" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z" />
                       <path fillRule="evenodd" clipRule="evenodd" d="M9.9 2.25c.34-.9 1.63-.9 1.97 0l.4.98a2.25 2.25 0 0 0 2.24 1.34l1.05-.13c.96-.12 1.6 1 1.05 1.83l-.6.91a2.25 2.25 0 0 0 .54 2.58l.78.74c.72.68.42 1.95-.5 2.22l-1.02.3a2.25 2.25 0 0 0-1.57 2.15v1.07c0 .97-1.14 1.54-1.92.96l-.86-.64a2.25 2.25 0 0 0-2.67 0l-.86.64c-.78.58-1.92.01-1.92-.96v-1.07a2.25 2.25 0 0 0-1.57-2.15l-1.02-.3c-.92-.27-1.22-1.54-.5-2.22l.78-.74a2.25 2.25 0 0 0 .54-2.58l-.6-.91c-.55-.83.09-1.95 1.05-1.83l1.05.13a2.25 2.25 0 0 0 2.24-1.34l.4-.98Z" />
@@ -673,7 +673,7 @@ export const Profile: React.FC = () => {
               type="submit"
               id="save-profile-btn"
               disabled={isSaving}
-              className="px-6 py-2.5 rounded-xl bg-[#2563EB] hover:bg-blue-700 text-white font-semibold text-sm shadow-sm transition-all flex items-center gap-2 active:scale-[0.99] cursor-pointer disabled:opacity-75"
+              className="px-6 py-2.5 rounded-xl bg-[#047857] hover:bg-blue-700 text-white font-semibold text-sm shadow-sm transition-all flex items-center gap-2 active:scale-[0.99] cursor-pointer disabled:opacity-75"
             >
               {isSaving ? (
                 <>
