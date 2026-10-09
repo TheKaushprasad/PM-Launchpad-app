@@ -130,10 +130,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
                       <img 
                         src={user.photoURL} 
                         alt="Avatar" 
-                        className="w-8 h-8 rounded-full border border-indigo-200 object-cover shrink-0" 
+                        className="w-8 h-8 rounded-full border border-brand-200 object-cover shrink-0" 
                       />
                     ) : (
-                      <div className="w-8 h-8 rounded-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center shrink-0">
+                      <div className="w-8 h-8 rounded-full bg-brand-600 text-white font-bold text-xs flex items-center justify-center shrink-0">
                         {user.displayName ? user.displayName[0].toUpperCase() : 'U'}
                       </div>
                     )}
@@ -222,7 +222,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
               <div
                 className={`w-full flex items-center justify-between px-5 py-3.5 rounded-2xl text-[15px] font-bold transition-all select-none cursor-pointer ${
                   isModuleActive 
-                    ? 'text-blue-600 bg-sky-50 border border-sky-100 shadow-2xs' 
+                    ? 'text-brand-600 bg-brand-50 border border-brand-100 shadow-2xs' 
                     : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
                 }`}
                 onClick={() => {
@@ -234,13 +234,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
                 }}
               >
                 <div className="flex items-center gap-4">
-                  <Layers className={`w-5 h-5 ${isModuleActive ? 'text-blue-600' : 'text-slate-400'}`} />
+                  <Layers className={`w-5 h-5 ${isModuleActive ? 'text-brand-600' : 'text-slate-400'}`} />
                   <span>Modules</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
                     isModuleActive 
-                      ? 'bg-blue-100 text-blue-700' 
+                      ? 'bg-brand-100 text-brand-700' 
                       : 'bg-slate-200/80 text-slate-700'
                   }`}>
                     8
@@ -258,7 +258,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
                       animate={{ rotate: modulesOpen ? 180 : 0 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <ChevronDown className={`w-4 h-4 ${isModuleActive ? 'text-blue-600' : 'text-slate-400'}`} />
+                      <ChevronDown className={`w-4 h-4 ${isModuleActive ? 'text-brand-600' : 'text-slate-400'}`} />
                     </motion.div>
                   </button>
                 </div>
@@ -341,7 +341,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
                   <div className="flex-1 flex items-center justify-between relative z-10">
                     <span className="tracking-tight">{item.label}</span>
                     {item.badge && (
-                      <span className="px-2 py-0.5 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-[9px] font-black uppercase tracking-wider shadow-sm">
+                      <span className="px-2 py-0.5 rounded-full bg-gradient-to-r from-brand-500 to-brand-500 text-white text-[9px] font-black uppercase tracking-wider shadow-sm">
                         {item.badge}
                       </span>
                     )}

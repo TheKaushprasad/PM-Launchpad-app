@@ -278,10 +278,10 @@ export const HomeAuthSection: React.FC = () => {
               <img 
                 src={user.photoURL} 
                 alt="Profile" 
-                className="w-12 h-12 rounded-full border-2 border-indigo-200 object-cover" 
+                className="w-12 h-12 rounded-full border-2 border-brand-200 object-cover" 
               />
             ) : (
-              <div className="w-12 h-12 rounded-full bg-indigo-600 text-white font-black text-base flex items-center justify-center">
+              <div className="w-12 h-12 rounded-full bg-brand-600 text-white font-black text-base flex items-center justify-center">
                 {user.displayName ? user.displayName[0].toUpperCase() : 'U'}
               </div>
             )}
@@ -312,12 +312,12 @@ export const HomeAuthSection: React.FC = () => {
             <span className="font-bold text-zinc-800 flex items-center gap-1">
               {userProfile?.userType === 'professional' ? (
                 <>
-                  <Briefcase className="w-3.5 h-3.5 text-indigo-600" />
+                  <Briefcase className="w-3.5 h-3.5 text-brand-600" />
                   Working Professional
                 </>
               ) : (
                 <>
-                  <GraduationCap className="w-3.5 h-3.5 text-indigo-600" />
+                  <GraduationCap className="w-3.5 h-3.5 text-brand-600" />
                   College Student
                 </>
               )}
@@ -358,7 +358,7 @@ export const HomeAuthSection: React.FC = () => {
         <div className="grid grid-cols-2 gap-3 pt-2">
           <button
             onClick={() => navigate('/dashboard')}
-            className={`w-full py-3 ${!isEmailVerified ? 'bg-amber-600 hover:bg-amber-700 shadow-amber-200' : 'bg-indigo-600 hover:bg-indigo-700 shadow-indigo-200'} text-white text-xs sm:text-sm font-bold rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer`}
+            className={`w-full py-3 ${!isEmailVerified ? 'bg-amber-600 hover:bg-amber-700 shadow-amber-200' : 'bg-brand-600 hover:bg-brand-700 shadow-brand-200'} text-white text-xs sm:text-sm font-bold rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer`}
           >
             <span>{isEmailVerified ? 'Open Dashboard' : 'Verify Email to Access'}</span>
             <ArrowRight className="w-4 h-4" />
@@ -380,7 +380,7 @@ export const HomeAuthSection: React.FC = () => {
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <span className="text-[10px] font-black uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md border border-indigo-100">
+            <span className="text-[10px] font-black uppercase tracking-wider text-brand-600 bg-brand-50 px-2 py-0.5 rounded-md border border-brand-100">
               PM Fast Pass
             </span>
             <h3 className="text-lg sm:text-xl font-black text-zinc-900 tracking-tight mt-1">
@@ -423,8 +423,8 @@ export const HomeAuthSection: React.FC = () => {
           className="py-4 text-center space-y-4 flex flex-col items-center justify-center"
         >
           <div className="relative">
-            <div className="w-14 h-14 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-100/50">
-              <Mail className="w-7 h-7 text-indigo-600 animate-pulse" />
+            <div className="w-14 h-14 bg-brand-100 text-brand-600 rounded-2xl flex items-center justify-center shadow-lg shadow-brand-100/50">
+              <Mail className="w-7 h-7 text-brand-600 animate-pulse" />
             </div>
             <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-emerald-500 text-white rounded-full flex items-center justify-center ring-2 ring-white">
               <CheckCircle2 className="w-3.5 h-3.5" />
@@ -467,7 +467,7 @@ export const HomeAuthSection: React.FC = () => {
             <button
               type="button"
               onClick={() => navigate('/dashboard')}
-              className="w-full py-2.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md shadow-indigo-200 flex items-center justify-center gap-2 transition-all active:scale-[0.99] cursor-pointer"
+              className="w-full py-2.5 px-4 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs shadow-md shadow-brand-200 flex items-center justify-center gap-2 transition-all active:scale-[0.99] cursor-pointer"
             >
               <span>Continue to Dashboard</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -480,7 +480,7 @@ export const HomeAuthSection: React.FC = () => {
               className="w-full py-2 px-3 rounded-xl border border-zinc-200 hover:bg-zinc-50 text-zinc-700 font-semibold text-xs flex items-center justify-center gap-2 transition-colors cursor-pointer disabled:opacity-50"
             >
               {resendingEmail ? (
-                <Loader2 className="w-3.5 h-3.5 animate-spin text-indigo-600" />
+                <Loader2 className="w-3.5 h-3.5 animate-spin text-brand-600" />
               ) : (
                 <RefreshCw className="w-3.5 h-3.5 text-zinc-500" />
               )}
@@ -509,7 +509,7 @@ export const HomeAuthSection: React.FC = () => {
                     type="button"
                     onClick={handleGoogleAuth}
                     disabled={googleLoading}
-                    className="w-full py-2 px-3 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer"
+                    className="w-full py-2 px-3 rounded-lg bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer"
                   >
                     <Sparkles className="w-3.5 h-3.5" />
                     <span>Continue with Google 1-Tap</span>
@@ -543,7 +543,7 @@ export const HomeAuthSection: React.FC = () => {
                 className="w-full py-2.5 px-4 rounded-xl bg-white hover:bg-zinc-50 border border-zinc-200 text-zinc-800 text-xs font-bold flex items-center justify-center gap-2.5 shadow-xs hover:border-zinc-300 transition-all cursor-pointer disabled:opacity-50"
               >
                 {googleLoading ? (
-                  <Loader2 className="w-4 h-4 animate-spin text-indigo-600" />
+                  <Loader2 className="w-4 h-4 animate-spin text-brand-600" />
                 ) : (
                   <svg className="w-4 h-4" viewBox="0 0 24 24">
                     <path
@@ -592,7 +592,7 @@ export const HomeAuthSection: React.FC = () => {
                   placeholder="e.g. Kaushal Prasad"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full px-3 py-2 bg-zinc-50 border border-zinc-200 rounded-xl text-xs font-medium text-zinc-900 focus:outline-none focus:border-indigo-500"
+                  className="w-full px-3 py-2 bg-zinc-50 border border-zinc-200 rounded-xl text-xs font-medium text-zinc-900 focus:outline-none focus:border-brand-500"
                 />
               </div>
 
@@ -621,7 +621,7 @@ export const HomeAuthSection: React.FC = () => {
                   className={`w-full px-3 py-2 rounded-xl text-xs font-medium focus:outline-none transition-all ${
                     showEmailInvalid
                       ? 'bg-rose-50/30 border border-rose-400 text-rose-900 placeholder:text-rose-400 placeholder:font-medium ring-2 ring-rose-100'
-                      : 'bg-zinc-50 border border-zinc-200 text-zinc-900 placeholder:text-zinc-400 focus:border-indigo-500'
+                      : 'bg-zinc-50 border border-zinc-200 text-zinc-900 placeholder:text-zinc-400 focus:border-brand-500'
                   }`}
                 />
               </div>
@@ -641,7 +641,7 @@ export const HomeAuthSection: React.FC = () => {
                 placeholder="At least 6 characters"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-3 py-2 bg-zinc-50 border border-zinc-200 rounded-xl text-xs font-medium text-zinc-900 focus:outline-none focus:border-indigo-500 pr-9"
+                className="w-full px-3 py-2 bg-zinc-50 border border-zinc-200 rounded-xl text-xs font-medium text-zinc-900 focus:outline-none focus:border-brand-500 pr-9"
               />
               <button
                 type="button"
@@ -665,11 +665,11 @@ export const HomeAuthSection: React.FC = () => {
                 onClick={() => setUserType('student')}
                 className={`p-2.5 rounded-xl border text-left transition-all flex items-center gap-2 ${
                   userType === 'student'
-                    ? 'border-indigo-600 bg-indigo-50/80 text-indigo-950 font-bold'
+                    ? 'border-brand-600 bg-brand-50/80 text-brand-950 font-bold'
                     : 'border-zinc-200 bg-zinc-50 text-zinc-600 text-xs font-medium'
                 }`}
               >
-                <GraduationCap className={`w-4 h-4 ${userType === 'student' ? 'text-indigo-600' : 'text-zinc-400'}`} />
+                <GraduationCap className={`w-4 h-4 ${userType === 'student' ? 'text-brand-600' : 'text-zinc-400'}`} />
                 <span className="text-xs">College Student</span>
               </button>
 
@@ -679,11 +679,11 @@ export const HomeAuthSection: React.FC = () => {
                 onClick={() => setUserType('professional')}
                 className={`p-2.5 rounded-xl border text-left transition-all flex items-center gap-2 ${
                   userType === 'professional'
-                    ? 'border-indigo-600 bg-indigo-50/80 text-indigo-950 font-bold'
+                    ? 'border-brand-600 bg-brand-50/80 text-brand-950 font-bold'
                     : 'border-zinc-200 bg-zinc-50 text-zinc-600 text-xs font-medium'
                 }`}
               >
-                <Briefcase className={`w-4 h-4 ${userType === 'professional' ? 'text-indigo-600' : 'text-zinc-400'}`} />
+                <Briefcase className={`w-4 h-4 ${userType === 'professional' ? 'text-brand-600' : 'text-zinc-400'}`} />
                 <span className="text-xs">Working Pro</span>
               </button>
             </div>
@@ -691,10 +691,10 @@ export const HomeAuthSection: React.FC = () => {
 
           {/* 4. College student details */}
           {userType === 'student' && (
-            <div className="p-3 bg-indigo-50/40 border border-indigo-100 rounded-xl space-y-2.5">
+            <div className="p-3 bg-brand-50/40 border border-brand-100 rounded-xl space-y-2.5">
               <div className="space-y-1">
                 <label className="block text-[10px] font-bold text-zinc-700 flex items-center gap-1">
-                  <Building2 className="w-3 h-3 text-indigo-500" />
+                  <Building2 className="w-3 h-3 text-brand-500" />
                   <span>College Name <span className="text-rose-500">*</span></span>
                 </label>
                 <input
@@ -704,14 +704,14 @@ export const HomeAuthSection: React.FC = () => {
                   placeholder="e.g. IIT Delhi, Stanford, BITS"
                   value={collegeName}
                   onChange={(e) => setCollegeName(e.target.value)}
-                  className="w-full px-2.5 py-1.5 bg-white border border-zinc-200 rounded-lg text-xs font-medium text-zinc-900 focus:outline-none focus:border-indigo-500"
+                  className="w-full px-2.5 py-1.5 bg-white border border-zinc-200 rounded-lg text-xs font-medium text-zinc-900 focus:outline-none focus:border-brand-500"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-2">
                 <div className="space-y-1">
                   <label className="block text-[10px] font-bold text-zinc-700 flex items-center gap-1">
-                    <Award className="w-3 h-3 text-indigo-500" />
+                    <Award className="w-3 h-3 text-brand-500" />
                     <span>Degree <span className="text-rose-500">*</span></span>
                   </label>
                   <input
@@ -721,20 +721,20 @@ export const HomeAuthSection: React.FC = () => {
                     placeholder="e.g. B.Tech CS, MBA"
                     value={degree}
                     onChange={(e) => setDegree(e.target.value)}
-                    className="w-full px-2.5 py-1.5 bg-white border border-zinc-200 rounded-lg text-xs font-medium text-zinc-900 focus:outline-none focus:border-indigo-500"
+                    className="w-full px-2.5 py-1.5 bg-white border border-zinc-200 rounded-lg text-xs font-medium text-zinc-900 focus:outline-none focus:border-brand-500"
                   />
                 </div>
 
                 <div className="space-y-1">
                   <label className="block text-[10px] font-bold text-zinc-700 flex items-center gap-1">
-                    <Calendar className="w-3 h-3 text-indigo-500" />
+                    <Calendar className="w-3 h-3 text-brand-500" />
                     <span>Grad Year <span className="text-rose-500">*</span></span>
                   </label>
                   <select
                     id="home-signup-grad-year"
                     value={graduationYear}
                     onChange={(e) => setGraduationYear(e.target.value)}
-                    className="w-full px-2.5 py-1.5 bg-white border border-zinc-200 rounded-lg text-xs font-medium text-zinc-900 focus:outline-none focus:border-indigo-500"
+                    className="w-full px-2.5 py-1.5 bg-white border border-zinc-200 rounded-lg text-xs font-medium text-zinc-900 focus:outline-none focus:border-brand-500"
                   >
                     {['2024', '2025', '2026', '2027', '2028', '2029'].map((yr) => (
                       <option key={yr} value={yr}>{yr}</option>
@@ -747,10 +747,10 @@ export const HomeAuthSection: React.FC = () => {
 
           {/* 5. Working Professional details */}
           {userType === 'professional' && (
-            <div className="p-3 bg-indigo-50/40 border border-indigo-100 rounded-xl space-y-2.5">
+            <div className="p-3 bg-brand-50/40 border border-brand-100 rounded-xl space-y-2.5">
               <div className="space-y-1">
                 <label className="block text-[10px] font-bold text-zinc-700 flex items-center gap-1">
-                  <Building2 className="w-3 h-3 text-indigo-500" />
+                  <Building2 className="w-3 h-3 text-brand-500" />
                   <span>Company Name <span className="text-rose-500">*</span></span>
                 </label>
                 <input
@@ -760,14 +760,14 @@ export const HomeAuthSection: React.FC = () => {
                   placeholder="e.g. Amazon, Infosys, Tech Startup"
                   value={companyName}
                   onChange={(e) => setCompanyName(e.target.value)}
-                  className="w-full px-2.5 py-1.5 bg-white border border-zinc-200 rounded-lg text-xs font-medium text-zinc-900 focus:outline-none focus:border-indigo-500"
+                  className="w-full px-2.5 py-1.5 bg-white border border-zinc-200 rounded-lg text-xs font-medium text-zinc-900 focus:outline-none focus:border-brand-500"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-2">
                 <div className="space-y-1">
                   <label className="block text-[10px] font-bold text-zinc-700 flex items-center gap-1">
-                    <Award className="w-3 h-3 text-indigo-500" />
+                    <Award className="w-3 h-3 text-brand-500" />
                     <span>Designation <span className="text-rose-500">*</span></span>
                   </label>
                   <input
@@ -777,20 +777,20 @@ export const HomeAuthSection: React.FC = () => {
                     placeholder="e.g. Developer, APM"
                     value={designation}
                     onChange={(e) => setDesignation(e.target.value)}
-                    className="w-full px-2.5 py-1.5 bg-white border border-zinc-200 rounded-lg text-xs font-medium text-zinc-900 focus:outline-none focus:border-indigo-500"
+                    className="w-full px-2.5 py-1.5 bg-white border border-zinc-200 rounded-lg text-xs font-medium text-zinc-900 focus:outline-none focus:border-brand-500"
                   />
                 </div>
 
                 <div className="space-y-1">
                   <label className="block text-[10px] font-bold text-zinc-700 flex items-center gap-1">
-                    <Calendar className="w-3 h-3 text-indigo-500" />
+                    <Calendar className="w-3 h-3 text-brand-500" />
                     <span>Experience <span className="text-rose-500">*</span></span>
                   </label>
                   <select
                     id="home-signup-exp"
                     value={experienceYears}
                     onChange={(e) => setExperienceYears(e.target.value)}
-                    className="w-full px-2.5 py-1.5 bg-white border border-zinc-200 rounded-lg text-xs font-medium text-zinc-900 focus:outline-none focus:border-indigo-500"
+                    className="w-full px-2.5 py-1.5 bg-white border border-zinc-200 rounded-lg text-xs font-medium text-zinc-900 focus:outline-none focus:border-brand-500"
                   >
                     {['0-1 years', '1-3 years', '3-5 years', '5-8 years', '8+ years'].map((exp) => (
                       <option key={exp} value={exp}>{exp}</option>
@@ -805,7 +805,7 @@ export const HomeAuthSection: React.FC = () => {
             type="submit"
             id="home-submit-signup"
             disabled={loading || googleLoading}
-            className="w-full py-3 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-black flex items-center justify-center gap-2 shadow-lg shadow-indigo-500/20 transition-all cursor-pointer disabled:opacity-50"
+            className="w-full py-3 px-4 rounded-xl bg-brand-600 hover:bg-brand-500 text-white text-xs font-black flex items-center justify-center gap-2 shadow-lg shadow-brand-500/20 transition-all cursor-pointer disabled:opacity-50"
           >
             {loading ? (
               <>
@@ -849,7 +849,7 @@ export const HomeAuthSection: React.FC = () => {
               className={`w-full px-3 py-2 rounded-xl text-xs font-medium focus:outline-none transition-all ${
                 showEmailInvalid
                   ? 'bg-rose-50/30 border border-rose-400 text-rose-900 placeholder:text-rose-400 placeholder:font-medium ring-2 ring-rose-100'
-                  : 'bg-zinc-50 border border-zinc-200 text-zinc-900 placeholder:text-zinc-400 focus:border-indigo-500'
+                  : 'bg-zinc-50 border border-zinc-200 text-zinc-900 placeholder:text-zinc-400 focus:border-brand-500'
               }`}
             />
           </div>
@@ -863,7 +863,7 @@ export const HomeAuthSection: React.FC = () => {
               <button
                 type="button"
                 onClick={() => { setMode('forgot'); setErrorMessage(null); setSuccessMessage(null); }}
-                className="text-[10px] font-bold text-indigo-600 hover:text-indigo-700"
+                className="text-[10px] font-bold text-brand-600 hover:text-brand-700"
               >
                 Forgot?
               </button>
@@ -876,7 +876,7 @@ export const HomeAuthSection: React.FC = () => {
                 placeholder="Enter password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-3 py-2 bg-zinc-50 border border-zinc-200 rounded-xl text-xs font-medium text-zinc-900 focus:outline-none focus:border-indigo-500 pr-9"
+                className="w-full px-3 py-2 bg-zinc-50 border border-zinc-200 rounded-xl text-xs font-medium text-zinc-900 focus:outline-none focus:border-brand-500 pr-9"
               />
               <button
                 type="button"
@@ -892,7 +892,7 @@ export const HomeAuthSection: React.FC = () => {
             type="submit"
             id="home-submit-login"
             disabled={loading || googleLoading}
-            className="w-full py-3 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-black flex items-center justify-center gap-2 shadow-lg shadow-indigo-500/20 transition-all cursor-pointer disabled:opacity-50"
+            className="w-full py-3 px-4 rounded-xl bg-brand-600 hover:bg-brand-500 text-white text-xs font-black flex items-center justify-center gap-2 shadow-lg shadow-brand-500/20 transition-all cursor-pointer disabled:opacity-50"
           >
             {loading ? (
               <>
@@ -936,7 +936,7 @@ export const HomeAuthSection: React.FC = () => {
               className={`w-full px-3 py-2 rounded-xl text-xs font-medium focus:outline-none transition-all ${
                 showEmailInvalid
                   ? 'bg-rose-50/30 border border-rose-400 text-rose-900 placeholder:text-rose-400 placeholder:font-medium ring-2 ring-rose-100'
-                  : 'bg-zinc-50 border border-zinc-200 text-zinc-900 placeholder:text-zinc-400 focus:border-indigo-500'
+                  : 'bg-zinc-50 border border-zinc-200 text-zinc-900 placeholder:text-zinc-400 focus:border-brand-500'
               }`}
             />
           </div>
@@ -944,7 +944,7 @@ export const HomeAuthSection: React.FC = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-black flex items-center justify-center gap-2 transition-all cursor-pointer disabled:opacity-50"
+            className="w-full py-2.5 px-4 rounded-xl bg-brand-600 hover:bg-brand-500 text-white text-xs font-black flex items-center justify-center gap-2 transition-all cursor-pointer disabled:opacity-50"
           >
             {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <span>Send Reset Instructions</span>}
           </button>

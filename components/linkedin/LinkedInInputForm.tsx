@@ -369,7 +369,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
             <span>Back to Overview</span>
           </button>
 
-          <span className="text-[10px] font-bold uppercase tracking-widest text-blue-600 bg-blue-50/90 border border-blue-100/80 px-3 py-1 rounded-full">
+          <span className="text-[10px] font-bold uppercase tracking-widest text-brand-600 bg-brand-50/90 border border-brand-100/80 px-3 py-1 rounded-full">
             AI PROFILE AUDITOR
           </span>
         </div>
@@ -389,10 +389,10 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
           <div className="flex items-center gap-2 sm:gap-3 text-xs font-semibold py-2 px-3 sm:px-4 bg-zinc-50/80 rounded-2xl border border-zinc-200/70 w-fit">
             {/* Step 01 */}
             <div className={`flex items-center gap-1.5 transition-colors ${
-              isTargetConfigured ? 'text-blue-600' : 'text-zinc-900'
+              isTargetConfigured ? 'text-brand-600' : 'text-zinc-900'
             }`}>
               <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold ${
-                isTargetConfigured ? 'bg-blue-100 text-blue-700' : 'bg-zinc-200 text-zinc-700'
+                isTargetConfigured ? 'bg-brand-100 text-brand-700' : 'bg-zinc-200 text-zinc-700'
               }`}>
                 {isTargetConfigured ? <Check className="w-3 h-3 stroke-[2.5]" /> : '01'}
               </span>
@@ -400,7 +400,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
             </div>
 
             <div className={`h-0.5 w-6 sm:w-10 rounded-full transition-colors ${
-              isTargetConfigured ? 'bg-blue-200' : 'bg-zinc-200'
+              isTargetConfigured ? 'bg-brand-200' : 'bg-zinc-200'
             }`} />
 
             {/* Step 02 */}
@@ -408,14 +408,14 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
               isProfileReady 
                 ? 'text-emerald-600' 
                 : isTargetConfigured 
-                ? 'text-blue-600' 
+                ? 'text-brand-600' 
                 : 'text-zinc-400'
             }`}>
               <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold ${
                 isProfileReady 
                   ? 'bg-emerald-100 text-emerald-700' 
                   : isTargetConfigured 
-                  ? 'bg-blue-600 text-white' 
+                  ? 'bg-brand-600 text-white' 
                   : 'bg-zinc-100 text-zinc-400'
               }`}>
                 {isProfileReady ? <Check className="w-3 h-3 stroke-[2.5]" /> : '02'}
@@ -429,10 +429,10 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
 
             {/* Step 03 */}
             <div className={`flex items-center gap-1.5 transition-colors ${
-              isProfileReady ? 'text-blue-600 font-bold' : 'text-zinc-400'
+              isProfileReady ? 'text-brand-600 font-bold' : 'text-zinc-400'
             }`}>
               <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold ${
-                isProfileReady ? 'bg-blue-600 text-white' : 'bg-zinc-100 text-zinc-400'
+                isProfileReady ? 'bg-brand-600 text-white' : 'bg-zinc-100 text-zinc-400'
               }`}>
                 03
               </span>
@@ -494,14 +494,14 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                 <label className="block text-xs font-bold text-zinc-800 flex items-center justify-between">
                   <span className="flex items-center gap-1.5">
                     <Briefcase className="w-3.5 h-3.5 text-zinc-400" />
-                    <span>Target role <span className="text-blue-600">*</span></span>
+                    <span>Target role <span className="text-brand-600">*</span></span>
                   </span>
                 </label>
                 <select
                   id="target-role-select"
                   value={targetRole}
                   onChange={(e) => setTargetRole(e.target.value)}
-                  className="w-full h-11 sm:h-12 px-3.5 bg-zinc-50 border border-zinc-200 rounded-xl text-xs sm:text-sm font-semibold text-zinc-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition-all cursor-pointer"
+                  className="w-full h-11 sm:h-12 px-3.5 bg-zinc-50 border border-zinc-200 rounded-xl text-xs sm:text-sm font-semibold text-zinc-900 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-600 transition-all cursor-pointer"
                 >
                   {targetRoleOptions.map((role) => (
                     <option key={role} value={role}>{role}</option>
@@ -515,7 +515,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                       placeholder="e.g. Chief of Staff, Technical PM"
                       value={customRole}
                       onChange={(e) => setCustomRole(e.target.value)}
-                      className="w-full h-10 px-3.5 bg-zinc-50 border border-zinc-200 rounded-xl text-xs font-medium text-zinc-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600"
+                      className="w-full h-10 px-3.5 bg-zinc-50 border border-zinc-200 rounded-xl text-xs font-medium text-zinc-900 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-600"
                     />
                   </div>
                 )}
@@ -525,13 +525,13 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
               <div className="space-y-1.5">
                 <label className="block text-xs font-bold text-zinc-800 flex items-center gap-1.5">
                   <Target className="w-3.5 h-3.5 text-zinc-400" />
-                  <span>Experience level <span className="text-blue-600">*</span></span>
+                  <span>Experience level <span className="text-brand-600">*</span></span>
                 </label>
                 <select
                   id="experience-level-select"
                   value={experience}
                   onChange={(e) => setExperience(e.target.value)}
-                  className="w-full h-11 sm:h-12 px-3.5 bg-zinc-50 border border-zinc-200 rounded-xl text-xs sm:text-sm font-semibold text-zinc-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition-all cursor-pointer"
+                  className="w-full h-11 sm:h-12 px-3.5 bg-zinc-50 border border-zinc-200 rounded-xl text-xs sm:text-sm font-semibold text-zinc-900 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-600 transition-all cursor-pointer"
                 >
                   {experienceOptions.map((exp) => (
                     <option key={exp} value={exp}>{exp}</option>
@@ -543,13 +543,13 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
               <div className="space-y-1.5 md:col-span-2 lg:col-span-1">
                 <label className="block text-xs font-bold text-zinc-800 flex items-center gap-1.5">
                   <Building className="w-3.5 h-3.5 text-zinc-400" />
-                  <span>Target industry <span className="text-blue-600">*</span></span>
+                  <span>Target industry <span className="text-brand-600">*</span></span>
                 </label>
                 <select
                   id="industry-select"
                   value={industry}
                   onChange={(e) => setIndustry(e.target.value)}
-                  className="w-full h-11 sm:h-12 px-3.5 bg-zinc-50 border border-zinc-200 rounded-xl text-xs sm:text-sm font-semibold text-zinc-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition-all cursor-pointer"
+                  className="w-full h-11 sm:h-12 px-3.5 bg-zinc-50 border border-zinc-200 rounded-xl text-xs sm:text-sm font-semibold text-zinc-900 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-600 transition-all cursor-pointer"
                 >
                   {industryOptions.map((ind) => (
                     <option key={ind} value={ind}>{ind}</option>
@@ -567,7 +567,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                   id="company-type-select"
                   value={companyType}
                   onChange={(e) => setCompanyType(e.target.value)}
-                  className="w-full h-11 sm:h-12 px-3.5 bg-zinc-50 border border-zinc-200 rounded-xl text-xs sm:text-sm font-semibold text-zinc-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition-all cursor-pointer"
+                  className="w-full h-11 sm:h-12 px-3.5 bg-zinc-50 border border-zinc-200 rounded-xl text-xs sm:text-sm font-semibold text-zinc-900 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-600 transition-all cursor-pointer"
                 >
                   {companyTypeOptions.map((comp) => (
                     <option key={comp} value={comp}>{comp}</option>
@@ -587,7 +587,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                   placeholder="e.g. Bengaluru, London, Remote US"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
-                  className="w-full h-11 sm:h-12 px-3.5 bg-zinc-50 border border-zinc-200 rounded-xl text-xs sm:text-sm font-medium text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition-all"
+                  className="w-full h-11 sm:h-12 px-3.5 bg-zinc-50 border border-zinc-200 rounded-xl text-xs sm:text-sm font-medium text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-600 transition-all"
                 />
               </div>
             </div>
@@ -613,7 +613,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                 const el = document.getElementById('target-role-select');
                 if (el) el.focus();
               }}
-              className="text-xs font-bold text-blue-600 hover:text-blue-700 underline underline-offset-2 self-start sm:self-auto cursor-pointer transition-colors"
+              className="text-xs font-bold text-brand-600 hover:text-brand-700 underline underline-offset-2 self-start sm:self-auto cursor-pointer transition-colors"
             >
               Change target
             </button>
@@ -629,7 +629,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
             <div>
               <h2 className="text-lg sm:text-xl font-bold text-zinc-900 tracking-tight flex items-center gap-1.5">
                 <span>Add your LinkedIn profile</span>
-                <span className="text-blue-600 text-sm">*</span>
+                <span className="text-brand-600 text-sm">*</span>
               </h2>
               <p className="text-xs text-zinc-500 font-normal mt-0.5 leading-relaxed">
                 Upload your LinkedIn Profile PDF for the most accurate audit, or paste your profile details manually.
@@ -647,13 +647,13 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                 }}
                 className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-2 transition-all cursor-pointer ${
                   activeTab === 'upload'
-                    ? 'bg-white text-blue-700 shadow-xs ring-1 ring-black/5'
+                    ? 'bg-white text-brand-700 shadow-xs ring-1 ring-black/5'
                     : 'text-zinc-600 hover:text-zinc-900'
                 }`}
               >
                 <Upload className="w-3.5 h-3.5" />
                 <span>Upload LinkedIn PDF</span>
-                <span className="text-[9px] font-black uppercase tracking-wider bg-blue-50 text-blue-700 px-1.5 py-0.5 rounded">
+                <span className="text-[9px] font-black uppercase tracking-wider bg-brand-50 text-brand-700 px-1.5 py-0.5 rounded">
                   RECOMMENDED
                 </span>
               </button>
@@ -667,7 +667,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                 }}
                 className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-2 transition-all cursor-pointer ${
                   activeTab === 'paste'
-                    ? 'bg-white text-blue-700 shadow-xs ring-1 ring-black/5'
+                    ? 'bg-white text-brand-700 shadow-xs ring-1 ring-black/5'
                     : 'text-zinc-600 hover:text-zinc-900'
                 }`}
               >
@@ -703,13 +703,13 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                   onClick={() => fileInputRef.current?.click()}
                   className={`border-2 border-dashed rounded-2xl p-6 sm:p-8 text-center cursor-pointer transition-all ${
                     isDragging
-                      ? 'border-blue-600 bg-blue-50/60 scale-[1.005]'
-                      : 'border-zinc-300 hover:border-blue-400 bg-zinc-50/40 hover:bg-zinc-50/90'
+                      ? 'border-brand-600 bg-brand-50/60 scale-[1.005]'
+                      : 'border-zinc-300 hover:border-brand-400 bg-zinc-50/40 hover:bg-zinc-50/90'
                   }`}
                 >
                   <div className="max-w-md mx-auto space-y-3.5">
-                    <div className="w-12 h-12 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 mx-auto shadow-2xs">
-                      <Upload className="w-6 h-6 text-blue-600" />
+                    <div className="w-12 h-12 rounded-xl bg-brand-50 border border-brand-100 flex items-center justify-center text-brand-600 mx-auto shadow-2xs">
+                      <Upload className="w-6 h-6 text-brand-600" />
                     </div>
 
                     <div className="space-y-1">
@@ -724,7 +724,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                     <div className="pt-1 flex flex-wrap items-center justify-center gap-2.5">
                       <button
                         type="button"
-                        className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl shadow-xs transition-all flex items-center gap-1.5 cursor-pointer"
+                        className="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold rounded-xl shadow-xs transition-all flex items-center gap-1.5 cursor-pointer"
                       >
                         <Upload className="w-3.5 h-3.5" />
                         <span>SELECT PROFILE PDF</span>
@@ -738,7 +738,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                         }}
                         className="px-3.5 py-2 bg-white hover:bg-zinc-100 text-zinc-700 border border-zinc-200 text-xs font-semibold rounded-xl transition-all flex items-center gap-1.5 cursor-pointer"
                       >
-                        <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+                        <Sparkles className="w-3.5 h-3.5 text-brand-600" />
                         <span>Try a sample PM profile</span>
                       </button>
                     </div>
@@ -752,8 +752,8 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
 
               {/* State 2: UPLOADING STATE */}
               {isParsingPdf && (
-                <div className="border-2 border-blue-200 bg-blue-50/40 rounded-2xl p-7 sm:p-9 text-center space-y-3 animate-pulse">
-                  <div className="w-12 h-12 rounded-xl bg-blue-600 text-white flex items-center justify-center mx-auto shadow-xs">
+                <div className="border-2 border-brand-200 bg-brand-50/40 rounded-2xl p-7 sm:p-9 text-center space-y-3 animate-pulse">
+                  <div className="w-12 h-12 rounded-xl bg-brand-600 text-white flex items-center justify-center mx-auto shadow-xs">
                     <Loader2 className="w-6 h-6 animate-spin text-white" />
                   </div>
                   <div className="space-y-1">
@@ -764,8 +764,8 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                       {parseStatus || 'Extracting profile structure and keywords...'}
                     </p>
                   </div>
-                  <div className="w-48 mx-auto h-1.5 bg-blue-100 rounded-full overflow-hidden">
-                    <div className="w-2/3 h-full bg-blue-600 rounded-full animate-progress" />
+                  <div className="w-48 mx-auto h-1.5 bg-brand-100 rounded-full overflow-hidden">
+                    <div className="w-2/3 h-full bg-brand-600 rounded-full animate-progress" />
                   </div>
                 </div>
               )}
@@ -863,7 +863,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                     <button
                       type="button"
                       onClick={() => setShowExtractedPreview(!showExtractedPreview)}
-                      className="text-xs font-semibold text-blue-600 hover:text-blue-700 flex items-center gap-1 transition-colors cursor-pointer"
+                      className="text-xs font-semibold text-brand-600 hover:text-brand-700 flex items-center gap-1 transition-colors cursor-pointer"
                     >
                       {showExtractedPreview ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
                       <span>{showExtractedPreview ? 'Hide extracted text' : 'View extracted text'}</span>
@@ -879,7 +879,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                         rows={6}
                         value={profileText}
                         onChange={(e) => setProfileText(e.target.value)}
-                        className="w-full p-3 bg-white border border-zinc-200 rounded-xl text-xs font-mono text-zinc-800 focus:outline-none focus:ring-2 focus:ring-blue-500/20 resize-y"
+                        className="w-full p-3 bg-white border border-zinc-200 rounded-xl text-xs font-mono text-zinc-800 focus:outline-none focus:ring-2 focus:ring-brand-500/20 resize-y"
                       />
                     </div>
                   )}
@@ -895,19 +895,19 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                 </span>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-semibold text-zinc-700">
                   <div className="flex items-center gap-1.5">
-                    <Check className="w-3.5 h-3.5 text-blue-600 stroke-[2.5]" />
+                    <Check className="w-3.5 h-3.5 text-brand-600 stroke-[2.5]" />
                     <span>Profile score</span>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <Check className="w-3.5 h-3.5 text-blue-600 stroke-[2.5]" />
+                    <Check className="w-3.5 h-3.5 text-brand-600 stroke-[2.5]" />
                     <span>Recruiter search analysis</span>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <Check className="w-3.5 h-3.5 text-blue-600 stroke-[2.5]" />
+                    <Check className="w-3.5 h-3.5 text-brand-600 stroke-[2.5]" />
                     <span>Keyword gaps</span>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <Check className="w-3.5 h-3.5 text-blue-600 stroke-[2.5]" />
+                    <Check className="w-3.5 h-3.5 text-brand-600 stroke-[2.5]" />
                     <span>Rewrite recommendations</span>
                   </div>
                 </div>
@@ -923,12 +923,12 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                   className="w-full p-3.5 px-4 flex items-center justify-between text-left hover:bg-zinc-50 transition-colors cursor-pointer"
                 >
                   <div className="flex items-center gap-2">
-                    <Download className="w-4 h-4 text-blue-600" />
+                    <Download className="w-4 h-4 text-brand-600" />
                     <span className="text-xs font-bold text-zinc-800">
                       Need help downloading your LinkedIn PDF?
                     </span>
                   </div>
-                  <div className="flex items-center gap-1 text-xs font-semibold text-blue-600">
+                  <div className="flex items-center gap-1 text-xs font-semibold text-brand-600">
                     <span>{isGuideOpen ? 'Hide guide' : 'View 3-step guide'}</span>
                     {isGuideOpen ? (
                       <ChevronUp className="w-4 h-4" />
@@ -944,7 +944,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
                       <div className="p-3 bg-zinc-50 rounded-xl space-y-1">
                         <div className="flex items-center gap-2">
-                          <span className="w-4 h-4 rounded-full bg-blue-100 text-blue-700 font-bold text-[10px] flex items-center justify-center">
+                          <span className="w-4 h-4 rounded-full bg-brand-100 text-brand-700 font-bold text-[10px] flex items-center justify-center">
                             1
                           </span>
                           <span className="font-bold text-zinc-900">01 Open your profile</span>
@@ -956,7 +956,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
 
                       <div className="p-3 bg-zinc-50 rounded-xl space-y-1">
                         <div className="flex items-center gap-2">
-                          <span className="w-4 h-4 rounded-full bg-blue-100 text-blue-700 font-bold text-[10px] flex items-center justify-center">
+                          <span className="w-4 h-4 rounded-full bg-brand-100 text-brand-700 font-bold text-[10px] flex items-center justify-center">
                             2
                           </span>
                           <span className="font-bold text-zinc-900">02 Click More (...)</span>
@@ -987,7 +987,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                           <span>Open to ▾</span>
                         </div>
                         <ArrowRight className="w-3 h-3 text-zinc-300" />
-                        <div className="inline-flex items-center gap-1 px-2.5 py-1 bg-blue-50 border border-blue-200 text-blue-800 rounded-lg font-bold text-[11px]">
+                        <div className="inline-flex items-center gap-1 px-2.5 py-1 bg-brand-50 border border-brand-200 text-brand-800 rounded-lg font-bold text-[11px]">
                           <span>More (...)</span>
                         </div>
                         <ArrowRight className="w-3 h-3 text-zinc-300" />
@@ -1001,7 +1001,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                         href="https://www.linkedin.com/in/"
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-1 text-xs font-bold text-blue-600 hover:text-blue-700 transition-colors self-start sm:self-auto"
+                        className="inline-flex items-center gap-1 text-xs font-bold text-brand-600 hover:text-brand-700 transition-colors self-start sm:self-auto"
                       >
                         <span>Open LinkedIn</span>
                         <ExternalLink className="w-3.5 h-3.5" />
@@ -1025,9 +1025,9 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                   <button
                     type="button"
                     onClick={handleFillSample}
-                    className="px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold text-xs rounded-xl flex items-center gap-1.5 transition-all cursor-pointer"
+                    className="px-3 py-1.5 bg-brand-50 hover:bg-brand-100 text-brand-700 font-bold text-xs rounded-xl flex items-center gap-1.5 transition-all cursor-pointer"
                   >
-                    <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+                    <Sparkles className="w-3.5 h-3.5 text-brand-600" />
                     <span>Fill Sample PM Profile</span>
                   </button>
 
@@ -1053,12 +1053,12 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                   if (validationError) setValidationError(null);
                 }}
                 placeholder={`Paste your LinkedIn profile text here...\n\nInclude:\n• Headline\n• About section\n• Experience (roles, bullets, metrics)\n• Education & Skills`}
-                className="w-full p-4 bg-zinc-50 border border-zinc-200 rounded-2xl text-xs sm:text-sm font-mono leading-relaxed text-zinc-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition-all resize-y"
+                className="w-full p-4 bg-zinc-50 border border-zinc-200 rounded-2xl text-xs sm:text-sm font-mono leading-relaxed text-zinc-900 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-600 transition-all resize-y"
               />
 
               <div className="flex items-center justify-between text-[11px] text-zinc-400 font-medium px-1">
                 <span>{wordCount} words · {charCount} characters</span>
-                <span className="text-blue-600 font-semibold">
+                <span className="text-brand-600 font-semibold">
                   {wordCount > 30 ? 'Ready for AI analysis' : 'Provide headline, experience, and skills'}
                 </span>
               </div>
@@ -1130,7 +1130,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                         setActiveTab('paste');
                         setProfileText(prev => prev + '\n\nAbout\nProduct Manager with demonstrated experience delivering high-impact products.');
                       }}
-                      className="text-[10px] font-bold text-blue-600 hover:underline cursor-pointer"
+                      className="text-[10px] font-bold text-brand-600 hover:underline cursor-pointer"
                     >
                       Add manually
                     </button>
@@ -1220,7 +1220,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
               disabled={!isProfileReady || isLoading || isParsingPdf}
               className={`group px-6 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all cursor-pointer ${
                 isProfileReady && !isLoading && !isParsingPdf
-                  ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-md shadow-blue-600/20 active:scale-[0.98]'
+                  ? 'bg-brand-600 hover:bg-brand-700 text-white shadow-md shadow-brand-600/20 active:scale-[0.98]'
                   : 'bg-zinc-200 text-zinc-400 cursor-not-allowed'
               }`}
             >

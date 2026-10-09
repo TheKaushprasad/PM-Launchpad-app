@@ -87,7 +87,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
         return 'bg-emerald-500 text-white';
       case 'B+':
       case 'B':
-        return 'bg-indigo-600 text-white';
+        return 'bg-brand-600 text-white';
       case 'C':
         return 'bg-amber-500 text-white';
       default:
@@ -161,8 +161,8 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
             {analysis.sourceFileName && (
               <>
                 <span className="text-zinc-300">•</span>
-                <span className="inline-flex items-center gap-1 text-indigo-700 bg-indigo-50 font-bold px-2 py-0.5 rounded-md border border-indigo-200/60">
-                  <FileText className="w-3 h-3 text-indigo-600" />
+                <span className="inline-flex items-center gap-1 text-brand-700 bg-brand-50 font-bold px-2 py-0.5 rounded-md border border-brand-200/60">
+                  <FileText className="w-3 h-3 text-brand-600" />
                   <span>{analysis.sourceFileName}</span>
                 </span>
               </>
@@ -180,12 +180,12 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
 
       {/* Hero Scorecard Section */}
       <section className="bg-gradient-to-br from-[#032A1F] via-[#043C2C] to-[#064E3B] rounded-3xl p-8 sm:p-10 text-white shadow-2xl relative overflow-hidden border border-zinc-800">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-brand-500/10 rounded-full blur-[100px] pointer-events-none" />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
           {/* Main Circular / Prominent Score */}
           <div className="lg:col-span-5 flex flex-col sm:flex-row items-center gap-6 border-b lg:border-b-0 lg:border-r border-white/10 pb-6 lg:pb-0 lg:pr-8">
-            <div className="relative w-36 h-36 flex items-center justify-center rounded-full bg-white/5 border-4 border-indigo-500/30 shrink-0">
+            <div className="relative w-36 h-36 flex items-center justify-center rounded-full bg-white/5 border-4 border-brand-500/30 shrink-0">
               <div className="text-center">
                 <span className="text-5xl font-black text-white tabular-nums">
                   {analysis.overallScore}
@@ -301,7 +301,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
                     <span className="w-5 h-5 rounded-full bg-amber-500 text-white font-black text-xs flex items-center justify-center">
                       {action.priority || (i + 1)}
                     </span>
-                    <span className="text-[10px] font-black uppercase tracking-wider text-indigo-600">
+                    <span className="text-[10px] font-black uppercase tracking-wider text-brand-600">
                       {action.category}
                     </span>
                   </div>
@@ -353,7 +353,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="bg-white p-6 rounded-3xl border border-zinc-200 shadow-xs space-y-4">
                 <h4 className="font-black text-zinc-900 text-sm flex items-center gap-2">
-                  <Award className="w-4 h-4 text-indigo-600" />
+                  <Award className="w-4 h-4 text-brand-600" />
                   Strengths & Competitive Advantages
                 </h4>
                 <ul className="space-y-2.5">
@@ -398,7 +398,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
                     className={`p-6 rounded-3xl border transition-all ${
                       rec.completed 
                         ? 'bg-zinc-50 border-zinc-200 opacity-60' 
-                        : 'bg-white border-zinc-200 shadow-xs hover:border-indigo-200'
+                        : 'bg-white border-zinc-200 shadow-xs hover:border-brand-200'
                     }`}
                   >
                     <div className="flex items-start justify-between gap-4 mb-3">
@@ -408,7 +408,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
                           className={`w-6 h-6 rounded-lg border flex items-center justify-center transition-colors ${
                             rec.completed 
                               ? 'bg-emerald-500 border-emerald-500 text-white' 
-                              : 'border-zinc-300 hover:border-indigo-500 bg-white'
+                              : 'border-zinc-300 hover:border-brand-500 bg-white'
                           }`}
                         >
                           {rec.completed && <Check className="w-3.5 h-3.5" />}
@@ -423,7 +423,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
                         </div>
                       </div>
 
-                      <span className="text-xs font-bold text-indigo-600">
+                      <span className="text-xs font-bold text-brand-600">
                         Impact: {rec.impact}
                       </span>
                     </div>
@@ -436,11 +436,11 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
                         <strong className="text-zinc-900">Why it matters:</strong> {rec.whyItMatters}
                       </p>
                       <p className="text-zinc-700 text-xs leading-relaxed font-medium bg-zinc-50 p-3 rounded-xl border border-zinc-100">
-                        <strong className="text-indigo-600">Recommendation:</strong> {rec.recommendation}
+                        <strong className="text-brand-600">Recommendation:</strong> {rec.recommendation}
                       </p>
                       {rec.example && (
-                        <div className="bg-indigo-50/50 p-3 rounded-xl border border-indigo-100 text-xs space-y-1">
-                          <span className="text-[10px] font-black uppercase tracking-wider text-indigo-700 block">
+                        <div className="bg-brand-50/50 p-3 rounded-xl border border-brand-100 text-xs space-y-1">
+                          <span className="text-[10px] font-black uppercase tracking-wider text-brand-700 block">
                             Example To Model
                           </span>
                           <p className="font-mono text-zinc-800 text-[11px] leading-relaxed">
@@ -462,10 +462,10 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
             <div className="bg-white p-6 sm:p-8 rounded-3xl border border-zinc-200 shadow-xs space-y-6">
               <div className="flex items-center justify-between border-b border-zinc-100 pb-4">
                 <div>
-                  <span className="text-[10px] font-black uppercase tracking-widest text-indigo-600">Section Analysis</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-brand-600">Section Analysis</span>
                   <h3 className="text-xl font-black text-zinc-900">Headline Audit ({analysis.categories.headline}/15 pts)</h3>
                 </div>
-                <span className="px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 font-extrabold text-xs">
+                <span className="px-3 py-1 rounded-full bg-brand-50 text-brand-700 font-extrabold text-xs">
                   {analysis.categories.headline >= 13 ? 'Strong' : 'Needs Optimization'}
                 </span>
               </div>
@@ -493,11 +493,11 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
                   {analysis.rewrites?.headline?.improvedVersions?.map((opt, i) => (
                     <div 
                       key={i}
-                      className="p-6 rounded-2xl bg-gradient-to-r from-indigo-50/50 via-white to-sky-50/30 border border-indigo-100 shadow-xs space-y-3 relative group"
+                      className="p-6 rounded-2xl bg-gradient-to-r from-brand-50/50 via-white to-brand-50/30 border border-brand-100 shadow-xs space-y-3 relative group"
                     >
                       <div className="flex items-center justify-between">
-                        <span className="font-bold text-xs text-indigo-900">{opt.title}</span>
-                        <span className="text-[10px] font-black uppercase tracking-widest bg-indigo-100 text-indigo-800 px-2.5 py-0.5 rounded-full">
+                        <span className="font-bold text-xs text-brand-900">{opt.title}</span>
+                        <span className="text-[10px] font-black uppercase tracking-widest bg-brand-100 text-brand-800 px-2.5 py-0.5 rounded-full">
                           {opt.focusTag}
                         </span>
                       </div>
@@ -538,10 +538,10 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
             <div className="bg-white p-6 sm:p-8 rounded-3xl border border-zinc-200 shadow-xs space-y-6">
               <div className="flex items-center justify-between border-b border-zinc-100 pb-4">
                 <div>
-                  <span className="text-[10px] font-black uppercase tracking-widest text-indigo-600">Section Analysis</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-brand-600">Section Analysis</span>
                   <h3 className="text-xl font-black text-zinc-900">About / Summary Audit ({analysis.categories.about}/15 pts)</h3>
                 </div>
-                <span className="px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 font-extrabold text-xs">
+                <span className="px-3 py-1 rounded-full bg-brand-50 text-brand-700 font-extrabold text-xs">
                   {analysis.categories.about >= 13 ? 'Strong' : 'Needs Optimization'}
                 </span>
               </div>
@@ -573,7 +573,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
                     >
                       <div className="flex items-center justify-between border-b border-zinc-100 pb-3">
                         <span className="font-black text-xs text-zinc-900">{opt.title}</span>
-                        <span className="text-[10px] font-black uppercase tracking-widest bg-indigo-50 text-indigo-700 px-2.5 py-0.5 rounded-full">
+                        <span className="text-[10px] font-black uppercase tracking-widest bg-brand-50 text-brand-700 px-2.5 py-0.5 rounded-full">
                           {opt.focusTag}
                         </span>
                       </div>
@@ -614,7 +614,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
             <div className="bg-white p-6 sm:p-8 rounded-3xl border border-zinc-200 shadow-xs space-y-6">
               <div className="flex items-center justify-between border-b border-zinc-100 pb-4">
                 <div>
-                  <span className="text-[10px] font-black uppercase tracking-widest text-indigo-600">Experience Audit</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-brand-600">Experience Audit</span>
                   <h3 className="text-xl font-black text-zinc-900">
                     Action + Context + Action Taken + Result (ACAR) Analysis ({analysis.categories.experience}/20 pts)
                   </h3>
@@ -647,7 +647,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
                       {expandedRoles[rIdx] && (
                         <div className="p-6 bg-white space-y-6">
                           {role.generalFeedback && (
-                            <p className="text-xs text-indigo-900 bg-indigo-50/60 p-3 rounded-xl border border-indigo-100 font-medium">
+                            <p className="text-xs text-brand-900 bg-brand-50/60 p-3 rounded-xl border border-brand-100 font-medium">
                               <strong>Role Feedback:</strong> {role.generalFeedback}
                             </p>
                           )}
@@ -729,7 +729,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
               {/* Interactive Bullet Rewriter Tool */}
               <div className="p-6 rounded-3xl bg-zinc-900 text-white space-y-4">
                 <div className="flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-indigo-400" />
+                  <Sparkles className="w-4 h-4 text-brand-400" />
                   <h4 className="font-black text-sm">Real-Time ACAR Bullet Enhancer</h4>
                 </div>
                 <p className="text-xs text-zinc-300">
@@ -741,14 +741,14 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
                   value={customInputText}
                   onChange={(e) => setCustomInputText(e.target.value)}
                   placeholder="e.g. Worked with design and engineering on the new customer onboarding flow."
-                  className="w-full p-3 bg-zinc-800 border border-zinc-700 rounded-xl text-xs text-white placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full p-3 bg-zinc-800 border border-zinc-700 rounded-xl text-xs text-white placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-brand-500"
                 />
 
                 <div className="flex justify-end">
                   <button
                     onClick={handleCustomRewrite}
                     disabled={isGeneratingCustom || !customInputText.trim()}
-                    className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white font-bold text-xs rounded-xl flex items-center gap-1.5 transition-all"
+                    className="px-4 py-2 bg-brand-600 hover:bg-brand-500 disabled:opacity-50 text-white font-bold text-xs rounded-xl flex items-center gap-1.5 transition-all"
                   >
                     <Sparkles className="w-3.5 h-3.5" />
                     <span>{isGeneratingCustom ? 'Optimizing...' : 'Enhance Bullet'}</span>
@@ -757,14 +757,14 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
 
                 {customRewriteResult && (
                   <div className="p-4 rounded-2xl bg-zinc-800/90 border border-zinc-700 space-y-3 pt-3">
-                    <span className="text-[10px] font-black uppercase tracking-wider text-indigo-400 block">
+                    <span className="text-[10px] font-black uppercase tracking-wider text-brand-400 block">
                       Generated Options
                     </span>
                     {customRewriteResult.improvedVersions?.map((opt: any, i: number) => (
                       <div key={i} className="p-3 bg-zinc-900 rounded-xl border border-zinc-700 text-xs space-y-1">
                         <div className="flex justify-between items-center text-[10px] text-zinc-400">
                           <span className="font-bold">{opt.title}</span>
-                          <span className="text-indigo-300">{opt.focusTag}</span>
+                          <span className="text-brand-300">{opt.focusTag}</span>
                         </div>
                         <p className="text-zinc-200 font-mono text-[11px]">{opt.content}</p>
                       </div>
@@ -782,14 +782,14 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
             <div className="bg-white p-6 sm:p-8 rounded-3xl border border-zinc-200 shadow-xs space-y-6">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-100 pb-4">
                 <div>
-                  <span className="text-[10px] font-black uppercase tracking-widest text-indigo-600">ATS & Search Optimization</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-brand-600">ATS & Search Optimization</span>
                   <h3 className="text-xl font-black text-zinc-900">
                     Keyword Gap Analysis for {analysis.targetRole}
                   </h3>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="text-xs text-zinc-500 font-bold">Keyword Coverage:</span>
-                  <span className="px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 font-black text-xs">
+                  <span className="px-3 py-1 rounded-full bg-brand-50 text-brand-700 font-black text-xs">
                     {analysis.keywordGap?.keywordCoveragePercent || 70}%
                   </span>
                 </div>
@@ -873,7 +873,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
             <div className="bg-white p-6 sm:p-8 rounded-3xl border border-zinc-200 shadow-xs space-y-6">
               <div className="flex items-center justify-between border-b border-zinc-100 pb-4">
                 <div>
-                  <span className="text-[10px] font-black uppercase tracking-widest text-indigo-600">Completeness Checklist</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-brand-600">Completeness Checklist</span>
                   <h3 className="text-xl font-black text-zinc-900">
                     Profile Real Estate Audit ({analysis.categories.completeness}/10 pts)
                   </h3>
@@ -927,7 +927,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
             <div className="bg-white p-6 sm:p-8 rounded-3xl border border-zinc-200 shadow-xs space-y-6">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-100 pb-4">
                 <div>
-                  <span className="text-[10px] font-black uppercase tracking-widest text-indigo-600">Prioritized Roadmap</span>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-brand-600">Prioritized Roadmap</span>
                   <h3 className="text-xl font-black text-zinc-900">
                     Your 3-Day Profile Transformation Plan
                   </h3>
@@ -975,7 +975,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
                               className={`w-5 h-5 rounded-md border flex items-center justify-center transition-colors mt-0.5 shrink-0 ${
                                 task.completed 
                                   ? 'bg-emerald-500 border-emerald-500 text-white' 
-                                  : 'border-zinc-300 hover:border-indigo-500 bg-white'
+                                  : 'border-zinc-300 hover:border-brand-500 bg-white'
                               }`}
                             >
                               {task.completed && <Check className="w-3 h-3" />}
@@ -990,7 +990,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
                             </div>
                           </div>
 
-                          <span className="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded shrink-0">
+                          <span className="text-[10px] font-bold text-brand-600 bg-brand-50 px-2 py-0.5 rounded shrink-0">
                             {task.category}
                           </span>
                         </div>

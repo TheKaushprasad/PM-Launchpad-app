@@ -68,7 +68,7 @@ export const InterviewEvaluationView: React.FC<InterviewEvaluationViewProps> = (
 
           <div className="p-4 rounded-2xl bg-zinc-50 border border-zinc-200 text-left text-xs text-zinc-600 space-y-1.5 max-w-lg mx-auto">
             <div className="font-bold text-zinc-800 flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5 text-indigo-600" /> Why this happened:
+              <Sparkles className="w-3.5 h-3.5 text-brand-600" /> Why this happened:
             </div>
             <p>
               To ensure objective calibration against PM hiring standards, our evaluation engine requires at least 3 substantive candidate responses (more than 5 words each). This ensures we evaluate your real framework, hypothesis testing, and analytical depth rather than guessing.
@@ -78,7 +78,7 @@ export const InterviewEvaluationView: React.FC<InterviewEvaluationViewProps> = (
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
             <button
               onClick={onRetry}
-              className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-sm shadow-lg shadow-indigo-600/20 transition-all hover:scale-[1.02] active:scale-[0.98]"
+              className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-brand-600 hover:bg-brand-700 text-white font-extrabold text-sm shadow-lg shadow-brand-600/20 transition-all hover:scale-[1.02] active:scale-[0.98]"
             >
               <RotateCcw className="w-4 h-4" /> Re-attempt Case
             </button>
@@ -194,7 +194,7 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
 
       {/* Hero Grand Scorecard */}
       <div className="relative rounded-3xl p-8 md:p-12 bg-zinc-950 text-white shadow-2xl overflow-hidden border border-zinc-800">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-indigo-600/20 rounded-full blur-[140px] pointer-events-none" />
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-600/20 rounded-full blur-[140px] pointer-events-none" />
         
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
           {/* Main Score Gauge */}
@@ -263,7 +263,7 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
                   className="p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 cursor-pointer hover:bg-zinc-50/50 transition-colors"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-600 shrink-0">
+                    <div className="w-12 h-12 rounded-2xl bg-brand-50 flex items-center justify-center text-brand-600 shrink-0">
                       <Icon className="w-6 h-6" />
                     </div>
                     <div>
@@ -283,7 +283,7 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
                     <div className="w-24 h-2.5 bg-zinc-100 rounded-full overflow-hidden">
                       <div 
                         className={`h-full rounded-full ${
-                          percent >= 80 ? 'bg-emerald-500' : percent >= 60 ? 'bg-indigo-600' : 'bg-amber-500'
+                          percent >= 80 ? 'bg-emerald-500' : percent >= 60 ? 'bg-brand-600' : 'bg-amber-500'
                         }`}
                         style={{ width: `${percent}%` }}
                       />
@@ -333,10 +333,10 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
 
                             return (
                               <div key={eIdx} className="text-zinc-700 font-mono text-[11px] flex items-start gap-1.5 bg-white/70 p-2 rounded-xl border border-zinc-200/60">
-                                <span className="text-indigo-600 font-bold shrink-0">›</span>
+                                <span className="text-brand-600 font-bold shrink-0">›</span>
                                 <div>
                                   {turnIndex !== null && turnIndex > 0 && (
-                                    <span className="inline-block px-1.5 py-0.5 rounded bg-indigo-50 text-indigo-700 font-bold text-[9px] mr-1.5 border border-indigo-100 uppercase tracking-wider">
+                                    <span className="inline-block px-1.5 py-0.5 rounded bg-brand-50 text-brand-700 font-bold text-[9px] mr-1.5 border border-brand-100 uppercase tracking-wider">
                                       Turn {turnIndex}
                                     </span>
                                   )}
@@ -430,7 +430,7 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
         <div className="bg-white rounded-3xl p-8 md:p-10 border border-zinc-200 shadow-sm space-y-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center">
                 <BookOpen className="w-5 h-5" />
               </div>
               <div>
@@ -451,8 +451,8 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
 
           {showBenchmark && (
             <div className="space-y-6 pt-4 border-t border-zinc-100">
-              <div className="p-5 rounded-2xl bg-indigo-50/50 border border-indigo-100 text-xs font-medium text-indigo-950 leading-relaxed">
-                <strong className="block font-black text-sm text-indigo-900 mb-1">Recommended Approach:</strong>
+              <div className="p-5 rounded-2xl bg-brand-50/50 border border-brand-100 text-xs font-medium text-brand-950 leading-relaxed">
+                <strong className="block font-black text-sm text-brand-900 mb-1">Recommended Approach:</strong>
                 {evaluation.exemplarAnswer.recommendedApproach}
               </div>
 
@@ -461,7 +461,7 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {evaluation.exemplarAnswer.stepByStepStructure.map((step, i) => (
                     <div key={i} className="p-4 rounded-2xl bg-zinc-50 border border-zinc-200/80 space-y-1.5">
-                      <span className="text-[11px] font-black uppercase tracking-wider text-indigo-600 block">
+                      <span className="text-[11px] font-black uppercase tracking-wider text-brand-600 block">
                         {step.step}
                       </span>
                       <p className="text-xs text-zinc-700 font-medium leading-relaxed">
@@ -473,30 +473,30 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
               </div>
 
               {evaluation.exemplarAnswer.highestLeverageImprovement && (
-                <div className="p-6 rounded-3xl bg-gradient-to-br from-indigo-50/80 via-purple-50/40 to-pink-50/30 border border-indigo-200/80 shadow-sm space-y-4">
-                  <div className="flex items-center gap-2 text-indigo-900">
-                    <Sparkles className="w-5 h-5 text-indigo-600" />
+                <div className="p-6 rounded-3xl bg-gradient-to-br from-brand-50/80 via-brand-50/40 to-pink-50/30 border border-brand-200/80 shadow-sm space-y-4">
+                  <div className="flex items-center gap-2 text-brand-900">
+                    <Sparkles className="w-5 h-5 text-brand-600" />
                     <h4 className="font-extrabold text-sm tracking-tight uppercase tracking-wider">
                       One thing to practice next
                     </h4>
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-                    <div className="p-3.5 rounded-2xl bg-white/90 border border-indigo-100 space-y-1">
+                    <div className="p-3.5 rounded-2xl bg-white/90 border border-brand-100 space-y-1">
                       <span className="font-black text-[10px] uppercase tracking-wider text-zinc-500 block">Focus Area:</span>
                       <p className="font-bold text-zinc-900">{evaluation.exemplarAnswer.highestLeverageImprovement.focusArea}</p>
                     </div>
-                    <div className="p-3.5 rounded-2xl bg-white/90 border border-indigo-100 space-y-1">
+                    <div className="p-3.5 rounded-2xl bg-white/90 border border-brand-100 space-y-1">
                       <span className="font-black text-[10px] uppercase tracking-wider text-amber-700 block">What you did in this session:</span>
                       <p className="font-medium text-zinc-800">{evaluation.exemplarAnswer.highestLeverageImprovement.currentBehavior}</p>
                     </div>
-                    <div className="p-3.5 rounded-2xl bg-white/90 border border-indigo-100 space-y-1">
+                    <div className="p-3.5 rounded-2xl bg-white/90 border border-brand-100 space-y-1">
                       <span className="font-black text-[10px] uppercase tracking-wider text-emerald-600 block">What to aim for instead:</span>
                       <p className="font-medium text-zinc-800">{evaluation.exemplarAnswer.highestLeverageImprovement.targetBehavior}</p>
                     </div>
-                    <div className="p-3.5 rounded-2xl bg-indigo-900 text-white space-y-1">
-                      <span className="font-black text-[10px] uppercase tracking-wider text-indigo-200 block">Actionable Practice Drill:</span>
-                      <p className="font-medium text-indigo-100">{evaluation.exemplarAnswer.highestLeverageImprovement.practiceDrill}</p>
+                    <div className="p-3.5 rounded-2xl bg-brand-900 text-white space-y-1">
+                      <span className="font-black text-[10px] uppercase tracking-wider text-brand-200 block">Actionable Practice Drill:</span>
+                      <p className="font-medium text-brand-100">{evaluation.exemplarAnswer.highestLeverageImprovement.practiceDrill}</p>
                     </div>
                   </div>
                 </div>
@@ -524,7 +524,7 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
 
         <button
           onClick={onRetry}
-          className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-sm shadow-xl shadow-indigo-100 transition-all text-center flex items-center justify-center gap-2"
+          className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-brand-600 hover:bg-brand-700 text-white font-extrabold text-sm shadow-xl shadow-brand-100 transition-all text-center flex items-center justify-center gap-2"
         >
           <RotateCcw className="w-4 h-4" /> Retake Mock Session
         </button>

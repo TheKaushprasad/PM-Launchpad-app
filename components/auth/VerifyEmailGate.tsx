@@ -140,7 +140,7 @@ export const VerifyEmailGate: React.FC<VerifyEmailGateProps> = ({ from = '/dashb
     <div className="min-h-screen bg-zinc-50 flex flex-col items-center justify-center p-4 sm:p-6 text-zinc-900 relative">
       {/* Background Decor */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-100/40 rounded-full blur-3xl" />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-100/40 rounded-full blur-3xl" />
         <div className="absolute bottom-10 right-10 w-[350px] h-[350px] bg-emerald-100/30 rounded-full blur-3xl" />
       </div>
 
@@ -167,8 +167,8 @@ export const VerifyEmailGate: React.FC<VerifyEmailGateProps> = ({ from = '/dashb
           {/* Animated Icon */}
           <div className="flex justify-center">
             <div className="relative">
-              <div className="w-20 h-20 bg-indigo-50 border border-indigo-100 rounded-3xl flex items-center justify-center shadow-lg shadow-indigo-100/50">
-                <Mail className="w-10 h-10 text-indigo-600 animate-pulse" />
+              <div className="w-20 h-20 bg-brand-50 border border-brand-100 rounded-3xl flex items-center justify-center shadow-lg shadow-brand-100/50">
+                <Mail className="w-10 h-10 text-brand-600 animate-pulse" />
               </div>
               <div className="absolute -bottom-1.5 -right-1.5 w-7 h-7 bg-amber-500 text-white rounded-full flex items-center justify-center ring-4 ring-white shadow-sm">
                 <ShieldCheck className="w-4 h-4" />
@@ -199,19 +199,19 @@ export const VerifyEmailGate: React.FC<VerifyEmailGateProps> = ({ from = '/dashb
             </h4>
             <div className="space-y-2.5 text-xs text-zinc-700">
               <div className="flex items-start gap-2.5">
-                <span className="w-5 h-5 rounded-full bg-indigo-600 text-white text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">
+                <span className="w-5 h-5 rounded-full bg-brand-600 text-white text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">
                   1
                 </span>
                 <span>Open your email client and look for the verification email.</span>
               </div>
               <div className="flex items-start gap-2.5">
-                <span className="w-5 h-5 rounded-full bg-indigo-600 text-white text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">
+                <span className="w-5 h-5 rounded-full bg-brand-600 text-white text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">
                   2
                 </span>
                 <span>Click the confirmation link inside the email.</span>
               </div>
               <div className="flex items-start gap-2.5">
-                <span className="w-5 h-5 rounded-full bg-indigo-600 text-white text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">
+                <span className="w-5 h-5 rounded-full bg-brand-600 text-white text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">
                   3
                 </span>
                 <span>Click <strong>"I've Verified My Email"</strong> below to unlock your workspace.</span>
@@ -248,9 +248,9 @@ export const VerifyEmailGate: React.FC<VerifyEmailGateProps> = ({ from = '/dashb
                 initial={{ opacity: 0, y: -6 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -6 }}
-                className="p-3.5 rounded-xl bg-indigo-50 border border-indigo-200 text-indigo-900 text-xs font-medium flex items-start gap-2.5 text-left"
+                className="p-3.5 rounded-xl bg-brand-50 border border-brand-200 text-brand-900 text-xs font-medium flex items-start gap-2.5 text-left"
               >
-                <Sparkles className="w-4 h-4 text-indigo-600 shrink-0 mt-0.5" />
+                <Sparkles className="w-4 h-4 text-brand-600 shrink-0 mt-0.5" />
                 <span>{resendStatus}</span>
               </motion.div>
             )}
@@ -264,12 +264,12 @@ export const VerifyEmailGate: React.FC<VerifyEmailGateProps> = ({ from = '/dashb
               id="check-verification-status-btn"
               onClick={() => handleCheckStatus(false)}
               disabled={isChecking}
-              className="w-full py-3.5 px-5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] text-white font-bold text-sm shadow-md shadow-indigo-200 flex items-center justify-center gap-2 transition-all cursor-pointer disabled:opacity-60"
+              className="w-full py-3.5 px-5 rounded-2xl bg-brand-600 hover:bg-brand-700 active:scale-[0.99] text-white font-bold text-sm shadow-md shadow-brand-200 flex items-center justify-center gap-2 transition-all cursor-pointer disabled:opacity-60"
             >
               {isChecking ? (
                 <RefreshCw className="w-4 h-4 animate-spin text-white" />
               ) : (
-                <CheckCircle2 className="w-4 h-4 text-indigo-200" />
+                <CheckCircle2 className="w-4 h-4 text-brand-200" />
               )}
               <span>{isChecking ? 'Checking Status...' : "I've Verified My Email"}</span>
               <ArrowRight className="w-4 h-4 ml-1 opacity-80" />

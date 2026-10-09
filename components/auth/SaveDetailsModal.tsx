@@ -50,7 +50,7 @@ export const SaveDetailsModal: React.FC = () => {
   const getActionIcon = () => {
     switch (saveDetailsActionType) {
       case 'notes':
-        return <FileEdit className="w-5 h-5 text-indigo-600" />;
+        return <FileEdit className="w-5 h-5 text-brand-600" />;
       case 'bookmark':
         return <Bookmark className="w-5 h-5 text-amber-600 fill-amber-100" />;
       case 'video':
@@ -58,7 +58,7 @@ export const SaveDetailsModal: React.FC = () => {
       case 'complete':
         return <CheckCircle2 className="w-5 h-5 text-emerald-600" />;
       default:
-        return <BookOpen className="w-5 h-5 text-indigo-600" />;
+        return <BookOpen className="w-5 h-5 text-brand-600" />;
     }
   };
 
@@ -75,12 +75,12 @@ export const SaveDetailsModal: React.FC = () => {
               className="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full border border-zinc-200/90 shadow-2xl relative overflow-hidden"
             >
               {/* Top Accent Gradient */}
-              <div className="absolute top-0 right-0 w-36 h-36 bg-indigo-50/80 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+              <div className="absolute top-0 right-0 w-36 h-36 bg-brand-50/80 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
 
               <div className="relative z-10 space-y-4">
                 {/* Header with Icon and Dismiss */}
                 <div className="flex items-start justify-between gap-3">
-                  <div className="w-12 h-12 rounded-2xl bg-indigo-50 border border-indigo-100 flex items-center justify-center shadow-xs">
+                  <div className="w-12 h-12 rounded-2xl bg-brand-50 border border-brand-100 flex items-center justify-center shadow-xs">
                     {getActionIcon()}
                   </div>
                   <button
