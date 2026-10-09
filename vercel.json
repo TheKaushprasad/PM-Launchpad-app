@@ -1,4 +1,15 @@
 {
+  "crons": [
+    {
+      "path": "/api/jobs/refresh",
+      "schedule": "30 0 * * *"
+    }
+  ],
+  "functions": {
+    "api/index.js": {
+      "maxDuration": 60
+    }
+  },
   "rewrites": [
     {
       "source": "/api/(.*)",
