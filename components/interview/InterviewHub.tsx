@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { 
   Sparkles, 
-  BarChart2,
   Users,
   FileText,
   Play,
@@ -310,7 +309,7 @@ export const InterviewHub: React.FC = () => {
   return (
     <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
       {/* Top Banner / Hero Card */}
-      <div className="relative rounded-[2rem] bg-[#043C2C] border border-[#065F46]/60 p-6 sm:p-8 lg:p-9 text-white overflow-hidden shadow-xl">
+      <div className="relative rounded-3xl bg-[#043C2C] border border-[#065F46]/60 p-6 sm:p-8 lg:p-9 text-white overflow-hidden shadow-xl">
         {/* Subtle Ambient Background Gradients */}
         <div className="absolute top-0 right-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-[100px] pointer-events-none" />
         <div className="absolute bottom-0 right-10 w-80 h-80 bg-purple-600/10 rounded-full blur-[90px] pointer-events-none" />
@@ -528,8 +527,8 @@ export const InterviewHub: React.FC = () => {
       {/* Track Tabs & Filters */}
       <div className="space-y-4 pt-1">
         <div>
-          <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-2.5">
-            INTERVIEW TRACKS
+          <span className="text-sm font-semibold text-zinc-600 block mb-2.5">
+            Interview tracks
           </span>
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
             {/* Track Selector Tabs */}
@@ -647,7 +646,7 @@ export const InterviewHub: React.FC = () => {
             return (
               <div
                 key={sc.id}
-                className="bg-white rounded-[22px] border border-slate-200/90 p-6 flex flex-col justify-between transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:border-slate-300"
+                className="bg-white rounded-3xl border border-slate-200/90 p-6 flex flex-col justify-between transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:border-slate-300"
               >
                 <div className="space-y-4">
                   {/* Card Top: Company Logo + Company Name (left) & Badges (right) */}

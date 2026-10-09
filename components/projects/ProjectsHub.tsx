@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { collection, getDocs } from 'firebase/firestore';
-import { ArrowRight, Briefcase, CheckCircle2, Clock, FolderKanban } from 'lucide-react';
+import { ArrowRight, Briefcase, CheckCircle2, Clock } from 'lucide-react';
 import { db } from '../../firebase';
 import { useAuth } from '../../context/AuthContext';
 import { REAL_WORLD_PROJECTS } from '../../data/realWorldProjects';
@@ -59,15 +59,11 @@ export const ProjectsHub: React.FC = () => {
       transition={{ duration: 0.25, ease: 'easeOut' }}
       className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-7 pb-20"
     >
-      <div className="inline-flex items-center gap-1.5 text-indigo-600 font-extrabold text-xs tracking-wider mb-3 px-1">
-        <FolderKanban className="w-3.5 h-3.5" />
-        <span className="uppercase tracking-wider">REAL-WORLD PROJECTS</span>
-      </div>
 
       <header className="relative w-full bg-gradient-to-r from-[#032A1F] via-[#043C2C] to-[#064E3B] rounded-3xl p-7 sm:p-9 text-white overflow-hidden shadow-2xl border border-[#065F46]/60 mb-7">
         <div className="absolute top-0 right-0 w-[420px] h-[420px] bg-gradient-to-bl from-purple-600/25 via-indigo-600/15 to-transparent rounded-full blur-[100px] pointer-events-none -translate-y-1/4 translate-x-1/4" aria-hidden="true" />
-        <div className="relative z-10 max-w-2xl">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-3 tracking-tight leading-[1.08]">
+        <div className="relative z-10 max-w-3xl">
+          <h1 className="text-3xl sm:text-4xl md:text-[44px] font-extrabold mb-3 tracking-tight leading-[1.08]">
             Build a portfolio <br />
             <span className="text-[#6EE7B7]">that proves you think like a PM.</span>
           </h1>

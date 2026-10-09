@@ -142,7 +142,7 @@ export const DayCard: React.FC<DayCardProps> = ({ lesson, isCurrentLesson = fals
     <>
       <div 
         onClick={handleCardClick}
-        className="group relative rounded-[22px] border border-slate-200/90 bg-white p-5 sm:p-6 h-full flex flex-col justify-between transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md cursor-pointer"
+        className="group relative rounded-3xl border border-slate-200/90 bg-white p-5 sm:p-6 h-full flex flex-col justify-between transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md cursor-pointer"
       >
         <div>
           {/* Top Row: Category Tag (Left) & Metadata (Right) */}

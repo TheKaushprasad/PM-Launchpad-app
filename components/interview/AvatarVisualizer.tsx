@@ -29,7 +29,7 @@ export const AvatarVisualizer: React.FC<AvatarVisualizerProps> = ({
   onSubmitTurn
 }) => {
   return (
-    <div className="relative w-full h-full flex flex-col items-center justify-between p-4 md:p-6 bg-gradient-to-b from-zinc-900 via-zinc-950 to-black text-white rounded-[2.5rem] border border-zinc-800 shadow-2xl overflow-hidden select-none">
+    <div className="relative w-full h-full flex flex-col items-center justify-between p-4 md:p-6 bg-gradient-to-b from-zinc-900 via-zinc-950 to-black text-white rounded-3xl border border-zinc-800 shadow-2xl overflow-hidden select-none">
       {/* Dynamic Ambient Background Glow */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <motion.div 

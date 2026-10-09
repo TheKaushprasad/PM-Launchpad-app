@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { 
   ArrowRight, 
-  Zap,
   Check,
   FileText,
   Users
@@ -78,12 +77,8 @@ export const ToolsHub: React.FC = () => {
         transition={{ duration: 0.25, ease: "easeOut" }}
         className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-7 pb-20"
       >
-        {/* Top Eyebrow & Handwritten Annotation */}
-        <div className="flex items-center justify-between mb-3 px-1">
-          <div className="inline-flex items-center gap-1.5 text-sky-500 font-extrabold text-xs tracking-wider">
-            <Zap className="w-3.5 h-3.5 fill-sky-500 text-sky-500" />
-            <span className="uppercase tracking-wider">CAREER ACCELERATION SUITE</span>
-          </div>
+        {/* Handwritten Annotation */}
+        <div className="flex items-center justify-end mb-3 px-1">
 
           <div className="hidden sm:flex items-center gap-2 select-none pointer-events-none">
             {/* Hand-drawn curved arrow pointing to the dark banner */}

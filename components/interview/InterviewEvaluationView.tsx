@@ -49,7 +49,7 @@ export const InterviewEvaluationView: React.FC<InterviewEvaluationViewProps> = (
         animate={{ opacity: 1, y: 0 }}
         className="max-w-2xl mx-auto px-4 py-12"
       >
-        <div className="bg-white rounded-[2.5rem] border border-amber-200/90 shadow-xl p-8 sm:p-12 text-center space-y-6">
+        <div className="bg-white rounded-3xl border border-amber-200/90 shadow-xl p-8 sm:p-12 text-center space-y-6">
           <div className="w-16 h-16 rounded-3xl bg-amber-50 border border-amber-200 text-amber-600 flex items-center justify-center mx-auto shadow-inner">
             <Clock className="w-8 h-8" />
           </div>
@@ -193,7 +193,7 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
       )}
 
       {/* Hero Grand Scorecard */}
-      <div className="relative rounded-[3rem] p-8 md:p-12 bg-zinc-950 text-white shadow-2xl overflow-hidden border border-zinc-800">
+      <div className="relative rounded-3xl p-8 md:p-12 bg-zinc-950 text-white shadow-2xl overflow-hidden border border-zinc-800">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-indigo-600/20 rounded-full blur-[140px] pointer-events-none" />
         
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
@@ -229,9 +229,9 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
           </div>
 
           {/* Grand Score Display */}
-          <div className="flex flex-col items-center justify-center p-8 rounded-[2.5rem] bg-zinc-900/90 border border-zinc-800 backdrop-blur-md text-center">
+          <div className="flex flex-col items-center justify-center p-8 rounded-3xl bg-zinc-900/90 border border-zinc-800 backdrop-blur-md text-center">
             <span className="text-xs font-black uppercase tracking-widest text-zinc-400 mb-2">Overall Score</span>
-            <div className="text-7xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-400">
+            <div className="text-7xl font-black tracking-tighter text-white tabular-nums">
               {evaluation.overallScore}
             </div>
             <span className="text-xs font-bold text-zinc-500 mt-1">out of 100 points</span>
@@ -390,7 +390,7 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
 
       {/* Top Strengths & Critical Growth Areas Summary */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-emerald-50/40 rounded-[2.5rem] p-8 border border-emerald-100 shadow-sm space-y-4">
+        <div className="bg-emerald-50/40 rounded-3xl p-8 border border-emerald-100 shadow-sm space-y-4">
           <div className="flex items-center gap-2 text-emerald-800">
             <CheckCircle2 className="w-6 h-6 text-emerald-600" />
             <h3 className="font-extrabold text-xl tracking-tight">Key strengths demonstrated</h3>
@@ -407,7 +407,7 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
           </ul>
         </div>
 
-        <div className="bg-amber-50/40 rounded-[2.5rem] p-8 border border-amber-100 shadow-sm space-y-4">
+        <div className="bg-amber-50/40 rounded-3xl p-8 border border-amber-100 shadow-sm space-y-4">
           <div className="flex items-center gap-2 text-amber-800">
             <AlertCircle className="w-6 h-6 text-amber-600" />
             <h3 className="font-extrabold text-xl tracking-tight">Highest-priority growth areas</h3>
@@ -427,7 +427,7 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
 
       {/* Exemplar Benchmark Answer & Recommended Structural Breakdown */}
       {evaluation.exemplarAnswer && (
-        <div className="bg-white rounded-[2.5rem] p-8 md:p-10 border border-zinc-200 shadow-sm space-y-6">
+        <div className="bg-white rounded-3xl p-8 md:p-10 border border-zinc-200 shadow-sm space-y-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center">

@@ -1,8 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { 
-  Sparkles, ArrowRight, Target, Search, CheckCircle2, 
-  TrendingUp, Shield, Zap, Eye, FileText, Award, Layers,
+   ArrowRight, Target, Search, CheckCircle2, 
+  TrendingUp, Shield, Eye, FileText, Award,
   ChevronRight, Star
 } from 'lucide-react';
 
@@ -16,24 +16,20 @@ export const LinkedInLanding: React.FC<LinkedInLandingProps> = ({
   onSeeExample
 }) => {
   return (
-    <div className="w-full space-y-0">
+    <div className="w-full">
       {/* Hero Section */}
-      <section className="relative overflow-hidden rounded-[2rem] sm:rounded-[2.25rem] bg-gradient-to-br from-[#032A1F] via-[#043C2C] to-[#064E3B] pt-10 sm:pt-14 pb-8 sm:pb-10 px-6 sm:px-10 md:px-12 text-white border border-zinc-800 shadow-2xl">
+      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#032A1F] via-[#043C2C] to-[#064E3B] pt-10 sm:pt-14 pb-8 sm:pb-10 px-6 sm:px-10 md:px-12 text-white border border-zinc-800 shadow-2xl">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none -translate-y-1/2 translate-x-1/3" />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-sky-500/10 rounded-full blur-[100px] pointer-events-none translate-y-1/2 -translate-x-1/4" />
 
         <div className="relative z-10 max-w-3xl">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 text-indigo-300 text-xs font-bold backdrop-blur-md mb-4">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>AI-Powered LinkedIn Auditor & Personal Branding Coach</span>
-          </div>
 
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight leading-[1.05] mb-4">
-            Turn Your LinkedIn Profile Into a <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#34D399] to-indigo-400">Recruiter Magnet.</span>
+            Turn Your LinkedIn Profile Into a <span className="text-[#6EE7B7]">Recruiter Magnet.</span>
           </h1>
 
           <p className="text-zinc-300 text-base sm:text-lg font-medium leading-relaxed max-w-2xl">
-            Get an AI-powered LinkedIn audit, discover what's holding your profile back, and get specific, recruiter-proven recommendations to maximize inbound interview requests.
+            Paste your profile and get a score, rewrites and a 3-day plan to win more interview requests from recruiters.
           </p>
 
           {/* Primary & Secondary CTA */}
@@ -82,10 +78,6 @@ export const LinkedInLanding: React.FC<LinkedInLandingProps> = ({
       {/* How It Works */}
       <section className="mt-14">
         <div className="text-center max-w-xl mx-auto">
-          <div className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-indigo-600 mb-3">
-            <Zap className="w-3.5 h-3.5" />
-            <span>Simple 4-Step Process</span>
-          </div>
           <h2 className="text-2xl sm:text-3xl font-black text-zinc-900 tracking-tight mb-2">
             How The LinkedIn Optimiser Works
           </h2>
@@ -139,12 +131,8 @@ export const LinkedInLanding: React.FC<LinkedInLandingProps> = ({
       </section>
 
       {/* What We Analyse: 8 Categories Breakdown */}
-      <section className="mt-14 bg-zinc-50 rounded-[2.5rem] p-8 sm:p-12 border border-zinc-200/70">
+      <section className="mt-14 bg-zinc-50 rounded-3xl p-8 sm:p-12 border border-zinc-200/70">
         <div className="max-w-2xl space-y-2">
-          <div className="inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-indigo-600">
-            <Layers className="w-3.5 h-3.5" />
-            <span>Recruiter-Grade Scoring Rubric</span>
-          </div>
           <h2 className="text-2xl sm:text-3xl font-black text-zinc-900 tracking-tight">
             What We Analyse (100 Points Total)
           </h2>
@@ -183,7 +171,7 @@ export const LinkedInLanding: React.FC<LinkedInLandingProps> = ({
       </section>
 
       {/* Interactive Sample Preview Card */}
-      <section className="mt-14 bg-white rounded-[2.5rem] p-8 sm:p-12 border border-zinc-200 shadow-sm space-y-8">
+      <section className="mt-14 bg-white rounded-3xl p-8 sm:p-12 border border-zinc-200 shadow-sm space-y-8">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-100 pb-6">
           <div>
             <span className="text-[10px] font-black uppercase tracking-widest text-indigo-600">Sample Audit Snapshot</span>

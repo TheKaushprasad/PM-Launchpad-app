@@ -433,10 +433,6 @@ export const ResumeAuditor: React.FC = () => {
           /* ================= INPUT MODE ================= */
           <div className="max-w-3xl mx-auto space-y-8">
             <div className="text-center space-y-3">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-purple-50 border border-purple-200/80 rounded-full text-purple-700 text-xs font-bold shadow-xs">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>Reviewed the way a PM hiring manager would</span>
-              </div>
               <h1 className="text-3xl sm:text-4xl font-black text-zinc-900 tracking-tight">
                 PM Resume Auditor
               </h1>
