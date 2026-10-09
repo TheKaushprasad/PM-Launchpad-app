@@ -5,22 +5,22 @@ import {
 } from 'motion/react';
 import {
   Sparkles, Compass, Users, Search, BarChart3, PenTool,
-  Code2, FlaskConical, Map, ShieldCheck
+  Puzzle, FlaskConical, Map, Heart
 } from 'lucide-react';
 
 // Skills a modern PM needs, in orbit order.
 // `mobile` cards stay on small screens, where the orbit is simplified to six.
 const SKILLS = [
-  { label: 'AI & LLMs', icon: Sparkles, mobile: true },
-  { label: 'Product Strategy', icon: Compass, mobile: true },
-  { label: 'Stakeholder Management', icon: Users, mobile: false },
-  { label: 'User Research', icon: Search, mobile: true },
-  { label: 'Data & Analytics', icon: BarChart3, mobile: true },
+  { label: 'AI', icon: Sparkles, mobile: true },
+  { label: 'Strategy', icon: Compass, mobile: true },
+  { label: 'Management', icon: Users, mobile: false },
+  { label: 'Research', icon: Search, mobile: true },
+  { label: 'Analytics', icon: BarChart3, mobile: true },
   { label: 'UX Design', icon: PenTool, mobile: false },
-  { label: 'Engineering Collaboration', icon: Code2, mobile: false },
+  { label: 'Collaboration', icon: Puzzle, mobile: false },
   { label: 'Experimentation', icon: FlaskConical, mobile: true },
-  { label: 'Product Roadmaps', icon: Map, mobile: true },
-  { label: 'Responsible AI', icon: ShieldCheck, mobile: false },
+  { label: 'Roadmaps', icon: Map, mobile: true },
+  { label: 'Empathy', icon: Heart, mobile: false },
 ];
 const MOBILE_SKILLS = SKILLS.filter((s) => s.mobile);
 
@@ -75,7 +75,7 @@ const OrbitCard: React.FC<{ skill: Skill; offset: number; lap: MotionValue<numbe
         </span>
         {/* The off-white halo keeps the name readable when it passes in front of the character. */}
         <span
-          className="max-w-[92px] sm:max-w-[96px] xl:max-w-[104px] text-[10px] sm:text-[11px] xl:text-xs font-semibold leading-tight text-[#0F2A3D] transition-colors duration-300 group-hover:text-[#065F46]"
+          className="whitespace-nowrap text-[10px] sm:text-[11px] xl:text-xs font-semibold leading-tight text-[#0F2A3D] transition-colors duration-300 group-hover:text-[#065F46]"
           style={{ textShadow: '0 0 2px #FAFAF9, 0 0 6px #FAFAF9, 0 0 10px #FAFAF9' }}
         >
           {skill.label}
