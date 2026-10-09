@@ -3,3 +3,6 @@ dist/
 .env
 .env.local
 eval/results/
+
+# Impeccable engine binaries are downloaded per machine
+.claude/skills/impeccable/scripts/bin/
