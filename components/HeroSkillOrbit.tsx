@@ -36,12 +36,12 @@ export const HeroSkillOrbit: React.FC = () => (
     <div className="absolute inset-[22%] rounded-full bg-[radial-gradient(circle,rgba(16,185,129,0.20)_0%,rgba(20,184,166,0.08)_45%,transparent_70%)] pointer-events-none" />
 
     {/* Central 3D character */}
-    <div className="absolute left-1/2 top-1/2 w-[44%] -translate-x-1/2 -translate-y-1/2">
+    <div className="absolute left-1/2 top-[52%] w-[46%] sm:w-[50%] -translate-x-1/2 -translate-y-1/2">
       <img
         src="/landing/pm-character.png"
-        alt="A product manager working on a laptop"
-        width={256}
-        height={256}
+        alt="A product manager thinking at a laptop with a coffee mug"
+        width={294}
+        height={260}
         className="relative z-10 w-full h-auto drop-shadow-[0_18px_24px_rgba(4,60,44,0.22)] select-none"
         draggable={false}
       />
