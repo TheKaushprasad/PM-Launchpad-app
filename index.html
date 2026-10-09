@@ -121,21 +121,6 @@
       .hero-shot {
         animation: hero-shot-in 0.9s var(--ease-out) 0.32s both;
       }
-      /* Hero orbit: the skill cards and rings drift gently; the dashed ring turns slowly. */
-      .hero-orbit {
-        animation: hero-orbit-float 9s ease-in-out infinite;
-      }
-      .hero-orbit-ring {
-        animation: hero-orbit-dash 40s linear infinite;
-      }
-      @keyframes hero-orbit-float {
-        0%, 100% { transform: none; }
-        50% { transform: translateY(-6px); }
-      }
-      @keyframes hero-orbit-dash {
-        from { stroke-dashoffset: 0; }
-        to { stroke-dashoffset: -40; }
-      }
       @keyframes hero-line-in {
         from { opacity: 0; transform: translateY(0.35em); clip-path: inset(0 0 100% 0); }
         to { opacity: 1; transform: none; clip-path: inset(-10% -5% -15% -5%); }
