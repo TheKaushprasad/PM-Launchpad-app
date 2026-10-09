@@ -26,7 +26,7 @@ const MOBILE_SKILLS = SKILLS.filter((s) => s.mobile);
 
 // The orbit is a circle tilted away from the viewer, so it reads as an ellipse.
 // Values are percentages of the square stage.
-const ORBIT = { cx: 50, cy: 50, rx: 40, ry: 31 };
+const ORBIT = { cx: 50, cy: 50, rx: 38, ry: 31 };
 const SECONDS_PER_LAP = 60;
 
 const useIsSmallScreen = () => {
@@ -52,15 +52,15 @@ const OrbitCard: React.FC<{ skill: Skill; offset: number; lap: MotionValue<numbe
   const top = useTransform(angle, (a) => `${ORBIT.cy + ORBIT.ry * Math.sin(a)}%`);
   // depth: 0 at the back of the orbit, 1 at the front
   const depth = useTransform(angle, (a) => (Math.sin(a) + 1) / 2);
-  const scale = useTransform(depth, [0, 1], [0.78, 1]);
-  const opacity = useTransform(depth, [0, 1], [0.72, 1]);
+  // Depth shows through fading only, so every skill stays the same size.
+  const opacity = useTransform(depth, [0, 1], [0.55, 1]);
   const zIndex = useTransform(depth, (d) => (d > 0.42 ? 30 : 5));
   const Icon = skill.icon;
 
   return (
     <motion.li
       className="absolute"
-      style={{ left, top, zIndex, x: '-50%', y: '-50%', scale: still ? 1 : scale, opacity: still ? 1 : opacity }}
+      style={{ left, top, zIndex, x: '-50%', y: '-50%', opacity: still ? 1 : opacity }}
       initial={still ? false : { filter: 'blur(6px)' }}
       animate={{ filter: 'blur(0px)' }}
       exit={{ filter: 'blur(6px)', transition: { duration: 0.2 } }}
@@ -68,12 +68,16 @@ const OrbitCard: React.FC<{ skill: Skill; offset: number; lap: MotionValue<numbe
     >
       <motion.div
         whileHover={still ? undefined : { y: -4, transition: { duration: 0.2 } }}
-        className="group flex w-[90px] sm:w-[100px] lg:w-[108px] flex-col items-center gap-1 sm:gap-1.5 rounded-2xl border border-emerald-200 bg-white px-1.5 py-2 sm:px-2 sm:py-2.5 text-center shadow-[0_8px_20px_rgba(4,60,44,0.08)] transition-[border-color,box-shadow] duration-300 hover:border-emerald-400 hover:shadow-[0_14px_28px_rgba(4,60,44,0.14)]"
+        className="group flex items-center gap-1.5 sm:gap-2"
       >
-        <span className="flex h-6 w-6 sm:h-8 sm:w-8 items-center justify-center rounded-xl bg-emerald-50 text-[#065F46] transition-colors duration-300 group-hover:bg-[#065F46] group-hover:text-white">
+        <span className="flex h-7 w-7 sm:h-8 sm:w-8 shrink-0 items-center justify-center rounded-full border border-emerald-200 bg-white text-[#065F46] shadow-[0_4px_12px_rgba(4,60,44,0.10)] transition-colors duration-300 group-hover:border-[#065F46] group-hover:bg-[#065F46] group-hover:text-white">
           <Icon className="h-3.5 w-3.5 sm:h-4 sm:w-4" strokeWidth={2.2} aria-hidden="true" />
         </span>
-        <span className="text-[10px] sm:text-[11px] lg:text-xs font-semibold leading-tight text-[#0F2A3D]">
+        {/* The off-white halo keeps the name readable when it passes in front of the character. */}
+        <span
+          className="max-w-[92px] sm:max-w-[96px] xl:max-w-[104px] text-[10px] sm:text-[11px] xl:text-xs font-semibold leading-tight text-[#0F2A3D] transition-colors duration-300 group-hover:text-[#065F46]"
+          style={{ textShadow: '0 0 2px #FAFAF9, 0 0 6px #FAFAF9, 0 0 10px #FAFAF9' }}
+        >
           {skill.label}
         </span>
       </motion.div>
