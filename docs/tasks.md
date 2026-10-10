@@ -12,7 +12,7 @@ Priority: **P0** blocks safe growth, **P1** important next, **P2** nice to have.
 
 ### Reliability and security
 - [ ] **P0** Move the live site to a paid Gemini key with a billing budget alert, so users stop hitting the 20 requests per day free limit.
-- [ ] **P0** Require sign-in (Firebase ID token) and add per-user rate limits on AI endpoints: interview chat, hint, TTS, transcribe, LinkedIn and resume routes. Today anyone can spend the quota.
+- [x] **P0** Require sign-in (Firebase ID token) and add per-user rate limits on AI endpoints: interview chat, hint, TTS, transcribe, LinkedIn and resume routes. Today anyone can spend the quota.
 - [ ] **P0** Lock down `/api/auth/send-*-email`: require sign-in or a captcha, rate-limit per address, and only accept `returnUrl` on our own domain.
 - [ ] **P1** Fix clean installs: regenerate `package-lock.json` so `npm ci` works, delete `bun.lock`.
 - [ ] **P1** Add GitHub Actions CI running `npm ci`, `npm run lint`, `npm run build` and `npm run eval -- --validate` on every PR.
