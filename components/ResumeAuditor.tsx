@@ -411,7 +411,7 @@ export const ResumeAuditor: React.FC = () => {
             </button>
             <span className="text-zinc-300">/</span>
             <div className="flex items-center gap-2">
-              <Award className="w-4 h-4 text-purple-600" />
+              <Award className="w-4 h-4 text-brand-600" />
               <span className="text-xs font-bold text-zinc-900">PM Resume Auditor</span>
             </div>
           </div>
@@ -419,7 +419,7 @@ export const ResumeAuditor: React.FC = () => {
           {auditResult && (
             <button
               onClick={() => { setAuditResult(null); }}
-              className="text-xs font-bold text-purple-600 hover:text-purple-700 flex items-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-purple-50 transition-colors"
+              className="text-xs font-bold text-brand-600 hover:text-brand-700 flex items-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-brand-50 transition-colors"
             >
               <RefreshCw className="w-3.5 h-3.5" />
               <span>New Audit</span>
@@ -453,7 +453,7 @@ export const ResumeAuditor: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => setIsAddingRole(true)}
-                      className="text-xs font-bold text-purple-600 hover:text-purple-700 flex items-center gap-1 hover:underline"
+                      className="text-xs font-bold text-brand-600 hover:text-brand-700 flex items-center gap-1 hover:underline"
                     >
                       <Plus className="w-3.5 h-3.5" />
                       <span>Add Custom Role</span>
@@ -470,38 +470,38 @@ export const ResumeAuditor: React.FC = () => {
                       onClick={() => setTargetRole(role)}
                       className={`px-3.5 py-2.5 rounded-xl text-left text-xs font-bold transition-all border flex items-center justify-between ${
                         targetRole === role
-                          ? 'bg-purple-50 text-purple-700 border-purple-400 ring-2 ring-purple-400/20'
+                          ? 'bg-brand-50 text-brand-700 border-brand-400 ring-2 ring-brand-400/20'
                           : 'bg-zinc-50 text-zinc-700 border-zinc-200 hover:border-zinc-300'
                       }`}
                     >
                       <span className="truncate">{role}</span>
-                      {targetRole === role && <CheckCircle2 className="w-3.5 h-3.5 text-purple-600 shrink-0 ml-1.5" />}
+                      {targetRole === role && <CheckCircle2 className="w-3.5 h-3.5 text-brand-600 shrink-0 ml-1.5" />}
                     </button>
                   ))}
                 </div>
 
                 {/* Custom Role Input Form Drawer */}
                 {isAddingRole && (
-                  <form onSubmit={handleAddCustomRole} className="mt-3 p-3 bg-purple-50/70 border border-purple-200 rounded-2xl flex items-center gap-2">
+                  <form onSubmit={handleAddCustomRole} className="mt-3 p-3 bg-brand-50/70 border border-brand-200 rounded-2xl flex items-center gap-2">
                     <input
                       type="text"
                       autoFocus
                       value={newRoleInput}
                       onChange={(e) => setNewRoleInput(e.target.value)}
                       placeholder="e.g. AI Product Manager, Director of Product, Fintech PM..."
-                      className="flex-1 px-3 py-2 text-xs bg-white border border-purple-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-400 text-zinc-900"
+                      className="flex-1 px-3 py-2 text-xs bg-white border border-brand-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-400 text-zinc-900"
                     />
                     <button
                       type="submit"
                       disabled={!newRoleInput.trim()}
-                      className="px-3 py-2 bg-purple-600 hover:bg-purple-700 disabled:opacity-50 text-white text-xs font-bold rounded-xl transition-colors shrink-0"
+                      className="px-3 py-2 bg-brand-600 hover:bg-brand-700 disabled:opacity-50 text-white text-xs font-bold rounded-xl transition-colors shrink-0"
                     >
                       Add Role
                     </button>
                     <button
                       type="button"
                       onClick={() => { setIsAddingRole(false); setNewRoleInput(''); }}
-                      className="p-2 text-zinc-400 hover:text-zinc-600 rounded-xl hover:bg-purple-100 transition-colors"
+                      className="p-2 text-zinc-400 hover:text-zinc-600 rounded-xl hover:bg-brand-100 transition-colors"
                     >
                       <X className="w-4 h-4" />
                     </button>
@@ -520,9 +520,9 @@ export const ResumeAuditor: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => setShowSavedResumesDrawer(!showSavedResumesDrawer)}
-                        className="flex items-center gap-1 text-[11px] font-bold text-purple-700 bg-purple-50 hover:bg-purple-100 border border-purple-200/80 px-2.5 py-0.5 rounded-full transition-colors"
+                        className="flex items-center gap-1 text-[11px] font-bold text-brand-700 bg-brand-50 hover:bg-brand-100 border border-brand-200/80 px-2.5 py-0.5 rounded-full transition-colors"
                       >
-                        <Database className="w-3 h-3 text-purple-600" />
+                        <Database className="w-3 h-3 text-brand-600" />
                         <span>{storedResumes.length} in Cloud ({user ? 'Firestore' : 'Saved'})</span>
                       </button>
                     )}
@@ -533,7 +533,7 @@ export const ResumeAuditor: React.FC = () => {
                       onClick={() => setInputMode('upload')}
                       className={`flex items-center gap-1.5 px-3 py-1 text-xs font-bold rounded-lg transition-all ${
                         inputMode === 'upload'
-                          ? 'bg-white text-purple-700 shadow-xs'
+                          ? 'bg-white text-brand-700 shadow-xs'
                           : 'text-zinc-600 hover:text-zinc-900'
                       }`}
                     >
@@ -545,7 +545,7 @@ export const ResumeAuditor: React.FC = () => {
                       onClick={() => setInputMode('paste')}
                       className={`flex items-center gap-1.5 px-3 py-1 text-xs font-bold rounded-lg transition-all ${
                         inputMode === 'paste'
-                          ? 'bg-white text-purple-700 shadow-xs'
+                          ? 'bg-white text-brand-700 shadow-xs'
                           : 'text-zinc-600 hover:text-zinc-900'
                       }`}
                     >
@@ -562,11 +562,11 @@ export const ResumeAuditor: React.FC = () => {
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: 'auto' }}
                       exit={{ opacity: 0, height: 0 }}
-                      className="border border-purple-200 bg-purple-50/50 rounded-2xl p-4 space-y-3 overflow-hidden"
+                      className="border border-brand-200 bg-brand-50/50 rounded-2xl p-4 space-y-3 overflow-hidden"
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          <Cloud className="w-4 h-4 text-purple-600" />
+                          <Cloud className="w-4 h-4 text-brand-600" />
                           <h4 className="text-xs font-bold text-zinc-900">Your Resumes in Firebase Firestore</h4>
                         </div>
                         <button
@@ -583,8 +583,8 @@ export const ResumeAuditor: React.FC = () => {
                             key={item.id}
                             className={`p-3 rounded-xl border transition-all text-left flex items-start justify-between gap-2 bg-white ${
                               uploadedFile?.id === item.id
-                                ? 'border-purple-500 ring-2 ring-purple-500/20 shadow-xs'
-                                : 'border-zinc-200 hover:border-purple-300'
+                                ? 'border-brand-500 ring-2 ring-brand-500/20 shadow-xs'
+                                : 'border-zinc-200 hover:border-brand-300'
                             }`}
                           >
                             <button
@@ -633,8 +633,8 @@ export const ResumeAuditor: React.FC = () => {
                         onClick={() => fileInputRef.current?.click()}
                         className={`border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all ${
                           isDragging
-                            ? 'border-purple-500 bg-purple-50/60 ring-4 ring-purple-500/10'
-                            : 'border-zinc-300 bg-zinc-50/60 hover:bg-purple-50/30 hover:border-purple-300'
+                            ? 'border-brand-500 bg-brand-50/60 ring-4 ring-brand-500/10'
+                            : 'border-zinc-300 bg-zinc-50/60 hover:bg-brand-50/30 hover:border-brand-300'
                         }`}
                       >
                         <input
@@ -644,11 +644,11 @@ export const ResumeAuditor: React.FC = () => {
                           onChange={handleFileInputChange}
                           className="hidden"
                         />
-                        <div className="w-12 h-12 mx-auto mb-3 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center shadow-xs">
+                        <div className="w-12 h-12 mx-auto mb-3 rounded-2xl bg-brand-100 text-brand-600 flex items-center justify-center shadow-xs">
                           <UploadCloud className="w-6 h-6" />
                         </div>
                         <p className="text-sm font-bold text-zinc-800 mb-1">
-                          Drag and drop your Resume / CV PDF here, or <span className="text-purple-600 underline">Browse Files</span>
+                          Drag and drop your Resume / CV PDF here, or <span className="text-brand-600 underline">Browse Files</span>
                         </p>
                         <p className="text-xs text-zinc-500 max-w-sm mx-auto mb-4">
                           Supports PDF files up to 15MB. Automatically parses work experience, bullets, and ATS keywords.
@@ -660,7 +660,7 @@ export const ResumeAuditor: React.FC = () => {
                               e.stopPropagation();
                               handleLoadSample();
                             }}
-                            className="text-xs font-bold text-purple-600 hover:text-purple-700 bg-white border border-purple-200 px-3 py-1.5 rounded-xl hover:bg-purple-50 shadow-xs transition-colors"
+                            className="text-xs font-bold text-brand-600 hover:text-brand-700 bg-white border border-brand-200 px-3 py-1.5 rounded-xl hover:bg-brand-50 shadow-xs transition-colors"
                           >
                             Load Sample Resume
                           </button>
@@ -670,16 +670,16 @@ export const ResumeAuditor: React.FC = () => {
 
                     {/* Parsing State */}
                     {isParsingPdf && (
-                      <div className="border border-purple-200 bg-purple-50/50 rounded-2xl p-8 text-center space-y-3">
-                        <div className="w-12 h-12 mx-auto rounded-2xl bg-purple-600 text-white flex items-center justify-center shadow-md animate-pulse">
+                      <div className="border border-brand-200 bg-brand-50/50 rounded-2xl p-8 text-center space-y-3">
+                        <div className="w-12 h-12 mx-auto rounded-2xl bg-brand-600 text-white flex items-center justify-center shadow-md animate-pulse">
                           <RefreshCw className="w-6 h-6 animate-spin" />
                         </div>
                         <div>
                           <h4 className="text-sm font-bold text-zinc-900">Extracting Resume Content...</h4>
-                          <p className="text-xs text-purple-700 mt-1 font-medium">{parseStatusText}</p>
+                          <p className="text-xs text-brand-700 mt-1 font-medium">{parseStatusText}</p>
                         </div>
-                        <div className="w-48 h-1.5 bg-purple-200 rounded-full mx-auto overflow-hidden">
-                          <div className="h-full bg-purple-600 rounded-full animate-[progress_1.5s_ease-in-out_infinite] w-2/3"></div>
+                        <div className="w-48 h-1.5 bg-brand-200 rounded-full mx-auto overflow-hidden">
+                          <div className="h-full bg-brand-600 rounded-full animate-[progress_1.5s_ease-in-out_infinite] w-2/3"></div>
                         </div>
                       </div>
                     )}
@@ -701,7 +701,7 @@ export const ResumeAuditor: React.FC = () => {
                                   PDF Parsed
                                 </span>
                                 {user ? (
-                                  <span className="text-[10px] font-bold px-2 py-0.5 bg-purple-100 text-purple-800 rounded-full shrink-0 flex items-center gap-1">
+                                  <span className="text-[10px] font-bold px-2 py-0.5 bg-brand-100 text-brand-800 rounded-full shrink-0 flex items-center gap-1">
                                     <Cloud className="w-2.5 h-2.5" />
                                     <span>Saved in Firebase</span>
                                   </span>
@@ -731,7 +731,7 @@ export const ResumeAuditor: React.FC = () => {
                               onClick={() => {
                                 fileInputRef.current?.click();
                               }}
-                              className="text-xs font-bold text-purple-600 hover:text-purple-700 bg-purple-50 hover:bg-purple-100 px-3 py-1.5 rounded-xl transition-colors"
+                              className="text-xs font-bold text-brand-600 hover:text-brand-700 bg-brand-50 hover:bg-brand-100 px-3 py-1.5 rounded-xl transition-colors"
                             >
                               Replace
                             </button>
@@ -775,7 +775,7 @@ export const ResumeAuditor: React.FC = () => {
                                 rows={8}
                                 value={resumeText}
                                 onChange={(e) => setResumeText(e.target.value)}
-                                className="w-full bg-white border border-zinc-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 rounded-xl p-3 text-xs font-mono text-zinc-800 leading-relaxed resize-y focus:outline-none"
+                                className="w-full bg-white border border-zinc-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 rounded-xl p-3 text-xs font-mono text-zinc-800 leading-relaxed resize-y focus:outline-none"
                               />
                             </motion.div>
                           )}
@@ -790,7 +790,7 @@ export const ResumeAuditor: React.FC = () => {
                       <button
                         type="button"
                         onClick={handleLoadSample}
-                        className="text-xs font-bold text-purple-600 hover:text-purple-700 hover:underline flex items-center gap-1"
+                        className="text-xs font-bold text-brand-600 hover:text-brand-700 hover:underline flex items-center gap-1"
                       >
                         <span>Load Sample Resume</span>
                       </button>
@@ -804,7 +804,7 @@ export const ResumeAuditor: React.FC = () => {
                           if (uploadedFile) setUploadedFile(null);
                         }}
                         placeholder="Paste your raw resume text, work experience section, or bullet points here..."
-                        className="w-full bg-zinc-50 border border-zinc-300 focus:border-purple-500 focus:ring-4 focus:ring-purple-500/10 rounded-2xl p-4 text-xs font-mono text-zinc-800 leading-relaxed resize-y focus:outline-none transition-all placeholder:text-zinc-400"
+                        className="w-full bg-zinc-50 border border-zinc-300 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 rounded-2xl p-4 text-xs font-mono text-zinc-800 leading-relaxed resize-y focus:outline-none transition-all placeholder:text-zinc-400"
                       />
                       <div className="absolute bottom-3 right-4 text-[10px] font-mono text-zinc-400">
                         {resumeText.trim() ? `${resumeText.trim().split(/\s+/).length} words` : '0 words'}
@@ -818,7 +818,7 @@ export const ResumeAuditor: React.FC = () => {
               <div className="border border-zinc-200 bg-zinc-50/50 rounded-2xl p-4 sm:p-5 space-y-4">
                 <div className="flex items-center justify-between cursor-pointer select-none" onClick={() => setEnableJobCheck(!enableJobCheck)}>
                   <div className="flex items-center gap-2.5">
-                    <div className={`w-8 h-8 rounded-xl flex items-center justify-center transition-colors ${enableJobCheck ? 'bg-purple-600 text-white' : 'bg-zinc-200 text-zinc-600'}`}>
+                    <div className={`w-8 h-8 rounded-xl flex items-center justify-center transition-colors ${enableJobCheck ? 'bg-brand-600 text-white' : 'bg-zinc-200 text-zinc-600'}`}>
                       <Crosshair className="w-4 h-4" />
                     </div>
                     <div>
@@ -826,7 +826,7 @@ export const ResumeAuditor: React.FC = () => {
                         <span className="text-xs font-black text-zinc-900">
                           Check Suitability for a Specific Job
                         </span>
-                        <span className="text-[10px] font-bold px-2 py-0.5 bg-purple-100 text-purple-700 rounded-full">
+                        <span className="text-[10px] font-bold px-2 py-0.5 bg-brand-100 text-brand-700 rounded-full">
                           Optional
                         </span>
                       </div>
@@ -839,7 +839,7 @@ export const ResumeAuditor: React.FC = () => {
                   <button
                     type="button"
                     onClick={(e) => { e.stopPropagation(); setEnableJobCheck(!enableJobCheck); }}
-                    className={`w-10 h-6 flex items-center rounded-full p-1 transition-colors ${enableJobCheck ? 'bg-purple-600' : 'bg-zinc-300'}`}
+                    className={`w-10 h-6 flex items-center rounded-full p-1 transition-colors ${enableJobCheck ? 'bg-brand-600' : 'bg-zinc-300'}`}
                   >
                     <div className={`bg-white w-4 h-4 rounded-full shadow-md transform transition-transform ${enableJobCheck ? 'translate-x-4' : 'translate-x-0'}`} />
                   </button>
@@ -861,7 +861,7 @@ export const ResumeAuditor: React.FC = () => {
                         <button
                           type="button"
                           onClick={handleLoadSampleJob}
-                          className="text-[11px] font-bold text-purple-600 hover:text-purple-700 hover:underline"
+                          className="text-[11px] font-bold text-brand-600 hover:text-brand-700 hover:underline"
                         >
                           Load Sample Job Spec
                         </button>
@@ -871,7 +871,7 @@ export const ResumeAuditor: React.FC = () => {
                         value={jobTitle}
                         onChange={(e) => setJobTitle(e.target.value)}
                         placeholder="e.g. Senior Product Manager - Core Growth (Stripe)"
-                        className="w-full bg-white border border-zinc-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 rounded-xl px-3.5 py-2.5 text-xs text-zinc-800 font-medium focus:outline-none"
+                        className="w-full bg-white border border-zinc-300 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 rounded-xl px-3.5 py-2.5 text-xs text-zinc-800 font-medium focus:outline-none"
                       />
 
                       <div>
@@ -883,7 +883,7 @@ export const ResumeAuditor: React.FC = () => {
                           value={jobDescription}
                           onChange={(e) => setJobDescription(e.target.value)}
                           placeholder="Paste the full job posting, responsibilities, and qualifications text here..."
-                          className="w-full bg-white border border-zinc-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 rounded-xl p-3.5 text-xs font-mono text-zinc-800 leading-relaxed resize-y focus:outline-none"
+                          className="w-full bg-white border border-zinc-300 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 rounded-xl p-3.5 text-xs font-mono text-zinc-800 leading-relaxed resize-y focus:outline-none"
                         />
                       </div>
                     </motion.div>
@@ -905,7 +905,7 @@ export const ResumeAuditor: React.FC = () => {
                   type="button"
                   disabled={isAuditing}
                   onClick={handleAudit}
-                  className="w-full py-4 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold text-sm rounded-2xl shadow-lg shadow-purple-600/25 transition-all flex items-center justify-center gap-2.5 disabled:opacity-60 cursor-pointer"
+                  className="w-full py-4 bg-gradient-to-r from-brand-600 to-brand-600 hover:from-brand-700 hover:to-brand-700 text-white font-bold text-sm rounded-2xl shadow-lg shadow-brand-600/25 transition-all flex items-center justify-center gap-2.5 disabled:opacity-60 cursor-pointer"
                 >
                   {isAuditing ? (
                     <>
@@ -950,13 +950,13 @@ export const ResumeAuditor: React.FC = () => {
             className="space-y-8"
           >
             {/* Top Scorecard Hero Banner */}
-            <div className="bg-gradient-to-br from-zinc-900 via-zinc-900 to-purple-950 text-white rounded-3xl p-6 sm:p-8 border border-zinc-800 shadow-2xl relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20"></div>
+            <div className="bg-gradient-to-br from-zinc-900 via-zinc-900 to-brand-950 text-white rounded-3xl p-6 sm:p-8 border border-zinc-800 shadow-2xl relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-96 h-96 bg-brand-500/10 rounded-full blur-3xl pointer-events-none -mr-20 -mt-20"></div>
 
               <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-6 border-b border-zinc-800">
                 <div className="space-y-2">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-[11px] font-mono uppercase tracking-widest text-purple-400 font-bold">
+                    <span className="text-[11px] font-mono uppercase tracking-widest text-brand-400 font-bold">
                       Hiring Manager Audit Report
                     </span>
                     <span className="text-zinc-600">•</span>
@@ -967,7 +967,7 @@ export const ResumeAuditor: React.FC = () => {
                       <>
                         <span className="text-zinc-600">•</span>
                         <span className="text-xs text-zinc-300 font-medium flex items-center gap-1">
-                          <Paperclip className="w-3 h-3 text-purple-400" />
+                          <Paperclip className="w-3 h-3 text-brand-400" />
                           <span className="text-white font-mono truncate max-w-[150px]">{uploadedFile.name}</span>
                         </span>
                       </>
@@ -975,7 +975,7 @@ export const ResumeAuditor: React.FC = () => {
                     {auditResult.jobSuitability && (
                       <>
                         <span className="text-zinc-600">•</span>
-                        <span className="text-[10px] font-bold uppercase bg-purple-500/20 text-purple-300 border border-purple-500/30 px-2 py-0.5 rounded-full">
+                        <span className="text-[10px] font-bold uppercase bg-brand-500/20 text-brand-300 border border-brand-500/30 px-2 py-0.5 rounded-full">
                           Job Spec Benchmarked
                         </span>
                       </>
@@ -996,7 +996,7 @@ export const ResumeAuditor: React.FC = () => {
                       {auditResult.composite_score}
                       <span className="text-base text-zinc-400 font-bold">/100</span>
                     </div>
-                    <span className="text-[10px] font-mono uppercase tracking-wider text-purple-400 block mt-1">
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-brand-400 block mt-1">
                       Composite Score
                     </span>
                   </div>
@@ -1015,9 +1015,9 @@ export const ResumeAuditor: React.FC = () => {
               {/* Narrative Feedback Quote Block */}
               <div className="pt-6">
                 <div className="flex items-start gap-3 bg-zinc-800/50 border border-zinc-700/60 rounded-2xl p-4 sm:p-5">
-                  <Compass className="w-5 h-5 text-purple-400 shrink-0 mt-0.5" />
+                  <Compass className="w-5 h-5 text-brand-400 shrink-0 mt-0.5" />
                   <div className="space-y-1.5">
-                    <span className="text-[11px] font-black uppercase tracking-wider text-purple-300">
+                    <span className="text-[11px] font-black uppercase tracking-wider text-brand-300">
                       Hiring Manager Assessment
                     </span>
                     <p className="text-xs sm:text-sm text-zinc-200 leading-relaxed font-medium">
@@ -1033,12 +1033,12 @@ export const ResumeAuditor: React.FC = () => {
               <motion.div
                 initial={{ opacity: 0, scale: 0.98 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="bg-white border-2 border-purple-200 rounded-3xl p-6 sm:p-8 shadow-xl space-y-6"
+                className="bg-white border-2 border-brand-200 rounded-3xl p-6 sm:p-8 shadow-xl space-y-6"
               >
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-zinc-200">
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
-                      <Crosshair className="w-5 h-5 text-purple-600" />
+                      <Crosshair className="w-5 h-5 text-brand-600" />
                       <h3 className="text-lg font-black text-zinc-900">
                         Target Job Suitability Benchmark
                       </h3>
@@ -1050,7 +1050,7 @@ export const ResumeAuditor: React.FC = () => {
 
                   <div className="flex items-center gap-3">
                     <div className="text-right">
-                      <div className="text-2xl font-black text-purple-700">
+                      <div className="text-2xl font-black text-brand-700">
                         {auditResult.jobSuitability.match_score}%
                       </div>
                       <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">
@@ -1102,8 +1102,8 @@ export const ResumeAuditor: React.FC = () => {
                   </div>
 
                   {/* 3. Tailoring Recommendations */}
-                  <div className="bg-purple-50/50 border border-purple-200/80 rounded-2xl p-4 space-y-3">
-                    <div className="flex items-center gap-2 text-purple-800">
+                  <div className="bg-brand-50/50 border border-brand-200/80 rounded-2xl p-4 space-y-3">
+                    <div className="flex items-center gap-2 text-brand-800">
                       <Sparkles className="w-4 h-4" />
                       <h4 className="text-xs font-black uppercase tracking-wider">
                         Tailoring Action Plan
@@ -1112,7 +1112,7 @@ export const ResumeAuditor: React.FC = () => {
                     <ul className="space-y-2">
                       {auditResult.jobSuitability.tailoring_recommendations?.map((item, idx) => (
                         <li key={idx} className="flex items-start gap-2 text-xs text-zinc-700">
-                          <span className="w-4 h-4 rounded-full bg-purple-200 text-purple-800 text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">
+                          <span className="w-4 h-4 rounded-full bg-brand-200 text-brand-800 text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">
                             {idx + 1}
                           </span>
                           <span className="leading-snug">{item}</span>
@@ -1155,18 +1155,18 @@ export const ResumeAuditor: React.FC = () => {
               <div className="bg-white border border-zinc-200 rounded-2xl p-5 shadow-sm space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center">
                       <Compass className="w-4 h-4" />
                     </div>
                     <span className="text-xs font-black text-zinc-900">PM Ownership</span>
                   </div>
-                  <span className="text-base font-black text-indigo-600">
+                  <span className="text-base font-black text-brand-600">
                     {auditResult.sub_scores.pm_framing_score}<span className="text-xs text-zinc-400 font-normal">/100</span>
                   </span>
                 </div>
                 <div className="w-full bg-zinc-100 rounded-full h-2 overflow-hidden">
                   <div 
-                    className="bg-indigo-500 h-2 rounded-full transition-all duration-700" 
+                    className="bg-brand-500 h-2 rounded-full transition-all duration-700" 
                     style={{ width: `${Math.min(100, Math.max(5, auditResult.sub_scores.pm_framing_score))}%` }}
                   />
                 </div>
@@ -1180,18 +1180,18 @@ export const ResumeAuditor: React.FC = () => {
               <div className="bg-white border border-zinc-200 rounded-2xl p-5 shadow-sm space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center">
                       <FileCheck className="w-4 h-4" />
                     </div>
                     <span className="text-xs font-black text-zinc-900">ATS Readability</span>
                   </div>
-                  <span className="text-base font-black text-purple-600">
+                  <span className="text-base font-black text-brand-600">
                     {auditResult.sub_scores.ats_readability_score}<span className="text-xs text-zinc-400 font-normal">/100</span>
                   </span>
                 </div>
                 <div className="w-full bg-zinc-100 rounded-full h-2 overflow-hidden">
                   <div 
-                    className="bg-purple-500 h-2 rounded-full transition-all duration-700" 
+                    className="bg-brand-500 h-2 rounded-full transition-all duration-700" 
                     style={{ width: `${Math.min(100, Math.max(5, auditResult.sub_scores.ats_readability_score))}%` }}
                   />
                 </div>
@@ -1275,13 +1275,13 @@ export const ResumeAuditor: React.FC = () => {
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-zinc-200">
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
-                    <Sparkles className="w-4 h-4 text-purple-600" />
+                    <Sparkles className="w-4 h-4 text-brand-600" />
                     <h3 className="text-lg font-black text-zinc-900">
                       High-Impact PM Bullet Rewrites ({auditResult.bullet_rewrites?.length || 0})
                     </h3>
                   </div>
                   <p className="text-xs text-zinc-500 font-medium">
-                    Weak task bullets reframed into ownership-driven outcomes with <span className="bg-purple-100 text-purple-700 px-1.5 py-0.5 rounded font-mono font-bold">[METRIC]</span> placeholders for your genuine numbers.
+                    Weak task bullets reframed into ownership-driven outcomes with <span className="bg-brand-100 text-brand-700 px-1.5 py-0.5 rounded font-mono font-bold">[METRIC]</span> placeholders for your genuine numbers.
                   </p>
                 </div>
 
@@ -1299,7 +1299,7 @@ export const ResumeAuditor: React.FC = () => {
                 {auditResult.bullet_rewrites?.map((item, idx) => (
                   <div 
                     key={idx}
-                    className="border border-zinc-200 hover:border-purple-300 rounded-2xl p-5 bg-zinc-50/50 hover:bg-white transition-all space-y-3"
+                    className="border border-zinc-200 hover:border-brand-300 rounded-2xl p-5 bg-zinc-50/50 hover:bg-white transition-all space-y-3"
                   >
                     {/* Header Strip */}
                     <div className="flex items-center justify-between text-xs">
@@ -1308,7 +1308,7 @@ export const ResumeAuditor: React.FC = () => {
                       </span>
                       <button
                         onClick={() => handleCopyBullet(item.rewritten, idx)}
-                        className="text-xs font-bold text-purple-600 hover:text-purple-700 flex items-center gap-1 hover:bg-purple-50 px-2.5 py-1 rounded-lg transition-colors"
+                        className="text-xs font-bold text-brand-600 hover:text-brand-700 flex items-center gap-1 hover:bg-brand-50 px-2.5 py-1 rounded-lg transition-colors"
                       >
                         {copiedIndex === idx ? (
                           <>
@@ -1347,7 +1347,7 @@ export const ResumeAuditor: React.FC = () => {
                         {item.rewritten.split(/(\[METRIC[^\]]*\])/g).map((part, pIdx) => {
                           if (part.startsWith('[') && part.endsWith(']')) {
                             return (
-                              <span key={pIdx} className="bg-purple-100 text-purple-800 font-mono font-bold px-1.5 py-0.5 rounded mx-0.5 border border-purple-200">
+                              <span key={pIdx} className="bg-brand-100 text-brand-800 font-mono font-bold px-1.5 py-0.5 rounded mx-0.5 border border-brand-200">
                                 {part}
                               </span>
                             );

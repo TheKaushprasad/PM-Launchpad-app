@@ -198,7 +198,7 @@ export const About: React.FC = () => {
                 href="https://www.linkedin.com/company/the-noob-pm/?viewAsMember=true" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="text-zinc-400 hover:text-indigo-600 transition-colors font-medium text-xs"
+                className="text-zinc-400 hover:text-brand-600 transition-colors font-medium text-xs"
               >
                 LinkedIn
               </a>
@@ -206,7 +206,7 @@ export const About: React.FC = () => {
                 href="https://www.instagram.com/the_noob_pm/reels/" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="text-zinc-400 hover:text-indigo-600 transition-colors font-medium text-xs"
+                className="text-zinc-400 hover:text-brand-600 transition-colors font-medium text-xs"
               >
                 Instagram
               </a>
@@ -214,7 +214,7 @@ export const About: React.FC = () => {
                 href="https://www.youtube.com/@THE_NOOB_PM" 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="text-zinc-400 hover:text-indigo-600 transition-colors font-medium text-xs"
+                className="text-zinc-400 hover:text-brand-600 transition-colors font-medium text-xs"
               >
                 YouTube
               </a>

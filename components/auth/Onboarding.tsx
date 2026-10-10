@@ -173,11 +173,11 @@ export const Onboarding: React.FC = () => {
                 onClick={() => setUserType('college_student')}
                 className={`p-4 rounded-2xl border text-left transition-all flex items-start gap-3 ${
                   userType === 'student' || userType === 'college_student'
-                    ? 'border-indigo-600 bg-indigo-50/50 ring-2 ring-indigo-100'
+                    ? 'border-brand-600 bg-brand-50/50 ring-2 ring-brand-100'
                     : 'border-zinc-200 hover:border-zinc-300 bg-white'
                 }`}
               >
-                <div className={`p-2 rounded-xl ${userType === 'student' || userType === 'college_student' ? 'bg-indigo-600 text-white' : 'bg-zinc-100 text-zinc-600'}`}>
+                <div className={`p-2 rounded-xl ${userType === 'student' || userType === 'college_student' ? 'bg-brand-600 text-white' : 'bg-zinc-100 text-zinc-600'}`}>
                   <GraduationCap className="w-5 h-5" />
                 </div>
                 <div>
@@ -191,11 +191,11 @@ export const Onboarding: React.FC = () => {
                 onClick={() => setUserType('working_professional')}
                 className={`p-4 rounded-2xl border text-left transition-all flex items-start gap-3 ${
                   userType === 'professional' || userType === 'working_professional'
-                    ? 'border-indigo-600 bg-indigo-50/50 ring-2 ring-indigo-100'
+                    ? 'border-brand-600 bg-brand-50/50 ring-2 ring-brand-100'
                     : 'border-zinc-200 hover:border-zinc-300 bg-white'
                 }`}
               >
-                <div className={`p-2 rounded-xl ${userType === 'professional' || userType === 'working_professional' ? 'bg-indigo-600 text-white' : 'bg-zinc-100 text-zinc-600'}`}>
+                <div className={`p-2 rounded-xl ${userType === 'professional' || userType === 'working_professional' ? 'bg-brand-600 text-white' : 'bg-zinc-100 text-zinc-600'}`}>
                   <Briefcase className="w-5 h-5" />
                 </div>
                 <div>
@@ -209,7 +209,7 @@ export const Onboarding: React.FC = () => {
           {/* Conditional Education Details */}
           {(userType === 'student' || userType === 'college_student') && (
             <div className="p-4 rounded-2xl bg-zinc-50 border border-zinc-200 space-y-3">
-              <h4 className="text-xs font-black uppercase tracking-wider text-indigo-700">
+              <h4 className="text-xs font-black uppercase tracking-wider text-brand-700">
                 Education Details
               </h4>
               
@@ -225,7 +225,7 @@ export const Onboarding: React.FC = () => {
                     value={collegeName}
                     onChange={(e) => setCollegeName(e.target.value)}
                     placeholder="e.g. IIT Delhi, Stanford, BITS Pilani"
-                    className="w-full pl-10 pr-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs outline-none focus:border-indigo-600"
+                    className="w-full pl-10 pr-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs outline-none focus:border-brand-600"
                   />
                 </div>
               </div>
@@ -241,7 +241,7 @@ export const Onboarding: React.FC = () => {
                     value={degree}
                     onChange={(e) => setDegree(e.target.value)}
                     placeholder="e.g. B.Tech / MBA / BCA"
-                    className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs outline-none focus:border-indigo-600"
+                    className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs outline-none focus:border-brand-600"
                   />
                 </div>
 
@@ -252,7 +252,7 @@ export const Onboarding: React.FC = () => {
                   <select
                     value={passingOutYear}
                     onChange={(e) => setPassingOutYear(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs outline-none focus:border-indigo-600 font-medium"
+                    className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs outline-none focus:border-brand-600 font-medium"
                   >
                     <option value="2024">2024 (Recent)</option>
                     <option value="2025">2025</option>
@@ -268,7 +268,7 @@ export const Onboarding: React.FC = () => {
           {/* Conditional Professional Details */}
           {(userType === 'professional' || userType === 'working_professional') && (
             <div className="p-4 rounded-2xl bg-zinc-50 border border-zinc-200 space-y-3">
-              <h4 className="text-xs font-black uppercase tracking-wider text-indigo-700">
+              <h4 className="text-xs font-black uppercase tracking-wider text-brand-700">
                 Professional Details
               </h4>
 
@@ -284,7 +284,7 @@ export const Onboarding: React.FC = () => {
                     value={companyName}
                     onChange={(e) => setCompanyName(e.target.value)}
                     placeholder="e.g. Microsoft, Razorpay, Fintech Startup"
-                    className="w-full pl-10 pr-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs outline-none focus:border-indigo-600"
+                    className="w-full pl-10 pr-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs outline-none focus:border-brand-600"
                   />
                 </div>
               </div>
@@ -300,7 +300,7 @@ export const Onboarding: React.FC = () => {
                     value={designation}
                     onChange={(e) => setDesignation(e.target.value)}
                     placeholder="e.g. Associate PM / Analyst"
-                    className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs outline-none focus:border-indigo-600"
+                    className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs outline-none focus:border-brand-600"
                   />
                 </div>
 
@@ -311,7 +311,7 @@ export const Onboarding: React.FC = () => {
                   <select
                     value={yearsOfExperience}
                     onChange={(e) => setYearsOfExperience(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs outline-none focus:border-indigo-600 font-medium"
+                    className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs outline-none focus:border-brand-600 font-medium"
                   >
                     <option value="0-1 years">0-1 years</option>
                     <option value="1-3 years">1-3 years</option>
@@ -332,7 +332,7 @@ export const Onboarding: React.FC = () => {
               <select
                 value={targetRole}
                 onChange={(e) => setTargetRole(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl bg-zinc-50 border border-zinc-200 text-xs outline-none focus:border-indigo-600 font-medium"
+                className="w-full px-3 py-2 rounded-xl bg-zinc-50 border border-zinc-200 text-xs outline-none focus:border-brand-600 font-medium"
               >
                 {TARGET_ROLES.map((r) => (
                   <option key={r} value={r}>{r}</option>
@@ -344,7 +344,7 @@ export const Onboarding: React.FC = () => {
                   placeholder="Enter target role"
                   value={customRole}
                   onChange={(e) => setCustomRole(e.target.value)}
-                  className="mt-1.5 w-full px-3 py-1.5 rounded-lg border border-zinc-200 text-xs outline-none focus:border-indigo-600"
+                  className="mt-1.5 w-full px-3 py-1.5 rounded-lg border border-zinc-200 text-xs outline-none focus:border-brand-600"
                 />
               )}
             </div>
@@ -356,7 +356,7 @@ export const Onboarding: React.FC = () => {
               <select
                 value={industry}
                 onChange={(e) => setIndustry(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl bg-zinc-50 border border-zinc-200 text-xs outline-none focus:border-indigo-600 font-medium"
+                className="w-full px-3 py-2 rounded-xl bg-zinc-50 border border-zinc-200 text-xs outline-none focus:border-brand-600 font-medium"
               >
                 {INDUSTRIES.map((ind) => (
                   <option key={ind} value={ind}>{ind}</option>
@@ -368,7 +368,7 @@ export const Onboarding: React.FC = () => {
                   placeholder="Enter target industry"
                   value={customIndustry}
                   onChange={(e) => setCustomIndustry(e.target.value)}
-                  className="mt-1.5 w-full px-3 py-1.5 rounded-lg border border-zinc-200 text-xs outline-none focus:border-indigo-600"
+                  className="mt-1.5 w-full px-3 py-1.5 rounded-lg border border-zinc-200 text-xs outline-none focus:border-brand-600"
                 />
               )}
             </div>
@@ -386,7 +386,7 @@ export const Onboarding: React.FC = () => {
                 value={linkedinUrl}
                 onChange={(e) => setLinkedinUrl(e.target.value)}
                 placeholder="https://www.linkedin.com/in/username"
-                className="w-full pl-10 pr-4 py-2 rounded-xl border border-zinc-200 focus:border-indigo-600 text-xs outline-none transition-all"
+                className="w-full pl-10 pr-4 py-2 rounded-xl border border-zinc-200 focus:border-brand-600 text-xs outline-none transition-all"
               />
             </div>
           </div>
@@ -395,7 +395,7 @@ export const Onboarding: React.FC = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3.5 px-6 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-lg shadow-indigo-200 flex items-center justify-center gap-2 transition-all active:scale-[0.99] cursor-pointer disabled:opacity-50"
+            className="w-full py-3.5 px-6 rounded-2xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm shadow-lg shadow-brand-200 flex items-center justify-center gap-2 transition-all active:scale-[0.99] cursor-pointer disabled:opacity-50"
           >
             {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
             <span>Complete Profile & Go to Dashboard</span>

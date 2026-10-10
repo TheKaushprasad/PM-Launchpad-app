@@ -5,14 +5,14 @@ export const RocketIllustration: React.FC<{ className?: string }> = ({ className
   return (
     <div className={`relative flex items-center justify-center select-none pointer-events-none ${className}`}>
       {/* Ambient background glow */}
-      <div className="absolute inset-0 bg-radial from-blue-500/25 via-indigo-500/10 to-transparent blur-3xl rounded-full transform translate-x-2 -translate-y-2" />
+      <div className="absolute inset-0 bg-radial from-brand-500/25 via-brand-500/10 to-transparent blur-3xl rounded-full transform translate-x-2 -translate-y-2" />
 
       {/* Floating Sparkle Stars */}
       <div className="absolute top-2 left-8 text-amber-300 text-sm animate-pulse opacity-90">✦</div>
       <div className="absolute top-8 right-14 text-amber-300 text-base animate-pulse opacity-85" style={{ animationDelay: '800ms' }}>★</div>
       <div className="absolute bottom-6 right-8 text-amber-200 text-xs opacity-75">✦</div>
-      <div className="absolute top-24 left-3 text-sky-300 text-xs opacity-80" style={{ animationDelay: '400ms' }}>★</div>
-      <div className="absolute bottom-3 left-14 text-blue-300 text-xs opacity-70">✦</div>
+      <div className="absolute top-24 left-3 text-brand-300 text-xs opacity-80" style={{ animationDelay: '400ms' }}>★</div>
+      <div className="absolute bottom-3 left-14 text-brand-300 text-xs opacity-70">✦</div>
 
       {/* Floating badge: "Smarter learning for brighter PMs" (Left of rocket) */}
       <motion.div 

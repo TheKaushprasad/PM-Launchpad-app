@@ -259,7 +259,7 @@ export const LinkedInOptimiser: React.FC = () => {
                     <motion.div 
                       initial={{ width: '10%' }}
                       animate={{ width: `${progress}%` }}
-                      className="h-full bg-indigo-600 rounded-full"
+                      className="h-full bg-brand-600 rounded-full"
                     />
                   </div>
                 </div>
@@ -274,7 +274,7 @@ export const LinkedInOptimiser: React.FC = () => {
                       setViewState('dashboard');
                       window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
-                    className="w-full py-2.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md transition-all cursor-pointer flex items-center justify-center gap-1.5 animate-pulse"
+                    className="w-full py-2.5 px-4 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs shadow-md transition-all cursor-pointer flex items-center justify-center gap-1.5 animate-pulse"
                   >
                     <span>View Audit Scorecard</span>
                     <span>&rarr;</span>

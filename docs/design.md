@@ -10,7 +10,7 @@ The visual language and UX patterns of thenoobpm.com, taken from the current cod
 
 ## 2. Colour
 
-Tailwind's default palette, loaded from the CDN. Neutrals do most of the work; forest green is the one brand accent. A `tailwind.config` block in `index.html` maps the old `indigo`, `blue`, `sky`, `violet` and `purple` classes (and a new `brand` name) to the green scale, so new work should use `brand-*` and older classes still render green.
+Tailwind's default palette, loaded from the CDN. Neutrals do most of the work; forest green is the one brand accent. A `tailwind.config` block in `index.html` defines the green `brand` scale, and every component uses `brand-*`. The old `indigo`, `blue`, `sky`, `violet` and `purple` names are still mapped to the same green as a safety net, so use hex (for example `#3B82F6`) when a real blue is needed. Run `.claude/skills/impeccable/scripts/impeccable detect components` to check for design anti-patterns.
 
 | Role | Tailwind classes | Notes |
 |---|---|---|

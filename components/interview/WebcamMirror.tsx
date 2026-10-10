@@ -114,13 +114,13 @@ export const WebcamMirror: React.FC<WebcamMirrorProps> = ({ isMicActive }) => {
       ) : (
         <div className="w-full h-full flex flex-col items-center justify-center bg-zinc-900 text-zinc-400 gap-1.5 p-2 text-center">
           {isInitializing ? (
-            <RefreshCw className="w-6 h-6 text-indigo-400 animate-spin" />
+            <RefreshCw className="w-6 h-6 text-brand-400 animate-spin" />
           ) : (
             <User className="w-7 h-7 text-zinc-500" />
           )}
           <button 
             onClick={startWebcam}
-            className="text-[10px] font-bold text-indigo-400 hover:text-indigo-300 underline mt-0.5"
+            className="text-[10px] font-bold text-brand-400 hover:text-brand-300 underline mt-0.5"
           >
             {isInitializing ? "Detecting camera..." : hasPermission === false ? "Enable Camera" : "Turn on Camera"}
           </button>

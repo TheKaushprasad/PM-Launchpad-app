@@ -424,11 +424,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           {mode === 'signup' && !accountCreatedSuccess && (
             <div className="px-6 py-2.5 bg-zinc-50/40 border-b border-zinc-100/80 flex items-center justify-between text-[11px]">
               <div className="flex items-center gap-2">
-                <span className={`font-bold ${signupStep === 1 ? 'text-indigo-600' : 'text-zinc-400'}`}>
+                <span className={`font-bold ${signupStep === 1 ? 'text-brand-600' : 'text-zinc-400'}`}>
                   1 Create account
                 </span>
                 <span className="text-zinc-300">→</span>
-                <span className={`font-bold ${signupStep === 2 ? 'text-indigo-600' : 'text-zinc-400'}`}>
+                <span className={`font-bold ${signupStep === 2 ? 'text-brand-600' : 'text-zinc-400'}`}>
                   2 Personalize
                 </span>
               </div>
@@ -437,8 +437,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   Step {signupStep} of 2
                 </span>
                 <div className="flex gap-1">
-                  <span className={`w-3.5 h-1.5 rounded-full transition-colors ${signupStep >= 1 ? 'bg-indigo-600' : 'bg-zinc-200'}`} />
-                  <span className={`w-3.5 h-1.5 rounded-full transition-colors ${signupStep >= 2 ? 'bg-indigo-600' : 'bg-zinc-200'}`} />
+                  <span className={`w-3.5 h-1.5 rounded-full transition-colors ${signupStep >= 1 ? 'bg-brand-600' : 'bg-zinc-200'}`} />
+                  <span className={`w-3.5 h-1.5 rounded-full transition-colors ${signupStep >= 2 ? 'bg-brand-600' : 'bg-zinc-200'}`} />
                 </div>
               </div>
             </div>
@@ -505,7 +505,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                         navigate(getDestinationPath(), { replace: true });
                       }
                     }}
-                    className="w-full h-12 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs uppercase tracking-wider shadow-md shadow-indigo-200 flex items-center justify-center gap-2 transition-all active:scale-[0.99] cursor-pointer"
+                    className="w-full h-12 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-extrabold text-xs uppercase tracking-wider shadow-md shadow-brand-200 flex items-center justify-center gap-2 transition-all active:scale-[0.99] cursor-pointer"
                   >
                     <span>PROCEED TO VERIFICATION →</span>
                   </button>
@@ -517,7 +517,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     className="w-full py-2.5 px-4 rounded-xl border border-zinc-200 hover:bg-zinc-50 text-zinc-600 font-semibold text-xs flex items-center justify-center gap-2 transition-colors cursor-pointer disabled:opacity-50"
                   >
                     {resendingEmail ? (
-                      <Loader2 className="w-3.5 h-3.5 animate-spin text-indigo-600" />
+                      <Loader2 className="w-3.5 h-3.5 animate-spin text-brand-600" />
                     ) : (
                       <RefreshCw className="w-3.5 h-3.5 text-zinc-400" />
                     )}
@@ -576,7 +576,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                         className="w-full h-11 px-4 rounded-xl border border-zinc-200 hover:border-zinc-300 bg-white hover:bg-zinc-50/80 text-zinc-800 font-bold text-xs sm:text-sm flex items-center justify-center gap-2.5 shadow-xs transition-all active:scale-[0.99] cursor-pointer disabled:opacity-50"
                       >
                         {googleLoading ? (
-                          <Loader2 className="w-4 h-4 animate-spin text-indigo-600" />
+                          <Loader2 className="w-4 h-4 animate-spin text-brand-600" />
                         ) : (
                           <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
                             <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -612,7 +612,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             placeholder="e.g. Kaushal Prasad"
-                            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-zinc-200 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100 text-xs sm:text-sm outline-none transition-all"
+                            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-zinc-200 focus:border-brand-600 focus:ring-2 focus:ring-brand-100 text-xs sm:text-sm outline-none transition-all"
                           />
                         </div>
                       </div>
@@ -642,7 +642,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                             className={`w-full pl-10 pr-4 py-2.5 rounded-xl border text-xs sm:text-sm outline-none transition-all ${
                               showEmailInvalid
                                 ? 'border-rose-400 focus:border-rose-500 ring-2 ring-rose-100 bg-rose-50/20 text-rose-900'
-                                : 'border-zinc-200 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100 text-zinc-900'
+                                : 'border-zinc-200 focus:border-brand-600 focus:ring-2 focus:ring-brand-100 text-zinc-900'
                             }`}
                           />
                         </div>
@@ -661,7 +661,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="Create a strong password"
-                            className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-zinc-200 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100 text-xs sm:text-sm outline-none transition-all"
+                            className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-zinc-200 focus:border-brand-600 focus:ring-2 focus:ring-brand-100 text-xs sm:text-sm outline-none transition-all"
                           />
                           <button
                             type="button"
@@ -690,7 +690,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                       <div className="pt-2">
                         <button
                           type="submit"
-                          className="w-full h-12 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs uppercase tracking-wider shadow-md shadow-indigo-200 flex items-center justify-center gap-2 transition-all active:scale-[0.99] cursor-pointer"
+                          className="w-full h-12 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-extrabold text-xs uppercase tracking-wider shadow-md shadow-brand-200 flex items-center justify-center gap-2 transition-all active:scale-[0.99] cursor-pointer"
                         >
                           <span>CONTINUE →</span>
                         </button>
@@ -725,7 +725,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                           onClick={() => setUserType('college_student')}
                           className={`p-3 rounded-xl border text-left flex items-center gap-2.5 transition-all cursor-pointer ${
                             userType === 'student' || userType === 'college_student'
-                              ? 'border-indigo-600 bg-indigo-50/60 text-indigo-950 ring-1 ring-indigo-500/20 font-bold shadow-xs'
+                              ? 'border-brand-600 bg-brand-50/60 text-brand-950 ring-1 ring-brand-500/20 font-bold shadow-xs'
                               : 'border-zinc-200 bg-white hover:border-zinc-300 text-zinc-700 font-medium'
                           }`}
                         >
@@ -740,7 +740,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                           onClick={() => setUserType('working_professional')}
                           className={`p-3 rounded-xl border text-left flex items-center gap-2.5 transition-all cursor-pointer ${
                             userType === 'professional' || userType === 'working_professional'
-                              ? 'border-indigo-600 bg-indigo-50/60 text-indigo-950 ring-1 ring-indigo-500/20 font-bold shadow-xs'
+                              ? 'border-brand-600 bg-brand-50/60 text-brand-950 ring-1 ring-brand-500/20 font-bold shadow-xs'
                               : 'border-zinc-200 bg-white hover:border-zinc-300 text-zinc-700 font-medium'
                           }`}
                         >
@@ -769,7 +769,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                                 value={collegeName}
                                 onChange={(e) => setCollegeName(e.target.value)}
                                 placeholder="e.g. IIT Delhi, BITS Pilani, Stanford"
-                                className="w-full pl-10 pr-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs sm:text-sm outline-none focus:border-indigo-600 focus:ring-1 focus:ring-indigo-100"
+                                className="w-full pl-10 pr-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs sm:text-sm outline-none focus:border-brand-600 focus:ring-1 focus:ring-brand-100"
                               />
                             </div>
                           </div>
@@ -786,7 +786,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                                 value={degree}
                                 onChange={(e) => setDegree(e.target.value)}
                                 placeholder="e.g. B.Tech / MBA"
-                                className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs sm:text-sm outline-none focus:border-indigo-600 focus:ring-1 focus:ring-indigo-100"
+                                className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs sm:text-sm outline-none focus:border-brand-600 focus:ring-1 focus:ring-brand-100"
                               />
                             </div>
 
@@ -797,7 +797,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                               <select
                                 value={passingOutYear}
                                 onChange={(e) => setPassingOutYear(e.target.value)}
-                                className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs sm:text-sm outline-none focus:border-indigo-600 font-medium"
+                                className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs sm:text-sm outline-none focus:border-brand-600 font-medium"
                               >
                                 <option value="2024">2024 (Recent)</option>
                                 <option value="2025">2025</option>
@@ -819,7 +819,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                               <select
                                 value={yearsOfExperience}
                                 onChange={(e) => setYearsOfExperience(e.target.value)}
-                                className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs sm:text-sm outline-none focus:border-indigo-600 font-medium"
+                                className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs sm:text-sm outline-none focus:border-brand-600 font-medium"
                               >
                                 <option value="0-1 years">0-1 years</option>
                                 <option value="1-3 years">1-3 years</option>
@@ -838,7 +838,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                                 value={designation}
                                 onChange={(e) => setDesignation(e.target.value)}
                                 placeholder="e.g. Software Engineer"
-                                className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs sm:text-sm outline-none focus:border-indigo-600 focus:ring-1 focus:ring-indigo-100"
+                                className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs sm:text-sm outline-none focus:border-brand-600 focus:ring-1 focus:ring-brand-100"
                               />
                             </div>
                           </div>
@@ -858,7 +858,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                                 value={companyName}
                                 onChange={(e) => setCompanyName(e.target.value)}
                                 placeholder="e.g. Microsoft, Flipkart, Startup"
-                                className="w-full pl-10 pr-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs sm:text-sm outline-none focus:border-indigo-600 focus:ring-1 focus:ring-indigo-100"
+                                className="w-full pl-10 pr-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs sm:text-sm outline-none focus:border-brand-600 focus:ring-1 focus:ring-brand-100"
                               />
                             </div>
                           </div>
@@ -874,7 +874,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                           <select
                             value={targetRole}
                             onChange={(e) => setTargetRole(e.target.value)}
-                            className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs sm:text-sm outline-none focus:border-indigo-600 font-medium"
+                            className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs sm:text-sm outline-none focus:border-brand-600 font-medium"
                           >
                             {TARGET_ROLES.map((r) => (
                               <option key={r} value={r}>{r}</option>
@@ -886,7 +886,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                               placeholder="Specify target role"
                               value={customRole}
                               onChange={(e) => setCustomRole(e.target.value)}
-                              className="mt-1.5 w-full px-3 py-1.5 rounded-lg border border-zinc-200 text-xs outline-none focus:border-indigo-600"
+                              className="mt-1.5 w-full px-3 py-1.5 rounded-lg border border-zinc-200 text-xs outline-none focus:border-brand-600"
                             />
                           )}
                         </div>
@@ -901,7 +901,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                           <select
                             value={industry}
                             onChange={(e) => setIndustry(e.target.value)}
-                            className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs sm:text-sm outline-none focus:border-indigo-600 font-medium"
+                            className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs sm:text-sm outline-none focus:border-brand-600 font-medium"
                           >
                             {INDUSTRIES.map((ind) => (
                               <option key={ind} value={ind}>{ind}</option>
@@ -913,7 +913,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                               placeholder="Specify industry"
                               value={customIndustry}
                               onChange={(e) => setCustomIndustry(e.target.value)}
-                              className="mt-1.5 w-full px-3 py-1.5 rounded-lg border border-zinc-200 text-xs outline-none focus:border-indigo-600"
+                              className="mt-1.5 w-full px-3 py-1.5 rounded-lg border border-zinc-200 text-xs outline-none focus:border-brand-600"
                             />
                           )}
                         </div>
@@ -926,7 +926,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                         type="button"
                         onClick={handleSignUp}
                         disabled={loading || googleLoading}
-                        className="w-full h-12 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs uppercase tracking-wider shadow-md shadow-indigo-200 flex items-center justify-center gap-2 transition-all active:scale-[0.99] cursor-pointer disabled:opacity-50"
+                        className="w-full h-12 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-extrabold text-xs uppercase tracking-wider shadow-md shadow-brand-200 flex items-center justify-center gap-2 transition-all active:scale-[0.99] cursor-pointer disabled:opacity-50"
                       >
                         {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
                         <span>{loading ? 'Creating Account...' : 'CREATE MY ACCOUNT →'}</span>
@@ -966,7 +966,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                         className="w-full h-11 px-4 rounded-xl border border-zinc-200 hover:border-zinc-300 bg-white hover:bg-zinc-50/80 text-zinc-800 font-bold text-xs sm:text-sm flex items-center justify-center gap-2.5 shadow-xs transition-all active:scale-[0.99] cursor-pointer disabled:opacity-50"
                       >
                         {googleLoading ? (
-                          <Loader2 className="w-4 h-4 animate-spin text-indigo-600" />
+                          <Loader2 className="w-4 h-4 animate-spin text-brand-600" />
                         ) : (
                           <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
                             <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -1012,7 +1012,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                             className={`w-full pl-10 pr-4 py-2.5 rounded-xl border text-xs sm:text-sm outline-none transition-all ${
                               showEmailInvalid
                                 ? 'border-rose-400 focus:border-rose-500 ring-2 ring-rose-100 bg-rose-50/20 text-rose-900'
-                                : 'border-zinc-200 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100 text-zinc-900'
+                                : 'border-zinc-200 focus:border-brand-600 focus:ring-2 focus:ring-brand-100 text-zinc-900'
                             }`}
                           />
                         </div>
@@ -1026,7 +1026,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                           <button
                             type="button"
                             onClick={() => handleSwitchMode('forgot')}
-                            className="text-[11px] text-indigo-600 hover:underline font-semibold cursor-pointer"
+                            className="text-[11px] text-brand-600 hover:underline font-semibold cursor-pointer"
                           >
                             Forgot Password?
                           </button>
@@ -1039,7 +1039,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="Enter your password"
-                            className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-zinc-200 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100 text-xs sm:text-sm outline-none transition-all"
+                            className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-zinc-200 focus:border-brand-600 focus:ring-2 focus:ring-brand-100 text-xs sm:text-sm outline-none transition-all"
                           />
                           <button
                             type="button"
@@ -1056,7 +1056,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                         <button
                           type="submit"
                           disabled={loading || googleLoading}
-                          className="w-full h-12 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs uppercase tracking-wider shadow-md shadow-indigo-200 flex items-center justify-center gap-2 transition-all active:scale-[0.99] cursor-pointer disabled:opacity-50"
+                          className="w-full h-12 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-extrabold text-xs uppercase tracking-wider shadow-md shadow-brand-200 flex items-center justify-center gap-2 transition-all active:scale-[0.99] cursor-pointer disabled:opacity-50"
                         >
                           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <ArrowRight className="w-4 h-4" />}
                           <span>{loading ? 'Logging In...' : 'LOG IN →'}</span>
@@ -1089,7 +1089,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                             onBlur={() => setEmailTouched(true)}
                             onChange={(e) => handleEmailChange(e.target.value)}
                             placeholder="name@example.com"
-                            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-zinc-200 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100 text-xs sm:text-sm outline-none transition-all"
+                            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-zinc-200 focus:border-brand-600 focus:ring-2 focus:ring-brand-100 text-xs sm:text-sm outline-none transition-all"
                           />
                         </div>
                       </div>
@@ -1097,7 +1097,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                       <button
                         type="submit"
                         disabled={loading}
-                        className="w-full h-12 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs uppercase tracking-wider shadow-md shadow-indigo-200 flex items-center justify-center gap-2 transition-all active:scale-[0.99] cursor-pointer disabled:opacity-50"
+                        className="w-full h-12 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-extrabold text-xs uppercase tracking-wider shadow-md shadow-brand-200 flex items-center justify-center gap-2 transition-all active:scale-[0.99] cursor-pointer disabled:opacity-50"
                       >
                         {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Mail className="w-4 h-4" />}
                         <span>{loading ? 'Sending Link...' : 'SEND RESET LINK →'}</span>
@@ -1128,7 +1128,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   <button
                     type="button"
                     onClick={() => handleSwitchMode('login')}
-                    className="font-bold text-indigo-600 hover:text-indigo-700 hover:underline cursor-pointer"
+                    className="font-bold text-brand-600 hover:text-brand-700 hover:underline cursor-pointer"
                   >
                     Log in
                   </button>
@@ -1139,7 +1139,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   <button
                     type="button"
                     onClick={() => handleSwitchMode('signup')}
-                    className="font-bold text-indigo-600 hover:text-indigo-700 hover:underline cursor-pointer"
+                    className="font-bold text-brand-600 hover:text-brand-700 hover:underline cursor-pointer"
                   >
                     Sign Up
                   </button>

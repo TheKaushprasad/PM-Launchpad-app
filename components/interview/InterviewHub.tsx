@@ -204,19 +204,19 @@ export const InterviewHub: React.FC = () => {
   const getScenarioSubTagInfo = (sc: InterviewScenario) => {
     if (sc.id === 'rca-dau-drop-5') return { label: 'DAU', dot: 'bg-emerald-500' };
     if (sc.id === 'rca-signups-flat-wow') return { label: 'Growth', dot: 'bg-amber-500' };
-    if (sc.id === 'rca-web-conversion-dip') return { label: 'Aha Moment', dot: 'bg-sky-500' };
+    if (sc.id === 'rca-web-conversion-dip') return { label: 'Aha Moment', dot: 'bg-brand-500' };
     if (sc.title.toLowerCase().includes('dau') || sc.title.toLowerCase().includes('active user')) {
       return { label: 'DAU', dot: 'bg-emerald-500' };
     }
     if (sc.title.toLowerCase().includes('churn') || sc.title.toLowerCase().includes('retention')) {
-      return { label: 'Retention', dot: 'bg-purple-500' };
+      return { label: 'Retention', dot: 'bg-brand-500' };
     }
     if (sc.title.toLowerCase().includes('conversion') || sc.title.toLowerCase().includes('funnel')) {
-      return { label: 'Funnel', dot: 'bg-sky-500' };
+      return { label: 'Funnel', dot: 'bg-brand-500' };
     }
-    if (sc.track === 'strategy') return { label: 'Strategy', dot: 'bg-indigo-500' };
+    if (sc.track === 'strategy') return { label: 'Strategy', dot: 'bg-brand-500' };
     if (sc.track === 'guesstimate') return { label: 'Sizing', dot: 'bg-amber-500' };
-    if (sc.track === 'design') return { label: 'Product UX', dot: 'bg-purple-500' };
+    if (sc.track === 'design') return { label: 'Product UX', dot: 'bg-brand-500' };
     return { label: 'Metric', dot: 'bg-emerald-500' };
   };
 
@@ -235,7 +235,7 @@ export const InterviewHub: React.FC = () => {
       case 'hard':
         return 'bg-rose-500';
       default:
-        return 'bg-blue-500';
+        return 'bg-brand-500';
     }
   };
 
@@ -311,8 +311,8 @@ export const InterviewHub: React.FC = () => {
       {/* Top Banner / Hero Card */}
       <div className="relative rounded-3xl bg-[#043C2C] border border-[#065F46]/60 p-6 sm:p-8 lg:p-9 text-white overflow-hidden shadow-xl">
         {/* Subtle Ambient Background Gradients */}
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-[100px] pointer-events-none" />
-        <div className="absolute bottom-0 right-10 w-80 h-80 bg-purple-600/10 rounded-full blur-[90px] pointer-events-none" />
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-brand-600/10 rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute bottom-0 right-10 w-80 h-80 bg-brand-600/10 rounded-full blur-[90px] pointer-events-none" />
 
         <div className="relative z-10 space-y-6">
           {/* Top Row: Content on Left, Robot Graphic on Right */}
@@ -334,7 +334,7 @@ export const InterviewHub: React.FC = () => {
             {/* Right Hero Graphic: 3D AI Robot + Glass Checklist Tablet + "Practice Like a PM" Speech Bubble */}
             <div className="hidden lg:flex items-center justify-end relative w-full lg:w-[420px] shrink-0 pointer-events-none select-none">
               {/* Soft Ambient Glow */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-blue-500/15 rounded-full blur-[80px]" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-brand-500/15 rounded-full blur-[80px]" />
 
               <svg viewBox="0 0 380 220" className="w-[360px] h-[210px] overflow-visible">
                 <defs>
@@ -562,11 +562,11 @@ export const InterviewHub: React.FC = () => {
                 }
                 setShowHistoryModal(true);
               }}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-indigo-200/90 text-indigo-600 hover:bg-indigo-50/60 font-bold text-xs transition-all shrink-0 cursor-pointer shadow-2xs self-start lg:self-auto"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-brand-200/90 text-brand-600 hover:bg-brand-50/60 font-bold text-xs transition-all shrink-0 cursor-pointer shadow-2xs self-start lg:self-auto"
             >
-              <History className="w-3.5 h-3.5 text-indigo-600" />
+              <History className="w-3.5 h-3.5 text-brand-600" />
               <span>Past Scorecards</span>
-              <ArrowRight className="w-3.5 h-3.5 text-indigo-500" />
+              <ArrowRight className="w-3.5 h-3.5 text-brand-500" />
             </button>
           </div>
         </div>
@@ -580,7 +580,7 @@ export const InterviewHub: React.FC = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by company, case, or interview type..."
-              className="w-full h-11 pl-11 pr-4 rounded-xl bg-white border border-slate-200 text-xs sm:text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all shadow-2xs"
+              className="w-full h-11 pl-11 pr-4 rounded-xl bg-white border border-slate-200 text-xs sm:text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all shadow-2xs"
             />
           </div>
 
@@ -675,7 +675,7 @@ export const InterviewHub: React.FC = () => {
 
                   {/* Track & Title */}
                   <div>
-                    <span className="text-xs font-extrabold uppercase tracking-wider text-blue-600 block mb-1">
+                    <span className="text-xs font-extrabold uppercase tracking-wider text-brand-600 block mb-1">
                       {trackLabel}
                     </span>
                     <h3 className="font-extrabold text-[17px] sm:text-[18px] text-slate-900 tracking-tight leading-snug">
@@ -696,7 +696,7 @@ export const InterviewHub: React.FC = () => {
                     <div className="flex flex-wrap gap-x-3.5 gap-y-2">
                       {practicePoints.map((point, i) => (
                         <div key={i} className="flex items-center gap-1.5 text-xs text-slate-600 font-medium">
-                          <svg className="w-3.5 h-3.5 text-blue-600 shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                          <svg className="w-3.5 h-3.5 text-brand-600 shrink-0" viewBox="0 0 20 20" fill="currentColor">
                             <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
                           </svg>
                           <span>{point}</span>
@@ -711,7 +711,7 @@ export const InterviewHub: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => handleStartInterview(sc)}
-                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-50/90 hover:bg-blue-100 text-blue-600 hover:text-blue-700 font-extrabold text-xs transition-colors cursor-pointer"
+                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-50/90 hover:bg-brand-100 text-brand-600 hover:text-brand-700 font-extrabold text-xs transition-colors cursor-pointer"
                   >
                     <span>{ctaText}</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -777,7 +777,7 @@ export const InterviewHub: React.FC = () => {
           <div className="bg-white rounded-3xl border border-zinc-200 shadow-2xl w-full max-w-2xl max-h-[85vh] flex flex-col overflow-hidden text-zinc-900">
             <div className="px-6 py-4 border-b border-zinc-100 flex items-center justify-between bg-zinc-50/80">
               <div className="flex items-center gap-2.5">
-                <History className="w-5 h-5 text-indigo-600" />
+                <History className="w-5 h-5 text-brand-600" />
                 <h3 className="font-extrabold text-base text-zinc-900">
                   Past Scorecards {history.length > 0 ? `(${history.length})` : ''}
                 </h3>
@@ -792,7 +792,7 @@ export const InterviewHub: React.FC = () => {
 
             <div className="p-6 overflow-y-auto space-y-3">
               {history.length > 0 && (
-                <div className="p-2.5 rounded-lg bg-indigo-50/60 border border-indigo-100 text-[11px] text-zinc-600">
+                <div className="p-2.5 rounded-lg bg-brand-50/60 border border-brand-100 text-[11px] text-zinc-600">
                   Scores calibrated with the v2 rubric (0–100 weighted formula). Legacy scorecards from earlier sessions are marked with a <span className="font-bold text-amber-700">v1 (legacy)</span> tag.
                 </div>
               )}
@@ -809,7 +809,7 @@ export const InterviewHub: React.FC = () => {
                   <div key={i} className="p-4 rounded-xl bg-zinc-50 border border-zinc-200 flex items-center justify-between gap-4">
                     <div>
                       <div className="flex items-center gap-2 mb-0.5">
-                        <span className="text-[10px] font-black uppercase tracking-wider text-indigo-600">
+                        <span className="text-[10px] font-black uppercase tracking-wider text-brand-600">
                           {h.track.toUpperCase()} • {h.company}
                         </span>
                         {h.scoringVersion === 'v2' ? (
@@ -827,7 +827,7 @@ export const InterviewHub: React.FC = () => {
                     </div>
 
                     <div className="text-right shrink-0">
-                      <span className="text-xl font-black text-indigo-600 block">{h.score}/100</span>
+                      <span className="text-xl font-black text-brand-600 block">{h.score}/100</span>
                       <span className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
                         {h.verdict}
                       </span>

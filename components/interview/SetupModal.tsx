@@ -93,7 +93,7 @@ export const SetupModal: React.FC<SetupModalProps> = ({
             {/* Header */}
             <div className="px-6 py-4 border-b border-zinc-100 flex items-center justify-between bg-zinc-50/80">
               <div>
-                <span className="text-[10px] font-black uppercase tracking-wider text-indigo-600">
+                <span className="text-[10px] font-black uppercase tracking-wider text-brand-600">
                   Session Customization
                 </span>
                 <h2 className="text-xl font-black text-zinc-900 tracking-tight">
@@ -117,7 +117,7 @@ export const SetupModal: React.FC<SetupModalProps> = ({
                     {scenario.company}
                   </span>
                   <span className="text-xs font-bold text-zinc-500 flex items-center gap-1">
-                    <Clock className="w-3.5 h-3.5 text-indigo-600" /> {scenario.targetDurationMinutes} Minutes Allocation
+                    <Clock className="w-3.5 h-3.5 text-brand-600" /> {scenario.targetDurationMinutes} Minutes Allocation
                   </span>
                 </div>
                 <h3 className="font-extrabold text-base text-zinc-900">{scenario.title}</h3>
@@ -133,7 +133,7 @@ export const SetupModal: React.FC<SetupModalProps> = ({
                   <button
                     type="button"
                     onClick={() => setShowAccessRequestModal(true)}
-                    className="text-[11px] font-bold text-indigo-600 hover:text-indigo-700 flex items-center gap-1"
+                    className="text-[11px] font-bold text-brand-600 hover:text-brand-700 flex items-center gap-1"
                   >
                     <Shield className="w-3 h-3" /> Access Permissions
                   </button>
@@ -148,17 +148,17 @@ export const SetupModal: React.FC<SetupModalProps> = ({
                         onClick={() => setSelectedMode(m.id)}
                         className={`p-4 rounded-2xl border-2 cursor-pointer transition-all flex flex-col justify-between ${
                           isSelected 
-                            ? 'border-indigo-600 bg-indigo-50/50 shadow-md ring-2 ring-indigo-600/20' 
+                            ? 'border-brand-600 bg-brand-50/50 shadow-md ring-2 ring-brand-600/20' 
                             : 'border-zinc-200 hover:border-zinc-300 bg-white'
                         }`}
                       >
                         <div>
                           <div className="flex items-center justify-between mb-2">
-                            <div className={`p-2 rounded-xl ${isSelected ? 'bg-indigo-600 text-white' : 'bg-zinc-100 text-zinc-600'}`}>
+                            <div className={`p-2 rounded-xl ${isSelected ? 'bg-brand-600 text-white' : 'bg-zinc-100 text-zinc-600'}`}>
                               <Icon className="w-4 h-4" />
                             </div>
                             <span className={`text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full ${
-                              isSelected ? 'bg-indigo-600 text-white' : 'bg-zinc-100 text-zinc-500'
+                              isSelected ? 'bg-brand-600 text-white' : 'bg-zinc-100 text-zinc-500'
                             }`}>
                               {m.badge}
                             </span>
@@ -186,7 +186,7 @@ export const SetupModal: React.FC<SetupModalProps> = ({
                         onClick={() => setSelectedPersonaId(p.id)}
                         className={`p-4 rounded-2xl border-2 cursor-pointer transition-all flex items-start gap-3.5 ${
                           isSelected 
-                            ? 'border-indigo-600 bg-indigo-50/50 shadow-md ring-2 ring-indigo-600/20' 
+                            ? 'border-brand-600 bg-brand-50/50 shadow-md ring-2 ring-brand-600/20' 
                             : 'border-zinc-200 hover:border-zinc-300 bg-white'
                         }`}
                       >
@@ -198,9 +198,9 @@ export const SetupModal: React.FC<SetupModalProps> = ({
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center justify-between">
                             <h4 className="font-black text-xs text-zinc-900 truncate">{p.name}</h4>
-                            {isSelected && <Check className="w-4 h-4 text-indigo-600" />}
+                            {isSelected && <Check className="w-4 h-4 text-brand-600" />}
                           </div>
-                          <span className="text-[10px] font-bold text-indigo-600 block">{p.role} • {p.companyBackground}</span>
+                          <span className="text-[10px] font-bold text-brand-600 block">{p.role} • {p.companyBackground}</span>
                           <p className="text-[11px] text-zinc-500 font-medium mt-1 line-clamp-2">{p.tagline}</p>
                         </div>
                       </div>
@@ -221,7 +221,7 @@ export const SetupModal: React.FC<SetupModalProps> = ({
 
               <button
                 onClick={handleLaunch}
-                className="px-6 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs uppercase tracking-widest shadow-lg shadow-indigo-600/20 flex items-center gap-2 transition-all"
+                className="px-6 py-3 rounded-2xl bg-brand-600 hover:bg-brand-700 text-white font-extrabold text-xs uppercase tracking-widest shadow-lg shadow-brand-600/20 flex items-center gap-2 transition-all"
               >
                 <Play className="w-3.5 h-3.5 fill-current" /> Enter Studio
               </button>

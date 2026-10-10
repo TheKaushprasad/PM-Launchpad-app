@@ -1241,7 +1241,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
           className="w-full bg-white rounded-3xl border border-zinc-200 shadow-2xl p-6 md:p-8 relative overflow-hidden"
         >
           {/* Ambient Background Gradient Accent */}
-          <div className="absolute top-0 inset-x-0 h-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500" />
+          <div className="absolute top-0 inset-x-0 h-2 bg-gradient-to-r from-brand-500 via-brand-500 to-pink-500" />
 
           {/* Top Bar: Case Tags */}
           <div className="flex items-center justify-between mb-6 pb-4 border-b border-zinc-100">
@@ -1252,7 +1252,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
               <span className="px-2.5 py-1 rounded-lg bg-zinc-100 text-zinc-700 text-xs font-bold uppercase tracking-wider">
                 Track: {scenario.track}
               </span>
-              <span className="px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 text-xs font-bold">
+              <span className="px-2.5 py-1 rounded-lg bg-brand-50 text-brand-700 text-xs font-bold">
                 {scenario.targetDurationMinutes} Mins Target
               </span>
             </div>
@@ -1281,7 +1281,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
               <img 
                 src={persona.avatarImage} 
                 alt={persona.name}
-                className="w-14 h-14 rounded-full object-cover border-2 border-indigo-400/50 shadow-md"
+                className="w-14 h-14 rounded-full object-cover border-2 border-brand-400/50 shadow-md"
               />
               <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-emerald-400 border-2 border-zinc-900 animate-pulse" />
             </div>
@@ -1293,7 +1293,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
                 </span>
               </div>
               <p className="text-xs text-zinc-400 truncate mt-0.5">{persona.companyBackground}</p>
-              <p className="text-[11px] text-indigo-300 font-semibold mt-1">"{persona.styleTrait}"</p>
+              <p className="text-[11px] text-brand-300 font-semibold mt-1">"{persona.styleTrait}"</p>
             </div>
           </div>
 
@@ -1309,7 +1309,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
               {prepStep >= 2 ? (
                 <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
               ) : (
-                <Loader2 className="w-4 h-4 text-indigo-500 animate-spin shrink-0" />
+                <Loader2 className="w-4 h-4 text-brand-500 animate-spin shrink-0" />
               )}
               <span className={`text-xs font-semibold ${prepStep >= 2 ? 'text-zinc-700' : 'text-zinc-400'}`}>
                 Calibrating {persona.name}'s assessment rubric ({scenario.suggestedFramework || 'MECE'})
@@ -1317,11 +1317,11 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
             </div>
             <div className="flex items-center gap-3">
               {prepStep >= 3 ? (
-                <Loader2 className="w-4 h-4 text-indigo-500 animate-spin shrink-0" />
+                <Loader2 className="w-4 h-4 text-brand-500 animate-spin shrink-0" />
               ) : (
                 <div className="w-4 h-4 rounded-full border-2 border-zinc-300 shrink-0" />
               )}
-              <span className={`text-xs font-semibold ${prepStep >= 3 ? 'text-indigo-600 font-bold' : 'text-zinc-400'}`}>
+              <span className={`text-xs font-semibold ${prepStep >= 3 ? 'text-brand-600 font-bold' : 'text-zinc-400'}`}>
                 Your case is getting processed... {persona.name} is preparing the opening prompt
               </span>
             </div>
@@ -1340,7 +1340,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
                 id="skip-prep-enter-studio-btn"
                 type="button"
                 onClick={enterStudioImmediately}
-                className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs shadow-md shadow-indigo-200 transition-all flex items-center gap-1.5 cursor-pointer"
+                className="px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-extrabold text-xs shadow-md shadow-brand-200 transition-all flex items-center gap-1.5 cursor-pointer"
               >
                 <span>Enter Studio Now</span>
                 <Play className="w-3.5 h-3.5 fill-current" />
@@ -1416,7 +1416,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
 
           <div className="hidden sm:block w-24 h-2 bg-zinc-200 rounded-full overflow-hidden">
             <div 
-              className={`h-full transition-all duration-500 ${isOvertime ? 'bg-rose-500' : 'bg-indigo-600'}`}
+              className={`h-full transition-all duration-500 ${isOvertime ? 'bg-rose-500' : 'bg-brand-600'}`}
               style={{ width: `${timeProgressPercent}%` }}
             />
           </div>
@@ -1455,7 +1455,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
               setIsVoiceEnabled(!isVoiceEnabled);
             }}
             className={`p-2 rounded-xl border transition-colors ${
-              isVoiceEnabled ? 'bg-indigo-50 border-indigo-200 text-indigo-600' : 'bg-zinc-100 border-zinc-200 text-zinc-400'
+              isVoiceEnabled ? 'bg-brand-50 border-brand-200 text-brand-600' : 'bg-zinc-100 border-zinc-200 text-zinc-400'
             }`}
             title={isVoiceEnabled ? "Mute Natural Voice" : "Enable Natural Voice"}
           >
@@ -1632,13 +1632,13 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
                     : "Type your answer, framework step, or tap mic for instant voice streaming..."
                 }
                 disabled={isThinking || isEvaluating}
-                className="flex-1 px-4 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-xs md:text-sm text-zinc-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
+                className="flex-1 px-4 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-xs md:text-sm text-zinc-800 focus:outline-none focus:ring-2 focus:ring-brand-500 font-medium"
               />
 
               <button
                 type="submit"
                 disabled={!inputText.trim() || isThinking || isEvaluating}
-                className="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-sm disabled:opacity-40 transition-all shrink-0"
+                className="px-4 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-sm disabled:opacity-40 transition-all shrink-0"
               >
                 {isThinking ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
                 <span className="hidden sm:inline">Send</span>
@@ -1668,7 +1668,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
           <div className="lg:col-span-4 h-full bg-white rounded-3xl border border-zinc-200 shadow-sm flex flex-col overflow-hidden">
             <div className="px-4 py-3 border-b border-zinc-100 flex items-center justify-between bg-zinc-50/70">
               <div className="flex items-center gap-2">
-                <FileText className="w-4 h-4 text-indigo-600" />
+                <FileText className="w-4 h-4 text-brand-600" />
                 <span className="font-extrabold text-xs text-zinc-800 uppercase tracking-wider">Live Transcript</span>
               </div>
               <span className="text-[10px] font-bold text-zinc-400 px-2 py-0.5 rounded-full bg-zinc-200/60">
@@ -1703,7 +1703,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
 
                     <div className={`p-3.5 rounded-2xl text-xs font-medium leading-relaxed max-w-[90%] shadow-sm ${
                       isCandidate 
-                        ? 'bg-indigo-600 text-white rounded-tr-none' 
+                        ? 'bg-brand-600 text-white rounded-tr-none' 
                         : 'bg-zinc-100 text-zinc-800 rounded-tl-none border border-zinc-200/70'
                     }`}>
                       {m.text}
@@ -1714,7 +1714,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
 
               {isThinking && (
                 <div className="flex items-center gap-2 text-zinc-500 text-xs font-bold p-2 bg-zinc-50 rounded-xl border border-zinc-100">
-                  <Loader2 className="w-3.5 h-3.5 animate-spin text-indigo-500" />
+                  <Loader2 className="w-3.5 h-3.5 animate-spin text-brand-500" />
                   <span>{persona.name} is reviewing your points and preparing follow-up...</span>
                 </div>
               )}
@@ -1765,7 +1765,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
                 </div>
                 <div className="flex items-center justify-between text-zinc-600">
                   <span>Pillars Evaluated</span>
-                  <span className="font-bold text-indigo-600">5 Pillars (0-100 Score)</span>
+                  <span className="font-bold text-brand-600">5 Pillars (0-100 Score)</span>
                 </div>
               </div>
 

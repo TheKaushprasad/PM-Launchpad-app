@@ -40,8 +40,8 @@ export const AvatarVisualizer: React.FC<AvatarVisualizerProps> = ({
           transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
           className={`absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[420px] h-[420px] rounded-full blur-[110px] ${
             isListening 
-              ? 'bg-gradient-to-tr from-rose-500 via-pink-500 to-indigo-500' 
-              : 'bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500'
+              ? 'bg-gradient-to-tr from-rose-500 via-pink-500 to-brand-500' 
+              : 'bg-gradient-to-tr from-brand-500 via-brand-500 to-pink-500'
           }`}
         />
       </div>
@@ -56,7 +56,7 @@ export const AvatarVisualizer: React.FC<AvatarVisualizerProps> = ({
               className="w-10 h-10 rounded-full object-cover border-2 border-white/20 shadow-md" 
             />
             <div className={`absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full border-2 border-zinc-900 ${
-              isSpeaking ? 'bg-emerald-400 animate-pulse' : isThinking ? 'bg-amber-400 animate-bounce' : isListening ? 'bg-rose-400 animate-ping' : 'bg-zinc-500'
+              isSpeaking ? 'bg-emerald-400 animate-pulse' : isThinking ? 'bg-amber-400 animate-pulse' : isListening ? 'bg-rose-400 animate-ping' : 'bg-zinc-500'
             }`} />
           </div>
           <div>
@@ -108,7 +108,7 @@ export const AvatarVisualizer: React.FC<AvatarVisualizerProps> = ({
                 <motion.div 
                   animate={{ scale: [1, 1.4, 1], opacity: [0.6, 0, 0.6] }}
                   transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }}
-                  className="absolute inset-0 w-44 h-44 md:w-52 md:h-52 m-auto rounded-full border-2 border-indigo-500/40 pointer-events-none"
+                  className="absolute inset-0 w-44 h-44 md:w-52 md:h-52 m-auto rounded-full border-2 border-brand-500/40 pointer-events-none"
                 />
                 <motion.div 
                   animate={{ scale: [1, 1.7, 1], opacity: [0.4, 0, 0.4] }}
@@ -141,8 +141,8 @@ export const AvatarVisualizer: React.FC<AvatarVisualizerProps> = ({
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
               className={`relative w-36 h-36 md:w-44 md:h-44 rounded-full p-1.5 shadow-2xl overflow-hidden ${
                 isListening 
-                  ? 'bg-gradient-to-tr from-rose-500 via-pink-500 to-indigo-500 ring-4 ring-rose-500/30' 
-                  : 'bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500'
+                  ? 'bg-gradient-to-tr from-rose-500 via-pink-500 to-brand-500 ring-4 ring-rose-500/30' 
+                  : 'bg-gradient-to-tr from-brand-500 via-brand-500 to-pink-500'
               }`}
             >
               <img 
@@ -186,8 +186,8 @@ export const AvatarVisualizer: React.FC<AvatarVisualizerProps> = ({
               }}
               className={`w-32 h-32 md:w-40 md:h-40 rounded-full shadow-[0_0_80px_rgba(99,102,241,0.5)] flex items-center justify-center relative p-1 ${
                 isListening 
-                  ? 'bg-gradient-to-tr from-rose-500 via-pink-500 to-indigo-500' 
-                  : 'bg-gradient-to-tr from-indigo-600 via-violet-500 to-pink-500'
+                  ? 'bg-gradient-to-tr from-rose-500 via-pink-500 to-brand-500' 
+                  : 'bg-gradient-to-tr from-brand-600 via-brand-500 to-pink-500'
               }`}
             >
               <div className="w-full h-full rounded-full bg-zinc-950 flex flex-col items-center justify-center relative overflow-hidden">
@@ -198,7 +198,7 @@ export const AvatarVisualizer: React.FC<AvatarVisualizerProps> = ({
                         key={i}
                         animate={{ height: [8, h, 8] }}
                         transition={{ duration: 0.5 + (i * 0.08), repeat: Infinity }}
-                        className="w-1.5 bg-gradient-to-t from-indigo-400 to-pink-400 rounded-full"
+                        className="w-1.5 bg-gradient-to-t from-brand-400 to-pink-400 rounded-full"
                       />
                     ))}
                   </div>
@@ -236,8 +236,8 @@ export const AvatarVisualizer: React.FC<AvatarVisualizerProps> = ({
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
             {isSpeaking ? (
-              <span className="text-[10px] font-black uppercase tracking-wider text-indigo-400 flex items-center gap-1.5">
-                <Volume2 className="w-3 h-3 text-indigo-400 animate-pulse" />
+              <span className="text-[10px] font-black uppercase tracking-wider text-brand-400 flex items-center gap-1.5">
+                <Volume2 className="w-3 h-3 text-brand-400 animate-pulse" />
                 Interviewer Speaking ({persona.name})
               </span>
             ) : isListening ? (
@@ -256,7 +256,7 @@ export const AvatarVisualizer: React.FC<AvatarVisualizerProps> = ({
             {isListening && candidateLiveText && onSubmitTurn && (
               <button 
                 onClick={onSubmitTurn}
-                className="text-[10px] font-extrabold text-indigo-300 hover:text-white bg-indigo-600/30 hover:bg-indigo-600/50 px-2 py-0.5 rounded-md flex items-center gap-1 border border-indigo-400/30 transition-all"
+                className="text-[10px] font-extrabold text-brand-300 hover:text-white bg-brand-600/30 hover:bg-brand-600/50 px-2 py-0.5 rounded-md flex items-center gap-1 border border-brand-400/30 transition-all"
               >
                 <span>Send Answer</span>
                 <CornerDownLeft className="w-2.5 h-2.5" />
