@@ -26,6 +26,7 @@ import { auth, db, googleProvider, handleFirestoreError, OperationType } from '.
 import { InterviewSessionHistory } from '../types/interview';
 import { LinkedInAnalysisResult } from '../types/linkedin';
 import { StoredResumeDocument } from '../types/resumeAuditor';
+import { authJsonHeaders } from '../lib/apiClient';
 
 export type UserType = 'college_student' | 'working_professional' | 'student' | 'professional';
 
@@ -824,7 +825,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         const returnUrl = typeof window !== 'undefined' ? `${window.location.origin}/#/dashboard` : undefined;
         const res = await fetch('/api/auth/send-verification-email', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: await authJsonHeaders(),
           body: JSON.stringify({
             email: newUser.email || params.email.trim(),
             name: params.name.trim(),
@@ -862,7 +863,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const returnUrl = typeof window !== 'undefined' ? `${window.location.origin}/#/dashboard` : undefined;
       const res = await fetch('/api/auth/send-verification-email', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: await authJsonHeaders(),
         body: JSON.stringify({
           email: targetUser.email,
           name: targetUser.displayName || userProfile?.displayName || userProfile?.name || undefined,

@@ -121,6 +121,15 @@ function wrapEmailLayout({
 }
 
 /**
+ * Names come from user input, so keep only letters, spaces, apostrophes and hyphens.
+ * This stops HTML or links being smuggled into an email sent from our domain.
+ */
+function cleanName(name?: string): string {
+  if (!name) return '';
+  return name.replace(/[^\p{L}\p{M}\s'-]/gu, '').replace(/\s+/g, ' ').trim().slice(0, 60);
+}
+
+/**
  * 1. Email Verification Template
  */
 export function getVerificationEmailTemplate({
@@ -130,7 +139,8 @@ export function getVerificationEmailTemplate({
   name?: string;
   verificationUrl: string;
 }): EmailTemplateResult {
-  const greeting = name && name.trim() ? `Hi ${name.trim()},` : 'Hi there,';
+  const safeName = cleanName(name);
+  const greeting = safeName ? `Hi ${safeName},` : 'Hi there,';
   const preheader = 'Please verify your email address to activate your TheNoobPM account and access your workspace.';
 
   const contentHtml = `
@@ -283,7 +293,8 @@ export function getWelcomeEmailTemplate({
   name?: string;
   workspaceUrl?: string;
 }): EmailTemplateResult {
-  const greeting = name && name.trim() ? `Hi ${name.trim()}!` : 'Hi there!';
+  const safeName = cleanName(name);
+  const greeting = safeName ? `Hi ${safeName}!` : 'Hi there!';
   const preheader = 'Welcome to TheNoobPM — your complete Product Management learning launchpad and career studio.';
 
   const contentHtml = `

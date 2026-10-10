@@ -8,6 +8,7 @@ import {
   Check, FileCheck, ArrowRight, ChevronDown, ChevronUp, AlertTriangle
 } from 'lucide-react';
 import { extractTextFromPdfBuffer } from '../../lib/pdfParser';
+import { authJsonHeaders } from '../../lib/apiClient';
 
 interface LinkedInInputFormProps {
   onBackToLanding: () => void;
@@ -176,7 +177,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
 
         const response = await fetch('/api/parse-resume-file', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: await authJsonHeaders(),
           body: JSON.stringify({
             fileBase64: base64Data,
             fileName: file.name,

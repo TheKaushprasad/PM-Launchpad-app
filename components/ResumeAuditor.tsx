@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { 
   FileText, ArrowLeft, Sparkles, CheckCircle2, AlertTriangle, 
   TrendingUp, Compass, Cpu, FileCheck, Copy, Check, RefreshCw, 
@@ -13,6 +13,8 @@ import { useAuth } from '../context/AuthContext';
 import { extractTextFromPdfBuffer } from '../lib/pdfParser';
 import { ResumeAuditResult, StoredResumeDocument } from '../types/resumeAuditor';
 import { evaluateResumeAlgorithmically } from '../lib/resumeAuditEngine';
+import { authJsonHeaders } from '../lib/apiClient';
+import { AuthModal } from './auth/AuthModal';
 
 const INITIAL_ROLES = [
   'Associate Product Manager (APM)',
@@ -66,6 +68,8 @@ export const ResumeAuditor: React.FC = () => {
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { user, storedResumes, saveResumeDocument, deleteResumeDocument } = useAuth();
+  const [authModalOpen, setAuthModalOpen] = useState<boolean>(false);
+  const location = useLocation();
   
   // Input Mode & File Upload State
   const [inputMode, setInputMode] = useState<'upload' | 'paste'>('upload');
@@ -157,6 +161,12 @@ export const ResumeAuditor: React.FC = () => {
   const handleFileUpload = async (file: File) => {
     if (!file) return;
 
+    // The AI tools need an account so the server can apply fair-use limits
+    if (!user) {
+      setAuthModalOpen(true);
+      return;
+    }
+
     if (file.size > 15 * 1024 * 1024) {
       setError('File is too large. Please upload a PDF under 15MB.');
       return;
@@ -200,7 +210,7 @@ export const ResumeAuditor: React.FC = () => {
 
           const response = await fetch('/api/parse-resume-file', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: await authJsonHeaders(),
             body: JSON.stringify({
               fileBase64: base64Data,
               fileName: file.name,
@@ -287,6 +297,11 @@ export const ResumeAuditor: React.FC = () => {
   };
 
   const handleAudit = async () => {
+    if (!user) {
+      setAuthModalOpen(true);
+      return;
+    }
+
     if (!resumeText.trim()) {
       setError(inputMode === 'upload' ? 'Please upload your Resume PDF or switch to Paste Text.' : 'Please paste your resume text to begin audit.');
       return;
@@ -319,7 +334,7 @@ export const ResumeAuditor: React.FC = () => {
       try {
         const response = await fetch('/api/audit-resume', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: await authJsonHeaders(),
           body: JSON.stringify({
             resumeText,
             targetRole,
@@ -1380,6 +1395,14 @@ export const ResumeAuditor: React.FC = () => {
           </motion.div>
         )}
       </div>
+
+      <AuthModal
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        initialMode="signup"
+        redirectTo={location.pathname}
+        onSuccess={() => setAuthModalOpen(false)}
+      />
     </div>
   );
 };

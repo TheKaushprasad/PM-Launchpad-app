@@ -43,6 +43,7 @@ import { WebcamMirror } from './WebcamMirror';
 import { ScratchpadModal } from './ScratchpadModal';
 import { InterviewEvaluationView } from './InterviewEvaluationView';
 import { useAuth } from '../../context/AuthContext';
+import { authJsonHeaders } from '../../lib/apiClient';
 
 interface InterviewStageProps {
   scenario: InterviewScenario;
@@ -282,7 +283,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
 
       const res = await fetch('/api/interview/tts', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: await authJsonHeaders(),
         signal: controller.signal,
         body: JSON.stringify({
           text: text.trim(),
@@ -469,7 +470,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
 
         const res = await fetch('/api/interview/chat', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: await authJsonHeaders(),
           signal: abortController.signal,
           body: JSON.stringify({
             scenario,
@@ -775,7 +776,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
     try {
       const res = await fetch('/api/interview/chat', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: await authJsonHeaders(),
         body: JSON.stringify({
           scenario,
           persona,
@@ -821,7 +822,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
     try {
       const res = await fetch('/api/interview/hint', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: await authJsonHeaders(),
         body: JSON.stringify({ scenario, messages })
       });
 

@@ -94,24 +94,24 @@ vercel.json             Rewrites: /api/* → /api/index, everything else → ind
 | Method and path | Purpose | Auth |
 |---|---|---|
 | GET `/api/health` | Reports which env keys are present (never the values) | None |
-| POST `/api/analyse-profile` | Scrape LinkedIn with Firecrawl and score it | None |
-| POST `/api/rewrite` | Rewrite a LinkedIn section | None |
-| POST `/api/analyse-experience` | Analyse experience entries | None |
-| POST `/api/keyword-gap` | Keyword gap against a target role | None |
-| POST `/api/generate-action-plan` | LinkedIn action plan | None |
-| POST `/api/audit-linkedin` | Full LinkedIn audit | None |
-| POST `/api/parse-resume-file` | Extract resume text from an uploaded file | None |
-| POST `/api/audit-resume` | PM resume audit, heuristic fallback | None |
-| POST `/api/interview/chat` | Next interviewer turn | None |
-| POST `/api/interview/hint` | Hint for the candidate | None |
-| POST `/api/interview/tts` | Text to speech | None |
-| POST `/api/interview/transcribe` | Speech to text | None |
-| POST `/api/interview/evaluate` | Score a session and save it | Firebase ID token |
-| POST `/api/projects/feedback` | Score a project submission and save it | Firebase ID token |
+| POST `/api/analyse-profile` | Scrape LinkedIn with Firecrawl and score it | Signed in, verified email, daily limit (sample preview is public) |
+| POST `/api/rewrite` | Rewrite a LinkedIn section | Signed in, verified email, daily limit |
+| POST `/api/analyse-experience` | Analyse experience entries | Signed in, verified email, daily limit |
+| POST `/api/keyword-gap` | Keyword gap against a target role | Signed in, verified email, daily limit |
+| POST `/api/generate-action-plan` | LinkedIn action plan | Signed in, verified email, daily limit |
+| POST `/api/parse-resume-file` | Extract resume text from an uploaded file | Signed in, verified email, daily limit |
+| POST `/api/audit-resume` | PM resume audit, heuristic fallback | Signed in, verified email, daily limit |
+| POST `/api/interview/chat` | Next interviewer turn | Signed in, verified email, daily limit |
+| POST `/api/interview/hint` | Hint for the candidate | Signed in, verified email, daily limit |
+| POST `/api/interview/tts` | Text to speech | Signed in, verified email, daily limit |
+| POST `/api/interview/transcribe` | Speech to text | Signed in, verified email, daily limit |
+| POST `/api/interview/evaluate` | Score a session and save it | Signed in, verified email, daily limit |
+| POST `/api/projects/feedback` | Score a project submission and save it | Signed in, verified email, daily limit |
 | GET `/api/auth/email-service-status` | Email setup check | None |
-| POST `/api/auth/send-verification-email` | Verification email via Resend | None (email format check only) |
-| POST `/api/auth/send-password-reset-email` | Reset email via Resend | None (email format check only) |
-| POST `/api/auth/send-welcome-email` | Welcome email | None (email format check only) |
+| POST `/api/auth/send-verification-email` | Verification email via Resend, to the signed-in user's own address | Firebase ID token, 5 per user per day |
+| POST `/api/auth/send-password-reset-email` | Reset email via Resend | None; 5 per email and 20 per IP per day |
+
+The AI guard lives in `server/security.ts`. Daily counters are kept server-side in the Firestore `rate_limits` collection; limits default to 200 AI calls per user and 500 per IP and can be changed with the `AI_DAILY_LIMIT_PER_USER` and `AI_DAILY_LIMIT_PER_IP` env vars. The welcome email is sent once, from the verification endpoint, only for accounts created in the last 15 minutes. Request bodies are capped at 1 MB, except 10 MB for resume and audio uploads.
 
 Routes accept a trailing slash variant. In local dev the same Express app also serves Vite middleware; in production it serves `dist/`.
 
@@ -175,8 +175,7 @@ Names only; values live in Vercel and in each developer's local env file, never 
 ## 11. Known technical debt
 
 - `server.ts` is about 1,600 lines; routes, AI helper and email logic all live in one file.
-- Most AI endpoints have no auth or rate limiting, so anyone can spend the Gemini quota.
-- The `/api/auth/send-*-email` endpoints need no sign-in, so anyone can trigger emails to any address, and `returnUrl` is taken from the request body unchecked.
+- `returnUrl` on the auth email endpoints is taken from the request body; Firebase only accepts domains on the Authentication authorized-domains list.
 - Tailwind is loaded from the CDN script, not compiled.
 - Supabase leftovers (`lib/supabaseClient.ts`, `supabase_setup.sql`, `@supabase/supabase-js`) and a stray `bun.lock`.
 - The compiled `api/index.js` and its source map are committed.

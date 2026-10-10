@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate, useOutletContext, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate, useOutletContext, useSearchParams } from 'react-router-dom';
 import { 
   Sparkles, ArrowLeft, Loader2, RefreshCw, AlertTriangle, 
   CheckCircle2, Target, Download, ExternalLink, Bot
@@ -11,6 +11,8 @@ import { LinkedInScoreDashboard } from './linkedin/LinkedInScoreDashboard';
 import { LinkedInAnalysisResult } from '../types/linkedin';
 import { getSampleAnalysis } from '../services/profileAnalyzer';
 import { useAuth } from '../context/AuthContext';
+import { authJsonHeaders } from '../lib/apiClient';
+import { AuthModal } from './auth/AuthModal';
 
 interface ContextType {
   isCollapsed: boolean;
@@ -77,6 +79,8 @@ export const LinkedInOptimiser: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { user, userProfile, recordLinkedInAnalysis, userAnalyses } = useAuth();
+  const [authModalOpen, setAuthModalOpen] = useState<boolean>(false);
+  const location = useLocation();
 
   // Navigation views: 'landing' | 'form' | 'dashboard'
   const [viewState, setViewState] = useState<'landing' | 'form' | 'dashboard'>('landing');
@@ -119,6 +123,12 @@ export const LinkedInOptimiser: React.FC = () => {
     sourceFileName?: string;
     sourceType?: 'pdf' | 'paste' | 'sample';
   }) => {
+    // The AI audit needs an account so the server can apply fair-use limits; the sample works without one
+    if (!user && !params.useSample) {
+      setAuthModalOpen(true);
+      return;
+    }
+
     setIsLoading(true);
     setProgress(15);
     setScrapeNotice(null);
@@ -160,7 +170,7 @@ export const LinkedInOptimiser: React.FC = () => {
 
       const response = await fetch('/api/analyse-profile', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: await authJsonHeaders(),
         body: JSON.stringify(params)
       });
 
@@ -315,6 +325,14 @@ export const LinkedInOptimiser: React.FC = () => {
           />
         )}
       </div>
+
+      <AuthModal
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        initialMode="signup"
+        redirectTo={location.pathname}
+        onSuccess={() => setAuthModalOpen(false)}
+      />
     </motion.div>
   );
 };

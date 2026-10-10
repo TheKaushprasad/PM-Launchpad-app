@@ -24,6 +24,7 @@ import { runEvaluationEngine } from "./server/evaluatorEngine";
 import { saveInterviewEvaluationServerSide } from "./server/persistence";
 import { getProjectById } from "./data/realWorldProjects";
 import { getJobDetail, getJobsList, jobsStoreReady, refreshJobs } from "./server/jobs/store";
+import { requireAiAccess, getVerifiedUser, consumeDailyQuota, clientIp } from "./server/security";
 
 dotenv.config();
 
@@ -33,8 +34,11 @@ export async function createExpressApp() {
   // Initialize and load prompt files at server start
   loadPrompts();
 
-  app.use(express.json({ limit: '10mb' }));
-  app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+  // File uploads (resume PDFs, recorded audio) arrive as base64 JSON and need a larger body; everything else stays small.
+  const UPLOAD_ROUTES = new Set(["/api/parse-resume-file", "/api/interview/transcribe"]);
+  const uploadJson = express.json({ limit: '10mb' });
+  const defaultJson = express.json({ limit: '1mb' });
+  app.use((req, res, next) => (UPLOAD_ROUTES.has(req.path.replace(/\/+$/, '')) ? uploadJson : defaultJson)(req, res, next));
 
   // Health Check
   app.get("/api/health", (req, res) => {
@@ -193,7 +197,11 @@ export async function createExpressApp() {
   // ==========================================
 
   // 1. Analyze Profile (Firecrawl Scrape + AI Scoring & Deep Audit)
-  app.post(["/api/analyse-profile", "/api/analyse-profile/"], async (req, res) => {
+  // The sample preview is canned data with no AI call, so logged-out visitors can still try it.
+  const requireAiAccessUnlessSample: express.RequestHandler = (req, res, next) =>
+    req.body?.useSample === true ? next() : requireAiAccess(req, res, next);
+
+  app.post(["/api/analyse-profile", "/api/analyse-profile/"], requireAiAccessUnlessSample, async (req, res) => {
     console.log(`[${new Date().toISOString()}] POST ${req.path} - Analyzing Profile`);
     try {
       const { 
@@ -308,7 +316,7 @@ export async function createExpressApp() {
   });
 
   // 2. Section Rewriter (Headline, About, Experience bullets)
-  app.post(["/api/rewrite", "/api/rewrite/"], async (req, res) => {
+  app.post(["/api/rewrite", "/api/rewrite/"], requireAiAccess, async (req, res) => {
     try {
       const { section, currentText, targetRole = 'Product Manager', focusTag = 'Recruiter-Optimized', customInstructions } = req.body;
 
@@ -352,7 +360,7 @@ Return strictly valid JSON in this format:
   });
 
   // 3. Experience Bullet-by-Bullet Optimizer (Action + Context + Action Taken + Result)
-  app.post(["/api/analyse-experience", "/api/analyse-experience/"], async (req, res) => {
+  app.post(["/api/analyse-experience", "/api/analyse-experience/"], requireAiAccess, async (req, res) => {
     try {
       const { roleTitle, company, bulletsText, targetRole = 'Product Manager' } = req.body;
 
@@ -395,7 +403,7 @@ Return strictly valid JSON:
   });
 
   // 4. Keyword Gap Analysis API
-  app.post(["/api/keyword-gap", "/api/keyword-gap/"], async (req, res) => {
+  app.post(["/api/keyword-gap", "/api/keyword-gap/"], requireAiAccess, async (req, res) => {
     try {
       const { targetRole = 'Product Manager', currentSkills = [], currentText = '' } = req.body;
       const benchmark = TARGET_ROLE_KEYWORDS[targetRole] || TARGET_ROLE_KEYWORDS['Product Manager'];
@@ -433,7 +441,7 @@ Return strictly valid JSON:
   });
 
   // 5. Action Plan Generator API
-  app.post(["/api/generate-action-plan", "/api/generate-action-plan/"], async (req, res) => {
+  app.post(["/api/generate-action-plan", "/api/generate-action-plan/"], requireAiAccess, async (req, res) => {
     try {
       const { targetRole = 'Product Manager', weaknesses = [], currentScore = 75 } = req.body;
 
@@ -481,35 +489,10 @@ Return strictly valid JSON with 3 days:
     }
   });
 
-  // Legacy/Compatibility API Route for LinkedIn Audit
-  app.post(["/api/audit-linkedin", "/api/audit-linkedin/"], async (req, res) => {
-    console.log(`[${new Date().toISOString()}] POST ${req.path} - Request received`);
-    try {
-      const { profileData, targetRoles, systemInstruction } = req.body;
-      
-      if (!profileData || !targetRoles) {
-        console.warn(`[${new Date().toISOString()}] POST ${req.path} - Missing fields`);
-        return res.status(400).json({ error: "Missing required fields" });
-      }
-
-      const rolesStr = targetRoles.join(', ');
-      const prompt = `User is targeting these roles: ${rolesStr}. Audit this profile text for overall alignment and shortlisting probability:\n\n${profileData}`;
-      const systemPrompt = systemInstruction.replace('[TARGET_ROLES_PLACEHOLDER]', rolesStr);
-      
-      const result = await generateAIResponse({ prompt, systemInstruction: systemPrompt });
-
-      console.log(`[${new Date().toISOString()}] POST ${req.path} - Success`);
-      res.json({ text: result });
-    } catch (error: any) {
-      console.error(`[${new Date().toISOString()}] POST ${req.path} - Error:`, error);
-      res.status(500).json({ error: error.message || "Failed to generate audit" });
-    }
-  });
-
   // ==========================================
   // RESUME PDF & DOCUMENT PARSER ENDPOINT
   // ==========================================
-  app.post(["/api/parse-resume-file", "/api/parse-resume-file/"], async (req, res) => {
+  app.post(["/api/parse-resume-file", "/api/parse-resume-file/"], requireAiAccess, async (req, res) => {
     console.log(`[${new Date().toISOString()}] POST ${req.path} - Parsing Resume Document`);
     try {
       const { fileBase64, fileName, mimeType = "application/pdf" } = req.body;
@@ -724,7 +707,7 @@ Guidelines:
   // ==========================================
   // PM RESUME AUDITOR API ENDPOINT
   // ==========================================
-  app.post("/api/audit-resume", async (req, res) => {
+  app.post("/api/audit-resume", requireAiAccess, async (req, res) => {
     console.log(`[${new Date().toISOString()}] POST ${req.path} - Auditing PM Resume`);
     try {
       const { resumeText, targetRole = "Product Manager", jobTitle, jobDescription } = req.body;
@@ -977,7 +960,7 @@ Return only the JSON object. No preamble, no markdown code fences, no explanatio
   }
 
   // API Route for AI Mock Interview - Conversational Turn
-  app.post(["/api/interview/chat", "/api/interview/chat/"], async (req, res) => {
+  app.post(["/api/interview/chat", "/api/interview/chat/"], requireAiAccess, async (req, res) => {
     try {
       const { scenario, persona, messages, elapsedSeconds = 0, targetSeconds = 900, synthesizeAudio = true } = req.body;
 
@@ -1061,7 +1044,7 @@ CRITICAL CONVERSATIONAL RULES:
   });
 
   // API Route for Contextual AI Hint Generation
-  app.post(["/api/interview/hint", "/api/interview/hint/"], async (req, res) => {
+  app.post(["/api/interview/hint", "/api/interview/hint/"], requireAiAccess, async (req, res) => {
     try {
       const { scenario, messages = [] } = req.body;
 
@@ -1102,7 +1085,7 @@ Pure text, 1-2 sentences, actionable and clear. No markdown asterisks.
   });
 
   // API Route for Natural Human-Like Voice Synthesis (Gemini TTS / Neural Speech)
-  app.post(["/api/interview/tts", "/api/interview/tts/"], async (req, res) => {
+  app.post(["/api/interview/tts", "/api/interview/tts/"], requireAiAccess, async (req, res) => {
     try {
       const { text, personaId = 'maya', voiceGender = 'female' } = req.body;
       if (!text || !text.trim()) {
@@ -1184,7 +1167,7 @@ Pure text, 1-2 sentences, actionable and clear. No markdown asterisks.
   });
 
   // API Route for Voice Audio Transcription (Candidate Speech-to-Text)
-  app.post(["/api/interview/transcribe", "/api/interview/transcribe/"], async (req, res) => {
+  app.post(["/api/interview/transcribe", "/api/interview/transcribe/"], requireAiAccess, async (req, res) => {
     try {
       const { audioBase64, mimeType = "audio/webm" } = req.body;
       if (!audioBase64) {
@@ -1254,7 +1237,7 @@ Pure text, 1-2 sentences, actionable and clear. No markdown asterisks.
   });
 
   // API Route for Comprehensive Evaluation & Scorecard
-  app.post(["/api/interview/evaluate", "/api/interview/evaluate/"], async (req, res) => {
+  app.post(["/api/interview/evaluate", "/api/interview/evaluate/"], requireAiAccess, async (req, res) => {
     try {
       // Step 7: Auth verification - userId comes ONLY from the verified Firebase ID token
       const authHeader = req.headers.authorization;
@@ -1317,7 +1300,7 @@ Pure text, 1-2 sentences, actionable and clear. No markdown asterisks.
   // REAL-WORLD PROJECTS: AI FEEDBACK ON SUBMISSIONS
   // ==========================================
 
-  app.post(["/api/projects/feedback", "/api/projects/feedback/"], async (req, res) => {
+  app.post(["/api/projects/feedback", "/api/projects/feedback/"], requireAiAccess, async (req, res) => {
     try {
       // userId comes ONLY from the verified Firebase ID token
       const authHeader = req.headers.authorization;
@@ -1499,14 +1482,9 @@ SUBMISSION>>>`;
   });
 
   // 1. Send Email Verification Link via Resend
+  // Only the signed-in user can ask for their own verification email; the address comes from their token, never the body.
   app.post("/api/auth/send-verification-email", async (req, res) => {
-    const { email, name, returnUrl, isNewSignUp } = req.body;
-
-    if (!email || typeof email !== "string" || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-      return res.status(400).json({ error: "A valid email address is required" });
-    }
-
-    const cleanEmail = email.trim().toLowerCase();
+    const { name, returnUrl, isNewSignUp } = req.body || {};
 
     // Check if Firebase Admin service account is configured
     if (!isFirebaseAdminConfigured()) {
@@ -1516,6 +1494,19 @@ SUBMISSION>>>`;
         error: "Firebase Admin is awaiting full FIREBASE_SERVICE_ACCOUNT_KEY JSON. Falling back to client-side verification.",
       });
     }
+
+    const authUser = await getVerifiedUser(req);
+    if (!authUser || !authUser.email) {
+      return res.status(401).json({ success: false, error: "Please sign in to request a verification email." });
+    }
+    if (authUser.emailVerified) {
+      return res.json({ success: true, message: "Your email is already verified." });
+    }
+    if (!(await consumeDailyQuota(`verify_email_${authUser.uid}`, 5))) {
+      return res.status(429).json({ success: false, error: "Too many verification emails today. Please check your inbox or try again tomorrow." });
+    }
+
+    const cleanEmail = authUser.email;
 
     try {
       // Generate Firebase Action Link using Admin SDK with appropriate return URL
@@ -1530,8 +1521,15 @@ SUBMISSION>>>`;
         verificationUrl: linkResult.rawActionLink,
       });
 
-      // If new sign up, optionally dispatch the welcome email in parallel
+      // Welcome email: only for an account created in the last 15 minutes, and at most once
+      let isFreshAccount = false;
       if (isNewSignUp) {
+        try {
+          const createdAt = Date.parse((await getAdminAuth().getUser(authUser.uid)).metadata.creationTime);
+          isFreshAccount = Date.now() - createdAt < 15 * 60 * 1000;
+        } catch (_) {}
+      }
+      if (isFreshAccount && (await consumeDailyQuota(`welcome_email_${authUser.uid}`, 1))) {
         sendWelcomeEmailViaResend({
           to: cleanEmail,
           name: typeof name === "string" ? name.trim() : undefined,
@@ -1570,6 +1568,13 @@ SUBMISSION>>>`;
     }
 
     const cleanEmail = email.trim().toLowerCase();
+
+    const withinLimit =
+      (await consumeDailyQuota(`reset_email_${cleanEmail}`, 5)) &&
+      (await consumeDailyQuota(`reset_ip_${clientIp(req)}`, 20));
+    if (!withinLimit) {
+      return res.status(429).json({ success: false, error: "Too many password reset requests today. Please try again tomorrow." });
+    }
 
     // Check if Firebase Admin service account is configured
     if (!isFirebaseAdminConfigured()) {
@@ -1612,35 +1617,6 @@ SUBMISSION>>>`;
         success: false,
         fallbackToClient: true,
         error: "Failed to send password reset email. Please try again later."
-      });
-    }
-  });
-
-  // 3. Send Welcome Email via Resend
-  app.post("/api/auth/send-welcome-email", async (req, res) => {
-    const { email, name } = req.body;
-
-    if (!email || typeof email !== "string" || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-      return res.status(400).json({ error: "A valid email address is required" });
-    }
-
-    const cleanEmail = email.trim().toLowerCase();
-
-    try {
-      const emailResult = await sendWelcomeEmailViaResend({
-        to: cleanEmail,
-        name: typeof name === "string" ? name.trim() : undefined,
-      });
-
-      return res.json({
-        success: true,
-        message: "Welcome email sent successfully",
-        emailId: emailResult.id,
-      });
-    } catch (err: any) {
-      console.error("[SendWelcomeEmail Error]:", err?.message || err);
-      return res.status(500).json({
-        error: "Failed to send welcome email."
       });
     }
   });

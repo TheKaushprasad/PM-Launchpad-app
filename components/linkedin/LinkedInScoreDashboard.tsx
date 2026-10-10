@@ -14,6 +14,7 @@ import {
   GraduationCap, ShieldCheck, Zap, Share2, Download, Flame,
   HelpCircle, ExternalLink, Filter, Plus, Lightbulb
 } from 'lucide-react';
+import { authJsonHeaders } from '../../lib/apiClient';
 
 interface LinkedInScoreDashboardProps {
   analysis: LinkedInAnalysisResult;
@@ -112,7 +113,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
     try {
       const res = await fetch('/api/rewrite', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: await authJsonHeaders(),
         body: JSON.stringify({
           section: customRewriteSection,
           currentText: customInputText,
