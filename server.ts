@@ -23,6 +23,7 @@ import { loadPrompts, getInterviewerPersonaPrompt } from "./server/prompts/versi
 import { runEvaluationEngine } from "./server/evaluatorEngine";
 import { saveInterviewEvaluationServerSide } from "./server/persistence";
 import { getProjectById } from "./data/realWorldProjects";
+import { getJobDetail, getJobsList, jobsStoreReady, refreshJobs } from "./server/jobs/store";
 
 dotenv.config();
 
@@ -43,6 +44,8 @@ export async function createExpressApp() {
       hasGeminiKey: !!process.env.GEMINI_API_KEY?.trim(),
       hasOpenAIKey: !!process.env.OPENAI_API_KEY,
       hasResendKey: !!process.env.RESEND_API_KEY,
+      hasFirebaseAdmin: isFirebaseAdminConfigured(),
+      hasCronSecret: !!process.env.CRON_SECRET?.trim(),
       port: 3000
     });
   });
@@ -1414,6 +1417,67 @@ SUBMISSION>>>`;
     } catch (error: any) {
       console.error("[Project Feedback Error]:", error);
       res.status(500).json({ error: error.message || "Failed to generate project feedback" });
+    }
+  });
+
+  // ==========================================
+  // PM Jobs board
+  // ==========================================
+
+  // Daily refresh. Vercel Cron calls this with "Authorization: Bearer <CRON_SECRET>".
+  // Add ?dryRun=1 to fetch and count without writing to Firestore.
+  app.get(["/api/jobs/refresh", "/api/jobs/refresh/"], async (req, res) => {
+    const secret = process.env.CRON_SECRET?.trim();
+    if (!secret) {
+      return res.status(503).json({ error: "CRON_SECRET is not set in the server environment." });
+    }
+    if (req.headers.authorization !== `Bearer ${secret}`) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+    const dryRun = req.query.dryRun === "1";
+    if (!dryRun && !jobsStoreReady()) {
+      return res.status(503).json({ error: "FIREBASE_SERVICE_ACCOUNT_KEY is not set, so jobs cannot be saved." });
+    }
+    try {
+      const summary = await refreshJobs({ dryRun });
+      console.log(`[Jobs Refresh] total=${summary.total} added=${summary.added} updated=${summary.updated} removed=${summary.removed} failedSources=${summary.sources.filter((s) => !s.ok).map((s) => s.label).join(", ") || "none"}`);
+      res.json({ success: true, ...summary });
+    } catch (err: any) {
+      console.error("[Jobs Refresh Error]:", err);
+      res.status(500).json({ error: err?.message || "Job refresh failed" });
+    }
+  });
+
+  app.get(["/api/jobs", "/api/jobs/"], async (req, res) => {
+    if (!jobsStoreReady()) {
+      return res.json({ refreshedAt: null, jobs: [], sources: [] });
+    }
+    try {
+      const data = await getJobsList();
+      res.set("Cache-Control", "public, s-maxage=900, stale-while-revalidate=3600");
+      res.json(data);
+    } catch (err: any) {
+      console.error("[Jobs List Error]:", err);
+      res.status(500).json({ error: "Could not load jobs right now." });
+    }
+  });
+
+  app.get("/api/jobs/:jobId", async (req, res) => {
+    const jobId = String(req.params.jobId || "");
+    if (!/^[a-z0-9_-]{1,120}$/.test(jobId)) {
+      return res.status(400).json({ error: "Invalid job id" });
+    }
+    if (!jobsStoreReady()) {
+      return res.status(404).json({ error: "Job not found" });
+    }
+    try {
+      const job = await getJobDetail(jobId);
+      if (!job) return res.status(404).json({ error: "This job is no longer listed." });
+      res.set("Cache-Control", "public, s-maxage=3600, stale-while-revalidate=86400");
+      res.json(job);
+    } catch (err: any) {
+      console.error("[Job Detail Error]:", err);
+      res.status(500).json({ error: "Could not load this job right now." });
     }
   });
 

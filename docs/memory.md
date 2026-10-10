@@ -11,6 +11,8 @@ Decisions, context and lessons learned that are not obvious from the code. Newes
 
 | Date | Decision | Why |
 |---|---|---|
+| 2026-10-09 | PM Jobs board: legal sources only (public Greenhouse/Lever/Ashby job feeds, Remotive, Remote OK; later Adzuna India and Firecrawl on company career pages). No LinkedIn, Naukri, Indeed or Glassdoor scraping | Their terms forbid scraping |
+| 2026-10-09 | Jobs match: instant match % without AI for everyone; AI fit check and tips on the free Gemini key, capped at 2 per user per day | Free tier is about 20 requests per day for the whole site |
 | 2026-10-09 | Keep project docs (`prd`, `rules`, `design`, `tasks`, `memory`, `architecture`) in `docs/` | One place for humans and AI assistants to get context |
 | 2026-10-09 | Add Taste Skill (design-taste-frontend, redesign-existing-projects) to `.claude/skills/`, copied from github.com/Leonxlnx/taste-skill at commit 18dfc92 (MIT) | Better-looking UI work from Claude Code on marketing and landing pages |
 | 2026-10-08 | Stay on the free Gemini tier for now | Cost; accepted the 20 requests per day limit and frequent 503s. Paid key is recommended before real traffic |
@@ -36,6 +38,7 @@ Decisions, context and lessons learned that are not obvious from the code. Newes
 - **The app offers 4 interview types** (design, guesstimate, RCA, strategy). The evaluator and golden set also cover a 5th, metrics, using scenarios embedded in the eval cases.
 - **`npm ci` fails** because `package-lock.json` pins zod 3 while `package.json` wants zod 4. Use `npm install`.
 - **Owner's local setup:** keys live in `services/.env` on their machine, with local, uncommitted edits to `.gitignore` and `eval/runner.ts` to load it. These block `git checkout main`; the safe sequence after a merge is `git stash`, `git checkout main`, `git pull`, `git stash pop`.
+- **Jobs refresh** runs daily at 06:00 IST via Vercel Cron (`/api/jobs/refresh`, needs `CRON_SECRET` and `FIREBASE_SERVICE_ACCOUNT_KEY`). Jobs live in Firestore `jobs/{id}` and `jobs_meta/*`, written only by the server. The company list is `server/jobs/companies.ts`.
 - A Gemini key was once pasted into chat; it was rotated on 2026-10-08. Never paste keys into chats, issues or commits.
 
 ## Lessons learned

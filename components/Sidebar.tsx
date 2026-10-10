@@ -31,6 +31,7 @@ const MODULE_ITEMS = [
 const OTHER_NAV_ITEMS = [
   { label: 'AI Mock Interview', icon: Sparkles, path: '/interview-studio', badge: 'AI' },
   { label: 'Real-World Projects', icon: FolderKanban, path: '/projects' },
+  { label: 'PM Jobs', icon: Briefcase, path: '/jobs', badge: 'New' },
   { label: 'Resources', icon: BookOpen, path: '/resources' },
   { label: 'Career Tools', icon: Zap, path: '/tools' },
   { label: 'User Profile', icon: UserIcon, path: '/profile' },
