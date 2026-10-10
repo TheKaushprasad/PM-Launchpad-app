@@ -188,6 +188,7 @@ export const LandingPage: React.FC = () => {
     { title: "AI Mock Interview Studio", category: "Tools", path: "/interview-studio" },
     { title: "LinkedIn Profile Optimiser", category: "Tools", path: "/tools/linkedin-optimiser" },
     { title: "Resume Auditor & ATS Check", category: "Tools", path: "/resume-auditor" },
+    { title: "PM Jobs in India & Remote", category: "Jobs", path: "/jobs" },
     { title: "PM PRD Template & Swipe Files", category: "Resources", path: "/resources" },
     { title: "Product Strategy & Prioritization", category: "Pillars", path: "/dashboard/strategy" },
     { title: "Data & Metrics Playbook", category: "Pillars", path: "/dashboard/data" },
@@ -362,6 +363,15 @@ export const LandingPage: React.FC = () => {
               AI Mock Interview
             </button>
 
+            {/* PM Jobs Link */}
+            <button 
+              onClick={() => navigate('/jobs')}
+              className="hover:text-emerald-700 transition-colors cursor-pointer inline-flex items-center gap-1.5"
+            >
+              PM Jobs
+              <span className="px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[9px] font-black uppercase tracking-wider">New</span>
+            </button>
+
             {/* Resources Dropdown */}
             <div 
               className="relative"
@@ -525,6 +535,12 @@ export const LandingPage: React.FC = () => {
                 className="w-full text-left py-2 font-semibold text-slate-800"
               >
                 AI Mock Interview
+              </button>
+              <button 
+                onClick={() => { setMobileMenuOpen(false); navigate('/jobs'); }} 
+                className="w-full text-left py-2 font-semibold text-slate-800"
+              >
+                PM Jobs
               </button>
               <div className="py-1">
                 <button 
@@ -861,7 +877,7 @@ export const LandingPage: React.FC = () => {
               </button>
             </div>
 
-            {/* Right Column: 4 Feature Cards */}
+            {/* Right Column: Feature Cards */}
             <div className="lg:col-span-8">
               
               {/* Playful Handwritten Annotation */}
@@ -1035,6 +1051,50 @@ export const LandingPage: React.FC = () => {
                     className="w-full text-center py-2 text-[11px] font-bold text-emerald-700 hover:text-emerald-800 bg-emerald-50/70 hover:bg-emerald-100/80 rounded-xl transition-colors cursor-pointer"
                   >
                     Explore Resources →
+                  </button>
+                </div>
+
+                {/* Card 05: PM Jobs board (full width) */}
+                <div 
+                  onClick={() => navigate('/jobs')}
+                  className="sm:col-span-2 xl:col-span-4 bg-white rounded-2xl border border-slate-200/90 p-4 sm:p-5 shadow-sm flex flex-col md:flex-row md:items-center gap-4 md:gap-6 hover:border-emerald-300 transition-colors cursor-pointer group"
+                >
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-sm">
+                        💼
+                      </div>
+                      <span className="text-xs font-mono font-bold text-slate-400">05</span>
+                      <span className="px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[9px] font-black uppercase tracking-wider">New</span>
+                    </div>
+                    <h3 className="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition-colors leading-snug">PM Jobs Board</h3>
+                    <p className="text-[11px] text-slate-500 mt-1.5 leading-relaxed">
+                      APM to CPO roles across India and remote, collected every morning from company job boards. Filter by level, city and experience, and save the ones you like.
+                    </p>
+                  </div>
+
+                  {/* Graphic Preview: job rows */}
+                  <div className="md:w-72 p-2.5 bg-amber-50/50 rounded-xl border border-amber-100 space-y-1.5 text-[9px]">
+                    {[
+                      ['Associate Product Manager', 'Bengaluru'],
+                      ['Product Manager', 'Remote'],
+                      ['Senior Product Manager', 'Delhi NCR'],
+                    ].map(([role, place]) => (
+                      <div key={role} className="flex items-center justify-between gap-2 bg-white rounded-lg px-2 py-1.5 border border-amber-100/80">
+                        <span className="font-semibold text-slate-700 truncate">{role}</span>
+                        <span className="text-amber-700 shrink-0">{place}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate('/jobs');
+                    }}
+                    className="md:w-40 shrink-0 text-center py-2 px-3 text-[11px] font-bold text-amber-700 hover:text-amber-800 bg-amber-50/70 hover:bg-amber-100/80 rounded-xl transition-colors cursor-pointer"
+                  >
+                    Browse PM Jobs →
                   </button>
                 </div>
 
@@ -1328,6 +1388,7 @@ export const LandingPage: React.FC = () => {
                 <li><button onClick={() => navigate('/dashboard')} className="hover:text-emerald-700 transition-colors cursor-pointer">Learn</button></li>
                 <li><button onClick={() => navigate('/interview-studio')} className="hover:text-emerald-700 transition-colors cursor-pointer">AI Mock Interview</button></li>
                 <li><button onClick={() => navigate('/tools')} className="hover:text-emerald-700 transition-colors cursor-pointer">Resume Tools</button></li>
+                <li><button onClick={() => navigate('/jobs')} className="hover:text-emerald-700 transition-colors cursor-pointer">PM Jobs</button></li>
                 <li><button onClick={() => navigate('/resources')} className="hover:text-emerald-700 transition-colors cursor-pointer">Resources</button></li>
                 <li><a href="https://chat.whatsapp.com/GhkzK8bDAUwLAKfLw7hfbW" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-700 transition-colors">Community</a></li>
               </ul>
