@@ -18,6 +18,9 @@ Decisions, context and lessons learned that are not obvious from the code. Newes
 | 2026-10-09 | Add Taste Skill (design-taste-frontend, redesign-existing-projects) to `.claude/skills/`, copied from github.com/Leonxlnx/taste-skill at commit 18dfc92 (MIT) | Better-looking UI work from Claude Code on marketing and landing pages |
 | 2026-10-08 | Stay on the free Gemini tier for now | Cost; accepted the 20 requests per day limit and frequent 503s. Paid key is recommended before real traffic |
 | 2026-10-08 | Run golden-set evals one track per day, in this order: rca, guesstimate, strategy, design, metrics, on a separate eval-only key | A full 50-case run is about 60 calls and does not fit in one free-tier day |
+| 2026-10-11 | Rename verdicts to Strong Hire / Hire / No Hire / Strong No Hire, add candidate levels and a hiring bar, score with per-track pillars | Match how real PM loops decide |
+| 2026-10-11 | One interviewer (Priya) with a realistic Simli video face, Deepgram US voice and Groq Whisper listening | Owner wants an avatar-based interview; US accent is fine |
+| 2026-10-11 | Never show a fake scorecard or scripted interviewer line when AI fails; show Retry instead | Fake feedback broke trust |
 | 2026-10-08 | Build a 50-case golden dataset, 10 per interview type (PR #3) | Trustworthy scoring is the core promise of the interview product |
 | 2026-10-08 | Cap injection-flagged interviews at 69 (Lean No) and cap pillars built on interviewer echoes (PR #2) | The evaluator could be gamed |
 | 2026-10-08 | Add Real-World Projects with AI feedback; submissions saved server-side (PR #1) | It was the only goal area with nothing built |
@@ -36,7 +39,7 @@ Decisions, context and lessons learned that are not obvious from the code. Newes
 - **Vercel env vars must be ticked for Preview** as well as Production, or PR previews fail with "No valid AI API key". Redeploy after changing them. `/api/health` reports which keys are present.
 - **Free tier limits:** `gemini-3.8-flash` allows 20 requests per day per project (429 `RESOURCE_EXHAUSTED`). Under load it returns 503 "high demand", so results often come from `gemini-3.1-flash-lite` via failover.
 - **Eval runs never write to Firestore** because the harness sends no user or session id.
-- **The app offers 4 interview types** (design, guesstimate, RCA, strategy). The evaluator and golden set also cover a 5th, metrics, using scenarios embedded in the eval cases.
+- **The app offers 7 interview types** (design, RCA, metrics, guesstimate, strategy, behavioral, AI product), 205 scenarios, plus a 3-round full loop.
 - **`npm ci` fails** because `package-lock.json` pins zod 3 while `package.json` wants zod 4. Use `npm install`.
 - **Owner's local setup:** keys live in `services/.env` on their machine, with local, uncommitted edits to `.gitignore` and `eval/runner.ts` to load it. These block `git checkout main`; the safe sequence after a merge is `git stash`, `git checkout main`, `git pull`, `git stash pop`.
 - **Jobs refresh** runs daily at 06:00 IST via Vercel Cron (`/api/jobs/refresh`, needs `CRON_SECRET` and `FIREBASE_SERVICE_ACCOUNT_KEY`). Jobs live in Firestore `jobs/{id}` and `jobs_meta/*`, written only by the server. The company list is `server/jobs/companies.ts`.

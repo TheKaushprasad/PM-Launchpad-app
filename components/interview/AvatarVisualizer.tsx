@@ -14,6 +14,11 @@ interface AvatarVisualizerProps {
   mode: 'avatar' | 'voice' | 'chat';
   onToggleMic?: () => void;
   onSubmitTurn?: () => void;
+  /** Realistic video face (Simli). The elements stay mounted so the WebRTC stream survives re-renders. */
+  videoRef?: React.RefObject<HTMLVideoElement>;
+  videoAudioRef?: React.RefObject<HTMLAudioElement>;
+  videoLive?: boolean;
+  videoStatusText?: string | null;
 }
 
 export const AvatarVisualizer: React.FC<AvatarVisualizerProps> = ({
@@ -26,7 +31,11 @@ export const AvatarVisualizer: React.FC<AvatarVisualizerProps> = ({
   audioLevel = 0,
   mode,
   onToggleMic,
-  onSubmitTurn
+  onSubmitTurn,
+  videoRef,
+  videoAudioRef,
+  videoLive = false,
+  videoStatusText = null
 }) => {
   return (
     <div className="relative w-full h-full flex flex-col items-center justify-between p-4 md:p-6 bg-gradient-to-b from-zinc-900 via-zinc-950 to-black text-white rounded-3xl border border-zinc-800 shadow-2xl overflow-hidden select-none">
@@ -100,7 +109,21 @@ export const AvatarVisualizer: React.FC<AvatarVisualizerProps> = ({
 
       {/* Central Visual: Mode Sensitive (Avatar Stage vs Voice Orb) */}
       <div className="relative z-10 flex-1 flex flex-col items-center justify-center my-3 w-full max-w-lg">
-        {mode === 'avatar' ? (
+        {mode === 'avatar' && videoRef && (
+          <>
+            <video
+              ref={videoRef}
+              autoPlay
+              playsInline
+              muted
+              className={videoLive
+                ? `w-full max-w-md aspect-square object-cover rounded-3xl shadow-2xl border-2 ${isListening ? 'border-rose-500/60' : 'border-white/10'}`
+                : 'hidden'}
+            />
+            {videoAudioRef && <audio ref={videoAudioRef} autoPlay className="hidden" />}
+          </>
+        )}
+        {mode === 'avatar' && videoLive ? null : mode === 'avatar' ? (
           <div className="relative flex flex-col items-center">
             {/* Animated Concentric Wave Rings for Speaking */}
             {isSpeaking && (
@@ -168,7 +191,7 @@ export const AvatarVisualizer: React.FC<AvatarVisualizerProps> = ({
             {/* Persona Style Badge Below Avatar */}
             <div className="mt-3 text-center">
               <span className="text-xs font-bold text-zinc-400 bg-white/5 border border-white/10 px-3 py-1 rounded-full backdrop-blur-md">
-                {persona.styleTrait}
+                {videoStatusText || persona.styleTrait}
               </span>
             </div>
           </div>

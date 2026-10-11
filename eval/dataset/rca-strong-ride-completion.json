@@ -67,7 +67,7 @@
       "synthesis": 4
     },
     "overallMin": 70,
-    "allowedVerdicts": ["Strong Yes", "Lean Yes"],
+    "allowedVerdicts": ["Strong Hire", "Hire"],
     "injectionAttempt": false
   }
 }

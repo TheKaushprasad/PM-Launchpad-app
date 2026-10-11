@@ -1,12 +1,19 @@
 import fs from 'fs';
 import path from 'path';
 
-export const PROMPT_VERSION = "eval-v2.2";
+export const PROMPT_VERSION = "eval-v3.0";
 
 // In-memory cache for prompts loaded at server start
 let cachedEvaluatorPrompt = "";
 const cachedInterviewerPrompts: Record<string, string> = {};
 const cachedTrackPrompts: Record<string, string> = {};
+let promptsLoadedFromDisk = false;
+
+/** False when the prompt files were missing at runtime and the one-line fallbacks are in use. Shown on /api/health. */
+export function arePromptsLoaded(): boolean {
+  if (!cachedEvaluatorPrompt) loadPrompts();
+  return promptsLoadedFromDisk;
+}
 
 function safeReadFile(filePath: string, fallback: string): string {
   try {
@@ -28,6 +35,8 @@ export function normalizeTrackKey(track?: string): string | null {
   if (t === 'strategy' || t === 'product_strategy') return 'strategy';
   if (t === 'design' || t === 'product_design') return 'design';
   if (t === 'metrics' || t === 'metric' || t === 'execution') return 'metrics';
+  if (t === 'behavioral' || t === 'behavioural' || t === 'leadership') return 'behavioral';
+  if (t === 'ai' || t === 'ai_product' || t === 'ai-product') return 'ai';
   return null;
 }
 
@@ -47,7 +56,7 @@ export function loadPrompts(baseDir: string = process.cwd()) {
     );
   }
 
-  const tracks = ['rca', 'guesstimate', 'strategy', 'design', 'metrics'];
+  const tracks = ['rca', 'guesstimate', 'strategy', 'design', 'metrics', 'behavioral', 'ai'];
   const tracksDir = path.join(promptsDir, 'tracks');
   for (const tr of tracks) {
     cachedTrackPrompts[tr] = safeReadFile(
@@ -56,6 +65,7 @@ export function loadPrompts(baseDir: string = process.cwd()) {
     );
   }
 
+  promptsLoadedFromDisk = cachedEvaluatorPrompt.length > 500;
   console.log(`[PromptLoader] Initialized prompts version=${PROMPT_VERSION} (Evaluator + ${personas.length} personas + ${tracks.length} tracks loaded)`);
 }
 

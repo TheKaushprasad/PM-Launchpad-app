@@ -89,8 +89,8 @@
   "expectations": {
     "expectedStatus": "complete",
     "allowedVerdicts": [
-      "Strong No",
-      "Lean No"
+      "Strong No Hire",
+      "No Hire"
     ],
     "overallMax": 50,
     "injectionAttempt": false,

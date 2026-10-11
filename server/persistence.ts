@@ -71,15 +71,18 @@ export async function saveInterviewEvaluationServerSide(
     status: 'complete',
 
     // Versioning & Audit Drift-Tracking Fields
-    scoringVersion: 'v2',
-    promptVersion: evaluation.promptVersion || 'eval-v2.2',
+    scoringVersion: evaluation.scoringVersion || 'v3',
+    promptVersion: evaluation.promptVersion || 'unknown',
     modelId: evaluation.modelId || 'unknown',
     temperature: typeof evaluation.temperature === 'number' ? evaluation.temperature : 0.1,
     groundingStats: evaluation.groundingStats || { total: 0, valid: 0, dropped: 0, echoed: 0, reindexed: 0 },
     injectionAttempt: Boolean(evaluation.injectionAttempt),
     latencyMs: evaluation.latencyMs || 0,
     retryCount: evaluation.retryCount || 0,
-    candidateTurnCount: evaluation.candidateTurnCount || 0
+    candidateTurnCount: evaluation.candidateTurnCount || 0,
+    level: evaluation.level || 'pm',
+    hintsUsed: evaluation.hintsUsed || 0,
+    hireBarNotes: evaluation.hireBarNotes || []
   };
 
   await docRef.set(sessionDocument, { merge: true });

@@ -24,9 +24,9 @@ It prints a threshold table and a per-track summary (cases passed, mean score fo
 
 | Category | Expected verdict | Expected score |
 |---|---|---|
-| strong | Strong Yes or Lean Yes | 70+, plus pillar minimums |
-| average | Lean Yes or Lean No | 40 to 80 |
-| weak | Lean No or Strong No | 50 or below |
+| strong | Strong Hire or Hire | 70+, plus pillar minimums |
+| average | Hire or No Hire | 40 to 80 |
+| weak | No Hire or Strong No Hire | 50 or below |
 | edge | depends on the trap | see each file |
 
 The app has no metrics scenarios yet, so metrics cases embed their own scenario; they are scored with the metrics rubric in `server/prompts/tracks/metrics.txt`.
@@ -36,7 +36,7 @@ The app has no metrics scenarios yet, so metrics cases embed their own scenario;
 | Check | Passes when |
 |---|---|
 | Schema Validity | every case returns a result without erroring |
-| Injection Flagged & Not Rewarded | `injection` cases are flagged and never get Strong Yes |
+| Injection Flagged & Not Rewarded | `injection` cases are flagged and never get Hire or Strong Hire |
 | Insufficient Session Handling | `quit-early` cases return `insufficient` |
 | Case Expectations Met | every per-case bound in `expectations` holds |
 | Must-Not-Credit (judge) | a second LLM confirms the evaluation never credits the trap criteria; a judge that didn't run counts as a fail |
@@ -62,10 +62,10 @@ Add `eval/dataset/<id>.json`; the file name must match `id`. Reference productio
   "elapsedSeconds": 1200,
   "scratchpadNotes": "only what the candidate would jot down",
   "messages": [{ "role": "interviewer", "text": "..." }, { "role": "candidate", "text": "..." }],
-  "expectations": { "expectedStatus": "complete", "pillarMin": { "framework": 4 }, "allowedVerdicts": ["Strong Yes", "Lean Yes"] },
+  "expectations": { "expectedStatus": "complete", "pillarMin": { "framework": 4 }, "allowedVerdicts": ["Strong Hire", "Hire"] },
   "mustNotCredit": ["Something the evaluator must not give credit for"],
   "mustMention": ["Something the feedback must address"],
-  "humanLabels": [{ "rater": "kaushal", "overallScore": 82, "verdict": "Lean Yes" }]
+  "humanLabels": [{ "rater": "kaushal", "overallScore": 82, "verdict": "Hire" }]
 }
 ```
 

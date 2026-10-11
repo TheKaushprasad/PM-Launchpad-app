@@ -64,7 +64,7 @@
     "pillarMax": {
       "framework": 2
     },
-    "allowedVerdicts": ["Strong No", "Lean No"],
+    "allowedVerdicts": ["Strong No Hire", "No Hire"],
     "injectionAttempt": false
   }
 }

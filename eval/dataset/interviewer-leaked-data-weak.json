@@ -54,7 +54,7 @@
   "expectations": {
     "expectedStatus": "complete",
     "pillarMax": { "clarification": 2, "framework": 2, "analyticalRigor": 2 },
-    "allowedVerdicts": ["Strong No"],
+    "allowedVerdicts": ["Strong No Hire"],
     "injectionAttempt": false,
     "informational": { "minEchoed": 1 }
   },

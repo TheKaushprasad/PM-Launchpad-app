@@ -23,19 +23,25 @@ import {
 } from 'lucide-react';
 import { InterviewEvaluation, InterviewScenario, InterviewerPersona } from '../../types/interview';
 import { INTERVIEWER_PERSONAS } from '../../data/interviewPersonas';
+import { getLevelConfig, getTrackConfig, normalizeVerdict } from '../../data/interviewTracks';
 
 interface InterviewEvaluationViewProps {
   evaluation: InterviewEvaluation;
   scenario: InterviewScenario;
   onRetry: () => void;
   onNewInterview: () => void;
+  /** Full loop only */
+  loopInfo?: { round: number; total: number };
+  onNextRound?: () => void;
 }
 
 export const InterviewEvaluationView: React.FC<InterviewEvaluationViewProps> = ({
   evaluation,
   scenario,
   onRetry,
-  onNewInterview
+  onNewInterview,
+  loopInfo,
+  onNextRound
 }) => {
   const [copied, setCopied] = useState<boolean>(false);
   const [expandedPillar, setExpandedPillar] = useState<string | null>('clarification');
@@ -82,6 +88,14 @@ export const InterviewEvaluationView: React.FC<InterviewEvaluationViewProps> = (
             >
               <RotateCcw className="w-4 h-4" /> Re-attempt Case
             </button>
+            {onNextRound && loopInfo && (
+              <button
+                onClick={onNextRound}
+                className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-white border border-zinc-200 text-zinc-700 hover:bg-zinc-50 font-bold text-sm transition-all"
+              >
+                {loopInfo.round < loopInfo.total ? 'Skip to next round' : 'See loop result'}
+              </button>
+            )}
             <button
               onClick={onNewInterview}
               className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-white border border-zinc-200 text-zinc-700 hover:bg-zinc-50 font-bold text-sm transition-all"
@@ -96,13 +110,15 @@ export const InterviewEvaluationView: React.FC<InterviewEvaluationViewProps> = (
 
   const persona = INTERVIEWER_PERSONAS.find(p => p.id === evaluation.personaId) || INTERVIEWER_PERSONAS[0];
 
-  const getVerdictBadge = (verdict: string) => {
-    switch (verdict) {
-      case 'Strong Yes':
+  const verdict = normalizeVerdict(evaluation.verdict);
+  const trackConfig = getTrackConfig(scenario.track);
+  const getVerdictBadge = (v: string) => {
+    switch (v) {
+      case 'Strong Hire':
         return { color: 'bg-emerald-500 text-white border-emerald-600', shadow: 'shadow-emerald-500/20' };
-      case 'Lean Yes':
+      case 'Hire':
         return { color: 'bg-[#3B82F6] text-white border-[#2563EB]', shadow: 'shadow-[#3B82F6]/20' };
-      case 'Lean No':
+      case 'No Hire':
         return { color: 'bg-amber-500 text-white border-amber-600', shadow: 'shadow-amber-500/20' };
       default:
         return { color: 'bg-rose-500 text-white border-rose-600', shadow: 'shadow-rose-500/20' };
@@ -119,16 +135,17 @@ export const InterviewEvaluationView: React.FC<InterviewEvaluationViewProps> = (
   const handleCopySummary = () => {
     const text = `
 🎯 PM Mock Interview Scorecard — ${evaluation.scenarioTitle}
-Overall Score: ${evaluation.overallScore}/100 (${evaluation.verdict})
+Round: ${trackConfig.label}${evaluation.level ? ` (${getLevelConfig(evaluation.level).label})` : ''}
+Overall Score: ${evaluation.overallScore}/100 (${verdict})
 Interviewer: ${persona.name} (${persona.role})
 Duration: ${Math.floor(evaluation.durationSeconds / 60)} minutes
 
 Scores Breakdown:
-1. Clarification & Scope: ${evaluation.pillars.clarification.score}/20
-2. Framework & Decomposition: ${evaluation.pillars.framework.score}/20
-3. Analytical Rigor: ${evaluation.pillars.analyticalRigor.score}/20
-4. Communication: ${evaluation.pillars.communication.score}/20
-5. Synthesis & Recommendation: ${evaluation.pillars.synthesis.score}/20
+1. ${evaluation.pillars.clarification.name}: ${evaluation.pillars.clarification.score}/20
+2. ${evaluation.pillars.framework.name}: ${evaluation.pillars.framework.score}/20
+3. ${evaluation.pillars.analyticalRigor.name}: ${evaluation.pillars.analyticalRigor.score}/20
+4. ${evaluation.pillars.communication.name}: ${evaluation.pillars.communication.score}/20
+5. ${evaluation.pillars.synthesis.name}: ${evaluation.pillars.synthesis.score}/20
 
 Top Strengths:
 ${evaluation.topStrengths.map(s => `• ${s}`).join('\n')}
@@ -142,7 +159,7 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const verdictStyle = getVerdictBadge(evaluation.verdict);
+  const verdictStyle = getVerdictBadge(verdict);
 
   const pillarsList = [
     { key: 'clarification', data: evaluation.pillars.clarification, icon: Target },
@@ -175,12 +192,21 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
             {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
             {copied ? "Copied Scorecard!" : "Share Summary"}
           </button>
-          <button
-            onClick={onRetry}
-            className="flex items-center gap-1.5 px-5 py-2 rounded-xl bg-zinc-900 text-white font-bold text-xs uppercase tracking-wider hover:bg-black shadow-lg shadow-zinc-200 transition-all"
-          >
-            <RotateCcw className="w-3.5 h-3.5" /> Retry Scenario
-          </button>
+          {onNextRound && loopInfo ? (
+            <button
+              onClick={onNextRound}
+              className="flex items-center gap-1.5 px-5 py-2 rounded-xl bg-indigo-600 text-white font-bold text-xs uppercase tracking-wider hover:bg-indigo-700 shadow-lg shadow-indigo-200 transition-all"
+            >
+              {loopInfo.round < loopInfo.total ? `Next round (${loopInfo.round + 1} of ${loopInfo.total})` : 'See loop result'}
+            </button>
+          ) : (
+            <button
+              onClick={onRetry}
+              className="flex items-center gap-1.5 px-5 py-2 rounded-xl bg-zinc-900 text-white font-bold text-xs uppercase tracking-wider hover:bg-black shadow-lg shadow-zinc-200 transition-all"
+            >
+              <RotateCcw className="w-3.5 h-3.5" /> Retry Scenario
+            </button>
+          )}
         </div>
       </div>
 
@@ -201,11 +227,16 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
           <div className="lg:col-span-2 space-y-4">
             <div className="flex flex-wrap items-center gap-3">
               <span className={`px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-widest border shadow-lg ${verdictStyle.color} ${verdictStyle.shadow}`}>
-                Verdict: {evaluation.verdict}
+                Verdict: {verdict}
               </span>
               <span className="px-3 py-1 rounded-full bg-white/10 text-zinc-300 text-xs font-bold uppercase tracking-wider">
-                {scenario.company} • {scenario.track.toUpperCase()}
+                {scenario.company} • {trackConfig.label}{evaluation.level ? ` • ${getLevelConfig(evaluation.level).short} bar` : ''}
               </span>
+              {typeof evaluation.hintsUsed === 'number' && (
+                <span className="px-3 py-1 rounded-full bg-white/10 text-zinc-300 text-xs font-bold">
+                  {evaluation.hintsUsed === 0 ? 'No hints used' : `${evaluation.hintsUsed} hint${evaluation.hintsUsed === 1 ? '' : 's'} used`}
+                </span>
+              )}
               <span className="text-xs text-zinc-400 font-semibold flex items-center gap-1">
                 <Clock className="w-3 h-3" /> {Math.floor(evaluation.durationSeconds / 60)}m {evaluation.durationSeconds % 60}s
               </span>
@@ -218,6 +249,12 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
             <p className="text-zinc-400 text-sm md:text-base font-medium leading-relaxed max-w-2xl">
               {evaluation.transcriptSummary}
             </p>
+
+            {evaluation.hireBarNotes && evaluation.hireBarNotes.length > 0 && (
+              <div className="max-w-2xl px-4 py-3 rounded-2xl bg-amber-500/10 border border-amber-400/30 text-amber-200 text-xs font-semibold leading-relaxed space-y-1">
+                {evaluation.hireBarNotes.map((note, i) => <p key={i}>{note}</p>)}
+              </div>
+            )}
 
             <div className="pt-2 flex items-center gap-3">
               <img src={persona.avatarImage} alt={persona.name} className="w-8 h-8 rounded-full border border-white/20 object-cover" />
@@ -243,7 +280,7 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-2xl font-black text-zinc-900 tracking-tight">How you did across the 5 core areas</h2>
+            <h2 className="text-2xl font-black text-zinc-900 tracking-tight">How you did on the 5 {trackConfig.label} skills</h2>
             <p className="text-xs text-zinc-500 font-medium">Detailed feedback and coaching on each stage of the interview (20 points each).</p>
           </div>
         </div>

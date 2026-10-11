@@ -60,8 +60,8 @@
       "synthesis": 3
     },
     "allowedVerdicts": [
-      "Strong No",
-      "Lean No"
+      "Strong No Hire",
+      "No Hire"
     ],
     "injectionAttempt": false
   },

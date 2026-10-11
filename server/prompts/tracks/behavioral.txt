@@ -1,0 +1,29 @@
+==================================================
+TRACK ADJUSTMENTS: BEHAVIORAL & LEADERSHIP (BEHAVIORAL)
+==================================================
+This round is about the candidate's own past experience, answered as a STAR story (Situation, Task, Action, Result). There is no case to solve. Judge the story, not the job it describes: a small project told with clear ownership and results can score 5; a famous project told vaguely cannot. Hypothetical answers ("I would...") instead of a real example cap analyticalRigor and synthesis at 2. Never penalise the candidate for which company or role the story comes from.
+
+1. SITUATION & STAKES (clarification)
+- Score 1 (Very Weak): No concrete situation; generic or hypothetical ("usually I...", "I would..."); the listener cannot tell what happened or why it mattered.
+- Score 3 (Adequate): A real situation is described, but the context is either too long or missing the stakes (why it mattered to users or the business) or the candidate's role in it.
+- Score 5 (Bar-Raiser): Sets the scene in a few sentences: specific context, their role, the stakes and constraints, and exactly what they owned. The interviewer immediately understands why the story matters.
+
+2. STORY STRUCTURE (framework)
+- Score 1 (Very Weak): Rambling or jumps around; no clear beginning, middle and end; mixes several stories.
+- Score 3 (Adequate): Follows a recognisable STAR order but spends too long on situation or skips the result until prompted.
+- Score 5 (Bar-Raiser): Crisp STAR flow with most of the time on actions; signposts ("The hardest part was...", "What I did was..."); answers follow-up probes without losing the thread.
+
+3. OWNERSHIP & ACTIONS (analyticalRigor)
+- Score 1 (Very Weak): Mostly "we"; cannot say what they personally did; actions are vague ("I aligned stakeholders") with no detail.
+- Score 3 (Adequate): Describes personal actions, but some are generic or the reasoning behind key decisions is thin; needs probing to reveal what they actually did.
+- Score 5 (Bar-Raiser): Clear "I" actions with the reasoning and trade-offs behind each decision; shows the competency being tested (for example ownership, influence, judgment, customer focus) through specific behaviour, including how they handled pushback or setbacks.
+
+4. COMMUNICATION (communication)
+- Score 1 (Very Weak): Hard to follow, defensive about probes, or blames others.
+- Score 3 (Adequate): Clear but long-winded, or answers probes only partially.
+- Score 5 (Bar-Raiser): Concise, honest and engaging; answers probes directly, including uncomfortable ones; credits others fairly without hiding their own role.
+
+5. RESULTS & REFLECTION (synthesis)
+- Score 1 (Very Weak): No result, or the result is unclear; no reflection or learning.
+- Score 3 (Adequate): States a result, but it is qualitative or not tied to their actions; reflection is generic ("I learned communication is important").
+- Score 5 (Bar-Raiser): Measurable result tied to their actions (numbers, before/after), plus a specific, honest reflection on what they would do differently and how they applied the lesson later.

@@ -22,10 +22,8 @@ Priority: **P0** blocks safe growth, **P1** important next, **P2** nice to have.
 - [ ] **P2** Upstream the owner's `services/.env` loading and `.gitignore` entry so local changes stop blocking `git checkout main`.
 
 ### Interview Studio
-- [ ] **P1** Add in-app Metrics interview scenarios (add `metrics` to `InterviewTrack`, a `data/scenarios/metrics.ts`, hub filter), so all 5 types are practisable.
 - [ ] **P1** Add human labels to at least 10 golden cases so the human-calibration check turns on.
 - [ ] **P2** Show the user a clear message when the AI is busy (503/429) instead of a generic error.
-- [ ] **P2** Interview progress view: score trend per track over time on the profile.
 
 ### Learning
 - [ ] **P1** Fill thin tracks: Tech (1 lesson), Design (1), Strategy (3).
@@ -55,6 +53,8 @@ Priority: **P0** blocks safe growth, **P1** important next, **P2** nice to have.
 ## Done
 
 - [x] Project docs in `docs/` (prd, rules, design, tasks, memory, architecture). 2026-10-09
+- [x] AI interview fixes: real errors instead of fake scorecards, server-side scenarios, phases and fact sheets, levels, hiring bar, per-track pillars, metrics, behavioral and AI PM rounds, full loop, skill progress, interviewer eval. 2026-10-11
+- [ ] **P1** Owner: run `npm run eval:interviewer` and the golden set per track on the eval key after the 2026-10-11 interview changes.
 - [x] 50-case golden dataset across 5 interview types, `--track` flag and per-track summary. PR #3, 2026-10-08
 - [x] Evaluator benchmark suite; injection cap at 69; busy-model retry; interviewer-echo cap. PR #2, 2026-10-08
 - [x] Real-world projects section with AI feedback, saved server-side. PR #1, 2026-10-08

@@ -75,8 +75,8 @@
       "communication": 4
     },
     "allowedVerdicts": [
-      "Strong Yes",
-      "Lean Yes"
+      "Strong Hire",
+      "Hire"
     ],
     "overallMin": 70,
     "injectionAttempt": false

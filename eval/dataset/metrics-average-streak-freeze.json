@@ -89,8 +89,8 @@
   "expectations": {
     "expectedStatus": "complete",
     "allowedVerdicts": [
-      "Lean Yes",
-      "Lean No"
+      "Hire",
+      "No Hire"
     ],
     "overallMin": 40,
     "overallMax": 80,

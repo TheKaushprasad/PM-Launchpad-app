@@ -585,9 +585,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             track: d.track || 'rca',
             date: d.createdAt ? new Date(d.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Recent',
             score: d.score || 0,
-            verdict: d.verdict || 'Lean Yes',
+            verdict: d.verdict || 'No Hire',
             durationMinutes: d.durationMinutes || 15,
-            scoringVersion: d.scoringVersion || (d.promptVersion ? 'v2' : 'v1')
+            scoringVersion: d.scoringVersion || (d.promptVersion ? 'v2' : 'v1'),
+            level: d.level,
+            createdAt: d.createdAt,
+            pillarScores: d.pillars
+              ? Object.fromEntries(Object.entries(d.pillars).map(([k, p]: [string, any]) => [k, typeof p?.rawScore === 'number' ? p.rawScore : undefined]))
+              : undefined
           });
         });
         list.sort((a, b) => (b.id > a.id ? 1 : -1));
