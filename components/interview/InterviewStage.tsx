@@ -70,6 +70,13 @@ function buildOpener(scenario: InterviewScenario, persona: InterviewerPersona): 
 
 const nowStamp = () => new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
+// Splits a line into its first sentence and the rest, so the voice can start on the short first part.
+function splitForSpeech(text: string): string[] {
+  const trimmed = text.trim();
+  const match = trimmed.match(/^(.{12,220}?[.!?])\s+(\S[\s\S]*)$/);
+  return match ? [match[1], match[2]] : [trimmed];
+}
+
 // How long to wait for the natural voice before using the browser voice. Allows for a cold server start.
 const TTS_TIMEOUT_MS = 20000;
 
@@ -313,7 +320,8 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
   };
 
   // Asks the server for the interviewer's voice audio for this text.
-  const prefetchedTtsRef = useRef<{ text: string; response: Promise<Response> } | null>(null);
+  // Audio requested ahead of time (the opener, during the briefing screen), keyed by its text.
+  const prefetchedTtsRef = useRef<Map<string, Promise<Response>>>(new Map());
   const requestTts = async (text: string): Promise<Response> =>
     fetch('/api/interview/tts', {
       method: 'POST',
@@ -324,6 +332,60 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
         voiceGender: persona.voiceGender
       })
     });
+
+  // Fetches one piece of the interviewer's line and plays it to the end.
+  // Resolves 'done' when it finished, 'cancelled' if a newer line took over, or a reason string on failure.
+  const fetchAndPlay = async (request: Promise<Response>, speechId: number): Promise<string> => {
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
+    try {
+      const timeout = new Promise<never>((_, reject) => {
+        timeoutId = setTimeout(() => reject(new DOMException('Voice request timed out', 'AbortError')), TTS_TIMEOUT_MS);
+      });
+      const res = await Promise.race([request, timeout]);
+      clearTimeout(timeoutId);
+      if (speechId !== speechPlayCounterRef.current) return 'cancelled';
+
+      if (!res.ok || res.status !== 200) {
+        const body = await res.json().catch(() => ({}));
+        return res.status === 204
+          ? 'no natural voice is available right now'
+          : `the voice service returned ${res.status}${body?.error ? `: ${body.error}` : ''}`;
+      }
+      const data = await res.json();
+      if (speechId !== speechPlayCounterRef.current) return 'cancelled';
+      if (!data.audioBase64) return 'the voice service did not answer';
+
+      if (data.format === 'mp3') {
+        const audio = new Audio("data:audio/mp3;base64," + data.audioBase64);
+        activeAudioElementRef.current = audio;
+        const finished = new Promise<string>((resolve) => {
+          audio.onended = () => resolve('done');
+          audio.onerror = () => resolve(speechId === speechPlayCounterRef.current
+            ? 'the natural voice audio could not be played'
+            : 'cancelled');
+        });
+        try {
+          await audio.play();
+        } catch {
+          return speechId === speechPlayCounterRef.current ? 'Chrome blocked the audio from playing' : 'cancelled';
+        }
+        setVoiceFallbackReason(null);
+        const outcome = await finished;
+        return speechId === speechPlayCounterRef.current ? outcome : 'cancelled';
+      }
+
+      const outcome = await new Promise<string>((resolve) => {
+        const started = playRawPCM(data.audioBase64, data.sampleRate || 24000, speechId, () => resolve('done'));
+        if (!started) resolve('the natural voice audio could not be played');
+        else setVoiceFallbackReason(null);
+      });
+      return speechId === speechPlayCounterRef.current ? outcome : 'cancelled';
+    } catch (ttsErr: any) {
+      clearTimeout(timeoutId);
+      console.warn("TTS notice:", ttsErr);
+      return ttsErr?.name === 'AbortError' ? 'the voice service took too long' : 'the voice service did not answer';
+    }
+  };
 
   // Human-Like Voice Playback (Zero-Delay Direct Audio from Chat Payload -> Fallback Neural TTS)
   const speakTextWithHumanVoice = async (text: string) => {
@@ -352,77 +414,31 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
       }
     }, TTS_TIMEOUT_MS + wordCount * 400 + 6000);
 
-    if (currentSpeechId !== speechPlayCounterRef.current) return;
+    // 1. Server TTS. The first sentence is fetched on its own so the interviewer starts talking
+    // as soon as it is ready; the rest is fetched at the same time and plays straight after.
+    const parts = splitForSpeech(text);
+    const prefetched = prefetchedTtsRef.current;
+    const requests = parts.map((part) => {
+      const ready = prefetched.get(part);
+      prefetched.delete(part);
+      return ready || requestTts(part);
+    });
+    requests.forEach((r) => r.catch(() => {}));
 
-    // 1. Server TTS (one call per interviewer turn, voice modes only)
-    let fallbackReason = 'the voice service did not answer';
-    try {
-      // The opener's audio is requested while the briefing screen shows, so it can play at once.
-      const prefetched = prefetchedTtsRef.current;
-      prefetchedTtsRef.current = null;
-      const request = prefetched && prefetched.text === text.trim() ? prefetched.response : requestTts(text);
-
-      let timeoutId: ReturnType<typeof setTimeout> | undefined;
-      const timeout = new Promise<never>((_, reject) => {
-        timeoutId = setTimeout(() => reject(new DOMException('Voice request timed out', 'AbortError')), TTS_TIMEOUT_MS);
-      });
-      const res = await Promise.race([request, timeout]);
-      clearTimeout(timeoutId);
-
-      if (currentSpeechId !== speechPlayCounterRef.current) return;
-
-      if (!res.ok || res.status !== 200) {
-        const body = await res.json().catch(() => ({}));
-        fallbackReason = res.status === 204
-          ? 'no natural voice is available right now'
-          : `the voice service returned ${res.status}${body?.error ? `: ${body.error}` : ''}`;
-      } else {
-        const data = await res.json();
-        
-        if (data.audioBase64 && currentSpeechId === speechPlayCounterRef.current) {
-          if (data.format === 'mp3') {
-            const audio = new Audio("data:audio/mp3;base64," + data.audioBase64);
-            activeAudioElementRef.current = audio;
-            audio.onended = () => {
-              if (currentSpeechId === speechPlayCounterRef.current) {
-                handleInterviewerFinishedSpeaking();
-              }
-            };
-            audio.onerror = () => {
-              if (currentSpeechId === speechPlayCounterRef.current) {
-                setVoiceFallbackReason('the natural voice audio could not be played');
-                fallbackWebSpeech(text, currentSpeechId);
-              }
-            };
-            fallbackReason = 'Chrome blocked the audio from playing';
-            await audio.play();
-            setVoiceFallbackReason(null);
-            return;
-          } else if (data.format === 'pcm' || data.sampleRate) {
-            const success = playRawPCM(data.audioBase64, data.sampleRate || 24000, currentSpeechId);
-            if (success) {
-              setVoiceFallbackReason(null);
-              return;
-            }
-            fallbackReason = 'the natural voice audio could not be played';
-          }
-        }
-      }
-    } catch (ttsErr: any) {
-      console.warn("TTS notice:", ttsErr);
-      if (ttsErr?.name === 'AbortError' && fallbackReason === 'the voice service did not answer') {
-        fallbackReason = 'the voice service took too long';
+    for (let i = 0; i < parts.length; i++) {
+      const outcome = await fetchAndPlay(requests[i], currentSpeechId);
+      if (outcome === 'cancelled' || currentSpeechId !== speechPlayCounterRef.current) return;
+      if (outcome !== 'done') {
+        // 2. Fallback to browser speech synthesis for whatever has not been spoken yet
+        setVoiceFallbackReason(outcome);
+        fallbackWebSpeech(parts.slice(i).join(' '), currentSpeechId);
+        return;
       }
     }
-
-    if (currentSpeechId !== speechPlayCounterRef.current) return;
-
-    // 3. Fallback to optimized browser speech synthesis with neural-like pitch only if server TTS failed
-    setVoiceFallbackReason(fallbackReason);
-    fallbackWebSpeech(text, currentSpeechId);
+    handleInterviewerFinishedSpeaking();
   };
 
-  const playRawPCM = (base64Data: string, sampleRate = 24000, speechId?: number): boolean => {
+  const playRawPCM = (base64Data: string, sampleRate = 24000, speechId?: number, onEnded?: () => void): boolean => {
     try {
       const binary = atob(base64Data);
       const len = binary.length;
@@ -449,7 +465,9 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
       source.connect(audioCtx.destination);
       source.onended = () => {
         audioCtx.close().catch(() => {});
-        if (!speechId || speechId === speechPlayCounterRef.current) {
+        if (onEnded) {
+          onEnded();
+        } else if (!speechId || speechId === speechPlayCounterRef.current) {
           handleInterviewerFinishedSpeaking();
         }
       };
@@ -535,10 +553,11 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
   // Short briefing screen, then the scripted opener
   useEffect(() => {
     if (isVoiceEnabledRef.current) {
-      const openerText = buildOpener(scenario, persona).trim();
-      const response = requestTts(openerText);
-      response.catch(() => {}); // handled when the opener is spoken
-      prefetchedTtsRef.current = { text: openerText, response };
+      for (const part of splitForSpeech(buildOpener(scenario, persona))) {
+        const response = requestTts(part);
+        response.catch(() => {}); // handled when the opener is spoken
+        prefetchedTtsRef.current.set(part, response);
+      }
     }
     const prepTimer1 = setTimeout(() => setPrepStep(2), 700);
     const prepTimer2 = setTimeout(() => setPrepStep(3), 1400);
