@@ -142,11 +142,11 @@ Interviewer personas come from `server/prompts/interviewer-{maya,alex,priya,marc
 - `/api/health` reports `interviewPromptsLoaded`; `vercel.json` bundles `server/prompts/**` into the function.
 - One interviewer (`ACTIVE_INTERVIEWER` in `data/interviewPersonas.ts`, Priya) runs every round; the other personas stay only so old scorecards render.
 
-### Voice and video (`server/voice.ts`, `lib/answerRecorder.ts`, `lib/simliAvatar.ts`)
+### Voice (`server/voice.ts`, `lib/answerRecorder.ts`)
 
-- Speaking: `/api/interview/tts` tries Deepgram Aura-2 (`DEEPGRAM_API_KEY`), then Gemini TTS, then OpenAI, then the browser voice.
-- Listening: the browser shows a live transcript while the answer is also recorded; on send, `/api/interview/transcribe` runs Groq Whisper (`GROQ_API_KEY`) and its text replaces the browser's unless the candidate edited it. Without a key the browser text is used. Gemini is no longer used for transcription.
-- Video face (avatar mode): `/api/interview/avatar-session` creates a Simli session token (`SIMLI_API_KEY`, `SIMLI_FACE_ID`), capped per user and per day (`SIMLI_DAILY_SESSIONS_PER_USER`, default 2; `SIMLI_DAILY_SESSIONS_TOTAL`, default 20). The browser streams the TTS audio as 16 kHz PCM to Simli, which plays it with a lip-synced face. Any failure falls back to the photo with voice. `simli-client` is imported from `dist/client` because its index file has a case-sensitive path bug.
+- Interviews are voice-only (`InterviewMode = 'voice'`); the avatar and text-chat modes were removed on 2026-10-11.
+- Speaking: `/api/interview/tts` tries Deepgram Aura-2 (`DEEPGRAM_API_KEY`), then Gemini TTS, then OpenAI, then the browser voice. A watchdog hands the turn back to the candidate if playback never reports that it ended, and tapping the mic interrupts the interviewer.
+- Listening: every answer is recorded (MediaRecorder) and, on "Done answering" or a 3.5 s pause in mic volume, sent to `/api/interview/transcribe`: Groq Whisper (`GROQ_API_KEY`), else Gemini. The browser's live recognition is only a preview and is switched off for the session if it errors (Brave, blocked service). If the candidate edits the text box, their text is sent instead.
 
 ## 7. Data model (Firestore)
 

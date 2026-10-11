@@ -83,36 +83,3 @@ export async function transcribeWithGroq(audio: Buffer, mimeType: string, timeou
   const data: any = await res.json();
   return typeof data?.text === "string" ? data.text.trim() : "";
 }
-
-// ---------- Realistic video avatar (Simli) ----------
-// Simli turns the interviewer's voice audio into a lip-synced video face, billed per minute,
-// so sessions are capped per user and per day (see /api/interview/avatar-session).
-
-const SIMLI_TOKEN_URL = "https://api.simli.ai/compose/token";
-
-export const isSimliConfigured = () => hasKey(process.env.SIMLI_API_KEY) && hasKey(process.env.SIMLI_FACE_ID);
-
-/** Creates a short-lived Simli session token so the API key never reaches the browser. */
-export async function createSimliSessionToken(maxSessionSeconds: number, timeoutMs = 8000): Promise<string> {
-  const res = await fetch(SIMLI_TOKEN_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-simli-api-key": process.env.SIMLI_API_KEY!.trim()
-    },
-    body: JSON.stringify({
-      faceId: process.env.SIMLI_FACE_ID!.trim(),
-      handleSilence: true,
-      maxSessionLength: Math.round(maxSessionSeconds),
-      maxIdleTime: 300
-    }),
-    signal: AbortSignal.timeout(timeoutMs)
-  });
-  if (!res.ok) {
-    const detail = await res.text().catch(() => "");
-    throw new Error(`Simli token ${res.status}: ${detail.slice(0, 200)}`);
-  }
-  const data: any = await res.json();
-  if (!data?.session_token) throw new Error("Simli returned no session token");
-  return data.session_token;
-}

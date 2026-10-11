@@ -11,14 +11,9 @@ interface AvatarVisualizerProps {
   currentSubtitle: string;
   candidateLiveText?: string;
   audioLevel?: number;
-  mode: 'avatar' | 'voice' | 'chat';
+  mode: 'voice';
   onToggleMic?: () => void;
   onSubmitTurn?: () => void;
-  /** Realistic video face (Simli). The elements stay mounted so the WebRTC stream survives re-renders. */
-  videoRef?: React.RefObject<HTMLVideoElement>;
-  videoAudioRef?: React.RefObject<HTMLAudioElement>;
-  videoLive?: boolean;
-  videoStatusText?: string | null;
 }
 
 export const AvatarVisualizer: React.FC<AvatarVisualizerProps> = ({
@@ -31,11 +26,7 @@ export const AvatarVisualizer: React.FC<AvatarVisualizerProps> = ({
   audioLevel = 0,
   mode,
   onToggleMic,
-  onSubmitTurn,
-  videoRef,
-  videoAudioRef,
-  videoLive = false,
-  videoStatusText = null
+  onSubmitTurn
 }) => {
   return (
     <div className="relative w-full h-full flex flex-col items-center justify-between p-4 md:p-6 bg-gradient-to-b from-zinc-900 via-zinc-950 to-black text-white rounded-3xl border border-zinc-800 shadow-2xl overflow-hidden select-none">
@@ -109,93 +100,7 @@ export const AvatarVisualizer: React.FC<AvatarVisualizerProps> = ({
 
       {/* Central Visual: Mode Sensitive (Avatar Stage vs Voice Orb) */}
       <div className="relative z-10 flex-1 flex flex-col items-center justify-center my-3 w-full max-w-lg">
-        {mode === 'avatar' && videoRef && (
-          <>
-            <video
-              ref={videoRef}
-              autoPlay
-              playsInline
-              muted
-              className={videoLive
-                ? `w-full max-w-md aspect-square object-cover rounded-3xl shadow-2xl border-2 ${isListening ? 'border-rose-500/60' : 'border-white/10'}`
-                : 'hidden'}
-            />
-            {videoAudioRef && <audio ref={videoAudioRef} autoPlay className="hidden" />}
-          </>
-        )}
-        {mode === 'avatar' && videoLive ? null : mode === 'avatar' ? (
-          <div className="relative flex flex-col items-center">
-            {/* Animated Concentric Wave Rings for Speaking */}
-            {isSpeaking && (
-              <>
-                <motion.div 
-                  animate={{ scale: [1, 1.4, 1], opacity: [0.6, 0, 0.6] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }}
-                  className="absolute inset-0 w-44 h-44 md:w-52 md:h-52 m-auto rounded-full border-2 border-indigo-500/40 pointer-events-none"
-                />
-                <motion.div 
-                  animate={{ scale: [1, 1.7, 1], opacity: [0.4, 0, 0.4] }}
-                  transition={{ duration: 2, delay: 0.4, repeat: Infinity, ease: "easeOut" }}
-                  className="absolute inset-0 w-44 h-44 md:w-52 md:h-52 m-auto rounded-full border border-pink-500/30 pointer-events-none"
-                />
-              </>
-            )}
-
-            {/* Concentric Reactive Wave Rings for Listening to Candidate */}
-            {isListening && (
-              <>
-                <motion.div 
-                  animate={{ 
-                    scale: [1, 1.15 + (audioLevel * 0.005), 1], 
-                    opacity: [0.5, 0.1, 0.5] 
-                  }}
-                  transition={{ duration: 1.2, repeat: Infinity, ease: "easeOut" }}
-                  className="absolute inset-0 w-44 h-44 md:w-52 md:h-52 m-auto rounded-full border-2 border-rose-500/50 pointer-events-none"
-                />
-              </>
-            )}
-
-            {/* Avatar Headshot with Reactive Rim Light */}
-            <motion.div 
-              animate={{
-                y: isSpeaking ? [0, -6, 0] : isListening ? [0, 2, 0] : 0,
-                scale: isSpeaking ? [1, 1.03, 1] : 1,
-              }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              className={`relative w-36 h-36 md:w-44 md:h-44 rounded-full p-1.5 shadow-2xl overflow-hidden ${
-                isListening 
-                  ? 'bg-gradient-to-tr from-rose-500 via-pink-500 to-indigo-500 ring-4 ring-rose-500/30' 
-                  : 'bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500'
-              }`}
-            >
-              <img 
-                src={persona.avatarImage} 
-                alt={persona.name}
-                className="w-full h-full rounded-full object-cover" 
-              />
-              {/* Speaking Voice Wave Overlay on bottom of avatar */}
-              {isSpeaking && (
-                <div className="absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-black/80 to-transparent flex items-center justify-center gap-1 px-4">
-                  {[40, 70, 30, 90, 50, 80, 45, 60].map((h, i) => (
-                    <motion.div
-                      key={i}
-                      animate={{ height: ['20%', `${h}%`, '20%'] }}
-                      transition={{ duration: 0.4 + (i * 0.05), repeat: Infinity, repeatType: "reverse" }}
-                      className="w-1 bg-white rounded-full"
-                    />
-                  ))}
-                </div>
-              )}
-            </motion.div>
-
-            {/* Persona Style Badge Below Avatar */}
-            <div className="mt-3 text-center">
-              <span className="text-xs font-bold text-zinc-400 bg-white/5 border border-white/10 px-3 py-1 rounded-full backdrop-blur-md">
-                {videoStatusText || persona.styleTrait}
-              </span>
-            </div>
-          </div>
-        ) : (
+        {(
           /* Voice Only Reactive Waveform Orb */
           <div className="relative flex flex-col items-center justify-center">
             <motion.div 
@@ -276,12 +181,12 @@ export const AvatarVisualizer: React.FC<AvatarVisualizerProps> = ({
             )}
           </div>
           <div className="flex items-center gap-2">
-            {isListening && candidateLiveText && onSubmitTurn && (
+            {isListening && onSubmitTurn && (
               <button 
                 onClick={onSubmitTurn}
                 className="text-[10px] font-extrabold text-indigo-300 hover:text-white bg-indigo-600/30 hover:bg-indigo-600/50 px-2 py-0.5 rounded-md flex items-center gap-1 border border-indigo-400/30 transition-all"
               >
-                <span>Send Answer</span>
+                <span>Done answering</span>
                 <CornerDownLeft className="w-2.5 h-2.5" />
               </button>
             )}

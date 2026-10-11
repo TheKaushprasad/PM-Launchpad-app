@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { X, Video, Mic, MessageSquare, Layers } from 'lucide-react';
+import React from 'react';
+import { X, Layers } from 'lucide-react';
 import { CandidateLevel, InterviewMode } from '../../types/interview';
 import { LEVELS } from '../../data/interviewTracks';
 
@@ -11,15 +11,9 @@ interface FullLoopSetupModalProps {
   onStart: (mode: InterviewMode) => void;
 }
 
-const MODES: { id: InterviewMode; label: string; icon: any }[] = [
-  { id: 'avatar', label: 'Avatar + voice', icon: Video },
-  { id: 'voice', label: 'Voice only', icon: Mic },
-  { id: 'chat', label: 'Text chat', icon: MessageSquare }
-];
-
 /** Setup for a full interview loop: three rounds back to back with one combined verdict. */
 export const FullLoopSetupModal: React.FC<FullLoopSetupModalProps> = ({ isOpen, level, onLevelChange, onClose, onStart }) => {
-  const [mode, setMode] = useState<InterviewMode>('voice');
+  const mode: InterviewMode = 'voice';
   if (!isOpen) return null;
 
   return (
@@ -54,26 +48,6 @@ export const FullLoopSetupModal: React.FC<FullLoopSetupModalProps> = ({ isOpen, 
                   <div className="text-[11px] text-zinc-500 leading-snug mt-0.5">{l.description}</div>
                 </button>
               ))}
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <span className="text-xs font-black uppercase tracking-wider text-zinc-500">Format</span>
-            <div className="grid grid-cols-3 gap-2">
-              {MODES.map((m) => {
-                const Icon = m.icon;
-                return (
-                  <button
-                    key={m.id}
-                    type="button"
-                    onClick={() => setMode(m.id)}
-                    className={`p-3 rounded-2xl border flex flex-col items-center gap-1 text-xs font-bold transition-colors ${mode === m.id ? 'border-indigo-600 bg-indigo-50 text-indigo-700' : 'border-zinc-200 text-zinc-600 hover:bg-zinc-50'}`}
-                  >
-                    <Icon className="w-4 h-4" />
-                    {m.label}
-                  </button>
-                );
-              })}
             </div>
           </div>
 

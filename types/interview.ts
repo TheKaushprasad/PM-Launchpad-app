@@ -1,5 +1,6 @@
 export type InterviewTrack = 'rca' | 'guesstimate' | 'strategy' | 'design' | 'metrics' | 'behavioral' | 'ai';
-export type InterviewMode = 'avatar' | 'voice' | 'chat';
+/** Interviews are voice-only. Kept as a type so saved sessions and props stay explicit. */
+export type InterviewMode = 'voice';
 export type InterviewerPersonaId = 'maya' | 'alex' | 'priya' | 'marcus';
 export type DifficultyLevel = 'Easy' | 'Medium' | 'Hard';
 export type HiringVerdict = 'Strong Hire' | 'Hire' | 'No Hire' | 'Strong No Hire';

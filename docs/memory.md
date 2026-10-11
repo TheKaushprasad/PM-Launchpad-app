@@ -19,7 +19,7 @@ Decisions, context and lessons learned that are not obvious from the code. Newes
 | 2026-10-08 | Stay on the free Gemini tier for now | Cost; accepted the 20 requests per day limit and frequent 503s. Paid key is recommended before real traffic |
 | 2026-10-08 | Run golden-set evals one track per day, in this order: rca, guesstimate, strategy, design, metrics, on a separate eval-only key | A full 50-case run is about 60 calls and does not fit in one free-tier day |
 | 2026-10-11 | Rename verdicts to Strong Hire / Hire / No Hire / Strong No Hire, add candidate levels and a hiring bar, score with per-track pillars | Match how real PM loops decide |
-| 2026-10-11 | One interviewer (Priya) with a realistic Simli video face, Deepgram US voice and Groq Whisper listening | Owner wants an avatar-based interview; US accent is fine |
+| 2026-10-11 | One interviewer (Priya), voice-only interviews (avatar, Simli video and text chat removed), Deepgram US voice, Groq Whisper listening | Voice capture failed in avatar mode; owner chose one simple, reliable mode |
 | 2026-10-11 | Never show a fake scorecard or scripted interviewer line when AI fails; show Retry instead | Fake feedback broke trust |
 | 2026-10-08 | Build a 50-case golden dataset, 10 per interview type (PR #3) | Trustworthy scoring is the core promise of the interview product |
 | 2026-10-08 | Cap injection-flagged interviews at 69 (Lean No) and cap pillars built on interviewer echoes (PR #2) | The evaluator could be gamed |
