@@ -70,6 +70,9 @@ function buildOpener(scenario: InterviewScenario, persona: InterviewerPersona): 
 
 const nowStamp = () => new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
+// How long to wait for the natural voice before using the browser voice. Allows for a cold server start.
+const TTS_TIMEOUT_MS = 20000;
+
 export const InterviewStage: React.FC<InterviewStageProps> = ({
   scenario,
   persona,
@@ -108,6 +111,8 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
   const isAutoSendEnabledRef = useRef<boolean>(true);
   const [audioLevel, setAudioLevel] = useState<number>(0);
   const [micStatusNotice, setMicStatusNotice] = useState<string | null>(null);
+  // Why the interviewer is using the browser's basic voice instead of the natural one (null when natural).
+  const [voiceFallbackReason, setVoiceFallbackReason] = useState<string | null>(null);
   
   // Refs for Speech Recognition & Silence Detection
   const recognitionRef = useRef<any>(null);
@@ -332,14 +337,15 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
         cleanupActiveAudio();
         handleInterviewerFinishedSpeaking();
       }
-    }, 10000 + wordCount * 400 + 6000);
+    }, TTS_TIMEOUT_MS + wordCount * 400 + 6000);
 
     if (currentSpeechId !== speechPlayCounterRef.current) return;
 
     // 1. Server TTS (one call per interviewer turn, voice modes only)
+    let fallbackReason = 'the voice service did not answer';
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000);
+      const timeoutId = setTimeout(() => controller.abort(), TTS_TIMEOUT_MS);
 
       const res = await fetch('/api/interview/tts', {
         method: 'POST',
@@ -355,7 +361,12 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
 
       if (currentSpeechId !== speechPlayCounterRef.current) return;
 
-      if (res.ok && res.status === 200) {
+      if (!res.ok || res.status !== 200) {
+        const body = await res.json().catch(() => ({}));
+        fallbackReason = res.status === 204
+          ? 'no natural voice is available right now'
+          : `the voice service returned ${res.status}${body?.error ? `: ${body.error}` : ''}`;
+      } else {
         const data = await res.json();
         
         if (data.audioBase64 && currentSpeechId === speechPlayCounterRef.current) {
@@ -369,24 +380,35 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
             };
             audio.onerror = () => {
               if (currentSpeechId === speechPlayCounterRef.current) {
+                setVoiceFallbackReason('the natural voice audio could not be played');
                 fallbackWebSpeech(text, currentSpeechId);
               }
             };
+            fallbackReason = 'Chrome blocked the audio from playing';
             await audio.play();
+            setVoiceFallbackReason(null);
             return;
           } else if (data.format === 'pcm' || data.sampleRate) {
             const success = playRawPCM(data.audioBase64, data.sampleRate || 24000, currentSpeechId);
-            if (success) return;
+            if (success) {
+              setVoiceFallbackReason(null);
+              return;
+            }
+            fallbackReason = 'the natural voice audio could not be played';
           }
         }
       }
-    } catch (ttsErr) {
+    } catch (ttsErr: any) {
       console.warn("TTS notice:", ttsErr);
+      if (ttsErr?.name === 'AbortError' && fallbackReason === 'the voice service did not answer') {
+        fallbackReason = 'the voice service took too long';
+      }
     }
 
     if (currentSpeechId !== speechPlayCounterRef.current) return;
 
     // 3. Fallback to optimized browser speech synthesis with neural-like pitch only if server TTS failed
+    setVoiceFallbackReason(fallbackReason);
     fallbackWebSpeech(text, currentSpeechId);
   };
 
@@ -1392,6 +1414,12 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
           </motion.div>
         )}
       </AnimatePresence>
+
+      {voiceFallbackReason && (
+        <div className="mb-3 px-4 py-2 rounded-xl text-xs font-semibold bg-amber-50 border border-amber-200 text-amber-800">
+          Using your browser's basic voice because {voiceFallbackReason}.
+        </div>
+      )}
 
       {/* Mic Status Banner */}
       <AnimatePresence>
