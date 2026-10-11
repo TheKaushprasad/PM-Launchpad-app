@@ -312,6 +312,19 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
     }
   };
 
+  // Asks the server for the interviewer's voice audio for this text.
+  const prefetchedTtsRef = useRef<{ text: string; response: Promise<Response> } | null>(null);
+  const requestTts = async (text: string): Promise<Response> =>
+    fetch('/api/interview/tts', {
+      method: 'POST',
+      headers: await authJsonHeaders(),
+      body: JSON.stringify({
+        text: text.trim(),
+        personaId: persona.id,
+        voiceGender: persona.voiceGender
+      })
+    });
+
   // Human-Like Voice Playback (Zero-Delay Direct Audio from Chat Payload -> Fallback Neural TTS)
   const speakTextWithHumanVoice = async (text: string) => {
     if (!isVoiceEnabledRef.current) {
@@ -344,19 +357,16 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
     // 1. Server TTS (one call per interviewer turn, voice modes only)
     let fallbackReason = 'the voice service did not answer';
     try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), TTS_TIMEOUT_MS);
+      // The opener's audio is requested while the briefing screen shows, so it can play at once.
+      const prefetched = prefetchedTtsRef.current;
+      prefetchedTtsRef.current = null;
+      const request = prefetched && prefetched.text === text.trim() ? prefetched.response : requestTts(text);
 
-      const res = await fetch('/api/interview/tts', {
-        method: 'POST',
-        headers: await authJsonHeaders(),
-        signal: controller.signal,
-        body: JSON.stringify({
-          text: text.trim(),
-          personaId: persona.id,
-          voiceGender: persona.voiceGender
-        })
+      let timeoutId: ReturnType<typeof setTimeout> | undefined;
+      const timeout = new Promise<never>((_, reject) => {
+        timeoutId = setTimeout(() => reject(new DOMException('Voice request timed out', 'AbortError')), TTS_TIMEOUT_MS);
       });
+      const res = await Promise.race([request, timeout]);
       clearTimeout(timeoutId);
 
       if (currentSpeechId !== speechPlayCounterRef.current) return;
@@ -524,6 +534,12 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
 
   // Short briefing screen, then the scripted opener
   useEffect(() => {
+    if (isVoiceEnabledRef.current) {
+      const openerText = buildOpener(scenario, persona).trim();
+      const response = requestTts(openerText);
+      response.catch(() => {}); // handled when the opener is spoken
+      prefetchedTtsRef.current = { text: openerText, response };
+    }
     const prepTimer1 = setTimeout(() => setPrepStep(2), 700);
     const prepTimer2 = setTimeout(() => setPrepStep(3), 1400);
     const enterTimer = setTimeout(() => enterStudioImmediately(), 2200);
