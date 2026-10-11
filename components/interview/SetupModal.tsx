@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 import { InterviewScenario, InterviewerPersona, InterviewMode, InterviewerPersonaId, CandidateLevel } from '../../types/interview';
 import { LEVELS, getTrackConfig } from '../../data/interviewTracks';
-import { INTERVIEWER_PERSONAS } from '../../data/interviewPersonas';
+import { ACTIVE_INTERVIEWER } from '../../data/interviewPersonas';
 import { AccessRequestModal } from './AccessRequestModal';
 
 interface SetupModalProps {
@@ -37,19 +37,18 @@ export const SetupModal: React.FC<SetupModalProps> = ({
   onStartSession
 }) => {
   const [selectedMode, setSelectedMode] = useState<InterviewMode>('avatar');
-  const [selectedPersonaId, setSelectedPersonaId] = useState<InterviewerPersonaId>('maya');
   const [showAccessRequestModal, setShowAccessRequestModal] = useState<boolean>(false);
   const [hasPromptedPermissions, setHasPromptedPermissions] = useState<boolean>(false);
 
   if (!isOpen || !scenario) return null;
 
-  const selectedPersona = INTERVIEWER_PERSONAS.find(p => p.id === selectedPersonaId) || INTERVIEWER_PERSONAS[0];
+  const selectedPersona = ACTIVE_INTERVIEWER;
 
   const modes: { id: InterviewMode; title: string; desc: string; icon: any; badge: string }[] = [
     {
       id: 'avatar',
       title: 'AI Avatar Studio',
-      desc: 'Interactive visual interviewer avatar with real-time reactive voice animation and candidate webcam mirror.',
+      desc: 'Face-to-face with a realistic video interviewer who talks and listens, plus your webcam mirror.',
       icon: Video,
       badge: 'Recommended'
     },
@@ -200,40 +199,22 @@ export const SetupModal: React.FC<SetupModalProps> = ({
                 </div>
               </div>
 
-              {/* Step 2: Select Interviewer Persona */}
+              {/* Step 2: Your interviewer */}
               <div className="space-y-3">
                 <label className="text-xs font-black uppercase tracking-wider text-zinc-500 block">
-                  2. Select Interviewer Persona
+                  2. Your Interviewer
                 </label>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {INTERVIEWER_PERSONAS.map((p) => {
-                    const isSelected = selectedPersonaId === p.id;
-                    return (
-                      <div
-                        key={p.id}
-                        onClick={() => setSelectedPersonaId(p.id)}
-                        className={`p-4 rounded-2xl border-2 cursor-pointer transition-all flex items-start gap-3.5 ${
-                          isSelected 
-                            ? 'border-indigo-600 bg-indigo-50/50 shadow-md ring-2 ring-indigo-600/20' 
-                            : 'border-zinc-200 hover:border-zinc-300 bg-white'
-                        }`}
-                      >
-                        <img 
-                          src={p.avatarImage} 
-                          alt={p.name}
-                          className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-md shrink-0" 
-                        />
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center justify-between">
-                            <h4 className="font-black text-xs text-zinc-900 truncate">{p.name}</h4>
-                            {isSelected && <Check className="w-4 h-4 text-indigo-600" />}
-                          </div>
-                          <span className="text-[10px] font-bold text-indigo-600 block">{p.role} • {p.companyBackground}</span>
-                          <p className="text-[11px] text-zinc-500 font-medium mt-1 line-clamp-2">{p.tagline}</p>
-                        </div>
-                      </div>
-                    );
-                  })}
+                <div className="p-4 rounded-2xl border-2 border-indigo-600 bg-indigo-50/50 flex items-start gap-3.5">
+                  <img
+                    src={selectedPersona.avatarImage}
+                    alt={selectedPersona.name}
+                    className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-md shrink-0"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <h4 className="font-black text-xs text-zinc-900">{selectedPersona.name}</h4>
+                    <span className="text-[10px] font-bold text-indigo-600 block">{selectedPersona.role} • {selectedPersona.companyBackground}</span>
+                    <p className="text-[11px] text-zinc-500 font-medium mt-1">{selectedPersona.description}</p>
+                  </div>
                 </div>
               </div>
             </div>

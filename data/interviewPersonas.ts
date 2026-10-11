@@ -1,5 +1,11 @@
 import { InterviewerPersona } from '../types/interview';
 
+/**
+ * Every new interview uses this one interviewer. The other personas stay listed only so
+ * older scorecards still show who interviewed them.
+ */
+export const ACTIVE_INTERVIEWER_ID = 'priya';
+
 export const INTERVIEWER_PERSONAS: InterviewerPersona[] = [
   {
     id: 'maya',
@@ -31,14 +37,14 @@ export const INTERVIEWER_PERSONAS: InterviewerPersona[] = [
     id: 'priya',
     name: 'Priya Sharma',
     role: 'VP of Product',
-    companyBackground: 'Ex-Stripe, Netflix',
+    companyBackground: 'Ex-Stripe, Netflix, Flipkart',
     avatarColor: 'from-[#A855F7] to-[#DB2777]',
     avatarImage: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&auto=format&fit=crop&q=80',
     voiceGender: 'female',
-    tagline: 'Strategic Vision, Competitive Moats & Unit Economics',
-    description: 'Big-picture thinker. Priya evaluates your strategic intuition, network effects, monetization strategies, and long-term defensibility.',
-    styleTrait: 'Visionary & High-Altitude',
-    interviewerPhilosophy: 'Features are easy to build. Defensible business models and market positioning win games. Show me the 3-year moat.'
+    tagline: 'Hiring bar raiser across every PM round',
+    description: 'Priya runs every round: product design, metrics, RCA, guesstimates, strategy, behavioral and AI product. She is calm and fair, asks one sharp question at a time, and holds the same hiring bar for everyone.',
+    styleTrait: 'Calm, Rigorous & Fair',
+    interviewerPhilosophy: 'Clear structure, honest assumptions and a decision you can defend. I care how you think, not whether you guess my answer.'
   },
   {
     id: 'marcus',
@@ -54,3 +60,6 @@ export const INTERVIEWER_PERSONAS: InterviewerPersona[] = [
     interviewerPhilosophy: 'A strategy without a flawless execution and risk rollback plan is just a wishlist. How does this survive contact with reality?'
   }
 ];
+
+export const ACTIVE_INTERVIEWER: InterviewerPersona =
+  INTERVIEWER_PERSONAS.find((p) => p.id === ACTIVE_INTERVIEWER_ID) || INTERVIEWER_PERSONAS[0];

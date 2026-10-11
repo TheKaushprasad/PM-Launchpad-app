@@ -140,6 +140,13 @@ Interviewer personas come from `server/prompts/interviewer-{maya,alex,priya,marc
 - 7 tracks with 205 scenarios: design, RCA, metrics, guesstimate, strategy, behavioral, AI product. A "Full interview loop" runs 3 rounds (design, metrics or RCA, behavioral) and combines them into one decision (`lib/interviewLoop.ts`).
 - `npm run eval:interviewer -- --validate` checks offline that no scenario leaks its answers into the prompt; without `--validate` it runs 8 live cases in `eval/interviewer/cases.json`.
 - `/api/health` reports `interviewPromptsLoaded`; `vercel.json` bundles `server/prompts/**` into the function.
+- One interviewer (`ACTIVE_INTERVIEWER` in `data/interviewPersonas.ts`, Priya) runs every round; the other personas stay only so old scorecards render.
+
+### Voice and video (`server/voice.ts`, `lib/answerRecorder.ts`, `lib/simliAvatar.ts`)
+
+- Speaking: `/api/interview/tts` tries Deepgram Aura-2 (`DEEPGRAM_API_KEY`), then Gemini TTS, then OpenAI, then the browser voice.
+- Listening: the browser shows a live transcript while the answer is also recorded; on send, `/api/interview/transcribe` runs Groq Whisper (`GROQ_API_KEY`) and its text replaces the browser's unless the candidate edited it. Without a key the browser text is used. Gemini is no longer used for transcription.
+- Video face (avatar mode): `/api/interview/avatar-session` creates a Simli session token (`SIMLI_API_KEY`, `SIMLI_FACE_ID`), capped per user and per day (`SIMLI_DAILY_SESSIONS_PER_USER`, default 2; `SIMLI_DAILY_SESSIONS_TOTAL`, default 20). The browser streams the TTS audio as 16 kHz PCM to Simli, which plays it with a lip-synced face. Any failure falls back to the photo with voice. `simli-client` is imported from `dist/client` because its index file has a case-sensitive path bug.
 
 ## 7. Data model (Firestore)
 

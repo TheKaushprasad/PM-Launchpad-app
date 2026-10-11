@@ -6880,6 +6880,7 @@ var INTERVIEW_SCENARIOS = [
 ];
 
 // data/interviewPersonas.ts
+var ACTIVE_INTERVIEWER_ID = "priya";
 var INTERVIEWER_PERSONAS = [
   {
     id: "maya",
@@ -6911,14 +6912,14 @@ var INTERVIEWER_PERSONAS = [
     id: "priya",
     name: "Priya Sharma",
     role: "VP of Product",
-    companyBackground: "Ex-Stripe, Netflix",
+    companyBackground: "Ex-Stripe, Netflix, Flipkart",
     avatarColor: "from-[#A855F7] to-[#DB2777]",
     avatarImage: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&auto=format&fit=crop&q=80",
     voiceGender: "female",
-    tagline: "Strategic Vision, Competitive Moats & Unit Economics",
-    description: "Big-picture thinker. Priya evaluates your strategic intuition, network effects, monetization strategies, and long-term defensibility.",
-    styleTrait: "Visionary & High-Altitude",
-    interviewerPhilosophy: "Features are easy to build. Defensible business models and market positioning win games. Show me the 3-year moat."
+    tagline: "Hiring bar raiser across every PM round",
+    description: "Priya runs every round: product design, metrics, RCA, guesstimates, strategy, behavioral and AI product. She is calm and fair, asks one sharp question at a time, and holds the same hiring bar for everyone.",
+    styleTrait: "Calm, Rigorous & Fair",
+    interviewerPhilosophy: "Clear structure, honest assumptions and a decision you can defend. I care how you think, not whether you guess my answer."
   },
   {
     id: "marcus",
@@ -6934,6 +6935,7 @@ var INTERVIEWER_PERSONAS = [
     interviewerPhilosophy: "A strategy without a flawless execution and risk rollback plan is just a wishlist. How does this survive contact with reality?"
   }
 ];
+var ACTIVE_INTERVIEWER = INTERVIEWER_PERSONAS.find((p) => p.id === ACTIVE_INTERVIEWER_ID) || INTERVIEWER_PERSONAS[0];
 
 // server/interview/catalog.ts
 var scenariosById = new Map(INTERVIEW_SCENARIOS.map((s) => [s.id, s]));
@@ -8280,6 +8282,102 @@ IMPORTANT: Your previous output failed schema validation. You MUST return strict
   };
 }
 
+// server/voice.ts
+var DEEPGRAM_SPEAK_URL = "https://api.deepgram.com/v1/speak";
+var GROQ_TRANSCRIBE_URL = "https://api.groq.com/openai/v1/audio/transcriptions";
+var DEEPGRAM_VOICES = {
+  maya: "aura-2-hera-en",
+  // smooth, warm, professional
+  alex: "aura-2-asteria-en",
+  // clear, confident, knowledgeable
+  priya: "aura-2-athena-en",
+  // calm, smooth, professional
+  marcus: "aura-2-zeus-en"
+  // deep, trustworthy
+};
+var DEFAULT_VOICE = {
+  female: "aura-2-hera-en",
+  male: "aura-2-orpheus-en"
+};
+var PM_VOCAB_PROMPT = "Product manager interview answer. Terms: DAU, MAU, WAU, retention, churn, funnel, conversion, KPI, OKR, north star metric, A/B test, cohort, GMV, ARPU, LTV, CAC, NPS, MVP, RCA, TAM, SAM, SOM, guesstimate, user persona, pain point, prioritisation, RICE, trade-off, go-to-market.";
+var hasKey = (value) => !!value && value.trim() !== "" && value !== "undefined";
+var isDeepgramConfigured = () => hasKey(process.env.DEEPGRAM_API_KEY);
+var isGroqConfigured = () => hasKey(process.env.GROQ_API_KEY);
+function deepgramVoiceFor(personaId, voiceGender) {
+  return DEEPGRAM_VOICES[personaId] || DEFAULT_VOICE[voiceGender === "male" ? "male" : "female"];
+}
+async function synthesizeWithDeepgram(text, voice, timeoutMs = 8e3) {
+  const url = `${DEEPGRAM_SPEAK_URL}?model=${encodeURIComponent(voice)}&encoding=mp3`;
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      Authorization: `Token ${process.env.DEEPGRAM_API_KEY.trim()}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ text }),
+    signal: AbortSignal.timeout(timeoutMs)
+  });
+  if (!res.ok) {
+    const detail = await res.text().catch(() => "");
+    throw new Error(`Deepgram TTS ${res.status}: ${detail.slice(0, 200)}`);
+  }
+  return Buffer.from(await res.arrayBuffer());
+}
+function extensionFor(mimeType) {
+  if (mimeType.includes("webm")) return "webm";
+  if (mimeType.includes("ogg")) return "ogg";
+  if (mimeType.includes("mp4") || mimeType.includes("m4a") || mimeType.includes("aac")) return "m4a";
+  if (mimeType.includes("mpeg") || mimeType.includes("mp3")) return "mp3";
+  return "wav";
+}
+async function transcribeWithGroq(audio, mimeType, timeoutMs = 2e4) {
+  const baseType = mimeType.split(";")[0] || "audio/webm";
+  const form = new FormData();
+  form.append("file", new Blob([new Uint8Array(audio)], { type: baseType }), `answer.${extensionFor(baseType)}`);
+  form.append("model", process.env.GROQ_WHISPER_MODEL?.trim() || "whisper-large-v3-turbo");
+  form.append("language", "en");
+  form.append("temperature", "0");
+  form.append("response_format", "json");
+  form.append("prompt", PM_VOCAB_PROMPT);
+  const res = await fetch(GROQ_TRANSCRIBE_URL, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${process.env.GROQ_API_KEY.trim()}` },
+    body: form,
+    signal: AbortSignal.timeout(timeoutMs)
+  });
+  if (!res.ok) {
+    const detail = await res.text().catch(() => "");
+    throw new Error(`Groq transcription ${res.status}: ${detail.slice(0, 200)}`);
+  }
+  const data = await res.json();
+  return typeof data?.text === "string" ? data.text.trim() : "";
+}
+var SIMLI_TOKEN_URL = "https://api.simli.ai/compose/token";
+var isSimliConfigured = () => hasKey(process.env.SIMLI_API_KEY) && hasKey(process.env.SIMLI_FACE_ID);
+async function createSimliSessionToken(maxSessionSeconds, timeoutMs = 8e3) {
+  const res = await fetch(SIMLI_TOKEN_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-simli-api-key": process.env.SIMLI_API_KEY.trim()
+    },
+    body: JSON.stringify({
+      faceId: process.env.SIMLI_FACE_ID.trim(),
+      handleSilence: true,
+      maxSessionLength: Math.round(maxSessionSeconds),
+      maxIdleTime: 300
+    }),
+    signal: AbortSignal.timeout(timeoutMs)
+  });
+  if (!res.ok) {
+    const detail = await res.text().catch(() => "");
+    throw new Error(`Simli token ${res.status}: ${detail.slice(0, 200)}`);
+  }
+  const data = await res.json();
+  if (!data?.session_token) throw new Error("Simli returned no session token");
+  return data.session_token;
+}
+
 // data/realWorldProjects.ts
 var REAL_WORLD_PROJECTS = [
   {
@@ -9032,6 +9130,9 @@ async function createExpressApp() {
       hasCronSecret: !!process.env.CRON_SECRET?.trim(),
       interviewPromptsLoaded: arePromptsLoaded(),
       interviewPromptVersion: PROMPT_VERSION,
+      hasDeepgramKey: isDeepgramConfigured(),
+      hasGroqKey: isGroqConfigured(),
+      hasSimliAvatar: isSimliConfigured(),
       port: 3e3
     });
   });
@@ -9877,6 +9978,14 @@ Generate the next contextual hint:`;
         // Authoritative, direct bar raiser male
       };
       const voiceName = voiceMap[personaId] || (voiceGender === "female" ? "Kore" : "Puck");
+      if (isDeepgramConfigured()) {
+        try {
+          const mp3 = await synthesizeWithDeepgram(text.trim(), deepgramVoiceFor(personaId, voiceGender));
+          return res.json({ audioBase64: mp3.toString("base64"), format: "mp3", provider: "deepgram" });
+        } catch (dgErr) {
+          console.warn("[Deepgram TTS]: Failed, checking fallback...", dgErr?.message);
+        }
+      }
       if (geminiKey && geminiKey.trim() !== "" && geminiKey !== "undefined") {
         try {
           const { GoogleGenAI: GoogleGenAI2, Modality } = await import("@google/genai");
@@ -9934,63 +10043,43 @@ Generate the next contextual hint:`;
   });
   app.post(["/api/interview/transcribe", "/api/interview/transcribe/"], requireAiAccess, async (req, res) => {
     try {
-      const { audioBase64, mimeType = "audio/webm" } = req.body;
-      if (!audioBase64) {
+      const { audioBase64, mimeType = "audio/webm" } = req.body || {};
+      if (!audioBase64 || typeof audioBase64 !== "string") {
         return res.status(400).json({ error: "Missing audioBase64 for transcription" });
       }
-      const geminiKey = process.env.GEMINI_API_KEY;
-      if (geminiKey && geminiKey.trim() !== "" && geminiKey !== "undefined") {
-        const { GoogleGenAI: GoogleGenAI2 } = await import("@google/genai");
-        const ai2 = new GoogleGenAI2({
-          apiKey: geminiKey
-        });
-        const transcribeModels = [
-          "gemini-3.5-transcribe",
-          "gemini-3.1-flash-lite",
-          "gemini-3.8-flash",
-          "gemini-flash-latest",
-          "gemini-3.7-flash"
-        ];
-        let transcript = "";
-        let lastTranscribeErr = null;
-        for (const modelName of transcribeModels) {
-          try {
-            const response = await ai2.models.generateContent({
-              model: modelName,
-              contents: [
-                {
-                  parts: [
-                    {
-                      inlineData: {
-                        mimeType: mimeType.includes("webm") ? "audio/webm" : mimeType.includes("mp4") ? "audio/mp4" : "audio/wav",
-                        data: audioBase64
-                      }
-                    },
-                    {
-                      text: "Transcribe the candidate's speech verbatim without extra commentary or formatting. Output only the plain transcribed words."
-                    }
-                  ]
-                }
-              ]
-            });
-            if (response && response.text) {
-              transcript = response.text.trim();
-              break;
-            }
-          } catch (mErr) {
-            lastTranscribeErr = mErr;
-            console.log(`[Audio Transcribe]: Model ${modelName} unavailable, attempting next model...`);
-          }
-        }
-        if (transcript || !lastTranscribeErr) {
-          return res.json({ transcript });
-        }
-        throw lastTranscribeErr || new Error("All transcription models failed");
+      if (!isGroqConfigured()) {
+        return res.status(503).json({ error: "Transcription is not configured", configured: false });
       }
-      res.status(400).json({ error: "No AI key available for audio transcription" });
+      const audio = Buffer.from(audioBase64, "base64");
+      if (audio.length < 1e3) {
+        return res.json({ transcript: "" });
+      }
+      const transcript = await transcribeWithGroq(audio, String(mimeType));
+      res.json({ transcript, provider: "groq" });
     } catch (err) {
-      console.error("[Audio Transcribe Error]:", err);
-      res.status(500).json({ error: err.message || "Transcription failed" });
+      console.error("[Audio Transcribe Error]:", err?.message);
+      res.status(502).json({ error: "Transcription failed", retryable: true });
+    }
+  });
+  app.post(["/api/interview/avatar-session", "/api/interview/avatar-session/"], requireAiAccess, async (req, res) => {
+    try {
+      if (!isSimliConfigured()) {
+        return res.status(503).json({ error: "Video avatar is not configured", configured: false });
+      }
+      const uid = res.locals.user?.uid || clientIp(req);
+      const perUser = Number(process.env.SIMLI_DAILY_SESSIONS_PER_USER) || 2;
+      const total = Number(process.env.SIMLI_DAILY_SESSIONS_TOTAL) || 20;
+      const userOk = await consumeDailyQuota(`simli_user_${uid}`, perUser);
+      const totalOk = userOk && await consumeDailyQuota("simli_total", total);
+      if (!userOk || !totalOk) {
+        return res.status(429).json({ error: "Video avatar limit reached for today", limited: true });
+      }
+      const targetSeconds = Math.min(Math.max(Number(req.body?.targetSeconds) || 1800, 300), 3600);
+      const sessionToken = await createSimliSessionToken(targetSeconds + 600);
+      res.json({ sessionToken });
+    } catch (err) {
+      console.error("[Avatar Session Error]:", err?.message);
+      res.status(502).json({ error: "Could not start the video avatar" });
     }
   });
   app.post(["/api/interview/evaluate", "/api/interview/evaluate/"], requireAiAccess, async (req, res) => {

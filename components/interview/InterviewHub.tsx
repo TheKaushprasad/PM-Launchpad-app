@@ -22,7 +22,6 @@ import {
 } from 'lucide-react';
 import { InterviewScenario, InterviewerPersona, InterviewMode, CandidateLevel, InterviewEvaluation } from '../../types/interview';
 import { INTERVIEW_SCENARIOS } from '../../data/interviewScenarios';
-import { INTERVIEWER_PERSONAS } from '../../data/interviewPersonas';
 import { TRACK_ORDER, TRACK_CONFIGS, getTrackConfig, normalizeLevel, normalizeVerdict } from '../../data/interviewTracks';
 import { planFullLoop, LoopRoundPlan } from '../../lib/interviewLoop';
 import { SetupModal } from './SetupModal';
@@ -541,8 +540,8 @@ export const InterviewHub: React.FC = () => {
                 <Users className="w-5 h-5 text-white" />
               </div>
               <div>
-                <div className="text-2xl sm:text-3xl font-black text-white tracking-tight">{INTERVIEWER_PERSONAS.length}</div>
-                <div className="text-xs font-medium text-slate-400 mt-0.5">AI Interviewers</div>
+                <div className="text-2xl sm:text-3xl font-black text-white tracking-tight">{TRACK_ORDER.length}</div>
+                <div className="text-xs font-medium text-slate-400 mt-0.5">Interview Types</div>
               </div>
             </div>
           </div>

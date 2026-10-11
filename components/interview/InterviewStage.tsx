@@ -46,6 +46,8 @@ import { ScratchpadModal } from './ScratchpadModal';
 import { InterviewEvaluationView } from './InterviewEvaluationView';
 import { useAuth } from '../../context/AuthContext';
 import { authJsonHeaders } from '../../lib/apiClient';
+import { AnswerRecorder } from '../../lib/answerRecorder';
+import { SimliAvatar, decodeTtsAudio, startSimliAvatar } from '../../lib/simliAvatar';
 
 interface InterviewStageProps {
   scenario: InterviewScenario;
@@ -89,6 +91,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
   const [messages, setMessages] = useState<ConversationMessage[]>([]);
   const [inputText, setInputText] = useState<string>('');
   const [isThinking, setIsThinking] = useState<boolean>(false);
+  const [isTranscribing, setIsTranscribing] = useState<boolean>(false);
   const [isSpeaking, setIsSpeaking] = useState<boolean>(false);
   const [currentSubtitle, setCurrentSubtitle] = useState<string>('');
   const [isEvaluating, setIsEvaluating] = useState<boolean>(false);
@@ -127,6 +130,16 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
   const synthRef = useRef<SpeechSynthesis | null>(null);
   const animationFrameRef = useRef<number | null>(null);
   const speechPlayCounterRef = useRef<number>(0);
+  // Spoken answers are also recorded and transcribed server-side (Groq Whisper) for accuracy.
+  const answerRecorderRef = useRef<AnswerRecorder>(new AnswerRecorder());
+  const serverTranscriptionRef = useRef<boolean>(true);
+  // True once the candidate types or edits the answer box; their text then wins over the recording.
+  const typedEditRef = useRef<boolean>(false);
+  // Realistic video face (avatar mode only). Falls back to the photo when unavailable.
+  const avatarVideoRef = useRef<HTMLVideoElement>(null);
+  const avatarAudioRef = useRef<HTMLAudioElement>(null);
+  const simliAvatarRef = useRef<SimliAvatar | null>(null);
+  const [videoAvatarStatus, setVideoAvatarStatus] = useState<'off' | 'connecting' | 'live' | 'unavailable'>('off');
 
   // Keep refs in sync with state for callbacks
   useEffect(() => {
@@ -192,8 +205,19 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
 
     return () => {
       cleanupSpeech();
+      stopVideoAvatar();
     };
   }, []);
+
+  // Ends the paid video session as soon as it is no longer needed.
+  const stopVideoAvatar = () => {
+    const avatar = simliAvatarRef.current;
+    simliAvatarRef.current = null;
+    if (avatar) {
+      avatar.stop();
+      setVideoAvatarStatus('off');
+    }
+  };
 
   const cleanupSpeech = () => {
     if (autoStartListeningTimeoutRef.current) {
@@ -205,6 +229,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
       silenceTimeoutRef.current = null;
     }
     cleanupActiveAudio();
+    answerRecorderRef.current.discard();
     if (recognitionRef.current) {
       try {
         recognitionRef.current.stop();
@@ -229,6 +254,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
 
   const cleanupActiveAudio = () => {
     speechPlayCounterRef.current += 1;
+    simliAvatarRef.current?.interrupt();
     if (activeAudioElementRef.current) {
       try {
         activeAudioElementRef.current.pause();
@@ -318,6 +344,22 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
       if (res.ok && res.status === 200) {
         const data = await res.json();
         
+        if (data.audioBase64 && currentSpeechId === speechPlayCounterRef.current && simliAvatarRef.current) {
+          try {
+            const buffer = await decodeTtsAudio(data.audioBase64, data.format, data.sampleRate || 24000);
+            const avatar = simliAvatarRef.current;
+            if (avatar && currentSpeechId === speechPlayCounterRef.current) {
+              await avatar.speak(buffer);
+              if (currentSpeechId === speechPlayCounterRef.current) {
+                handleInterviewerFinishedSpeaking();
+              }
+              return;
+            }
+          } catch (avatarErr) {
+            console.warn("Video avatar playback failed, playing voice only:", avatarErr);
+          }
+        }
+
         if (data.audioBase64 && currentSpeechId === speechPlayCounterRef.current) {
           if (data.format === 'mp3') {
             const audio = new Audio("data:audio/mp3;base64," + data.audioBase64);
@@ -443,7 +485,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
   const startedRef = useRef<boolean>(false);
 
   // Opens the interview with the scripted opener. No AI call.
-  const enterStudioImmediately = () => {
+  const enterStudioImmediately = async () => {
     if (startedRef.current) return;
     startedRef.current = true;
     const openerText = buildOpener(scenario, persona);
@@ -455,8 +497,30 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
     }]);
     setCurrentSubtitle(openerText);
     setIsSessionPreparing(false);
+    await connectVideoAvatar();
     setIsTimerRunning(true);
     speakTextWithHumanVoice(openerText);
+  };
+
+  // Avatar mode: connect the realistic video face before the first line. The studio must be on
+  // screen first so the <video> element exists. The clock starts only once this settles.
+  const connectVideoAvatar = async () => {
+    if (mode !== 'avatar' || simliAvatarRef.current) return;
+    for (let i = 0; i < 20 && !(avatarVideoRef.current && avatarAudioRef.current); i++) {
+      await new Promise((r) => setTimeout(r, 50));
+    }
+    if (!avatarVideoRef.current || !avatarAudioRef.current) return;
+    setVideoAvatarStatus('connecting');
+    const result = await startSimliAvatar(avatarVideoRef.current, avatarAudioRef.current, targetDurationSeconds);
+    if (result.ok) {
+      simliAvatarRef.current = result.avatar;
+      setVideoAvatarStatus('live');
+    } else {
+      setVideoAvatarStatus('unavailable');
+      if (result.reason === 'limited') {
+        setMilestoneAlert("You've used today's video interviews, so this one uses the photo and voice.");
+      }
+    }
   };
 
   // Short briefing screen, then the scripted opener
@@ -531,12 +595,24 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
 
     cleanupActiveAudio();
 
+    const SpeechRecognition =
+      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    let recording = false;
+
     try {
       // Connect to Mic & AnalyserNode for Visualizer
       if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
         try {
           const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
           mediaStreamRef.current = stream;
+
+          if (serverTranscriptionRef.current && !typedEditRef.current) {
+            answerRecorderRef.current.start(stream);
+            recording = answerRecorderRef.current.hasAudio();
+          }
+          // Without live recognition, a pause in the mic volume decides when the answer is finished.
+          let heardSpeech = false;
+          let lastLoudAt = Date.now();
 
           const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
           if (AudioContextClass) {
@@ -559,6 +635,17 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
               }
               const average = sum / bufferLength;
               setAudioLevel(Math.min(100, Math.round(average * 2.5))); // Drives UI waveform & pulsing rings
+              if (!SpeechRecognition && recording) {
+                const now = Date.now();
+                if (average > 12) {
+                  heardSpeech = true;
+                  lastLoudAt = now;
+                } else if (heardSpeech && isAutoSendEnabledRef.current && now - lastLoudAt > AUTO_SEND_SILENCE_MS
+                  && !isThinkingRef.current && !isEvaluatingRef.current) {
+                  heardSpeech = false;
+                  handleSendMessage();
+                }
+              }
               animationFrameRef.current = requestAnimationFrame(checkVolume);
             };
             checkVolume();
@@ -569,11 +656,10 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
       }
 
       // Step A: Browser API Initialization & Fallback Guard
-      const SpeechRecognition =
-        (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-
       if (!SpeechRecognition) {
-        setMicStatusNotice("Speech recognition is not supported in this browser. Please use Chrome, Edge, or Safari, or type your answer.");
+        setMicStatusNotice(recording
+          ? "🎙️ Listening... Your answer is transcribed when you finish. Press Send when you're done."
+          : "Speech recognition is not supported in this browser. Please use Chrome, Edge, or Safari, or type your answer.");
         setIsListening(true);
         return;
       }
@@ -652,6 +738,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
   };
 
   const stopListeningSession = () => {
+    answerRecorderRef.current.stop();
     if (autoStartListeningTimeoutRef.current) {
       clearTimeout(autoStartListeningTimeoutRef.current);
       autoStartListeningTimeoutRef.current = null;
@@ -743,12 +830,39 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
       silenceTimeoutRef.current = null;
     }
 
-    const trimmed = latestInputTextRef.current.trim() || inputText.trim();
-    if (!trimmed || isThinkingRef.current || chatError) return;
+    const browserText = latestInputTextRef.current.trim() || inputText.trim();
+    const recorder = answerRecorderRef.current;
+    const hasRecording = recorder.hasAudio();
+    if ((!browserText && !hasRecording) || isThinkingRef.current || chatError) return;
 
     // Pause listening while interviewer processes and speaks
     stopListeningSession();
     cleanupActiveAudio();
+
+    // Prefer the server transcript of the recording; keep the browser text if the candidate edited it
+    // or transcription is unavailable.
+    let trimmed = browserText;
+    if (hasRecording) {
+      if (typedEditRef.current && browserText) {
+        await recorder.discard();
+      } else {
+        isThinkingRef.current = true;
+        setIsTranscribing(true);
+        const result = await recorder.transcribe();
+        setIsTranscribing(false);
+        isThinkingRef.current = false;
+        if ('text' in result && result.text) {
+          trimmed = result.text;
+        } else if ('notConfigured' in result && result.notConfigured) {
+          serverTranscriptionRef.current = false;
+        }
+      }
+    }
+    typedEditRef.current = false;
+    if (!trimmed) {
+      setMicStatusNotice("I couldn't catch that. Please tap the mic and answer again, or type your answer.");
+      return;
+    }
 
     const candidateMsg: ConversationMessage = {
       id: 'candidate_' + Date.now(),
@@ -786,6 +900,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
     setMessages(remaining);
     setInputText(last.text);
     latestInputTextRef.current = last.text;
+    typedEditRef.current = true;
     setChatError(null);
   };
 
@@ -839,6 +954,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
     setEvaluationError(null);
     setIsTimerRunning(false);
     cleanupSpeech();
+    stopVideoAvatar();
 
     try {
       const token = user ? await user.getIdToken().catch(() => null) : null;
@@ -919,6 +1035,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
     setActiveHint(null);
     setHintsUsed(0);
     setScratchpadNotes('');
+    typedEditRef.current = false;
     startedRef.current = false;
     enterStudioImmediately();
   };
@@ -1308,6 +1425,10 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
               mode={mode}
               onToggleMic={toggleListening}
               onSubmitTurn={handleSendMessage}
+              videoRef={avatarVideoRef}
+              videoAudioRef={avatarAudioRef}
+              videoLive={videoAvatarStatus === 'live'}
+              videoStatusText={videoAvatarStatus === 'connecting' ? 'Connecting video…' : null}
             />
 
             {/* Floating Candidate Webcam Mirror (Top Right of Avatar Stage) */}
@@ -1386,6 +1507,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
                 type="text"
                 value={inputText}
                 onChange={(e) => {
+                  typedEditRef.current = true;
                   setInputText(e.target.value);
                   latestInputTextRef.current = e.target.value;
                 }}
@@ -1394,7 +1516,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
                     ? (isAutoSendEnabled ? "🎙️ Listening... take your time (a 3-second pause sends)" : "🎙️ Listening... press Send when you're done") 
                     : "Type your answer, framework step, or tap mic for instant voice streaming..."
                 }
-                disabled={isThinking || isEvaluating || !!chatError}
+                disabled={isThinking || isTranscribing || isEvaluating || !!chatError}
                 className="flex-1 px-4 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-xs md:text-sm text-zinc-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
               />
 
@@ -1474,6 +1596,13 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
                   </div>
                 );
               })}
+
+              {isTranscribing && (
+                <div className="flex items-center gap-2 text-zinc-500 text-xs font-bold p-2 bg-zinc-50 rounded-xl border border-zinc-100">
+                  <Loader2 className="w-3.5 h-3.5 animate-spin text-indigo-500" />
+                  <span>Transcribing your answer...</span>
+                </div>
+              )}
 
               {isThinking && (
                 <div className="flex items-center gap-2 text-zinc-500 text-xs font-bold p-2 bg-zinc-50 rounded-xl border border-zinc-100">

@@ -1,5 +1,5 @@
 import { INTERVIEW_SCENARIOS } from '../data/interviewScenarios';
-import { INTERVIEWER_PERSONAS } from '../data/interviewPersonas';
+import { ACTIVE_INTERVIEWER } from '../data/interviewPersonas';
 import { normalizeVerdict } from '../data/interviewTracks';
 import {
   CandidateLevel,
@@ -20,10 +20,10 @@ export interface LoopRoundPlan {
   persona: InterviewerPersona;
 }
 
-const LOOP_ROUNDS: { tracks: InterviewTrack[]; personaId: InterviewerPersona['id'] }[] = [
-  { tracks: ['design'], personaId: 'maya' },
-  { tracks: ['metrics', 'rca'], personaId: 'alex' },
-  { tracks: ['behavioral'], personaId: 'marcus' }
+const LOOP_ROUNDS: { tracks: InterviewTrack[] }[] = [
+  { tracks: ['design'] },
+  { tracks: ['metrics', 'rca'] },
+  { tracks: ['behavioral'] }
 ];
 
 const DIFFICULTY_BY_LEVEL: Record<CandidateLevel, DifficultyLevel[]> = {
@@ -41,8 +41,7 @@ export function planFullLoop(level: CandidateLevel): LoopRoundPlan[] {
     const pool = INTERVIEW_SCENARIOS.filter((s) => round.tracks.includes(s.track));
     const preferred = pool.filter((s) => DIFFICULTY_BY_LEVEL[level].includes(s.difficulty));
     const scenario = pick(preferred.length > 0 ? preferred : pool);
-    const persona = INTERVIEWER_PERSONAS.find((p) => p.id === round.personaId) || INTERVIEWER_PERSONAS[0];
-    return { scenario, persona };
+    return { scenario, persona: ACTIVE_INTERVIEWER };
   });
 }
 

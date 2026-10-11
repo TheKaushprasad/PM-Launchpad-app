@@ -25,6 +25,7 @@ import { buildInterviewerSystemPrompt, buildInterviewerTranscript, cleanIntervie
 import { getTrackConfig, normalizeLevel } from "./data/interviewTracks";
 import { runEvaluationEngine } from "./server/evaluatorEngine";
 import { saveInterviewEvaluationServerSide } from "./server/persistence";
+import { createSimliSessionToken, deepgramVoiceFor, isDeepgramConfigured, isGroqConfigured, isSimliConfigured, synthesizeWithDeepgram, transcribeWithGroq } from "./server/voice";
 import { getProjectById } from "./data/realWorldProjects";
 import { getJobDetail, getJobsList, jobsStoreReady, refreshJobs } from "./server/jobs/store";
 import { requireAiAccess, getVerifiedUser, consumeDailyQuota, clientIp } from "./server/security";
@@ -55,6 +56,9 @@ export async function createExpressApp() {
       hasCronSecret: !!process.env.CRON_SECRET?.trim(),
       interviewPromptsLoaded: arePromptsLoaded(),
       interviewPromptVersion: PROMPT_VERSION,
+      hasDeepgramKey: isDeepgramConfigured(),
+      hasGroqKey: isGroqConfigured(),
+      hasSimliAvatar: isSimliConfigured(),
       port: 3000
     });
   });
@@ -1021,7 +1025,17 @@ Plain text, 1-2 sentences. No markdown.
       };
       const voiceName = voiceMap[personaId] || (voiceGender === 'female' ? 'Kore' : 'Puck');
 
-      // 1. Try Gemini TTS (gemini-3.1-flash-tts-preview)
+      // 1. Deepgram Aura-2: natural voice, low latency, does not use the Gemini quota
+      if (isDeepgramConfigured()) {
+        try {
+          const mp3 = await synthesizeWithDeepgram(text.trim(), deepgramVoiceFor(personaId, voiceGender));
+          return res.json({ audioBase64: mp3.toString('base64'), format: "mp3", provider: "deepgram" });
+        } catch (dgErr: any) {
+          console.warn("[Deepgram TTS]: Failed, checking fallback...", dgErr?.message);
+        }
+      }
+
+      // 2. Try Gemini TTS (gemini-3.1-flash-tts-preview)
       if (geminiKey && geminiKey.trim() !== "" && geminiKey !== "undefined") {
         try {
           const { GoogleGenAI, Modality } = await import("@google/genai");
@@ -1055,7 +1069,7 @@ Plain text, 1-2 sentences. No markdown.
         }
       }
 
-      // 2. Try OpenAI TTS (tts-1) if configured
+      // 3. Try OpenAI TTS (tts-1) if configured
       if (openAiKey && openAiKey.trim() !== "" && openAiKey !== "undefined") {
         try {
           const openai = getOpenAI();
@@ -1087,70 +1101,49 @@ Plain text, 1-2 sentences. No markdown.
   // API Route for Voice Audio Transcription (Candidate Speech-to-Text)
   app.post(["/api/interview/transcribe", "/api/interview/transcribe/"], requireAiAccess, async (req, res) => {
     try {
-      const { audioBase64, mimeType = "audio/webm" } = req.body;
-      if (!audioBase64) {
+      const { audioBase64, mimeType = "audio/webm" } = req.body || {};
+      if (!audioBase64 || typeof audioBase64 !== 'string') {
         return res.status(400).json({ error: "Missing audioBase64 for transcription" });
       }
-
-      const geminiKey = process.env.GEMINI_API_KEY;
-      if (geminiKey && geminiKey.trim() !== "" && geminiKey !== "undefined") {
-        const { GoogleGenAI } = await import("@google/genai");
-        const ai = new GoogleGenAI({
-          apiKey: geminiKey
-        });
-
-        const transcribeModels = [
-          "gemini-3.5-transcribe",
-          "gemini-3.1-flash-lite",
-          "gemini-3.8-flash",
-          "gemini-flash-latest",
-          "gemini-3.7-flash"
-        ];
-
-        let transcript = "";
-        let lastTranscribeErr: any = null;
-
-        for (const modelName of transcribeModels) {
-          try {
-            const response = await ai.models.generateContent({
-              model: modelName,
-              contents: [
-                {
-                  parts: [
-                    {
-                      inlineData: {
-                        mimeType: mimeType.includes("webm") ? "audio/webm" : mimeType.includes("mp4") ? "audio/mp4" : "audio/wav",
-                        data: audioBase64
-                      }
-                    },
-                    {
-                      text: "Transcribe the candidate's speech verbatim without extra commentary or formatting. Output only the plain transcribed words."
-                    }
-                  ]
-                }
-              ]
-            });
-
-            if (response && response.text) {
-              transcript = response.text.trim();
-              break;
-            }
-          } catch (mErr: any) {
-            lastTranscribeErr = mErr;
-            console.log(`[Audio Transcribe]: Model ${modelName} unavailable, attempting next model...`);
-          }
-        }
-
-        if (transcript || !lastTranscribeErr) {
-          return res.json({ transcript });
-        }
-        throw lastTranscribeErr || new Error("All transcription models failed");
+      // Groq Whisper only. Without a key the browser's live transcript is used instead,
+      // so recorded answers never spend the Gemini quota.
+      if (!isGroqConfigured()) {
+        return res.status(503).json({ error: "Transcription is not configured", configured: false });
       }
-
-      res.status(400).json({ error: "No AI key available for audio transcription" });
+      const audio = Buffer.from(audioBase64, 'base64');
+      if (audio.length < 1000) {
+        return res.json({ transcript: "" });
+      }
+      const transcript = await transcribeWithGroq(audio, String(mimeType));
+      res.json({ transcript, provider: "groq" });
     } catch (err: any) {
-      console.error("[Audio Transcribe Error]:", err);
-      res.status(500).json({ error: err.message || "Transcription failed" });
+      console.error("[Audio Transcribe Error]:", err?.message);
+      res.status(502).json({ error: "Transcription failed", retryable: true });
+    }
+  });
+
+  // Realistic video avatar session (Simli). Paid per minute, so it is capped per user and per day;
+  // when unavailable the client keeps the photo avatar with voice.
+  app.post(["/api/interview/avatar-session", "/api/interview/avatar-session/"], requireAiAccess, async (req, res) => {
+    try {
+      if (!isSimliConfigured()) {
+        return res.status(503).json({ error: "Video avatar is not configured", configured: false });
+      }
+      const uid = res.locals.user?.uid || clientIp(req);
+      const perUser = Number(process.env.SIMLI_DAILY_SESSIONS_PER_USER) || 2;
+      const total = Number(process.env.SIMLI_DAILY_SESSIONS_TOTAL) || 20;
+      const userOk = await consumeDailyQuota(`simli_user_${uid}`, perUser);
+      const totalOk = userOk && (await consumeDailyQuota('simli_total', total));
+      if (!userOk || !totalOk) {
+        return res.status(429).json({ error: "Video avatar limit reached for today", limited: true });
+      }
+      const targetSeconds = Math.min(Math.max(Number(req.body?.targetSeconds) || 1800, 300), 3600);
+      // Allow some overtime beyond the interview's target length.
+      const sessionToken = await createSimliSessionToken(targetSeconds + 600);
+      res.json({ sessionToken });
+    } catch (err: any) {
+      console.error("[Avatar Session Error]:", err?.message);
+      res.status(502).json({ error: "Could not start the video avatar" });
     }
   });
 
