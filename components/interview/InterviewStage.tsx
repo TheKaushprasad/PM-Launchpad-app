@@ -36,8 +36,10 @@ import {
   InterviewerPersona, 
   InterviewMode, 
   ConversationMessage, 
-  InterviewEvaluation 
+  InterviewEvaluation,
+  CandidateLevel
 } from '../../types/interview';
+import { getLevelConfig, getTrackConfig, MAX_HINTS_PER_INTERVIEW } from '../../data/interviewTracks';
 import { AvatarVisualizer } from './AvatarVisualizer';
 import { WebcamMirror } from './WebcamMirror';
 import { ScratchpadModal } from './ScratchpadModal';
@@ -49,14 +51,33 @@ interface InterviewStageProps {
   scenario: InterviewScenario;
   persona: InterviewerPersona;
   mode: InterviewMode;
+  level: CandidateLevel;
   onExit: () => void;
+  /** Set when this interview is one round of a full loop. */
+  loopInfo?: { round: number; total: number };
+  /** Full loop only: called with the round's scorecard when the candidate moves on. */
+  onRoundComplete?: (evaluation: InterviewEvaluation) => void;
 }
+
+/** Scripted opener: real interviewers read the prompt out, and it costs no AI call. */
+function buildOpener(scenario: InterviewScenario, persona: InterviewerPersona): string {
+  const track = getTrackConfig(scenario.track);
+  if (scenario.track === 'behavioral') {
+    return `Hi, I'm ${persona.name}. Thanks for making the time. This is a behavioral round, so I'll ask about your own experience. ${scenario.problemStatement} Take a moment to pick a specific example, then walk me through it.`;
+  }
+  return `Hi, I'm ${persona.name}. Thanks for making the time. Today's ${track.label.toLowerCase()} question is for ${scenario.company}. ${scenario.problemStatement} Take a moment, and tell me how you'd like to start.`;
+}
+
+const nowStamp = () => new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
 export const InterviewStage: React.FC<InterviewStageProps> = ({
   scenario,
   persona,
   mode,
-  onExit
+  level,
+  onExit,
+  loopInfo,
+  onRoundComplete
 }) => {
   const { user, recordInterviewSession } = useAuth();
 
@@ -72,11 +93,18 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
   const [currentSubtitle, setCurrentSubtitle] = useState<string>('');
   const [isEvaluating, setIsEvaluating] = useState<boolean>(false);
   const [evaluationResult, setEvaluationResult] = useState<InterviewEvaluation | null>(null);
+  // Set when scoring fails. We show a retry screen instead of inventing a score.
+  const [evaluationError, setEvaluationError] = useState<string | null>(null);
+  // Set when the interviewer's reply fails. The candidate retries; no scripted line is added.
+  const [chatError, setChatError] = useState<string | null>(null);
+  const [hintsUsed, setHintsUsed] = useState<number>(0);
 
   // Audio / Speech State
-  const [isVoiceEnabled, setIsVoiceEnabled] = useState<boolean>(true);
+  // Text chat starts muted so it doesn't spend voice quota; it can still be switched on.
+  const [isVoiceEnabled, setIsVoiceEnabled] = useState<boolean>(mode !== 'chat');
   const [isListening, setIsListening] = useState<boolean>(false);
   const [isAutoSendEnabled, setIsAutoSendEnabled] = useState<boolean>(true);
+  const isAutoSendEnabledRef = useRef<boolean>(true);
   const [audioLevel, setAudioLevel] = useState<number>(0);
   const [micStatusNotice, setMicStatusNotice] = useState<string | null>(null);
   
@@ -118,12 +146,31 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
   }, [isEvaluating]);
 
   useEffect(() => {
+    isAutoSendEnabledRef.current = isAutoSendEnabled;
+  }, [isAutoSendEnabled]);
+
+  // Voice callbacks (silence timer, audio end) run from closures created several renders earlier,
+  // so they read the transcript, clock and voice setting through refs to avoid dropping turns.
+  const messagesRef = useRef<ConversationMessage[]>([]);
+  useEffect(() => {
+    messagesRef.current = messages;
+  }, [messages]);
+  const isVoiceEnabledRef = useRef<boolean>(mode !== 'chat');
+  useEffect(() => {
+    isVoiceEnabledRef.current = isVoiceEnabled;
+  }, [isVoiceEnabled]);
+
+  useEffect(() => {
     isSpeakingRef.current = isSpeaking;
   }, [isSpeaking]);
 
   // Timer & Utilities
   const targetDurationSeconds = scenario.targetDurationMinutes * 60;
   const [elapsedSeconds, setElapsedSeconds] = useState<number>(0);
+  const elapsedSecondsRef = useRef<number>(0);
+  useEffect(() => {
+    elapsedSecondsRef.current = elapsedSeconds;
+  }, [elapsedSeconds]);
   const [isTimerRunning, setIsTimerRunning] = useState<boolean>(false);
   const [scratchpadNotes, setScratchpadNotes] = useState<string>('');
   const [isScratchpadOpen, setIsScratchpadOpen] = useState<boolean>(false);
@@ -232,8 +279,8 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
   };
 
   // Human-Like Voice Playback (Zero-Delay Direct Audio from Chat Payload -> Fallback Neural TTS)
-  const speakTextWithHumanVoice = async (text: string, preloadedAudio?: { audioBase64?: string | null; format?: string | null; sampleRate?: number | null }) => {
-    if (!isVoiceEnabled) {
+  const speakTextWithHumanVoice = async (text: string) => {
+    if (!isVoiceEnabledRef.current) {
       handleInterviewerFinishedSpeaking();
       return;
     }
@@ -247,39 +294,12 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
 
     const currentSpeechId = ++speechPlayCounterRef.current;
 
-    // 1. If audio is already preloaded in the turn response, play INSTANTLY with 0ms extra network hop
-    if (preloadedAudio?.audioBase64) {
-      try {
-        if (preloadedAudio.format === 'mp3') {
-          const audio = new Audio("data:audio/mp3;base64," + preloadedAudio.audioBase64);
-          activeAudioElementRef.current = audio;
-          audio.onended = () => {
-            if (currentSpeechId === speechPlayCounterRef.current) {
-              handleInterviewerFinishedSpeaking();
-            }
-          };
-          audio.onerror = () => {
-            if (currentSpeechId === speechPlayCounterRef.current) {
-              fallbackWebSpeech(text, currentSpeechId);
-            }
-          };
-          await audio.play();
-          return;
-        } else if (preloadedAudio.format === 'pcm' || preloadedAudio.sampleRate) {
-          const success = playRawPCM(preloadedAudio.audioBase64, preloadedAudio.sampleRate || 24000, currentSpeechId);
-          if (success) return;
-        }
-      } catch (audioErr) {
-        console.warn("Direct audio playback notice:", audioErr);
-      }
-    }
-
     if (currentSpeechId !== speechPlayCounterRef.current) return;
 
-    // 2. Otherwise, try fast server TTS with timeout
+    // 1. Server TTS (one call per interviewer turn, voice modes only)
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 2000);
+      const timeoutId = setTimeout(() => controller.abort(), 10000);
 
       const res = await fetch('/api/interview/tts', {
         method: 'POST',
@@ -420,110 +440,35 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
     }
   };
 
+  const startedRef = useRef<boolean>(false);
+
+  // Opens the interview with the scripted opener. No AI call.
   const enterStudioImmediately = () => {
-    const fallbackText = `Hi there! I'm ${persona.name}. Thanks for joining today's session. Today we are looking into ${scenario.title} for ${scenario.company}. ${scenario.problemStatement} Whenever you're ready, how would you like to structure your analysis?`;
-    setMessages((prev) => {
-      if (prev.length > 0) return prev;
-      return [{
-        id: 'msg_init_' + Date.now(),
-        role: 'interviewer',
-        text: fallbackText,
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      }];
-    });
-    setCurrentSubtitle((prev) => prev || fallbackText);
+    if (startedRef.current) return;
+    startedRef.current = true;
+    const openerText = buildOpener(scenario, persona);
+    setMessages([{
+      id: 'msg_init_' + Date.now(),
+      role: 'interviewer',
+      text: openerText,
+      timestamp: nowStamp()
+    }]);
+    setCurrentSubtitle(openerText);
     setIsSessionPreparing(false);
     setIsTimerRunning(true);
-    speakTextWithHumanVoice(fallbackText);
+    speakTextWithHumanVoice(openerText);
   };
 
-  // Preparation Step Simulation & Case Loading
+  // Short briefing screen, then the scripted opener
   useEffect(() => {
-    let mounted = true;
-    let safetyTimeout: any = null;
-    const abortController = new AbortController();
-
-    const prepTimer1 = setTimeout(() => {
-      if (mounted) setPrepStep(2);
-    }, 800);
-
-    const prepTimer2 = setTimeout(() => {
-      if (mounted) setPrepStep(3);
-    }, 1600);
-
-    async function initialGreeting() {
-      // Auto-fallback timer if backend chat API takes more than 3 seconds
-      safetyTimeout = setTimeout(() => {
-        if (mounted) {
-          abortController.abort();
-          enterStudioImmediately();
-        }
-      }, 3000);
-
-      try {
-        const initialMsg: ConversationMessage = {
-          id: 'init_start',
-          role: 'candidate',
-          text: `Hi ${persona.name}, I am ready to begin the interview for the ${scenario.title} case.`,
-          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-        };
-
-        const res = await fetch('/api/interview/chat', {
-          method: 'POST',
-          headers: await authJsonHeaders(),
-          signal: abortController.signal,
-          body: JSON.stringify({
-            scenario,
-            persona,
-            messages: [initialMsg],
-            elapsedSeconds: 0,
-            targetSeconds: targetDurationSeconds
-          })
-        });
-
-        if (safetyTimeout) clearTimeout(safetyTimeout);
-
-        let openerText = "";
-        let openerAudioData: any = null;
-        if (res.ok) {
-          const data = await res.json();
-          openerText = data.text;
-          openerAudioData = data;
-        } else {
-          openerText = `Hi there! I'm ${persona.name}. Thanks for joining today's session. Today we are looking into ${scenario.title} for ${scenario.company}. ${scenario.problemStatement} Whenever you're ready, how would you like to structure your analysis?`;
-        }
-
-        if (mounted) {
-          const interviewerMessage: ConversationMessage = {
-            id: 'msg_' + Date.now(),
-            role: 'interviewer',
-            text: openerText,
-            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-          };
-
-          setMessages([interviewerMessage]);
-          setCurrentSubtitle(openerText);
-          setIsSessionPreparing(false);
-          setIsTimerRunning(true);
-          speakTextWithHumanVoice(openerText, openerAudioData);
-        }
-      } catch (err) {
-        if (safetyTimeout) clearTimeout(safetyTimeout);
-        console.warn("Initial interview greeting transition:", err);
-        if (mounted) {
-          enterStudioImmediately();
-        }
-      }
-    }
-
-    initialGreeting();
+    const prepTimer1 = setTimeout(() => setPrepStep(2), 700);
+    const prepTimer2 = setTimeout(() => setPrepStep(3), 1400);
+    const enterTimer = setTimeout(() => enterStudioImmediately(), 2200);
 
     return () => {
-      mounted = false;
-      if (safetyTimeout) clearTimeout(safetyTimeout);
       clearTimeout(prepTimer1);
       clearTimeout(prepTimer2);
-      abortController.abort();
+      clearTimeout(enterTimer);
     };
   }, []);
 
@@ -563,18 +508,21 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
   // INSTANT SPEECH-TO-TEXT ARCHITECTURE & AUTO-SEND LOGIC
   // =====================================================
 
-  // Reset silence timer on every spoken word/sound (1.2s pause triggers automatic submission)
+  // Reset silence timer on every spoken word/sound. A 3.5s pause submits the answer when Auto-Send is on;
+  // shorter pauses are normal thinking time in an interview.
+  const AUTO_SEND_SILENCE_MS = 3500;
   const resetSilenceTimer = () => {
     if (silenceTimeoutRef.current) {
       clearTimeout(silenceTimeoutRef.current);
     }
+    if (!isAutoSendEnabledRef.current) return;
 
     silenceTimeoutRef.current = setTimeout(() => {
       const currentText = latestInputTextRef.current.trim();
       if (currentText.length > 0 && !isThinkingRef.current && !isEvaluatingRef.current) {
         handleSendMessage();
       }
-    }, 1200);
+    }, AUTO_SEND_SILENCE_MS);
   };
 
   // Start instant speech-to-text session
@@ -693,7 +641,9 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
       recognition.start();
       recognitionRef.current = recognition;
       setIsListening(true);
-      setMicStatusNotice("🎙️ Listening... Speak naturally. Pausing for 1.2s auto-submits your response.");
+      setMicStatusNotice(isAutoSendEnabledRef.current
+        ? "🎙️ Listening... Take your time. A 3-second pause sends your answer, or press Send when you're done."
+        : "🎙️ Listening... Press Send when you're done speaking.");
     } catch (err: any) {
       console.error("Speech recognition start failed:", err);
       setMicStatusNotice("Could not start microphone. You can type your response directly.");
@@ -742,6 +692,48 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
     }
   };
 
+  // Asks the interviewer to respond to the transcript so far
+  const requestInterviewerReply = async (transcript: ConversationMessage[]) => {
+    isThinkingRef.current = true;
+    setIsThinking(true);
+    setChatError(null);
+    try {
+      const res = await fetch('/api/interview/chat', {
+        method: 'POST',
+        headers: await authJsonHeaders(),
+        body: JSON.stringify({
+          scenarioId: scenario.id,
+          personaId: persona.id,
+          level,
+          messages: transcript.map(({ role, text }) => ({ role, text })),
+          elapsedSeconds: elapsedSecondsRef.current,
+          targetSeconds: targetDurationSeconds
+        })
+      });
+
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.text) {
+        throw new Error(data.error || "The interviewer couldn't respond. Please retry.");
+      }
+
+      const interviewerMsg: ConversationMessage = {
+        id: 'interviewer_' + Date.now(),
+        role: 'interviewer',
+        text: data.text,
+        timestamp: nowStamp()
+      };
+
+      setMessages((prev) => [...prev, interviewerMsg]);
+      setCurrentSubtitle(data.text);
+      speakTextWithHumanVoice(data.text);
+    } catch (err: any) {
+      console.error("Chat turn error:", err);
+      setChatError(err?.message || "The interviewer couldn't respond. Please retry.");
+    } finally {
+      setIsThinking(false);
+    }
+  };
+
   // Candidate Submits Response Turn
   const handleSendMessage = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -752,7 +744,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
     }
 
     const trimmed = latestInputTextRef.current.trim() || inputText.trim();
-    if (!trimmed || isThinking) return;
+    if (!trimmed || isThinkingRef.current || chatError) return;
 
     // Pause listening while interviewer processes and speaks
     stopListeningSession();
@@ -762,86 +754,70 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
       id: 'candidate_' + Date.now(),
       role: 'candidate',
       text: trimmed,
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      timestamp: nowStamp()
     };
 
-    const updatedMessages = [...messages, candidateMsg];
+    const updatedMessages = [...messagesRef.current, candidateMsg];
+    messagesRef.current = updatedMessages;
     setMessages(updatedMessages);
     setInputText('');
     latestInputTextRef.current = '';
     setCurrentSubtitle(`You: "${trimmed}"`);
-    setIsThinking(true);
     setMicStatusNotice(null);
 
-    try {
-      const res = await fetch('/api/interview/chat', {
-        method: 'POST',
-        headers: await authJsonHeaders(),
-        body: JSON.stringify({
-          scenario,
-          persona,
-          messages: updatedMessages,
-          elapsedSeconds,
-          targetSeconds: targetDurationSeconds
-        })
-      });
-
-      if (!res.ok) throw new Error("Interviewer failed to respond");
-      const data = await res.json();
-
-      const interviewerMsg: ConversationMessage = {
-        id: 'interviewer_' + Date.now(),
-        role: 'interviewer',
-        text: data.text,
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      };
-
-      setMessages((prev) => [...prev, interviewerMsg]);
-      setCurrentSubtitle(data.text);
-      speakTextWithHumanVoice(data.text, data);
-    } catch (err) {
-      console.error("Chat turn error:", err);
-      const errMsg: ConversationMessage = {
-        id: 'err_' + Date.now(),
-        role: 'interviewer',
-        text: "That is an interesting angle. Let's look deeper at the tradeoffs involved and quantify your assumptions.",
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      };
-      setMessages((prev) => [...prev, errMsg]);
-      handleInterviewerFinishedSpeaking();
-    } finally {
-      setIsThinking(false);
-    }
+    await requestInterviewerReply(updatedMessages);
   };
 
-  // Trigger Contextual AI Hint (Strictly named Hint)
+  const retryInterviewerReply = () => {
+    if (isThinking) return;
+    requestInterviewerReply(messagesRef.current);
+  };
+
+  // Takes the unanswered answer back into the input box so the candidate can rephrase it
+  const discardLastAnswer = () => {
+    const current = messagesRef.current;
+    const last = current[current.length - 1];
+    if (!last || last.role !== 'candidate') {
+      setChatError(null);
+      return;
+    }
+    const remaining = current.slice(0, -1);
+    messagesRef.current = remaining;
+    setMessages(remaining);
+    setInputText(last.text);
+    latestInputTextRef.current = last.text;
+    setChatError(null);
+  };
+
+  // Trigger Contextual AI Hint (limited, and counted on the scorecard)
+  const hintsLeft = MAX_HINTS_PER_INTERVIEW - hintsUsed;
   const handleRequestHint = async () => {
-    if (hintLoading || isThinking) return;
+    if (hintLoading || isThinking || hintsLeft <= 0) return;
     setHintLoading(true);
 
     try {
       const res = await fetch('/api/interview/hint', {
         method: 'POST',
         headers: await authJsonHeaders(),
-        body: JSON.stringify({ scenario, messages })
+        body: JSON.stringify({
+          scenarioId: scenario.id,
+          messages: messagesRef.current.map(({ role, text }) => ({ role, text }))
+        })
       });
 
-      let hintText = "";
-      if (res.ok) {
-        const data = await res.json();
-        hintText = data.hint;
-      } else {
-        hintText = `Apply the ${scenario.suggestedFramework || 'MECE Framework'}: Clarify bounds, segment by user journey, and validate with metrics.`;
-      }
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.hint) throw new Error(data.error || 'Hint unavailable');
+      const hintText: string = data.hint;
 
       const hintMsg: ConversationMessage = {
         id: 'hint_' + Date.now(),
         role: 'system_hint',
         text: `💡 Framework Hint: ${hintText}`,
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        timestamp: nowStamp()
       };
 
       setMessages((prev) => [...prev, hintMsg]);
+      setHintsUsed((n) => n + 1);
       setActiveHint(hintText);
       
       // Auto-hide the floating hint banner after 12 seconds
@@ -850,8 +826,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
       }, 12000);
     } catch (err) {
       console.warn("Hint error:", err);
-      const fallbackHint = `Consider structuring by ${scenario.suggestedFramework || 'MECE categories'} and examining customer pain points.`;
-      setActiveHint(fallbackHint);
+      setMicStatusNotice("Couldn't load a hint right now. It wasn't counted, so you can try again.");
     } finally {
       setHintLoading(false);
     }
@@ -861,6 +836,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
   const executeEndInterview = async () => {
     setIsEndModalOpen(false);
     setIsEvaluating(true);
+    setEvaluationError(null);
     setIsTimerRunning(false);
     cleanupSpeech();
 
@@ -876,21 +852,24 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
         },
         body: JSON.stringify({
           sessionId,
-          scenario,
-          persona,
-          messages,
+          scenarioId: scenario.id,
+          personaId: persona.id,
+          level,
+          messages: messages.map(({ role, text }) => ({ role, text })),
           elapsedSeconds,
           scratchpadNotes: scratchpadNotes || ''
         })
       });
 
-      if (!res.ok) throw new Error("Evaluation generation failed");
-      const evalData: InterviewEvaluation = await res.json();
+      const evalData = await res.json().catch(() => null);
+      if (!res.ok || !evalData) {
+        throw new Error(evalData?.error || "We couldn't score this interview right now.");
+      }
 
-      // Read result and record to local session state (server persists to Firestore)
+      // Server persists to Firestore; this keeps the local history in step
       if (evalData.status !== 'insufficient') {
         try {
-          const newHistoryItem = {
+          recordInterviewSession({
             id: evalData.id || sessionId,
             scenarioId: scenario.id,
             scenarioTitle: scenario.title,
@@ -900,325 +879,48 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
             score: evalData.overallScore,
             verdict: evalData.verdict,
             durationMinutes: Math.ceil(elapsedSeconds / 60),
-            scoringVersion: evalData.scoringVersion || 'v2'
-          };
-          recordInterviewSession(newHistoryItem, evalData.transcriptSummary || '', {
-            scoringVersion: evalData.scoringVersion || 'v2',
-            promptVersion: evalData.promptVersion,
-            modelId: evalData.modelId,
-            temperature: evalData.temperature,
-            groundingStats: evalData.groundingStats,
-            injectionAttempt: evalData.injectionAttempt,
-            latencyMs: evalData.latencyMs,
-            retryCount: evalData.retryCount
-          });
+            scoringVersion: evalData.scoringVersion || 'v3',
+            level,
+            createdAt: new Date().toISOString(),
+            pillarScores: Object.fromEntries(
+              Object.entries(evalData.pillars || {}).map(([k, p]: [string, any]) => [k, p?.rawScore])
+            )
+          }, evalData.transcriptSummary || '');
         } catch (storageErr) {
           console.warn("Local session history error:", storageErr);
         }
       }
 
-      setEvaluationResult(evalData);
-    } catch (err) {
+      setEvaluationResult(evalData as InterviewEvaluation);
+    } catch (err: any) {
       console.error("Evaluation error:", err);
-      
-      const candidateMessages = messages.filter((m: any) => 
-        (m.role === 'candidate' || m.role === 'user') && 
-        typeof m.text === 'string' && 
-        m.text.trim().length > 0 && 
-        !m.id?.startsWith('init_start')
-      );
-      const candidateTurnCount = candidateMessages.length;
-      
-      let fallbackEval: InterviewEvaluation;
-
-      if (candidateTurnCount === 0) {
-        fallbackEval = {
-          id: 'eval_' + Date.now(),
-          scenarioId: scenario.id,
-          scenarioTitle: scenario.title,
-          track: scenario.track,
-          personaId: persona.id,
-          completedAt: new Date().toISOString(),
-          durationSeconds: elapsedSeconds,
-          candidateTurnCount: 0,
-          overallScore: 0,
-          verdict: "Strong No",
-          confidence: "High",
-          transcriptSummary: "The interview ended before you had a chance to give a substantive answer, so there isn't enough evidence here to assess your PM thinking. The 0 reflects the fact that no candidate response was recorded in this session—not a judgment about your underlying PM ability.",
-          pillars: {
-            clarification: {
-              name: "Clarification & Scope",
-              score: 0,
-              maxScore: 20,
-              feedback: "We didn't get far enough to see how you would frame or clarify the problem.",
-              evidence: [],
-              whyTheyEarnedThisScore: "We didn't get far enough to see how you would frame or clarify the problem.",
-              whyTheyDidNotScoreHigher: "No candidate response was recorded to evaluate problem framing or scoping.",
-              strengths: [],
-              improvements: ["Start by clarifying the problem and relevant scope."]
-            },
-            framework: {
-              name: "Structured Thinking",
-              score: 0,
-              maxScore: 20,
-              feedback: "We didn't get far enough to see how you would structure the investigation.",
-              evidence: [],
-              whyTheyEarnedThisScore: "We didn't get far enough to see how you would structure the investigation.",
-              whyTheyDidNotScoreHigher: "No candidate response was recorded to evaluate problem structure.",
-              strengths: [],
-              improvements: ["Establish a simple structure for how you would investigate the problem."]
-            },
-            analyticalRigor: {
-              name: "Analysis & Reasoning",
-              score: 0,
-              maxScore: 20,
-              feedback: "There wasn't a candidate response to evaluate for hypothesis generation or analytical reasoning.",
-              evidence: [],
-              whyTheyEarnedThisScore: "There wasn't a candidate response to evaluate for hypothesis generation or analytical reasoning.",
-              whyTheyDidNotScoreHigher: "Analytical reasoning was not tested because no candidate response was recorded.",
-              strengths: [],
-              improvements: ["Make sure the interview contains enough of your reasoning to evaluate your approach."]
-            },
-            communication: {
-              name: "Communication",
-              score: 0,
-              maxScore: 20,
-              feedback: "There wasn't enough candidate dialogue to assess communication.",
-              evidence: [],
-              whyTheyEarnedThisScore: "There wasn't enough candidate dialogue to assess communication.",
-              whyTheyDidNotScoreHigher: "Communication could not be assessed because no candidate dialogue was recorded.",
-              strengths: [],
-              improvements: ["Engage in spoken or written dialogue during the interview session."]
-            },
-            synthesis: {
-              name: "Final Recommendation",
-              score: 0,
-              maxScore: 20,
-              feedback: "The interview ended before you reached a recommendation.",
-              evidence: [],
-              whyTheyEarnedThisScore: "The interview ended before you reached a recommendation.",
-              whyTheyDidNotScoreHigher: "No final recommendation was delivered.",
-              strengths: [],
-              improvements: ["Leave time at the end of the interview to deliver a clear recommendation."]
-            }
-          },
-          topStrengths: [
-            "There wasn't enough of an interview to identify a meaningful strength yet."
-          ],
-          criticalGrowthAreas: [
-            "Start by clarifying the problem and relevant scope.",
-            "Establish a simple structure for how you would investigate the problem.",
-            "Make sure the interview contains enough of your reasoning to evaluate your approach."
-          ],
-          exemplarAnswer: {
-            recommendedApproach: `A strong Senior PM tackling ${scenario.title} would clarify the metric definition, validate telemetry, segment the affected population across dimensions, test prioritized hypotheses, and deliver concrete mitigations and guardrails.`,
-            stepByStepStructure: [
-              { step: "Step 1: Clarify & Validate Telemetry", detail: "Clarify whether the metric drop is relative or absolute, and verify data logging integrity." },
-              { step: "Step 2: Systematic Segmentation", detail: "Break down the metric across user journey, platform, geography, and app release versions." },
-              { step: "Step 3: Hypothesis Generation & Testing", detail: "Formulate top testable hypotheses and identify data cuts to confirm or eliminate them." },
-              { step: "Step 4: Recommendation & Guardrails", detail: "Propose immediate mitigations and preventative guardrails." }
-            ],
-            interviewerSecretNotes: "Top performers state their hypothesis and expected data signal before asking for numbers."
-          }
-        };
-      } else {
-        const totalCandidateWords = candidateMessages.reduce((sum: number, m: any) => sum + (m.text?.trim().split(/\s+/).length || 0), 0);
-        
-        if (totalCandidateWords < 20) {
-          fallbackEval = {
-            id: 'eval_' + Date.now(),
-            scenarioId: scenario.id,
-            scenarioTitle: scenario.title,
-            track: scenario.track,
-            personaId: persona.id,
-            completedAt: new Date().toISOString(),
-            durationSeconds: elapsedSeconds,
-            candidateTurnCount,
-            overallScore: 6,
-            verdict: "Strong No",
-            confidence: "High",
-            transcriptSummary: "You initiated the session, but your responses were limited to brief acknowledgments or greetings without substantive PM problem-solving. Points are only awarded for demonstrated candidate analysis, so there is not yet enough evidence to evaluate your approach.",
-            pillars: {
-              clarification: {
-                name: "Clarification & Scope",
-                score: 1,
-                maxScore: 20,
-                feedback: "Only brief dialogue was recorded, so problem scope clarification was not sufficiently demonstrated.",
-                evidence: candidateMessages.map((m: any) => `"${m.text}"`).slice(0, 2),
-                whyTheyEarnedThisScore: "You engaged briefly, but did not ask clarifying questions regarding metric definitions, timeline, or affected user segments.",
-                whyTheyDidNotScoreHigher: "Clarifying questions and scope boundaries were not established in your responses.",
-                strengths: [],
-                improvements: ["Start by clarifying whether the issue is sudden or gradual, and which specific user cohorts are affected."]
-              },
-              framework: {
-                name: "Structured Thinking",
-                score: 1,
-                maxScore: 20,
-                feedback: "A structured investigation framework was not established in the session.",
-                evidence: [],
-                whyTheyEarnedThisScore: "No problem breakdown or roadmap was laid out.",
-                whyTheyDidNotScoreHigher: "An investigation structure or category breakdown was missing.",
-                strengths: [],
-                improvements: ["Outline 2-3 logical investigation buckets upfront before diving into details."]
-              },
-              analyticalRigor: {
-                name: "Analysis & Reasoning",
-                score: 1,
-                maxScore: 20,
-                feedback: "Hypothesis generation and analytical reasoning were not tested.",
-                evidence: [],
-                whyTheyEarnedThisScore: "No specific hypotheses, data requests, or calculations were explored.",
-                whyTheyDidNotScoreHigher: "Analytical reasoning requires formulating and prioritizing testable hypotheses.",
-                strengths: [],
-                improvements: ["State your hypothesis and what data signal would validate or disprove it."]
-              },
-              communication: {
-                name: "Communication",
-                score: 3,
-                maxScore: 20,
-                feedback: "You responded to the interviewer, but communication was too brief to evaluate pacing or synthesis.",
-                evidence: candidateMessages.map((m: any) => `"${m.text}"`).slice(0, 2),
-                whyTheyEarnedThisScore: "You acknowledged the interviewer, but dialogue was limited to brief turns.",
-                whyTheyDidNotScoreHigher: "Longer, substantive explanations are needed to assess communication conciseness and structure.",
-                strengths: [],
-                improvements: ["Explain your reasoning step-by-step aloud rather than giving single-phrase answers."]
-              },
-              synthesis: {
-                name: "Final Recommendation",
-                score: 0,
-                maxScore: 20,
-                feedback: "The interview concluded before reaching a synthesis or final recommendation.",
-                evidence: [],
-                whyTheyEarnedThisScore: "The session ended prior to the solution or summary stage.",
-                whyTheyDidNotScoreHigher: "No recommendation or action plan was delivered.",
-                strengths: [],
-                improvements: ["Reserve 2-3 minutes at the end of the interview to deliver a crisp executive summary."]
-              }
-            },
-            topStrengths: [
-              "There wasn't enough substantive interview dialogue to identify a standout PM strength yet."
-            ],
-            criticalGrowthAreas: [
-              "Start by clarifying the problem perimeter and relevant scope.",
-              "Establish a simple structure for how you would investigate the problem.",
-              "Make sure the interview contains enough of your reasoning to evaluate your approach."
-            ],
-            exemplarAnswer: {
-              recommendedApproach: `A strong Senior PM tackling ${scenario.title} would start by verifying the metric drop and scoping which user cohorts are affected. They'd then break the problem into 2–3 clear investigation areas, test their top hypothesis first, and close with a realistic action plan and guardrails.`,
-              stepByStepStructure: [
-                { step: "Step 1: Clarify & Validate Telemetry", detail: "Check whether the metric drop is relative or absolute, and isolate whether it's specific to an app version or platform." },
-                { step: "Step 2: Systematic Segmentation", detail: "Group potential causes into Funnel Issues, Technical Regressions, and External Market Factors." },
-                { step: "Step 3: Hypothesis Generation & Testing", detail: "Formulate testable hypotheses and identify the fastest data cut to validate or eliminate them." },
-                { step: "Step 4: Recommendation & Guardrails", detail: "Deliver a crisp summary with immediate mitigations, guardrail metrics, and longer-term prevention." }
-              ],
-              interviewerSecretNotes: "Top performers state the testable hypothesis before asking for data cuts."
-            }
-          };
-        } else {
-          const cScore = Math.min(14, Math.max(6, Math.round(candidateTurnCount * 1.5)));
-          const fScore = Math.min(14, Math.max(6, Math.round(candidateTurnCount * 1.5)));
-          const aScore = Math.min(14, Math.max(6, Math.round(candidateTurnCount * 1.5)));
-          const mScore = Math.min(14, Math.max(8, Math.round(candidateTurnCount * 1.6)));
-          const sScore = Math.min(12, Math.max(4, Math.round(candidateTurnCount * 1.2)));
-          const total = cScore + fScore + aScore + mScore + sScore;
-
-          fallbackEval = {
-            id: 'eval_' + Date.now(),
-            scenarioId: scenario.id,
-            scenarioTitle: scenario.title,
-            track: scenario.track,
-            personaId: persona.id,
-            completedAt: new Date().toISOString(),
-            durationSeconds: elapsedSeconds,
-            candidateTurnCount,
-            overallScore: total,
-            verdict: total >= 70 ? "Lean Yes" : total >= 50 ? "Lean No" : "Strong No",
-            confidence: "Medium",
-            transcriptSummary: `You worked through a ${Math.floor(elapsedSeconds / 60)}-minute session on ${scenario.title} across ${candidateTurnCount} turns. You demonstrated active engagement with ${persona.name}, and with tighter prioritization and explicit hypothesis testing, your investigation can become even stronger.`,
-            pillars: {
-              clarification: {
-                name: "Clarification & Scope",
-                score: cScore,
-                maxScore: 20,
-                feedback: "You addressed the problem context and engaged on scope.",
-                evidence: candidateMessages.map((m: any) => `"${m.text.slice(0, 60)}..."`).slice(0, 2),
-                whyTheyEarnedThisScore: "You engaged on problem scope before exploring solutions.",
-                whyTheyDidNotScoreHigher: "Remember to verify telemetry data integrity and isolate user cohorts upfront.",
-                strengths: ["Engaged on problem scope before jumping into solutions"],
-                improvements: ["Explicitly probe telemetry integrity and whether the metric change is relative or absolute."]
-              },
-              framework: {
-                name: "Structured Thinking",
-                score: fScore,
-                maxScore: 20,
-                feedback: "You broke the problem into distinct areas to investigate.",
-                evidence: [],
-                whyTheyEarnedThisScore: "You provided directional signposts during the discussion.",
-                whyTheyDidNotScoreHigher: "Explain upfront which bucket you will explore first and why.",
-                strengths: ["Maintained directional structure throughout your answers"],
-                improvements: ["Before exploring individual ideas, rank your top 2 investigation buckets explicitly."]
-              },
-              analyticalRigor: {
-                name: "Analysis & Reasoning",
-                score: aScore,
-                maxScore: 20,
-                feedback: "You explored potential drivers and responded to new details.",
-                evidence: [],
-                whyTheyEarnedThisScore: "You analyzed plausible factors contributing to the issue.",
-                whyTheyDidNotScoreHigher: "State your expected data signal before requesting numbers.",
-                strengths: ["Explored plausible drivers of the metric change"],
-                improvements: ["State your testable hypothesis explicitly before asking for data cuts."]
-              },
-              communication: {
-                name: "Communication",
-                score: mScore,
-                maxScore: 20,
-                feedback: "You communicated collaboratively with the interviewer.",
-                evidence: [],
-                whyTheyEarnedThisScore: "You maintained interactive dialogue across turns.",
-                whyTheyDidNotScoreHigher: "Lead with your bottom line before detailing your reasoning.",
-                strengths: ["Maintained collaborative conversational flow"],
-                improvements: ["Lead with the answer first (BLUF), then unpack the supporting logic."]
-              },
-              synthesis: {
-                name: "Final Recommendation",
-                score: sScore,
-                maxScore: 20,
-                feedback: "You worked toward wrapping up the investigation.",
-                evidence: [],
-                whyTheyEarnedThisScore: "You provided next steps based on the discussion.",
-                whyTheyDidNotScoreHigher: "Distinguish quick immediate mitigations from longer-term guardrail fixes.",
-                strengths: ["Addressed mitigations and next steps"],
-                improvements: ["Distinguish immediate 30-day mitigations from longer-term architectural guardrails."]
-              }
-            },
-            topStrengths: [
-              "You engaged collaboratively with the interviewer and stayed focused on the problem.",
-              "You explored multiple potential factors rather than fixating on a single cause."
-            ],
-            criticalGrowthAreas: [
-              "State your testable hypothesis and expected data signal before asking for numbers.",
-              "Outline your investigation roadmap upfront so the interviewer knows where you plan to go.",
-              "Lead with the bottom-line takeaway before walking through supporting details."
-            ],
-            exemplarAnswer: {
-              recommendedApproach: `A strong Senior PM tackling ${scenario.title} would start by verifying the metric drop and scoping which user cohorts are affected. They'd then break the problem into 2–3 clear investigation areas, test their top hypothesis first, and close with a realistic action plan and guardrails.`,
-              stepByStepStructure: [
-                { step: "Step 1: Clarify & Validate Telemetry", detail: "Check whether the metric drop is relative or absolute, and isolate whether it's specific to an app version or platform." },
-                { step: "Step 2: Systematic Segmentation", detail: "Group potential causes into Funnel Issues, Technical Regressions, and External Market Factors." },
-                { step: "Step 3: Hypothesis Generation & Testing", detail: "Formulate testable hypotheses and identify the fastest data cut to validate or eliminate them." },
-                { step: "Step 4: Recommendation & Guardrails", detail: "Deliver a crisp summary with immediate mitigations, guardrail metrics, and longer-term prevention." }
-              ],
-              interviewerSecretNotes: "Top performers state the testable hypothesis before asking for data cuts."
-            }
-          };
-        }
-      }
-
-      setEvaluationResult(fallbackEval);
+      setEvaluationError(err?.message || "We couldn't score this interview right now.");
     } finally {
       setIsEvaluating(false);
     }
+  };
+
+  // Back to the same interview after a failed scoring attempt
+  const resumeAfterEvaluationError = () => {
+    setEvaluationError(null);
+    setIsTimerRunning(true);
+  };
+
+  // Starts the same case again from the scripted opener
+  const restartInterview = () => {
+    cleanupSpeech();
+    setEvaluationResult(null);
+    setEvaluationError(null);
+    setChatError(null);
+    setMessages([]);
+    setElapsedSeconds(0);
+    setInputText('');
+    latestInputTextRef.current = '';
+    setActiveHint(null);
+    setHintsUsed(0);
+    setScratchpadNotes('');
+    startedRef.current = false;
+    enterStudioImmediately();
   };
 
   // Format Elapsed / Remaining Timer
@@ -1303,7 +1005,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
             <div className="flex items-center gap-3">
               <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
               <span className="text-xs font-semibold text-zinc-700">
-                Loaded case telemetry and baseline metrics
+                Loaded the case
               </span>
             </div>
             <div className="flex items-center gap-3">
@@ -1313,7 +1015,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
                 <Loader2 className="w-4 h-4 text-indigo-500 animate-spin shrink-0" />
               )}
               <span className={`text-xs font-semibold ${prepStep >= 2 ? 'text-zinc-700' : 'text-zinc-400'}`}>
-                Calibrating {persona.name}'s assessment rubric ({scenario.suggestedFramework || 'MECE'})
+                Setting the bar for {getLevelConfig(level).label} ({getTrackConfig(scenario.track).label} round)
               </span>
             </div>
             <div className="flex items-center gap-3">
@@ -1359,17 +1061,49 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
       <InterviewEvaluationView
         evaluation={evaluationResult}
         scenario={scenario}
-        onRetry={() => {
-          setEvaluationResult(null);
-          setMessages([]);
-          setElapsedSeconds(0);
-          setIsTimerRunning(true);
-          setInputText('');
-          latestInputTextRef.current = '';
-          setActiveHint(null);
-        }}
+        onRetry={restartInterview}
         onNewInterview={onExit}
+        loopInfo={loopInfo}
+        onNextRound={onRoundComplete ? () => onRoundComplete(evaluationResult) : undefined}
       />
+    );
+  }
+
+  // Scoring failed: say so plainly and keep the transcript. Never show an invented score.
+  if (evaluationError) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[calc(100vh-5rem)] max-w-xl mx-auto px-4 py-8">
+        <div className="w-full bg-white rounded-3xl border border-amber-200 shadow-xl p-8 text-center space-y-5">
+          <div className="w-14 h-14 rounded-2xl bg-amber-50 border border-amber-200 text-amber-600 flex items-center justify-center mx-auto">
+            <AlertTriangle className="w-7 h-7" />
+          </div>
+          <div className="space-y-2">
+            <h2 className="text-xl font-black text-zinc-900">We couldn't score this interview yet</h2>
+            <p className="text-sm text-zinc-600 leading-relaxed">
+              {evaluationError} Your answers are still here: {messages.filter((m) => m.role === 'candidate').length} of them, over {formatTime(elapsedSeconds)}. Nothing was saved to your history.
+            </p>
+          </div>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <button
+              type="button"
+              onClick={executeEndInterview}
+              disabled={isEvaluating}
+              className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold flex items-center justify-center gap-2 disabled:opacity-50"
+            >
+              {isEvaluating ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle2 className="w-4 h-4" />}
+              Try scoring again
+            </button>
+            <button
+              type="button"
+              onClick={resumeAfterEvaluationError}
+              disabled={isEvaluating}
+              className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-zinc-200 hover:bg-zinc-50 text-zinc-700 text-sm font-bold"
+            >
+              Back to the interview
+            </button>
+          </div>
+        </div>
+      </div>
     );
   }
 
@@ -1394,7 +1128,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
               </span>
             </div>
             <span className="text-[11px] text-zinc-500 font-bold uppercase tracking-wider">
-              Track: {scenario.track.toUpperCase()} • Target: {scenario.targetDurationMinutes} Mins
+              {loopInfo ? `Round ${loopInfo.round} of ${loopInfo.total} • ` : ''}{getTrackConfig(scenario.track).label} • {getLevelConfig(level).short} • {scenario.targetDurationMinutes} Mins
             </span>
           </div>
         </div>
@@ -1433,7 +1167,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
                 ? 'bg-emerald-50 border-emerald-200 text-emerald-700' 
                 : 'bg-zinc-100 border-zinc-200 text-zinc-500'
             }`}
-            title="Auto-submits your spoken answer after a 1.2 second pause"
+            title="Sends your spoken answer after a 3-second pause. Turn off to send with the Send button only."
           >
             <Zap className={`w-3 h-3 ${isAutoSendEnabled ? 'text-emerald-600' : 'text-zinc-400'}`} />
             <span>Auto-Send {isAutoSendEnabled ? 'ON' : 'OFF'}</span>
@@ -1584,6 +1318,34 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
             )}
           </div>
 
+          {/* Interviewer reply failed: retry, no scripted stand-in */}
+          {chatError && (
+            <div className="mt-3 px-4 py-3 rounded-2xl bg-rose-50 border border-rose-200 text-rose-900 text-xs font-semibold flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <AlertTriangle className="w-4 h-4 text-rose-600 shrink-0" />
+                <span>{chatError} Your answer was kept.</span>
+              </div>
+              <div className="flex items-center gap-2 shrink-0">
+                <button
+                  type="button"
+                  onClick={retryInterviewerReply}
+                  disabled={isThinking}
+                  className="px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-700 text-white font-bold disabled:opacity-50"
+                >
+                  {isThinking ? 'Retrying...' : 'Retry'}
+                </button>
+                <button
+                  type="button"
+                  onClick={discardLastAnswer}
+                  disabled={isThinking}
+                  className="px-3 py-1.5 rounded-lg border border-rose-200 hover:bg-rose-100 font-bold"
+                >
+                  Edit answer
+                </button>
+              </div>
+            </div>
+          )}
+
           {/* Bottom Candidate Response Toolbar */}
           <div className="mt-3 bg-white rounded-2xl border border-zinc-200 p-2.5 shadow-sm flex items-center gap-2">
             {/* Mic Toggle Button with Live Pulse Ring & Waveform Visualizer */}
@@ -1629,16 +1391,16 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
                 }}
                 placeholder={
                   isListening 
-                    ? "🎙️ Listening... Streaming words instantly (pausing 1.2s auto-sends)..." 
+                    ? (isAutoSendEnabled ? "🎙️ Listening... take your time (a 3-second pause sends)" : "🎙️ Listening... press Send when you're done") 
                     : "Type your answer, framework step, or tap mic for instant voice streaming..."
                 }
-                disabled={isThinking || isEvaluating}
+                disabled={isThinking || isEvaluating || !!chatError}
                 className="flex-1 px-4 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-xs md:text-sm text-zinc-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-medium"
               />
 
               <button
                 type="submit"
-                disabled={!inputText.trim() || isThinking || isEvaluating}
+                disabled={!inputText.trim() || isThinking || isEvaluating || !!chatError}
                 className="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-sm disabled:opacity-40 transition-all shrink-0"
               >
                 {isThinking ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
@@ -1650,16 +1412,16 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
             <button
               type="button"
               onClick={handleRequestHint}
-              disabled={hintLoading || isThinking}
-              className="p-2.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold flex items-center gap-1.5 shrink-0 transition-colors"
-              title="Get Contextual AI Framework Hint"
+              disabled={hintLoading || isThinking || hintsLeft <= 0}
+              className="p-2.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold flex items-center gap-1.5 shrink-0 transition-colors disabled:opacity-40"
+              title={hintsLeft > 0 ? `Get a hint (${hintsLeft} left). Hints are shown on your scorecard.` : 'No hints left in this interview'}
             >
               {hintLoading ? (
                 <Loader2 className="w-4 h-4 animate-spin text-amber-600" />
               ) : (
                 <Sparkles className="w-4 h-4 text-amber-600" />
               )}
-              <span className="hidden md:inline">Need Hint?</span>
+              <span className="hidden md:inline">{hintsLeft > 0 ? `Hint (${hintsLeft} left)` : 'No hints left'}</span>
             </button>
           </div>
         </div>
@@ -1752,21 +1514,21 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
                 End Session & Generate Evaluation?
               </h3>
               <p className="text-xs text-zinc-600 leading-relaxed mb-6">
-                You have practiced for <span className="font-bold text-zinc-900">{formatTime(elapsedSeconds)}</span> across <span className="font-bold text-zinc-900">{messages.length} conversational turns</span>. Ready to have the AI Bar Raiser score your performance across all 5 Rubric Pillars?
+                You have practiced for <span className="font-bold text-zinc-900">{formatTime(elapsedSeconds)}</span> across <span className="font-bold text-zinc-900">{messages.length} conversational turns</span>. Ready to be scored on the 5 {getTrackConfig(scenario.track).label} skills at {getLevelConfig(level).label} level?
               </p>
 
               <div className="bg-zinc-50 rounded-2xl p-3 border border-zinc-200/80 mb-6 space-y-1.5 text-xs">
                 <div className="flex items-center justify-between text-zinc-600">
-                  <span>Track</span>
-                  <span className="font-bold uppercase text-zinc-900">{scenario.track}</span>
+                  <span>Round</span>
+                  <span className="font-bold text-zinc-900">{getTrackConfig(scenario.track).label}</span>
                 </div>
                 <div className="flex items-center justify-between text-zinc-600">
                   <span>Interviewer</span>
                   <span className="font-bold text-zinc-900">{persona.name} ({persona.companyBackground})</span>
                 </div>
                 <div className="flex items-center justify-between text-zinc-600">
-                  <span>Pillars Evaluated</span>
-                  <span className="font-bold text-indigo-600">5 Pillars (0-100 Score)</span>
+                  <span>Hints used</span>
+                  <span className="font-bold text-indigo-600">{hintsUsed} of {MAX_HINTS_PER_INTERVIEW}</span>
                 </div>
               </div>
 

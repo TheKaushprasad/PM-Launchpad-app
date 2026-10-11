@@ -40,7 +40,7 @@ Onboarding asks for profession (Student or Working Professional), experience, de
 - Signed-in users can bookmark lessons, take notes, mark lessons complete and resume reading where they left off.
 
 ### 5.2 AI Mock Interview Studio (`/interview-studio`)
-- Scenario library of about 140 cases across 4 interview types in the app: Product Design, Guesstimates, Root Cause Analysis and Product Strategy. A fifth type, Metrics, exists in the evaluator rubric and eval set but has no in-app scenarios yet.
+- Scenario library of 205 cases across 7 interview types: Product Design, Root Cause Analysis, Metrics, Guesstimates, Product Strategy, Behavioral and AI Product. Candidates pick a level (APM, PM, Senior PM) and can run a 3-round full loop.
 - 4 interviewer personas with distinct styles: Maya Chen (supportive, structured), Alex Rivera (data-rigorous), Priya Sharma (strategy and moats), Marcus Vance (execution and trade-offs).
 - 3 modes: avatar (default), voice, and chat. Voice uses server text-to-speech and speech-to-text.
 - In-session tools: hints, a scratchpad, an estimation cheat sheet, an optional webcam mirror.
@@ -92,7 +92,6 @@ There are no paid plans today.
 
 ## 9. Open questions
 - When to move the live site to a paid Gemini key (recommended before real traffic).
-- Whether to add in-app Metrics interview scenarios so all 5 types are practisable.
 - Whether and how to monetise (premium interviews, project reviews, cohort access).
 
 See [tasks.md](tasks.md) for the backlog and [architecture.md](architecture.md) for how it is built.

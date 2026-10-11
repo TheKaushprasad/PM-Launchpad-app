@@ -1,35 +1,28 @@
 import { RawEvaluation, RawPillarScore } from './schemas/evaluation';
 import { GroundingStats } from './grounding';
+import { getTrackConfig, normalizeLevel, PILLAR_KEYS } from '../data/interviewTracks';
+import { CandidateLevel, HiringVerdict, PillarKey } from '../types/interview';
 
-export const PILLAR_WEIGHTS = {
-  clarification: 0.15,
-  framework: 0.25,
-  analyticalRigor: 0.25,
-  communication: 0.15,
-  synthesis: 0.20,
-} as const;
+export type { HiringVerdict };
 
-export type HiringVerdict = 'Strong Yes' | 'Lean Yes' | 'Lean No' | 'Strong No';
+/** Default weights (used for RCA and any unknown track). Per-track weights live in data/interviewTracks.ts. */
+export const PILLAR_WEIGHTS = getTrackConfig('rca').weights;
+
+type PillarScores = Record<PillarKey, { score: number }>;
 
 /**
- * Computes overallScore (0-100) as a weighted average:
- * clarification 15%, framework 25%, analyticalRigor 25%, communication 15%, synthesis 20%.
- * Formula: sum(weight * (score - 1) / 4) * 100, rounded.
+ * Computes overallScore (0-100) as a weighted average of the five 1-5 pillar scores.
+ * Formula: sum(weight * (score - 1) / 4) * 100, rounded. Weights depend on the track.
  */
-export function computeOverallScore(pillars: {
-  clarification: { score: number };
-  framework: { score: number };
-  analyticalRigor: { score: number };
-  communication: { score: number };
-  synthesis: { score: number };
-}): number {
+export function computeOverallScore(pillars: PillarScores, track?: string): number {
+  const weights = getTrackConfig(track || 'rca').weights;
   let weightedSum = 0;
 
-  for (const [key, weight] of Object.entries(PILLAR_WEIGHTS) as [keyof typeof PILLAR_WEIGHTS, number][]) {
+  for (const key of PILLAR_KEYS) {
     const rawScore = pillars[key]?.score ?? 1;
     const clampedScore = Math.max(1, Math.min(5, rawScore));
     const normalized = (clampedScore - 1) / 4; // 1 -> 0, 5 -> 1.0
-    weightedSum += weight * normalized;
+    weightedSum += weights[key] * normalized;
   }
 
   const overall = Math.round(weightedSum * 100);
@@ -38,16 +31,55 @@ export function computeOverallScore(pillars: {
 
 /**
  * Maps numerical overall score (0-100) to Hiring Verdict:
- * 85-100 = "Strong Yes"
- * 70-84 = "Lean Yes"
- * 50-69 = "Lean No"
- * 0-49 = "Strong No"
+ * 85-100 = "Strong Hire"
+ * 70-84 = "Hire"
+ * 50-69 = "No Hire"
+ * 0-49 = "Strong No Hire"
  */
 export function computeVerdict(overallScore: number): HiringVerdict {
-  if (overallScore >= 85) return 'Strong Yes';
-  if (overallScore >= 70) return 'Lean Yes';
-  if (overallScore >= 50) return 'Lean No';
-  return 'Strong No';
+  if (overallScore >= 85) return 'Strong Hire';
+  if (overallScore >= 70) return 'Hire';
+  if (overallScore >= 50) return 'No Hire';
+  return 'Strong No Hire';
+}
+
+/** Top of the "No Hire" band. */
+export const NO_HIRE_CAP = 69;
+/** Top of the "Hire" band. */
+export const HIRE_CAP = 84;
+
+/**
+ * Hiring-committee bar: an average can't hide a fatal gap.
+ * - Any pillar at 1 caps the result at No Hire.
+ * - Two or more pillars at 2 or below cap it at No Hire.
+ * - Strong Hire needs every pillar at 4 or above; otherwise the cap is Hire.
+ * Returns the capped score and plain-language notes explaining any cap.
+ */
+export function applyHireBar(
+  overallScore: number,
+  pillars: PillarScores,
+  track?: string
+): { overallScore: number; notes: string[] } {
+  const names = getTrackConfig(track || 'rca').pillarNames;
+  const notes: string[] = [];
+  let capped = overallScore;
+
+  const ones = PILLAR_KEYS.filter((k) => (pillars[k]?.score ?? 1) <= 1);
+  const lowOrWorse = PILLAR_KEYS.filter((k) => (pillars[k]?.score ?? 1) <= 2);
+
+  if (ones.length > 0 && capped > NO_HIRE_CAP) {
+    capped = NO_HIRE_CAP;
+    notes.push(`Capped at No Hire: ${ones.map((k) => names[k]).join(', ')} scored 1 of 5. Interviewers treat a very weak core skill as a no-hire, whatever the average.`);
+  } else if (lowOrWorse.length >= 2 && capped > NO_HIRE_CAP) {
+    capped = NO_HIRE_CAP;
+    notes.push(`Capped at No Hire: ${lowOrWorse.map((k) => names[k]).join(' and ')} were both weak (2 of 5 or lower).`);
+  } else if (capped > HIRE_CAP && PILLAR_KEYS.some((k) => (pillars[k]?.score ?? 1) < 4)) {
+    capped = HIRE_CAP;
+    const below = PILLAR_KEYS.filter((k) => (pillars[k]?.score ?? 1) < 4).map((k) => names[k]);
+    notes.push(`Capped at Hire: Strong Hire needs every skill at 4 or above, and ${below.join(', ')} ${below.length === 1 ? 'was' : 'were'} below that.`);
+  }
+
+  return { overallScore: capped, notes };
 }
 
 /**
@@ -61,7 +93,7 @@ export function convertToDisplayScore(rawScore: number): number {
 
 /**
  * Highest overall score a session flagged for prompt injection can receive.
- * 69 is the top of the "Lean No" band, so injection can never earn a Yes verdict.
+ * 69 is the top of the "No Hire" band, so injection can never earn a Hire verdict.
  */
 export const INJECTION_OVERALL_CAP = 69;
 
@@ -100,7 +132,9 @@ export function formatEvaluationResponse({
   modelId,
   temperature,
   latencyMs,
-  retryCount
+  retryCount,
+  level,
+  hintsUsed = 0
 }: {
   rawEval: RawEvaluation;
   scenario: any;
@@ -113,21 +147,26 @@ export function formatEvaluationResponse({
   temperature: number;
   latencyMs: number;
   retryCount: number;
+  level?: CandidateLevel;
+  hintsUsed?: number;
 }) {
   // Apply prompt injection defense if flagged
   applyInjectionDefense(rawEval);
 
   // Compute total score and verdict deterministically in code
-  const pillarScore = computeOverallScore(rawEval.pillars);
-  const overallScore = rawEval.injectionAttempt ? Math.min(pillarScore, INJECTION_OVERALL_CAP) : pillarScore;
+  const track = scenario?.track;
+  const pillarNames = getTrackConfig(track).pillarNames;
+  const pillarScore = computeOverallScore(rawEval.pillars, track);
+  const hireBar = applyHireBar(pillarScore, rawEval.pillars, track);
+  const overallScore = rawEval.injectionAttempt ? Math.min(hireBar.overallScore, INJECTION_OVERALL_CAP) : hireBar.overallScore;
   const verdict = computeVerdict(overallScore);
 
-  const formatPillar = (pillar: RawPillarScore, defaultName: string) => {
+  const formatPillar = (pillar: RawPillarScore, trackName: string) => {
     const rawScore = Math.max(1, Math.min(5, pillar.score));
     const displayScore = convertToDisplayScore(rawScore);
 
     return {
-      name: pillar.name || defaultName,
+      name: trackName,
       score: displayScore,
       rawScore,
       maxScore: 20,
@@ -155,18 +194,21 @@ export function formatEvaluationResponse({
     confidence: rawEval.confidence || 'High',
     transcriptSummary: rawEval.transcriptSummary,
     pillars: {
-      clarification: formatPillar(rawEval.pillars.clarification, "Clarification & Scope"),
-      framework: formatPillar(rawEval.pillars.framework, "Structured Thinking"),
-      analyticalRigor: formatPillar(rawEval.pillars.analyticalRigor, "Analysis & Reasoning"),
-      communication: formatPillar(rawEval.pillars.communication, "Communication"),
-      synthesis: formatPillar(rawEval.pillars.synthesis, "Final Recommendation")
+      clarification: formatPillar(rawEval.pillars.clarification, pillarNames.clarification),
+      framework: formatPillar(rawEval.pillars.framework, pillarNames.framework),
+      analyticalRigor: formatPillar(rawEval.pillars.analyticalRigor, pillarNames.analyticalRigor),
+      communication: formatPillar(rawEval.pillars.communication, pillarNames.communication),
+      synthesis: formatPillar(rawEval.pillars.synthesis, pillarNames.synthesis)
     },
+    level: normalizeLevel(level),
+    hintsUsed,
+    hireBarNotes: hireBar.notes,
     topStrengths: rawEval.topStrengths,
     criticalGrowthAreas: rawEval.criticalGrowthAreas,
     exemplarAnswer: rawEval.exemplarAnswer,
 
     // Versioning and Audit Drift Tracking Fields
-    scoringVersion: 'v2',
+    scoringVersion: 'v3',
     promptVersion,
     modelId,
     temperature,

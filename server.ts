@@ -19,7 +19,10 @@ import {
   sendPasswordResetEmailViaResend, 
   sendWelcomeEmailViaResend 
 } from "./services/resendService";
-import { loadPrompts, getInterviewerPersonaPrompt } from "./server/prompts/version";
+import { loadPrompts, arePromptsLoaded, PROMPT_VERSION } from "./server/prompts/version";
+import { getScenarioById, getPersonaById, sanitizeMessages } from "./server/interview/catalog";
+import { buildInterviewerSystemPrompt, buildInterviewerTranscript, cleanInterviewerReply } from "./server/interview/interviewerPrompt";
+import { getTrackConfig, normalizeLevel } from "./data/interviewTracks";
 import { runEvaluationEngine } from "./server/evaluatorEngine";
 import { saveInterviewEvaluationServerSide } from "./server/persistence";
 import { getProjectById } from "./data/realWorldProjects";
@@ -50,6 +53,8 @@ export async function createExpressApp() {
       hasResendKey: !!process.env.RESEND_API_KEY,
       hasFirebaseAdmin: isFirebaseAdminConfigured(),
       hasCronSecret: !!process.env.CRON_SECRET?.trim(),
+      interviewPromptsLoaded: arePromptsLoaded(),
+      interviewPromptVersion: PROMPT_VERSION,
       port: 3000
     });
   });
@@ -68,12 +73,18 @@ export async function createExpressApp() {
     prompt, 
     systemInstruction, 
     jsonMode = false,
-    maxOutputTokens
+    maxOutputTokens,
+    thinkingBudget,
+    maxGeminiModels
   }: { 
     prompt: string; 
     systemInstruction: string; 
     jsonMode?: boolean;
     maxOutputTokens?: number;
+    /** Caps model "thinking" tokens. 0 turns thinking off for short, fast replies. */
+    thinkingBudget?: number;
+    /** Try at most this many Gemini models before giving up, to protect the free-tier quota. */
+    maxGeminiModels?: number;
   }): Promise<string> {
     const geminiKey = process.env.GEMINI_API_KEY;
     const openAiKey = process.env.OPENAI_API_KEY;
@@ -94,7 +105,7 @@ export async function createExpressApp() {
         'gemini-3.1-flash-lite',
         'gemini-flash-latest',
         'gemini-3.7-flash'
-      ];
+      ].slice(0, maxGeminiModels || undefined);
 
       let lastError: any = null;
 
@@ -112,12 +123,27 @@ export async function createExpressApp() {
           if (maxOutputTokens) {
             config.maxOutputTokens = maxOutputTokens;
           }
+          if (typeof thinkingBudget === 'number') {
+            config.thinkingConfig = { thinkingBudget };
+          }
 
-          const response = await ai.models.generateContent({
-            model: modelName,
-            contents: prompt,
-            config,
-          });
+          let response;
+          try {
+            response = await ai.models.generateContent({
+              model: modelName,
+              contents: prompt,
+              config,
+            });
+          } catch (thinkingErr: any) {
+            // Some models reject a thinking budget; retry once on the same model without it.
+            if (!config.thinkingConfig || !/thinking/i.test(thinkingErr?.message || '')) throw thinkingErr;
+            delete config.thinkingConfig;
+            response = await ai.models.generateContent({
+              model: modelName,
+              contents: prompt,
+              config,
+            });
+          }
 
           if (response && response.text && response.text.trim().length > 0) {
             return response.text;
@@ -882,205 +908,97 @@ Return only the JSON object. No preamble, no markdown code fences, no explanatio
     }
   });
 
-  // Helper for ultra-fast direct TTS audio synthesis
-  async function synthesizeSpeechBuffer(text: string, personaId: string, voiceGender: string): Promise<{ audioBase64: string; format: string; sampleRate?: number } | null> {
-    if (!text || !text.trim()) return null;
-
-    const geminiKey = process.env.GEMINI_API_KEY;
-    const openAiKey = process.env.OPENAI_API_KEY;
-
-    const voiceMap: Record<string, string> = {
-      maya: 'Kore',     // Warm, empathetic female
-      alex: 'Puck',     // Analytical, clear male
-      priya: 'Zephyr',  // Strategic, calm executive female
-      marcus: 'Fenrir'  // Authoritative male
-    };
-    const voiceName = voiceMap[personaId] || (voiceGender === 'female' ? 'Kore' : 'Puck');
-
-    // 1. Try Gemini TTS with race timeout to ensure sub-second response
-    if (geminiKey && geminiKey.trim() !== "" && geminiKey !== "undefined") {
-      try {
-        const { GoogleGenAI, Modality } = await import("@google/genai");
-        const ai = new GoogleGenAI({
-          apiKey: geminiKey
-        });
-
-        const ttsPromise = ai.models.generateContent({
-          model: "gemini-3.1-flash-tts-preview",
-          contents: [{ parts: [{ text: text.trim() }] }],
-          config: {
-            responseModalities: [Modality.AUDIO],
-            speechConfig: {
-              voiceConfig: {
-                prebuiltVoiceConfig: { voiceName }
-              }
-            }
-          }
-        });
-
-        // 1.6s race timeout so response is never held up
-        const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error("TTS timeout")), 1600));
-        const ttsResponse: any = await Promise.race([ttsPromise, timeoutPromise]);
-
-        const base64Audio = ttsResponse.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
-        if (base64Audio) {
-          return {
-            audioBase64: base64Audio,
-            format: "pcm",
-            sampleRate: 24000
-          };
-        }
-      } catch (ttsErr: any) {
-        console.warn("[Fast TTS Notice]:", ttsErr?.message);
-      }
-    }
-
-    // 2. Try OpenAI TTS (tts-1) if available
-    if (openAiKey && openAiKey.trim() !== "" && openAiKey !== "undefined") {
-      try {
-        const openai = getOpenAI();
-        const openAiVoice = personaId === 'maya' ? 'nova' : personaId === 'alex' ? 'fable' : personaId === 'priya' ? 'shimmer' : 'onyx';
-        const mp3 = await openai.audio.speech.create({
-          model: "tts-1",
-          voice: openAiVoice,
-          input: text.trim(),
-          speed: 1.15
-        });
-        const buffer = Buffer.from(await mp3.arrayBuffer());
-        return {
-          audioBase64: buffer.toString('base64'),
-          format: "mp3"
-        };
-      } catch (openAiTtsErr: any) {
-        console.warn("[OpenAI TTS Notice]:", openAiTtsErr?.message);
-      }
-    }
-
-    return null;
-  }
-
   // API Route for AI Mock Interview - Conversational Turn
+  // One AI call per candidate answer. The opener is scripted in the browser and voice is
+  // fetched separately (only in voice modes), so text chat never spends TTS quota.
   app.post(["/api/interview/chat", "/api/interview/chat/"], requireAiAccess, async (req, res) => {
     try {
-      const { scenario, persona, messages, elapsedSeconds = 0, targetSeconds = 900, synthesizeAudio = true } = req.body;
+      const { scenarioId, personaId, level, elapsedSeconds = 0, targetSeconds } = req.body || {};
+      const scenario = getScenarioById(scenarioId);
+      const messages = sanitizeMessages(req.body?.messages);
 
-      if (!scenario || !persona || !messages) {
-        return res.status(400).json({ error: "Missing required scenario, persona, or messages" });
+      if (!scenario || !messages || messages.length === 0) {
+        return res.status(400).json({ error: "Missing or unknown scenario, or empty transcript" });
       }
 
-      const timeRemainingSeconds = Math.max(0, targetSeconds - elapsedSeconds);
-      const isNearEnd = timeRemainingSeconds < 180; // less than 3 mins left
-      const isOvertime = elapsedSeconds > targetSeconds;
+      const persona = getPersonaById(personaId);
+      const target = Number.isFinite(targetSeconds) && targetSeconds > 0 ? Math.min(targetSeconds, 4 * 3600) : scenario.targetDurationMinutes * 60;
+      const elapsed = Number.isFinite(elapsedSeconds) && elapsedSeconds >= 0 ? Math.min(Math.floor(elapsedSeconds), 4 * 3600) : 0;
 
-      const basePersona = getInterviewerPersonaPrompt(persona?.id || 'maya');
-
-      const systemInstruction = `
-${basePersona}
-
-You are conducting a live Product Management mock interview for the following case:
-TRACK: ${scenario.track?.toUpperCase()}
-SCENARIO: ${scenario.title} (${scenario.company})
-PROBLEM STATEMENT: ${scenario.problemStatement}
-BACKGROUND CONTEXT: ${scenario.contextBackground}
-BENCHMARK EXPECTATIONS: ${JSON.stringify(scenario.benchmarkOutline)}
-
-TIME STATUS:
-- Elapsed Time: ${Math.floor(elapsedSeconds / 60)}m ${elapsedSeconds % 60}s
-- Allocated Duration: ${Math.floor(targetSeconds / 60)}m
-${isOvertime ? '- STATUS: IN OVERTIME. Prompt the candidate firmly to synthesize and provide a final 30-second executive recommendation.' : isNearEnd ? '- STATUS: 3 MINUTES REMAINING. Nudge the candidate to synthesize their findings and wrap up their recommendation.' : '- STATUS: In active discussion.'}
-
-CRITICAL CONVERSATIONAL RULES:
-1. Speak completely naturally, concisely, and conversationally. Your response will be spoken aloud immediately by a voice engine.
-2. Keep your response strictly under 2 to 3 crisp sentences (under 45 words max). Never lecture or give long multi-paragraph speeches.
-3. NEVER use raw markdown symbols like **bold**, asterisks, bullet points (* or -), or numbered lists. Use pure, fluent conversational English.
-4. If the candidate asks for clarifying data (e.g. platform breakdown, time period, geo splits), provide realistic numbers consistent with the scenario context.
-5. If the candidate's logic is vague or disorganized, gently or sharply probe them depending on your persona.
-6. Acknowledge good candidate hypotheses naturally ("Good intuition on the payment funnel.", "That makes sense, let's look at driver cancellations.").
-7. If this is the very first turn of the interview, greet the candidate briefly, introduce the case prompt crisply in 2 sentences, and ask them how they would like to approach it.
-`.trim();
-
-      const transcriptPrompt = messages.map((m: any) => `${m.role === 'candidate' ? 'CANDIDATE' : m.role === 'interviewer' ? 'INTERVIEWER (' + persona.name + ')' : 'SYSTEM HINT'}: ${m.text}`).join('\n\n') + '\n\nINTERVIEWER (' + persona.name + '):';
-
-      let cleanReply = "";
+      const systemInstruction = buildInterviewerSystemPrompt({
+        scenario,
+        persona,
+        level: normalizeLevel(level),
+        elapsedSeconds: elapsed,
+        targetSeconds: target
+      });
+      const transcriptPrompt = buildInterviewerTranscript(messages, persona);
 
       try {
-        const reply = await generateAIResponse({ prompt: transcriptPrompt, systemInstruction, maxOutputTokens: 120 });
-        cleanReply = reply.replace(/\*\*/g, '').replace(/\*/g, '').replace(/`/g, '').trim();
+        const reply = await generateAIResponse({
+          prompt: transcriptPrompt,
+          systemInstruction,
+          maxOutputTokens: 400,
+          thinkingBudget: 0,
+          maxGeminiModels: 2
+        });
+        const text = cleanInterviewerReply(reply);
+        if (!text) throw new Error("Empty interviewer reply");
+        return res.json({ text });
       } catch (aiErr: any) {
-        console.warn("[Interview Chat AI Fallback Triggered]:", aiErr?.message);
-        
-        // If initial greeting turn, provide authentic persona opener
-        const isFirstTurn = messages.length === 0 || (messages.length === 1 && messages[0].role === 'system');
-        if (isFirstTurn) {
-          const openers: Record<string, string> = {
-            maya: `Hi there! I'm Maya Chen. Thanks for joining today's mock session. Today we are looking into ${scenario.title} for ${scenario.company}. ${scenario.problemStatement} Whenever you're ready, how would you like to structure your analysis?`,
-            alex: `Hey there, I'm Alex Rivera. Let's dive straight into today's case: ${scenario.title} at ${scenario.company}. Specifically: ${scenario.problemStatement} Take a moment to digest this, and walk me through your framework.`,
-            priya: `Hello, I'm Priya Sharma. Welcome to our product discussion. Today we are exploring ${scenario.title} for ${scenario.company}. ${scenario.problemStatement} How do you see the core opportunity and where would you like to begin?`,
-            marcus: `Welcome, I'm Marcus Vance. Today we're tackling ${scenario.title} at ${scenario.company}. ${scenario.problemStatement} Let's break this down systematically—what's your top-level structure?`
-          };
-          cleanReply = openers[persona.id] || openers.maya;
-        } else {
-          // Mid-interview safe follow-up
-          cleanReply = `That makes sense. Let's dig deeper into that aspect. How would you prioritize the key drivers and validate your hypothesis with data?`;
-        }
+        // No scripted stand-in: a fake interviewer line would end up in the scored transcript.
+        console.warn("[Interview Chat] AI unavailable:", aiErr?.message);
+        return res.status(503).json({
+          error: "The interviewer is busy right now. Please retry your last answer in a moment.",
+          retryable: true
+        });
       }
-
-      // Fast direct audio synthesis
-      let audioPayload: { audioBase64: string; format: string; sampleRate?: number } | null = null;
-      if (synthesizeAudio && cleanReply) {
-        audioPayload = await synthesizeSpeechBuffer(cleanReply, persona.id, persona.voiceGender);
-      }
-
-      res.json({ 
-        text: cleanReply,
-        audioBase64: audioPayload?.audioBase64 || null,
-        format: audioPayload?.format || null,
-        sampleRate: audioPayload?.sampleRate || null
-      });
     } catch (error: any) {
       console.error("[Interview Chat Error]:", error);
-      res.status(500).json({ error: error.message || "Failed to generate interviewer reply" });
+      res.status(500).json({ error: "Failed to generate interviewer reply", retryable: true });
     }
   });
 
   // API Route for Contextual AI Hint Generation
   app.post(["/api/interview/hint", "/api/interview/hint/"], requireAiAccess, async (req, res) => {
     try {
-      const { scenario, messages = [] } = req.body;
-
+      const scenario = getScenarioById(req.body?.scenarioId);
       if (!scenario) {
-        return res.status(400).json({ error: "Missing scenario details" });
+        return res.status(400).json({ error: "Missing or unknown scenario" });
       }
+      const safeMessages = sanitizeMessages(req.body?.messages) || [];
+      const track = getTrackConfig(scenario.track);
 
       const systemInstruction = `
 You are an expert PM Interview Coach watching a live mock interview.
-SCENARIO: ${scenario.title} (${scenario.track?.toUpperCase()})
-PROBLEM: ${scenario.problemStatement}
-BENCHMARK FRAMEWORK: ${scenario.suggestedFramework || 'MECE Structure'}
+ROUND: ${track.label}
+CASE: ${scenario.title}
+PROMPT: ${scenario.problemStatement}
+REFERENCE APPROACH: ${scenario.suggestedFramework || 'A clear, mutually exclusive structure'}
 
 TASK:
-Provide a subtle, Socratic 1-2 sentence framework hint to help the candidate make progress WITHOUT giving away the answer.
+Give one subtle, Socratic hint (1-2 sentences) that helps the candidate take their next step WITHOUT giving away the answer, the root cause, or a list of segments, options or metrics.
 FORMAT:
-Pure text, 1-2 sentences, actionable and clear. No markdown asterisks.
+Plain text, 1-2 sentences. No markdown.
 `.trim();
 
-      const safeMessages = Array.isArray(messages) ? messages : [];
-      const prompt = `Transcript so far:\n${safeMessages.map((m: any) => `${(m.role || 'candidate').toUpperCase()}: ${m.text || ''}`).join('\n')}\n\nGenerate the next contextual hint:`;
-      
-      let cleanHint = "";
+      const prompt = `Transcript so far:\n${safeMessages.map((m) => `${m.role.toUpperCase()}: ${m.text}`).join('\n')}\n\nGenerate the next contextual hint:`;
+
       try {
-        const hint = await generateAIResponse({ prompt, systemInstruction });
-        cleanHint = hint.replace(/\*\*/g, '').replace(/\*/g, '').trim();
-      } catch (hintErr) {
-        console.warn("[Hint Fallback Triggered]:", hintErr);
-        // Fallback to scenario framework hint
-        cleanHint = `Consider applying the ${scenario.suggestedFramework || 'structured MECE breakdown'} and segmenting by user journey steps or platform data.`;
+        const hint = await generateAIResponse({ prompt, systemInstruction, maxOutputTokens: 300, thinkingBudget: 0, maxGeminiModels: 2 });
+        const cleanHint = hint.replace(/\*\*/g, '').replace(/\*/g, '').trim();
+        if (cleanHint) return res.json({ hint: cleanHint });
+      } catch (hintErr: any) {
+        console.warn("[Hint] AI unavailable, using the case's reference approach:", hintErr?.message);
       }
-      
-      res.json({ hint: cleanHint || `Remember to clarify the problem bounds and break down the primary drivers systematically.` });
+      // Cheap non-AI fallback, labelled as such in the UI.
+      res.json({
+        hint: `Try working through it in this order: ${scenario.suggestedFramework || 'clarify the goal, structure the problem, go deep on the most likely branch, then recommend'}.`,
+        fallback: true
+      });
     } catch (error: any) {
       console.error("[Interview Hint Error]:", error);
-      res.status(500).json({ error: error.message || "Failed to generate hint" });
+      res.status(500).json({ error: "Failed to generate hint" });
     }
   });
 
@@ -1097,7 +1015,7 @@ Pure text, 1-2 sentences, actionable and clear. No markdown asterisks.
 
       const voiceMap: Record<string, string> = {
         maya: 'Kore',     // Warm, empathetic, professional female
-        alex: 'Puck',     // Analytical, articulate, clear male
+        alex: 'Aoede',    // Analytical, articulate, clear female (matches Alex's profile)
         priya: 'Zephyr',  // Strategic, calm, executive tone
         marcus: 'Fenrir'  // Authoritative, direct bar raiser male
       };
@@ -1141,7 +1059,7 @@ Pure text, 1-2 sentences, actionable and clear. No markdown asterisks.
       if (openAiKey && openAiKey.trim() !== "" && openAiKey !== "undefined") {
         try {
           const openai = getOpenAI();
-          const openAiVoice = personaId === 'maya' ? 'nova' : personaId === 'alex' ? 'fable' : personaId === 'priya' ? 'shimmer' : 'onyx';
+          const openAiVoice = personaId === 'maya' ? 'nova' : personaId === 'alex' ? 'coral' : personaId === 'priya' ? 'shimmer' : 'onyx';
           const mp3 = await openai.audio.speech.create({
             model: "tts-1",
             voice: openAiVoice,
@@ -1259,9 +1177,12 @@ Pure text, 1-2 sentences, actionable and clear. No markdown asterisks.
         return res.status(401).json({ error: "Unauthorized: Invalid or expired authentication token" });
       }
 
-      const { scenario, persona, messages, elapsedSeconds, scratchpadNotes, sessionId } = req.body;
+      const { scenarioId, personaId, level, elapsedSeconds, scratchpadNotes, sessionId } = req.body || {};
+      const scenario = getScenarioById(scenarioId);
+      const persona = getPersonaById(personaId);
+      const messages = sanitizeMessages(req.body?.messages);
 
-      if (!scenario || !messages || !Array.isArray(messages)) {
+      if (!scenario || !messages) {
         return res.status(400).json({ error: "Insufficient session data for evaluation" });
       }
 
@@ -1283,16 +1204,18 @@ Pure text, 1-2 sentences, actionable and clear. No markdown asterisks.
         scenario,
         persona,
         messages,
-        elapsedSeconds: elapsedSeconds || 0,
-        scratchpadNotes: scratchpadNotes || '',
+        elapsedSeconds: Number.isFinite(elapsedSeconds) && elapsedSeconds > 0 ? Math.min(Math.floor(elapsedSeconds), 4 * 3600) : 0,
+        scratchpadNotes: typeof scratchpadNotes === 'string' ? scratchpadNotes.slice(0, 10000) : '',
         userId, // Strictly from verified Firebase ID token (never from body or query)
-        sessionId
+        sessionId,
+        level: normalizeLevel(level)
       });
 
       res.json(result);
     } catch (error: any) {
       console.error("[Interview Evaluation Error]:", error);
-      res.status(500).json({ error: error.message || "Failed to generate interview evaluation" });
+      // The browser shows a retry screen; it never invents a score.
+      res.status(503).json({ error: "We couldn't score this interview right now. Your transcript is safe, please try again.", retryable: true });
     }
   });
 

@@ -62,7 +62,7 @@
     "expectedStatus": "complete",
     "overallMin": 40,
     "overallMax": 80,
-    "allowedVerdicts": ["Lean Yes", "Lean No"],
+    "allowedVerdicts": ["Hire", "No Hire"],
     "injectionAttempt": false
   }
 }

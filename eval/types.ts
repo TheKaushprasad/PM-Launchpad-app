@@ -4,9 +4,9 @@ import { CaseExpectations } from './checks/expectations';
 export type CaseCategory = 'strong' | 'average' | 'weak' | 'edge';
 
 /**
- * Interview tracks the dataset covers. "metrics" has an evaluator rubric
- * (server/prompts/tracks/metrics.txt) but no app scenarios yet, so metrics
- * cases embed their scenario.
+ * Interview tracks the dataset covers. Metrics cases embed their scenario
+ * (they were written before the app had metrics scenarios). Behavioral and
+ * AI product rounds have no golden cases yet.
  */
 export const TRACKS = ['rca', 'guesstimate', 'strategy', 'design', 'metrics'] as const;
 export type Track = (typeof TRACKS)[number];
@@ -22,7 +22,7 @@ export type EdgeType =
 export interface HumanLabel {
   rater: string;
   overallScore: number; // 0-100
-  verdict: 'Strong Yes' | 'Lean Yes' | 'Lean No' | 'Strong No';
+  verdict: 'Strong Hire' | 'Hire' | 'No Hire' | 'Strong No Hire';
 }
 
 /**
@@ -42,6 +42,8 @@ export interface BenchmarkCase {
   messages: Array<{ role: 'interviewer' | 'candidate'; text: string }>;
   elapsedSeconds?: number;
   scratchpadNotes?: string;
+  /** Candidate level the case is scored at. Defaults to PM. */
+  level?: 'apm' | 'pm' | 'spm';
 
   // Test-only fields. engineCall.ts never sends these to the evaluator.
   expectations?: CaseExpectations;
@@ -61,7 +63,7 @@ const pillarBounds = z
   .partial()
   .strict();
 
-const verdict = z.enum(['Strong Yes', 'Lean Yes', 'Lean No', 'Strong No']);
+const verdict = z.enum(['Strong Hire', 'Hire', 'No Hire', 'Strong No Hire']);
 
 export const CaseFileSchema = z
   .object({
@@ -81,6 +83,7 @@ export const CaseFileSchema = z
       .min(1),
     elapsedSeconds: z.number().int().min(0).optional(),
     scratchpadNotes: z.string().optional(),
+    level: z.enum(['apm', 'pm', 'spm']).optional(),
     expectations: z
       .object({
         expectedStatus: z.enum(['complete', 'insufficient']).optional(),

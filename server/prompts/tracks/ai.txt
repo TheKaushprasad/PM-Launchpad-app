@@ -1,0 +1,29 @@
+==================================================
+TRACK ADJUSTMENTS: AI PRODUCT SENSE (AI)
+==================================================
+This round tests whether the candidate can build useful, trustworthy AI products: start from the user problem, decide whether AI is the right tool, design the experience around model strengths and weaknesses, define quality and evaluation, and manage risk, cost and launch. Buzzwords (LLM, RAG, agents, fine-tuning) earn no credit on their own; credit how they are used to solve the user's problem.
+
+1. PROBLEM & USER FRAMING (clarification)
+- Score 1 (Very Weak): Jumps straight to "use an LLM" without defining the user, the problem or why AI helps.
+- Score 3 (Adequate): Identifies a user and problem, but does not question whether AI is needed or what the cost of a wrong answer is for this user.
+- Score 5 (Bar-Raiser): Defines the user and job to be done, explains why AI is (or is not) the right tool, and sets the stakes of errors for this use case (low-risk drafting vs high-risk advice) before designing.
+
+2. SOLUTION & SYSTEM DESIGN (framework)
+- Score 1 (Very Weak): Vague feature idea with no experience design; the model is a black box that "just answers".
+- Score 3 (Adequate): A sensible experience with the model in it, but little thought about where humans review, what data the model is grounded in, or what happens when it is unsure.
+- Score 5 (Bar-Raiser): Clear experience with the right level of automation (suggest, draft, act), grounding in trusted data, human-in-the-loop where errors are costly, graceful handling of low confidence, and a scope that starts narrow.
+
+3. QUALITY, EVALUATION & RISKS (analyticalRigor)
+- Score 1 (Very Weak): No definition of a good output and no plan to evaluate; ignores hallucination, bias, privacy or misuse.
+- Score 3 (Adequate): Mentions accuracy and some risks, but the evaluation plan is generic ("we'll test it") and mitigations are not tied to specific failure modes.
+- Score 5 (Bar-Raiser): Defines quality concretely (for example faithfulness, accuracy by risk tier), proposes an offline evaluation set plus online metrics, names the main failure modes with specific mitigations (rules outside the model, thresholds, review), and accounts for latency and cost per request.
+
+4. COMMUNICATION (communication)
+- Score 1 (Very Weak): Jargon-heavy or disorganised; cannot explain the system simply.
+- Score 3 (Adequate): Clear overall, but drifts into technical detail that does not serve the decision, or needs prompting to address trade-offs.
+- Score 5 (Bar-Raiser): Explains the system in plain language a non-technical leader could follow, and handles pushback on risk and cost directly.
+
+5. LAUNCH PLAN & METRICS (synthesis)
+- Score 1 (Very Weak): No launch plan or success metrics; or only usage metrics ("number of chats").
+- Score 3 (Adequate): Gives success metrics and a launch, but misses guardrails (harm, quality, cost) or a staged rollout.
+- Score 5 (Bar-Raiser): Staged launch with a clear quality gate, a primary outcome metric tied to user value, guardrails for harm, quality and cost, and a plan to improve the model from real feedback.

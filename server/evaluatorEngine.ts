@@ -5,6 +5,8 @@ import { RawEvaluation, RawEvaluationSchema, EVALUATION_RESPONSE_JSON_SCHEMA, OP
 import { groundAndCapPillars, TranscriptTurn } from "./grounding";
 import { formatEvaluationResponse } from "./scoring";
 import { saveInterviewEvaluationServerSide } from "./persistence";
+import { getLevelConfig, normalizeLevel } from "../data/interviewTracks";
+import { CandidateLevel } from "../types/interview";
 
 export interface EvaluationRequestPayload {
   scenario: any;
@@ -15,6 +17,9 @@ export interface EvaluationRequestPayload {
   userId?: string;
   sessionId?: string;
   authHeader?: string;
+  level?: CandidateLevel;
+  /** Number of hints the candidate asked for. Counted from hint turns when omitted. */
+  hintsUsed?: number;
   // Eval harness only; the app never sends these.
   model?: string;
   provider?: 'gemini' | 'openai';
@@ -40,14 +45,19 @@ export function buildEvaluatorPrompt({
   persona,
   transcriptTurns,
   scratchpadNotes,
-  elapsedSeconds
+  elapsedSeconds,
+  level,
+  hintsUsed = 0
 }: {
   scenario: any;
   persona: any;
   transcriptTurns: TranscriptTurn[];
   scratchpadNotes: string;
   elapsedSeconds: number;
+  level?: CandidateLevel;
+  hintsUsed?: number;
 }): { prompt: string; substantiveCount: number } {
+  const levelConfig = getLevelConfig(level);
   const substantiveTurns = transcriptTurns.filter(
     (t) => t.speaker === 'CANDIDATE' && t.text.split(/\s+/).filter(Boolean).length > 5
   );
@@ -66,9 +76,8 @@ SCENARIO DETAILS:
 - Benchmark Guidelines (FOR REFERENCE ONLY - NEVER USE AS EVIDENCE OF CANDIDATE PERFORMANCE):
   ${JSON.stringify(scenario.benchmarkOutline || {})}
 
-INTERVIEWER PERSONA:
-- Name: ${persona?.name || 'Senior PM'} (${persona?.role || 'Bar Raiser'})
-- Evaluation Style: ${persona?.styleTrait || 'Structured and analytical'}
+CANDIDATE LEVEL: ${levelConfig.short} (${levelConfig.label}). Calibrate scores as described under LEVEL CALIBRATION.
+HINTS USED: ${hintsUsed}
 
 SESSION DETAILS:
 - Elapsed Duration: ${Math.floor(elapsedSeconds / 60)}m ${elapsedSeconds % 60}s (${elapsedSeconds}s)
@@ -104,6 +113,10 @@ export async function runEvaluationEngine(
 ): Promise<EvaluationServiceResult> {
   const startTime = Date.now();
   const { scenario, persona, messages, elapsedSeconds = 0, scratchpadNotes = '', userId, sessionId, authHeader } = payload;
+  const level = normalizeLevel(payload.level);
+  const hintsUsed = typeof payload.hintsUsed === 'number'
+    ? payload.hintsUsed
+    : (messages || []).filter((m) => m.role === 'system_hint').length;
 
   // 1. Structure transcript turns
   const transcriptTurns: TranscriptTurn[] = (messages || []).map((m, index) => {
@@ -135,7 +148,9 @@ export async function runEvaluationEngine(
     persona,
     transcriptTurns,
     scratchpadNotes,
-    elapsedSeconds
+    elapsedSeconds,
+    level,
+    hintsUsed
   });
 
   // 4. Multi-model failover chain with retry on schema failure
@@ -143,6 +158,9 @@ export async function runEvaluationEngine(
   const openAiKey = process.env.OPENAI_API_KEY;
   const OPENAI_EVAL_MODEL = "gpt-4o-mini";
   const BUSY_RETRY_DELAY_MS = 3000;
+  // Free tier allows about 20 requests a day per model, so one scorecard may spend at most this many Gemini calls.
+  const MAX_GEMINI_CALLS = 3;
+  let geminiCalls = 0;
   const forceOpenAI = process.env.FORCE_EVAL_PROVIDER === 'openai' || payload.provider === 'openai';
   let candidateModels = forceOpenAI ? [] : [
     'gemini-3.8-flash',
@@ -170,12 +188,13 @@ export async function runEvaluationEngine(
       apiKey: geminiKey
     });
 
-    for (let mIdx = 0; mIdx < candidateModels.length; mIdx++) {
+    for (let mIdx = 0; mIdx < candidateModels.length && geminiCalls < MAX_GEMINI_CALLS; mIdx++) {
       const modelName = candidateModels[mIdx];
       let modelAttempt = 0;
 
       // Allow 1 retry on the same model if validation fails
-      while (modelAttempt < 2) {
+      while (modelAttempt < 2 && geminiCalls < MAX_GEMINI_CALLS) {
+        geminiCalls++;
         try {
           const config: any = {
             systemInstruction,
@@ -303,7 +322,9 @@ export async function runEvaluationEngine(
     modelId: winningModel,
     temperature,
     latencyMs,
-    retryCount: totalRetries
+    retryCount: totalRetries,
+    level,
+    hintsUsed
   });
 
   // 7. Persist evaluation and audit drift-tracking metrics server-side via Firebase Admin SDK

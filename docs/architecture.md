@@ -123,13 +123,23 @@ Routes accept a trailing slash variant. In local dev the same Express app also s
 
 1. `/api/interview/evaluate` verifies the Firebase ID token and gets the user id.
 2. `evaluatorEngine.ts` builds a numbered transcript (`[T3][CANDIDATE]: …`) and returns `insufficient` if the candidate has fewer than 3 turns of more than 5 words.
-3. The prompt is `server/prompts/evaluator.txt` plus the track rubric from `server/prompts/tracks/{rca,guesstimate,strategy,design,metrics}.txt`, injected before the grounding rules. Version: `PROMPT_VERSION = "eval-v2.2"`.
+3. The prompt is `server/prompts/evaluator.txt` plus the track rubric from `server/prompts/tracks/{rca,guesstimate,strategy,design,metrics,behavioral,ai}.txt`, injected before the grounding rules. Version: `PROMPT_VERSION = "eval-v3.0"`. The prompt also gets the candidate level (APM, PM, Senior PM) and the number of hints used.
 4. The model returns JSON that must match the zod schema in `server/schemas/evaluation.ts`.
 5. `grounding.ts` checks every evidence quote against the transcript: valid, reindexed, echoed (the interviewer said it) or dropped (fabricated). Pillars built mainly on interviewer echoes are capped.
-6. `scoring.ts` computes the weighted overall score, maps it to a verdict (85+ Strong Yes, 70 to 84 Lean Yes, 50 to 69 Lean No, below 50 Strong No) and caps injection attempts at 69.
+6. `scoring.ts` computes the overall score with per-track pillar weights (`data/interviewTracks.ts`), applies the hiring bar (any pillar at 1, or two pillars at 2 or below, caps at 69; Strong Hire needs every pillar at 4+, else cap 84), maps it to a verdict (85+ Strong Hire, 70 to 84 Hire, 50 to 69 No Hire, below 50 Strong No Hire) and caps injection attempts at 69. Old saved verdicts (Strong Yes, Lean Yes, Lean No, Strong No) are mapped to the new names on display.
 7. `persistence.ts` writes the scorecard with the Admin SDK to `users/{uid}/interview_sessions/{sessionId}`, including audit fields (model id, prompt version, grounding stats, latency, retries).
 
-Interviewer personas come from `server/prompts/interviewer-{maya,alex,priya,marcus}.txt`.
+Interviewer personas come from `server/prompts/interviewer-{maya,alex,priya,marcus}.txt`. Personas change the interviewer's tone only; the scorecard uses the same bar for all of them.
+
+### Live interviewer (`server/interview/`)
+
+- `/api/interview/chat` takes `{scenarioId, personaId, level, messages, elapsedSeconds, targetSeconds}`. The server looks the scenario up by id (`catalog.ts`), so the client never sends hidden answers. One AI call per turn (400 output tokens, thinking off); on failure it returns 503 `{retryable: true}` and the client shows a Retry button instead of a scripted line.
+- `interviewerPrompt.ts` builds the system prompt: interview phase from elapsed time (clarify, structure, deep dive, curveball at 50 to 70%, wrap-up at 80%+), level guidance, and a data policy (RCA and metrics answer only from a hidden fact sheet built from `dataPack`; guesstimates give no numbers; behavioral probes for specifics). The interviewer never gives answers or praise.
+- `/api/interview/hint` is capped at 2 per interview by the client; hints used are sent to the evaluator.
+- The opening line is scripted on the client, so starting an interview costs no AI call.
+- 7 tracks with 205 scenarios: design, RCA, metrics, guesstimate, strategy, behavioral, AI product. A "Full interview loop" runs 3 rounds (design, metrics or RCA, behavioral) and combines them into one decision (`lib/interviewLoop.ts`).
+- `npm run eval:interviewer -- --validate` checks offline that no scenario leaks its answers into the prompt; without `--validate` it runs 8 live cases in `eval/interviewer/cases.json`.
+- `/api/health` reports `interviewPromptsLoaded`; `vercel.json` bundles `server/prompts/**` into the function.
 
 ## 7. Data model (Firestore)
 

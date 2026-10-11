@@ -14,7 +14,8 @@ import {
   Layers,
   Shield
 } from 'lucide-react';
-import { InterviewScenario, InterviewerPersona, InterviewMode, InterviewerPersonaId } from '../../types/interview';
+import { InterviewScenario, InterviewerPersona, InterviewMode, InterviewerPersonaId, CandidateLevel } from '../../types/interview';
+import { LEVELS, getTrackConfig } from '../../data/interviewTracks';
 import { INTERVIEWER_PERSONAS } from '../../data/interviewPersonas';
 import { AccessRequestModal } from './AccessRequestModal';
 
@@ -22,6 +23,8 @@ interface SetupModalProps {
   isOpen: boolean;
   onClose: () => void;
   scenario: InterviewScenario | null;
+  level: CandidateLevel;
+  onLevelChange: (level: CandidateLevel) => void;
   onStartSession: (scenario: InterviewScenario, persona: InterviewerPersona, mode: InterviewMode) => void;
 }
 
@@ -29,6 +32,8 @@ export const SetupModal: React.FC<SetupModalProps> = ({
   isOpen,
   onClose,
   scenario,
+  level,
+  onLevelChange,
   onStartSession
 }) => {
   const [selectedMode, setSelectedMode] = useState<InterviewMode>('avatar');
@@ -122,6 +127,29 @@ export const SetupModal: React.FC<SetupModalProps> = ({
                 </div>
                 <h3 className="font-extrabold text-base text-zinc-900">{scenario.title}</h3>
                 <p className="text-xs text-zinc-600 font-medium leading-relaxed">{scenario.problemStatement}</p>
+              </div>
+
+              {/* Level: sets how high the bar is for follow-ups and scoring */}
+              <div className="space-y-3">
+                <label className="text-xs font-black uppercase tracking-wider text-zinc-500 block">
+                  Level you're interviewing for
+                </label>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                  {LEVELS.map((l) => (
+                    <button
+                      key={l.id}
+                      type="button"
+                      onClick={() => onLevelChange(l.id)}
+                      className={`p-3 rounded-2xl border text-left transition-colors ${level === l.id ? 'border-indigo-600 bg-indigo-50' : 'border-zinc-200 hover:bg-zinc-50'}`}
+                    >
+                      <div className="text-sm font-extrabold text-zinc-900">{l.short}</div>
+                      <div className="text-[11px] text-zinc-500 leading-snug mt-0.5">{l.description}</div>
+                    </button>
+                  ))}
+                </div>
+                <p className="text-[11px] text-zinc-500">
+                  You'll be scored on the 5 {getTrackConfig(scenario.track).label} skills against this level's bar.
+                </p>
               </div>
 
               {/* Step 1: Select Interview Mode */}

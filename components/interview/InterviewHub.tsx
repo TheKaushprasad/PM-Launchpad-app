@@ -13,11 +13,22 @@ import {
   Search, 
   ArrowRight, 
   History, 
-  Bookmark
+  Bookmark,
+  BarChart3,
+  Calculator,
+  Cpu,
+  Layers,
+  PenTool
 } from 'lucide-react';
-import { InterviewScenario, InterviewerPersona, InterviewMode } from '../../types/interview';
+import { InterviewScenario, InterviewerPersona, InterviewMode, CandidateLevel, InterviewEvaluation } from '../../types/interview';
 import { INTERVIEW_SCENARIOS } from '../../data/interviewScenarios';
+import { INTERVIEWER_PERSONAS } from '../../data/interviewPersonas';
+import { TRACK_ORDER, TRACK_CONFIGS, getTrackConfig, normalizeLevel, normalizeVerdict } from '../../data/interviewTracks';
+import { planFullLoop, LoopRoundPlan } from '../../lib/interviewLoop';
 import { SetupModal } from './SetupModal';
+import { FullLoopSetupModal } from './FullLoopSetupModal';
+import { LoopSummary } from './LoopSummary';
+import { SkillProgress } from './SkillProgress';
 import { AccessRequestModal } from './AccessRequestModal';
 import { InterviewStage } from './InterviewStage';
 import { useAuth } from '../../context/AuthContext';
@@ -61,6 +72,39 @@ export const InterviewHub: React.FC = () => {
     mode: InterviewMode;
   } | null>(null);
 
+  // Level the candidate is practising for (remembered on this device)
+  const [level, setLevelState] = useState<CandidateLevel>(() => {
+    try {
+      return normalizeLevel(localStorage.getItem('interview_level'));
+    } catch {
+      return 'pm';
+    }
+  });
+  const setLevel = (next: CandidateLevel) => {
+    setLevelState(next);
+    try {
+      localStorage.setItem('interview_level', next);
+    } catch {}
+  };
+
+  // Full loop: several rounds back to back with one combined verdict
+  const [showLoopSetup, setShowLoopSetup] = useState<boolean>(false);
+  const [loop, setLoop] = useState<{
+    plan: LoopRoundPlan[];
+    mode: InterviewMode;
+    round: number;
+    results: InterviewEvaluation[];
+    finished: boolean;
+  } | null>(null);
+
+  const handleStartLoop = () => {
+    if (!user) {
+      setAuthModalOpen(true);
+      return;
+    }
+    setShowLoopSetup(true);
+  };
+
   const handleStartInterview = (sc: InterviewScenario) => {
     if (!user) {
       setPendingScenario(sc);
@@ -70,30 +114,29 @@ export const InterviewHub: React.FC = () => {
     setSetupScenario(sc);
   };
 
+  const TRACK_ICONS: Record<string, any> = {
+    design: PenTool,
+    rca: Search,
+    metrics: BarChart3,
+    guesstimate: Calculator,
+    strategy: Compass,
+    behavioral: UserCheck,
+    ai: Cpu
+  };
+
+  // Tabs are the real rounds, with counts computed from the scenario list
   const tracks = [
-    { id: 'all', label: 'All Tracks (143)', icon: LayoutGrid },
-    { id: 'cases', label: 'Real Case Studies (42)', icon: Briefcase },
-    { id: 'behavioral', label: 'Behavioral & Fit (38)', icon: UserCheck },
-    { id: 'strategy', label: 'Product Strategy & Vision (28)', icon: Compass },
-    { id: 'technical', label: 'Technical for PMs (25)', icon: Code2 },
+    { id: 'all', label: `All (${INTERVIEW_SCENARIOS.length})`, icon: LayoutGrid },
+    ...TRACK_ORDER.map((t) => ({
+      id: t,
+      label: `${TRACK_CONFIGS[t].shortLabel} (${INTERVIEW_SCENARIOS.filter((sc) => sc.track === t).length})`,
+      icon: TRACK_ICONS[t] || Briefcase
+    })).filter((t) => !t.label.endsWith('(0)'))
   ];
 
   // Filter Scenarios
   const filteredScenarios = INTERVIEW_SCENARIOS.filter(sc => {
-    let matchesTrack = true;
-    if (selectedTrack === 'cases') {
-      matchesTrack = sc.track === 'rca';
-    } else if (selectedTrack === 'behavioral') {
-      matchesTrack = sc.track === 'design' || sc.keyEvaluationMetrics.some(m => 
-        m.toLowerCase().includes('behavioral') || 
-        m.toLowerCase().includes('user') || 
-        m.toLowerCase().includes('intent')
-      );
-    } else if (selectedTrack === 'strategy') {
-      matchesTrack = sc.track === 'strategy';
-    } else if (selectedTrack === 'technical') {
-      matchesTrack = sc.track === 'guesstimate';
-    }
+    const matchesTrack = selectedTrack === 'all' || sc.track === selectedTrack;
 
     const matchesDiff = selectedDifficulty === 'all' || sc.difficulty.toLowerCase() === selectedDifficulty.toLowerCase();
     const matchesSearch = !searchQuery.trim() || 
@@ -202,28 +245,22 @@ export const InterviewHub: React.FC = () => {
   };
 
   const getScenarioSubTagInfo = (sc: InterviewScenario) => {
-    if (sc.id === 'rca-dau-drop-5') return { label: 'DAU', dot: 'bg-emerald-500' };
-    if (sc.id === 'rca-signups-flat-wow') return { label: 'Growth', dot: 'bg-amber-500' };
-    if (sc.id === 'rca-web-conversion-dip') return { label: 'Aha Moment', dot: 'bg-sky-500' };
-    if (sc.title.toLowerCase().includes('dau') || sc.title.toLowerCase().includes('active user')) {
-      return { label: 'DAU', dot: 'bg-emerald-500' };
+    const title = sc.title.toLowerCase();
+    if (sc.track === 'rca') {
+      if (title.includes('dau') || title.includes('active user')) return { label: 'DAU', dot: 'bg-emerald-500' };
+      if (title.includes('churn') || title.includes('retention')) return { label: 'Retention', dot: 'bg-purple-500' };
+      if (title.includes('conversion') || title.includes('funnel')) return { label: 'Funnel', dot: 'bg-sky-500' };
+      return { label: 'Metric drop', dot: 'bg-emerald-500' };
     }
-    if (sc.title.toLowerCase().includes('churn') || sc.title.toLowerCase().includes('retention')) {
-      return { label: 'Retention', dot: 'bg-purple-500' };
-    }
-    if (sc.title.toLowerCase().includes('conversion') || sc.title.toLowerCase().includes('funnel')) {
-      return { label: 'Funnel', dot: 'bg-sky-500' };
-    }
-    if (sc.track === 'strategy') return { label: 'Strategy', dot: 'bg-indigo-500' };
-    if (sc.track === 'guesstimate') return { label: 'Sizing', dot: 'bg-amber-500' };
-    if (sc.track === 'design') return { label: 'Product UX', dot: 'bg-purple-500' };
-    return { label: 'Metric', dot: 'bg-emerald-500' };
-  };
-
-  const getDisplayDifficulty = (sc: InterviewScenario): string => {
-    if (sc.id === 'rca-signups-flat-wow') return 'Medium';
-    if (sc.id === 'rca-web-conversion-dip') return 'Hard';
-    return sc.difficulty;
+    const dots: Record<string, string> = {
+      design: 'bg-purple-500',
+      metrics: 'bg-sky-500',
+      guesstimate: 'bg-amber-500',
+      strategy: 'bg-indigo-500',
+      behavioral: 'bg-rose-500',
+      ai: 'bg-teal-500'
+    };
+    return { label: getTrackConfig(sc.track).shortLabel, dot: dots[sc.track] || 'bg-slate-500' };
   };
 
   const getDifficultyDot = (diff: string): string => {
@@ -239,60 +276,47 @@ export const InterviewHub: React.FC = () => {
     }
   };
 
-  const getTrackLabel = (sc: InterviewScenario): string => {
-    if (sc.id === 'rca-signups-flat-wow') return 'TRACK: B2C';
-    if (sc.track === 'rca') return 'TRACK: RCA';
-    if (sc.track === 'strategy') return 'TRACK: STRATEGY';
-    if (sc.track === 'guesstimate') return 'TRACK: SIZING';
-    if (sc.track === 'design') return 'TRACK: PRODUCT DESIGN';
-    return 'TRACK: CASE';
-  };
-
-  const getDisplayTitle = (sc: InterviewScenario): string => {
-    if (sc.id === 'rca-web-conversion-dip') {
-      return 'Website conversion rate (Visit → Sign-up) has dipped slightly';
-    }
-    return sc.title;
-  };
-
-  const getDisplayProblemStatement = (sc: InterviewScenario): string => {
-    if (sc.id === 'rca-dau-drop-5') {
-      return 'You are a PM at Meta. The leadership team has noticed a 5% drop in daily active users (DAU) for your product over the past week. Dive deep, identify possible causes, and lead the investigation...';
-    }
-    if (sc.id === 'rca-signups-flat-wow') {
-      return 'You are a PM at Notion. New user sign-ups have plateaued over the last few weeks. Identify the problem, analyze possible causes, and propose a plan to reignite growth...';
-    }
-    if (sc.id === 'rca-web-conversion-dip') {
-      return 'You are a PM at Canva. The website conversion rate from visit to sign-up has dropped from 12.4% to 11.8% over the past month. Analyze the issue, identify root causes, and propose actionable fixes...';
-    }
-    return sc.problemStatement;
-  };
-
   const getPracticePoints = (sc: InterviewScenario): string[] => {
-    if (sc.id === 'rca-dau-drop-5') {
-      return ['Problem breakdown', 'Data driven thinking', 'Solution prioritisation'];
-    }
-    if (sc.id === 'rca-signups-flat-wow') {
-      return ['User research synthesis', 'Growth levers & experimentation', 'Prioritisation and roadmap'];
-    }
-    if (sc.id === 'rca-web-conversion-dip') {
-      return ['Funnel analysis', 'User behaviour & intent', 'A/B testing ideas', 'Strategic recommendations'];
-    }
     if (sc.keyEvaluationMetrics && sc.keyEvaluationMetrics.length > 0) {
       return sc.keyEvaluationMetrics.slice(0, 3);
     }
     if (sc.candidateBrief && sc.candidateBrief.length > 0) {
       return sc.candidateBrief.slice(0, 3).map(b => b.split('(')[0].trim());
     }
-    return ['Hypothesis generation', 'Analytical framework', 'Synthesis & next steps'];
+    return ['Structured thinking', 'Clear reasoning', 'A crisp recommendation'];
   };
 
-  const getCtaText = (sc: InterviewScenario): string => {
-    if (sc.id === 'rca-dau-drop-5') return 'Take Interview (10 min) →';
-    if (sc.id === 'rca-signups-flat-wow') return 'Start Mock Interview (15 min) →';
-    if (sc.id === 'rca-web-conversion-dip') return 'Take Interview (15 min) →';
-    return `Take Interview (${sc.targetDurationMinutes || 15} min) →`;
+  const handleRoundComplete = (evaluation: InterviewEvaluation) => {
+    setLoop((prev) => {
+      if (!prev) return prev;
+      const results = [...prev.results];
+      results[prev.round] = evaluation;
+      const isLast = prev.round >= prev.plan.length - 1;
+      return { ...prev, results, round: isLast ? prev.round : prev.round + 1, finished: isLast };
+    });
   };
+
+  // Full loop: combined result after the last round
+  if (loop?.finished) {
+    return <LoopSummary plan={loop.plan} results={loop.results} level={level} onDone={() => setLoop(null)} />;
+  }
+
+  // Full loop: current round
+  if (loop) {
+    const current = loop.plan[loop.round];
+    return (
+      <InterviewStage
+        key={`loop-${loop.round}-${current.scenario.id}`}
+        scenario={current.scenario}
+        persona={current.persona}
+        mode={loop.mode}
+        level={level}
+        loopInfo={{ round: loop.round + 1, total: loop.plan.length }}
+        onRoundComplete={handleRoundComplete}
+        onExit={() => setLoop(null)}
+      />
+    );
+  }
 
   // If in active session, render the studio stage directly
   if (activeSession) {
@@ -301,6 +325,7 @@ export const InterviewHub: React.FC = () => {
         scenario={activeSession.scenario}
         persona={activeSession.persona}
         mode={activeSession.mode}
+        level={level}
         onExit={() => setActiveSession(null)}
       />
     );
@@ -477,7 +502,7 @@ export const InterviewHub: React.FC = () => {
                 <FileText className="w-5 h-5 text-white" />
               </div>
               <div>
-                <div className="text-2xl sm:text-3xl font-black text-white tracking-tight">143</div>
+                <div className="text-2xl sm:text-3xl font-black text-white tracking-tight">{INTERVIEW_SCENARIOS.length}</div>
                 <div className="text-xs font-medium text-slate-400 mt-0.5">Interview Cases</div>
               </div>
             </div>
@@ -489,7 +514,7 @@ export const InterviewHub: React.FC = () => {
               </div>
               <div>
                 <div className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-                  {Math.max(history.length, 3)}
+                  {history.length}
                 </div>
                 <div className="text-xs font-medium text-slate-400 mt-0.5">Sessions Completed</div>
               </div>
@@ -516,13 +541,16 @@ export const InterviewHub: React.FC = () => {
                 <Users className="w-5 h-5 text-white" />
               </div>
               <div>
-                <div className="text-2xl sm:text-3xl font-black text-white tracking-tight">4</div>
+                <div className="text-2xl sm:text-3xl font-black text-white tracking-tight">{INTERVIEWER_PERSONAS.length}</div>
                 <div className="text-xs font-medium text-slate-400 mt-0.5">AI Interviewers</div>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Per-skill progress across past interviews */}
+      {user && history.length > 0 && <SkillProgress history={history} />}
 
       {/* Track Tabs & Filters */}
       <div className="space-y-4 pt-1">
@@ -553,6 +581,17 @@ export const InterviewHub: React.FC = () => {
               })}
             </div>
 
+            <div className="flex flex-wrap items-center gap-2 self-start lg:self-auto">
+            {/* Full Loop Button */}
+            <button
+              onClick={handleStartLoop}
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs transition-all shrink-0 cursor-pointer shadow-2xs"
+              title="Product Design, an analytical round and Behavioral, back to back, with one combined verdict"
+            >
+              <Layers className="w-3.5 h-3.5" />
+              <span>Full interview loop</span>
+            </button>
+
             {/* Past Scorecards Button */}
             <button
               onClick={() => {
@@ -568,6 +607,7 @@ export const InterviewHub: React.FC = () => {
               <span>Past Scorecards</span>
               <ArrowRight className="w-3.5 h-3.5 text-indigo-500" />
             </button>
+            </div>
           </div>
         </div>
 
@@ -633,14 +673,15 @@ export const InterviewHub: React.FC = () => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredScenarios.map((sc) => {
+            // Cards show the scenario exactly as the interviewer sees it
             const subTag = getScenarioSubTagInfo(sc);
-            const displayDiff = getDisplayDifficulty(sc);
+            const displayDiff = sc.difficulty;
             const diffDot = getDifficultyDot(displayDiff);
-            const trackLabel = getTrackLabel(sc);
-            const displayTitle = getDisplayTitle(sc);
-            const displayStatement = getDisplayProblemStatement(sc);
+            const trackLabel = getTrackConfig(sc.track).label;
+            const displayTitle = sc.title;
+            const displayStatement = sc.problemStatement;
             const practicePoints = getPracticePoints(sc);
-            const ctaText = getCtaText(sc);
+            const ctaText = `Take Interview (${sc.targetDurationMinutes} min)`;
             const isBookmarked = bookmarkedIds.includes(sc.id);
 
             return (
@@ -764,10 +805,24 @@ export const InterviewHub: React.FC = () => {
       <SetupModal
         isOpen={!!setupScenario}
         scenario={setupScenario}
+        level={level}
+        onLevelChange={setLevel}
         onClose={() => setSetupScenario(null)}
         onStartSession={(scenario, persona, mode) => {
           setSetupScenario(null);
           setActiveSession({ scenario, persona, mode });
+        }}
+      />
+
+      {/* Full Loop Setup */}
+      <FullLoopSetupModal
+        isOpen={showLoopSetup}
+        level={level}
+        onLevelChange={setLevel}
+        onClose={() => setShowLoopSetup(false)}
+        onStart={(mode) => {
+          setShowLoopSetup(false);
+          setLoop({ plan: planFullLoop(level), mode, round: 0, results: [], finished: false });
         }}
       />
 
@@ -793,7 +848,7 @@ export const InterviewHub: React.FC = () => {
             <div className="p-6 overflow-y-auto space-y-3">
               {history.length > 0 && (
                 <div className="p-2.5 rounded-lg bg-indigo-50/60 border border-indigo-100 text-[11px] text-zinc-600">
-                  Scores calibrated with the v2 rubric (0–100 weighted formula). Legacy scorecards from earlier sessions are marked with a <span className="font-bold text-amber-700">v1 (legacy)</span> tag.
+                  Scores use the v3 rubric: skills scored per round and level, with a hiring bar. Older scorecards are tagged <span className="font-bold text-amber-700">v2</span> or <span className="font-bold text-amber-700">v1</span> and aren't directly comparable.
                 </div>
               )}
               {history.length === 0 ? (
@@ -810,15 +865,15 @@ export const InterviewHub: React.FC = () => {
                     <div>
                       <div className="flex items-center gap-2 mb-0.5">
                         <span className="text-[10px] font-black uppercase tracking-wider text-indigo-600">
-                          {h.track.toUpperCase()} • {h.company}
+                          {getTrackConfig(h.track).shortLabel} • {h.company}
                         </span>
-                        {h.scoringVersion === 'v2' ? (
-                          <span className="text-[9px] font-black uppercase tracking-wider text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded border border-emerald-200" title="Scored with hardened v2 calibrated rubrics">
-                            v2
+                        {h.scoringVersion === 'v3' ? (
+                          <span className="text-[9px] font-black uppercase tracking-wider text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded border border-emerald-200" title="Scored with the v3 rubric">
+                            v3{h.level ? ` • ${h.level === 'spm' ? 'Senior PM' : h.level.toUpperCase()}` : ''}
                           </span>
                         ) : (
-                          <span className="text-[9px] font-black uppercase tracking-wider text-amber-700 bg-amber-50 px-1.5 py-0.2 rounded border border-amber-200" title="Legacy evaluation (pre-v2 calibration)">
-                            v1 (legacy)
+                          <span className="text-[9px] font-black uppercase tracking-wider text-amber-700 bg-amber-50 px-1.5 py-0.2 rounded border border-amber-200" title="Scored with an older rubric">
+                            {h.scoringVersion === 'v2' ? 'v2' : 'v1 (legacy)'}
                           </span>
                         )}
                       </div>
@@ -829,7 +884,7 @@ export const InterviewHub: React.FC = () => {
                     <div className="text-right shrink-0">
                       <span className="text-xl font-black text-indigo-600 block">{h.score}/100</span>
                       <span className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-                        {h.verdict}
+                        {normalizeVerdict(h.verdict)}
                       </span>
                     </div>
                   </div>

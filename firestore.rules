@@ -34,7 +34,8 @@ service cloud.firestore {
         'score', 'overallScore', 'verdict', 'pillar', 'pillars',
         'promptVersion', 'modelId', 'temperature', 'groundingStats',
         'injectionAttempt', 'latencyMs', 'retryCount', 'candidateTurnCount',
-        'scoringVersion', 'evaluation', 'result', 'report'
+        'scoringVersion', 'evaluation', 'result', 'report',
+        'level', 'hintsUsed', 'hireBarNotes'
       ]);
     }
 
@@ -93,7 +94,8 @@ service cloud.firestore {
             'score', 'overallScore', 'verdict', 'pillar', 'pillars',
             'promptVersion', 'modelId', 'temperature', 'groundingStats',
             'injectionAttempt', 'latencyMs', 'retryCount', 'candidateTurnCount',
-            'scoringVersion', 'evaluation', 'result', 'report'
+            'scoringVersion', 'evaluation', 'result', 'report',
+            'level', 'hintsUsed', 'hireBarNotes'
           ]);
         allow delete: if isOwner(userId) && isValidId(sessionId);
       }

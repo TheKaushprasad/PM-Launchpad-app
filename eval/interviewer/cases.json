@@ -1,0 +1,108 @@
+[
+  {
+    "id": "rca-jumps-to-cause",
+    "name": "Candidate guesses a root cause before clarifying: interviewer redirects, does not confirm",
+    "scenarioId": "rca-dau-drop-5",
+    "personaId": "alex",
+    "level": "pm",
+    "elapsedSeconds": 40,
+    "messages": [
+      { "role": "interviewer", "text": "Hi, I'm Alex Rivera. Today's root cause analysis question is for Meta. Your primary health metric, Daily Active Users, suddenly dropped by 5% yesterday. Investigate the cause." },
+      { "role": "candidate", "text": "It's probably a bug in the latest Android release, so I'd roll it back." }
+    ],
+    "checks": { "maxWords": 60, "mustAskQuestion": true, "noPraise": true, "mustNotContain": ["v14.2", "null-pointer", "null pointer", "crash loop", "you're right", "that's right", "exactly"] }
+  },
+  {
+    "id": "rca-asks-for-cut",
+    "name": "Candidate asks for a specific data cut: interviewer reveals one fact, not the conclusion",
+    "scenarioId": "rca-dau-drop-5",
+    "personaId": "alex",
+    "level": "pm",
+    "elapsedSeconds": 420,
+    "messages": [
+      { "role": "interviewer", "text": "Your primary health metric, Daily Active Users, suddenly dropped by 5% yesterday. Investigate the cause." },
+      { "role": "candidate", "text": "First I'd confirm the logging pipeline is healthy and whether sessions dropped too, not just unique users. Then I'd segment by platform and app version. If it's a bad release I'd expect the drop concentrated in one version." },
+      { "role": "interviewer", "text": "Okay. Logging is healthy and sessions dropped too. Where next?" },
+      { "role": "candidate", "text": "Can you split the drop by platform and app version, and show crash rate by version?" }
+    ],
+    "checks": { "maxWords": 60, "noPraise": true, "mustNotContain": ["null-pointer", "null pointer", "feed initialization", "rolled back", "hotfix", "root cause is"] }
+  },
+  {
+    "id": "guesstimate-asks-for-number",
+    "name": "Estimation: candidate asks for a number, interviewer asks them to assume",
+    "scenarioId": "guest-tube-lights-bangalore",
+    "personaId": "maya",
+    "level": "apm",
+    "elapsedSeconds": 200,
+    "messages": [
+      { "role": "interviewer", "text": "Estimate the total number of tube lights installed across the city of Bangalore." },
+      { "role": "candidate", "text": "I'll split it into homes, offices and public spaces. How many households are there in Bangalore?" }
+    ],
+    "checks": { "maxWords": 60, "mustAskQuestion": true, "noPraise": true, "mustContainAny": ["assum", "estimate", "your own", "reasonable"] }
+  },
+  {
+    "id": "design-vague-answer",
+    "name": "Product design: vague, generic answer gets pushback, not praise",
+    "scenarioId": "design-smart-alarm-clock",
+    "personaId": "priya",
+    "level": "spm",
+    "elapsedSeconds": 700,
+    "messages": [
+      { "role": "interviewer", "text": "Design a smart alarm clock and sleep system for chronic heavy sleepers, snooze-abusers and shift workers." },
+      { "role": "candidate", "text": "I'd make an app with AI that learns your sleep and wakes you up at the perfect time. It would be really smart and personalised for everyone." }
+    ],
+    "checks": { "maxWords": 60, "mustAskQuestion": true, "noPraise": true }
+  },
+  {
+    "id": "behavioral-we-not-i",
+    "name": "Behavioral: story told with 'we' gets a probe for personal actions",
+    "scenarioId": "beh-disagree-engineering",
+    "personaId": "marcus",
+    "level": "pm",
+    "elapsedSeconds": 240,
+    "messages": [
+      { "role": "interviewer", "text": "Tell me about a time you strongly disagreed with an engineering lead. How did you resolve it?" },
+      { "role": "candidate", "text": "At my last company we disagreed about whether to rebuild the checkout. We had a lot of meetings and eventually we aligned and we shipped it and it went well." }
+    ],
+    "checks": { "maxWords": 60, "mustAskQuestion": true, "noPraise": true, "mustContainAny": ["you ", "your", "personally", "specific"] }
+  },
+  {
+    "id": "metrics-curveball-phase",
+    "name": "Curveball phase: interviewer introduces the scenario's twist",
+    "scenarioId": "metrics-zomato-north-star",
+    "personaId": "alex",
+    "level": "pm",
+    "elapsedSeconds": 860,
+    "messages": [
+      { "role": "interviewer", "text": "Pick one North Star metric for Zomato food delivery and defend it." },
+      { "role": "candidate", "text": "I'd pick weekly orders delivered on time and correctly, because it captures customer value, restaurant health and delivery reliability, and it predicts repeat ordering better than GOV, which discounts can inflate." }
+    ],
+    "checks": { "maxWords": 60, "mustAskQuestion": true, "mustContainAny": ["CFO", "GOV", "gross order", "investor"] }
+  },
+  {
+    "id": "wrap-up-phase",
+    "name": "Wrap-up phase: interviewer asks for a recommendation",
+    "scenarioId": "rca-signups-flat-wow",
+    "personaId": "maya",
+    "level": "pm",
+    "elapsedSeconds": 800,
+    "messages": [
+      { "role": "interviewer", "text": "After 6 months of 8% week-on-week growth, sign-ups flattened. Diagnose the stall." },
+      { "role": "candidate", "text": "The funnel split shows email sign-ups dropped while Google and Apple stayed steady, and OTP deliverability fell from 98% to 74%." }
+    ],
+    "checks": { "maxWords": 60, "mustAskQuestion": true, "mustContainAny": ["recommend", "summar", "wrap", "next step", "what would you do"] }
+  },
+  {
+    "id": "praise-bait",
+    "name": "Candidate fishes for praise: interviewer stays neutral",
+    "scenarioId": "strat-netflix-free-ad-tier",
+    "personaId": "priya",
+    "level": "pm",
+    "elapsedSeconds": 500,
+    "messages": [
+      { "role": "interviewer", "text": "Should Netflix launch a free, ad-supported tier?" },
+      { "role": "candidate", "text": "I'd launch it in price-sensitive markets first, because it widens the funnel and ads monetise users who would never pay. That's a great insight, right?" }
+    ],
+    "checks": { "maxWords": 60, "mustAskQuestion": true, "noPraise": true }
+  }
+]

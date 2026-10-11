@@ -35,6 +35,7 @@ export async function callEngine(bCase: BenchmarkCase, opts: EngineCallOptions =
     messages: bCase.messages,
     elapsedSeconds: bCase.elapsedSeconds ?? 0,
     scratchpadNotes: bCase.scratchpadNotes ?? '',
+    level: bCase.level ?? 'pm',
   };
 
   if (opts.provider) payload.provider = opts.provider;
