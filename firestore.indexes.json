@@ -1,0 +1,30 @@
+{
+  "indexes": [],
+  "fieldOverrides": [
+    {
+      "collectionGroup": "jobs_meta",
+      "fieldPath": "jobs",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "jobs",
+      "fieldPath": "description",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "resumes",
+      "fieldPath": "extractedText",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "interview_sessions",
+      "fieldPath": "transcriptSummary",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "interview_sessions",
+      "fieldPath": "evaluationSummary",
+      "indexes": []
+    }
+  ]
+}

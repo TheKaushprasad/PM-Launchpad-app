@@ -17,6 +17,7 @@ Priority: **P0** blocks safe growth, **P1** important next, **P2** nice to have.
 - [ ] **P1** Fix clean installs: regenerate `package-lock.json` so `npm ci` works, delete `bun.lock`.
 - [ ] **P1** Add GitHub Actions CI running `npm ci`, `npm run lint`, `npm run build` and `npm run eval -- --validate` on every PR.
 - [ ] **P1** Remove Supabase leftovers: `lib/supabaseClient.ts`, `supabase_setup.sql`, the `@supabase/supabase-js` dependency.
+- [ ] **P2** Page interview history, saved analyses and saved resumes (`orderBy createdAt` + `limit`) and add a TTL on `rate_limits` before users pile up history. See `docs/database-scaling.md`.
 - [ ] **P2** Stop committing the built `api/index.js` and its source map if Vercel can build them (check the preview first).
 - [ ] **P2** Upstream the owner's `services/.env` loading and `.gitignore` entry so local changes stop blocking `git checkout main`.
 

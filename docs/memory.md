@@ -11,6 +11,7 @@ Decisions, context and lessons learned that are not obvious from the code. Newes
 
 | Date | Decision | Why |
 |---|---|---|
+| 2026-10-11 | Firestore scaling: no composite indexes needed (no query filters or sorts); exempt 5 large never-searched text fields from indexing via `firestore.indexes.json`; `firebase.json` lists indexes only, never rules. See `docs/database-scaling.md` | Every read is by id or one user's own folder; rules are published by hand |
 | 2026-10-09 | PM Jobs board: legal sources only (public Greenhouse/Lever/Ashby job feeds, Remotive, Remote OK; later Adzuna India and Firecrawl on company career pages). No LinkedIn, Naukri, Indeed or Glassdoor scraping | Their terms forbid scraping |
 | 2026-10-09 | Jobs match: instant match % without AI for everyone; AI fit check and tips on the free Gemini key, capped at 2 per user per day | Free tier is about 20 requests per day for the whole site |
 | 2026-10-09 | Keep project docs (`prd`, `rules`, `design`, `tasks`, `memory`, `architecture`) in `docs/` | One place for humans and AI assistants to get context |
