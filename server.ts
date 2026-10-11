@@ -62,6 +62,29 @@ export async function createExpressApp() {
     });
   });
 
+  // Tries one tiny Deepgram call so the owner can see whether the natural voice works.
+  // The result is cached for 10 minutes so this public page can't run up the bill.
+  let voiceCheck: { at: number; result: Record<string, unknown> } | null = null;
+  app.get("/api/health/voice", async (_req, res) => {
+    if (voiceCheck && Date.now() - voiceCheck.at < 10 * 60 * 1000) {
+      return res.json({ ...voiceCheck.result, cached: true });
+    }
+    let deepgram: string;
+    if (!isDeepgramConfigured()) {
+      deepgram = "no key";
+    } else {
+      try {
+        const mp3 = await synthesizeWithDeepgram("Hi.", deepgramVoiceFor("priya", "female"));
+        deepgram = mp3.length > 0 ? "ok" : "empty audio";
+      } catch (err: any) {
+        deepgram = String(err?.message || err).slice(0, 300);
+      }
+    }
+    const result = { deepgram, voice: deepgramVoiceFor("priya", "female") };
+    voiceCheck = { at: Date.now(), result };
+    res.json(result);
+  });
+
   // OpenAI Client Initialization
   const getOpenAI = () => {
     const apiKey = process.env.OPENAI_API_KEY;

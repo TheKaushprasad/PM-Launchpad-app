@@ -9110,6 +9110,26 @@ async function createExpressApp() {
       port: 3e3
     });
   });
+  let voiceCheck = null;
+  app.get("/api/health/voice", async (_req, res) => {
+    if (voiceCheck && Date.now() - voiceCheck.at < 10 * 60 * 1e3) {
+      return res.json({ ...voiceCheck.result, cached: true });
+    }
+    let deepgram;
+    if (!isDeepgramConfigured()) {
+      deepgram = "no key";
+    } else {
+      try {
+        const mp3 = await synthesizeWithDeepgram("Hi.", deepgramVoiceFor("priya", "female"));
+        deepgram = mp3.length > 0 ? "ok" : "empty audio";
+      } catch (err) {
+        deepgram = String(err?.message || err).slice(0, 300);
+      }
+    }
+    const result = { deepgram, voice: deepgramVoiceFor("priya", "female") };
+    voiceCheck = { at: Date.now(), result };
+    res.json(result);
+  });
   const getOpenAI = () => {
     const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) {
