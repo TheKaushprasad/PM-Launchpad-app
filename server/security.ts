@@ -66,7 +66,8 @@ export async function getVerifiedUser(req: Request): Promise<VerifiedUser | null
     return {
       uid: decoded.uid,
       email: (decoded.email || '').toLowerCase(),
-      emailVerified: Boolean(decoded.email_verified),
+      // Google has already verified the address of anyone who signs in with Google (the app treats them the same way).
+      emailVerified: Boolean(decoded.email_verified) || Boolean((decoded.firebase as any)?.identities?.['google.com']),
     };
   } catch (err: any) {
     console.warn('[Auth] Token verification failed:', err?.message);

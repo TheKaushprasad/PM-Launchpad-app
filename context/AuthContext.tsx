@@ -889,6 +889,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     if (!auth.currentUser) return false;
     try {
       await auth.currentUser.reload();
+      // Get a fresh sign-in token too, so the server sees the newly verified email straight away.
+      await auth.currentUser.getIdToken(true).catch(() => null);
       const updatedUser = auth.currentUser;
       if (updatedUser) {
         setUser({ ...updatedUser } as User);
