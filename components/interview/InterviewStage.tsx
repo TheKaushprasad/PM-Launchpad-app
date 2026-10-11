@@ -659,37 +659,40 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
       recognition.lang = 'en-US';
 
       // Step C: Handling Live Transcripts (onresult)
+      // Text already in the box when this recognition run starts (Chrome restarts it after pauses).
+      let sessionBase = latestInputTextRef.current.trim();
+      recognition.onstart = () => {
+        sessionBase = latestInputTextRef.current.trim();
+      };
+
       recognition.onresult = (event: any) => {
         // Discard any audio picked up while interviewer is speaking (prevents speaker echo)
         if (isSpeakingRef.current) {
           return;
         }
+        // The candidate is editing the text by hand; don't overwrite it.
+        if (typedEditRef.current) {
+          return;
+        }
 
-        let interimTranscript = '';
-        let finalTranscript = '';
-
-        for (let i = event.resultIndex; i < event.results.length; ++i) {
-          const transcript = event.results[i][0].transcript;
-          if (event.results[i].isFinal) {
-            finalTranscript += transcript;
+        // Rebuild this run's text from every result, so interim guesses replace each other instead of piling up.
+        const pieces: string[] = [];
+        for (let i = 0; i < event.results.length; ++i) {
+          const transcript = String(event.results[i][0]?.transcript || '').trim();
+          if (!transcript) continue;
+          const previous = pieces[pieces.length - 1];
+          // Some Chrome builds repeat the earlier result inside the next one ("I would", "I would like").
+          if (previous && transcript.toLowerCase().startsWith(previous.toLowerCase())) {
+            pieces[pieces.length - 1] = transcript;
           } else {
-            interimTranscript += transcript;
+            pieces.push(transcript);
           }
         }
 
         // Live text preview
-        if (finalTranscript) {
-          setInputText((prev) => {
-            const updated = prev ? `${prev} ${finalTranscript.trim()}` : finalTranscript.trim();
-            latestInputTextRef.current = updated;
-            return updated;
-          });
-        } else if (interimTranscript) {
-          setInputText((prev) => {
-            const base = latestInputTextRef.current;
-            return base ? `${base} ${interimTranscript.trim()}` : interimTranscript.trim();
-          });
-        }
+        const updated = [sessionBase, pieces.join(' ')].filter(Boolean).join(' ');
+        latestInputTextRef.current = updated;
+        setInputText(updated);
 
         // When the answer is being recorded, the mic volume decides when it ends; otherwise the words do.
         if (!recording) resetSilenceTimer();
