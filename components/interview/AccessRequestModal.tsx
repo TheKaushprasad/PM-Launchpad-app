@@ -14,7 +14,7 @@ export const AccessRequestModal: React.FC<AccessRequestModalProps> = ({
   isOpen,
   onClose,
   onContinue,
-  mode = 'avatar'
+  mode = 'voice'
 }) => {
   const [cameraStatus, setCameraStatus] = useState<'idle' | 'granted' | 'denied'>('idle');
   const [micStatus, setMicStatus] = useState<'idle' | 'granted' | 'denied'>('idle');

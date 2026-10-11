@@ -36,37 +36,13 @@ export const SetupModal: React.FC<SetupModalProps> = ({
   onLevelChange,
   onStartSession
 }) => {
-  const [selectedMode, setSelectedMode] = useState<InterviewMode>('avatar');
+  const selectedMode: InterviewMode = 'voice';
   const [showAccessRequestModal, setShowAccessRequestModal] = useState<boolean>(false);
   const [hasPromptedPermissions, setHasPromptedPermissions] = useState<boolean>(false);
 
   if (!isOpen || !scenario) return null;
 
   const selectedPersona = ACTIVE_INTERVIEWER;
-
-  const modes: { id: InterviewMode; title: string; desc: string; icon: any; badge: string }[] = [
-    {
-      id: 'avatar',
-      title: 'AI Avatar Studio',
-      desc: 'Face-to-face with a realistic video interviewer who talks and listens, plus your webcam mirror.',
-      icon: Video,
-      badge: 'Recommended'
-    },
-    {
-      id: 'voice',
-      title: 'Voice-Only Mode',
-      desc: 'Hands-free spoken simulation with audio frequency energy orb and speech-to-text transcription.',
-      icon: Mic,
-      badge: 'Audio First'
-    },
-    {
-      id: 'chat',
-      title: 'Text Chat Mode',
-      desc: 'Conversational messaging layout with rapid typing and optional text-to-speech feedback.',
-      icon: MessageSquare,
-      badge: 'Fast Pace'
-    }
-  ];
 
   const handleLaunch = () => {
     onStartSession(scenario, selectedPersona, selectedMode);
@@ -151,51 +127,27 @@ export const SetupModal: React.FC<SetupModalProps> = ({
                 </p>
               </div>
 
-              {/* Step 1: Select Interview Mode */}
+              {/* Step 1: Voice interview */}
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <label className="text-xs font-black uppercase tracking-wider text-zinc-500 block">
-                    1. Select Interview Format
+                    1. Voice Interview
                   </label>
                   <button
                     type="button"
                     onClick={() => setShowAccessRequestModal(true)}
                     className="text-[11px] font-bold text-indigo-600 hover:text-indigo-700 flex items-center gap-1"
                   >
-                    <Shield className="w-3 h-3" /> Access Permissions
+                    <Shield className="w-3 h-3" /> Test Microphone
                   </button>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                  {modes.map((m) => {
-                    const Icon = m.icon;
-                    const isSelected = selectedMode === m.id;
-                    return (
-                      <div
-                        key={m.id}
-                        onClick={() => setSelectedMode(m.id)}
-                        className={`p-4 rounded-2xl border-2 cursor-pointer transition-all flex flex-col justify-between ${
-                          isSelected 
-                            ? 'border-indigo-600 bg-indigo-50/50 shadow-md ring-2 ring-indigo-600/20' 
-                            : 'border-zinc-200 hover:border-zinc-300 bg-white'
-                        }`}
-                      >
-                        <div>
-                          <div className="flex items-center justify-between mb-2">
-                            <div className={`p-2 rounded-xl ${isSelected ? 'bg-indigo-600 text-white' : 'bg-zinc-100 text-zinc-600'}`}>
-                              <Icon className="w-4 h-4" />
-                            </div>
-                            <span className={`text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full ${
-                              isSelected ? 'bg-indigo-600 text-white' : 'bg-zinc-100 text-zinc-500'
-                            }`}>
-                              {m.badge}
-                            </span>
-                          </div>
-                          <h4 className="font-extrabold text-xs text-zinc-900 mb-1">{m.title}</h4>
-                          <p className="text-[11px] text-zinc-500 font-medium leading-tight">{m.desc}</p>
-                        </div>
-                      </div>
-                    );
-                  })}
+                <div className="p-4 rounded-2xl border-2 border-indigo-600 bg-indigo-50/50 flex items-start gap-3">
+                  <div className="p-2 rounded-xl bg-indigo-600 text-white shrink-0">
+                    <Mic className="w-4 h-4" />
+                  </div>
+                  <p className="text-[11px] text-zinc-600 font-medium leading-snug">
+                    Speak your answers out loud, like a real phone screen. Your words appear as text so you can fix them before they're sent. Use Chrome or Edge on a laptop for the best results.
+                  </p>
                 </div>
               </div>
 

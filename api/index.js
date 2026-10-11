@@ -8352,31 +8352,6 @@ async function transcribeWithGroq(audio, mimeType, timeoutMs = 2e4) {
   const data = await res.json();
   return typeof data?.text === "string" ? data.text.trim() : "";
 }
-var SIMLI_TOKEN_URL = "https://api.simli.ai/compose/token";
-var isSimliConfigured = () => hasKey(process.env.SIMLI_API_KEY) && hasKey(process.env.SIMLI_FACE_ID);
-async function createSimliSessionToken(maxSessionSeconds, timeoutMs = 8e3) {
-  const res = await fetch(SIMLI_TOKEN_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-simli-api-key": process.env.SIMLI_API_KEY.trim()
-    },
-    body: JSON.stringify({
-      faceId: process.env.SIMLI_FACE_ID.trim(),
-      handleSilence: true,
-      maxSessionLength: Math.round(maxSessionSeconds),
-      maxIdleTime: 300
-    }),
-    signal: AbortSignal.timeout(timeoutMs)
-  });
-  if (!res.ok) {
-    const detail = await res.text().catch(() => "");
-    throw new Error(`Simli token ${res.status}: ${detail.slice(0, 200)}`);
-  }
-  const data = await res.json();
-  if (!data?.session_token) throw new Error("Simli returned no session token");
-  return data.session_token;
-}
 
 // data/realWorldProjects.ts
 var REAL_WORLD_PROJECTS = [
@@ -9132,7 +9107,6 @@ async function createExpressApp() {
       interviewPromptVersion: PROMPT_VERSION,
       hasDeepgramKey: isDeepgramConfigured(),
       hasGroqKey: isGroqConfigured(),
-      hasSimliAvatar: isSimliConfigured(),
       port: 3e3
     });
   });
@@ -10047,39 +10021,47 @@ Generate the next contextual hint:`;
       if (!audioBase64 || typeof audioBase64 !== "string") {
         return res.status(400).json({ error: "Missing audioBase64 for transcription" });
       }
-      if (!isGroqConfigured()) {
-        return res.status(503).json({ error: "Transcription is not configured", configured: false });
-      }
       const audio = Buffer.from(audioBase64, "base64");
       if (audio.length < 1e3) {
         return res.json({ transcript: "" });
       }
-      const transcript = await transcribeWithGroq(audio, String(mimeType));
-      res.json({ transcript, provider: "groq" });
+      if (isGroqConfigured()) {
+        try {
+          const transcript = await transcribeWithGroq(audio, String(mimeType));
+          return res.json({ transcript, provider: "groq" });
+        } catch (groqErr) {
+          console.warn("[Groq Transcribe]: Failed, trying Gemini...", groqErr?.message);
+        }
+      }
+      const geminiKey = process.env.GEMINI_API_KEY;
+      if (geminiKey && geminiKey.trim() !== "" && geminiKey !== "undefined") {
+        const { GoogleGenAI: GoogleGenAI2 } = await import("@google/genai");
+        const ai2 = new GoogleGenAI2({ apiKey: geminiKey });
+        const baseType = String(mimeType).split(";")[0] || "audio/webm";
+        let lastErr = null;
+        for (const modelName of ["gemini-3.1-flash-lite", "gemini-3.8-flash"]) {
+          try {
+            const response = await ai2.models.generateContent({
+              model: modelName,
+              contents: [{
+                parts: [
+                  { inlineData: { mimeType: baseType, data: audioBase64 } },
+                  { text: "Transcribe this spoken interview answer verbatim in English. Output only the words spoken, with no commentary. If nothing is said, output nothing." }
+                ]
+              }]
+            });
+            return res.json({ transcript: (response.text || "").trim(), provider: "gemini" });
+          } catch (mErr) {
+            lastErr = mErr;
+            console.warn(`[Gemini Transcribe]: ${modelName} failed:`, mErr?.message);
+          }
+        }
+        throw lastErr || new Error("Gemini transcription failed");
+      }
+      res.status(503).json({ error: "Transcription is not configured", configured: false });
     } catch (err) {
       console.error("[Audio Transcribe Error]:", err?.message);
       res.status(502).json({ error: "Transcription failed", retryable: true });
-    }
-  });
-  app.post(["/api/interview/avatar-session", "/api/interview/avatar-session/"], requireAiAccess, async (req, res) => {
-    try {
-      if (!isSimliConfigured()) {
-        return res.status(503).json({ error: "Video avatar is not configured", configured: false });
-      }
-      const uid = res.locals.user?.uid || clientIp(req);
-      const perUser = Number(process.env.SIMLI_DAILY_SESSIONS_PER_USER) || 2;
-      const total = Number(process.env.SIMLI_DAILY_SESSIONS_TOTAL) || 20;
-      const userOk = await consumeDailyQuota(`simli_user_${uid}`, perUser);
-      const totalOk = userOk && await consumeDailyQuota("simli_total", total);
-      if (!userOk || !totalOk) {
-        return res.status(429).json({ error: "Video avatar limit reached for today", limited: true });
-      }
-      const targetSeconds = Math.min(Math.max(Number(req.body?.targetSeconds) || 1800, 300), 3600);
-      const sessionToken = await createSimliSessionToken(targetSeconds + 600);
-      res.json({ sessionToken });
-    } catch (err) {
-      console.error("[Avatar Session Error]:", err?.message);
-      res.status(502).json({ error: "Could not start the video avatar" });
     }
   });
   app.post(["/api/interview/evaluate", "/api/interview/evaluate/"], requireAiAccess, async (req, res) => {

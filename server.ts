@@ -25,7 +25,7 @@ import { buildInterviewerSystemPrompt, buildInterviewerTranscript, cleanIntervie
 import { getTrackConfig, normalizeLevel } from "./data/interviewTracks";
 import { runEvaluationEngine } from "./server/evaluatorEngine";
 import { saveInterviewEvaluationServerSide } from "./server/persistence";
-import { createSimliSessionToken, deepgramVoiceFor, isDeepgramConfigured, isGroqConfigured, isSimliConfigured, synthesizeWithDeepgram, transcribeWithGroq } from "./server/voice";
+import { deepgramVoiceFor, isDeepgramConfigured, isGroqConfigured, synthesizeWithDeepgram, transcribeWithGroq } from "./server/voice";
 import { getProjectById } from "./data/realWorldProjects";
 import { getJobDetail, getJobsList, jobsStoreReady, refreshJobs } from "./server/jobs/store";
 import { requireAiAccess, getVerifiedUser, consumeDailyQuota, clientIp } from "./server/security";
@@ -58,7 +58,6 @@ export async function createExpressApp() {
       interviewPromptVersion: PROMPT_VERSION,
       hasDeepgramKey: isDeepgramConfigured(),
       hasGroqKey: isGroqConfigured(),
-      hasSimliAvatar: isSimliConfigured(),
       port: 3000
     });
   });
@@ -1105,45 +1104,52 @@ Plain text, 1-2 sentences. No markdown.
       if (!audioBase64 || typeof audioBase64 !== 'string') {
         return res.status(400).json({ error: "Missing audioBase64 for transcription" });
       }
-      // Groq Whisper only. Without a key the browser's live transcript is used instead,
-      // so recorded answers never spend the Gemini quota.
-      if (!isGroqConfigured()) {
-        return res.status(503).json({ error: "Transcription is not configured", configured: false });
-      }
       const audio = Buffer.from(audioBase64, 'base64');
       if (audio.length < 1000) {
         return res.json({ transcript: "" });
       }
-      const transcript = await transcribeWithGroq(audio, String(mimeType));
-      res.json({ transcript, provider: "groq" });
+
+      // 1. Groq Whisper: accurate, fast and free; does not use the Gemini quota.
+      if (isGroqConfigured()) {
+        try {
+          const transcript = await transcribeWithGroq(audio, String(mimeType));
+          return res.json({ transcript, provider: "groq" });
+        } catch (groqErr: any) {
+          console.warn("[Groq Transcribe]: Failed, trying Gemini...", groqErr?.message);
+        }
+      }
+
+      // 2. Gemini fallback (one AI call per answer, so it spends the free quota faster).
+      const geminiKey = process.env.GEMINI_API_KEY;
+      if (geminiKey && geminiKey.trim() !== "" && geminiKey !== "undefined") {
+        const { GoogleGenAI } = await import("@google/genai");
+        const ai = new GoogleGenAI({ apiKey: geminiKey });
+        const baseType = String(mimeType).split(";")[0] || "audio/webm";
+        let lastErr: any = null;
+        for (const modelName of ["gemini-3.1-flash-lite", "gemini-3.8-flash"]) {
+          try {
+            const response = await ai.models.generateContent({
+              model: modelName,
+              contents: [{
+                parts: [
+                  { inlineData: { mimeType: baseType, data: audioBase64 } },
+                  { text: "Transcribe this spoken interview answer verbatim in English. Output only the words spoken, with no commentary. If nothing is said, output nothing." }
+                ]
+              }]
+            });
+            return res.json({ transcript: (response.text || "").trim(), provider: "gemini" });
+          } catch (mErr: any) {
+            lastErr = mErr;
+            console.warn(`[Gemini Transcribe]: ${modelName} failed:`, mErr?.message);
+          }
+        }
+        throw lastErr || new Error("Gemini transcription failed");
+      }
+
+      res.status(503).json({ error: "Transcription is not configured", configured: false });
     } catch (err: any) {
       console.error("[Audio Transcribe Error]:", err?.message);
       res.status(502).json({ error: "Transcription failed", retryable: true });
-    }
-  });
-
-  // Realistic video avatar session (Simli). Paid per minute, so it is capped per user and per day;
-  // when unavailable the client keeps the photo avatar with voice.
-  app.post(["/api/interview/avatar-session", "/api/interview/avatar-session/"], requireAiAccess, async (req, res) => {
-    try {
-      if (!isSimliConfigured()) {
-        return res.status(503).json({ error: "Video avatar is not configured", configured: false });
-      }
-      const uid = res.locals.user?.uid || clientIp(req);
-      const perUser = Number(process.env.SIMLI_DAILY_SESSIONS_PER_USER) || 2;
-      const total = Number(process.env.SIMLI_DAILY_SESSIONS_TOTAL) || 20;
-      const userOk = await consumeDailyQuota(`simli_user_${uid}`, perUser);
-      const totalOk = userOk && (await consumeDailyQuota('simli_total', total));
-      if (!userOk || !totalOk) {
-        return res.status(429).json({ error: "Video avatar limit reached for today", limited: true });
-      }
-      const targetSeconds = Math.min(Math.max(Number(req.body?.targetSeconds) || 1800, 300), 3600);
-      // Allow some overtime beyond the interview's target length.
-      const sessionToken = await createSimliSessionToken(targetSeconds + 600);
-      res.json({ sessionToken });
-    } catch (err: any) {
-      console.error("[Avatar Session Error]:", err?.message);
-      res.status(502).json({ error: "Could not start the video avatar" });
     }
   });
 
