@@ -1,0 +1,8 @@
+{
+  "firestore": [
+    {
+      "database": "ai-studio-thenoobpm-02bc883c-ea67-47f0-bf74-b76c386d5c68",
+      "indexes": "firestore.indexes.json"
+    }
+  ]
+}
