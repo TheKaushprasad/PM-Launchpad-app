@@ -89,11 +89,25 @@ export async function createExpressApp() {
         deepgram = String(err?.message || err).slice(0, 300);
       }
     }
+    // How long a typical two-sentence piece of the interviewer's line takes to generate.
+    let deepgramPieceMs: number | string = "skipped";
+    if (deepgram === "ok") {
+      const pieceStart = Date.now();
+      try {
+        await synthesizeWithDeepgram(
+          "Thanks for making the time. Today's product design question is about a parking app for drivers in crowded city centres.",
+          deepgramVoiceFor("priya", "female")
+        );
+        deepgramPieceMs = Date.now() - pieceStart;
+      } catch (err: any) {
+        deepgramPieceMs = `failed after ${Date.now() - pieceStart} ms: ${String(err?.message || err).slice(0, 160)}`;
+      }
+    }
     // How long the usage-limit check takes; it runs before every voice request.
     const quotaStart = Date.now();
     await consumeDailyQuota("health_voice_check", 1000);
     const quotaCheckMs = Date.now() - quotaStart;
-    const result = { deepgram, voice: deepgramVoiceFor("priya", "female"), quotaCheckMs };
+    const result = { deepgram, voice: deepgramVoiceFor("priya", "female"), deepgramPieceMs, quotaCheckMs };
     voiceCheck = { at: Date.now(), result };
     res.json(result);
   });
@@ -1062,6 +1076,9 @@ Plain text, 1-2 sentences. No markdown.
 
       // Why each provider failed, so the page can tell the candidate instead of silently going robotic.
       const failures: string[] = [];
+      // Answer within this budget so the page (which waits 20 seconds) hears the reason instead of timing out.
+      const ttsStartedAt = Date.now();
+      const TTS_BUDGET_MS = 16000;
 
       // 1. Deepgram Aura-2: natural voice, low latency, does not use the Gemini quota
       if (isDeepgramConfigured()) {
@@ -1075,7 +1092,10 @@ Plain text, 1-2 sentences. No markdown.
       }
 
       // 2. Try Gemini TTS (gemini-3.1-flash-tts-preview)
-      if (geminiKey && geminiKey.trim() !== "" && geminiKey !== "undefined") {
+      const geminiTimeLeft = TTS_BUDGET_MS - (Date.now() - ttsStartedAt);
+      if (geminiKey && geminiKey.trim() !== "" && geminiKey !== "undefined" && geminiTimeLeft < 3000) {
+        failures.push("Gemini: skipped, not enough time left");
+      } else if (geminiKey && geminiKey.trim() !== "" && geminiKey !== "undefined") {
         try {
           const { GoogleGenAI, Modality } = await import("@google/genai");
           const ai = new GoogleGenAI({
@@ -1094,7 +1114,7 @@ Plain text, 1-2 sentences. No markdown.
                 }
               }
             }
-          }), 7000, "Gemini voice took too long");
+          }), Math.min(7000, geminiTimeLeft), "Gemini voice took too long");
 
           const base64Audio = ttsResponse.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
           if (base64Audio) {

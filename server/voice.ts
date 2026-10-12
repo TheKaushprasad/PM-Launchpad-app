@@ -33,7 +33,7 @@ export function deepgramVoiceFor(personaId: string, voiceGender: string): string
 }
 
 /** Returns MP3 audio for the text, or throws. */
-export async function synthesizeWithDeepgram(text: string, voice: string, timeoutMs = 8000): Promise<Buffer> {
+export async function synthesizeWithDeepgram(text: string, voice: string, timeoutMs = 12000): Promise<Buffer> {
   const url = `${DEEPGRAM_SPEAK_URL}?model=${encodeURIComponent(voice)}&encoding=mp3`;
   const res = await fetch(url, {
     method: "POST",
