@@ -8306,7 +8306,7 @@ var isGroqConfigured = () => hasKey(process.env.GROQ_API_KEY);
 function deepgramVoiceFor(personaId, voiceGender) {
   return DEEPGRAM_VOICES[personaId] || DEFAULT_VOICE[voiceGender === "male" ? "male" : "female"];
 }
-async function synthesizeWithDeepgram(text, voice, timeoutMs = 8e3) {
+async function synthesizeWithDeepgram(text, voice, timeoutMs = 12e3) {
   const url = `${DEEPGRAM_SPEAK_URL}?model=${encodeURIComponent(voice)}&encoding=mp3`;
   const res = await fetch(url, {
     method: "POST",
@@ -9149,10 +9149,23 @@ async function createExpressApp() {
         deepgram = String(err?.message || err).slice(0, 300);
       }
     }
+    let deepgramPieceMs = "skipped";
+    if (deepgram === "ok") {
+      const pieceStart = Date.now();
+      try {
+        await synthesizeWithDeepgram(
+          "Thanks for making the time. Today's product design question is about a parking app for drivers in crowded city centres.",
+          deepgramVoiceFor("priya", "female")
+        );
+        deepgramPieceMs = Date.now() - pieceStart;
+      } catch (err) {
+        deepgramPieceMs = `failed after ${Date.now() - pieceStart} ms: ${String(err?.message || err).slice(0, 160)}`;
+      }
+    }
     const quotaStart = Date.now();
     await consumeDailyQuota("health_voice_check", 1e3);
     const quotaCheckMs = Date.now() - quotaStart;
-    const result = { deepgram, voice: deepgramVoiceFor("priya", "female"), quotaCheckMs };
+    const result = { deepgram, voice: deepgramVoiceFor("priya", "female"), deepgramPieceMs, quotaCheckMs };
     voiceCheck = { at: Date.now(), result };
     res.json(result);
   });
@@ -9999,6 +10012,8 @@ Generate the next contextual hint:`;
       };
       const voiceName = voiceMap[personaId] || (voiceGender === "female" ? "Kore" : "Puck");
       const failures = [];
+      const ttsStartedAt = Date.now();
+      const TTS_BUDGET_MS = 16e3;
       if (isDeepgramConfigured()) {
         try {
           const mp3 = await synthesizeWithDeepgram(text.trim(), deepgramVoiceFor(personaId, voiceGender));
@@ -10008,7 +10023,10 @@ Generate the next contextual hint:`;
           failures.push(`Deepgram: ${String(dgErr?.message || dgErr).slice(0, 160)}`);
         }
       }
-      if (geminiKey && geminiKey.trim() !== "" && geminiKey !== "undefined") {
+      const geminiTimeLeft = TTS_BUDGET_MS - (Date.now() - ttsStartedAt);
+      if (geminiKey && geminiKey.trim() !== "" && geminiKey !== "undefined" && geminiTimeLeft < 3e3) {
+        failures.push("Gemini: skipped, not enough time left");
+      } else if (geminiKey && geminiKey.trim() !== "" && geminiKey !== "undefined") {
         try {
           const { GoogleGenAI: GoogleGenAI2, Modality } = await import("@google/genai");
           const ai2 = new GoogleGenAI2({
@@ -10025,7 +10043,7 @@ Generate the next contextual hint:`;
                 }
               }
             }
-          }), 7e3, "Gemini voice took too long");
+          }), Math.min(7e3, geminiTimeLeft), "Gemini voice took too long");
           const base64Audio = ttsResponse.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
           if (base64Audio) {
             return res.json({

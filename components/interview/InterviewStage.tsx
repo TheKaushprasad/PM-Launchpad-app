@@ -70,11 +70,24 @@ function buildOpener(scenario: InterviewScenario, persona: InterviewerPersona): 
 
 const nowStamp = () => new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-// Splits a line into its first sentence and the rest, so the voice can start on the short first part.
+// Splits a line into short pieces (one or two sentences each) so each voice request is quick:
+// the first piece is the first sentence, so the interviewer starts talking as soon as possible.
 function splitForSpeech(text: string): string[] {
-  const trimmed = text.trim();
-  const match = trimmed.match(/^(.{12,220}?[.!?])\s+(\S[\s\S]*)$/);
-  return match ? [match[1], match[2]] : [trimmed];
+  const sentences = text.trim().match(/[^.!?]+[.!?]+["')\]]*\s*|[^.!?]+$/g)?.map(t => t.trim()).filter(Boolean) || [];
+  if (sentences.length === 0) return [text.trim()];
+  const pieces: string[] = [];
+  for (const sentence of sentences) {
+    const last = pieces[pieces.length - 1];
+    // Keep the first sentence on its own; join very short sentences onto the previous piece.
+    if (pieces.length > 1 && last && (last.length < 40 || last.length + sentence.length < 160)) {
+      pieces[pieces.length - 1] = `${last} ${sentence}`;
+    } else if (pieces.length === 1 && last && last.length < 12) {
+      pieces[0] = `${last} ${sentence}`;
+    } else {
+      pieces.push(sentence);
+    }
+  }
+  return pieces;
 }
 
 // How long to wait for the natural voice before using the browser voice. Allows for a cold server start.
@@ -414,18 +427,24 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
       }
     }, TTS_TIMEOUT_MS + wordCount * 400 + 6000);
 
-    // 1. Server TTS. The first sentence is fetched on its own so the interviewer starts talking
-    // as soon as it is ready; the rest is fetched at the same time and plays straight after.
+    // 1. Server TTS, one short piece at a time. Each piece is requested one step ahead of playback,
+    // so the next piece is usually ready when the current one ends and no request waits long.
     const parts = splitForSpeech(text);
     const prefetched = prefetchedTtsRef.current;
-    const requests = parts.map((part) => {
-      const ready = prefetched.get(part);
-      prefetched.delete(part);
-      return ready || requestTts(part);
-    });
-    requests.forEach((r) => r.catch(() => {}));
+    const requests: Promise<Response>[] = [];
+    const ensureRequested = (i: number) => {
+      if (i >= parts.length || i in requests) return;
+      const ready = prefetched.get(parts[i]);
+      prefetched.delete(parts[i]);
+      requests[i] = ready || requestTts(parts[i]);
+      requests[i].catch(() => {});
+    };
+    ensureRequested(0);
+    ensureRequested(1);
 
     for (let i = 0; i < parts.length; i++) {
+      ensureRequested(i);
+      ensureRequested(i + 1);
       const outcome = await fetchAndPlay(requests[i], currentSpeechId);
       if (outcome === 'cancelled' || currentSpeechId !== speechPlayCounterRef.current) return;
       if (outcome !== 'done') {
@@ -553,7 +572,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
   // Short briefing screen, then the scripted opener
   useEffect(() => {
     if (isVoiceEnabledRef.current) {
-      for (const part of splitForSpeech(buildOpener(scenario, persona))) {
+      for (const part of splitForSpeech(buildOpener(scenario, persona)).slice(0, 2)) {
         const response = requestTts(part);
         response.catch(() => {}); // handled when the opener is spoken
         prefetchedTtsRef.current.set(part, response);
