@@ -24,7 +24,7 @@ const BriefSection: React.FC<{ title: string; icon: React.ElementType; items: st
     <ul className="space-y-1.5">
       {items.map((item) => (
         <li key={item} className="text-sm text-slate-700 leading-relaxed flex gap-2">
-          <span className="text-indigo-400 mt-1.5 w-1 h-1 rounded-full bg-indigo-400 shrink-0" />
+          <span className="text-brand-400 mt-1.5 w-1 h-1 rounded-full bg-brand-400 shrink-0" />
           {item}
         </li>
       ))}
@@ -41,7 +41,7 @@ const FeedbackView: React.FC<{ record: ProjectSubmissionRecord }> = ({ record })
     <div className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 space-y-6">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <div className="inline-flex items-center gap-1.5 text-indigo-600 font-extrabold text-xs tracking-wider mb-1">
+          <div className="inline-flex items-center gap-1.5 text-brand-600 font-extrabold text-xs tracking-wider mb-1">
             <Sparkles className="w-3.5 h-3.5" />
             AI FEEDBACK
           </div>
@@ -65,7 +65,7 @@ const FeedbackView: React.FC<{ record: ProjectSubmissionRecord }> = ({ record })
                 <span className="font-black text-slate-900">{c.score}/10</span>
               </div>
               <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden mb-1.5">
-                <div className="h-full bg-indigo-500 rounded-full" style={{ width: `${c.score * 10}%` }} />
+                <div className="h-full bg-brand-500 rounded-full" style={{ width: `${c.score * 10}%` }} />
               </div>
               <p className="text-xs text-slate-500 leading-relaxed">{c.comment}</p>
             </div>
@@ -173,7 +173,7 @@ export const ProjectDetail: React.FC = () => {
           <section className="lg:col-span-2 bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 space-y-5 h-fit">
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <span className="text-[10px] font-black uppercase tracking-wider text-indigo-600">{project.category}</span>
+                <span className="text-[10px] font-black uppercase tracking-wider text-brand-600">{project.category}</span>
                 <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${DIFFICULTY_STYLES[project.difficulty]}`}>
                   {project.difficulty}
                 </span>
@@ -210,7 +210,7 @@ export const ProjectDetail: React.FC = () => {
                 onChange={(e) => setDraft(e.target.value.slice(0, MAX_CHARS))}
                 rows={18}
                 placeholder={project.deliverables.map((d, i) => `${i + 1}. ${d}\n`).join('\n')}
-                className="w-full rounded-xl border border-slate-200 p-4 text-sm text-slate-800 leading-relaxed focus:outline-none focus:ring-2 focus:ring-indigo-500/30 focus:border-indigo-400 resize-y font-mono"
+                className="w-full rounded-xl border border-slate-200 p-4 text-sm text-slate-800 leading-relaxed focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-400 resize-y font-mono"
               />
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-3">
                 <span className={`text-xs ${draft.trim().length < MIN_CHARS ? 'text-slate-400' : 'text-emerald-600'}`}>

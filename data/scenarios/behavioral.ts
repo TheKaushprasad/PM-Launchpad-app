@@ -60,13 +60,13 @@ const behavioral = (s: BehavioralSeed): InterviewScenario => ({
 });
 
 const AMAZON = { company: 'Amazon', companyColor: 'bg-zinc-900 text-amber-400', companyBadge: 'Leadership Principles' };
-const GOOGLE = { company: 'Google', companyColor: 'bg-blue-500 text-white', companyBadge: 'Googleyness & Leadership' };
-const META = { company: 'Meta', companyColor: 'bg-blue-600 text-white', companyBadge: 'Behavioral' };
-const FLIPKART = { company: 'Flipkart', companyColor: 'bg-blue-600 text-white', companyBadge: 'Hiring Manager Round' };
-const RAZORPAY = { company: 'Razorpay', companyColor: 'bg-blue-700 text-white', companyBadge: 'Culture Round' };
-const MICROSOFT = { company: 'Microsoft', companyColor: 'bg-sky-600 text-white', companyBadge: 'Behavioral' };
+const GOOGLE = { company: 'Google', companyColor: 'bg-brand-500 text-white', companyBadge: 'Googleyness & Leadership' };
+const META = { company: 'Meta', companyColor: 'bg-brand-600 text-white', companyBadge: 'Behavioral' };
+const FLIPKART = { company: 'Flipkart', companyColor: 'bg-brand-600 text-white', companyBadge: 'Hiring Manager Round' };
+const RAZORPAY = { company: 'Razorpay', companyColor: 'bg-brand-700 text-white', companyBadge: 'Culture Round' };
+const MICROSOFT = { company: 'Microsoft', companyColor: 'bg-brand-600 text-white', companyBadge: 'Behavioral' };
 const SWIGGY = { company: 'Swiggy', companyColor: 'bg-orange-500 text-white', companyBadge: 'Hiring Manager Round' };
-const STRIPE = { company: 'Stripe', companyColor: 'bg-indigo-600 text-white', companyBadge: 'Behavioral' };
+const STRIPE = { company: 'Stripe', companyColor: 'bg-brand-600 text-white', companyBadge: 'Behavioral' };
 
 export const BEHAVIORAL_SCENARIOS: InterviewScenario[] = [
   // ==========================================

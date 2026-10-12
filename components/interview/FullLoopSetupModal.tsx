@@ -21,7 +21,7 @@ export const FullLoopSetupModal: React.FC<FullLoopSetupModalProps> = ({ isOpen, 
       <div className="bg-white rounded-3xl border border-zinc-200 shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto text-zinc-900">
         <div className="px-6 py-4 border-b border-zinc-100 flex items-center justify-between bg-zinc-50/80">
           <div className="flex items-center gap-2">
-            <Layers className="w-5 h-5 text-indigo-600" />
+            <Layers className="w-5 h-5 text-brand-600" />
             <h2 className="text-lg font-black tracking-tight">Full interview loop</h2>
           </div>
           <button onClick={onClose} className="p-2 rounded-xl text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100" aria-label="Close">
@@ -42,7 +42,7 @@ export const FullLoopSetupModal: React.FC<FullLoopSetupModalProps> = ({ isOpen, 
                   key={l.id}
                   type="button"
                   onClick={() => onLevelChange(l.id)}
-                  className={`p-3 rounded-2xl border text-left transition-colors ${level === l.id ? 'border-indigo-600 bg-indigo-50' : 'border-zinc-200 hover:bg-zinc-50'}`}
+                  className={`p-3 rounded-2xl border text-left transition-colors ${level === l.id ? 'border-brand-600 bg-brand-50' : 'border-zinc-200 hover:bg-zinc-50'}`}
                 >
                   <div className="text-sm font-extrabold">{l.short}</div>
                   <div className="text-[11px] text-zinc-500 leading-snug mt-0.5">{l.description}</div>
@@ -54,7 +54,7 @@ export const FullLoopSetupModal: React.FC<FullLoopSetupModalProps> = ({ isOpen, 
           <button
             type="button"
             onClick={() => onStart(mode)}
-            className="w-full py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-sm"
+            className="w-full py-3 rounded-2xl bg-brand-600 hover:bg-brand-700 text-white font-extrabold text-sm"
           >
             Start round 1
           </button>

@@ -122,7 +122,7 @@ const MainShell = () => {
         return (
             <div className="min-h-screen bg-[#FDFDFD] flex items-center justify-center">
                 <div className="flex flex-col items-center gap-3">
-                    <Loader2 className="w-8 h-8 text-indigo-600 animate-spin" />
+                    <Loader2 className="w-8 h-8 text-brand-600 animate-spin" />
                     <span className="text-xs font-bold text-zinc-400 uppercase tracking-widest">
                         Loading session...
                     </span>

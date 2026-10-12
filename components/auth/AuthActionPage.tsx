@@ -250,7 +250,7 @@ export const AuthActionPage: React.FC = () => {
             <Logo className="w-10 h-10 transition-transform group-hover:scale-105" />
             <div className="text-left">
               <span className="font-extrabold text-2xl tracking-tight text-slate-900 block leading-none">
-                TheNoob<span className="text-blue-600">PM</span>
+                TheNoob<span className="text-brand-600">PM</span>
               </span>
               <span className="text-xs text-slate-500 font-medium tracking-wide">
                 Product Management Launchpad
@@ -264,7 +264,7 @@ export const AuthActionPage: React.FC = () => {
           {/* 1. LOADING STATE */}
           {status === 'loading' && (
             <div className="py-8 text-center">
-              <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-blue-50 text-blue-600 mb-4 animate-spin">
+              <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-brand-50 text-brand-600 mb-4 animate-spin">
                 <Loader2 className="w-7 h-7" />
               </div>
               <h2 className="text-xl font-bold text-slate-900 mb-2">
@@ -291,13 +291,13 @@ export const AuthActionPage: React.FC = () => {
 
               <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 mb-6">
                 <p className="text-xs text-slate-500 font-medium">
-                  Redirecting to your dashboard in <span className="font-bold text-blue-600">{countdown}s</span>...
+                  Redirecting to your dashboard in <span className="font-bold text-brand-600">{countdown}s</span>...
                 </p>
               </div>
 
               <button
                 onClick={() => navigate('/dashboard', { replace: true })}
-                className="w-full py-3.5 px-5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl flex items-center justify-center gap-2 transition-all shadow-md shadow-blue-500/20 active:scale-[0.98]"
+                className="w-full py-3.5 px-5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl flex items-center justify-center gap-2 transition-all shadow-md shadow-brand-500/20 active:scale-[0.98]"
               >
                 <span>Continue to PM Workspace</span>
                 <ArrowRight className="w-4 h-4" />
@@ -332,7 +332,7 @@ export const AuthActionPage: React.FC = () => {
           {status === 'input' && params.mode === 'resetPassword' && (
             <div>
               <div className="text-center mb-6">
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-50 text-blue-600 mb-3 border border-blue-100">
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-brand-50 text-brand-600 mb-3 border border-brand-100">
                   <KeyRound className="w-6 h-6" />
                 </div>
                 <h2 className="text-2xl font-black text-slate-900 tracking-tight">
@@ -368,7 +368,7 @@ export const AuthActionPage: React.FC = () => {
                       placeholder="Minimum 8 characters with numbers"
                       required
                       autoComplete="new-password"
-                      className="w-full pl-10 pr-10 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+                      className="w-full pl-10 pr-10 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all"
                     />
                     <button
                       type="button"
@@ -395,7 +395,7 @@ export const AuthActionPage: React.FC = () => {
                       placeholder="Re-type your new password"
                       required
                       autoComplete="new-password"
-                      className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+                      className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all"
                     />
                   </div>
                 </div>
@@ -423,7 +423,7 @@ export const AuthActionPage: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting || !hasMinLength || !hasNumber}
-                  className="w-full py-3.5 px-5 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-200 disabled:text-slate-400 disabled:cursor-not-allowed text-white font-bold rounded-xl flex items-center justify-center gap-2 transition-all shadow-md shadow-blue-500/20 active:scale-[0.98] mt-2"
+                  className="w-full py-3.5 px-5 bg-brand-600 hover:bg-brand-700 disabled:bg-slate-200 disabled:text-slate-400 disabled:cursor-not-allowed text-white font-bold rounded-xl flex items-center justify-center gap-2 transition-all shadow-md shadow-brand-500/20 active:scale-[0.98] mt-2"
                 >
                   {isSubmitting ? (
                     <>
@@ -465,7 +465,7 @@ export const AuthActionPage: React.FC = () => {
 
                 <p className="text-xs text-slate-500 mt-3">
                   Need help? Contact our team at{' '}
-                  <a href="mailto:support@thenoobpm.com" className="text-blue-600 font-medium hover:underline">
+                  <a href="mailto:support@thenoobpm.com" className="text-brand-600 font-medium hover:underline">
                     support@thenoobpm.com
                   </a>
                 </p>

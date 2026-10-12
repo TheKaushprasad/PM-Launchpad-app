@@ -56,12 +56,12 @@ import { Day45Content } from './content/days/day-45';
 
 export const getCategoryColor = (category: Category): string => {
   switch (category) {
-    case 'Foundations': return 'bg-blue-50 text-blue-600 border-blue-100';
-    case 'Research': return 'bg-purple-50 text-purple-600 border-purple-100';
+    case 'Foundations': return 'bg-brand-50 text-brand-600 border-brand-100';
+    case 'Research': return 'bg-brand-50 text-brand-600 border-brand-100';
     case 'Data': return 'bg-emerald-50 text-emerald-600 border-emerald-100';
     case 'Design': return 'bg-pink-50 text-pink-600 border-pink-100';
     case 'AI': return 'bg-orange-50 text-orange-600 border-orange-100';
-    case 'Strategy': return 'bg-indigo-50 text-indigo-600 border-indigo-100';
+    case 'Strategy': return 'bg-brand-50 text-brand-600 border-brand-100';
     case 'Tech': return 'bg-cyan-50 text-cyan-600 border-cyan-100';
     case 'Job Ready': return 'bg-amber-50 text-amber-600 border-amber-100';
     default: return 'bg-zinc-50 text-zinc-600 border-zinc-100';
@@ -110,8 +110,8 @@ export const LESSONS: Lesson[] = [
     assignment: (
       <div className="space-y-4">
         <p className="font-bold">Pick a product you use daily (e.g., Spotify, Zomato, Notion, Cred) and answer:</p>
-        <div className="bg-white/50 p-4 rounded-xl border border-indigo-100">
-          <p className="text-sm font-black text-indigo-900 uppercase tracking-widest mb-1">Submission Format</p>
+        <div className="bg-white/50 p-4 rounded-xl border border-brand-100">
+          <p className="text-sm font-black text-brand-900 uppercase tracking-widest mb-1">Submission Format</p>
           <p className="text-sm">Product Name: ___ User Problem: ___ Key Metrics: ___ Improvement Suggestion: ___</p>
         </div>
         <p className="font-bold">Reflection Task</p>
@@ -131,8 +131,8 @@ export const LESSONS: Lesson[] = [
     assignment: (
       <div className="space-y-4">
         <p className="font-bold">Pick any app (Spotify / Swiggy / Cred / Duolingo / ChatGPT) and describe a new feature across the PDLC:</p>
-        <div className="bg-white/50 p-6 rounded-2xl border border-indigo-100 space-y-2">
-            <p className="text-sm font-black text-indigo-900 uppercase tracking-widest mb-1">Structured Thinking</p>
+        <div className="bg-white/50 p-6 rounded-2xl border border-brand-100 space-y-2">
+            <p className="text-sm font-black text-brand-900 uppercase tracking-widest mb-1">Structured Thinking</p>
             <p className="text-sm"><strong>Product:</strong> ___</p>
             <p className="text-sm"><strong>Feature Idea:</strong> ___</p>
             <p className="text-sm"><strong>Discovery:</strong> Problem & insight: ___</p>
@@ -155,8 +155,8 @@ export const LESSONS: Lesson[] = [
     assignment: (
       <div className="space-y-4">
         <p className="font-bold">Pick any product (Spotify / Swiggy / Cred / Duolingo / ChatGPT) and evaluate its lifecycle:</p>
-        <div className="bg-white/50 p-6 rounded-2xl border border-indigo-100 space-y-2">
-            <p className="text-sm font-black text-indigo-900 uppercase tracking-widest mb-1">Analysis Framework</p>
+        <div className="bg-white/50 p-6 rounded-2xl border border-brand-100 space-y-2">
+            <p className="text-sm font-black text-brand-900 uppercase tracking-widest mb-1">Analysis Framework</p>
             <p className="text-sm"><strong>Product:</strong> ___</p>
             <p className="text-sm"><strong>Current PLC Stage:</strong> ___</p>
             <p className="text-sm"><strong>Signals:</strong> What signals tell you this stage?: ___</p>
@@ -180,7 +180,7 @@ export const LESSONS: Lesson[] = [
     assignment: (
       <div className="space-y-4">
         <p className="font-bold">
-          <a href="https://www.parallelhq.com/blog/what-product-sense" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-800 underline transition-colors">
+          <a href="https://www.parallelhq.com/blog/what-product-sense" target="_blank" rel="noopener noreferrer" className="text-brand-600 hover:text-brand-800 underline transition-colors">
             Read this expert breakdown of Product Sense and apply it to a feature teardown.
           </a>
         </p>
@@ -188,13 +188,13 @@ export const LESSONS: Lesson[] = [
         <p className="text-sm">Pick a feature from an app you use daily. Write a 1-page "Product Sense Teardown" identifying:</p>
         <ul className="space-y-2 text-sm">
           <li className="flex gap-2">
-            <span className="font-black text-indigo-600">1)</span> The core user problem
+            <span className="font-black text-brand-600">1)</span> The core user problem
           </li>
           <li className="flex gap-2">
-            <span className="font-black text-indigo-600">2)</span> The hypothesis behind the design
+            <span className="font-black text-brand-600">2)</span> The hypothesis behind the design
           </li>
           <li className="flex gap-2">
-            <span className="font-black text-indigo-600">3)</span> One critical trade-off they made.
+            <span className="font-black text-brand-600">3)</span> One critical trade-off they made.
           </li>
         </ul>
       </div>
@@ -226,8 +226,8 @@ export const LESSONS: Lesson[] = [
               "What \"unscalable\" things did the founders do to empathize with hosts?",
               "How is that empathy reflected in the current app experience?"
             ].map((q, i) => (
-              <div key={i} className="flex gap-3 items-start bg-white/50 p-3 rounded-xl border border-indigo-50">
-                <span className="w-6 h-6 rounded-full bg-indigo-600 flex items-center justify-center text-[10px] font-black text-white shrink-0 mt-0.5">{i+1}</span>
+              <div key={i} className="flex gap-3 items-start bg-white/50 p-3 rounded-xl border border-brand-50">
+                <span className="w-6 h-6 rounded-full bg-brand-600 flex items-center justify-center text-[10px] font-black text-white shrink-0 mt-0.5">{i+1}</span>
                 <p className="text-sm font-bold text-zinc-700">{q}</p>
               </div>
             ))}
@@ -249,7 +249,7 @@ export const LESSONS: Lesson[] = [
     assignment: (
       <div className="space-y-4">
         <p className="font-bold">Assignment: Create your own PRD using ChatPRD.</p>
-        <p className="text-sm text-zinc-600">Go to <a href="https://www.chatprd.ai/" target="_blank" rel="noopener noreferrer" className="text-indigo-600 font-bold underline">ChatPRD</a> and experiment with building a document for a feature idea you have.</p>
+        <p className="text-sm text-zinc-600">Go to <a href="https://www.chatprd.ai/" target="_blank" rel="noopener noreferrer" className="text-brand-600 font-bold underline">ChatPRD</a> and experiment with building a document for a feature idea you have.</p>
       </div>
     )
   },
@@ -280,7 +280,7 @@ export const LESSONS: Lesson[] = [
           href="https://www.pendo.io/product-management-basics-certification/" 
           target="_blank" 
           rel="noopener noreferrer" 
-          className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-xl font-bold text-sm shadow-lg hover:bg-indigo-700 transition-all"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-brand-600 text-white rounded-xl font-bold text-sm shadow-lg hover:bg-brand-700 transition-all"
         >
           Get Certified <ExternalLink className="w-4 h-4" />
         </a>
@@ -306,21 +306,21 @@ export const LESSONS: Lesson[] = [
         
         <div className="space-y-4">
           <div className="p-4 bg-white border border-zinc-100 rounded-2xl shadow-sm">
-             <h4 className="text-sm font-black text-indigo-900 mb-1">1. Define Target Segment</h4>
+             <h4 className="text-sm font-black text-brand-900 mb-1">1. Define Target Segment</h4>
              <p className="text-xs text-zinc-500">Identify exactly who you are solving for using demographics and psychographics.</p>
           </div>
           <div className="p-4 bg-white border border-zinc-100 rounded-2xl shadow-sm">
-             <h4 className="text-sm font-black text-indigo-900 mb-1">2. Pain Point vs. Outcome Table</h4>
+             <h4 className="text-sm font-black text-brand-900 mb-1">2. Pain Point vs. Outcome Table</h4>
              <p className="text-xs text-zinc-500">Create a 2x2 table mapping current struggles to desired future states.</p>
           </div>
           <div className="p-4 bg-white border border-zinc-100 rounded-2xl shadow-sm">
-             <h4 className="text-sm font-black text-indigo-900 mb-1">3. Competitor Scan</h4>
+             <h4 className="text-sm font-black text-brand-900 mb-1">3. Competitor Scan</h4>
              <p className="text-xs text-zinc-500">Use Perplexity AI to find 3 direct or indirect competitors.</p>
           </div>
         </div>
 
-        <div className="bg-indigo-50 p-6 rounded-2xl border border-indigo-100 space-y-3">
-           <p className="text-xs font-black text-indigo-900 uppercase tracking-widest">Final Deliverable (One-Slide Summary)</p>
+        <div className="bg-brand-50 p-6 rounded-2xl border border-brand-100 space-y-3">
+           <p className="text-xs font-black text-brand-900 uppercase tracking-widest">Final Deliverable (One-Slide Summary)</p>
            <ul className="text-sm font-medium text-zinc-700 space-y-1">
              <li>• <strong>The User:</strong> [Who are they?]</li>
              <li>• <strong>The Problem:</strong> [What is their core struggle?]</li>
@@ -348,15 +348,15 @@ export const LESSONS: Lesson[] = [
         
         <div className="space-y-4">
           <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm">
-             <h4 className="text-sm font-black text-indigo-900 mb-2">1. Top 3 Pain Points</h4>
+             <h4 className="text-sm font-black text-brand-900 mb-2">1. Top 3 Pain Points</h4>
              <p className="text-xs text-zinc-500">Include supporting user quotes for each pain point identified.</p>
           </div>
           <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm">
-             <h4 className="text-sm font-black text-indigo-900 mb-2">2. Top 3 Desired Outcomes</h4>
+             <h4 className="text-sm font-black text-brand-900 mb-2">2. Top 3 Desired Outcomes</h4>
              <p className="text-xs text-zinc-500">Describe what users explicitly want to achieve.</p>
           </div>
           <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm">
-             <h4 className="text-sm font-black text-indigo-600 font-bold">"How might we solve for X?"</h4>
+             <h4 className="text-sm font-black text-brand-600 font-bold">"How might we solve for X?"</h4>
           </div>
         </div>
 
@@ -385,21 +385,21 @@ export const LESSONS: Lesson[] = [
         
         <div className="space-y-4">
           <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm">
-             <h4 className="text-sm font-black text-indigo-900 mb-2">1. 2 Personas</h4>
+             <h4 className="text-sm font-black text-brand-900 mb-2">1. 2 Personas</h4>
              <p className="text-xs text-zinc-500">Name, Bio, Goals, Pains, Behavior, Quote.</p>
           </div>
           <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm">
-             <h4 className="text-sm font-black text-indigo-900 mb-2">2. JTBD Statements</h4>
+             <h4 className="text-sm font-black text-brand-900 mb-2">2. JTBD Statements</h4>
              <p className="text-xs text-zinc-500">1 clear statement per persona.</p>
           </div>
           <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm">
-             <h4 className="text-sm font-black text-indigo-600 font-bold">3. 1 Feature Suggestion</h4>
-             <p className="text-xs font-bold text-indigo-600">Clearly aligned to the "Job".</p>
+             <h4 className="text-sm font-black text-brand-600 font-bold">3. 1 Feature Suggestion</h4>
+             <p className="text-xs font-bold text-brand-600">Clearly aligned to the "Job".</p>
           </div>
         </div>
 
-        <div className="bg-indigo-50 p-5 rounded-2xl border border-indigo-100">
-           <p className="text-xs font-bold text-indigo-800">Format: Canva / Slides / Notion</p>
+        <div className="bg-brand-50 p-5 rounded-2xl border border-brand-100">
+           <p className="text-xs font-bold text-brand-800">Format: Canva / Slides / Notion</p>
         </div>
       </div>
     )
@@ -422,16 +422,16 @@ export const LESSONS: Lesson[] = [
         
         <div className="space-y-4">
           <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm">
-             <h4 className="text-sm font-black text-indigo-900 mb-2">• 2 SWOT Analysis</h4>
+             <h4 className="text-sm font-black text-brand-900 mb-2">• 2 SWOT Analysis</h4>
              <p className="text-xs text-zinc-500">Complete analysis for Competitor A & B.</p>
           </div>
           <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm">
-             <h4 className="text-sm font-black text-indigo-900 mb-2">• Feature Comparison Matrix</h4>
+             <h4 className="text-sm font-black text-brand-900 mb-2">• Feature Comparison Matrix</h4>
              <p className="text-xs text-zinc-500">Us vs others mapping.</p>
           </div>
           <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm">
-             <h4 className="text-sm font-black text-indigo-900 mb-2">• Positioning Statement</h4>
-             <p className="text-xs font-bold text-indigo-600">“Unlike X and Y, our product [does what] for [whom].”</p>
+             <h4 className="text-sm font-black text-brand-900 mb-2">• Positioning Statement</h4>
+             <p className="text-xs font-bold text-brand-600">“Unlike X and Y, our product [does what] for [whom].”</p>
           </div>
         </div>
       </div>
