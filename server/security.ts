@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
-import { getFirestore, Firestore } from 'firebase-admin/firestore';
+import { getFirestore, Firestore, FieldValue } from 'firebase-admin/firestore';
 import firebaseConfig from '../firebase-applet-config.json';
 import { getAdminAuth, getFirebaseAdmin, isFirebaseAdminConfigured } from '../services/firebaseAdmin';
 
@@ -34,25 +34,42 @@ function safeKey(raw: string): string {
   return raw.replace(/[^a-zA-Z0-9_@.\-]/g, '_').slice(0, 200);
 }
 
+// A slow quota check must never hold up the tool itself (it delayed the interviewer's voice by 20+ seconds).
+const QUOTA_CHECK_TIMEOUT_MS = 2500;
+
 /**
  * Counts one use of `bucket` today and reports whether it is still within `limit`.
- * Fails open (allows the request) if Firestore is unavailable, so a database hiccup never takes the tools down.
+ * Uses a read plus an atomic increment rather than a transaction: parallel requests (the interviewer's
+ * voice is fetched in pieces) made transactions on the same counter retry with backoff for many seconds.
+ * The count can overshoot by a request or two under heavy parallel use, which is fine for a daily cap.
+ * Fails open (allows the request) if Firestore is unavailable or slow, so a database hiccup never takes the tools down.
  */
 export async function consumeDailyQuota(bucket: string, limit: number): Promise<boolean> {
   if (!isFirebaseAdminConfigured()) return true;
   const day = new Date().toISOString().slice(0, 10);
   const ref = db().collection(RATE_LIMIT_COLLECTION).doc(`${safeKey(bucket)}_${day}`);
+  let timer: ReturnType<typeof setTimeout> | undefined;
   try {
-    return await db().runTransaction(async (tx) => {
-      const snap = await tx.get(ref);
+    const check = (async () => {
+      const snap = await ref.get();
       const count = (snap.exists ? Number(snap.data()?.count) : 0) || 0;
       if (count >= limit) return false;
-      tx.set(ref, { count: count + 1, day, updatedAt: new Date().toISOString() }, { merge: true });
+      await ref.set({ count: FieldValue.increment(1), day, updatedAt: new Date().toISOString() }, { merge: true });
       return true;
+    })();
+    const timeout = new Promise<boolean>((resolve) => {
+      timer = setTimeout(() => {
+        console.warn('[RateLimit] Quota check is slow, allowing request:', bucket);
+        resolve(true);
+      }, QUOTA_CHECK_TIMEOUT_MS);
     });
+    check.catch(() => {});
+    return await Promise.race([check, timeout]);
   } catch (err: any) {
     console.warn('[RateLimit] Could not check quota, allowing request:', err?.message);
     return true;
+  } finally {
+    clearTimeout(timer);
   }
 }
 
@@ -88,8 +105,11 @@ export async function requireAiAccess(req: Request, res: Response, next: NextFun
     return res.status(403).json({ success: false, error: 'Please verify your email address to use this tool.', requiresAuth: true });
   }
 
-  const userOk = await consumeDailyQuota(`ai_user_${user.uid}`, envLimit('AI_DAILY_LIMIT_PER_USER', 200));
-  const ipOk = userOk && (await consumeDailyQuota(`ai_ip_${clientIp(req)}`, envLimit('AI_DAILY_LIMIT_PER_IP', 500)));
+  // Both counters are checked at once so the second doesn't wait on the first.
+  const [userOk, ipOk] = await Promise.all([
+    consumeDailyQuota(`ai_user_${user.uid}`, envLimit('AI_DAILY_LIMIT_PER_USER', 200)),
+    consumeDailyQuota(`ai_ip_${clientIp(req)}`, envLimit('AI_DAILY_LIMIT_PER_IP', 500)),
+  ]);
   if (!userOk || !ipOk) {
     return res.status(429).json({ success: false, error: "You've reached today's limit for AI tools. Please try again tomorrow." });
   }
