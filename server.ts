@@ -32,6 +32,15 @@ import { requireAiAccess, getVerifiedUser, consumeDailyQuota, clientIp } from ".
 
 dotenv.config();
 
+/** Rejects with `message` if the promise hasn't settled within `ms`. */
+function withTimeout<T>(promise: Promise<T>, ms: number, message: string): Promise<T> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const timeout = new Promise<never>((_, reject) => {
+    timer = setTimeout(() => reject(new Error(message)), ms);
+  });
+  return Promise.race([promise, timeout]).finally(() => clearTimeout(timer));
+}
+
 export async function createExpressApp() {
   const app = express();
 
@@ -1047,6 +1056,9 @@ Plain text, 1-2 sentences. No markdown.
       };
       const voiceName = voiceMap[personaId] || (voiceGender === 'female' ? 'Kore' : 'Puck');
 
+      // Why each provider failed, so the page can tell the candidate instead of silently going robotic.
+      const failures: string[] = [];
+
       // 1. Deepgram Aura-2: natural voice, low latency, does not use the Gemini quota
       if (isDeepgramConfigured()) {
         try {
@@ -1054,6 +1066,7 @@ Plain text, 1-2 sentences. No markdown.
           return res.json({ audioBase64: mp3.toString('base64'), format: "mp3", provider: "deepgram" });
         } catch (dgErr: any) {
           console.warn("[Deepgram TTS]: Failed, checking fallback...", dgErr?.message);
+          failures.push(`Deepgram: ${String(dgErr?.message || dgErr).slice(0, 160)}`);
         }
       }
 
@@ -1065,7 +1078,8 @@ Plain text, 1-2 sentences. No markdown.
             apiKey: geminiKey
           });
 
-          const ttsResponse = await ai.models.generateContent({
+          // Free-tier Gemini voice can be slow or rate limited; don't let it hold the interviewer up for long.
+          const ttsResponse = await withTimeout(ai.models.generateContent({
             model: "gemini-3.1-flash-tts-preview",
             contents: [{ parts: [{ text: text.trim() }] }],
             config: {
@@ -1076,7 +1090,7 @@ Plain text, 1-2 sentences. No markdown.
                 }
               }
             }
-          });
+          }), 7000, "Gemini voice took too long");
 
           const base64Audio = ttsResponse.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
           if (base64Audio) {
@@ -1086,8 +1100,10 @@ Plain text, 1-2 sentences. No markdown.
               sampleRate: 24000
             });
           }
+          failures.push("Gemini: no audio returned");
         } catch (ttsErr: any) {
           console.warn("[Gemini TTS]: Failed, checking fallback...", ttsErr?.message);
+          failures.push(`Gemini: ${String(ttsErr?.message || ttsErr).slice(0, 120)}`);
         }
       }
 
@@ -1109,11 +1125,12 @@ Plain text, 1-2 sentences. No markdown.
           });
         } catch (openAiTtsErr: any) {
           console.warn("[OpenAI TTS Fallback]:", openAiTtsErr?.message);
+          failures.push(`OpenAI: ${String(openAiTtsErr?.message || openAiTtsErr).slice(0, 120)}`);
         }
       }
 
-      // Return status fallback
-      res.status(204).end();
+      // No natural voice available: say why, so the page can show it.
+      res.status(503).json({ error: failures.join(" | ") || "no voice provider is configured" });
     } catch (error: any) {
       console.error("[TTS Server Error]:", error);
       res.status(500).json({ error: error.message || "TTS error" });
