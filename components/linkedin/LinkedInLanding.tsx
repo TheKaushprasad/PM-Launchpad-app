@@ -19,8 +19,8 @@ export const LinkedInLanding: React.FC<LinkedInLandingProps> = ({
     <div className="w-full">
       {/* Hero Section */}
       <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#032A1F] via-[#043C2C] to-[#064E3B] pt-10 sm:pt-14 pb-8 sm:pb-10 px-6 sm:px-10 md:px-12 text-white border border-zinc-800 shadow-2xl">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none -translate-y-1/2 translate-x-1/3" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-sky-500/10 rounded-full blur-[100px] pointer-events-none translate-y-1/2 -translate-x-1/4" />
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-500/10 rounded-full blur-[120px] pointer-events-none -translate-y-1/2 translate-x-1/3" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-brand-500/10 rounded-full blur-[100px] pointer-events-none translate-y-1/2 -translate-x-1/4" />
 
         <div className="relative z-10 max-w-3xl">
 
@@ -37,7 +37,7 @@ export const LinkedInLanding: React.FC<LinkedInLandingProps> = ({
             <button
               id="cta-optimise-linkedin"
               onClick={onStartAudit}
-              className="px-6 sm:px-8 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-black text-sm tracking-wide flex items-center gap-2.5 shadow-xl shadow-indigo-600/30 transition-all hover:scale-[1.02] active:scale-[0.98]"
+              className="px-6 sm:px-8 py-3.5 rounded-2xl bg-brand-600 hover:bg-brand-500 text-white font-black text-sm tracking-wide flex items-center gap-2.5 shadow-xl shadow-brand-600/30 transition-all hover:scale-[1.02] active:scale-[0.98]"
             >
               <span>Optimise My LinkedIn</span>
               <ArrowRight className="w-4 h-4" />
@@ -48,7 +48,7 @@ export const LinkedInLanding: React.FC<LinkedInLandingProps> = ({
               onClick={onSeeExample}
               className="px-6 py-3.5 rounded-2xl bg-white/10 hover:bg-white/15 border border-white/15 text-white font-bold text-sm tracking-wide flex items-center gap-2 transition-all"
             >
-              <Eye className="w-4 h-4 text-indigo-300" />
+              <Eye className="w-4 h-4 text-brand-300" />
               <span>See Example Audit</span>
             </button>
           </div>
@@ -118,7 +118,7 @@ export const LinkedInLanding: React.FC<LinkedInLandingProps> = ({
               className="p-6 bg-white rounded-3xl border border-zinc-200/80 shadow-sm space-y-3 relative hover:shadow-md transition-shadow"
             >
               <div className="flex items-center justify-between">
-                <div className="w-10 h-10 rounded-2xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 font-black text-sm">
+                <div className="w-10 h-10 rounded-2xl bg-brand-50 border border-brand-100 flex items-center justify-center text-brand-600 font-black text-sm">
                   <item.icon className="w-5 h-5" />
                 </div>
                 <span className="text-2xl font-black text-zinc-200">{item.step}</span>
@@ -155,7 +155,7 @@ export const LinkedInLanding: React.FC<LinkedInLandingProps> = ({
             <div key={i} className="bg-white p-5 rounded-2xl border border-zinc-200 shadow-xs space-y-2">
               <div className="flex items-center justify-between">
                 <span className="font-black text-zinc-900 text-sm">{cat.name}</span>
-                <span className="px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 font-extrabold text-[11px]">
+                <span className="px-2 py-0.5 rounded-full bg-brand-50 text-brand-700 font-extrabold text-[11px]">
                   {cat.points}
                 </span>
               </div>
@@ -174,7 +174,7 @@ export const LinkedInLanding: React.FC<LinkedInLandingProps> = ({
       <section className="mt-14 bg-white rounded-3xl p-8 sm:p-12 border border-zinc-200 shadow-sm space-y-8">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-100 pb-6">
           <div>
-            <span className="text-[10px] font-black uppercase tracking-widest text-indigo-600">Sample Audit Snapshot</span>
+            <span className="text-[10px] font-black uppercase tracking-widest text-brand-600">Sample Audit Snapshot</span>
             <h3 className="text-xl sm:text-2xl font-black text-zinc-900 tracking-tight">
               See How We Diagnose Weaknesses
             </h3>
@@ -236,9 +236,9 @@ export const LinkedInLanding: React.FC<LinkedInLandingProps> = ({
               </p>
             </div>
 
-            <div className="p-4 rounded-2xl bg-sky-50/70 border border-sky-100 space-y-1.5">
-              <span className="text-[10px] font-black uppercase tracking-wider text-sky-700">Keyword Gap Flagged</span>
-              <p className="text-xs text-sky-950 font-medium">
+            <div className="p-4 rounded-2xl bg-brand-50/70 border border-brand-100 space-y-1.5">
+              <span className="text-[10px] font-black uppercase tracking-wider text-brand-700">Keyword Gap Flagged</span>
+              <p className="text-xs text-brand-950 font-medium">
                 Missing 4 high-frequency recruiter search filters: <strong className="font-bold">Product Discovery, A/B Testing, User Research, GTM</strong>.
               </p>
             </div>

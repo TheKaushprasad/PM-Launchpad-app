@@ -54,7 +54,7 @@ export const SkillProgress: React.FC<SkillProgressProps> = ({ history }) => {
           </p>
         </div>
         {weakest && (
-          <p className="text-xs font-semibold text-indigo-700">
+          <p className="text-xs font-semibold text-brand-700">
             Focus next: {BASE_PILLAR_NAMES[weakest.key]}
           </p>
         )}

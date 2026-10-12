@@ -83,7 +83,7 @@ export const ToolsHub: React.FC = () => {
           <div className="hidden sm:flex items-center gap-2 select-none pointer-events-none">
             {/* Hand-drawn curved arrow pointing to the dark banner */}
             <svg 
-              className="w-7 h-7 text-blue-600 -rotate-12 translate-y-0.5" 
+              className="w-7 h-7 text-brand-600 -rotate-12 translate-y-0.5" 
               viewBox="0 0 32 32" 
               fill="none" 
               stroke="currentColor" 
@@ -95,12 +95,12 @@ export const ToolsHub: React.FC = () => {
             </svg>
             <div 
               style={{ fontFamily: "'Caveat', cursive" }} 
-              className="text-blue-600 text-base lg:text-lg font-bold leading-tight relative pr-4"
+              className="text-brand-600 text-base lg:text-lg font-bold leading-tight relative pr-4"
             >
               <div>Better tools</div>
               <div>Brighter opportunities.</div>
               {/* Sparkle dashes at top right */}
-              <div className="absolute -top-1 right-0 text-blue-600">
+              <div className="absolute -top-1 right-0 text-brand-600">
                 <svg className="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                   <line x1="8" y1="2" x2="8" y2="5" />
                   <line x1="13" y1="4" x2="10.5" y2="6.5" />
@@ -115,11 +115,11 @@ export const ToolsHub: React.FC = () => {
         <header className="relative w-full bg-gradient-to-r from-[#032A1F] via-[#043C2C] to-[#064E3B] rounded-3xl p-7 sm:p-9 md:p-11 text-white overflow-hidden shadow-2xl border border-[#065F46]/60 mb-7 sm:mb-8">
           {/* Subtle vibrant background glow shapes */}
           <div 
-            className="absolute top-0 right-0 w-[480px] h-[480px] bg-gradient-to-bl from-purple-600/25 via-indigo-600/15 to-transparent rounded-full blur-[100px] pointer-events-none -translate-y-1/4 translate-x-1/4" 
+            className="absolute top-0 right-0 w-[480px] h-[480px] bg-gradient-to-bl from-brand-600/25 via-brand-600/15 to-transparent rounded-full blur-[100px] pointer-events-none -translate-y-1/4 translate-x-1/4" 
             aria-hidden="true"
           />
           <div 
-            className="absolute bottom-0 right-1/4 w-[320px] h-[320px] bg-sky-500/10 rounded-full blur-[90px] pointer-events-none" 
+            className="absolute bottom-0 right-1/4 w-[320px] h-[320px] bg-brand-500/10 rounded-full blur-[90px] pointer-events-none" 
             aria-hidden="true"
           />
 
@@ -256,7 +256,7 @@ export const ToolsHub: React.FC = () => {
                 </div>
 
                 {/* Tool Title */}
-                <h2 className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 mb-2 group-hover:text-indigo-950 transition-colors">
+                <h2 className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 mb-2 group-hover:text-brand-950 transition-colors">
                   {tool.title}
                 </h2>
 

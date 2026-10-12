@@ -129,8 +129,8 @@ export const LandingPage: React.FC = () => {
       title: 'User Research',
       desc: 'Customer interviews, JTBD, empathy maps and analysis.',
       icon: Users,
-      iconColor: 'text-sky-600',
-      iconBg: 'bg-sky-50'
+      iconColor: 'text-brand-600',
+      iconBg: 'bg-brand-50'
     },
     {
       id: 'strategy',
@@ -153,8 +153,8 @@ export const LandingPage: React.FC = () => {
       title: 'Tech & Architecture',
       desc: 'APIs, client-server models, databases and system design basics.',
       icon: Code,
-      iconColor: 'text-indigo-600',
-      iconBg: 'bg-indigo-50'
+      iconColor: 'text-brand-600',
+      iconBg: 'bg-brand-50'
     },
     {
       id: 'ai',
@@ -169,8 +169,8 @@ export const LandingPage: React.FC = () => {
       title: 'UI/UX & Design',
       desc: 'Heuristics, wireframing, user flows and usability testing.',
       icon: Smartphone,
-      iconColor: 'text-purple-600',
-      iconBg: 'bg-purple-50'
+      iconColor: 'text-brand-600',
+      iconBg: 'bg-brand-50'
     },
     {
       id: 'jobready',
@@ -932,7 +932,7 @@ export const LandingPage: React.FC = () => {
                 >
                   <div>
                     <div className="flex items-center justify-between mb-3">
-                      <div className="w-8 h-8 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center font-bold text-sm">
+                      <div className="w-8 h-8 rounded-lg bg-brand-100 text-brand-700 flex items-center justify-center font-bold text-sm">
                         🔗
                       </div>
                       <span className="text-xs font-mono font-bold text-slate-400">02</span>
@@ -947,10 +947,10 @@ export const LandingPage: React.FC = () => {
                     <div className="my-4 p-2.5 bg-slate-50 rounded-xl border border-slate-100 text-[10px]">
                       <div className="flex items-center justify-between text-[9px] font-bold text-slate-700">
                         <span>Profile Score</span>
-                        <span className="text-sky-600">80/100 → 92/100</span>
+                        <span className="text-brand-600">80/100 → 92/100</span>
                       </div>
                       <div className="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden mt-1.5">
-                        <div className="bg-sky-500 h-full w-4/5 rounded-full" />
+                        <div className="bg-brand-500 h-full w-4/5 rounded-full" />
                       </div>
                     </div>
                   </div>
@@ -960,7 +960,7 @@ export const LandingPage: React.FC = () => {
                       e.stopPropagation();
                       navigate('/tools/linkedin-optimiser');
                     }}
-                    className="w-full text-center py-2 text-[11px] font-bold text-sky-600 hover:text-sky-700 bg-sky-50/70 hover:bg-sky-100/80 rounded-xl transition-colors cursor-pointer"
+                    className="w-full text-center py-2 text-[11px] font-bold text-brand-600 hover:text-brand-700 bg-brand-50/70 hover:bg-brand-100/80 rounded-xl transition-colors cursor-pointer"
                   >
                     Audit My Profile →
                   </button>
@@ -973,7 +973,7 @@ export const LandingPage: React.FC = () => {
                 >
                   <div>
                     <div className="flex items-center justify-between mb-3">
-                      <div className="w-8 h-8 rounded-lg bg-purple-100 text-purple-700 flex items-center justify-center font-bold text-sm">
+                      <div className="w-8 h-8 rounded-lg bg-brand-100 text-brand-700 flex items-center justify-center font-bold text-sm">
                         ⚡
                       </div>
                       <span className="text-xs font-mono font-bold text-slate-400">03</span>
@@ -985,15 +985,15 @@ export const LandingPage: React.FC = () => {
                     </p>
 
                     {/* Graphic Preview: Waveform Simulation */}
-                    <div className="my-4 p-2.5 bg-purple-50/50 rounded-xl border border-purple-100 text-[10px] text-center">
-                      <span className="text-[9px] font-semibold text-purple-700 block">Interview Simulation</span>
+                    <div className="my-4 p-2.5 bg-brand-50/50 rounded-xl border border-brand-100 text-[10px] text-center">
+                      <span className="text-[9px] font-semibold text-brand-700 block">Interview Simulation</span>
                       <div className="flex items-center justify-center gap-1 my-1.5 h-4">
-                        <span className="w-1 bg-purple-400 h-2 rounded-full" />
-                        <span className="w-1 bg-purple-600 h-4 rounded-full" />
-                        <span className="w-1 bg-purple-500 h-3 rounded-full" />
-                        <span className="w-1 bg-purple-300 h-1.5 rounded-full" />
+                        <span className="w-1 bg-brand-400 h-2 rounded-full" />
+                        <span className="w-1 bg-brand-600 h-4 rounded-full" />
+                        <span className="w-1 bg-brand-500 h-3 rounded-full" />
+                        <span className="w-1 bg-brand-300 h-1.5 rounded-full" />
                       </div>
-                      <span className="text-[8px] text-purple-600">Product Sense</span>
+                      <span className="text-[8px] text-brand-600">Product Sense</span>
                     </div>
                   </div>
 
@@ -1002,7 +1002,7 @@ export const LandingPage: React.FC = () => {
                       e.stopPropagation();
                       navigate('/interview-studio');
                     }}
-                    className="w-full text-center py-2 text-[11px] font-bold text-purple-600 hover:text-purple-700 bg-purple-50/70 hover:bg-purple-100/80 rounded-xl transition-colors cursor-pointer"
+                    className="w-full text-center py-2 text-[11px] font-bold text-brand-600 hover:text-brand-700 bg-brand-50/70 hover:bg-brand-100/80 rounded-xl transition-colors cursor-pointer"
                   >
                     Start Practicing →
                   </button>
@@ -1037,7 +1037,7 @@ export const LandingPage: React.FC = () => {
                         <span className="truncate">User Research Guide</span>
                       </div>
                       <div className="flex items-center gap-1.5">
-                        <span className="text-blue-500">📊</span>
+                        <span className="text-brand-500">📊</span>
                         <span className="truncate">Metrics Cheat Sheet</span>
                       </div>
                     </div>

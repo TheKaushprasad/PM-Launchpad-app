@@ -138,7 +138,7 @@ export const AccessRequestModal: React.FC<AccessRequestModalProps> = ({
           {/* Header */}
           <div className="px-6 py-5 border-b border-zinc-100 flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center">
                 <Shield className="w-4 h-4" />
               </div>
               <div>
@@ -180,7 +180,7 @@ export const AccessRequestModal: React.FC<AccessRequestModalProps> = ({
                     <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${
                       cameraStatus === 'granted' 
                         ? 'bg-emerald-100 text-emerald-600' 
-                        : 'bg-indigo-100 text-indigo-600'
+                        : 'bg-brand-100 text-brand-600'
                     }`}>
                       <Camera className="w-4 h-4" />
                     </div>
@@ -213,7 +213,7 @@ export const AccessRequestModal: React.FC<AccessRequestModalProps> = ({
                   <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${
                     micStatus === 'granted' 
                       ? 'bg-emerald-100 text-emerald-600' 
-                      : 'bg-indigo-100 text-indigo-600'
+                      : 'bg-brand-100 text-brand-600'
                   }`}>
                     <Mic className="w-4 h-4" />
                   </div>
@@ -260,7 +260,7 @@ export const AccessRequestModal: React.FC<AccessRequestModalProps> = ({
               id="access-request-grant-btn"
               onClick={handleGrantAccess}
               disabled={isRequesting}
-              className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-extrabold shadow-md shadow-indigo-200 transition-all flex items-center gap-2"
+              className="px-5 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-extrabold shadow-md shadow-brand-200 transition-all flex items-center gap-2"
             >
               {isRequesting ? (
                 <>

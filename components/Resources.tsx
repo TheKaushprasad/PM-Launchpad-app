@@ -1583,8 +1583,8 @@ export const Resources: React.FC = () => {
       className={`pb-16 transition-all duration-300 mx-auto ${isCollapsed ? 'max-w-[1360px] px-4 sm:px-6 lg:px-8' : 'max-w-[1180px] px-4 sm:px-6 lg:px-8'}`}
     >
       {/* Hero Section: Matched to Reference resources.png */}
-      <header className="relative bg-gradient-to-r from-[#070D2A] via-[#0E1B4F] to-[#1E3A8A] rounded-3xl p-6 sm:p-8 md:p-10 text-white overflow-hidden shadow-xl border border-blue-950/40 mb-8">
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none -translate-y-1/2" />
+      <header className="relative bg-gradient-to-r from-[#070D2A] via-[#0E1B4F] to-[#1E3A8A] rounded-3xl p-6 sm:p-8 md:p-10 text-white overflow-hidden shadow-xl border border-brand-950/40 mb-8">
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-brand-500/10 rounded-full blur-3xl pointer-events-none -translate-y-1/2" />
         <div className="relative z-10 max-w-2xl">
           {activeView !== 'main' && (
             <button 
@@ -1596,12 +1596,12 @@ export const Resources: React.FC = () => {
           )}
           {activeView === 'questions' ? (
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 text-slate-200 text-xs font-semibold tracking-wide mb-4 backdrop-blur-md">
-              <FileText className="w-3.5 h-3.5 text-sky-400" /> 
+              <FileText className="w-3.5 h-3.5 text-brand-400" /> 
               <span className="uppercase text-[11px] font-bold tracking-wider text-slate-200">COMPANY-WISE INTERVIEW PREP</span>
             </div>
           ) : (
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 text-slate-200 text-xs font-semibold tracking-wide mb-4 backdrop-blur-md">
-              <BookOpen className="w-3.5 h-3.5 text-sky-400" /> 
+              <BookOpen className="w-3.5 h-3.5 text-brand-400" /> 
               <span className="uppercase text-[11px] font-bold tracking-wider text-slate-200">YOUR PM KNOWLEDGE LIBRARY</span>
             </div>
           )}
@@ -1632,7 +1632,7 @@ export const Resources: React.FC = () => {
           {activeView === 'questions' && (
             <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 mt-5">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/10 border border-white/10 text-xs font-medium text-slate-200 backdrop-blur-xs">
-                <BookOpen className="w-3.5 h-3.5 text-sky-400" />
+                <BookOpen className="w-3.5 h-3.5 text-brand-400" />
                 <span>Real interview questions</span>
               </div>
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/10 border border-white/10 text-xs font-medium text-slate-200 backdrop-blur-xs">
@@ -1640,7 +1640,7 @@ export const Resources: React.FC = () => {
                 <span>Company-wise breakdown</span>
               </div>
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/10 border border-white/10 text-xs font-medium text-slate-200 backdrop-blur-xs">
-                <Sparkles className="w-3.5 h-3.5 text-purple-400" />
+                <Sparkles className="w-3.5 h-3.5 text-brand-400" />
                 <span>Prepare smarter</span>
               </div>
             </div>
@@ -2360,19 +2360,19 @@ export const Resources: React.FC = () => {
                               return (
                                 <div 
                                   key={certIdx} 
-                                  className="group/card bg-white rounded-2xl border border-slate-200/80 hover:border-indigo-300 p-5 sm:p-6 flex flex-col justify-between transition-all duration-200 hover:shadow-lg"
+                                  className="group/card bg-white rounded-2xl border border-slate-200/80 hover:border-brand-300 p-5 sm:p-6 flex flex-col justify-between transition-all duration-200 hover:shadow-lg"
                                 >
                                   <div>
                                     <div className="flex items-center justify-between gap-3 mb-4">
-                                      <span className="inline-block px-2.5 py-1 rounded-md bg-indigo-50 text-indigo-700 text-[10px] font-black uppercase tracking-wider">
+                                      <span className="inline-block px-2.5 py-1 rounded-md bg-brand-50 text-brand-700 text-[10px] font-black uppercase tracking-wider">
                                         {cert.provider}
                                       </span>
-                                      <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 group-hover/card:bg-indigo-50 group-hover/card:text-indigo-600 transition-colors">
+                                      <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 group-hover/card:bg-brand-50 group-hover/card:text-brand-600 transition-colors">
                                         <CertIcon className="w-4 h-4" />
                                       </div>
                                     </div>
 
-                                    <h3 className="text-base font-bold text-slate-900 leading-snug mb-2 group-hover/card:text-indigo-600 transition-colors">
+                                    <h3 className="text-base font-bold text-slate-900 leading-snug mb-2 group-hover/card:text-brand-600 transition-colors">
                                       {cert.title}
                                     </h3>
                                     <p className="text-xs sm:text-sm text-slate-500 font-normal leading-relaxed mb-6">
@@ -2384,7 +2384,7 @@ export const Resources: React.FC = () => {
                                     href={cert.url} 
                                     target="_blank" 
                                     rel="noopener noreferrer" 
-                                    className="mt-auto inline-flex items-center justify-between w-full px-4 py-3 bg-slate-900 hover:bg-indigo-600 text-white rounded-xl font-bold text-xs uppercase tracking-wider transition-colors shadow-xs"
+                                    className="mt-auto inline-flex items-center justify-between w-full px-4 py-3 bg-slate-900 hover:bg-brand-600 text-white rounded-xl font-bold text-xs uppercase tracking-wider transition-colors shadow-xs"
                                   >
                                     <span>View Certification</span>
                                     <ExternalLink className="w-3.5 h-3.5" />
@@ -2508,15 +2508,15 @@ export const Resources: React.FC = () => {
                               {filteredItems.map((item, idx) => (
                                 <div 
                                   key={idx} 
-                                  className="group/card bg-white rounded-2xl border border-slate-200/80 hover:border-indigo-300 p-5 flex flex-col justify-between transition-all duration-200 hover:shadow-sm"
+                                  className="group/card bg-white rounded-2xl border border-slate-200/80 hover:border-brand-300 p-5 flex flex-col justify-between transition-all duration-200 hover:shadow-sm"
                                 >
                                   <div>
                                     <div className="flex items-center gap-3 mb-3">
-                                      <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-600 group-hover/card:bg-indigo-50 group-hover/card:text-indigo-600 transition-colors">
+                                      <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-600 group-hover/card:bg-brand-50 group-hover/card:text-brand-600 transition-colors">
                                         <FileText className="w-5 h-5" />
                                       </div>
                                       <div className="min-w-0">
-                                        <h3 className="font-extrabold text-sm text-slate-900 truncate group-hover/card:text-indigo-600 transition-colors">
+                                        <h3 className="font-extrabold text-sm text-slate-900 truncate group-hover/card:text-brand-600 transition-colors">
                                           {item.company}
                                         </h3>
                                         <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">
@@ -2530,7 +2530,7 @@ export const Resources: React.FC = () => {
                                     href={item.url} 
                                     target="_blank" 
                                     rel="noopener noreferrer" 
-                                    className="mt-4 flex items-center justify-between w-full px-3.5 py-2.5 bg-slate-900 hover:bg-indigo-600 text-white rounded-xl font-bold text-xs uppercase tracking-wider transition-colors shadow-xs"
+                                    className="mt-4 flex items-center justify-between w-full px-3.5 py-2.5 bg-slate-900 hover:bg-brand-600 text-white rounded-xl font-bold text-xs uppercase tracking-wider transition-colors shadow-xs"
                                   >
                                     <span>View Assignment</span>
                                     <ExternalLink className="w-3.5 h-3.5" />
@@ -2656,15 +2656,15 @@ export const Resources: React.FC = () => {
                                 return (
                                   <div 
                                     key={idx} 
-                                    className="group/card bg-white rounded-2xl border border-slate-200/80 hover:border-indigo-300 p-5 flex flex-col justify-between transition-all duration-200 hover:shadow-sm"
+                                    className="group/card bg-white rounded-2xl border border-slate-200/80 hover:border-brand-300 p-5 flex flex-col justify-between transition-all duration-200 hover:shadow-sm"
                                   >
                                     <div>
                                       <div className="flex items-center justify-between gap-3 mb-3">
-                                        <div className="w-9 h-9 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-600 group-hover/card:bg-indigo-50 group-hover/card:text-indigo-600 transition-colors">
+                                        <div className="w-9 h-9 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-600 group-hover/card:bg-brand-50 group-hover/card:text-brand-600 transition-colors">
                                           <ItemIcon className="w-4 h-4" />
                                         </div>
                                       </div>
-                                      <h3 className="font-extrabold text-sm text-slate-900 mb-1 group-hover/card:text-indigo-600 transition-colors">
+                                      <h3 className="font-extrabold text-sm text-slate-900 mb-1 group-hover/card:text-brand-600 transition-colors">
                                         {item.title}
                                       </h3>
                                       <p className="text-xs text-slate-500 font-normal leading-relaxed mb-4">
@@ -2676,7 +2676,7 @@ export const Resources: React.FC = () => {
                                       href={item.url} 
                                       target="_blank" 
                                       rel="noopener noreferrer" 
-                                      className="mt-auto flex items-center justify-between w-full px-3.5 py-2.5 bg-slate-900 hover:bg-indigo-600 text-white rounded-xl font-bold text-xs uppercase tracking-wider transition-colors shadow-xs"
+                                      className="mt-auto flex items-center justify-between w-full px-3.5 py-2.5 bg-slate-900 hover:bg-brand-600 text-white rounded-xl font-bold text-xs uppercase tracking-wider transition-colors shadow-xs"
                                     >
                                       <span>View Casebook</span>
                                       <ExternalLink className="w-3.5 h-3.5" />
@@ -2698,7 +2698,7 @@ export const Resources: React.FC = () => {
       </AnimatePresence>
 
       {/* Bottom Showcase & Journey CTA Banner: Matched to Reference resources.png */}
-      <div className="mt-10 sm:mt-12 bg-gradient-to-r from-[#EFF6FF] via-[#F0F9FF] to-[#E0F2FE] border border-sky-100 rounded-3xl p-6 sm:p-8 md:p-10 relative overflow-hidden shadow-xs flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+      <div className="mt-10 sm:mt-12 bg-gradient-to-r from-[#EFF6FF] via-[#F0F9FF] to-[#E0F2FE] border border-brand-100 rounded-3xl p-6 sm:p-8 md:p-10 relative overflow-hidden shadow-xs flex flex-col md:flex-row md:items-center md:justify-between gap-6">
         <div className="relative z-10 max-w-xl">
           <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight mb-2">
             Ready to showcase your <span className="text-[#2563EB]">skills?</span>
@@ -2764,13 +2764,13 @@ export const Resources: React.FC = () => {
 
           {/* Hand-drawn doodle arrow & handwritten annotation */}
           <div className="flex items-center gap-2 sm:gap-3">
-            <svg className="w-8 h-8 sm:w-10 sm:h-10 text-sky-500" viewBox="0 0 50 50" fill="none">
+            <svg className="w-8 h-8 sm:w-10 sm:h-10 text-brand-500" viewBox="0 0 50 50" fill="none">
               <path d="M 8 34 C 16 30, 26 24, 38 16" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
               <path d="M 38 16 L 28 16 M 38 16 L 36 26" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
             <div 
               style={{ fontFamily: "'Caveat', cursive" }}
-              className="text-sky-600 text-base sm:text-lg font-bold leading-tight tracking-wide whitespace-nowrap"
+              className="text-brand-600 text-base sm:text-lg font-bold leading-tight tracking-wide whitespace-nowrap"
             >
               Small<br />steps.<br />Big opportunities.
             </div>

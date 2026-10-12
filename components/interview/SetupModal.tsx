@@ -73,7 +73,7 @@ export const SetupModal: React.FC<SetupModalProps> = ({
             {/* Header */}
             <div className="px-6 py-4 border-b border-zinc-100 flex items-center justify-between bg-zinc-50/80">
               <div>
-                <span className="text-[10px] font-black uppercase tracking-wider text-indigo-600">
+                <span className="text-[10px] font-black uppercase tracking-wider text-brand-600">
                   Session Customization
                 </span>
                 <h2 className="text-xl font-black text-zinc-900 tracking-tight">
@@ -97,7 +97,7 @@ export const SetupModal: React.FC<SetupModalProps> = ({
                     {scenario.company}
                   </span>
                   <span className="text-xs font-bold text-zinc-500 flex items-center gap-1">
-                    <Clock className="w-3.5 h-3.5 text-indigo-600" /> {scenario.targetDurationMinutes} Minutes Allocation
+                    <Clock className="w-3.5 h-3.5 text-brand-600" /> {scenario.targetDurationMinutes} Minutes Allocation
                   </span>
                 </div>
                 <h3 className="font-extrabold text-base text-zinc-900">{scenario.title}</h3>
@@ -115,7 +115,7 @@ export const SetupModal: React.FC<SetupModalProps> = ({
                       key={l.id}
                       type="button"
                       onClick={() => onLevelChange(l.id)}
-                      className={`p-3 rounded-2xl border text-left transition-colors ${level === l.id ? 'border-indigo-600 bg-indigo-50' : 'border-zinc-200 hover:bg-zinc-50'}`}
+                      className={`p-3 rounded-2xl border text-left transition-colors ${level === l.id ? 'border-brand-600 bg-brand-50' : 'border-zinc-200 hover:bg-zinc-50'}`}
                     >
                       <div className="text-sm font-extrabold text-zinc-900">{l.short}</div>
                       <div className="text-[11px] text-zinc-500 leading-snug mt-0.5">{l.description}</div>
@@ -136,13 +136,13 @@ export const SetupModal: React.FC<SetupModalProps> = ({
                   <button
                     type="button"
                     onClick={() => setShowAccessRequestModal(true)}
-                    className="text-[11px] font-bold text-indigo-600 hover:text-indigo-700 flex items-center gap-1"
+                    className="text-[11px] font-bold text-brand-600 hover:text-brand-700 flex items-center gap-1"
                   >
                     <Shield className="w-3 h-3" /> Test Microphone
                   </button>
                 </div>
-                <div className="p-4 rounded-2xl border-2 border-indigo-600 bg-indigo-50/50 flex items-start gap-3">
-                  <div className="p-2 rounded-xl bg-indigo-600 text-white shrink-0">
+                <div className="p-4 rounded-2xl border-2 border-brand-600 bg-brand-50/50 flex items-start gap-3">
+                  <div className="p-2 rounded-xl bg-brand-600 text-white shrink-0">
                     <Mic className="w-4 h-4" />
                   </div>
                   <p className="text-[11px] text-zinc-600 font-medium leading-snug">
@@ -156,7 +156,7 @@ export const SetupModal: React.FC<SetupModalProps> = ({
                 <label className="text-xs font-black uppercase tracking-wider text-zinc-500 block">
                   2. Your Interviewer
                 </label>
-                <div className="p-4 rounded-2xl border-2 border-indigo-600 bg-indigo-50/50 flex items-start gap-3.5">
+                <div className="p-4 rounded-2xl border-2 border-brand-600 bg-brand-50/50 flex items-start gap-3.5">
                   <img
                     src={selectedPersona.avatarImage}
                     alt={selectedPersona.name}
@@ -164,7 +164,7 @@ export const SetupModal: React.FC<SetupModalProps> = ({
                   />
                   <div className="flex-1 min-w-0">
                     <h4 className="font-black text-xs text-zinc-900">{selectedPersona.name}</h4>
-                    <span className="text-[10px] font-bold text-indigo-600 block">{selectedPersona.role} • {selectedPersona.companyBackground}</span>
+                    <span className="text-[10px] font-bold text-brand-600 block">{selectedPersona.role} • {selectedPersona.companyBackground}</span>
                     <p className="text-[11px] text-zinc-500 font-medium mt-1">{selectedPersona.description}</p>
                   </div>
                 </div>
@@ -182,7 +182,7 @@ export const SetupModal: React.FC<SetupModalProps> = ({
 
               <button
                 onClick={handleLaunch}
-                className="px-6 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs uppercase tracking-widest shadow-lg shadow-indigo-600/20 flex items-center gap-2 transition-all"
+                className="px-6 py-3 rounded-2xl bg-brand-600 hover:bg-brand-700 text-white font-extrabold text-xs uppercase tracking-widest shadow-lg shadow-brand-600/20 flex items-center gap-2 transition-all"
               >
                 <Play className="w-3.5 h-3.5 fill-current" /> Enter Studio
               </button>

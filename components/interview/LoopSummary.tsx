@@ -13,7 +13,7 @@ interface LoopSummaryProps {
 
 const VERDICT_STYLES: Record<string, string> = {
   'Strong Hire': 'bg-emerald-500 text-white',
-  'Hire': 'bg-blue-500 text-white',
+  'Hire': 'bg-brand-500 text-white',
   'No Hire': 'bg-amber-500 text-white',
   'Strong No Hire': 'bg-rose-500 text-white'
 };
@@ -51,7 +51,7 @@ export const LoopSummary: React.FC<LoopSummaryProps> = ({ plan, results, level, 
           return (
             <div key={round.scenario.id} className="p-4 rounded-2xl bg-white border border-zinc-200 flex items-center justify-between gap-4">
               <div className="min-w-0">
-                <div className="text-[11px] font-black uppercase tracking-wider text-indigo-600">
+                <div className="text-[11px] font-black uppercase tracking-wider text-brand-600">
                   Round {i + 1} • {getTrackConfig(round.scenario.track).label} • {round.persona.name}
                 </div>
                 <div className="text-sm font-bold text-zinc-900 truncate">{round.scenario.title}</div>

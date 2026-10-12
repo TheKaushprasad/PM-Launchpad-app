@@ -74,21 +74,21 @@ export const DayCard: React.FC<DayCardProps> = ({ lesson, isCurrentLesson = fals
     if (lesson.day === 0 || lesson.day === 1) {
       return {
         label: 'FOUNDATIONS',
-        color: 'bg-blue-50 text-blue-600 border-blue-100',
+        color: 'bg-brand-50 text-brand-600 border-brand-100',
         icon: <Package className="w-3.5 h-3.5" />
       };
     }
     if (lesson.day === 2 || lesson.day === 3) {
       return {
         label: 'FRAMEWORKS',
-        color: 'bg-indigo-50 text-indigo-600 border-indigo-100',
+        color: 'bg-brand-50 text-brand-600 border-brand-100',
         icon: <Layers className="w-3.5 h-3.5" />
       };
     }
     if (lesson.day === 4) {
       return {
         label: 'STRATEGY',
-        color: 'bg-purple-50 text-purple-600 border-purple-100',
+        color: 'bg-brand-50 text-brand-600 border-brand-100',
         icon: <Compass className="w-3.5 h-3.5" />
       };
     }
@@ -102,16 +102,16 @@ export const DayCard: React.FC<DayCardProps> = ({ lesson, isCurrentLesson = fals
 
     const cat = (lesson.category || 'Foundations').toLowerCase();
     if (cat.includes('foundation')) {
-      return { label: 'FOUNDATIONS', color: 'bg-blue-50 text-blue-600 border-blue-100', icon: <Package className="w-3.5 h-3.5" /> };
+      return { label: 'FOUNDATIONS', color: 'bg-brand-50 text-brand-600 border-brand-100', icon: <Package className="w-3.5 h-3.5" /> };
     }
     if (cat.includes('framework')) {
-      return { label: 'FRAMEWORKS', color: 'bg-indigo-50 text-indigo-600 border-indigo-100', icon: <Layers className="w-3.5 h-3.5" /> };
+      return { label: 'FRAMEWORKS', color: 'bg-brand-50 text-brand-600 border-brand-100', icon: <Layers className="w-3.5 h-3.5" /> };
     }
     if (cat.includes('research')) {
-      return { label: 'RESEARCH', color: 'bg-purple-50 text-purple-600 border-purple-100', icon: <Compass className="w-3.5 h-3.5" /> };
+      return { label: 'RESEARCH', color: 'bg-brand-50 text-brand-600 border-brand-100', icon: <Compass className="w-3.5 h-3.5" /> };
     }
     if (cat.includes('strategy')) {
-      return { label: 'STRATEGY', color: 'bg-purple-50 text-purple-600 border-purple-100', icon: <Compass className="w-3.5 h-3.5" /> };
+      return { label: 'STRATEGY', color: 'bg-brand-50 text-brand-600 border-brand-100', icon: <Compass className="w-3.5 h-3.5" /> };
     }
     if (cat.includes('people')) {
       return { label: 'PEOPLE', color: 'bg-orange-50 text-orange-600 border-orange-100', icon: <Users className="w-3.5 h-3.5" /> };
@@ -123,7 +123,7 @@ export const DayCard: React.FC<DayCardProps> = ({ lesson, isCurrentLesson = fals
       return { label: 'TECH', color: 'bg-cyan-50 text-cyan-600 border-cyan-100', icon: <Code className="w-3.5 h-3.5" /> };
     }
     if (cat.includes('ai')) {
-      return { label: 'AI', color: 'bg-violet-50 text-violet-600 border-violet-100', icon: <Bot className="w-3.5 h-3.5" /> };
+      return { label: 'AI', color: 'bg-brand-50 text-brand-600 border-brand-100', icon: <Bot className="w-3.5 h-3.5" /> };
     }
     if (cat.includes('job') || cat.includes('career')) {
       return { label: 'CAREER', color: 'bg-amber-50 text-amber-600 border-amber-100', icon: <Briefcase className="w-3.5 h-3.5" /> };
@@ -131,7 +131,7 @@ export const DayCard: React.FC<DayCardProps> = ({ lesson, isCurrentLesson = fals
 
     return {
       label: (lesson.category || 'FOUNDATIONS').toUpperCase(),
-      color: 'bg-blue-50 text-blue-600 border-blue-100',
+      color: 'bg-brand-50 text-brand-600 border-brand-100',
       icon: <Package className="w-3.5 h-3.5" />
     };
   };
@@ -185,7 +185,7 @@ export const DayCard: React.FC<DayCardProps> = ({ lesson, isCurrentLesson = fals
                 <span>COMPLETED</span>
               </span>
             ) : isInProgress ? (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider bg-blue-50 text-blue-700 border border-blue-100">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider bg-brand-50 text-brand-700 border border-brand-100">
                 <span>{scrollPercentage > 0 ? `${scrollPercentage}% COMPLETE` : '0% COMPLETE'}</span>
               </span>
             ) : (
@@ -196,7 +196,7 @@ export const DayCard: React.FC<DayCardProps> = ({ lesson, isCurrentLesson = fals
           </div>
 
           {/* Module Title */}
-          <h3 className="font-bold text-[17px] sm:text-[18px] leading-snug text-slate-900 group-hover:text-blue-600 transition-colors line-clamp-2 tracking-tight mb-2">
+          <h3 className="font-bold text-[17px] sm:text-[18px] leading-snug text-slate-900 group-hover:text-brand-600 transition-colors line-clamp-2 tracking-tight mb-2">
             {lesson.title}
           </h3>
 
@@ -244,8 +244,8 @@ export const DayCard: React.FC<DayCardProps> = ({ lesson, isCurrentLesson = fals
               isCompleted 
                 ? 'text-emerald-700 group-hover:text-emerald-800' 
                 : isInProgress 
-                  ? 'text-blue-600 group-hover:text-blue-700' 
-                  : 'text-slate-900 group-hover:text-blue-600'
+                  ? 'text-brand-600 group-hover:text-brand-700' 
+                  : 'text-slate-900 group-hover:text-brand-600'
             }`}>
               <span>{isCompleted ? 'Review' : isInProgress ? 'Continue' : 'Start'}</span>
               <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />

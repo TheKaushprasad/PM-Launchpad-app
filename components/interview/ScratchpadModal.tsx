@@ -91,7 +91,7 @@ export const ScratchpadModal: React.FC<ScratchpadModalProps> = ({
                 <button
                   onClick={() => setActiveTab('scratchpad')}
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black uppercase tracking-wider transition-all ${
-                    activeTab === 'scratchpad' ? 'bg-white text-indigo-600 shadow-sm' : 'text-zinc-500 hover:text-zinc-800'
+                    activeTab === 'scratchpad' ? 'bg-white text-brand-600 shadow-sm' : 'text-zinc-500 hover:text-zinc-800'
                   }`}
                 >
                   <FileText className="w-3.5 h-3.5" /> Scratchpad
@@ -99,7 +99,7 @@ export const ScratchpadModal: React.FC<ScratchpadModalProps> = ({
                 <button
                   onClick={() => setActiveTab('calculator')}
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black uppercase tracking-wider transition-all ${
-                    activeTab === 'calculator' ? 'bg-white text-indigo-600 shadow-sm' : 'text-zinc-500 hover:text-zinc-800'
+                    activeTab === 'calculator' ? 'bg-white text-brand-600 shadow-sm' : 'text-zinc-500 hover:text-zinc-800'
                   }`}
                 >
                   <Calculator className="w-3.5 h-3.5" /> PM Calculator
@@ -107,7 +107,7 @@ export const ScratchpadModal: React.FC<ScratchpadModalProps> = ({
                 <button
                   onClick={() => setActiveTab('cheatSheet')}
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black uppercase tracking-wider transition-all ${
-                    activeTab === 'cheatSheet' ? 'bg-white text-indigo-600 shadow-sm' : 'text-zinc-500 hover:text-zinc-800'
+                    activeTab === 'cheatSheet' ? 'bg-white text-brand-600 shadow-sm' : 'text-zinc-500 hover:text-zinc-800'
                   }`}
                 >
                   <BookOpen className="w-3.5 h-3.5" /> Estimation Constants
@@ -153,7 +153,7 @@ export const ScratchpadModal: React.FC<ScratchpadModalProps> = ({
                   value={scratchpadNotes}
                   onChange={(e) => setScratchpadNotes(e.target.value)}
                   placeholder="Type your structured outline, hypotheses, segmentation branches, or calculation scratchpad here..."
-                  className="flex-1 w-full p-4 rounded-2xl bg-zinc-50 border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 font-mono text-sm leading-relaxed text-zinc-800 resize-none min-h-[300px]"
+                  className="flex-1 w-full p-4 rounded-2xl bg-zinc-50 border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-brand-500 font-mono text-sm leading-relaxed text-zinc-800 resize-none min-h-[300px]"
                 />
               </div>
             )}
@@ -184,9 +184,9 @@ export const ScratchpadModal: React.FC<ScratchpadModalProps> = ({
                         onClick={() => handleCalcInput(btn)}
                         className={`h-12 rounded-xl font-bold text-base transition-all active:scale-95 flex items-center justify-center ${
                           isEquals 
-                            ? 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-600/30' 
+                            ? 'bg-brand-600 hover:bg-brand-500 text-white shadow-lg shadow-brand-600/30' 
                             : isOp 
-                            ? 'bg-zinc-800 hover:bg-zinc-700 text-indigo-400' 
+                            ? 'bg-zinc-800 hover:bg-zinc-700 text-brand-400' 
                             : isAction 
                             ? 'bg-red-500/20 text-red-400 hover:bg-red-500/30' 
                             : 'bg-zinc-800/80 hover:bg-zinc-700 text-white'
@@ -221,7 +221,7 @@ export const ScratchpadModal: React.FC<ScratchpadModalProps> = ({
                               <span className="font-bold text-zinc-800 block">{item.label}</span>
                               <span className="text-[10px] text-zinc-400">{item.note}</span>
                             </div>
-                            <span className="font-extrabold text-indigo-600 font-mono shrink-0 ml-2 bg-indigo-50 px-2 py-0.5 rounded-md border border-indigo-100">
+                            <span className="font-extrabold text-brand-600 font-mono shrink-0 ml-2 bg-brand-50 px-2 py-0.5 rounded-md border border-brand-100">
                               {item.value}
                             </span>
                           </div>
