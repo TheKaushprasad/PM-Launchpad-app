@@ -9088,6 +9088,13 @@ async function requireAiAccess(req, res, next) {
 
 // server.ts
 dotenv2.config();
+function withTimeout(promise, ms, message) {
+  let timer;
+  const timeout = new Promise((_, reject) => {
+    timer = setTimeout(() => reject(new Error(message)), ms);
+  });
+  return Promise.race([promise, timeout]).finally(() => clearTimeout(timer));
+}
 async function createExpressApp() {
   const app = express();
   loadPrompts();
@@ -9973,12 +9980,14 @@ Generate the next contextual hint:`;
         // Authoritative, direct bar raiser male
       };
       const voiceName = voiceMap[personaId] || (voiceGender === "female" ? "Kore" : "Puck");
+      const failures = [];
       if (isDeepgramConfigured()) {
         try {
           const mp3 = await synthesizeWithDeepgram(text.trim(), deepgramVoiceFor(personaId, voiceGender));
           return res.json({ audioBase64: mp3.toString("base64"), format: "mp3", provider: "deepgram" });
         } catch (dgErr) {
           console.warn("[Deepgram TTS]: Failed, checking fallback...", dgErr?.message);
+          failures.push(`Deepgram: ${String(dgErr?.message || dgErr).slice(0, 160)}`);
         }
       }
       if (geminiKey && geminiKey.trim() !== "" && geminiKey !== "undefined") {
@@ -9987,7 +9996,7 @@ Generate the next contextual hint:`;
           const ai2 = new GoogleGenAI2({
             apiKey: geminiKey
           });
-          const ttsResponse = await ai2.models.generateContent({
+          const ttsResponse = await withTimeout(ai2.models.generateContent({
             model: "gemini-3.1-flash-tts-preview",
             contents: [{ parts: [{ text: text.trim() }] }],
             config: {
@@ -9998,7 +10007,7 @@ Generate the next contextual hint:`;
                 }
               }
             }
-          });
+          }), 7e3, "Gemini voice took too long");
           const base64Audio = ttsResponse.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
           if (base64Audio) {
             return res.json({
@@ -10007,8 +10016,10 @@ Generate the next contextual hint:`;
               sampleRate: 24e3
             });
           }
+          failures.push("Gemini: no audio returned");
         } catch (ttsErr) {
           console.warn("[Gemini TTS]: Failed, checking fallback...", ttsErr?.message);
+          failures.push(`Gemini: ${String(ttsErr?.message || ttsErr).slice(0, 120)}`);
         }
       }
       if (openAiKey && openAiKey.trim() !== "" && openAiKey !== "undefined") {
@@ -10028,9 +10039,10 @@ Generate the next contextual hint:`;
           });
         } catch (openAiTtsErr) {
           console.warn("[OpenAI TTS Fallback]:", openAiTtsErr?.message);
+          failures.push(`OpenAI: ${String(openAiTtsErr?.message || openAiTtsErr).slice(0, 120)}`);
         }
       }
-      res.status(204).end();
+      res.status(503).json({ error: failures.join(" | ") || "no voice provider is configured" });
     } catch (error) {
       console.error("[TTS Server Error]:", error);
       res.status(500).json({ error: error.message || "TTS error" });
