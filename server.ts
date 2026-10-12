@@ -89,7 +89,11 @@ export async function createExpressApp() {
         deepgram = String(err?.message || err).slice(0, 300);
       }
     }
-    const result = { deepgram, voice: deepgramVoiceFor("priya", "female") };
+    // How long the usage-limit check takes; it runs before every voice request.
+    const quotaStart = Date.now();
+    await consumeDailyQuota("health_voice_check", 1000);
+    const quotaCheckMs = Date.now() - quotaStart;
+    const result = { deepgram, voice: deepgramVoiceFor("priya", "female"), quotaCheckMs };
     voiceCheck = { at: Date.now(), result };
     res.json(result);
   });
