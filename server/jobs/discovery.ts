@@ -11,8 +11,16 @@ export const DISCOVERY_QUERIES = [
   'site:jobs.ashbyhq.com ("AI Product Manager" OR "Product Manager" OR "Associate Product Manager") AND ("remote")',
   'site:boards.greenhouse.io ("AI Product Manager" OR "Product Manager" OR "Associate Product Manager")',
   'site:apply.workable.com ("AI Product Manager" OR "Product Manager" OR "Associate Product Manager")',
+  // PM internships on the same job sites.
+  'site:jobs.ashbyhq.com ("Product Manager Intern" OR "Product Management Intern" OR "APM Intern" OR "Product Intern")',
+  'site:jobs.lever.co ("Product Manager Intern" OR "Product Management Intern" OR "APM Intern" OR "Product Intern")',
+  'site:boards.greenhouse.io ("Product Manager Intern" OR "Product Management Intern" OR "APM Intern" OR "Product Intern")',
+  // Y Combinator startups mostly hire through Ashby and Lever, and say so in the posting.
+  'site:jobs.ashbyhq.com ("Y Combinator" OR "YC-backed") "Product Manager"',
+  'site:jobs.lever.co ("Y Combinator" OR "YC-backed") "Product Manager"',
 ];
 
+// 10 searches, each also with "India": about 120 Firecrawl credits a week.
 const RESULTS_PER_QUERY = 30;
 /** Boards we stop reading after this many failed refreshes in a row. */
 export const MAX_BOARD_FAILURES = 3;

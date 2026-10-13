@@ -177,7 +177,7 @@ export const JobsBoard: React.FC = () => {
             <span className="text-[#6EE7B7]">and remote roles open to you.</span>
           </h1>
           <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-            APM to CPO roles collected every morning from company job boards. Filter by level, city and experience, and save the ones you like.
+            Intern to CPO roles collected every morning from company job boards. Filter by level, city and experience, and save the ones you like.
           </p>
           {data?.refreshedAt && (
             <p className="text-xs text-slate-400 mt-3">
