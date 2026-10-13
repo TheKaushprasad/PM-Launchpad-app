@@ -33,6 +33,9 @@ interface RawJob {
   descriptionText?: string;
   /** For an Indian company an empty location means India. */
   assumeIndia?: boolean;
+  /** Added by hand (Google Sheet), so the PM and India filters are skipped. */
+  manual?: boolean;
+  expText?: string;
 }
 
 export interface SourceResult {
@@ -44,6 +47,21 @@ export interface JobSource {
   key: string;
   label: string;
   run: () => Promise<RawJob[]>;
+}
+
+async function fetchText(url: string, accept: string): Promise<string> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+  try {
+    const res = await fetch(url, { headers: { Accept: accept, 'User-Agent': USER_AGENT }, signal: controller.signal });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return await res.text();
+  } catch (err: any) {
+    if (err?.name === 'AbortError') throw new Error('timed out');
+    throw err;
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 async function fetchJson(url: string): Promise<any> {
@@ -197,6 +215,93 @@ async function fetchRemoteOk(): Promise<RawJob[]> {
   }));
 }
 
+// ---------- Google Sheet (jobs the owner adds by hand) ----------
+
+/** Accepts a normal share link or a "Publish to web" CSV link and returns a CSV download link. */
+export function sheetCsvUrl(link: string): string {
+  const url = new URL(link.trim());
+  if (url.pathname.includes('/d/e/')) {
+    // Published to the web: .../pub?output=csv (or ?output=html, which we switch to csv).
+    url.pathname = url.pathname.replace(/\/pub(html)?$/, '/pub');
+    url.searchParams.set('output', 'csv');
+    return url.toString();
+  }
+  const id = url.pathname.match(/\/spreadsheets\/d\/([a-zA-Z0-9_-]+)/)?.[1];
+  if (!id) throw new Error('JOBS_SHEET_URL is not a Google Sheets link');
+  const gid = url.searchParams.get('gid') || url.hash.match(/gid=(\d+)/)?.[1];
+  return `https://docs.google.com/spreadsheets/d/${id}/export?format=csv${gid ? `&gid=${gid}` : ''}`;
+}
+
+/** Minimal CSV parser: quoted fields, escaped quotes and line breaks inside quotes. */
+export function parseCsv(text: string): string[][] {
+  const rows: string[][] = [];
+  let row: string[] = [];
+  let field = '';
+  let quoted = false;
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    if (quoted) {
+      if (ch === '"' && text[i + 1] === '"') { field += '"'; i++; }
+      else if (ch === '"') quoted = false;
+      else field += ch;
+    } else if (ch === '"') quoted = true;
+    else if (ch === ',') { row.push(field); field = ''; }
+    else if (ch === '\n' || ch === '\r') {
+      if (ch === '\r' && text[i + 1] === '\n') i++;
+      row.push(field); rows.push(row); row = []; field = '';
+    } else field += ch;
+  }
+  if (field || row.length) { row.push(field); rows.push(row); }
+  return rows.filter((r) => r.some((c) => c.trim()));
+}
+
+/** "13/10/2026" (Indian day-first) or anything Date understands. */
+function sheetDate(value: string): string | undefined {
+  const m = value.trim().match(/^(\d{1,2})[/.-](\d{1,2})[/.-](\d{4})$/);
+  if (m) return toIsoDate(`${m[3]}-${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}T00:00:00Z`);
+  return toIsoDate(value);
+}
+
+// Header names in the sheet (case and spacing don't matter).
+const SHEET_COLUMNS = {
+  title: ['title', 'job title', 'role'],
+  company: ['company'],
+  location: ['location', 'city'],
+  workMode: ['work mode', 'mode'],
+  experience: ['experience', 'experience (years)', 'exp'],
+  url: ['apply link', 'link', 'url', 'apply url'],
+  postedAt: ['posted date', 'posted', 'date'],
+  description: ['description', 'notes', 'jd'],
+};
+
+async function fetchSheet(): Promise<RawJob[]> {
+  const rows = parseCsv(await fetchText(sheetCsvUrl(process.env.JOBS_SHEET_URL || ''), 'text/csv'));
+  if (!rows.length) return [];
+  const header = rows[0].map((h) => h.trim().toLowerCase().replace(/\s+/g, ' '));
+  const col = (names: string[]) => header.findIndex((h) => names.includes(h));
+  const idx = Object.fromEntries(Object.entries(SHEET_COLUMNS).map(([k, names]) => [k, col(names)])) as Record<keyof typeof SHEET_COLUMNS, number>;
+  if (idx.title < 0 || idx.url < 0) throw new Error('sheet needs "Title" and "Apply link" columns');
+  const cell = (r: string[], i: number) => (i >= 0 ? (r[i] || '').trim() : '');
+  return rows.slice(1).map((r) => {
+    const url = cell(r, idx.url);
+    const location = cell(r, idx.location);
+    return {
+      source: 'sheet',
+      sourceLabel: cell(r, idx.company) || 'TheNoobPM',
+      sourceId: shortHash(url, cell(r, idx.title)),
+      company: cell(r, idx.company),
+      title: cell(r, idx.title),
+      locationText: location,
+      workModeHint: cell(r, idx.workMode),
+      postedAt: sheetDate(cell(r, idx.postedAt)),
+      url,
+      descriptionText: cell(r, idx.description),
+      expText: cell(r, idx.experience),
+      manual: true,
+    } as RawJob;
+  }).filter((j) => /^https?:\/\//i.test(j.url));
+}
+
 export function boardKey(c: Pick<CompanyBoard, 'ats' | 'token'>): string {
   return `${c.ats}:${c.token.toLowerCase()}`;
 }
@@ -214,6 +319,7 @@ export function getJobSources(discovered: CompanyBoard[] = []): JobSource[] {
     })),
     { key: 'remotive', label: 'Remotive', run: fetchRemotive },
     { key: 'remoteok', label: 'Remote OK', run: fetchRemoteOk },
+    ...(process.env.JOBS_SHEET_URL?.trim() ? [{ key: 'sheet', label: 'Google Sheet', run: fetchSheet }] : []),
   ];
 }
 
@@ -222,16 +328,18 @@ export function getJobSources(discovered: CompanyBoard[] = []): JobSource[] {
 /** Returns a normalised job, or null when it is not a PM role in India / open to India. */
 export function normalizeRawJob(raw: RawJob, nowIso: string): JobDetail | null {
   const title = raw.title.replace(/\s+/g, ' ').trim();
-  if (!title || !raw.url || !isPmTitle(title)) return null;
+  if (!title || !raw.url || (!raw.manual && !isPmTitle(title))) return null;
 
   const workMode = detectWorkMode(raw.workModeHint, raw.locationText, title);
   const inIndia = mentionsIndia(raw.locationText) || (raw.assumeIndia && !raw.locationText.trim());
-  if (!inIndia && !(workMode === 'Remote' && remoteOpenToIndia(raw.locationText.replace(/^remote[,;\s]*/i, '')))) {
+  if (!raw.manual && !inIndia && !(workMode === 'Remote' && remoteOpenToIndia(raw.locationText.replace(/^remote[,;\s]*/i, '')))) {
     return null;
   }
 
   const description = (raw.descriptionText || htmlToText(raw.descriptionHtml || '')).slice(0, MAX_DESCRIPTION_CHARS);
-  const { expMin, expMax } = parseExperience(`${title}\n${description}`);
+  // A bare "2-5" in the sheet's Experience column means years.
+  const expText = raw.expText && /^\d/.test(raw.expText) && !/y(ea)?rs?/i.test(raw.expText) ? `${raw.expText} years` : raw.expText;
+  const { expMin, expMax } = parseExperience(expText || `${title}\n${description}`);
   const cities = detectCities(raw.locationText);
 
   const job: JobDetail = {

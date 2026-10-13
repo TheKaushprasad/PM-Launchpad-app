@@ -64,6 +64,7 @@ export async function createExpressApp() {
       hasFirebaseAdmin: isFirebaseAdminConfigured(),
       hasCronSecret: !!process.env.CRON_SECRET?.trim(),
       hasFirecrawlKey: !!process.env.FIRECRAWL_API_KEY?.trim(),
+      hasJobsSheet: !!process.env.JOBS_SHEET_URL?.trim(),
       interviewPromptsLoaded: arePromptsLoaded(),
       interviewPromptVersion: PROMPT_VERSION,
       hasDeepgramKey: isDeepgramConfigured(),
