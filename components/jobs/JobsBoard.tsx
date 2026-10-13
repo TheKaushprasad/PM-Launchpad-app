@@ -465,7 +465,7 @@ const JobDrawer: React.FC<{
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-zinc-900 text-white text-sm font-bold hover:bg-zinc-800"
               >
-                Apply on {job.source === 'remotive' || job.source === 'remoteok' ? job.sourceLabel : `${job.company}'s site`}
+                Apply on {job.source === 'remotive' || job.source === 'remoteok' ? job.sourceLabel : job.source === 'sheet' ? 'the job page' : `${job.company}'s site`}
                 <ExternalLink className="w-4 h-4" />
               </a>
               <button
