@@ -255,11 +255,19 @@ export function parseCsv(text: string): string[][] {
   return rows.filter((r) => r.some((c) => c.trim()));
 }
 
-/** "13/10/2026" (Indian day-first) or anything Date understands. */
-function sheetDate(value: string): string | undefined {
+/** "13/10/2026" (day first) or "10/13/2026" (US sheets, month first), or anything Date understands. */
+export function sheetDate(value: string): string | undefined {
   const m = value.trim().match(/^(\d{1,2})[/.-](\d{1,2})[/.-](\d{4})$/);
-  if (m) return toIsoDate(`${m[3]}-${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}T00:00:00Z`);
-  return toIsoDate(value);
+  if (!m) return toIsoDate(value);
+  const iso = (month: string, day: string) => {
+    const mm = Number(month);
+    const dd = Number(day);
+    if (mm < 1 || mm > 12 || dd < 1 || dd > 31) return undefined;
+    const date = toIsoDate(`${m[3]}-${month.padStart(2, '0')}-${day.padStart(2, '0')}T00:00:00Z`);
+    // A posted date can't be in the future, so that reading is the wrong way round.
+    return date && Date.parse(date) <= Date.now() + 86400000 ? date : undefined;
+  };
+  return iso(m[2], m[1]) || iso(m[1], m[2]);
 }
 
 // Header names in the sheet (case and spacing don't matter).

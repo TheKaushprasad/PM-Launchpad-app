@@ -18,10 +18,9 @@ const EXPERIENCE_OPTIONS = [
   { value: '8+', label: '8+ years' },
 ];
 const POSTED_OPTIONS = [
-  { value: 0, label: 'Any time' },
+  { value: 0, label: 'Last 7 days' },
   { value: 1, label: 'Last 24 hours' },
-  { value: 7, label: 'Last 7 days' },
-  { value: 30, label: 'Last 30 days' },
+  { value: 3, label: 'Last 3 days' },
 ];
 const PAGE_SIZE = 30;
 
