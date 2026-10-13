@@ -18,6 +18,14 @@ const LIST_CACHE_MS = 10 * 60 * 1000;
 // The function may run for 60s (vercel.json); feeds not reached by then keep yesterday's jobs.
 const REFRESH_DEADLINE_MS = 45 * 1000;
 const SKIPPED_ERROR = 'skipped: refresh ran out of time';
+// Only fresh roles are listed (owner's call, 2026-10-13).
+const MAX_JOB_AGE_DAYS = 7;
+
+/** Age by the employer's posted date, or by when we first saw it if that is older (feeds without a date). */
+function isFresh(job: JobSummary, cutoffIso: string): boolean {
+  const seen = job.postedAt < job.firstSeenAt ? job.postedAt : job.firstSeenAt;
+  return seen >= cutoffIso;
+}
 
 let listCache: { at: number; data: JobsListResponse } | null = null;
 
@@ -119,9 +127,13 @@ export async function refreshJobs({ dryRun = false } = {}): Promise<RefreshSumma
     ids.add(prev.id);
   }
 
-  const merged = Array.from(byKey.values()).sort((a, b) => b.postedAt.localeCompare(a.postedAt));
-  const changed = fresh.filter((j) => ids.has(j.id) && prevById.get(j.id)?.h !== j.h);
-  const removed = previous.jobs.filter((j) => !ids.has(j.id));
+  const cutoffIso = new Date(Date.now() - MAX_JOB_AGE_DAYS * 86400000).toISOString();
+  const merged = Array.from(byKey.values())
+    .filter((j) => isFresh(j, cutoffIso))
+    .sort((a, b) => b.postedAt.localeCompare(a.postedAt));
+  const kept = new Set(merged.map((j) => j.id));
+  const changed = fresh.filter((j) => kept.has(j.id) && prevById.get(j.id)?.h !== j.h);
+  const removed = previous.jobs.filter((j) => !kept.has(j.id));
   const summary: RefreshSummary = {
     refreshedAt: nowIso,
     total: merged.length,
