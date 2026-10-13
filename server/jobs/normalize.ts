@@ -9,6 +9,7 @@ const PM_TITLE_PATTERNS = [
   /\b(vp|vice\s+president|director|svp|evp)\b[^a-z]*(of\s+)?product\b(?!\s+(design|marketing|engineering|security|support|operations|analytics))/i,
   /\bchief\s+product\s+officer\b/i,
   /\b(apm|cpo|gpm)\b/i,
+  /\bproduct\s+(management\s+)?intern(ship)?\b/i,
 ];
 
 // Roles that mention "product" but are not product management.
@@ -32,6 +33,7 @@ export function isPmTitle(title: string): boolean {
 
 export function classifyLevel(title: string): JobLevel {
   const t = title.toLowerCase();
+  if (/\bintern(ship)?\b/.test(t)) return 'Intern';
   if (/chief product officer|\bcpo\b/.test(t)) return 'CPO';
   if (/\b(vp|svp|evp|vice president)\b|head of product|\bhead\b.*\bproduct\b/.test(t)) return 'VP / Head of Product';
   if (/\bdirector\b/.test(t)) return 'Director';

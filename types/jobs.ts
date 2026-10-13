@@ -1,6 +1,7 @@
 // Shared between the server (job refresh + /api/jobs) and the Jobs page.
 
 export const JOB_LEVELS = [
+  'Intern',
   'APM',
   'Product Associate',
   'Product Manager',

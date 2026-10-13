@@ -37,6 +37,7 @@ Priority: **P0** blocks safe growth, **P1** important next, **P2** nice to have.
 
 ### PM Jobs board
 - [x] Phase 2a: weekly Firecrawl search finds more Ashby, Lever, Greenhouse and Workable boards; Workable added as a source. 2026-10-13
+- [x] PM internship and Y Combinator startup searches; new Intern level filter. 2026-10-13
 - [ ] **P1** Phase 2b: Adzuna India API and Firecrawl scraping of company career pages that have no public job feed. Prune fixed companies that show as failed in the refresh result.
 - [ ] **P1** Phase 3: "My CV" on the Profile page (reuse `/api/parse-resume-file` and `users/{uid}/resumes`) and an instant match % on every job card, no AI.
 - [ ] **P1** Phase 4: "Check my fit" AI match + shortlisting tips per job, reusing `/api/audit-resume` job suitability, cached per user and job, max 2 per user per day.
