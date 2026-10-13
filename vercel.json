@@ -1,6 +1,10 @@
 {
   "crons": [
     {
+      "path": "/api/jobs/discover",
+      "schedule": "0 0 * * 1"
+    },
+    {
       "path": "/api/jobs/refresh",
       "schedule": "30 0 * * *"
     }

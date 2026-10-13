@@ -3,15 +3,21 @@ import firebaseConfig from '../../firebase-applet-config.json';
 import { getFirebaseAdmin, isFirebaseAdminConfigured } from '../../services/firebaseAdmin';
 import { JobDetail, JobSourceStatus, JobSummary, JobsListResponse } from '../../types/jobs';
 import { dedupeKey } from './normalize';
-import { getJobSources, mapWithConcurrency, runSource } from './sources';
+import { boardKey, getJobSources, mapWithConcurrency, runSource, SourceResult } from './sources';
+import { COMPANY_BOARDS } from './companies';
+import { DiscoveredBoard, MAX_BOARD_FAILURES, searchForBoards, toCompanyBoards } from './discovery';
 
 // Firestore layout (written only by the server through the Admin SDK; clients never read it directly):
 //   jobs/{jobId}            full job incl. description, read when a user opens a job
 //   jobs_meta/status        refreshedAt, chunk count, per-source results
 //   jobs_meta/index_{n}     { jobs: JobSummary[] }, the list the Jobs page shows (a few reads per page load)
+//   jobs_meta/discovered    { boards: DiscoveredBoard[] }, company boards found by the weekly Firecrawl search
 const CHUNK_SIZE = 400;
 const BATCH_SIZE = 400;
 const LIST_CACHE_MS = 10 * 60 * 1000;
+// The function may run for 60s (vercel.json); feeds not reached by then keep yesterday's jobs.
+const REFRESH_DEADLINE_MS = 45 * 1000;
+const SKIPPED_ERROR = 'skipped: refresh ran out of time';
 
 let listCache: { at: number; data: JobsListResponse } | null = null;
 
@@ -57,6 +63,11 @@ export async function getJobDetail(id: string): Promise<JobDetail | null> {
   return snap.exists ? (snap.data() as JobDetail) : null;
 }
 
+async function readDiscovered(store: Firestore): Promise<DiscoveredBoard[]> {
+  const snap = await store.collection('jobs_meta').doc('discovered').get();
+  return snap.exists ? ((snap.data()?.boards as DiscoveredBoard[]) || []) : [];
+}
+
 export interface RefreshSummary {
   refreshedAt: string;
   total: number;
@@ -64,16 +75,25 @@ export interface RefreshSummary {
   updated: number;
   removed: number;
   dryRun: boolean;
+  discoveredBoards: number;
   sources: JobSourceStatus[];
 }
 
 /** Fetches every source, keeps PM roles in India / open to India, and replaces the stored list. */
 export async function refreshJobs({ dryRun = false } = {}): Promise<RefreshSummary> {
   const nowIso = new Date().toISOString();
-  const results = await mapWithConcurrency(getJobSources(), 10, (s) => runSource(s, nowIso));
+  const deadline = Date.now() + REFRESH_DEADLINE_MS;
+  const readStore = jobsStoreReady() ? db() : null;
+  const discovered = readStore ? await readDiscovered(readStore) : [];
+  const discoveredBoards = toCompanyBoards(discovered);
+  const results = await mapWithConcurrency(getJobSources(discoveredBoards), 16, (s): Promise<SourceResult> =>
+    Date.now() > deadline
+      ? Promise.resolve({ status: { key: s.key, label: s.label, ok: false, count: 0, error: SKIPPED_ERROR }, jobs: [] })
+      : runSource(s, nowIso)
+  );
   const sources = results.map((r) => r.status);
 
-  const store = dryRun ? null : db();
+  const store = dryRun ? null : readStore;
   const previous = store ? await readIndex(store) : { status: null, jobs: [] as JobSummary[] };
   const prevById = new Map(previous.jobs.map((j) => [j.id, j]));
   const failedKeys = new Set(sources.filter((s) => !s.ok).map((s) => s.key));
@@ -109,6 +129,7 @@ export async function refreshJobs({ dryRun = false } = {}): Promise<RefreshSumma
     updated: changed.filter((j) => prevById.has(j.id)).length,
     removed: removed.length,
     dryRun,
+    discoveredBoards: discoveredBoards.length,
     sources,
   };
   if (!store) return summary;
@@ -133,8 +154,65 @@ export async function refreshJobs({ dryRun = false } = {}): Promise<RefreshSumma
     writes.slice(i, i + BATCH_SIZE).forEach((w) => w(batch));
     await batch.commit();
   }
+  // Count failures per discovered board so dead ones stop being fetched.
+  if (discovered.length) {
+    const statusByKey = new Map(sources.map((st) => [st.key, st]));
+    let changedBoards = false;
+    const boards = discovered.map((b) => {
+      const st = statusByKey.get(boardKey(b));
+      if (!st || st.error === SKIPPED_ERROR) return b;
+      const failures = st.ok ? 0 : Math.min(b.failures + 1, MAX_BOARD_FAILURES);
+      if (failures !== b.failures) changedBoards = true;
+      return { ...b, failures };
+    });
+    if (changedBoards) await store.collection('jobs_meta').doc('discovered').set({ boards }, { merge: true });
+  }
+
   // Status last, so readers never see a chunk count that points at unwritten chunks.
   await store.collection('jobs_meta').doc('status').set({ refreshedAt: nowIso, chunkCount, total: merged.length, sources });
   listCache = null;
   return summary;
+}
+
+export interface DiscoverySummary {
+  ranAt: string;
+  dryRun: boolean;
+  queries: Array<{ query: string; results: number; error?: string }>;
+  boardsFound: number;
+  newBoards: number;
+  totalBoards: number;
+}
+
+/** Runs the Firecrawl searches and adds any new company boards for the daily refresh to read. */
+export async function discoverJobBoards({ dryRun = false } = {}): Promise<DiscoverySummary> {
+  const apiKey = process.env.FIRECRAWL_API_KEY?.trim();
+  if (!apiKey) throw new Error('FIRECRAWL_API_KEY is not set in the server environment.');
+  const nowIso = new Date().toISOString();
+  const run = await searchForBoards(apiKey);
+
+  const store = jobsStoreReady() ? db() : null;
+  const existing = store ? await readDiscovered(store) : [];
+  const fixed = new Set(COMPANY_BOARDS.map(boardKey));
+  const byKey = new Map(existing.map((b) => [boardKey(b), b]));
+  let newBoards = 0;
+  for (const found of run.boards) {
+    const key = boardKey(found);
+    if (fixed.has(key)) continue;
+    const prev = byKey.get(key);
+    if (prev) {
+      // Found again by a search, so give it another try even if it failed before.
+      byKey.set(key, { ...prev, ...(found.name && !prev.name ? { name: found.name } : {}), lastSeenAt: nowIso, failures: 0 });
+    } else {
+      byKey.set(key, { ...found, firstSeenAt: nowIso, lastSeenAt: nowIso, failures: 0 });
+      newBoards++;
+    }
+  }
+  // Boards that keep failing and no search has found for 60 days are dropped.
+  const cutoff = new Date(Date.now() - 60 * 86400000).toISOString();
+  const boards = Array.from(byKey.values()).filter((b) => b.failures < MAX_BOARD_FAILURES || b.lastSeenAt >= cutoff);
+
+  if (store && !dryRun) {
+    await store.collection('jobs_meta').doc('discovered').set({ boards, updatedAt: nowIso, queries: run.queries });
+  }
+  return { ranAt: nowIso, dryRun, queries: run.queries, boardsFound: run.boards.length, newBoards, totalBoards: boards.length };
 }

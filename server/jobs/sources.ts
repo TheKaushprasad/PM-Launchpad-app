@@ -73,7 +73,7 @@ async function fetchGreenhouse(c: CompanyBoard): Promise<RawJob[]> {
     source: 'greenhouse',
     sourceLabel: c.name,
     sourceId: `${c.token}-${j.id}`,
-    company: c.name,
+    company: c.discovered && j.company_name ? String(j.company_name) : c.name,
     title: String(j.title || ''),
     locationText: String(j.location?.name || ''),
     postedAt: toIsoDate(j.first_published || j.updated_at),
@@ -135,6 +135,30 @@ async function fetchAshby(c: CompanyBoard): Promise<RawJob[]> {
     });
 }
 
+async function fetchWorkable(c: CompanyBoard): Promise<RawJob[]> {
+  const data = await fetchJson(`https://apply.workable.com/api/v1/widget/accounts/${encodeURIComponent(c.token)}?details=true`);
+  const jobs: any[] = Array.isArray(data?.jobs) ? data.jobs : [];
+  const company = c.discovered && data?.name ? String(data.name) : c.name;
+  return jobs.map((j) => {
+    const places = Array.isArray(j.locations) && j.locations.length
+      ? j.locations.filter((l: any) => !l.hidden).map((l: any) => [l.city, l.region, l.country].filter(Boolean).join(', '))
+      : [[j.city, j.state, j.country].filter(Boolean).join(', ')];
+    return {
+      source: 'workable',
+      sourceLabel: company,
+      sourceId: `${c.token}-${j.shortcode}`,
+      company,
+      title: String(j.title || ''),
+      locationText: places.filter(Boolean).join('; '),
+      workModeHint: j.telecommuting ? 'remote' : '',
+      postedAt: toIsoDate(j.published_on || j.created_at),
+      url: String(j.url || j.shortlink || ''),
+      descriptionHtml: String(j.description || ''),
+      assumeIndia: !c.global,
+    } as RawJob;
+  });
+}
+
 // ---------- Remote job APIs (both ask for a credited link back, shown on the Jobs page) ----------
 
 async function fetchRemotive(): Promise<RawJob[]> {
@@ -173,11 +197,18 @@ async function fetchRemoteOk(): Promise<RawJob[]> {
   }));
 }
 
-export function getJobSources(): JobSource[] {
-  const fetchers = { greenhouse: fetchGreenhouse, lever: fetchLever, ashby: fetchAshby };
+export function boardKey(c: Pick<CompanyBoard, 'ats' | 'token'>): string {
+  return `${c.ats}:${c.token.toLowerCase()}`;
+}
+
+/** The fixed company list, plus boards found by the weekly Firecrawl discovery (see discovery.ts). */
+export function getJobSources(discovered: CompanyBoard[] = []): JobSource[] {
+  const fetchers = { greenhouse: fetchGreenhouse, lever: fetchLever, ashby: fetchAshby, workable: fetchWorkable };
+  const known = new Set(COMPANY_BOARDS.map(boardKey));
+  const boards = [...COMPANY_BOARDS, ...discovered.filter((d) => !known.has(boardKey(d)))];
   return [
-    ...COMPANY_BOARDS.map((c) => ({
-      key: `${c.ats}:${c.token}`,
+    ...boards.map((c) => ({
+      key: boardKey(c),
       label: c.name,
       run: () => fetchers[c.ats](c),
     })),
