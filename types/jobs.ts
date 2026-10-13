@@ -18,7 +18,7 @@ export type JobLevel = (typeof JOB_LEVELS)[number];
 
 export type WorkMode = 'Remote' | 'Hybrid' | 'On-site';
 
-export type JobSourceType = 'greenhouse' | 'lever' | 'ashby' | 'workable' | 'remotive' | 'remoteok' | 'sheet';
+export type JobSourceType = 'greenhouse' | 'lever' | 'ashby' | 'workable' | 'remotive' | 'remoteok' | 'sheet' | 'internshala';
 
 /** Light record used for the list and filters. */
 export interface JobSummary {

@@ -310,6 +310,56 @@ async function fetchSheet(): Promise<RawJob[]> {
   }).filter((j) => /^https?:\/\//i.test(j.url));
 }
 
+// ---------- Internshala (owner's Firecrawl search, run daily) ----------
+
+const INTERNSHALA_QUERY = 'site:internshala.com/internship/detail "Product Management"';
+
+const titleCase = (t: string) => t.replace(/\b\w/g, (c) => c.toUpperCase());
+
+/**
+ * Reads one search result. Internship pages look like
+ *   internshala.com/internship/detail/product-management-internship-in-hyderabad-at-vela1791462433
+ *   internshala.com/internship/detail/work-from-home-product-management-internship-at-whatbytes1791393727
+ * The trailing number is when the internship was posted (Unix seconds).
+ */
+export function parseInternshalaResult(url: string, title = ''): RawJob | null {
+  const slug = url.match(/internshala\.com\/internship\/detail\/([a-z0-9-]+?)(\d{9,11})\/?(?:[?#]|$)/i);
+  if (!slug) return null;
+  const [, body, stamp] = slug;
+  const remote = /^(part-time-)?work-from-home-/.test(body);
+  const rest = body.replace(/^(part-time-)?(work-from-home-)?(part-time-)?/, '');
+  const m = rest.match(/^(.+?)-internship-(?:in-(.+?)-)?at-(.+?)-?$/);
+  if (!m) return null;
+  const role = titleCase(m[1].replace(/-/g, ' '));
+  const city = m[2] && m[2] !== 'multiple-locations' ? titleCase(m[2].replace(/-/g, ' ')) : '';
+  // The page title has the company's real spelling, unless the search engine cut it short.
+  const fromTitle = title.match(/ at (.+?)(?: - Internshala)?$/)?.[1]?.trim();
+  const company = fromTitle && !fromTitle.includes('...') ? fromTitle : titleCase(m[3].replace(/-/g, ' '));
+  return {
+    source: 'internshala',
+    sourceLabel: 'Internshala',
+    sourceId: stamp + '-' + shortHash(body),
+    company,
+    title: `${role} Internship`,
+    locationText: remote ? 'Remote, India' : `${city || 'India'}, India`,
+    workModeHint: remote ? 'remote' : '',
+    postedAt: toIsoDate(Number(stamp)),
+    url: url.split(/[?#]/)[0],
+    descriptionText: '',
+  };
+}
+
+async function fetchInternshala(): Promise<RawJob[]> {
+  const Firecrawl = (await import('@mendable/firecrawl-js')).default;
+  const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY!.trim() });
+  // tbs=qdr:w: pages from the past week only, which matches the 7-day limit on the Jobs page.
+  const data: any = await firecrawl.search(INTERNSHALA_QUERY, { limit: 30, tbs: 'qdr:w' } as any);
+  const hits: any[] = data?.web || [];
+  return hits
+    .map((r) => parseInternshalaResult(String(r?.url || ''), String(r?.title || '')))
+    .filter((j): j is RawJob => j !== null);
+}
+
 export function boardKey(c: Pick<CompanyBoard, 'ats' | 'token'>): string {
   return `${c.ats}:${c.token.toLowerCase()}`;
 }
@@ -328,6 +378,7 @@ export function getJobSources(discovered: CompanyBoard[] = []): JobSource[] {
     { key: 'remotive', label: 'Remotive', run: fetchRemotive },
     { key: 'remoteok', label: 'Remote OK', run: fetchRemoteOk },
     ...(process.env.JOBS_SHEET_URL?.trim() ? [{ key: 'sheet', label: 'Google Sheet', run: fetchSheet }] : []),
+    ...(process.env.FIRECRAWL_API_KEY?.trim() ? [{ key: 'internshala', label: 'Internshala', run: fetchInternshala }] : []),
   ];
 }
 
