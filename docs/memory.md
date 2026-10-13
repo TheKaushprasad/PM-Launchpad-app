@@ -43,6 +43,7 @@ Decisions, context and lessons learned that are not obvious from the code. Newes
 - **`npm ci` fails** because `package-lock.json` pins zod 3 while `package.json` wants zod 4. Use `npm install`.
 - **Owner's local setup:** keys live in `services/.env` on their machine, with local, uncommitted edits to `.gitignore` and `eval/runner.ts` to load it. These block `git checkout main`; the safe sequence after a merge is `git stash`, `git checkout main`, `git pull`, `git stash pop`.
 - **Jobs refresh** runs daily at 06:00 IST via Vercel Cron (`/api/jobs/refresh`, needs `CRON_SECRET` and `FIREBASE_SERVICE_ACCOUNT_KEY`). Jobs live in Firestore `jobs/{id}` and `jobs_meta/*`, written only by the server. The company list is `server/jobs/companies.ts`.
+- **Jobs discovery** runs weekly on Monday 05:30 IST (`/api/jobs/discover`, needs `FIRECRAWL_API_KEY`). It runs the owner's 5 Firecrawl `site:` searches (Ashby, Lever, Greenhouse, Workable), each also with "India", about 60 credits a week. It saves only the company boards it finds in `jobs_meta/discovered`; the daily refresh reads their free public feeds. Boards that fail 3 refreshes in a row are skipped.
 - A Gemini key was once pasted into chat; it was rotated on 2026-10-08. Never paste keys into chats, issues or commits.
 
 ## Lessons learned

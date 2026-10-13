@@ -27,7 +27,7 @@ import { runEvaluationEngine } from "./server/evaluatorEngine";
 import { saveInterviewEvaluationServerSide } from "./server/persistence";
 import { deepgramVoiceFor, isDeepgramConfigured, isGroqConfigured, synthesizeWithDeepgram, transcribeWithGroq } from "./server/voice";
 import { getProjectById } from "./data/realWorldProjects";
-import { getJobDetail, getJobsList, jobsStoreReady, refreshJobs } from "./server/jobs/store";
+import { discoverJobBoards, getJobDetail, getJobsList, jobsStoreReady, refreshJobs } from "./server/jobs/store";
 import { requireAiAccess, getVerifiedUser, consumeDailyQuota, clientIp } from "./server/security";
 
 dotenv.config();
@@ -63,6 +63,7 @@ export async function createExpressApp() {
       hasResendKey: !!process.env.RESEND_API_KEY,
       hasFirebaseAdmin: isFirebaseAdminConfigured(),
       hasCronSecret: !!process.env.CRON_SECRET?.trim(),
+      hasFirecrawlKey: !!process.env.FIRECRAWL_API_KEY?.trim(),
       interviewPromptsLoaded: arePromptsLoaded(),
       interviewPromptVersion: PROMPT_VERSION,
       hasDeepgramKey: isDeepgramConfigured(),
@@ -1393,16 +1394,37 @@ SUBMISSION>>>`;
   // PM Jobs board
   // ==========================================
 
-  // Daily refresh. Vercel Cron calls this with "Authorization: Bearer <CRON_SECRET>".
-  // Add ?dryRun=1 to fetch and count without writing to Firestore.
-  app.get(["/api/jobs/refresh", "/api/jobs/refresh/"], async (req, res) => {
+  // Vercel Cron calls the jobs endpoints with "Authorization: Bearer <CRON_SECRET>".
+  const checkCronSecret = (req: express.Request, res: express.Response): boolean => {
     const secret = process.env.CRON_SECRET?.trim();
     if (!secret) {
-      return res.status(503).json({ error: "CRON_SECRET is not set in the server environment." });
+      res.status(503).json({ error: "CRON_SECRET is not set in the server environment." });
+      return false;
     }
     if (req.headers.authorization !== `Bearer ${secret}`) {
-      return res.status(401).json({ error: "Unauthorized" });
+      res.status(401).json({ error: "Unauthorized" });
+      return false;
     }
+    return true;
+  };
+
+  // Weekly: Firecrawl searches find more company job boards for the daily refresh to read.
+  // Add ?dryRun=1 to search without saving.
+  app.get(["/api/jobs/discover", "/api/jobs/discover/"], async (req, res) => {
+    if (!checkCronSecret(req, res)) return;
+    try {
+      const summary = await discoverJobBoards({ dryRun: req.query.dryRun === "1" });
+      console.log(`[Jobs Discover] boardsFound=${summary.boardsFound} new=${summary.newBoards} total=${summary.totalBoards}`);
+      res.json({ success: true, ...summary });
+    } catch (err: any) {
+      console.error("[Jobs Discover Error]:", err);
+      res.status(500).json({ error: err?.message || "Job board discovery failed" });
+    }
+  });
+
+  // Daily refresh. Add ?dryRun=1 to fetch and count without writing to Firestore.
+  app.get(["/api/jobs/refresh", "/api/jobs/refresh/"], async (req, res) => {
+    if (!checkCronSecret(req, res)) return;
     const dryRun = req.query.dryRun === "1";
     if (!dryRun && !jobsStoreReady()) {
       return res.status(503).json({ error: "FIREBASE_SERVICE_ACCOUNT_KEY is not set, so jobs cannot be saved." });

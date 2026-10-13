@@ -5,14 +5,18 @@
 //   boards.greenhouse.io/<token>   or  job-boards.greenhouse.io/<token>  -> { ats: 'greenhouse', token }
 //   jobs.lever.co/<token>                                                  -> { ats: 'lever', token }
 //   jobs.ashbyhq.com/<token>                                               -> { ats: 'ashby', token }
-// A wrong token does no harm: that company shows as failed in /api/jobs/status and is skipped.
+//   apply.workable.com/<token>                                             -> { ats: 'workable', token }
+// A wrong token does no harm: that company shows as failed in the refresh result and is skipped.
+// More boards are found every week by the Firecrawl searches in discovery.ts.
 
 export interface CompanyBoard {
   name: string;
-  ats: 'greenhouse' | 'lever' | 'ashby';
+  ats: 'greenhouse' | 'lever' | 'ashby' | 'workable';
   token: string;
   /** Global companies list every office; only keep their India or India-open remote roles. */
   global?: boolean;
+  /** Found by Firecrawl search rather than listed here; the feed's own company name is used when it has one. */
+  discovered?: boolean;
 }
 
 export const COMPANY_BOARDS: CompanyBoard[] = [
