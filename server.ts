@@ -25,7 +25,7 @@ import { buildInterviewerSystemPrompt, buildInterviewerTranscript, cleanIntervie
 import { getTrackConfig, normalizeLevel } from "./data/interviewTracks";
 import { runEvaluationEngine } from "./server/evaluatorEngine";
 import { saveInterviewEvaluationServerSide } from "./server/persistence";
-import { deepgramVoiceFor, isDeepgramConfigured, isGroqConfigured, synthesizeWithDeepgram, transcribeWithGroq } from "./server/voice";
+import { deepgramVoiceFor, isDeepgramConfigured, isGroqConfigured, isSarvamConfigured, synthesizeWithDeepgram, synthesizeWithSarvam, transcribeWithGroq } from "./server/voice";
 import { getProjectById } from "./data/realWorldProjects";
 import { discoverJobBoards, getJobDetail, getJobsList, jobsStoreReady, refreshJobs } from "./server/jobs/store";
 import { requireAiAccess, getVerifiedUser, consumeDailyQuota, clientIp } from "./server/security";
@@ -67,6 +67,7 @@ export async function createExpressApp() {
       hasJobsSheet: !!process.env.JOBS_SHEET_URL?.trim(),
       interviewPromptsLoaded: arePromptsLoaded(),
       interviewPromptVersion: PROMPT_VERSION,
+      hasSarvamKey: isSarvamConfigured(),
       hasDeepgramKey: isDeepgramConfigured(),
       hasGroqKey: isGroqConfigured(),
       port: 3000
@@ -1082,10 +1083,22 @@ Plain text, 1-2 sentences. No markdown.
       const ttsStartedAt = Date.now();
       const TTS_BUDGET_MS = 16000;
 
-      // 1. Deepgram Aura-2: natural voice, low latency, does not use the Gemini quota
+      // 1. Sarvam Bulbul v4 Flash: Indian-English voice for Priya
+      if (isSarvamConfigured()) {
+        try {
+          const mp3 = await synthesizeWithSarvam(text.trim());
+          return res.json({ audioBase64: mp3.toString('base64'), format: "mp3", provider: "sarvam" });
+        } catch (svErr: any) {
+          console.warn("[Sarvam TTS]: Failed, checking fallback...", svErr?.message);
+          failures.push(`Sarvam: ${String(svErr?.message || svErr).slice(0, 160)}`);
+        }
+      }
+
+      // 2. Deepgram Aura-2: natural US voice, low latency, does not use the Gemini quota
       if (isDeepgramConfigured()) {
         try {
-          const mp3 = await synthesizeWithDeepgram(text.trim(), deepgramVoiceFor(personaId, voiceGender));
+          const deepgramTimeLeft = TTS_BUDGET_MS - (Date.now() - ttsStartedAt);
+          const mp3 = await synthesizeWithDeepgram(text.trim(), deepgramVoiceFor(personaId, voiceGender), Math.min(12000, deepgramTimeLeft));
           return res.json({ audioBase64: mp3.toString('base64'), format: "mp3", provider: "deepgram" });
         } catch (dgErr: any) {
           console.warn("[Deepgram TTS]: Failed, checking fallback...", dgErr?.message);
@@ -1093,7 +1106,7 @@ Plain text, 1-2 sentences. No markdown.
         }
       }
 
-      // 2. Try Gemini TTS (gemini-3.1-flash-tts-preview)
+      // 3. Try Gemini TTS (gemini-3.1-flash-tts-preview)
       const geminiTimeLeft = TTS_BUDGET_MS - (Date.now() - ttsStartedAt);
       if (geminiKey && geminiKey.trim() !== "" && geminiKey !== "undefined" && geminiTimeLeft < 3000) {
         failures.push("Gemini: skipped, not enough time left");
@@ -1133,7 +1146,7 @@ Plain text, 1-2 sentences. No markdown.
         }
       }
 
-      // 3. Try OpenAI TTS (tts-1) if configured
+      // 4. Try OpenAI TTS (tts-1) if configured
       if (openAiKey && openAiKey.trim() !== "" && openAiKey !== "undefined") {
         try {
           const openai = getOpenAI();
