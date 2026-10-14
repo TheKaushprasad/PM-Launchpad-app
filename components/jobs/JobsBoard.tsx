@@ -323,7 +323,8 @@ export const JobsBoard: React.FC = () => {
       <p className="text-[11px] text-slate-400 mt-10 text-center leading-relaxed">
         Listings come from public company job boards. Remote listings include jobs from{' '}
         <a href="https://remotive.com" target="_blank" rel="noopener" className="underline">Remotive</a> and{' '}
-        <a href="https://remoteok.com" target="_blank" rel="noopener" className="underline">Remote OK</a>.
+        <a href="https://remoteok.com" target="_blank" rel="noopener" className="underline">Remote OK</a>. Internships link to{' '}
+        <a href="https://internshala.com" target="_blank" rel="noopener" className="underline">Internshala</a>.
         Always apply on the employer's own page.
       </p>
 
@@ -464,7 +465,7 @@ const JobDrawer: React.FC<{
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-zinc-900 text-white text-sm font-bold hover:bg-zinc-800"
               >
-                Apply on {job.source === 'remotive' || job.source === 'remoteok' ? job.sourceLabel : job.source === 'sheet' ? 'the job page' : `${job.company}'s site`}
+                Apply on {job.source === 'remotive' || job.source === 'remoteok' || job.source === 'internshala' ? job.sourceLabel : job.source === 'sheet' ? 'the job page' : `${job.company}'s site`}
                 <ExternalLink className="w-4 h-4" />
               </a>
               <button
