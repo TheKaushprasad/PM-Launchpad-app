@@ -1,6 +1,7 @@
-// Voice providers for the interview: Deepgram Aura-2 speaks, Groq Whisper listens.
-// Both are optional; when a key is missing the routes fall back to the older paths.
+// Voice providers for the interview: Sarvam Bulbul speaks (Deepgram Aura-2 as backup), Groq Whisper listens.
+// All are optional; when a key is missing the routes fall back to the older paths.
 
+const SARVAM_SPEAK_URL = "https://api.sarvam.ai/text-to-speech";
 const DEEPGRAM_SPEAK_URL = "https://api.deepgram.com/v1/speak";
 const GROQ_TRANSCRIBE_URL = "https://api.groq.com/openai/v1/audio/transcriptions";
 
@@ -25,11 +26,42 @@ const PM_VOCAB_PROMPT =
 
 const hasKey = (value?: string) => !!value && value.trim() !== "" && value !== "undefined";
 
+export const isSarvamConfigured = () => hasKey(process.env.SARVAM_API_KEY);
 export const isDeepgramConfigured = () => hasKey(process.env.DEEPGRAM_API_KEY);
 export const isGroqConfigured = () => hasKey(process.env.GROQ_API_KEY);
 
 export function deepgramVoiceFor(personaId: string, voiceGender: string): string {
   return DEEPGRAM_VOICES[personaId] || DEFAULT_VOICE[voiceGender === "male" ? "male" : "female"];
+}
+
+/** Indian-English Bulbul v4 Flash voice for Priya, picked by the owner on 2026-10-14. SARVAM_VOICE overrides it. */
+export const sarvamVoice = () => process.env.SARVAM_VOICE?.trim() || "roopa_en_conversational";
+
+/** Returns MP3 audio for the text from Sarvam Bulbul v4 Flash, or throws. */
+export async function synthesizeWithSarvam(text: string, timeoutMs = 6000): Promise<Buffer> {
+  const res = await fetch(SARVAM_SPEAK_URL, {
+    method: "POST",
+    headers: {
+      "api-subscription-key": process.env.SARVAM_API_KEY!.trim(),
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      text,
+      language_code: "en-IN",
+      model: "bulbul:v4-flash",
+      speaker: sarvamVoice(),
+      output_audio_codec: "mp3"
+    }),
+    signal: AbortSignal.timeout(timeoutMs)
+  });
+  if (!res.ok) {
+    const detail = await res.text().catch(() => "");
+    throw new Error(`Sarvam TTS ${res.status}: ${detail.slice(0, 200)}`);
+  }
+  const data = await res.json();
+  const audio = Array.isArray(data?.audios) ? data.audios.join("") : "";
+  if (!audio) throw new Error("Sarvam TTS returned no audio");
+  return Buffer.from(audio, "base64");
 }
 
 /** Returns MP3 audio for the text, or throws. */
