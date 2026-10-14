@@ -967,6 +967,14 @@ Return only the JSON object. No preamble, no markdown code fences, no explanatio
   // API Route for AI Mock Interview - Conversational Turn
   // One AI call per candidate answer. The opener is scripted in the browser and voice is
   // fetched separately (only in voice modes), so text chat never spends TTS quota.
+  // The AI interview is hidden on the live site until it is ready (see lib/featureFlags.ts), so its
+  // endpoints refuse there too. Local dev always allows it; VITE_AI_INTERVIEW_ENABLED=true turns it on live.
+  const aiInterviewEnabled = process.env.NODE_ENV !== "production" || process.env.VITE_AI_INTERVIEW_ENABLED === "true";
+  app.use("/api/interview", (req, res, next) => {
+    if (aiInterviewEnabled) return next();
+    res.status(503).json({ error: "The AI interview is coming soon." });
+  });
+
   app.post(["/api/interview/chat", "/api/interview/chat/"], requireAiAccess, async (req, res) => {
     try {
       const { scenarioId, personaId, level, elapsedSeconds = 0, targetSeconds } = req.body || {};
