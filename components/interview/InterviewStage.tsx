@@ -46,6 +46,7 @@ import { InterviewEvaluationView } from './InterviewEvaluationView';
 import { useAuth } from '../../context/AuthContext';
 import { authJsonHeaders } from '../../lib/apiClient';
 import { AnswerRecorder } from '../../lib/answerRecorder';
+import { startInterviewTelemetry, nextInterviewTurn, currentInterviewTurn, interviewTraceHeaders, trackInterviewEvent } from '../../lib/interviewTelemetry';
 
 interface InterviewStageProps {
   scenario: InterviewScenario;
@@ -221,6 +222,39 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
 
   const transcriptEndRef = useRef<HTMLDivElement>(null);
 
+  // Observability (lib/interviewTelemetry.ts): one pending timing per turn, from the moment the
+  // candidate submits (or the interview opens) until Priya's voice starts playing.
+  const turnTimingRef = useRef<{ startedAt: number; transcribeMs?: number; replyMs?: number } | null>(null);
+  const interviewEndedRef = useRef<boolean>(false);
+  const reportVoiceStarted = (voice: 'natural' | 'browser') => {
+    const timing = turnTimingRef.current;
+    if (!timing) return;
+    turnTimingRef.current = null;
+    const metrics: Record<string, number> = { first_voice_ms: Math.round(performance.now() - timing.startedAt) };
+    if (timing.transcribeMs !== undefined) metrics.transcribe_ms = timing.transcribeMs;
+    if (timing.replyMs !== undefined) metrics.reply_ms = timing.replyMs;
+    trackInterviewEvent('turn', metrics, { voice });
+  };
+  // A started interview that closes without a scorecard counts as a quit, with how far it got.
+  const reportAbandoned = () => {
+    if (!startedRef.current || interviewEndedRef.current) return;
+    interviewEndedRef.current = true;
+    trackInterviewEvent('abandoned', {
+      elapsed_seconds: elapsedSecondsRef.current,
+      candidate_turns: messagesRef.current.filter((m) => m.role === 'candidate').length
+    }, { scenarioId: scenario.id }, true);
+  };
+  const reportAbandonedRef = useRef(reportAbandoned);
+  reportAbandonedRef.current = reportAbandoned;
+  useEffect(() => {
+    const onPageHide = () => reportAbandonedRef.current();
+    window.addEventListener('pagehide', onPageHide);
+    return () => {
+      window.removeEventListener('pagehide', onPageHide);
+      reportAbandonedRef.current();
+    };
+  }, []);
+
   // Cleanup all audio on unmount
   useEffect(() => {
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
@@ -338,7 +372,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
   const requestTts = async (text: string): Promise<Response> =>
     fetch('/api/interview/tts', {
       method: 'POST',
-      headers: await authJsonHeaders(),
+      headers: { ...(await authJsonHeaders()), ...interviewTraceHeaders() },
       body: JSON.stringify({
         text: text.trim(),
         personaId: persona.id,
@@ -386,6 +420,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
           return speechId === speechPlayCounterRef.current ? 'Chrome blocked the audio from playing' : 'cancelled';
         }
         setVoiceFallbackReason(null);
+        reportVoiceStarted('natural');
         // If the audio never gets going or never ends, say so instead of sitting silent.
         const expectedMs = Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration * 1000 : 15000;
         stallTimer = setTimeout(() => {
@@ -410,6 +445,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
           return;
         }
         setVoiceFallbackReason(null);
+        reportVoiceStarted('natural');
         stallTimer = setTimeout(() => {
           const ctx = activePlaybackAudioCtxRef.current;
           resolve(ctx && ctx.state === 'suspended'
@@ -479,6 +515,8 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
       if (outcome !== 'done') {
         // 2. Fallback to browser speech synthesis for whatever has not been spoken yet
         setVoiceFallbackReason(outcome);
+        trackInterviewEvent('voice_fallback', { piece: i }, { reason: outcome });
+        if (i === 0) reportVoiceStarted('browser');
         fallbackWebSpeech(parts.slice(i).join(' '), currentSpeechId);
         return;
       }
@@ -585,6 +623,14 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
   const enterStudioImmediately = async () => {
     if (startedRef.current) return;
     startedRef.current = true;
+    interviewEndedRef.current = false;
+    turnTimingRef.current = { startedAt: performance.now() };
+    trackInterviewEvent('started', { target_minutes: scenario.targetDurationMinutes }, {
+      scenarioId: scenario.id,
+      track: scenario.track,
+      level,
+      voice: isVoiceEnabledRef.current
+    });
     const openerText = buildOpener(scenario, persona);
     setMessages([{
       id: 'msg_init_' + Date.now(),
@@ -600,6 +646,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
 
   // Short briefing screen, then the scripted opener
   useEffect(() => {
+    startInterviewTelemetry();
     if (isVoiceEnabledRef.current) {
       for (const part of splitForSpeech(buildOpener(scenario, persona)).slice(0, 2)) {
         const response = requestTts(part);
@@ -897,9 +944,10 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
     setIsThinking(true);
     setChatError(null);
     try {
+      const replyStartedAt = performance.now();
       const res = await fetch('/api/interview/chat', {
         method: 'POST',
-        headers: await authJsonHeaders(),
+        headers: { ...(await authJsonHeaders()), ...interviewTraceHeaders() },
         body: JSON.stringify({
           scenarioId: scenario.id,
           personaId: persona.id,
@@ -914,6 +962,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
       if (!res.ok || !data.text) {
         throw new Error(data.error || "The interviewer couldn't respond. Please retry.");
       }
+      if (turnTimingRef.current) turnTimingRef.current.replyMs = Math.round(performance.now() - replyStartedAt);
 
       const interviewerMsg: ConversationMessage = {
         id: 'interviewer_' + Date.now(),
@@ -950,6 +999,9 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
     // Pause listening while interviewer processes and speaks
     stopListeningSession();
     cleanupActiveAudio();
+    nextInterviewTurn();
+    const submittedAt = performance.now();
+    turnTimingRef.current = { startedAt: submittedAt };
 
     // Prefer the server transcript of the recording; keep the browser text if the candidate edited it
     // or transcription is unavailable.
@@ -960,8 +1012,9 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
       } else {
         isThinkingRef.current = true;
         setIsTranscribing(true);
-        const result = await recorder.transcribe();
+        const result = await recorder.transcribe(interviewTraceHeaders());
         setIsTranscribing(false);
+        if (turnTimingRef.current) turnTimingRef.current.transcribeMs = Math.round(performance.now() - submittedAt);
         isThinkingRef.current = false;
         if ('text' in result && result.text) {
           trimmed = result.text;
@@ -996,6 +1049,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
 
   const retryInterviewerReply = () => {
     if (isThinking) return;
+    turnTimingRef.current = { startedAt: performance.now() };
     requestInterviewerReply(messagesRef.current);
   };
 
@@ -1025,7 +1079,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
     try {
       const res = await fetch('/api/interview/hint', {
         method: 'POST',
-        headers: await authJsonHeaders(),
+        headers: { ...(await authJsonHeaders()), ...interviewTraceHeaders() },
         body: JSON.stringify({
           scenarioId: scenario.id,
           messages: messagesRef.current.map(({ role, text }) => ({ role, text }))
@@ -1075,7 +1129,8 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
-          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+          ...interviewTraceHeaders()
         },
         body: JSON.stringify({
           sessionId,
@@ -1118,6 +1173,13 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
         }
       }
 
+      interviewEndedRef.current = true;
+      trackInterviewEvent('ended', {
+        elapsed_seconds: elapsedSeconds,
+        candidate_turns: currentInterviewTurn(),
+        hints_used: hintsUsed,
+        ...(typeof evalData.overallScore === 'number' ? { overall_score: evalData.overallScore } : {})
+      }, { scenarioId: scenario.id, status: evalData.status || 'scored', verdict: evalData.verdict || '' });
       setEvaluationResult(evalData as InterviewEvaluation);
     } catch (err: any) {
       console.error("Evaluation error:", err);
@@ -1148,6 +1210,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
     setScratchpadNotes('');
     typedEditRef.current = false;
     startedRef.current = false;
+    startInterviewTelemetry();
     enterStudioImmediately();
   };
 

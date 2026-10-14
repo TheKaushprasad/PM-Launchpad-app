@@ -7,6 +7,7 @@ import { formatEvaluationResponse } from "./scoring";
 import { saveInterviewEvaluationServerSide } from "./persistence";
 import { getLevelConfig, normalizeLevel } from "../data/interviewTracks";
 import { CandidateLevel } from "../types/interview";
+import { traceStep, traceMeta, noteGuardrail, geminiUsage, openAiUsage } from "./observability";
 
 export interface EvaluationRequestPayload {
   scenario: any;
@@ -135,6 +136,8 @@ export async function runEvaluationEngine(
   );
 
   if (substantiveCandidateTurns.length < 3) {
+    noteGuardrail("eval_too_short");
+    traceMeta({ scenarioId: scenario?.id, candidateTurns: substantiveCandidateTurns.length });
     return {
       status: "insufficient",
       message: "Not enough of the interview was completed to assess fairly. Try finishing the case."
@@ -208,11 +211,11 @@ export async function runEvaluationEngine(
             ? prompt
             : `${prompt}\n\nIMPORTANT: Your previous output failed schema validation. You MUST return strictly valid JSON matching the evaluation schema with integer pillar scores 1 to 5 and evidence objects with quote and turnIndex.`;
 
-          const response = await ai.models.generateContent({
-            model: modelName,
-            contents: attemptPrompt,
-            config
-          });
+          const response = await traceStep(
+            { kind: "llm", name: "evaluator", provider: "gemini", model: modelName },
+            () => ai.models.generateContent({ model: modelName, contents: attemptPrompt, config }),
+            (r) => ({ ...geminiUsage(r), output: r?.text })
+          );
 
           const text = response?.text?.trim() || "";
           if (text) {
@@ -237,6 +240,7 @@ export async function runEvaluationEngine(
                   .map((issue) => `${issue.path.join('.') || 'root'}: ${issue.message}`)
                   .join('; ');
                 console.warn(`[EvaluatorEngine] Model ${modelName} attempt ${modelAttempt + 1} validation failure at path(s): ${zodErrorPaths}`);
+                noteGuardrail("eval_schema_invalid");
               }
             }
           }
@@ -264,7 +268,7 @@ export async function runEvaluationEngine(
   if (!rawValidatedEval && allowOpenAI && openAiKey && openAiKey.trim() !== "" && openAiKey !== "undefined") {
     try {
       const openai = new OpenAI({ apiKey: openAiKey });
-      const completion = await openai.chat.completions.create({
+      const completion = await traceStep({ kind: "llm", name: "evaluator", provider: "openai", model: OPENAI_EVAL_MODEL }, () => openai.chat.completions.create({
         model: OPENAI_EVAL_MODEL,
         temperature,
         seed: 42,
@@ -280,7 +284,7 @@ export async function runEvaluationEngine(
           { role: "system", content: systemInstruction },
           { role: "user", content: prompt }
         ]
-      });
+      }), (c) => ({ ...openAiUsage(c), output: c.choices[0]?.message?.content || undefined }));
 
       const text = completion.choices[0]?.message?.content || "";
       if (text) {
@@ -308,6 +312,8 @@ export async function runEvaluationEngine(
 
   // 5. Ground and validate verbatim candidate quotes & cap pillars lacking evidence
   const { groundingStats } = groundAndCapPillars(rawValidatedEval.pillars, transcriptTurns);
+  if (groundingStats.dropped > 0) noteGuardrail("eval_quotes_not_in_transcript");
+  if (groundingStats.echoed > 0) noteGuardrail("eval_quotes_echoed_interviewer");
 
   // 6. Compute overall score, verdict, display mapping, and format final response from CAPPED pillar scores
   const latencyMs = Date.now() - startTime;
@@ -359,6 +365,17 @@ export async function runEvaluationEngine(
       }
     }
   }
+
+  traceMeta({
+    scenarioId: scenario?.id,
+    level,
+    verdict: (finalEvaluation as any).verdict,
+    overallScore: (finalEvaluation as any).overallScore,
+    candidateTurns: substantiveCandidateTurns.length,
+    evalModel: winningModel,
+    evalRetries: totalRetries,
+    saved
+  });
 
   return {
     ...finalEvaluation,

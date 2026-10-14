@@ -148,6 +148,12 @@ Interviewer personas come from `server/prompts/interviewer-{maya,alex,priya,marc
 - Speaking: `/api/interview/tts` tries Sarvam Bulbul v4 Flash (`SARVAM_API_KEY`, Indian-English voice `roopa_en_conversational`), then Deepgram Aura-2 (`DEEPGRAM_API_KEY`), then Gemini TTS, then OpenAI, then the browser voice. A watchdog hands the turn back to the candidate if playback never reports that it ended, and tapping the mic interrupts the interviewer.
 - Listening: every answer is recorded (MediaRecorder) and, on "Done answering" or a 3.5 s pause in mic volume, sent to `/api/interview/transcribe`: Groq Whisper (`GROQ_API_KEY`), else Gemini. The browser's live recognition is only a preview and is switched off for the session if it errors (Brave, blocked service). If the candidate edits the text box, their text is sent instead.
 
+### Observability (`server/observability.ts`, `lib/interviewTelemetry.ts`)
+
+- Every `/api/interview/*` request is one trace. Provider calls are timed with `traceStep` (Gemini, OpenAI, Sarvam, Deepgram, Groq), including failed attempts before a fallback, with tokens and an estimated ₹ cost. `noteGuardrail` records things like an empty or cleaned interviewer reply, a hint fallback, no natural voice, evaluator schema failures and dropped evaluation quotes.
+- The browser gives each interview an id (`X-Interview-Session`, plus `X-Interview-Turn`) so one interview's traces group as one Langfuse session. It also posts to `/api/interview/telemetry`: `started`, `turn` (`first_voice_ms`, `transcribe_ms`, `reply_ms`), `voice_fallback`, `ended` and `abandoned`. Numbers become Langfuse scores.
+- Each trace is logged as one `[obs]` JSON line, and sent to Langfuse's OpenTelemetry endpoint when `LANGFUSE_PUBLIC_KEY` and `LANGFUSE_SECRET_KEY` are set (`/api/health` shows `hasLangfuseKeys`). Sending never delays a response; on Vercel it uses `waitUntil`.
+
 ## 7. Data model (Firestore)
 
 ```
