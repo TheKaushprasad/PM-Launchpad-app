@@ -371,7 +371,10 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
       if (data.format === 'mp3') {
         const audio = new Audio("data:audio/mp3;base64," + data.audioBase64);
         activeAudioElementRef.current = audio;
+        let stallTimer: ReturnType<typeof setTimeout> | undefined;
+        let finish: (outcome: string) => void = () => {};
         const finished = new Promise<string>((resolve) => {
+          finish = resolve;
           audio.onended = () => resolve('done');
           audio.onerror = () => resolve(speechId === speechPlayCounterRef.current
             ? 'the natural voice audio could not be played'
@@ -383,15 +386,41 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
           return speechId === speechPlayCounterRef.current ? 'Chrome blocked the audio from playing' : 'cancelled';
         }
         setVoiceFallbackReason(null);
+        // If the audio never gets going or never ends, say so instead of sitting silent.
+        const expectedMs = Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration * 1000 : 15000;
+        stallTimer = setTimeout(() => {
+          finish(audio.currentTime > 0 ? 'the natural voice stopped partway' : 'the natural voice audio stayed silent');
+        }, expectedMs + 4000);
         const outcome = await finished;
+        clearTimeout(stallTimer);
+        if (outcome !== 'done') {
+          try { audio.pause(); } catch {}
+        }
         return speechId === speechPlayCounterRef.current ? outcome : 'cancelled';
       }
 
+      // Raw audio (backup voice): 16-bit samples, so its length tells us how long it should play.
+      const sampleRate = data.sampleRate || 24000;
+      const expectedMs = (data.audioBase64.length * 3 / 4 / 2 / sampleRate) * 1000;
+      let stallTimer: ReturnType<typeof setTimeout> | undefined;
       const outcome = await new Promise<string>((resolve) => {
-        const started = playRawPCM(data.audioBase64, data.sampleRate || 24000, speechId, () => resolve('done'));
-        if (!started) resolve('the natural voice audio could not be played');
-        else setVoiceFallbackReason(null);
+        const started = playRawPCM(data.audioBase64, sampleRate, speechId, () => resolve('done'));
+        if (!started) {
+          resolve('the backup voice audio could not be played');
+          return;
+        }
+        setVoiceFallbackReason(null);
+        stallTimer = setTimeout(() => {
+          const ctx = activePlaybackAudioCtxRef.current;
+          resolve(ctx && ctx.state === 'suspended'
+            ? 'Chrome kept the backup voice paused'
+            : 'the backup voice audio stayed silent');
+        }, expectedMs + 4000);
       });
+      clearTimeout(stallTimer);
+      if (outcome !== 'done' && activeAudioSourceRef.current) {
+        try { activeAudioSourceRef.current.onended = null; activeAudioSourceRef.current.stop(); } catch {}
+      }
       return speechId === speechPlayCounterRef.current ? outcome : 'cancelled';
     } catch (ttsErr: any) {
       clearTimeout(timeoutId);
