@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Logo } from './Logo';
 import { useAuth } from '../context/AuthContext';
 import { AuthModal } from './auth/AuthModal';
+import { isAiInterviewEnabled } from '../lib/featureFlags';
 
 interface SidebarProps {
   mobileOpen: boolean;
@@ -29,7 +30,7 @@ const MODULE_ITEMS = [
 ];
 
 const OTHER_NAV_ITEMS = [
-  { label: 'AI Mock Interview', icon: Sparkles, path: '/interview-studio', badge: 'AI' },
+  { label: 'AI Mock Interview', icon: Sparkles, path: '/interview-studio', badge: isAiInterviewEnabled ? 'AI' : 'Soon' },
   { label: 'Real-World Projects', icon: FolderKanban, path: '/projects' },
   { label: 'PM Jobs', icon: Briefcase, path: '/jobs', badge: 'New' },
   { label: 'Resources', icon: BookOpen, path: '/resources' },

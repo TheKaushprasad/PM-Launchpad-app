@@ -10,6 +10,9 @@ import { ToolsHub } from './components/ToolsHub';
 import { LinkedInOptimiser } from './components/LinkedInOptimiser';
 import { ResumeAuditor } from './components/ResumeAuditor';
 import { InterviewHub } from './components/interview/InterviewHub';
+import { InterviewComingSoon } from './components/interview/InterviewComingSoon';
+import { isAiInterviewEnabled } from './lib/featureFlags';
+
 import { ProjectsHub } from './components/projects/ProjectsHub';
 import { ProjectDetail } from './components/projects/ProjectDetail';
 import { JobsBoard } from './components/jobs/JobsBoard';
@@ -25,6 +28,9 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { SaveDetailsModal } from './components/auth/SaveDetailsModal';
 import { VerifyEmailGate } from './components/auth/VerifyEmailGate';
+
+// The live site shows a Coming soon page until the AI interview is switched on (see lib/featureFlags.ts).
+const interviewStudio = isAiInterviewEnabled ? <InterviewHub /> : <InterviewComingSoon />;
 
 // Action Link Redirector to catch Firebase direct action queries (e.g. ?mode=verifyEmail&oobCode=...)
 const AuthActionRedirector = () => {
@@ -261,8 +267,8 @@ const App: React.FC = () => {
                 <Route path="/resources" element={<Resources />} />
 
                 {/* AI Mock Interview Studio Routes */}
-                <Route path="/interview-studio" element={<InterviewHub />} />
-                <Route path="/practice" element={<InterviewHub />} />
+                <Route path="/interview-studio" element={interviewStudio} />
+                <Route path="/practice" element={interviewStudio} />
                 <Route path="/resume-auditor" element={<ResumeAuditor />} />
 
                 {/* Real-World PM Projects Routes */}
@@ -280,8 +286,8 @@ const App: React.FC = () => {
                     {/* Publicly accessible Career Tools */}
                     <Route path="linkedin-optimiser" element={<LinkedInOptimiser />} />
                     <Route path="resume-auditor" element={<ResumeAuditor />} />
-                    <Route path="interview-studio" element={<InterviewHub />} />
-                    <Route path="practice" element={<InterviewHub />} />
+                    <Route path="interview-studio" element={interviewStudio} />
+                    <Route path="practice" element={interviewStudio} />
                     <Route 
                       path="profile" 
                       element={
