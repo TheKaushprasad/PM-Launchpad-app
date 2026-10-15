@@ -1,5 +1,4 @@
-import { getFirestore } from 'firebase-admin/firestore';
-import { getFirebaseAdmin } from '../services/firebaseAdmin';
+import { getAppFirestore } from '../services/firebaseAdmin';
 import { InterviewEvaluation } from '../types/interview';
 
 export interface PersistSessionOptions {
@@ -26,8 +25,7 @@ export async function saveInterviewEvaluationServerSide(
     throw new Error('Persistence requires a verified user ID from Firebase Auth token.');
   }
 
-  const app = getFirebaseAdmin();
-  const db = getFirestore(app);
+  const db = getAppFirestore();
 
   const docId = (sessionId || evaluation.id || `eval_${Date.now()}`).replace(/[^a-zA-Z0-9_\-]/g, '_');
   const docRef = db.collection('users').doc(userId).collection('interview_sessions').doc(docId);

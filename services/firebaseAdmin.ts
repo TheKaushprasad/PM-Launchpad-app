@@ -5,6 +5,7 @@
 
 import { initializeApp, getApps, cert, App } from 'firebase-admin/app';
 import { getAuth, ActionCodeSettings, Auth } from 'firebase-admin/auth';
+import { getFirestore, Firestore } from 'firebase-admin/firestore';
 import firebaseConfig from '../firebase-applet-config.json';
 
 let adminApp: App | null = null;
@@ -150,6 +151,12 @@ export function getFirebaseAdmin(): App {
 /**
  * Returns the Firebase Admin Auth service
  */
+/** The app's Firestore. It is a named database, not (default), so getFirestore(app) alone finds nothing. */
+export function getAppFirestore(): Firestore {
+  const databaseId = process.env.FIREBASE_FIRESTORE_DATABASE_ID || firebaseConfig.firestoreDatabaseId || '(default)';
+  return getFirestore(getFirebaseAdmin(), databaseId);
+}
+
 export function getAdminAuth(): Auth {
   const app = getFirebaseAdmin();
   return getAuth(app);
