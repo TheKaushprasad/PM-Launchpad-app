@@ -46,7 +46,7 @@ import { InterviewEvaluationView } from './InterviewEvaluationView';
 import { useAuth } from '../../context/AuthContext';
 import { authJsonHeaders } from '../../lib/apiClient';
 import { AnswerRecorder } from '../../lib/answerRecorder';
-import { startInterviewTelemetry, nextInterviewTurn, currentInterviewTurn, interviewTraceHeaders, trackInterviewEvent } from '../../lib/interviewTelemetry';
+import { startInterviewTelemetry, nextInterviewTurn, currentInterviewTurn, interviewTraceHeaders, trackInterviewEvent, rememberTurnTrace } from '../../lib/interviewTelemetry';
 
 interface InterviewStageProps {
   scenario: InterviewScenario;
@@ -230,7 +230,9 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
     const timing = turnTimingRef.current;
     if (!timing) return;
     turnTimingRef.current = null;
-    const metrics: Record<string, number> = { first_voice_ms: Math.round(performance.now() - timing.startedAt) };
+    // The opener has no interviewer-turn trace, so its wait is scored on the whole interview under its own name.
+    const waitName = currentInterviewTurn() === 0 ? 'opener_first_voice_ms' : 'first_voice_ms';
+    const metrics: Record<string, number> = { [waitName]: Math.round(performance.now() - timing.startedAt) };
     if (timing.transcribeMs !== undefined) metrics.transcribe_ms = timing.transcribeMs;
     if (timing.replyMs !== undefined) metrics.reply_ms = timing.replyMs;
     trackInterviewEvent('turn', metrics, { voice });
@@ -958,6 +960,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
         })
       });
 
+      rememberTurnTrace(res);
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data.text) {
         throw new Error(data.error || "The interviewer couldn't respond. Please retry.");

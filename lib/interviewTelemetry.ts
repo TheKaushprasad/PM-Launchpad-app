@@ -7,6 +7,8 @@ import { authJsonHeaders } from './apiClient';
 
 let sessionId = '';
 let turn = 0;
+// Langfuse trace of the interviewer's reply this turn, so the turn's timings are scored on it.
+let turnTraceId = '';
 // Kept from the last call so a quit can still be reported while the page is closing.
 let cachedHeaders: Record<string, string> = { 'Content-Type': 'application/json' };
 
@@ -15,12 +17,19 @@ export function startInterviewTelemetry() {
   const random = Math.random().toString(36).slice(2, 10);
   sessionId = `iv_${Date.now().toString(36)}_${random}`;
   turn = 0;
+  turnTraceId = '';
   authJsonHeaders().then((h) => { cachedHeaders = h; }).catch(() => {});
 }
 
 /** Moves to the next candidate answer; later requests are tagged with the new turn number. */
 export function nextInterviewTurn() {
   turn += 1;
+  turnTraceId = '';
+}
+
+/** Remembers the trace id the server returned for this turn's interviewer reply. */
+export function rememberTurnTrace(res: Response) {
+  turnTraceId = res.headers.get('X-Langfuse-Trace-Id') || turnTraceId;
 }
 
 export function currentInterviewTurn() {
@@ -36,7 +45,8 @@ type EventName = 'started' | 'turn' | 'voice_fallback' | 'ended' | 'abandoned';
 
 /**
  * Reports one interview event. Never throws and never delays the interview.
- * `metrics` are numbers (charted in Langfuse); `metadata` is short labels.
+ * `metrics` are numbers (Langfuse scores); `metadata` is short labels. Turn timings and voice fallbacks are
+ * scored on the turn's trace, finishes and quits on the whole interview.
  * Pass `closing` when the page is going away: it skips refreshing the sign-in token.
  */
 export function trackInterviewEvent(
@@ -46,7 +56,8 @@ export function trackInterviewEvent(
   closing = false
 ) {
   if (!sessionId) return;
-  const body = JSON.stringify({ event, sessionId, turn, metrics, metadata });
+  const traceId = event === 'turn' || event === 'voice_fallback' ? turnTraceId || undefined : undefined;
+  const body = JSON.stringify({ event, sessionId, traceId, turn, metrics, metadata });
   const send = (headers: Record<string, string>) =>
     fetch('/api/interview/telemetry', { method: 'POST', headers, body, keepalive: true }).catch(() => {});
   if (closing) {

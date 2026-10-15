@@ -7,7 +7,7 @@ import { formatEvaluationResponse } from "./scoring";
 import { saveInterviewEvaluationServerSide } from "./persistence";
 import { getLevelConfig, normalizeLevel } from "../data/interviewTracks";
 import { CandidateLevel } from "../types/interview";
-import { traceStep, traceMeta, noteGuardrail, geminiUsage, openAiUsage } from "./observability";
+import { traceStep, traceMeta, traceIO, noteGuardrail, geminiUsage, openAiUsage } from "./observability";
 
 export interface EvaluationRequestPayload {
   scenario: any;
@@ -212,7 +212,7 @@ export async function runEvaluationEngine(
             : `${prompt}\n\nIMPORTANT: Your previous output failed schema validation. You MUST return strictly valid JSON matching the evaluation schema with integer pillar scores 1 to 5 and evidence objects with quote and turnIndex.`;
 
           const response = await traceStep(
-            { kind: "llm", name: "evaluator", provider: "gemini", model: modelName },
+            { kind: "llm", name: "score-transcript", provider: "gemini", model: modelName, input: [{ role: "system", content: systemInstruction }, { role: "user", content: attemptPrompt }] },
             () => ai.models.generateContent({ model: modelName, contents: attemptPrompt, config }),
             (r) => ({ ...geminiUsage(r), output: r?.text })
           );
@@ -268,7 +268,7 @@ export async function runEvaluationEngine(
   if (!rawValidatedEval && allowOpenAI && openAiKey && openAiKey.trim() !== "" && openAiKey !== "undefined") {
     try {
       const openai = new OpenAI({ apiKey: openAiKey });
-      const completion = await traceStep({ kind: "llm", name: "evaluator", provider: "openai", model: OPENAI_EVAL_MODEL }, () => openai.chat.completions.create({
+      const completion = await traceStep({ kind: "llm", name: "score-transcript", provider: "openai", model: OPENAI_EVAL_MODEL, input: [{ role: "system", content: systemInstruction }, { role: "user", content: prompt }] }, () => openai.chat.completions.create({
         model: OPENAI_EVAL_MODEL,
         temperature,
         seed: 42,
@@ -375,6 +375,10 @@ export async function runEvaluationEngine(
     evalModel: winningModel,
     evalRetries: totalRetries,
     saved
+  });
+  traceIO({
+    input: { case: scenario?.title, level, candidateTurns: substantiveCandidateTurns.length },
+    output: { verdict: (finalEvaluation as any).verdict, overallScore: (finalEvaluation as any).overallScore }
   });
 
   return {
