@@ -65,7 +65,8 @@ const storage = new AsyncLocalStorage<RequestTrace>();
 
 const hasKey = (v?: string) => !!v && v.trim() !== "" && v !== "undefined" && v !== "null";
 export const isLangfuseConfigured = () => hasKey(process.env.LANGFUSE_PUBLIC_KEY) && hasKey(process.env.LANGFUSE_SECRET_KEY);
-const baseUrl = () => (process.env.LANGFUSE_BASE_URL || process.env.LANGFUSE_HOST || "").trim() || undefined;
+// A trailing slash makes the trace upload URL "//api/..." and Langfuse answers 308, so drop it.
+const baseUrl = () => (process.env.LANGFUSE_BASE_URL || process.env.LANGFUSE_HOST || "").trim().replace(/\/+$/, "") || undefined;
 
 // Candidate answers go to Langfuse so bad interviews can be reviewed. OBS_LOG_TEXT=false sends timings only.
 const logText = () => process.env.OBS_LOG_TEXT !== "false";
@@ -112,7 +113,7 @@ const LANGFUSE_DEFAULT_URL = "https://cloud.langfuse.com";
 
 /** Logs once at startup whether the keys work, and for which Langfuse project, so a bad key is obvious. */
 async function checkLangfuseConnection() {
-  const url = (baseUrl() || LANGFUSE_DEFAULT_URL).replace(/\/+$/, "");
+  const url = baseUrl() || LANGFUSE_DEFAULT_URL;
   const auth = Buffer.from(`${process.env.LANGFUSE_PUBLIC_KEY!.trim()}:${process.env.LANGFUSE_SECRET_KEY!.trim()}`).toString("base64");
   try {
     const res = await fetch(`${url}/api/public/projects`, { headers: { Authorization: `Basic ${auth}` }, signal: AbortSignal.timeout(10_000) });
