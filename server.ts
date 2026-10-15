@@ -29,9 +29,11 @@ import { deepgramVoiceFor, isDeepgramConfigured, isGroqConfigured, isSarvamConfi
 import { getProjectById } from "./data/realWorldProjects";
 import { discoverJobBoards, getJobDetail, getJobsList, jobsStoreReady, refreshJobs } from "./server/jobs/store";
 import { requireAiAccess, getVerifiedUser, consumeDailyQuota, clientIp } from "./server/security";
-import { traceInterviewRequests, traceStep, traceMeta, noteGuardrail, geminiUsage, openAiUsage, recordClientEvent, cleanSessionId, isLangfuseConfigured } from "./server/observability";
+import { initObservability, traceInterviewRequests, traceStep, traceMeta, traceIO, noteGuardrail, geminiUsage, openAiUsage, recordClientEvent, cleanSessionId, cleanTraceId, isLangfuseConfigured } from "./server/observability";
 
 dotenv.config();
+// Langfuse reads its keys from the environment, so it starts only after .env is loaded.
+initObservability();
 
 /** Rejects with `message` if the promise hasn't settled within `ms`. */
 function withTimeout<T>(promise: Promise<T>, ms: number, message: string): Promise<T> {
@@ -126,6 +128,12 @@ export async function createExpressApp() {
     return new OpenAI({ apiKey });
   };
 
+  // A model call's input as chat messages, which Langfuse renders as a readable conversation.
+  const chatInput = (systemInstruction: string, prompt: string) => [
+    { role: "system", content: systemInstruction },
+    { role: "user", content: prompt }
+  ];
+
   // Helper to execute AI call with Gemini (with multi-model fallback and OpenAI fallback)
   async function generateAIResponse({ 
     prompt, 
@@ -187,7 +195,7 @@ export async function createExpressApp() {
 
           // Interview requests record each model call (time, tokens, failures) on their trace.
           const callModel = () => traceStep(
-            { kind: "llm", name: "gemini", provider: "gemini", model: modelName, input: prompt.slice(-4000) },
+            { kind: "llm", name: "generate-response", provider: "gemini", model: modelName, input: chatInput(systemInstruction, prompt) },
             () => ai.models.generateContent({ model: modelName, contents: prompt, config }),
             (r) => ({ ...geminiUsage(r), output: r?.text })
           );
@@ -240,7 +248,7 @@ export async function createExpressApp() {
           console.log("[AI Proxy]: Falling back to OpenAI gpt-4o...");
           const openai = getOpenAI();
           const completion = await traceStep(
-            { kind: "llm", name: "openai", provider: "openai", model: "gpt-4o", input: prompt.slice(-4000) },
+            { kind: "llm", name: "generate-response", provider: "openai", model: "gpt-4o", input: chatInput(systemInstruction, prompt) },
             () => openai.chat.completions.create({
               model: "gpt-4o",
               messages: [
@@ -1018,7 +1026,8 @@ Return only the JSON object. No preamble, no markdown code fences, no explanatio
           throw new Error("Empty interviewer reply");
         }
         if (text !== reply.trim()) noteGuardrail("interviewer_reply_cleaned");
-        traceMeta({ scenarioId: scenario.id, level: normalizeLevel(level), elapsedSeconds: elapsed, transcriptTurns: messages.length, replyChars: text.length });
+        traceMeta({ scenarioId: scenario.id, track: scenario.track, level: normalizeLevel(level), elapsedSeconds: elapsed, transcriptTurns: messages.length });
+        traceIO({ input: messages[messages.length - 1]?.text, output: text });
         return res.json({ text });
       } catch (aiErr: any) {
         // No scripted stand-in: a fake interviewer line would end up in the scored transcript.
@@ -1041,7 +1050,7 @@ Return only the JSON object. No preamble, no markdown code fences, no explanatio
   app.post(["/api/interview/telemetry", "/api/interview/telemetry/"], async (req, res) => {
     const user = await getVerifiedUser(req);
     if (!user) return res.status(401).json({ error: "Please sign in." });
-    const { event, sessionId, turn, metrics, metadata } = req.body || {};
+    const { event, sessionId, traceId, turn, metrics, metadata } = req.body || {};
     if (typeof event !== "string" || !CLIENT_EVENTS.has(event)) {
       return res.status(400).json({ error: "Unknown event" });
     }
@@ -1055,13 +1064,22 @@ Return only the JSON object. No preamble, no markdown code fences, no explanatio
       if (typeof v === "string") cleanMetadata[k] = v.slice(0, 200);
       else if (typeof v === "boolean" || (typeof v === "number" && Number.isFinite(v))) cleanMetadata[k] = v;
     }
+    // Per-turn timings and voice fallbacks are scored on that turn's trace; finishes and quits on the
+    // whole interview (session). The start is only logged.
+    const scores: Record<string, number> =
+      event === "turn" ? cleanMetrics
+      : event === "voice_fallback" ? { voice_fallback: 1 }
+      : event === "ended" ? { interview_completed: 1, ...cleanMetrics }
+      : event === "abandoned" ? { interview_completed: 0, ...cleanMetrics }
+      : {};
+    const perTurn = event === "turn" || event === "voice_fallback";
     recordClientEvent({
       name: event,
       sessionId: cleanSessionId(sessionId),
-      userId: user.uid,
+      traceId: perTurn ? cleanTraceId(traceId) : undefined,
       turn: Number.isInteger(turn) && turn >= 0 && turn < 1000 ? turn : undefined,
-      metrics: cleanMetrics,
-      metadata: cleanMetadata
+      metrics: scores,
+      metadata: event === "started" ? { ...cleanMetadata, ...cleanMetrics } : cleanMetadata
     });
     res.status(204).end();
   });
@@ -1094,7 +1112,10 @@ Plain text, 1-2 sentences. No markdown.
       try {
         const hint = await generateAIResponse({ prompt, systemInstruction, maxOutputTokens: 300, thinkingBudget: 0, maxGeminiModels: 2 });
         const cleanHint = hint.replace(/\*\*/g, '').replace(/\*/g, '').trim();
-        if (cleanHint) return res.json({ hint: cleanHint });
+        if (cleanHint) {
+          traceIO({ output: cleanHint });
+          return res.json({ hint: cleanHint });
+        }
       } catch (hintErr: any) {
         console.warn("[Hint] AI unavailable, using the case's reference approach:", hintErr?.message);
         noteGuardrail("hint_fallback");
@@ -1120,6 +1141,7 @@ Plain text, 1-2 sentences. No markdown.
 
       const geminiKey = process.env.GEMINI_API_KEY;
       const openAiKey = process.env.OPENAI_API_KEY;
+      traceIO({ input: text.trim() });
 
       const voiceMap: Record<string, string> = {
         maya: 'Kore',     // Warm, empathetic, professional female
@@ -1138,7 +1160,7 @@ Plain text, 1-2 sentences. No markdown.
       // 1. Sarvam Bulbul v4 Flash: Indian-English voice for Priya
       if (isSarvamConfigured()) {
         try {
-          const mp3 = await traceStep({ kind: "tts", name: "sarvam", provider: "sarvam", chars: text.trim().length }, () => synthesizeWithSarvam(text.trim()));
+          const mp3 = await traceStep({ kind: "tts", name: "synthesize-speech", provider: "sarvam", model: "bulbul:v4-flash", input: text.trim(), chars: text.trim().length }, () => synthesizeWithSarvam(text.trim()));
           return res.json({ audioBase64: mp3.toString('base64'), format: "mp3", provider: "sarvam" });
         } catch (svErr: any) {
           console.warn("[Sarvam TTS]: Failed, checking fallback...", svErr?.message);
@@ -1151,7 +1173,7 @@ Plain text, 1-2 sentences. No markdown.
         try {
           const deepgramTimeLeft = TTS_BUDGET_MS - (Date.now() - ttsStartedAt);
           const mp3 = await traceStep(
-            { kind: "tts", name: "deepgram", provider: "deepgram", chars: text.trim().length },
+            { kind: "tts", name: "synthesize-speech", provider: "deepgram", model: deepgramVoiceFor(personaId, voiceGender), input: text.trim(), chars: text.trim().length },
             () => synthesizeWithDeepgram(text.trim(), deepgramVoiceFor(personaId, voiceGender), Math.min(12000, deepgramTimeLeft))
           );
           return res.json({ audioBase64: mp3.toString('base64'), format: "mp3", provider: "deepgram" });
@@ -1173,7 +1195,7 @@ Plain text, 1-2 sentences. No markdown.
           });
 
           // Free-tier Gemini voice can be slow or rate limited; don't let it hold the interviewer up for long.
-          const ttsResponse = await traceStep({ kind: "tts", name: "gemini-tts", provider: "gemini", model: "gemini-3.1-flash-tts-preview", chars: text.trim().length }, () => withTimeout(ai.models.generateContent({
+          const ttsResponse = await traceStep({ kind: "tts", name: "synthesize-speech", provider: "gemini", model: "gemini-3.1-flash-tts-preview", input: text.trim(), chars: text.trim().length }, () => withTimeout(ai.models.generateContent({
             model: "gemini-3.1-flash-tts-preview",
             contents: [{ parts: [{ text: text.trim() }] }],
             config: {
@@ -1206,7 +1228,7 @@ Plain text, 1-2 sentences. No markdown.
         try {
           const openai = getOpenAI();
           const openAiVoice = personaId === 'maya' ? 'nova' : personaId === 'alex' ? 'coral' : personaId === 'priya' ? 'shimmer' : 'onyx';
-          const mp3 = await traceStep({ kind: "tts", name: "openai-tts", provider: "openai", model: "tts-1", chars: text.trim().length }, () => openai.audio.speech.create({
+          const mp3 = await traceStep({ kind: "tts", name: "synthesize-speech", provider: "openai", model: "tts-1", input: text.trim(), chars: text.trim().length }, () => openai.audio.speech.create({
             model: "tts-1",
             voice: openAiVoice,
             input: text.trim(),
@@ -1251,10 +1273,11 @@ Plain text, 1-2 sentences. No markdown.
       if (isGroqConfigured()) {
         try {
           const transcript = await traceStep(
-            { kind: "stt", name: "groq-whisper", provider: "groq", audioSeconds },
+            { kind: "stt", name: "transcribe-audio", provider: "groq", model: process.env.GROQ_WHISPER_MODEL?.trim() || "whisper-large-v3-turbo", audioSeconds },
             () => transcribeWithGroq(audio, String(mimeType)),
             (t) => ({ output: t })
           );
+          traceIO({ output: transcript });
           return res.json({ transcript, provider: "groq" });
         } catch (groqErr: any) {
           console.warn("[Groq Transcribe]: Failed, trying Gemini...", groqErr?.message);
@@ -1270,7 +1293,7 @@ Plain text, 1-2 sentences. No markdown.
         let lastErr: any = null;
         for (const modelName of ["gemini-3.1-flash-lite", "gemini-3.8-flash"]) {
           try {
-            const response = await traceStep({ kind: "stt", name: "gemini-transcribe", provider: "gemini", model: modelName, audioSeconds }, () => ai.models.generateContent({
+            const response = await traceStep({ kind: "stt", name: "transcribe-audio", provider: "gemini", model: modelName, audioSeconds }, () => ai.models.generateContent({
               model: modelName,
               contents: [{
                 parts: [
@@ -1279,6 +1302,7 @@ Plain text, 1-2 sentences. No markdown.
                 ]
               }]
             }), (r) => ({ ...geminiUsage(r), output: r?.text }));
+            traceIO({ output: (response.text || "").trim() });
             return res.json({ transcript: (response.text || "").trim(), provider: "gemini" });
           } catch (mErr: any) {
             lastErr = mErr;

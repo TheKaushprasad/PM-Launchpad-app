@@ -150,9 +150,11 @@ Interviewer personas come from `server/prompts/interviewer-{maya,alex,priya,marc
 
 ### Observability (`server/observability.ts`, `lib/interviewTelemetry.ts`)
 
-- Every `/api/interview/*` request is one trace. Provider calls are timed with `traceStep` (Gemini, OpenAI, Sarvam, Deepgram, Groq), including failed attempts before a fallback, with tokens and an estimated ₹ cost. `noteGuardrail` records things like an empty or cleaned interviewer reply, a hint fallback, no natural voice, evaluator schema failures and dropped evaluation quotes.
-- The browser gives each interview an id (`X-Interview-Session`, plus `X-Interview-Turn`) so one interview's traces group as one Langfuse session. It also posts to `/api/interview/telemetry`: `started`, `turn` (`first_voice_ms`, `transcribe_ms`, `reply_ms`), `voice_fallback`, `ended` and `abandoned`. Numbers become Langfuse scores.
-- Each trace is logged as one `[obs]` JSON line, and sent to Langfuse's OpenTelemetry endpoint when `LANGFUSE_PUBLIC_KEY` and `LANGFUSE_SECRET_KEY` are set (`/api/health` shows `hasLangfuseKeys`). Sending never delays a response; on Vercel it uses `waitUntil`.
+- Langfuse JS/TS SDK v6 (`@langfuse/tracing`, `@langfuse/otel` with the OpenTelemetry `NodeSDK`, `@langfuse/client` for scores). `initObservability()` runs right after `dotenv.config()` and does nothing without `LANGFUSE_PUBLIC_KEY`/`LANGFUSE_SECRET_KEY`. On Vercel each request's spans are flushed with `waitUntil` after the response.
+- One trace per `/api/interview/*` request, one session per interview (`X-Interview-Session` from the browser). Trace names are stable and verb-first: `interviewer-turn`, `transcribe-answer`, `speak-interviewer-line`, `score-interview`, `give-hint`. Trace input/output is what a reviewer needs (candidate answer → Priya's reply, transcript, verdict).
+- Every provider call is a nested `generation` via `traceStep`: `generate-response`, `score-transcript`, `transcribe-audio`, `synthesize-speech`, with model, chat-format input, output, token usage, and an estimated cost for voice providers (LLM cost comes from Langfuse's model prices). Failed attempts before a fallback show as ERROR generations. `noteGuardrail` adds a `guardrail` observation (empty or cleaned reply, hint fallback, no natural voice, evaluator schema failure, dropped quotes).
+- The browser posts to `/api/interview/telemetry`. `first_voice_ms`, `transcribe_ms`, `reply_ms` and `voice_fallback` become scores on that turn's trace (the browser echoes `X-Langfuse-Trace-Id`); `interview_completed`, `overall_score`, `elapsed_seconds` and friends become session scores.
+- Each request also logs one `[obs]` JSON line, with or without Langfuse. `OBS_LOG_TEXT=false` keeps interview text out of Langfuse. `.claude/skills/langfuse` is Langfuse's own agent skill, vendored for future tracing work.
 
 ## 7. Data model (Firestore)
 
