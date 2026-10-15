@@ -11,9 +11,8 @@ import {
   generatePasswordResetLink,
   isFirebaseAdminConfigured,
   getAdminAuth,
-  getFirebaseAdmin
+  getAppFirestore
 } from "./services/firebaseAdmin";
-import { getFirestore } from "firebase-admin/firestore";
 import { 
   sendVerificationEmailViaResend, 
   sendPasswordResetEmailViaResend, 
@@ -1354,7 +1353,7 @@ Plain text, 1-2 sentences. No markdown.
       // Verify that sessionId, if provided, belongs to that user before writing
       if (sessionId && typeof sessionId === 'string') {
         const cleanSessionId = sessionId.replace(/[^a-zA-Z0-9_\-]/g, '_');
-        const db = getFirestore(getFirebaseAdmin());
+        const db = getAppFirestore();
         const sessionDoc = await db.collection('users').doc(userId).collection('interview_sessions').doc(cleanSessionId).get();
         if (sessionDoc.exists) {
           const docData = sessionDoc.data();
@@ -1470,7 +1469,7 @@ SUBMISSION>>>`;
       const submittedAt = new Date().toISOString();
       let saved = false;
       try {
-        const db = getFirestore(getFirebaseAdmin());
+        const db = getAppFirestore();
         await db.collection('users').doc(userId).collection('project_submissions').doc(project.id).set({
           projectId: project.id,
           projectTitle: project.title,
