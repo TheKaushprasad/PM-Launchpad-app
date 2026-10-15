@@ -77,7 +77,7 @@ export class AnswerRecorder {
    * Stops recording and transcribes every segment of this answer.
    * Returns { unavailable } when transcription fails or is not set up, so the caller keeps the browser transcript.
    */
-  async transcribe(): Promise<{ text: string } | { unavailable: true; notConfigured?: boolean }> {
+  async transcribe(extraHeaders: Record<string, string> = {}): Promise<{ text: string } | { unavailable: true; notConfigured?: boolean }> {
     await this.stop();
     const segments = this.segments;
     this.segments = [];
@@ -85,7 +85,7 @@ export class AnswerRecorder {
     if (segments.some(s => s.size > MAX_SEGMENT_BYTES)) return { unavailable: true };
 
     try {
-      const headers = await authJsonHeaders();
+      const headers = { ...(await authJsonHeaders()), ...extraHeaders };
       const parts: string[] = [];
       for (const segment of segments) {
         const audioBase64 = await blobToBase64(segment);

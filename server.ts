@@ -29,6 +29,7 @@ import { deepgramVoiceFor, isDeepgramConfigured, isGroqConfigured, isSarvamConfi
 import { getProjectById } from "./data/realWorldProjects";
 import { discoverJobBoards, getJobDetail, getJobsList, jobsStoreReady, refreshJobs } from "./server/jobs/store";
 import { requireAiAccess, getVerifiedUser, consumeDailyQuota, clientIp } from "./server/security";
+import { traceInterviewRequests, traceStep, traceMeta, noteGuardrail, geminiUsage, openAiUsage, recordClientEvent, cleanSessionId, isLangfuseConfigured } from "./server/observability";
 
 dotenv.config();
 
@@ -70,6 +71,7 @@ export async function createExpressApp() {
       hasSarvamKey: isSarvamConfigured(),
       hasDeepgramKey: isDeepgramConfigured(),
       hasGroqKey: isGroqConfigured(),
+      hasLangfuseKeys: isLangfuseConfigured(),
       port: 3000
     });
   });
@@ -183,22 +185,20 @@ export async function createExpressApp() {
             config.thinkingConfig = { thinkingBudget };
           }
 
+          // Interview requests record each model call (time, tokens, failures) on their trace.
+          const callModel = () => traceStep(
+            { kind: "llm", name: "gemini", provider: "gemini", model: modelName, input: prompt.slice(-4000) },
+            () => ai.models.generateContent({ model: modelName, contents: prompt, config }),
+            (r) => ({ ...geminiUsage(r), output: r?.text })
+          );
           let response;
           try {
-            response = await ai.models.generateContent({
-              model: modelName,
-              contents: prompt,
-              config,
-            });
+            response = await callModel();
           } catch (thinkingErr: any) {
             // Some models reject a thinking budget; retry once on the same model without it.
             if (!config.thinkingConfig || !/thinking/i.test(thinkingErr?.message || '')) throw thinkingErr;
             delete config.thinkingConfig;
-            response = await ai.models.generateContent({
-              model: modelName,
-              contents: prompt,
-              config,
-            });
+            response = await callModel();
           }
 
           if (response && response.text && response.text.trim().length > 0) {
@@ -239,15 +239,19 @@ export async function createExpressApp() {
         try {
           console.log("[AI Proxy]: Falling back to OpenAI gpt-4o...");
           const openai = getOpenAI();
-          const completion = await openai.chat.completions.create({
-            model: "gpt-4o",
-            messages: [
-              { role: "system", content: systemInstruction },
-              { role: "user", content: prompt }
-            ],
-            temperature: jsonMode ? 0.2 : 0.7,
-            response_format: jsonMode ? { type: "json_object" } : undefined,
-          });
+          const completion = await traceStep(
+            { kind: "llm", name: "openai", provider: "openai", model: "gpt-4o", input: prompt.slice(-4000) },
+            () => openai.chat.completions.create({
+              model: "gpt-4o",
+              messages: [
+                { role: "system", content: systemInstruction },
+                { role: "user", content: prompt }
+              ],
+              temperature: jsonMode ? 0.2 : 0.7,
+              response_format: jsonMode ? { type: "json_object" } : undefined,
+            }),
+            (c) => ({ ...openAiUsage(c), output: c.choices[0]?.message?.content || undefined })
+          );
           if (completion.choices[0]?.message?.content) {
             return completion.choices[0].message.content;
           }
@@ -974,6 +978,8 @@ Return only the JSON object. No preamble, no markdown code fences, no explanatio
     if (aiInterviewEnabled) return next();
     res.status(503).json({ error: "The AI interview is coming soon." });
   });
+  // One trace per interview request: timings, providers, cost and guardrails (server/observability.ts).
+  app.use("/api/interview", traceInterviewRequests);
 
   app.post(["/api/interview/chat", "/api/interview/chat/"], requireAiAccess, async (req, res) => {
     try {
@@ -1007,11 +1013,17 @@ Return only the JSON object. No preamble, no markdown code fences, no explanatio
           maxGeminiModels: 2
         });
         const text = cleanInterviewerReply(reply);
-        if (!text) throw new Error("Empty interviewer reply");
+        if (!text) {
+          noteGuardrail("empty_interviewer_reply");
+          throw new Error("Empty interviewer reply");
+        }
+        if (text !== reply.trim()) noteGuardrail("interviewer_reply_cleaned");
+        traceMeta({ scenarioId: scenario.id, level: normalizeLevel(level), elapsedSeconds: elapsed, transcriptTurns: messages.length, replyChars: text.length });
         return res.json({ text });
       } catch (aiErr: any) {
         // No scripted stand-in: a fake interviewer line would end up in the scored transcript.
         console.warn("[Interview Chat] AI unavailable:", aiErr?.message);
+        noteGuardrail("interviewer_unavailable");
         return res.status(503).json({
           error: "The interviewer is busy right now. Please retry your last answer in a moment.",
           retryable: true
@@ -1021,6 +1033,37 @@ Return only the JSON object. No preamble, no markdown code fences, no explanatio
       console.error("[Interview Chat Error]:", error);
       res.status(500).json({ error: "Failed to generate interviewer reply", retryable: true });
     }
+  });
+
+  // Browser-side interview events: time until Priya's voice starts, voice fallbacks, finishes and quits.
+  // Signed-in users only, but it spends no AI quota. Only whitelisted, size-capped fields are kept.
+  const CLIENT_EVENTS = new Set(["started", "turn", "voice_fallback", "ended", "abandoned"]);
+  app.post(["/api/interview/telemetry", "/api/interview/telemetry/"], async (req, res) => {
+    const user = await getVerifiedUser(req);
+    if (!user) return res.status(401).json({ error: "Please sign in." });
+    const { event, sessionId, turn, metrics, metadata } = req.body || {};
+    if (typeof event !== "string" || !CLIENT_EVENTS.has(event)) {
+      return res.status(400).json({ error: "Unknown event" });
+    }
+    const cleanMetrics: Record<string, number> = {};
+    for (const [k, v] of Object.entries(metrics && typeof metrics === "object" ? metrics : {}).slice(0, 12)) {
+      if (/^[a-z_]{1,40}$/.test(k) && typeof v === "number" && Number.isFinite(v)) cleanMetrics[k] = Math.max(-1, Math.min(v, 1e7));
+    }
+    const cleanMetadata: Record<string, unknown> = {};
+    for (const [k, v] of Object.entries(metadata && typeof metadata === "object" ? metadata : {}).slice(0, 12)) {
+      if (!/^[a-zA-Z_]{1,40}$/.test(k)) continue;
+      if (typeof v === "string") cleanMetadata[k] = v.slice(0, 200);
+      else if (typeof v === "boolean" || (typeof v === "number" && Number.isFinite(v))) cleanMetadata[k] = v;
+    }
+    recordClientEvent({
+      name: event,
+      sessionId: cleanSessionId(sessionId),
+      userId: user.uid,
+      turn: Number.isInteger(turn) && turn >= 0 && turn < 1000 ? turn : undefined,
+      metrics: cleanMetrics,
+      metadata: cleanMetadata
+    });
+    res.status(204).end();
   });
 
   // API Route for Contextual AI Hint Generation
@@ -1054,6 +1097,7 @@ Plain text, 1-2 sentences. No markdown.
         if (cleanHint) return res.json({ hint: cleanHint });
       } catch (hintErr: any) {
         console.warn("[Hint] AI unavailable, using the case's reference approach:", hintErr?.message);
+        noteGuardrail("hint_fallback");
       }
       // Cheap non-AI fallback, labelled as such in the UI.
       res.json({
@@ -1094,7 +1138,7 @@ Plain text, 1-2 sentences. No markdown.
       // 1. Sarvam Bulbul v4 Flash: Indian-English voice for Priya
       if (isSarvamConfigured()) {
         try {
-          const mp3 = await synthesizeWithSarvam(text.trim());
+          const mp3 = await traceStep({ kind: "tts", name: "sarvam", provider: "sarvam", chars: text.trim().length }, () => synthesizeWithSarvam(text.trim()));
           return res.json({ audioBase64: mp3.toString('base64'), format: "mp3", provider: "sarvam" });
         } catch (svErr: any) {
           console.warn("[Sarvam TTS]: Failed, checking fallback...", svErr?.message);
@@ -1106,7 +1150,10 @@ Plain text, 1-2 sentences. No markdown.
       if (isDeepgramConfigured()) {
         try {
           const deepgramTimeLeft = TTS_BUDGET_MS - (Date.now() - ttsStartedAt);
-          const mp3 = await synthesizeWithDeepgram(text.trim(), deepgramVoiceFor(personaId, voiceGender), Math.min(12000, deepgramTimeLeft));
+          const mp3 = await traceStep(
+            { kind: "tts", name: "deepgram", provider: "deepgram", chars: text.trim().length },
+            () => synthesizeWithDeepgram(text.trim(), deepgramVoiceFor(personaId, voiceGender), Math.min(12000, deepgramTimeLeft))
+          );
           return res.json({ audioBase64: mp3.toString('base64'), format: "mp3", provider: "deepgram" });
         } catch (dgErr: any) {
           console.warn("[Deepgram TTS]: Failed, checking fallback...", dgErr?.message);
@@ -1126,7 +1173,7 @@ Plain text, 1-2 sentences. No markdown.
           });
 
           // Free-tier Gemini voice can be slow or rate limited; don't let it hold the interviewer up for long.
-          const ttsResponse = await withTimeout(ai.models.generateContent({
+          const ttsResponse = await traceStep({ kind: "tts", name: "gemini-tts", provider: "gemini", model: "gemini-3.1-flash-tts-preview", chars: text.trim().length }, () => withTimeout(ai.models.generateContent({
             model: "gemini-3.1-flash-tts-preview",
             contents: [{ parts: [{ text: text.trim() }] }],
             config: {
@@ -1137,7 +1184,7 @@ Plain text, 1-2 sentences. No markdown.
                 }
               }
             }
-          }), Math.min(7000, geminiTimeLeft), "Gemini voice took too long");
+          }), Math.min(7000, geminiTimeLeft), "Gemini voice took too long"));
 
           const base64Audio = ttsResponse.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
           if (base64Audio) {
@@ -1159,12 +1206,12 @@ Plain text, 1-2 sentences. No markdown.
         try {
           const openai = getOpenAI();
           const openAiVoice = personaId === 'maya' ? 'nova' : personaId === 'alex' ? 'coral' : personaId === 'priya' ? 'shimmer' : 'onyx';
-          const mp3 = await openai.audio.speech.create({
+          const mp3 = await traceStep({ kind: "tts", name: "openai-tts", provider: "openai", model: "tts-1", chars: text.trim().length }, () => openai.audio.speech.create({
             model: "tts-1",
             voice: openAiVoice,
             input: text.trim(),
             speed: 1.05
-          });
+          }));
           const buffer = Buffer.from(await mp3.arrayBuffer());
           return res.json({
             audioBase64: buffer.toString('base64'),
@@ -1177,6 +1224,7 @@ Plain text, 1-2 sentences. No markdown.
       }
 
       // No natural voice available: say why, so the page can show it.
+      noteGuardrail("no_natural_voice");
       res.status(503).json({ error: failures.join(" | ") || "no voice provider is configured" });
     } catch (error: any) {
       console.error("[TTS Server Error]:", error);
@@ -1195,11 +1243,18 @@ Plain text, 1-2 sentences. No markdown.
       if (audio.length < 1000) {
         return res.json({ transcript: "" });
       }
+      // The browser records at 32 kbit/s (lib/answerRecorder.ts), so 4,000 bytes is about one second.
+      const audioSeconds = Math.round(audio.length / 4000);
+      traceMeta({ audioSeconds });
 
       // 1. Groq Whisper: accurate, fast and free; does not use the Gemini quota.
       if (isGroqConfigured()) {
         try {
-          const transcript = await transcribeWithGroq(audio, String(mimeType));
+          const transcript = await traceStep(
+            { kind: "stt", name: "groq-whisper", provider: "groq", audioSeconds },
+            () => transcribeWithGroq(audio, String(mimeType)),
+            (t) => ({ output: t })
+          );
           return res.json({ transcript, provider: "groq" });
         } catch (groqErr: any) {
           console.warn("[Groq Transcribe]: Failed, trying Gemini...", groqErr?.message);
@@ -1215,7 +1270,7 @@ Plain text, 1-2 sentences. No markdown.
         let lastErr: any = null;
         for (const modelName of ["gemini-3.1-flash-lite", "gemini-3.8-flash"]) {
           try {
-            const response = await ai.models.generateContent({
+            const response = await traceStep({ kind: "stt", name: "gemini-transcribe", provider: "gemini", model: modelName, audioSeconds }, () => ai.models.generateContent({
               model: modelName,
               contents: [{
                 parts: [
@@ -1223,7 +1278,7 @@ Plain text, 1-2 sentences. No markdown.
                   { text: "Transcribe this spoken interview answer verbatim in English. Output only the words spoken, with no commentary. If nothing is said, output nothing." }
                 ]
               }]
-            });
+            }), (r) => ({ ...geminiUsage(r), output: r?.text }));
             return res.json({ transcript: (response.text || "").trim(), provider: "gemini" });
           } catch (mErr: any) {
             lastErr = mErr;
