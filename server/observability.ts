@@ -1,6 +1,6 @@
 import { AsyncLocalStorage } from "node:async_hooks";
 import type { Request, Response, NextFunction } from "express";
-import { context as otelContext, trace as otelTrace } from "@opentelemetry/api";
+import { context as otelContext, trace as otelTrace, diag, DiagLogLevel } from "@opentelemetry/api";
 import { NodeSDK } from "@opentelemetry/sdk-node";
 import { LangfuseSpanProcessor } from "@langfuse/otel";
 import { LangfuseClient } from "@langfuse/client";
@@ -79,8 +79,20 @@ let scoreClient: LangfuseClient | null = null;
  * (importing this module does not read the keys). Does nothing without Langfuse keys.
  */
 export function initObservability() {
-  if (spanProcessor || !isLangfuseConfigured()) return;
+  if (spanProcessor) return;
+  if (!isLangfuseConfigured()) {
+    console.log("[obs] Langfuse tracing is off: LANGFUSE_PUBLIC_KEY / LANGFUSE_SECRET_KEY not set.");
+    return;
+  }
   try {
+    // Without this, a failed upload to Langfuse (wrong keys, wrong region, no network) is silent.
+    diag.setLogger({
+      error: (msg, ...args) => console.warn("[obs] Langfuse export error:", msg, ...args),
+      warn: (msg, ...args) => console.warn("[obs] Langfuse export warning:", msg, ...args),
+      info: () => {},
+      debug: () => {},
+      verbose: () => {},
+    }, DiagLogLevel.WARN);
     spanProcessor = new LangfuseSpanProcessor({
       baseUrl: baseUrl(),
       environment: process.env.VERCEL_ENV || (process.env.NODE_ENV === "production" ? "production" : "development"),
@@ -88,10 +100,31 @@ export function initObservability() {
     });
     new NodeSDK({ spanProcessors: [spanProcessor] }).start();
     scoreClient = new LangfuseClient({ baseUrl: baseUrl() });
+    void checkLangfuseConnection();
   } catch (err: any) {
     spanProcessor = null;
     scoreClient = null;
     console.warn("[obs] Could not start Langfuse tracing:", err?.message || err);
+  }
+}
+
+const LANGFUSE_DEFAULT_URL = "https://cloud.langfuse.com";
+
+/** Logs once at startup whether the keys work, and for which Langfuse project, so a bad key is obvious. */
+async function checkLangfuseConnection() {
+  const url = (baseUrl() || LANGFUSE_DEFAULT_URL).replace(/\/+$/, "");
+  const auth = Buffer.from(`${process.env.LANGFUSE_PUBLIC_KEY!.trim()}:${process.env.LANGFUSE_SECRET_KEY!.trim()}`).toString("base64");
+  try {
+    const res = await fetch(`${url}/api/public/projects`, { headers: { Authorization: `Basic ${auth}` }, signal: AbortSignal.timeout(10_000) });
+    if (!res.ok) {
+      console.warn(`[obs] Langfuse at ${url} rejected the keys (HTTP ${res.status}). Check the keys and LANGFUSE_BASE_URL (EU: https://cloud.langfuse.com, US: https://us.cloud.langfuse.com).`);
+      return;
+    }
+    const body: any = await res.json().catch(() => ({}));
+    const project = body?.data?.[0]?.name;
+    console.log(`[obs] Langfuse tracing on: ${url}${project ? `, project "${project}"` : ""}`);
+  } catch (err: any) {
+    console.warn(`[obs] Could not reach Langfuse at ${url}:`, err?.message || err);
   }
 }
 
