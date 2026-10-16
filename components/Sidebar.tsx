@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   LayoutDashboard, BookOpen, Search, BarChart2, Smartphone, 
   Bot, Info, ChevronRight, ChevronDown, Sparkles, Zap, ArrowRight, Code, Briefcase,
-  Library, LogIn, LogOut, Layers, User as UserIcon, Menu, X, FolderKanban
+  Library, LogIn, LogOut, Layers, User as UserIcon, Menu, X, FolderKanban, MessagesSquare
 } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -31,6 +31,7 @@ const MODULE_ITEMS = [
 
 const OTHER_NAV_ITEMS = [
   { label: 'AI Mock Interview', icon: Sparkles, path: '/interview-studio', badge: isAiInterviewEnabled ? 'AI' : 'Soon' },
+  { label: 'Interview Questions', icon: MessagesSquare, path: '/interview-questions', badge: 'New' },
   { label: 'Real-World Projects', icon: FolderKanban, path: '/projects' },
   { label: 'PM Jobs', icon: Briefcase, path: '/jobs', badge: 'New' },
   { label: 'Resources', icon: BookOpen, path: '/resources' },

@@ -1,6 +1,7 @@
 import React, { Component, useState, useEffect, useRef, ReactNode } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, Outlet, useOutletContext, Link } from 'react-router-dom';
 import { SeoMeta } from './components/SeoMeta';
+import { InterviewQuestionsHub, InterviewQuestionsTrack, InterviewQuestionDetail } from './components/questions/InterviewQuestions';
 import { Sidebar } from './components/Sidebar';
 import { Dashboard } from './components/Dashboard';
 import { LessonDetail } from './components/LessonDetail';
@@ -276,6 +277,11 @@ const App: React.FC = () => {
                 {/* Real-World PM Projects Routes */}
                 <Route path="/projects" element={<ProjectsHub />} />
                 <Route path="/projects/:projectId" element={<ProjectDetail />} />
+
+                {/* Public PM interview questions with sample answers */}
+                <Route path="/interview-questions" element={<InterviewQuestionsHub />} />
+                <Route path="/interview-questions/:trackSlug" element={<InterviewQuestionsTrack />} />
+                <Route path="/interview-questions/:trackSlug/:questionSlug" element={<InterviewQuestionDetail />} />
 
                 {/* PM Jobs board */}
                 <Route path="/jobs" element={<JobsBoard />} />

@@ -9,6 +9,7 @@ import path from 'path';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { LESSONS, MODULES } from '../constants';
 import { REAL_WORLD_PROJECTS } from '../data/realWorldProjects';
+import { QUESTION_TRACKS, findQuestion, questionPath, questionsForTrack, trackBySlug, trackFor } from '../lib/interviewQuestions';
 import { getRouteMeta, indexablePaths, lessonTopic, SITE_NAME, SITE_URL } from '../lib/seo';
 
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
@@ -58,7 +59,7 @@ function bodyFor(p: string): string {
       `<h1>Product Management Course: 45-Day Roadmap</h1><p>${esc(getRouteMeta(p).description)}</p>` +
         `<h2>Modules</h2><ul>${MODULES.map((m) => `<li>${link(`/dashboard/${m.id}`, m.title)}: ${esc(m.description)}</li>`).join('')}</ul>` +
         `<h2>All lessons</h2>${courseList()}` +
-        `<p>${link('/projects', 'Real-world PM projects')} · ${link('/jobs', 'PM jobs in India')} · ${link('/resources', 'Resources')} · ${link('/tools', 'Free AI career tools')}</p>`,
+        `<p>${link('/interview-questions', 'PM interview questions with answers')} · ${link('/projects', 'Real-world PM projects')} · ${link('/jobs', 'PM jobs in India')} · ${link('/resources', 'Resources')} · ${link('/tools', 'Free AI career tools')}</p>`,
     );
   }
 
@@ -106,6 +107,41 @@ function bodyFor(p: string): string {
     return shell(
       `<p>${link('/projects', 'Real-world PM projects')}</p><h1>${esc(project.title)}</h1>` +
         `<p>${esc(project.company)} · ${esc(project.difficulty)} · about ${project.estimatedHours} hours</p><p>${esc(project.summary)}</p>`,
+    );
+  }
+
+  if (p === '/interview-questions') {
+    return shell(
+      `<h1>Product Manager Interview Questions with Answers</h1><p>${esc(getRouteMeta(p).description)}</p><ul>${QUESTION_TRACKS.map(
+        (t) => `<li>${link(`/interview-questions/${t.slug}`, t.heading)}: ${esc(t.intro)}</li>`,
+      ).join('')}</ul>`,
+    );
+  }
+
+  const qTrack = p.match(/^\/interview-questions\/([\w-]+)$/);
+  const track = qTrack && trackBySlug(qTrack[1]);
+  if (track) {
+    return shell(
+      `<p>${link('/interview-questions', 'Interview Questions')}</p><h1>${esc(track.heading)}</h1><p>${esc(track.intro)}</p><ul>${questionsForTrack(track.track)
+        .map((q) => `<li>${link(questionPath(q), q.title)} (${q.difficulty})</li>`)
+        .join('')}</ul>`,
+    );
+  }
+
+  const qDetail = p.match(/^\/interview-questions\/([\w-]+)\/([\w-]+)$/);
+  const q = qDetail && findQuestion(qDetail[1], qDetail[2]);
+  if (q) {
+    const t = trackFor(q.track);
+    const list = (items: string[], tag = 'ul') => `<${tag}>${items.map((i) => `<li>${esc(i)}</li>`).join('')}</${tag}>`;
+    const o = q.benchmarkOutline;
+    return shell(
+      `<p>${link('/interview-questions', 'Interview Questions')} › ${link(`/interview-questions/${t.slug}`, t.label)}</p>` +
+        `<h1>${esc(q.title)}</h1><p>${esc(q.problemStatement)}</p>` +
+        (q.contextBackground ? `<h2>Context</h2><p>${esc(q.contextBackground)}</p>` : '') +
+        `<h2>Clarifying questions to ask first</h2>${list(o.clarificationQuestions)}` +
+        `<h2>How to approach it</h2>${list(q.candidateBrief, 'ol')}<p><strong>Framework:</strong> ${esc(q.suggestedFramework)}</p>` +
+        `<h2>Sample answer</h2>${list(o.coreHypothesesOrSegments)}${list(o.analyticalPath, 'ol')}<p>${esc(o.synthesisModel)}</p>` +
+        `<h2>What interviewers look for</h2>${list(q.keyEvaluationMetrics)}`,
     );
   }
 
