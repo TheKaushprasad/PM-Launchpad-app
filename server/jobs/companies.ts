@@ -7,6 +7,7 @@
 //   jobs.ashbyhq.com/<token>                                               -> { ats: 'ashby', token }
 //   apply.workable.com/<token>                                             -> { ats: 'workable', token }
 // A wrong token does no harm: that company shows as failed in the refresh result and is skipped.
+// Boards that returned 404 on the live refresh (2026-10-16) were removed; the weekly search re-adds any that move.
 // More boards are found every week by the Firecrawl searches in discovery.ts.
 
 export interface CompanyBoard {
@@ -23,23 +24,10 @@ export const COMPANY_BOARDS: CompanyBoard[] = [
   // Indian companies
   { name: 'Razorpay', ats: 'greenhouse', token: 'razorpaysoftwareprivatelimited' },
   { name: 'Groww', ats: 'greenhouse', token: 'groww' },
-  { name: 'PhonePe', ats: 'greenhouse', token: 'phonepe' },
-  { name: 'Innovaccer', ats: 'greenhouse', token: 'innovaccer' },
-  { name: 'ShareChat', ats: 'greenhouse', token: 'sharechat' },
-  { name: 'Dream Sports', ats: 'greenhouse', token: 'dreamsports' },
-  { name: 'BrowserStack', ats: 'greenhouse', token: 'browserstack' },
-  { name: 'Postman', ats: 'greenhouse', token: 'postman' },
   { name: 'CRED', ats: 'lever', token: 'cred' },
   { name: 'Paytm', ats: 'lever', token: 'paytm' },
   { name: 'Meesho', ats: 'lever', token: 'meesho' },
   { name: 'Zeta', ats: 'lever', token: 'zeta' },
-  { name: 'CleverTap', ats: 'lever', token: 'clevertap' },
-  { name: 'Whatfix', ats: 'lever', token: 'whatfix' },
-  { name: 'Upstox', ats: 'lever', token: 'upstox' },
-  { name: 'Rapido', ats: 'lever', token: 'rapido' },
-  { name: 'smallcase', ats: 'lever', token: 'smallcase' },
-  { name: 'Jupiter', ats: 'lever', token: 'jupiter' },
-  { name: 'Zepto', ats: 'ashby', token: 'zepto' },
 
   // Global companies with India teams or India-open remote roles
   { name: 'Rubrik', ats: 'greenhouse', token: 'rubrik', global: true },
@@ -52,10 +40,6 @@ export const COMPANY_BOARDS: CompanyBoard[] = [
   { name: 'Okta', ats: 'greenhouse', token: 'okta', global: true },
   { name: 'Twilio', ats: 'greenhouse', token: 'twilio', global: true },
   { name: 'Airbnb', ats: 'greenhouse', token: 'airbnb', global: true },
-  { name: 'ThoughtSpot', ats: 'greenhouse', token: 'thoughtspot', global: true },
-  { name: 'Glean', ats: 'greenhouse', token: 'glean', global: true },
-  { name: 'Sprinklr', ats: 'greenhouse', token: 'sprinklr', global: true },
   { name: 'Notion', ats: 'ashby', token: 'notion', global: true },
   { name: 'Deel', ats: 'ashby', token: 'deel', global: true },
-  { name: 'Rippling', ats: 'ashby', token: 'rippling', global: true },
 ];
