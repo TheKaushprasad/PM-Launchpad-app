@@ -827,7 +827,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
       // Send verification email to verify the user's email address
       try {
-        const returnUrl = typeof window !== 'undefined' ? `${window.location.origin}/#/dashboard` : undefined;
+        const returnUrl = typeof window !== 'undefined' ? `${window.location.origin}/dashboard` : undefined;
         const res = await fetch('/api/auth/send-verification-email', {
           method: 'POST',
           headers: await authJsonHeaders(),
@@ -865,7 +865,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       throw new Error("No active user to send verification email to.");
     }
     try {
-      const returnUrl = typeof window !== 'undefined' ? `${window.location.origin}/#/dashboard` : undefined;
+      const returnUrl = typeof window !== 'undefined' ? `${window.location.origin}/dashboard` : undefined;
       const res = await fetch('/api/auth/send-verification-email', {
         method: 'POST',
         headers: await authJsonHeaders(),
@@ -1123,7 +1123,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       throw new Error("Please enter your email address.");
     }
     try {
-      const returnUrl = typeof window !== 'undefined' ? `${window.location.origin}/#/auth/action?mode=resetPassword` : undefined;
+      const returnUrl = typeof window !== 'undefined' ? `${window.location.origin}/auth/action?mode=resetPassword` : undefined;
       const res = await fetch('/api/auth/send-password-reset-email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

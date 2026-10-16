@@ -1,5 +1,6 @@
 import React, { Component, useState, useEffect, useRef, ReactNode } from 'react';
-import { HashRouter as Router, Routes, Route, Navigate, useLocation, Outlet, useOutletContext, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, Outlet, useOutletContext, Link } from 'react-router-dom';
+import { SeoMeta } from './components/SeoMeta';
 import { Sidebar } from './components/Sidebar';
 import { Dashboard } from './components/Dashboard';
 import { LessonDetail } from './components/LessonDetail';
@@ -213,6 +214,7 @@ const App: React.FC = () => {
       <MotionConfig reducedMotion="user">
       <Router>
          <GAPageTracker />
+         <SeoMeta />
          <AuthActionRedirector />
           <Routes>
             <Route path="/" element={<LandingPage />} />
