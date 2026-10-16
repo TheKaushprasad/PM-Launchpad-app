@@ -1,0 +1,324 @@
+{
+  "0": [
+    "Why Day-0 Matters",
+    "Reflection Exercise"
+  ],
+  "1": [
+    "1. What is a Product?",
+    "2. Do Companies Need Product Managers?",
+    "3. Real-World Exceptions",
+    "4. What is Product Management?",
+    "5. The PM Equation",
+    "6. PM Responsibilities",
+    "7. Types of Product Managers & Why They Exist",
+    "8. PM Deliverables",
+    "Myths vs Reality"
+  ],
+  "2": [
+    "Learning Objectives",
+    "1. What is PDLC?",
+    "PDLC Phases in Detail",
+    "SDLC VS PDLC"
+  ],
+  "3": [
+    "1. What is Product Life Cycle (PLC)?",
+    "What Are the 4 Stages of Product Life Cycle?",
+    "2. What is Product Lifecycle Management (PLM)?",
+    "Stages of a Product in PLM"
+  ],
+  "4": [
+    "What is Product Sense?",
+    "The 7 Pillars of Product Sense",
+    "Why Aspiring PMs Must Master It",
+    "Daily Habits to Build Instincts",
+    "Common Pitfalls to Avoid"
+  ],
+  "5": [
+    "User Empathy in Product",
+    "Core Principles of User Empathy",
+    "Implementation Process for PMs",
+    "Key Tools & Frameworks"
+  ],
+  "6": [
+    "Learning Objectives",
+    "The Product Requirements Document (PRD)",
+    "The Business Requirements Document (BRD)",
+    "Specialized Documentation"
+  ],
+  "7": [
+    "Learning Objectives",
+    "Understanding Your Stakeholder Landscape",
+    "The Power Map: Influence vs. Interest",
+    "Communication: Tailored, Transparent, and Timely",
+    "Building Coalitions, Not Consensus",
+    "Managing Up: Your Executive Stakeholders",
+    "The Delicate Dance with Engineering",
+    "Saying No Gracefully",
+    "The Long Game"
+  ],
+  "8": [
+    "Learning Objectives",
+    "Why Business Fundamentals Matter for PMs",
+    "Real-World Examples",
+    "Core Metric #1: Customer Acquisition Cost (CAC)",
+    "Core Metric #2: Lifetime Value (LTV)",
+    "The Golden Ratio: LTV:CAC",
+    "Core Metric #3: Payback Period",
+    "Business Models & Revenue Streams"
+  ],
+  "9": [
+    "Learning Objectives",
+    "1. User Research vs Market Research",
+    "2. The Research Process",
+    "3. Research Frameworks",
+    "Tools & AI Assistants",
+    "Real-World Case: Zomato One-Tap"
+  ],
+  "10": [
+    "Learning Objectives",
+    "1. Why User Interviews Matter",
+    "2. Types of Interview Questions",
+    "3. Interview Structure (15–20 min)",
+    "Survey Principles",
+    "4. Synthesizing Insights"
+  ],
+  "11": [
+    "Learning Objectives",
+    "1. From Research → Insights → Personas",
+    "2. Persona Template",
+    "3. Jobs To Be Done (JTBD) Framework",
+    "4. Connecting Personas → JTBD → Features",
+    "AI Accelerator",
+    "Spotify Case Study"
+  ],
+  "12": [
+    "Learning Objectives",
+    "1. Mapping the Landscape",
+    "AI Prompts for Strategy",
+    "Zerodha vs Groww"
+  ],
+  "13": [
+    "Learning Objectives",
+    "1. Key Concepts",
+    "2. Approaches to Estimate Market Size",
+    "3. Using AI Tools for Market Sizing",
+    "4. Visual Framework",
+    "5. Example: Zomato (Early Days)",
+    "6. Real-World PM Example"
+  ],
+  "14": [
+    "Learning Objectives",
+    "1. What is SQL and Why PMs Need It",
+    "Real PM Use Cases"
+  ],
+  "15": [
+    "Learning Objectives",
+    "1. Advanced Filtering (WHERE Clause)",
+    "2. SQL Joins Explained",
+    "Real-World Join Example",
+    "3. Set Operators: UNION vs UNION ALL"
+  ],
+  "16": [
+    "Learning Objectives",
+    "1. Set Operators",
+    "2. SQL Functions Deep Dive",
+    "Real-World PM Scenario",
+    "Data Transformation Pro-Tip"
+  ],
+  "17": [
+    "Learning Objectives",
+    "1. Date and Time Functions",
+    "2. NULL Handling (IS NULL, COALESCE)",
+    "3. Conditional Logic (CASE Statements)",
+    "4. Aggregate Functions",
+    "Advanced Logic Pro-Tip"
+  ],
+  "18": [
+    "Learning Objectives",
+    "1. What is Excel and Why PMs Need It",
+    "2. Core Formulas & Functions",
+    "Time and Text Mastery"
+  ],
+  "19": [
+    "Learning Objectives",
+    "1. Data Visualization: Charts & Sparklines",
+    "2. Advanced Spreadsheet Management",
+    "3. Pivot Tables: The Powerhouse",
+    "4. Project #1: Salary Dashboard",
+    "Dashboard Pro-Tip"
+  ],
+  "20": [
+    "Learning Objectives",
+    "Power BI for Product Managers: What It Is and Why It Matters",
+    "How Power BI Helps Product Managers",
+    "Why Product Managers Should Learn Power BI",
+    "Specific Capabilities for PMs",
+    "Dashboards Pro-Tip"
+  ],
+  "21": [
+    "Learning Objectives",
+    "How Product Analytics Helps Product Managers",
+    "Enter Mixpanel: Purpose-Built Product Analytics",
+    "How PMs Use Mixpanel Day-to-Day",
+    "Analytics Mastery Tip"
+  ],
+  "22": [
+    "Learning Objectives",
+    "1. A/B Testing: From Hypothesis to Decision",
+    "2. The A/B Testing Framework",
+    "3. How Google Analytics (GA4) Helps PMs",
+    "Analytics Mastery Tip"
+  ],
+  "23": [
+    "Foundation: How the Internet Works",
+    "Learning Objectives",
+    "Why APIs Matter for Product Managers",
+    "Technical PM Tip"
+  ],
+  "24": [
+    "What Is System Design?",
+    "Why Product Managers Need System Design Knowledge",
+    "Technical Fluency Tip"
+  ],
+  "25": [
+    "Learning Objectives",
+    "1. Understanding Design Fundamentals",
+    "2. Usability Testing for PMs",
+    "3. Visual & Cognitive Design Laws",
+    "Communicating with Design"
+  ],
+  "26": [
+    "Learning Objectives",
+    "1. Why Agile Matters for Product Managers",
+    "4. The Five Scrum Events",
+    "5. User Stories: The Currency of Agile",
+    "6. Prioritization: RICE & MoSCoW",
+    "A Note on Technical Debt"
+  ],
+  "27": [
+    "What Is Cloud Computing?",
+    "The Three Cloud Service Models",
+    "Major Cloud Providers: AWS, Azure, and GCP",
+    "Cloud Economics: Pricing Impact",
+    "Cloud-Native Architecture",
+    "Cloud Services That Enable Product Capabilities",
+    "Cost Management and FinOps",
+    "Making Cloud Decisions as a PM",
+    "The Bottom Line"
+  ],
+  "28": [
+    "1. Artificial Intelligence (AI) - The Broad Goal",
+    "2. Machine Learning (ML) - The Modern Method for AI",
+    "3. Deep Learning (DL) - A Specialized Type of ML",
+    "What is Machine Learning in simpler terms?",
+    "Why should a PM learn this?",
+    "Machine Learning Types",
+    "The Bottom Line"
+  ],
+  "29": [
+    "What is an LLM?",
+    "Why do we need it? / Why are companies using it?",
+    "Why should a product manager learn about it?",
+    "Stages of Building an LLM",
+    "The Bottom Line"
+  ],
+  "30": [
+    "Learning Objectives",
+    "1. What Is Prompt Engineering?"
+  ],
+  "31": [
+    "What is Context?",
+    "What is Context Engineering?",
+    "Types of Context to Manage",
+    "Context Engineering vs. Prompt Engineering",
+    "Why is Context Engineering Important?",
+    "Common Strategies for Agent Context Engineering",
+    "Example Use Case: AI Interview Coach",
+    "The Bottom Line"
+  ],
+  "32": [
+    "Understanding the Problem RAG Solves",
+    "The Three Components of RAG",
+    "RAG VS Fine Tuning VS Prompt Engineering",
+    "The Engine of RAG: Search Types",
+    "Technical Infrastructure",
+    "Chunking: The Precision Problem",
+    "The RAG Pipeline"
+  ],
+  "33": [
+    "What is the Model Context Protocol (MCP)?",
+    "Why does MCP Exist?",
+    "What can MCP enable?",
+    "Why does MCP matter?",
+    "Understanding Client Server Architecture in MCP"
+  ],
+  "34": [
+    "What Is an Agentic AI Workflow?",
+    "Key Characteristics",
+    "Task Decomposition and Workflow Steps",
+    "Examples & Use Cases",
+    "Degrees of Autonomy in Agentic AI",
+    "Benefits of Agentic AI Workflows",
+    "Application Areas for Agentic AI",
+    "Evaluating Agentic AI Workflows (\"AI Evals\")",
+    "Agentic AI Design Patterns"
+  ],
+  "35": [
+    "AI Agents for Product Managers: What They Are and Why Building Them Matters",
+    "What Are AI Agents?",
+    "Defining Characteristics",
+    "Types of AI Agents",
+    "Why AI Agents Matter for Product Managers",
+    "Why Product Managers Should Build AI Agents",
+    "Enter n8n: Agent Building for Product Managers",
+    "Other Agent Building Platforms"
+  ],
+  "36": [
+    "Why Proof of Work Matters More Than Credentials",
+    "The No-Code Revolution: Building Without Engineering Skills",
+    "How to Build Your Proof of Work Portfolio",
+    "Project Ideas You Can Build This Week"
+  ],
+  "37": [
+    "Study Materials & References",
+    "What Is a Product Teardown?",
+    "Why Product Teardowns Are Great Proof of Work"
+  ],
+  "38": [
+    "The Exact Process You Should Follow",
+    "How Aspiring PMs Should Reach Out to Startup Founders",
+    "8. Common Mistakes to Avoid"
+  ],
+  "39": [
+    "Portfolio Structure & Essential Sections",
+    "About Section",
+    "Core Portfolio Modules",
+    "Contact Details"
+  ],
+  "40": [
+    "Crafting Your Professional Identity",
+    "Building a Winning PM CV",
+    "LinkedIn Profile Optimization"
+  ],
+  "41": [
+    "Platforms to apply PM jobs",
+    "How to ask for referral",
+    "Follow-up Tip",
+    "How to get shortlisted?"
+  ],
+  "42": [
+    "Round One: Case Study Round",
+    "Round Two: Product Sense Round",
+    "Practice Questions"
+  ],
+  "43": [
+    "Round Three: RCA (Root Cause Analysis)",
+    "Round Four: Guestimates"
+  ],
+  "44": [
+    "Round Five: Product Improvement"
+  ],
+  "45": [
+    "Round Five: Behavioral Rounds"
+  ]
+}

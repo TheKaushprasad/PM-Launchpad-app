@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /api/
+Disallow: /profile
+Disallow: /onboarding
+Disallow: /auth/
+
+Sitemap: https://www.thenoobpm.com/sitemap.xml

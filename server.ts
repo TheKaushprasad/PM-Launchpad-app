@@ -1619,7 +1619,7 @@ SUBMISSION>>>`;
     try {
       // Generate Firebase Action Link using Admin SDK with appropriate return URL
       const callerOrigin = (req.headers.origin as string) || (req.headers.referer ? new URL(req.headers.referer as string).origin : "") || process.env.APP_URL || "https://www.thenoobpm.com";
-      const targetReturnUrl = returnUrl || `${callerOrigin.replace(/\/+$/, '')}/#/dashboard`;
+      const targetReturnUrl = returnUrl || `${callerOrigin.replace(/\/+$/, '')}/dashboard`;
       const linkResult = await generateVerificationLink(cleanEmail, targetReturnUrl);
 
       // Dispatch custom branded email via Resend with official Firebase action link (guaranteed to work across all environments)
@@ -1696,7 +1696,7 @@ SUBMISSION>>>`;
     try {
       // Generate Firebase password reset link using Admin SDK
       const callerOrigin = (req.headers.origin as string) || (req.headers.referer ? new URL(req.headers.referer as string).origin : "") || process.env.APP_URL || "https://www.thenoobpm.com";
-      const targetReturnUrl = returnUrl || `${callerOrigin.replace(/\/+$/, '')}/#/auth/action?mode=resetPassword`;
+      const targetReturnUrl = returnUrl || `${callerOrigin.replace(/\/+$/, '')}/auth/action?mode=resetPassword`;
       const linkResult = await generatePasswordResetLink(cleanEmail, targetReturnUrl);
 
       // Dispatch custom branded email via Resend
@@ -1753,7 +1753,9 @@ async function startServer() {
     app.use(express.static(publicPath));
     
     app.get('*all', (req, res) => {
-      const indexPath = path.join(distPath, 'index.html');
+      // app.html is the plain app shell; index.html is the prerendered landing page.
+      const appShell = path.join(distPath, 'app.html');
+      const indexPath = fs.existsSync(appShell) ? appShell : path.join(distPath, 'index.html');
       const fallbackPath = path.join(publicPath, 'index.html');
       
       if (fs.existsSync(indexPath)) {

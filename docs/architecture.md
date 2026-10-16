@@ -5,7 +5,7 @@ How thenoobpm.com is built and deployed. Last updated 2026-10-09.
 ## 1. System overview
 
 ```
-Browser (React SPA, HashRouter)
+Browser (React SPA, BrowserRouter)
    │  Firebase JS SDK ───────────────► Firebase Auth
    │                                   Firestore (named database)
    │
@@ -28,7 +28,7 @@ Domain: GoDaddy DNS points thenoobpm.com at Vercel.
 
 | Layer | Choice |
 |---|---|
-| Frontend | React 18, TypeScript, Vite 5, react-router-dom 6 (`HashRouter`), framer-motion, lucide-react |
+| Frontend | React 18, TypeScript, Vite 5, react-router-dom 6 (`BrowserRouter`), framer-motion, lucide-react |
 | Styling | Tailwind via CDN script in `index.html`, plus a small inline stylesheet; Inter and Caveat fonts |
 | Backend | Express 5 in a single `server.ts`, wrapped for Vercel by `api-handler.ts` |
 | Auth | Firebase Auth (Google popup and email/password, email verification) |
@@ -66,7 +66,8 @@ vercel.json             Rewrites: /api/* → /api/index, everything else → ind
 
 ## 4. Frontend
 
-- `HashRouter`, so URLs look like `thenoobpm.com/#/dashboard/day/3`. Vercel rewrites every non-API path to `index.html`.
+- `BrowserRouter`, so URLs look like `thenoobpm.com/dashboard/day/3`. Old `/#/...` links are moved onto the real path in `index.tsx`.
+- SEO: `lib/seo.ts` holds every page's title, description and canonical URL. `components/SeoMeta.tsx` applies them in the browser; `scripts/seo.tsx` runs during `npm run build` to write `dist/<page>/index.html` (real title plus readable text), `dist/sitemap.xml` and `data/lessonOutlines.json`. Vercel serves those files directly and rewrites every other non-API path to `app.html` (the plain app shell).
 - `AuthProvider` wraps the app. It listens to Firebase Auth, loads `users/{uid}`, and subscribes with `onSnapshot` to `progress`, `interview_sessions`, `analyses` and `resumes`.
 - `ProtectedRoute` redirects signed-out users home and shows `VerifyEmailGate` to unverified users. Lessons after Day 7 are locked in `DayCard` when signed out.
 - `MainShell` provides the sidebar layout for dashboard, tools, interview, projects, resources and profile routes.

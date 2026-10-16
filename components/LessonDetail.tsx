@@ -11,6 +11,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import { AuthModal } from './auth/AuthModal';
+import lessonOutlines from '../data/lessonOutlines.json';
 
 const getYoutubeId = (url: string) => {
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
@@ -438,7 +439,9 @@ export const LessonDetail: React.FC = () => {
   }
 
   // Access Control: Day 0 to Day 7 are free preview without login. Days 8+ require login.
+  // The locked view still names the lesson and its outline so visitors and search engines know what is inside.
   if (!user && currentDay > 7) {
+    const outline: string[] = (lessonOutlines as Record<string, string[]>)[String(currentDay)] ?? [];
     return (
       <div className="max-w-2xl mx-auto py-12 px-4 sm:px-6">
         <div className="bg-white rounded-3xl p-8 sm:p-12 border border-zinc-200/90 shadow-xl text-center space-y-6">
@@ -446,14 +449,37 @@ export const LessonDetail: React.FC = () => {
             <Lock className="w-8 h-8" />
           </div>
 
-          <div className="space-y-3">
+          {lesson && (
+            <div className="space-y-3 text-left">
+              <span className="text-[10px] font-black uppercase tracking-widest text-brand-600">Day {currentDay}</span>
+              <h1 className="text-2xl sm:text-3xl font-black text-zinc-900 tracking-tight">
+                {lesson.title.replace(/^Day[-\s]?\d+:\s*/, '')}
+              </h1>
+              <p className="text-sm sm:text-base text-zinc-600 leading-relaxed font-medium">{lesson.preview}</p>
+              {outline.length > 0 && (
+                <div className="pt-1">
+                  <h2 className="text-xs font-black uppercase tracking-widest text-zinc-500 mb-2">In this lesson</h2>
+                  <ul className="space-y-1.5">
+                    {outline.map((heading) => (
+                      <li key={heading} className="flex items-start gap-2 text-sm text-zinc-700 font-medium">
+                        <Check className="w-4 h-4 text-brand-600 mt-0.5 shrink-0" />
+                        <span>{heading}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          )}
+
+          <div className="space-y-3 pt-6 border-t border-zinc-100">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 text-amber-800 text-xs font-bold border border-amber-200/80">
               <Sparkles className="w-3.5 h-3.5 text-amber-600" />
               <span>Free Access: Day 0 to Day 7</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-black text-zinc-900 tracking-tight">
-              Please Log In to Access Day {currentDay}
-            </h2>
+            <p className="text-lg sm:text-xl font-black text-zinc-900 tracking-tight">
+              Log in free to read the full lesson
+            </p>
             <p className="text-sm sm:text-base text-zinc-600 leading-relaxed font-medium max-w-lg mx-auto">
               Days 0 through 7 are completely free to learn without an account. To access Day {currentDay} and continue through Day 45, interactive assignments, and cloud progress tracking, please log in.
             </p>

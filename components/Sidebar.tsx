@@ -46,7 +46,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
   const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
 
   const isModuleActive = location.pathname === '/dashboard' || location.pathname === '/modules' || MODULE_ITEMS.some(m => location.pathname === m.path || location.pathname.startsWith(m.path));
-  // Under /#/dashboard, the Modules dropdown should not be already expanded unless the user clicks on it
+  // Under /dashboard, the Modules dropdown should not be already expanded unless the user clicks on it
   const [modulesOpen, setModulesOpen] = useState<boolean>(() => {
     return location.pathname.startsWith('/dashboard/') && location.pathname !== '/dashboard';
   });

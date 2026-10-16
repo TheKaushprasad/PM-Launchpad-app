@@ -188,7 +188,7 @@ function buildActionLinkResult(rawLink: string, defaultMode: string): GeneratedA
   }
 
   const appBaseUrl = (process.env.APP_URL || 'https://www.thenoobpm.com').replace(/\/+$/, '');
-  const customActionUrl = `${appBaseUrl}/#/auth/action?mode=${encodeURIComponent(mode)}&oobCode=${encodeURIComponent(oobCode)}&apiKey=${encodeURIComponent(apiKey)}`;
+  const customActionUrl = `${appBaseUrl}/auth/action?mode=${encodeURIComponent(mode)}&oobCode=${encodeURIComponent(oobCode)}&apiKey=${encodeURIComponent(apiKey)}`;
 
   return {
     rawActionLink: rawLink,
@@ -204,7 +204,7 @@ function buildActionLinkResult(rawLink: string, defaultMode: string): GeneratedA
  */
 export async function generateVerificationLink(
   email: string,
-  returnUrl: string = 'https://www.thenoobpm.com/#/dashboard'
+  returnUrl: string = 'https://www.thenoobpm.com/dashboard'
 ): Promise<GeneratedActionLink> {
   if (!isFirebaseAdminConfigured()) {
     throw new Error(
@@ -229,7 +229,7 @@ export async function generateVerificationLink(
  */
 export async function generatePasswordResetLink(
   email: string,
-  returnUrl: string = 'https://www.thenoobpm.com/#/dashboard'
+  returnUrl: string = 'https://www.thenoobpm.com/dashboard'
 ): Promise<GeneratedActionLink> {
   if (!isFirebaseAdminConfigured()) {
     throw new Error(
