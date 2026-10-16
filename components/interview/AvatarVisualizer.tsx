@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mic, Sparkles, Volume2, Radio } from 'lucide-react';
 import { InterviewerPersona } from '../../types/interview';
@@ -38,6 +38,15 @@ export const AvatarVisualizer: React.FC<AvatarVisualizerProps> = ({
     : isThinking
     ? `${persona.name} is thinking...`
     : 'Your turn. Tap to answer.';
+  // Falls back to initials if the photo can't load.
+  const [photoFailed, setPhotoFailed] = useState(false);
+  const initials = persona.name.split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase();
+  // Ring colour: green while she talks, rose while you record, amber while she thinks.
+  const ringClass = isListening
+    ? 'from-rose-500 via-pink-500 to-rose-400'
+    : isThinking
+    ? 'from-amber-400 via-amber-300 to-amber-500'
+    : 'from-brand-400 via-emerald-300 to-brand-600';
 
   return (
     <div className="relative w-full h-full flex flex-col items-center justify-between p-4 md:p-6 bg-gradient-to-b from-zinc-900 via-zinc-950 to-black text-white rounded-3xl border border-zinc-800 shadow-2xl overflow-hidden select-none">
@@ -60,16 +69,6 @@ export const AvatarVisualizer: React.FC<AvatarVisualizerProps> = ({
       {/* Top Header: Interviewer Status & Persona Info */}
       <div className="relative z-10 w-full flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="relative">
-            <img 
-              src={persona.avatarImage} 
-              alt={persona.name}
-              className="w-10 h-10 rounded-full object-cover border-2 border-white/20 shadow-md" 
-            />
-            <div className={`absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full border-2 border-zinc-900 ${
-              isSpeaking ? 'bg-emerald-400 animate-pulse' : isThinking ? 'bg-amber-400 animate-bounce' : isListening ? 'bg-rose-400 animate-ping' : 'bg-zinc-500'
-            }`} />
-          </div>
           <div>
             <div className="flex items-center gap-2">
               <span className="font-extrabold text-sm tracking-tight text-white">{persona.name}</span>
@@ -109,69 +108,95 @@ export const AvatarVisualizer: React.FC<AvatarVisualizerProps> = ({
         </div>
       </div>
 
-      {/* Central Visual: Mode Sensitive (Avatar Stage vs Voice Orb) */}
+      {/* Centre: Priya's photo in a ring that pulses when she talks. Tapping it starts or pauses your answer. */}
       <div className="relative z-10 flex-1 flex flex-col items-center justify-center my-3 w-full max-w-lg">
-        {(
-          /* Voice Only Reactive Waveform Orb */
-          <div className="relative flex flex-col items-center justify-center">
+        <div className="relative flex flex-col items-center justify-center">
+          <div className="relative w-36 h-36 md:w-44 md:h-44">
+            {/* Pulse rings: only while someone is talking */}
+            {(isSpeaking || isListening) && [0, 1].map((i) => (
+              <motion.span
+                key={i}
+                aria-hidden
+                initial={{ scale: 1, opacity: 0.45 }}
+                animate={{ scale: isListening ? 1.25 + audioLevel * 0.004 : 1.3, opacity: 0 }}
+                transition={{ duration: 1.8, repeat: Infinity, delay: i * 0.9, ease: 'easeOut' }}
+                className={`absolute inset-0 rounded-full border-2 ${isListening ? 'border-rose-400' : 'border-emerald-400'}`}
+              />
+            ))}
             <motion.button
               type="button"
               onClick={canUseMic ? onToggleMic : undefined}
               disabled={!canUseMic}
               aria-label={isListening ? 'Pause the microphone' : 'Start answering'}
-              animate={{
-                scale: isSpeaking ? [1, 1.3, 1.1] : isListening ? [1, 1.25 + (audioLevel * 0.004), 1] : [1, 1.05, 1],
-                rotate: isThinking ? [0, 360] : 0,
-              }}
-              transition={{
-                scale: { duration: 1.5, repeat: Infinity, ease: "easeInOut" },
-                rotate: { duration: 6, repeat: Infinity, ease: "linear" }
-              }}
-              className={`w-32 h-32 md:w-40 md:h-40 rounded-full shadow-[0_0_80px_rgba(16,185,129,0.35)] flex items-center justify-center relative p-1 focus:outline-none focus-visible:ring-4 focus-visible:ring-white/40 ${canUseMic ? 'cursor-pointer' : 'cursor-default'} ${
-                isListening 
-                  ? 'bg-gradient-to-tr from-rose-500 via-pink-500 to-brand-500' 
-                  : 'bg-gradient-to-tr from-brand-600 via-brand-500 to-pink-500'
-              }`}
+              animate={{ rotate: isThinking ? 360 : 0 }}
+              transition={{ rotate: { duration: 6, repeat: isThinking ? Infinity : 0, ease: 'linear' } }}
+              className={`relative w-full h-full rounded-full p-1 bg-gradient-to-tr ${ringClass} shadow-[0_0_60px_rgba(16,185,129,0.3)] focus:outline-none focus-visible:ring-4 focus-visible:ring-white/40 ${canUseMic ? 'cursor-pointer' : 'cursor-default'}`}
             >
-              <div className="w-full h-full rounded-full bg-zinc-950 flex flex-col items-center justify-center relative overflow-hidden">
-                {isSpeaking ? (
-                  <div className="flex items-center gap-1.5">
-                    {[16, 32, 48, 36, 24, 40, 20].map((h, i) => (
-                      <motion.div
-                        key={i}
-                        animate={{ height: [8, h, 8] }}
-                        transition={{ duration: 0.5 + (i * 0.08), repeat: Infinity }}
-                        className="w-1.5 bg-gradient-to-t from-brand-400 to-pink-400 rounded-full"
-                      />
-                    ))}
-                  </div>
-                ) : isThinking ? (
-                  <Sparkles className="w-10 h-10 text-amber-400 animate-spin" />
-                ) : isListening ? (
-                  <div className="flex flex-col items-center gap-1">
-                    <Mic className="w-8 h-8 text-rose-400 animate-pulse" />
-                    <div className="flex items-center gap-0.5 h-3">
-                      {[0.5, 1, 0.7, 1.2, 0.4].map((mult, idx) => (
-                        <span
-                          key={idx}
-                          className="w-1 bg-rose-400 rounded-full transition-all duration-75"
-                          style={{
-                            height: `${Math.max(4, Math.min(12, (audioLevel * mult * 0.2)))}px`
-                          }}
-                        />
-                      ))}
-                    </div>
-                  </div>
+              <motion.div
+                animate={{ rotate: isThinking ? -360 : 0 }}
+                transition={{ rotate: { duration: 6, repeat: isThinking ? Infinity : 0, ease: 'linear' } }}
+                className="w-full h-full rounded-full overflow-hidden bg-zinc-800 border-4 border-zinc-950"
+              >
+                {persona.avatarImage && !photoFailed ? (
+                  <img
+                    src={persona.avatarImage}
+                    alt={persona.name}
+                    onError={() => setPhotoFailed(true)}
+                    className={`w-full h-full object-cover transition ${isListening ? 'brightness-50' : ''}`}
+                    draggable={false}
+                  />
                 ) : (
-                  <Mic className={`w-12 h-12 ${isYourTurn ? 'text-white' : 'text-zinc-400'}`} />
+                  <span className="w-full h-full flex items-center justify-center text-3xl font-extrabold text-zinc-300">{initials}</span>
                 )}
-              </div>
+              </motion.div>
             </motion.button>
-            <p className={`text-sm font-bold mt-4 text-center ${isYourTurn ? 'text-white' : 'text-zinc-400'}`}>
+            {/* Mic badge: shows the circle is also the answer button */}
+            {!isThinking && (
+              <span
+                aria-hidden
+                className={`pointer-events-none absolute bottom-1 right-1 w-11 h-11 rounded-full flex items-center justify-center border-4 border-zinc-950 shadow-lg ${
+                  isListening ? 'bg-rose-500 text-white' : isYourTurn ? 'bg-white text-zinc-900' : 'bg-zinc-700 text-zinc-300'
+                }`}
+              >
+                <Mic className={`w-5 h-5 ${isListening ? 'animate-pulse' : ''}`} />
+              </span>
+            )}
+            {isThinking && (
+              <span aria-hidden className="pointer-events-none absolute bottom-1 right-1 w-11 h-11 rounded-full flex items-center justify-center border-4 border-zinc-950 bg-amber-400 text-zinc-900 shadow-lg">
+                <Sparkles className="w-5 h-5" />
+              </span>
+            )}
+          </div>
+
+          {isListening ? (
+            /* You · Recording, with a live waveform from the mic level */
+            <div className="mt-5 flex flex-col items-center gap-2">
+              <div className="flex items-center gap-2 text-sm font-bold">
+                <span className="text-white">You</span>
+                <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-rose-500/20 border border-rose-500/30 text-rose-300 text-[11px]">
+                  <span className="w-1.5 h-1.5 rounded-full bg-rose-400 animate-pulse" /> Recording
+                </span>
+              </div>
+              <div className="flex items-center gap-[3px] h-6" aria-hidden>
+                {Array.from({ length: 28 }, (_, i) => {
+                  const shape = 0.35 + 0.65 * Math.abs(Math.sin(i * 1.7));
+                  return (
+                    <span
+                      key={i}
+                      className="w-[3px] rounded-full bg-rose-300/80 transition-all duration-75"
+                      style={{ height: `${Math.max(3, Math.min(24, audioLevel * shape * 0.35))}px` }}
+                    />
+                  );
+                })}
+              </div>
+              <p className="text-xs text-zinc-400">Tap the photo to pause, then press Done answering below.</p>
+            </div>
+          ) : (
+            <p className={`text-sm font-bold mt-5 text-center ${isYourTurn ? 'text-white' : 'text-zinc-400'}`}>
               {micLabel}
             </p>
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
       {/* Subtitles: the interviewer's latest words, or your answer as it is heard */}
