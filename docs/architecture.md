@@ -67,7 +67,7 @@ vercel.json             Rewrites: /api/* → /api/index, everything else → ind
 ## 4. Frontend
 
 - `BrowserRouter`, so URLs look like `thenoobpm.com/dashboard/day/3`. Old `/#/...` links are moved onto the real path in `index.tsx`.
-- SEO: `lib/seo.ts` holds every page's title, description and canonical URL. `components/SeoMeta.tsx` applies them in the browser; `scripts/seo.tsx` runs during `npm run build` to write `dist/<page>/index.html` (real title plus readable text), `dist/sitemap.xml` and `data/lessonOutlines.json`. Vercel serves those files directly and rewrites every other non-API path to `app.html` (the plain app shell).
+- SEO: `lib/seo.ts` holds every page's title, description and canonical URL. `components/SeoMeta.tsx` applies them in the browser; `scripts/seo.tsx` runs during `npm run build` to write `dist/<page>/index.html` (real title plus readable text), `dist/sitemap.xml` and `data/lessonOutlines.json`. `/interview-questions` pages are generated from the mock-interview scenarios (`lib/interviewQuestions.ts`); they show everything except the interviewer-only `dataPack` and `curveball`. Vercel serves those files directly and rewrites every other non-API path to `app.html` (the plain app shell).
 - `AuthProvider` wraps the app. It listens to Firebase Auth, loads `users/{uid}`, and subscribes with `onSnapshot` to `progress`, `interview_sessions`, `analyses` and `resumes`.
 - `ProtectedRoute` redirects signed-out users home and shows `VerifyEmailGate` to unverified users. Lessons after Day 7 are locked in `DayCard` when signed out.
 - `MainShell` provides the sidebar layout for dashboard, tools, interview, projects, resources and profile routes.

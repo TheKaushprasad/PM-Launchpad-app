@@ -3,6 +3,7 @@
 // so the HTML Google downloads and the page a visitor sees always agree.
 import { LESSONS, MODULES } from '../constants';
 import { REAL_WORLD_PROJECTS } from '../data/realWorldProjects';
+import { allQuestionPaths, findQuestion, questionsForTrack, trackBySlug, trackFor } from './interviewQuestions';
 
 export const SITE_URL = 'https://www.thenoobpm.com';
 export const SITE_NAME = 'The NooB PM';
@@ -55,6 +56,11 @@ const STATIC: Record<string, Omit<RouteMeta, 'canonicalPath'>> = {
     title: withBrand('Free Product Management Resources, Casebooks and Interview Questions'),
     description:
       'Curated PM certifications, B-school casebooks, company-wise PM interview questions and take-home assignments for aspiring product managers.',
+  },
+  '/interview-questions': {
+    title: withBrand('Product Manager Interview Questions with Answers'),
+    description:
+      'Free PM interview questions with sample answers: guesstimates, root cause analysis, product design, metrics, strategy, behavioral and AI product questions.',
   },
   '/tools': {
     title: withBrand('Free AI Career Tools for Aspiring Product Managers'),
@@ -120,6 +126,27 @@ export function getRouteMeta(rawPath: string): RouteMeta {
     }
   }
 
+  const qTrack = path.match(/^\/interview-questions\/([\w-]+)$/);
+  const track = qTrack && trackBySlug(qTrack[1]);
+  if (track) {
+    return {
+      title: withBrand(track.heading),
+      description: clip(`${questionsForTrack(track.track).length} ${track.label.toLowerCase()} questions with sample answers. ${track.intro}`),
+      canonicalPath: path,
+    };
+  }
+
+  const qDetail = path.match(/^\/interview-questions\/([\w-]+)\/([\w-]+)$/);
+  const question = qDetail && findQuestion(qDetail[1], qDetail[2]);
+  if (question) {
+    const t = trackFor(question.track);
+    return {
+      title: withBrand(`${question.title}: ${t.label} Interview Question and Answer`),
+      description: clip(`${question.problemStatement} Framework, clarifying questions and a sample answer.`),
+      canonicalPath: path,
+    };
+  }
+
   const project = path.match(/^\/projects\/([\w-]+)$/);
   if (project) {
     const p = REAL_WORLD_PROJECTS.find((x) => x.id === project[1]);
@@ -145,6 +172,7 @@ export function indexablePaths(): string[] {
     '/dashboard/about',
     '/projects',
     ...REAL_WORLD_PROJECTS.map((p) => `/projects/${p.id}`),
+    ...allQuestionPaths(),
     '/jobs',
     '/resources',
     '/tools',
