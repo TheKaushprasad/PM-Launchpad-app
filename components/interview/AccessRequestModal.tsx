@@ -219,7 +219,7 @@ export const AccessRequestModal: React.FC<AccessRequestModalProps> = ({
                   </div>
                   <div>
                     <h3 className="font-extrabold text-sm text-zinc-900">Microphone</h3>
-                    <p className="text-[11px] text-zinc-500 font-medium">Real-time speech-to-text input</p>
+                    <p className="text-[11px] text-zinc-500 font-medium">Turns your spoken answers into text</p>
                   </div>
                 </div>
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Calculator, 
@@ -15,8 +15,11 @@ import {
 } from 'lucide-react';
 import { ESTIMATION_CHEAT_SHEET } from '../../data/estimationCheatSheet';
 
+export type PmToolTab = 'scratchpad' | 'calculator' | 'cheatSheet';
+
 interface ScratchpadModalProps {
   isOpen: boolean;
+  initialTab?: PmToolTab;
   onClose: () => void;
   scratchpadNotes: string;
   setScratchpadNotes: (notes: string) => void;
@@ -24,11 +27,17 @@ interface ScratchpadModalProps {
 
 export const ScratchpadModal: React.FC<ScratchpadModalProps> = ({
   isOpen,
+  initialTab = 'scratchpad',
   onClose,
   scratchpadNotes,
   setScratchpadNotes
 }) => {
-  const [activeTab, setActiveTab] = useState<'scratchpad' | 'calculator' | 'cheatSheet'>('scratchpad');
+  const [activeTab, setActiveTab] = useState<PmToolTab>(initialTab);
+
+  // Opening from the PM Tools menu shows the tool that was picked.
+  useEffect(() => {
+    if (isOpen) setActiveTab(initialTab);
+  }, [isOpen, initialTab]);
   const [calcDisplay, setCalcDisplay] = useState<string>('0');
   const [calcEquation, setCalcEquation] = useState<string>('');
   const [copied, setCopied] = useState<boolean>(false);
@@ -77,16 +86,21 @@ export const ScratchpadModal: React.FC<ScratchpadModalProps> = ({
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-950/80 backdrop-blur-md">
+      {/* Left-side panel; the interview stays visible on the right */}
+      <div className="fixed inset-0 z-50 flex justify-start">
+        <div className="absolute inset-0 bg-zinc-950/30" onClick={onClose} />
         <motion.div 
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          className="bg-white rounded-3xl border border-zinc-200 shadow-2xl w-full max-w-4xl max-h-[85vh] flex flex-col overflow-hidden text-zinc-900"
+          initial={{ x: -40, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          exit={{ x: -40, opacity: 0 }}
+          transition={{ duration: 0.2, ease: 'easeOut' }}
+          role="dialog"
+          aria-label="PM Tools"
+          className="relative bg-white border-r border-zinc-200 shadow-2xl w-full max-w-md h-full flex flex-col overflow-hidden text-zinc-900"
         >
           {/* Top Bar Header */}
-          <div className="px-6 py-4 border-b border-zinc-100 flex items-center justify-between bg-zinc-50/80">
-            <div className="flex items-center gap-2">
+          <div className="px-4 py-3 border-b border-zinc-100 flex items-center justify-between gap-2 bg-zinc-50/80">
+            <div className="flex items-center gap-2 min-w-0">
               <div className="flex bg-zinc-200/70 p-1 rounded-xl">
                 <button
                   onClick={() => setActiveTab('scratchpad')}
@@ -94,7 +108,7 @@ export const ScratchpadModal: React.FC<ScratchpadModalProps> = ({
                     activeTab === 'scratchpad' ? 'bg-white text-brand-600 shadow-sm' : 'text-zinc-500 hover:text-zinc-800'
                   }`}
                 >
-                  <FileText className="w-3.5 h-3.5" /> Scratchpad
+                  <FileText className="w-3.5 h-3.5" /> Notes
                 </button>
                 <button
                   onClick={() => setActiveTab('calculator')}
@@ -102,7 +116,7 @@ export const ScratchpadModal: React.FC<ScratchpadModalProps> = ({
                     activeTab === 'calculator' ? 'bg-white text-brand-600 shadow-sm' : 'text-zinc-500 hover:text-zinc-800'
                   }`}
                 >
-                  <Calculator className="w-3.5 h-3.5" /> PM Calculator
+                  <Calculator className="w-3.5 h-3.5" /> Calculator
                 </button>
                 <button
                   onClick={() => setActiveTab('cheatSheet')}
@@ -110,7 +124,7 @@ export const ScratchpadModal: React.FC<ScratchpadModalProps> = ({
                     activeTab === 'cheatSheet' ? 'bg-white text-brand-600 shadow-sm' : 'text-zinc-500 hover:text-zinc-800'
                   }`}
                 >
-                  <BookOpen className="w-3.5 h-3.5" /> Estimation Constants
+                  <BookOpen className="w-3.5 h-3.5" /> Numbers
                 </button>
               </div>
             </div>
@@ -124,7 +138,7 @@ export const ScratchpadModal: React.FC<ScratchpadModalProps> = ({
           </div>
 
           {/* Modal Body */}
-          <div className="p-6 flex-1 overflow-y-auto min-h-[380px]">
+          <div className="p-4 flex-1 overflow-y-auto">
             {/* TAB 1: SCRATCHPAD */}
             {activeTab === 'scratchpad' && (
               <div className="h-full flex flex-col space-y-4">
@@ -208,7 +222,7 @@ export const ScratchpadModal: React.FC<ScratchpadModalProps> = ({
                   <p className="text-xs text-zinc-500 font-medium">Standardized industry population baselines and technology conversion benchmarks.</p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4">
                   {ESTIMATION_CHEAT_SHEET.map((group) => (
                     <div key={group.category} className="bg-zinc-50 rounded-2xl p-4 border border-zinc-200/80 space-y-3">
                       <h4 className="font-extrabold text-xs uppercase tracking-wider text-zinc-700 pb-2 border-b border-zinc-200">
@@ -235,12 +249,12 @@ export const ScratchpadModal: React.FC<ScratchpadModalProps> = ({
           </div>
 
           {/* Footer */}
-          <div className="px-6 py-3 border-t border-zinc-100 bg-zinc-50 text-right">
+          <div className="px-4 py-3 border-t border-zinc-100 bg-zinc-50 text-right">
             <button
               onClick={onClose}
               className="px-5 py-2 rounded-xl bg-zinc-900 text-white font-bold text-xs uppercase tracking-widest hover:bg-zinc-800"
             >
-              Close Utilities
+              Close
             </button>
           </div>
         </motion.div>

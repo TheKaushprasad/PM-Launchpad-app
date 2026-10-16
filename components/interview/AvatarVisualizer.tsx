@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Bot, Mic, Sparkles, Volume2, ShieldCheck, User, Zap, Radio, CornerDownLeft } from 'lucide-react';
+import { Mic, Sparkles, Volume2, Radio } from 'lucide-react';
 import { InterviewerPersona } from '../../types/interview';
 
 interface AvatarVisualizerProps {
@@ -13,7 +13,7 @@ interface AvatarVisualizerProps {
   audioLevel?: number;
   mode: 'voice';
   onToggleMic?: () => void;
-  onSubmitTurn?: () => void;
+  micDisabled?: boolean;
 }
 
 export const AvatarVisualizer: React.FC<AvatarVisualizerProps> = ({
@@ -26,8 +26,19 @@ export const AvatarVisualizer: React.FC<AvatarVisualizerProps> = ({
   audioLevel = 0,
   mode,
   onToggleMic,
-  onSubmitTurn
+  micDisabled = false
 }) => {
+  // The centre circle is the mic: tap to answer, tap again to pause. It can't be used while the interviewer is thinking.
+  const canUseMic = !!onToggleMic && !isThinking && !micDisabled;
+  const isYourTurn = !isSpeaking && !isThinking && !isListening;
+  const micLabel = isListening
+    ? 'Listening. Tap to pause, then press Done answering below.'
+    : isSpeaking
+    ? `${persona.name} is speaking. Tap to interrupt and answer.`
+    : isThinking
+    ? `${persona.name} is thinking...`
+    : 'Your turn. Tap to answer.';
+
   return (
     <div className="relative w-full h-full flex flex-col items-center justify-between p-4 md:p-6 bg-gradient-to-b from-zinc-900 via-zinc-950 to-black text-white rounded-3xl border border-zinc-800 shadow-2xl overflow-hidden select-none">
       {/* Dynamic Ambient Background Glow */}
@@ -87,12 +98,12 @@ export const AvatarVisualizer: React.FC<AvatarVisualizerProps> = ({
           {isListening && (
             <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/20 border border-rose-500/30 text-rose-400 text-xs font-black uppercase tracking-widest shadow-lg backdrop-blur-md animate-pulse">
               <Radio className="w-3.5 h-3.5 text-rose-400" />
-              <span>Listening (Auto-Send)</span>
+              <span>Listening</span>
             </div>
           )}
           {!isSpeaking && !isThinking && !isListening && (
             <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-zinc-400 text-[11px] font-bold tracking-tight">
-              <span>Ready</span>
+              <span>Your turn</span>
             </div>
           )}
         </div>
@@ -103,7 +114,11 @@ export const AvatarVisualizer: React.FC<AvatarVisualizerProps> = ({
         {(
           /* Voice Only Reactive Waveform Orb */
           <div className="relative flex flex-col items-center justify-center">
-            <motion.div 
+            <motion.button
+              type="button"
+              onClick={canUseMic ? onToggleMic : undefined}
+              disabled={!canUseMic}
+              aria-label={isListening ? 'Pause the microphone' : 'Start answering'}
               animate={{
                 scale: isSpeaking ? [1, 1.3, 1.1] : isListening ? [1, 1.25 + (audioLevel * 0.004), 1] : [1, 1.05, 1],
                 rotate: isThinking ? [0, 360] : 0,
@@ -112,7 +127,7 @@ export const AvatarVisualizer: React.FC<AvatarVisualizerProps> = ({
                 scale: { duration: 1.5, repeat: Infinity, ease: "easeInOut" },
                 rotate: { duration: 6, repeat: Infinity, ease: "linear" }
               }}
-              className={`w-32 h-32 md:w-40 md:h-40 rounded-full shadow-[0_0_80px_rgba(99,102,241,0.5)] flex items-center justify-center relative p-1 ${
+              className={`w-32 h-32 md:w-40 md:h-40 rounded-full shadow-[0_0_80px_rgba(16,185,129,0.35)] flex items-center justify-center relative p-1 focus:outline-none focus-visible:ring-4 focus-visible:ring-white/40 ${canUseMic ? 'cursor-pointer' : 'cursor-default'} ${
                 isListening 
                   ? 'bg-gradient-to-tr from-rose-500 via-pink-500 to-brand-500' 
                   : 'bg-gradient-to-tr from-brand-600 via-brand-500 to-pink-500'
@@ -148,49 +163,37 @@ export const AvatarVisualizer: React.FC<AvatarVisualizerProps> = ({
                     </div>
                   </div>
                 ) : (
-                  <Bot className="w-10 h-10 text-zinc-400" />
+                  <Mic className={`w-12 h-12 ${isYourTurn ? 'text-white' : 'text-zinc-400'}`} />
                 )}
               </div>
-            </motion.div>
-            <p className="text-xs text-zinc-400 font-bold uppercase tracking-widest mt-3">
-              Voice-First Studio • {persona.name}
+            </motion.button>
+            <p className={`text-sm font-bold mt-4 text-center ${isYourTurn ? 'text-white' : 'text-zinc-400'}`}>
+              {micLabel}
             </p>
           </div>
         )}
       </div>
 
-      {/* Real-Time Live Subtitles Box (Dual View: Interviewer Question & Candidate Real-Time Spoken Words) */}
+      {/* Subtitles: the interviewer's latest words, or your answer as it is heard */}
       <div className="relative z-10 w-full max-w-2xl bg-zinc-900/90 backdrop-blur-xl border border-zinc-800/80 rounded-2xl p-4 md:p-5 shadow-2xl">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
             {isSpeaking ? (
               <span className="text-[10px] font-black uppercase tracking-wider text-brand-400 flex items-center gap-1.5">
                 <Volume2 className="w-3 h-3 text-brand-400 animate-pulse" />
-                Interviewer Speaking ({persona.name})
+                {persona.name}
               </span>
             ) : isListening ? (
               <span className="text-[10px] font-black uppercase tracking-wider text-rose-400 flex items-center gap-1.5">
                 <Mic className="w-3 h-3 animate-pulse" />
-                Candidate Speaking (Your Turn)
+                You
               </span>
             ) : (
               <span className="text-[10px] font-black uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
                 <Volume2 className="w-3 h-3" />
-                {persona.name} (Ready)
+                {persona.name}
               </span>
             )}
-          </div>
-          <div className="flex items-center gap-2">
-            {isListening && onSubmitTurn && (
-              <button 
-                onClick={onSubmitTurn}
-                className="text-[10px] font-extrabold text-brand-300 hover:text-white bg-brand-600/30 hover:bg-brand-600/50 px-2 py-0.5 rounded-md flex items-center gap-1 border border-brand-400/30 transition-all"
-              >
-                <span>Done answering</span>
-                <CornerDownLeft className="w-2.5 h-2.5" />
-              </button>
-            )}
-            <span className="text-[10px] text-zinc-500 font-medium">Real-Time</span>
           </div>
         </div>
 
@@ -202,7 +205,7 @@ export const AvatarVisualizer: React.FC<AvatarVisualizerProps> = ({
               </span>
             ) : (
               <span className="text-zinc-100">
-                {currentSubtitle || (isThinking ? "Formulating strategic follow-up..." : isListening ? "Listening closely to your answer (speak naturally)..." : "Waiting for next turn...")}
+                {currentSubtitle || (isThinking ? "Formulating strategic follow-up..." : isListening ? "Listening... Your words show here as you speak, or after you finish if live captions aren't available." : "Waiting for next turn...")}
               </span>
             )}
           </p>

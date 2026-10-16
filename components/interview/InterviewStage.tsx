@@ -28,8 +28,9 @@ import {
   Layers,
   ArrowRight,
   Shield,
-  Zap,
-  Play
+  Play,
+  ChevronDown,
+  BookOpen
 } from 'lucide-react';
 import { 
   InterviewScenario, 
@@ -41,7 +42,7 @@ import {
 } from '../../types/interview';
 import { getLevelConfig, getTrackConfig, MAX_HINTS_PER_INTERVIEW } from '../../data/interviewTracks';
 import { AvatarVisualizer } from './AvatarVisualizer';
-import { ScratchpadModal } from './ScratchpadModal';
+import { ScratchpadModal, PmToolTab } from './ScratchpadModal';
 import { InterviewEvaluationView } from './InterviewEvaluationView';
 import { useAuth } from '../../context/AuthContext';
 import { authJsonHeaders } from '../../lib/apiClient';
@@ -128,8 +129,6 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
   // Text chat starts muted so it doesn't spend voice quota; it can still be switched on.
   const [isVoiceEnabled, setIsVoiceEnabled] = useState<boolean>(true);
   const [isListening, setIsListening] = useState<boolean>(false);
-  const [isAutoSendEnabled, setIsAutoSendEnabled] = useState<boolean>(true);
-  const isAutoSendEnabledRef = useRef<boolean>(true);
   const [audioLevel, setAudioLevel] = useState<number>(0);
   const [micStatusNotice, setMicStatusNotice] = useState<string | null>(null);
   // Why the interviewer is using the browser's basic voice instead of the natural one (null when natural).
@@ -137,7 +136,6 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
   
   // Refs for Speech Recognition & Silence Detection
   const recognitionRef = useRef<any>(null);
-  const silenceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const latestInputTextRef = useRef<string>('');
   const isListeningRef = useRef<boolean>(false);
   const isThinkingRef = useRef<boolean>(false);
@@ -183,11 +181,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
     isEvaluatingRef.current = isEvaluating;
   }, [isEvaluating]);
 
-  useEffect(() => {
-    isAutoSendEnabledRef.current = isAutoSendEnabled;
-  }, [isAutoSendEnabled]);
-
-  // Voice callbacks (silence timer, audio end) run from closures created several renders earlier,
+  // Voice callbacks (audio end) run from closures created several renders earlier,
   // so they read the transcript, clock and voice setting through refs to avoid dropping turns.
   const messagesRef = useRef<ConversationMessage[]>([]);
   useEffect(() => {
@@ -212,7 +206,28 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
   const [isTimerRunning, setIsTimerRunning] = useState<boolean>(false);
   const [scratchpadNotes, setScratchpadNotes] = useState<string>('');
   const [isScratchpadOpen, setIsScratchpadOpen] = useState<boolean>(false);
-  const [isTranscriptOpen, setIsTranscriptOpen] = useState<boolean>(true);
+  const [pmToolTab, setPmToolTab] = useState<PmToolTab>('scratchpad');
+  const [isPmToolsMenuOpen, setIsPmToolsMenuOpen] = useState<boolean>(false);
+  const pmToolsMenuRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!isPmToolsMenuOpen) return;
+    const close = (e: MouseEvent) => {
+      if (pmToolsMenuRef.current && !pmToolsMenuRef.current.contains(e.target as Node)) {
+        setIsPmToolsMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', close);
+    return () => document.removeEventListener('mousedown', close);
+  }, [isPmToolsMenuOpen]);
+
+  const openPmTool = (tab: PmToolTab) => {
+    setPmToolTab(tab);
+    setIsScratchpadOpen(true);
+    setIsPmToolsMenuOpen(false);
+  };
+  // Closed by default: the stage subtitles already show what the interviewer says.
+  const [isTranscriptOpen, setIsTranscriptOpen] = useState<boolean>(false);
   const [hintLoading, setHintLoading] = useState<boolean>(false);
   const [activeHint, setActiveHint] = useState<string | null>(null);
   const [milestoneAlert, setMilestoneAlert] = useState<string | null>(null);
@@ -273,10 +288,6 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
     if (autoStartListeningTimeoutRef.current) {
       clearTimeout(autoStartListeningTimeoutRef.current);
       autoStartListeningTimeoutRef.current = null;
-    }
-    if (silenceTimeoutRef.current) {
-      clearTimeout(silenceTimeoutRef.current);
-      silenceTimeoutRef.current = null;
     }
     cleanupActiveAudio();
     answerRecorderRef.current.discard();
@@ -700,25 +711,9 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
   }, [messages]);
 
   // =====================================================
-  // INSTANT SPEECH-TO-TEXT ARCHITECTURE & AUTO-SEND LOGIC
+  // INSTANT SPEECH-TO-TEXT ARCHITECTURE
   // =====================================================
-
-  // Reset silence timer on every spoken word/sound. A 3.5s pause submits the answer when Auto-Send is on;
-  // shorter pauses are normal thinking time in an interview.
-  const AUTO_SEND_SILENCE_MS = 3500;
-  const resetSilenceTimer = () => {
-    if (silenceTimeoutRef.current) {
-      clearTimeout(silenceTimeoutRef.current);
-    }
-    if (!isAutoSendEnabledRef.current) return;
-
-    silenceTimeoutRef.current = setTimeout(() => {
-      const currentText = latestInputTextRef.current.trim();
-      if (currentText.length > 0 && !isThinkingRef.current && !isEvaluatingRef.current) {
-        handleSendMessage();
-      }
-    }, AUTO_SEND_SILENCE_MS);
-  };
+  // The candidate ends each answer with Done answering; nothing is sent automatically.
 
   // Start instant speech-to-text session
   const startListeningSession = async () => {
@@ -741,10 +736,6 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
             answerRecorderRef.current.start(stream);
             recording = answerRecorderRef.current.hasAudio();
           }
-          // Without live recognition, a pause in the mic volume decides when the answer is finished.
-          let heardSpeech = false;
-          let lastLoudAt = Date.now();
-
           const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
           if (AudioContextClass) {
             const ctx = new AudioContextClass();
@@ -766,17 +757,6 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
               }
               const average = sum / bufferLength;
               setAudioLevel(Math.min(100, Math.round(average * 2.5))); // Drives UI waveform & pulsing rings
-              if (recording) {
-                const now = Date.now();
-                if (average > 12) {
-                  heardSpeech = true;
-                  lastLoudAt = now;
-                } else if (heardSpeech && isAutoSendEnabledRef.current && now - lastLoudAt > AUTO_SEND_SILENCE_MS
-                  && !isThinkingRef.current && !isEvaluatingRef.current) {
-                  heardSpeech = false;
-                  handleSendMessage();
-                }
-              }
               animationFrameRef.current = requestAnimationFrame(checkVolume);
             };
             checkVolume();
@@ -847,9 +827,6 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
         const updated = [sessionBase, pieces.join(' ')].filter(Boolean).join(' ');
         latestInputTextRef.current = updated;
         setInputText(updated);
-
-        // When the answer is being recorded, the mic volume decides when it ends; otherwise the words do.
-        if (!recording) resetSilenceTimer();
       };
 
       recognition.onerror = (event: any) => {
@@ -884,9 +861,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
       recognition.start();
       recognitionRef.current = recognition;
       setIsListening(true);
-      setMicStatusNotice(isAutoSendEnabledRef.current
-        ? "🎙️ Listening... Take your time. A 3-second pause sends your answer, or press Done answering."
-        : "🎙️ Listening... Press Done answering when you're finished.");
+      setMicStatusNotice("🎙️ Listening... Take your time, then press Done answering.");
     } catch (err: any) {
       console.error("Speech recognition start failed:", err);
       setMicStatusNotice("Could not start microphone. You can type your response directly.");
@@ -899,10 +874,6 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
     if (autoStartListeningTimeoutRef.current) {
       clearTimeout(autoStartListeningTimeoutRef.current);
       autoStartListeningTimeoutRef.current = null;
-    }
-    if (silenceTimeoutRef.current) {
-      clearTimeout(silenceTimeoutRef.current);
-      silenceTimeoutRef.current = null;
     }
     if (recognitionRef.current) {
       try {
@@ -989,10 +960,6 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
   const handleSendMessage = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
 
-    if (silenceTimeoutRef.current) {
-      clearTimeout(silenceTimeoutRef.current);
-      silenceTimeoutRef.current = null;
-    }
 
     const browserText = latestInputTextRef.current.trim() || inputText.trim();
     const recorder = answerRecorderRef.current;
@@ -1453,28 +1420,46 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
 
         {/* Right: Studio Utilities & End Button */}
         <div className="flex items-center gap-2">
-          {/* Auto-Send Toggle Button */}
-          <button
-            onClick={() => setIsAutoSendEnabled(!isAutoSendEnabled)}
-            className={`hidden sm:flex items-center gap-1 px-2.5 py-1.5 rounded-xl border text-[11px] font-bold transition-colors ${
-              isAutoSendEnabled 
-                ? 'bg-emerald-50 border-emerald-200 text-emerald-700' 
-                : 'bg-zinc-100 border-zinc-200 text-zinc-500'
-            }`}
-            title="Sends your spoken answer after a 3-second pause. Turn off to send only with Done answering."
-          >
-            <Zap className={`w-3 h-3 ${isAutoSendEnabled ? 'text-emerald-600' : 'text-zinc-400'}`} />
-            <span>Auto-Send {isAutoSendEnabled ? 'ON' : 'OFF'}</span>
-          </button>
-
-          <button
-            onClick={() => setIsScratchpadOpen(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-700 text-xs font-bold transition-colors"
-            title="Open PM Calculator & Scratchpad"
-          >
-            <Calculator className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">PM Tools</span>
-          </button>
+          {/* PM Tools menu: each option opens that tool in a panel on the left */}
+          <div className="relative" ref={pmToolsMenuRef}>
+            <button
+              type="button"
+              onClick={() => setIsPmToolsMenuOpen((open) => !open)}
+              aria-haspopup="menu"
+              aria-expanded={isPmToolsMenuOpen}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-700 text-xs font-bold transition-colors"
+            >
+              <Calculator className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">PM Tools</span>
+              <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isPmToolsMenuOpen ? 'rotate-180' : ''}`} />
+            </button>
+            {isPmToolsMenuOpen && (
+              <div
+                role="menu"
+                className="absolute right-0 top-full mt-2 z-40 w-60 bg-white rounded-2xl border border-zinc-200 shadow-xl p-1.5"
+              >
+                {([
+                  { tab: 'scratchpad', label: 'Scratchpad', note: 'Private notes for your answer', Icon: FileText },
+                  { tab: 'calculator', label: 'PM Calculator', note: 'Quick maths for estimates', Icon: Calculator },
+                  { tab: 'cheatSheet', label: 'Estimation Constants', note: 'Population and market numbers', Icon: BookOpen },
+                ] as const).map(({ tab, label, note, Icon }) => (
+                  <button
+                    key={tab}
+                    type="button"
+                    role="menuitem"
+                    onClick={() => openPmTool(tab)}
+                    className="w-full flex items-start gap-2.5 px-3 py-2 rounded-xl text-left hover:bg-zinc-100 transition-colors"
+                  >
+                    <Icon className="w-4 h-4 mt-0.5 text-brand-600 shrink-0" />
+                    <span>
+                      <span className="block text-xs font-bold text-zinc-800">{label}</span>
+                      <span className="block text-[11px] text-zinc-500">{note}</span>
+                    </span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
 
           <button
             onClick={() => {
@@ -1486,19 +1471,21 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
             className={`p-2 rounded-xl border transition-colors ${
               isVoiceEnabled ? 'bg-brand-50 border-brand-200 text-brand-600' : 'bg-zinc-100 border-zinc-200 text-zinc-400'
             }`}
-            title={isVoiceEnabled ? "Mute Natural Voice" : "Enable Natural Voice"}
+            title={isVoiceEnabled ? "Mute the interviewer's voice" : "Turn the interviewer's voice on"}
+            aria-label={isVoiceEnabled ? "Mute the interviewer's voice" : "Turn the interviewer's voice on"}
           >
             {isVoiceEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
           </button>
 
           <button
             onClick={() => setIsTranscriptOpen(!isTranscriptOpen)}
-            className={`p-2 rounded-xl border transition-colors ${
-              isTranscriptOpen ? 'bg-zinc-900 text-white' : 'bg-zinc-100 text-zinc-600'
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-bold transition-colors ${
+              isTranscriptOpen ? 'bg-zinc-900 border-zinc-900 text-white' : 'bg-zinc-100 border-zinc-200 text-zinc-700 hover:bg-zinc-200'
             }`}
-            title={isTranscriptOpen ? "Hide Transcript Drawer" : "Show Transcript Drawer"}
+            title={isTranscriptOpen ? "Hide transcript" : "Show transcript"}
           >
-            <FileText className="w-4 h-4" />
+            <FileText className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">{isTranscriptOpen ? 'Hide transcript' : 'Transcript'}</span>
           </button>
 
           <button
@@ -1607,7 +1594,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
               audioLevel={audioLevel}
               mode={mode}
               onToggleMic={toggleListening}
-              onSubmitTurn={handleSendMessage}
+              micDisabled={isTranscribing || isEvaluating || !!chatError}
             />
           </div>
 
@@ -1641,38 +1628,6 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
 
           {/* Bottom Candidate Response Toolbar */}
           <div className="mt-3 bg-white rounded-2xl border border-zinc-200 p-2.5 shadow-sm flex items-center gap-2">
-            {/* Mic Toggle Button with Live Pulse Ring & Waveform Visualizer */}
-            <button
-              type="button"
-              onClick={toggleListening}
-              className={`relative p-3 rounded-xl flex items-center justify-center transition-all ${
-                isListening 
-                  ? 'bg-rose-500 text-white shadow-lg shadow-rose-500/40 ring-4 ring-rose-500/20' 
-                  : 'bg-zinc-100 hover:bg-zinc-200 text-zinc-700'
-              }`}
-              title={isListening ? "Stop Microphone" : "Turn on Instant Voice Streaming"}
-            >
-              {isListening ? (
-                <div className="flex items-center gap-1.5">
-                  <MicOff className="w-4 h-4 animate-pulse" />
-                  {/* Live Volume Waveform Meter */}
-                  <div className="flex items-center gap-0.5 h-3.5">
-                    {[0.5, 1, 0.7, 1.2, 0.4].map((mult, idx) => (
-                      <span
-                        key={idx}
-                        className="w-0.5 bg-white rounded-full transition-all duration-75"
-                        style={{
-                          height: `${Math.max(3, Math.min(14, (audioLevel * mult * 0.2)))}px`
-                        }}
-                      />
-                    ))}
-                  </div>
-                </div>
-              ) : (
-                <Mic className="w-5 h-5" />
-              )}
-            </button>
-
             {/* Text Input Box with Live Word-by-Word Preview */}
             <form onSubmit={handleSendMessage} className="flex-1 flex items-center gap-2">
               <input
@@ -1685,8 +1640,8 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
                 }}
                 placeholder={
                   isListening
-                    ? "🎙️ Listening... speak your answer. You can fix the text here before it's sent."
-                    : "Tap the mic to answer. Your words appear here so you can fix them."
+                    ? "🎙️ Listening... You can fix the text here before you press Done answering."
+                    : "Tap the circle above to answer, or type here."
                 }
                 disabled={isThinking || isTranscribing || isEvaluating || !!chatError}
                 className="flex-1 px-4 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-xs md:text-sm text-zinc-800 focus:outline-none focus:ring-2 focus:ring-brand-500 font-medium"
@@ -1729,7 +1684,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
                 <span className="font-extrabold text-xs text-zinc-800 uppercase tracking-wider">Live Transcript</span>
               </div>
               <span className="text-[10px] font-bold text-zinc-400 px-2 py-0.5 rounded-full bg-zinc-200/60">
-                {messages.length} Turns
+                {messages.length} {messages.length === 1 ? 'message' : 'messages'}
               </span>
             </div>
 
@@ -1793,6 +1748,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
       <ScratchpadModal
         isOpen={isScratchpadOpen}
         onClose={() => setIsScratchpadOpen(false)}
+        initialTab={pmToolTab}
         scratchpadNotes={scratchpadNotes}
         setScratchpadNotes={setScratchpadNotes}
       />
