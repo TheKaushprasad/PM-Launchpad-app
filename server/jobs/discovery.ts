@@ -74,7 +74,8 @@ export function companyFromTitle(ats: CompanyBoard['ats'], title?: string): stri
   if (!title) return undefined;
   const t = title.replace(/\s+/g, ' ').trim();
   const m = ats === 'lever' ? t.match(/^(.{2,60}?) - (?:.* - )?Lever$/) : ats === 'ashby' ? t.match(/ @ (.{2,60})$/) : null;
-  const name = m?.[1].trim();
+  // Ashby titles end "@ Acme - Jobs"; the " - Jobs" is the page, not the company.
+  const name = m?.[1].replace(/\s+-\s+Jobs$/i, '').trim();
   // "Principal Product Manager - Lever" is a job title, not a company.
   return name && !/\b(product|manager|engineer|director|lead|head|senior|associate|intern)\b/i.test(name) ? name : undefined;
 }
@@ -93,7 +94,7 @@ export function toCompanyBoards(found: DiscoveredBoard[]): CompanyBoard[] {
     .filter((b) => b.failures < MAX_BOARD_FAILURES)
     .sort((a, b) => b.lastSeenAt.localeCompare(a.lastSeenAt))
     .slice(0, MAX_DISCOVERED_BOARDS)
-    .map((b) => ({ name: b.name || humanizeToken(b.token), ats: b.ats, token: b.token, global: true, discovered: true }));
+    .map((b) => ({ name: b.name?.replace(/\s+-\s+Jobs$/i, '') || humanizeToken(b.token), ats: b.ats, token: b.token, global: true, discovered: true }));
 }
 
 export interface DiscoveryRun {
