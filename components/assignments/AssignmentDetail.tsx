@@ -37,7 +37,7 @@ export const AssignmentDetail: React.FC = () => {
       </header>
 
       <article className="bg-white rounded-3xl border border-zinc-200/80 p-6 sm:p-8 shadow-xs">
-        <BriefMarkdown source={a.body!} />
+        <BriefMarkdown source={a.body} />
       </article>
 
       <div className="mt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-zinc-500">
