@@ -38,7 +38,8 @@ import {
   Copy,
   Check
 } from 'lucide-react';
-import { useOutletContext, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useOutletContext, useNavigate, useSearchParams } from 'react-router-dom';
+import { ASSIGNMENTS, assignmentPath } from '../data/assignments';
 import { useAuth } from '../context/AuthContext';
 
 interface ContextType {
@@ -884,66 +885,7 @@ const companyQuestionsData = [
   }
 ];
 
-const assignmentData = [
-  { company: "Origin medical", position: "Product Analyst", url: "https://drive.google.com/file/d/1oM5p1fzhNb-cLr6gdFBsbzEeGJz8937x/view?usp=sharing" },
-  { company: "ADDA", position: "APM", url: "https://drive.google.com/file/d/1UJ_TuzMqaT__pHqzr0YLvcd4IwrBiP1M/view?usp=sharing" },
-  { company: "Emoto red", position: "APM", url: "https://drive.google.com/file/d/1D3P6ycIQ0rQZbzi_yiKRHV36INusyrOi/view?usp=drivesdk" },
-  { company: "Emitrr", position: "PM intern", url: "https://docs.google.com/document/d/1Lj4omawgUDSsakcdpWSS8qfAvaYVJAyZ8Rg8_EAUQ5g/edit#heading=h.3rpv252qftd2" },
-  { company: "Physics Wallah", position: "PM intern", url: "https://docs.google.com/document/d/1tlKfzPlKfF6wsEzA4Md3S-mlBGWebsrP0SwYdsNn3xg/edit?usp=sharing" },
-  { company: "The Media Ant", position: "PM intern", url: "https://docs.google.com/document/d/1I08hOCQOGh0gTbA5lHv5ZAg9GEvEjUMAZyi31CKfrGE/edit?usp=sharing" },
-  { company: "Netwon school", position: "APM", url: "https://drive.google.com/file/d/1-3D9LCjsXkmCwaen9_JcwyW4-hFop9Xx/view?usp=drivesdk" },
-  { company: "Finnable", position: "APM", url: "https://drive.google.com/file/d/1sj3JrsAQt1uUghZH9O51-pR4_RWNHe1s/view?usp=drive_link" },
-  { company: "MCS", position: "PM intern", url: "https://docs.google.com/document/d/10XbE3ctMt287b-zx6srYzvp7-AHZyT9ttMbApu3LmIM/edit?usp=drivesdk" },
-  { company: "SmartApi", position: "APM", url: "https://docs.google.com/document/d/1Tp-uo1CACWcBspyjaz62SQ382UBtw58-_8niCYZmSsw/edit?usp=drivesdk" },
-  { company: "Clipboard", position: "APM", url: "https://docs.google.com/document/d/109AI3lmtk85RfcrA_MqekfKCGyPUTpUCGocVEL0XFDQ/edit?usp=drivesdk" },
-  { company: "Makerble", position: "APM", url: "https://docs.google.com/document/d/1HtCrp-GPgaQyKdvqzgpRd0leibS4LZW5HWQ0I0_vwEo/edit?usp=drivesdk" },
-  { company: "Sivi", position: "PM intern", url: "https://docs.google.com/document/d/1JBxa5kFjy3xp3L1jXKMG9937WEW_1taI72Gy_94FBnY/edit?usp=drivesdk" },
-  { company: "Leap scholar", position: "PM intern", url: "https://docs.google.com/document/d/1JqZUetaxxYQfDoAyR7Y3ih-bnJdF9EZjItJc3czrLEM/edit?usp=drivesdk" },
-  { company: "Trustt", position: "Pm intern", url: "https://drive.google.com/file/d/1tQksWt1vBCUDMq_29uNEZ00JWnmaWmts/view?usp=sharing" },
-  { company: "Admitkard", position: "APM", url: "https://drive.google.com/file/d/1ZNOxI3_V3pZC3GDQpG1WoNjpaxKpHxMa/view?usp=sharing" },
-  { company: "Loop", position: "Product analyst Intern", url: "https://www.notion.so/789fa5edadc84032a6f53b1e23790451?pvs=21" },
-  { company: "Nurturev", position: "Product analyst", url: "https://drive.google.com/file/d/1Hk9JECHLBKd_kVhvict8j2KyIDePLiWH/view?usp=sharing" },
-  { company: "Enalo", position: "Pm intern", url: "https://drive.google.com/file/d/1iHwcgwFReHoEwZCvoORCEfNfquXeMn6q/view?usp=sharing" },
-  { company: "Reachin Box", position: "APM", url: "https://www.notion.so/2250cd44adb64df7adf952765201cde1?pvs=21" },
-  { company: "Creditas", position: "APM", url: "https://drive.google.com/file/d/1RNMlJTECv_2e2DUZ4XlnJiRWyATnKp2-/view?pli=1" },
-  { company: "Meesho", position: "SPM", url: "https://docs.google.com/document/d/10mZAfZ7IhFOcSY5eo0hte0o1YZ5Y2_mMsdjJQREM-cw/edit?tab=t.0" },
-  { company: "ICICI Lombard", position: "Prod operations", url: "https://docs.google.com/spreadsheets/d/1Hn22LHheC38WR0KhApmsTiNuzBYq8-Uj/edit?usp=drivesdk&ouid=111019526669883583658&rtpof=true&sd=true" },
-  { company: "Motilal Oswal AMC", position: "SPM", url: "https://drive.google.com/file/d/1YB3szTgrppNX-efeAJwfI1iPE0NHYVe4/view?usp=drivesdk" },
-  { company: "FLexmoney", position: "Pm Intern", url: "https://drive.google.com/file/d/1pFFCVOD1clj5gadDZP-KbnsaFcpRhPSl/view?usp=sharing" },
-  { company: "Paytm", position: "APM", url: "https://drive.google.com/file/d/1D5-7d9qy_fXcjn2hcEtWsX9xH5nMKqcK/view?usp=sharing" },
-  { company: "SkillSwap", position: "APM", url: "https://drive.google.com/file/d/1zimBFkaWDq93lDLhC5Ak58C2ORFHOmbE/view?usp=sharing" },
-  { company: "TZURONI LTD.", position: "Pm Intern", url: "https://drive.google.com/file/d/1H0TV5AQt5K2du5McoM0iS8VaoClMEP-I/view?usp=sharing" },
-  { company: "Accredian", position: "PM intern", url: "https://drive.google.com/drive/folders/1VC2rjqBsUfUlylNCJano7UxZYM21HDXe" },
-  { company: "Verifast", position: "Product Analyst", url: "https://www.notion.so/177f4f312ae38064a4b0f7c1a6883f28?pvs=21" },
-  { company: "Wyra", position: "PM intern", url: "https://drive.google.com/file/d/1RgeGKVBEoiEIaNf_-pLgianpiZAuiMfl/view?usp=sharing" },
-  { company: "Virgio", position: "APM", url: "https://drive.google.com/file/d/1Exd6bwiD5n5-kMVielltIO0ZPLvXiHFQ/view?usp=sharing" },
-  { company: "EMA", position: "APM", url: "https://drive.google.com/file/d/1om0qxMVDH54dz-o1XLjf9Mc2cMEjzSmD/view?usp=sharing" },
-  { company: "Visist", position: "PM intern", url: "https://drive.google.com/file/d/1eum6GQ6DGUVzN9jdUunNbsYfiQfSEm9U/view?usp=drivesdk" },
-  { company: "Justdial", position: "PM intern", url: "https://drive.google.com/file/d/1exRibCUN879aACiMN4hYQc24t2g4XbiJ/view?usp=drivesdk" },
-  { company: "Zocket", position: "PM intern", url: "https://drive.google.com/file/d/1DiwMfSVEnJ8rWLSPdedmO-0VS3jLgWP7/view?usp=drivesdk" },
-  { company: "Ivy", position: "PM", url: "https://docs.google.com/document/d/1Z_OSwpaEfTjBOLlgORSTkm3_PZV59D6oOGhbj7H85F8/edit?usp=sharing" },
-  { company: "Elfina Health", position: "APM", url: "https://drive.google.com/file/d/1XWMk0ohrEdeDtQpYNikKgtpv5lMRelRn/view?usp=sharing" },
-  { company: "HealMeRight", position: "APM Intern", url: "https://drive.google.com/file/d/1tlAXAcwmf9r3pwWfA84VmRCt-KwJEMxW/view?usp=sharing" },
-  { company: "NXTwave", position: "APM", url: "https://www.notion.so/c7c2120316934c17b42543ac693bab08?pvs=21" },
-  { company: "Ctruh", position: "PM Intern", url: "https://drive.google.com/file/d/106R_TGiyu6aiKbmzWBt2wxs2319x9mK4/view?usp=sharing" },
-  { company: "Dotech", position: "PM intern", url: "https://drive.google.com/file/d/1e6CUZJJ-Ho3KZ8MRuXUcFFldX7YO7lM5/view?usp=sharing" },
-  { company: "JAR", position: "PA Intern", url: "https://drive.google.com/file/d/1GDkIOabKwqtzGD3h04xewIYeVZuBZgty/view?usp=sharing" },
-  { company: "OpenInApp", position: "PM Intern", url: "https://drive.google.com/file/d/1hPvoBhNa3zErJDSSWZYbLaOr0-wvpZYi/view?usp=sharing" },
-  { company: "SaaSPay", position: "PM Intern", url: "https://drive.google.com/file/d/1CAouu9jyj6HP3oQ-yJj4RiHByT9rCQKs/view?usp=sharing" },
-  { company: "Wizdom", position: "PM Intern", url: "https://drive.google.com/file/d/1jecktkeXZaEdGwERd6fhkd4DvNWhxYhc/view?usp=sharing" },
-  { company: "KUKUFM", position: "APM", url: "https://drive.google.com/file/d/1Ixij3CFKXSN_UUMBGOQ7FFIxn1oCbNoO/view?usp=sharing" },
-  { company: "UnStop", position: "PM", url: "https://drive.google.com/file/d/1Ixij3CFKXSN_UUMBGOQ7FFIxn1oCbNoO/view?usp=sharing" },
-  { company: "PeakMind", position: "APM", url: "https://drive.google.com/file/d/1zqTVvppblplSqeOICQFKg0gDmcA2YCCo/view?usp=sharing" },
-  { company: "Internshala", position: "APM", url: "https://drive.google.com/file/d/15lwhrcraoMS7SQ1Q6lfDY4WbGcPBCaPP/view?usp=sharing" },
-  { company: "Ringg AI", position: "APM", url: "https://docs.google.com/document/d/1yWWTCarD4CDfovGek0CwASRcTnSXc6mrIJG0N9XO9mw/edit?tab=t.0" },
-  { company: "RISA Labs", position: "APM", url: "https://docs.google.com/document/d/18xWMkgPG5md4DuvjGHF4PgfUP13Vnq5xfmoT46EUPwo/edit?usp=sharing" },
-  { company: "PACTAP", position: "APM", url: "https://docs.google.com/document/d/1u69N_nZV6gFX054_IN9el6Yz0qDVvYIupHApSQf2zbY/edit?usp=sharing" },
-  { company: "Keficommerce/Scalenut", position: "APM", url: "https://docs.google.com/document/d/15cJRy245fNvls2ucwlUuG3yi-LzflwEdf97a0xM1tEM/edit?usp=sharing" },
-  { company: "Bento Lab", position: "PM Intern", url: "https://drive.google.com/file/d/1eF16yBJDTzwpN2vjKB3hi3rJ9AkFdsW0/view?usp=sharing" },
-  { company: "Reelo", position: "PM Intern", url: "https://docs.google.com/document/d/1w78sKPURQ6Ukv_hC9TyewSUMu0X6wtR2TQeHUCzbGzM/edit?usp=sharing" },
-  { company: "Zocket (Mobile)", position: "PM Intern", url: "https://drive.google.com/file/d/1jMzVIMJTa0zII7IEGB5b_Om_m4___G8p/view?usp=sharing" },
-  { company: "Coastr", position: "PM Intern", url: "https://drive.google.com/file/d/1fnpMIZnFuAdxPfqr-3RNqsKUMnXe9Jer/view?usp=sharing" }
-];
+const assignmentData = ASSIGNMENTS;
 
 const casebookSections = [
   {
@@ -2452,7 +2394,8 @@ export const Resources: React.FC = () => {
                 const filteredItems = section.items.filter(item => 
                   !searchQuery || 
                   item.company.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                  item.position.toLowerCase().includes(searchQuery.toLowerCase())
+                  item.position.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                  (item.title ?? '').toLowerCase().includes(searchQuery.toLowerCase())
                 );
 
                 if (searchQuery && filteredItems.length === 0) return null;
@@ -2524,17 +2467,30 @@ export const Resources: React.FC = () => {
                                         </span>
                                       </div>
                                     </div>
+                                    {item.title && (
+                                      <p className="text-sm font-medium text-slate-600 leading-snug line-clamp-2">{item.title}</p>
+                                    )}
                                   </div>
 
-                                  <a 
-                                    href={item.url} 
-                                    target="_blank" 
-                                    rel="noopener noreferrer" 
-                                    className="mt-4 flex items-center justify-between w-full px-3.5 py-2.5 bg-slate-900 hover:bg-brand-600 text-white rounded-xl font-bold text-xs uppercase tracking-wider transition-colors shadow-xs"
-                                  >
-                                    <span>View Assignment</span>
-                                    <ExternalLink className="w-3.5 h-3.5" />
-                                  </a>
+                                  {item.body ? (
+                                    <Link
+                                      to={assignmentPath(item)}
+                                      className="mt-4 flex items-center justify-between w-full px-3.5 py-2.5 bg-slate-900 hover:bg-brand-600 text-white rounded-xl font-bold text-xs uppercase tracking-wider transition-colors shadow-xs"
+                                    >
+                                      <span>Read Assignment</span>
+                                      <ArrowRight className="w-3.5 h-3.5" />
+                                    </Link>
+                                  ) : (
+                                    <a 
+                                      href={item.url} 
+                                      target="_blank" 
+                                      rel="noopener noreferrer" 
+                                      className="mt-4 flex items-center justify-between w-full px-3.5 py-2.5 bg-white border border-slate-200 hover:border-slate-400 text-slate-700 rounded-xl font-bold text-xs uppercase tracking-wider transition-colors"
+                                    >
+                                      <span>Open Original</span>
+                                      <ExternalLink className="w-3.5 h-3.5" />
+                                    </a>
+                                  )}
                                 </div>
                               ))}
                             </div>

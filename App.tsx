@@ -17,6 +17,7 @@ import { isAiInterviewEnabled } from './lib/featureFlags';
 
 import { ProjectsHub } from './components/projects/ProjectsHub';
 import { ProjectDetail } from './components/projects/ProjectDetail';
+import { AssignmentDetail } from './components/assignments/AssignmentDetail';
 import { JobsBoard } from './components/jobs/JobsBoard';
 import { Profile } from './components/Profile';
 import { Onboarding } from './components/auth/Onboarding';
@@ -268,6 +269,7 @@ const App: React.FC = () => {
 
                 {/* Top-level Resources Routes */}
                 <Route path="/resources" element={<Resources />} />
+                <Route path="/resources/assignments/:slug" element={<AssignmentDetail />} />
 
                 {/* AI Mock Interview Studio Routes */}
                 <Route path="/interview-studio" element={interviewStudio} />
