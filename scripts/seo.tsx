@@ -151,9 +151,9 @@ function bodyFor(p: string): string {
   const a = asg && findAssignment(asg[1]);
   if (a) {
     return shell(
-      `<p>${link('/resources?view=assignments', 'PM Assignments')}</p><h1>${esc(a.title!)}</h1>` +
-        `<p>${esc(a.company)} · ${esc(a.position)}</p><p>${esc(a.summary!)}</p>` +
-        renderToStaticMarkup(<BriefMarkdown source={a.body!} />),
+      `<p>${link('/resources?view=assignments', 'PM Assignments')}</p><h1>${esc(a.title)}</h1>` +
+        `<p>${esc(a.company)} · ${esc(a.position)}</p><p>${esc(a.summary)}</p>` +
+        renderToStaticMarkup(<BriefMarkdown source={a.body} />),
     );
   }
 

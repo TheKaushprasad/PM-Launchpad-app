@@ -948,24 +948,6 @@ const assignmentSections = [
     iconBg: "bg-[#EFF6FF] text-[#2563EB]",
     badge: "CAMPUS & INTERNSHIP",
     items: assignmentData.filter(a => a.position.toLowerCase().includes("intern"))
-  },
-  {
-    id: "analyst",
-    role: "Product Analyst Assessments",
-    subtitle: "Data-intensive analytics, telemetry modeling & SQL problem statements",
-    icon: TrendingUp,
-    iconBg: "bg-[#ECFDF5] text-[#059669]",
-    badge: "DATA & ANALYTICS",
-    items: assignmentData.filter(a => a.position.toLowerCase().includes("analyst") || a.position.toLowerCase().includes("pa"))
-  },
-  {
-    id: "spm",
-    role: "Senior PM & Specialized Roles",
-    subtitle: "Strategic leadership, operations, and mid-to-senior product management challenges",
-    icon: Briefcase,
-    iconBg: "bg-[#F3E8FF] text-[#7E22CE]",
-    badge: "EXPERIENCED PM",
-    items: assignmentData.filter(a => !a.position.toLowerCase().includes("apm") && !a.position.toLowerCase().includes("intern") && !a.position.toLowerCase().includes("analyst"))
   }
 ];
 
@@ -1928,7 +1910,7 @@ export const Resources: React.FC = () => {
                   {/* Metadata Pill */}
                   <div className="mt-auto mb-6">
                     <span className="inline-flex items-center text-xs font-semibold text-slate-600 bg-slate-100 px-3 py-1.5 rounded-full">
-                      50+ assignments
+                      40+ assignments
                     </span>
                   </div>
 
@@ -2395,7 +2377,7 @@ export const Resources: React.FC = () => {
                   !searchQuery || 
                   item.company.toLowerCase().includes(searchQuery.toLowerCase()) || 
                   item.position.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                  (item.title ?? '').toLowerCase().includes(searchQuery.toLowerCase())
+                  item.title.toLowerCase().includes(searchQuery.toLowerCase())
                 );
 
                 if (searchQuery && filteredItems.length === 0) return null;
@@ -2472,25 +2454,13 @@ export const Resources: React.FC = () => {
                                     )}
                                   </div>
 
-                                  {item.body ? (
-                                    <Link
-                                      to={assignmentPath(item)}
-                                      className="mt-4 flex items-center justify-between w-full px-3.5 py-2.5 bg-slate-900 hover:bg-brand-600 text-white rounded-xl font-bold text-xs uppercase tracking-wider transition-colors shadow-xs"
-                                    >
-                                      <span>Read Assignment</span>
-                                      <ArrowRight className="w-3.5 h-3.5" />
-                                    </Link>
-                                  ) : (
-                                    <a 
-                                      href={item.url} 
-                                      target="_blank" 
-                                      rel="noopener noreferrer" 
-                                      className="mt-4 flex items-center justify-between w-full px-3.5 py-2.5 bg-white border border-slate-200 hover:border-slate-400 text-slate-700 rounded-xl font-bold text-xs uppercase tracking-wider transition-colors"
-                                    >
-                                      <span>Open Original</span>
-                                      <ExternalLink className="w-3.5 h-3.5" />
-                                    </a>
-                                  )}
+                                  <Link
+                                    to={assignmentPath(item)}
+                                    className="mt-4 flex items-center justify-between w-full px-3.5 py-2.5 bg-slate-900 hover:bg-brand-600 text-white rounded-xl font-bold text-xs uppercase tracking-wider transition-colors shadow-xs"
+                                  >
+                                    <span>Read Assignment</span>
+                                    <ArrowRight className="w-3.5 h-3.5" />
+                                  </Link>
                                 </div>
                               ))}
                             </div>
