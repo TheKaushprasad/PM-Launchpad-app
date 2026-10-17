@@ -56,8 +56,8 @@ export const Day29Content = () => {
               icon: Bot
             }
           ].map((item, i) => (
-            <div key={i} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
-               <div className="w-12 h-12 rounded-2xl bg-orange-50 flex items-center justify-center text-orange-600 shadow-sm">
+            <div key={i} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
+               <div className="w-12 h-12 rounded-2xl bg-orange-50 flex items-center justify-center text-orange-600 shadow-xs">
                   <item.icon className="w-6 h-6" />
                </div>
                <h4 className="font-black text-zinc-900 text-sm mb-1">{item.title}</h4>
@@ -83,7 +83,7 @@ export const Day29Content = () => {
              { title: "Tool Utilization", desc: "LLMs can be trained to use external tools (Web Search, Code Interpreter) which mitigates major shortcomings like hallucinations and precise calculations." }
            ].map((item, i) => (
              <div key={i} className="p-4 bg-zinc-50 border border-zinc-200 rounded-3xl flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-orange-600 shadow-sm shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-orange-600 shadow-xs shrink-0">
                   <CheckCircle className="w-5 h-5" />
                 </div>
                 <div>
@@ -104,7 +104,7 @@ export const Day29Content = () => {
           A product manager (PM) should learn about LLMs not just for their capabilities, but specifically for their limitations and the proper techniques required to deploy them effectively and reliably.
         </p>
 
-        <div className="bg-white border border-zinc-100 rounded-2xl shadow-sm overflow-hidden">
+        <div className="bg-white border border-zinc-100 rounded-2xl shadow-xs overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm font-medium border-collapse">
               <thead>
@@ -170,7 +170,7 @@ export const Day29Content = () => {
                       { name: "Custom filters", desc: "Additional filters for model goals, safety, and domain focus." },
                       { name: "PII Removal", desc: "Removal of Personally Identifiable Information." }
                     ].map((item, i) => (
-                      <div key={i} className="p-4 bg-white border border-zinc-100 rounded-2xl shadow-sm">
+                      <div key={i} className="p-4 bg-white border border-zinc-100 rounded-2xl shadow-xs">
                          <p className="text-[10px] font-black text-orange-600 uppercase mb-1">{item.name}</p>
                          <p className="text-[10px] font-bold text-zinc-500 leading-tight">{item.desc}</p>
                       </div>
@@ -222,7 +222,7 @@ export const Day29Content = () => {
              Responsible for transforming the pre-trained model—merely an internet document simulator—into a helpful, conversational assistant. Much less computationally expensive than pre-training.
            </p>
 
-           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-6">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-6">
               <h4 className="text-lg font-black text-zinc-900">1. Supervised Fine-Tuning (SFT)</h4>
               <p className="text-sm font-medium text-zinc-500">Teaches the model its persona and conversational abilities. Programming is done implicitly via datasets of conversations.</p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4 pt-4">

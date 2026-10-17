@@ -467,7 +467,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
             ================================================== */}
         <div 
           ref={targetCardRef}
-          className="bg-white rounded-3xl p-6 sm:p-7 border border-zinc-200/80 shadow-xs hover:shadow-sm transition-all space-y-5"
+          className="bg-white rounded-3xl p-6 sm:p-7 border border-zinc-200/80 shadow-2xs hover:shadow-xs transition-all space-y-5"
         >
           {/* Card Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-zinc-100 pb-4">
@@ -502,7 +502,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                   id="target-role-select"
                   value={targetRole}
                   onChange={(e) => setTargetRole(e.target.value)}
-                  className="w-full h-11 sm:h-12 px-3.5 bg-zinc-50 border border-zinc-200 rounded-xl text-xs sm:text-sm font-semibold text-zinc-900 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-600 transition-all cursor-pointer"
+                  className="w-full h-11 sm:h-12 px-3.5 bg-zinc-50 border border-zinc-200 rounded-xl text-xs sm:text-sm font-semibold text-zinc-900 focus:outline-hidden focus:ring-2 focus:ring-brand-500/20 focus:border-brand-600 transition-all cursor-pointer"
                 >
                   {targetRoleOptions.map((role) => (
                     <option key={role} value={role}>{role}</option>
@@ -516,7 +516,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                       placeholder="e.g. Chief of Staff, Technical PM"
                       value={customRole}
                       onChange={(e) => setCustomRole(e.target.value)}
-                      className="w-full h-10 px-3.5 bg-zinc-50 border border-zinc-200 rounded-xl text-xs font-medium text-zinc-900 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-600"
+                      className="w-full h-10 px-3.5 bg-zinc-50 border border-zinc-200 rounded-xl text-xs font-medium text-zinc-900 focus:outline-hidden focus:ring-2 focus:ring-brand-500/20 focus:border-brand-600"
                     />
                   </div>
                 )}
@@ -532,7 +532,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                   id="experience-level-select"
                   value={experience}
                   onChange={(e) => setExperience(e.target.value)}
-                  className="w-full h-11 sm:h-12 px-3.5 bg-zinc-50 border border-zinc-200 rounded-xl text-xs sm:text-sm font-semibold text-zinc-900 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-600 transition-all cursor-pointer"
+                  className="w-full h-11 sm:h-12 px-3.5 bg-zinc-50 border border-zinc-200 rounded-xl text-xs sm:text-sm font-semibold text-zinc-900 focus:outline-hidden focus:ring-2 focus:ring-brand-500/20 focus:border-brand-600 transition-all cursor-pointer"
                 >
                   {experienceOptions.map((exp) => (
                     <option key={exp} value={exp}>{exp}</option>
@@ -550,7 +550,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                   id="industry-select"
                   value={industry}
                   onChange={(e) => setIndustry(e.target.value)}
-                  className="w-full h-11 sm:h-12 px-3.5 bg-zinc-50 border border-zinc-200 rounded-xl text-xs sm:text-sm font-semibold text-zinc-900 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-600 transition-all cursor-pointer"
+                  className="w-full h-11 sm:h-12 px-3.5 bg-zinc-50 border border-zinc-200 rounded-xl text-xs sm:text-sm font-semibold text-zinc-900 focus:outline-hidden focus:ring-2 focus:ring-brand-500/20 focus:border-brand-600 transition-all cursor-pointer"
                 >
                   {industryOptions.map((ind) => (
                     <option key={ind} value={ind}>{ind}</option>
@@ -568,7 +568,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                   id="company-type-select"
                   value={companyType}
                   onChange={(e) => setCompanyType(e.target.value)}
-                  className="w-full h-11 sm:h-12 px-3.5 bg-zinc-50 border border-zinc-200 rounded-xl text-xs sm:text-sm font-semibold text-zinc-900 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-600 transition-all cursor-pointer"
+                  className="w-full h-11 sm:h-12 px-3.5 bg-zinc-50 border border-zinc-200 rounded-xl text-xs sm:text-sm font-semibold text-zinc-900 focus:outline-hidden focus:ring-2 focus:ring-brand-500/20 focus:border-brand-600 transition-all cursor-pointer"
                 >
                   {companyTypeOptions.map((comp) => (
                     <option key={comp} value={comp}>{comp}</option>
@@ -588,7 +588,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                   placeholder="e.g. Bengaluru, London, Remote US"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
-                  className="w-full h-11 sm:h-12 px-3.5 bg-zinc-50 border border-zinc-200 rounded-xl text-xs sm:text-sm font-medium text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-600 transition-all"
+                  className="w-full h-11 sm:h-12 px-3.5 bg-zinc-50 border border-zinc-200 rounded-xl text-xs sm:text-sm font-medium text-zinc-900 placeholder:text-zinc-400 focus:outline-hidden focus:ring-2 focus:ring-brand-500/20 focus:border-brand-600 transition-all"
                 />
               </div>
             </div>
@@ -624,7 +624,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
         {/* ==================================================
             4. LINKEDIN PROFILE CARD: "Add your LinkedIn profile"
             ================================================== */}
-        <div className="bg-white rounded-3xl p-6 sm:p-7 border border-zinc-200/80 shadow-xs hover:shadow-sm transition-all space-y-6">
+        <div className="bg-white rounded-3xl p-6 sm:p-7 border border-zinc-200/80 shadow-2xs hover:shadow-xs transition-all space-y-6">
           {/* Card Header & Tab Selector */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-100 pb-4">
             <div>
@@ -648,13 +648,13 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                 }}
                 className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-2 transition-all cursor-pointer ${
                   activeTab === 'upload'
-                    ? 'bg-white text-brand-700 shadow-xs ring-1 ring-black/5'
+                    ? 'bg-white text-brand-700 shadow-2xs ring-1 ring-black/5'
                     : 'text-zinc-600 hover:text-zinc-900'
                 }`}
               >
                 <Upload className="w-3.5 h-3.5" />
                 <span>Upload LinkedIn PDF</span>
-                <span className="text-[9px] font-black uppercase tracking-wider bg-brand-50 text-brand-700 px-1.5 py-0.5 rounded">
+                <span className="text-[9px] font-black uppercase tracking-wider bg-brand-50 text-brand-700 px-1.5 py-0.5 rounded-sm">
                   RECOMMENDED
                 </span>
               </button>
@@ -668,7 +668,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                 }}
                 className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-2 transition-all cursor-pointer ${
                   activeTab === 'paste'
-                    ? 'bg-white text-brand-700 shadow-xs ring-1 ring-black/5'
+                    ? 'bg-white text-brand-700 shadow-2xs ring-1 ring-black/5'
                     : 'text-zinc-600 hover:text-zinc-900'
                 }`}
               >
@@ -725,7 +725,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                     <div className="pt-1 flex flex-wrap items-center justify-center gap-2.5">
                       <button
                         type="button"
-                        className="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold rounded-xl shadow-xs transition-all flex items-center gap-1.5 cursor-pointer"
+                        className="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold rounded-xl shadow-2xs transition-all flex items-center gap-1.5 cursor-pointer"
                       >
                         <Upload className="w-3.5 h-3.5" />
                         <span>SELECT PROFILE PDF</span>
@@ -754,7 +754,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
               {/* State 2: UPLOADING STATE */}
               {isParsingPdf && (
                 <div className="border-2 border-brand-200 bg-brand-50/40 rounded-2xl p-7 sm:p-9 text-center space-y-3 animate-pulse">
-                  <div className="w-12 h-12 rounded-xl bg-brand-600 text-white flex items-center justify-center mx-auto shadow-xs">
+                  <div className="w-12 h-12 rounded-xl bg-brand-600 text-white flex items-center justify-center mx-auto shadow-2xs">
                     <Loader2 className="w-6 h-6 animate-spin text-white" />
                   </div>
                   <div className="space-y-1">
@@ -880,7 +880,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                         rows={6}
                         value={profileText}
                         onChange={(e) => setProfileText(e.target.value)}
-                        className="w-full p-3 bg-white border border-zinc-200 rounded-xl text-xs font-mono text-zinc-800 focus:outline-none focus:ring-2 focus:ring-brand-500/20 resize-y"
+                        className="w-full p-3 bg-white border border-zinc-200 rounded-xl text-xs font-mono text-zinc-800 focus:outline-hidden focus:ring-2 focus:ring-brand-500/20 resize-y"
                       />
                     </div>
                   )}
@@ -1054,7 +1054,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                   if (validationError) setValidationError(null);
                 }}
                 placeholder={`Paste your LinkedIn profile text here...\n\nInclude:\n• Headline\n• About section\n• Experience (roles, bullets, metrics)\n• Education & Skills`}
-                className="w-full p-4 bg-zinc-50 border border-zinc-200 rounded-2xl text-xs sm:text-sm font-mono leading-relaxed text-zinc-900 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-600 transition-all resize-y"
+                className="w-full p-4 bg-zinc-50 border border-zinc-200 rounded-2xl text-xs sm:text-sm font-mono leading-relaxed text-zinc-900 focus:outline-hidden focus:ring-2 focus:ring-brand-500/20 focus:border-brand-600 transition-all resize-y"
               />
 
               <div className="flex items-center justify-between text-[11px] text-zinc-400 font-medium px-1">

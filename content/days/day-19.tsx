@@ -55,7 +55,7 @@ export const Day19Content = () => {
         </p>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-3.5">
-           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
               <h4 className="font-black text-zinc-900 flex items-center gap-2">
                  <LineChart className="w-5 h-5 text-indigo-600" /> Essential Charts
               </h4>
@@ -94,7 +94,7 @@ export const Day19Content = () => {
           <Table className="text-indigo-600" />
           2. Advanced Spreadsheet Management
         </h2>
-        <div className="bg-white border border-zinc-100 rounded-2xl shadow-sm flex flex-col md:flex-row gap-3.5 md:gap-4 overflow-hidden">
+        <div className="bg-white border border-zinc-100 rounded-2xl shadow-xs flex flex-col md:flex-row gap-3.5 md:gap-4 overflow-hidden">
            <div className="flex-1 p-4 sm:p-5 space-y-4 border-b md:border-b-0 md:border-r border-zinc-100">
               <h4 className="font-black text-zinc-900 uppercase tracking-widest text-xs text-indigo-600">Excel Tables (Ctrl + T)</h4>
               <p className="text-sm font-medium text-zinc-600 leading-relaxed">
@@ -143,7 +143,7 @@ export const Day19Content = () => {
           <Layout className="text-indigo-600" />
           4. Project #1: Salary Dashboard
         </h2>
-        <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-6 relative overflow-hidden">
+        <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-6 relative overflow-hidden">
            <div className="absolute top-0 right-0 p-4 sm:p-5 opacity-5">
               <Briefcase className="w-32 h-32 text-indigo-600" />
            </div>

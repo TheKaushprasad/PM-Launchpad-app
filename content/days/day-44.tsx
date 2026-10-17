@@ -68,7 +68,7 @@ export const Day44Content = () => {
                 { q: "How would you improve Zepto?", company: "Zepto", icon: Zap },
                 { q: "What would you improve in your favorite product?", company: "Multiple companies", icon: Heart }
               ].map((item, i) => (
-                <div key={i} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-sm space-y-3 hover:border-amber-200 transition-colors group">
+                <div key={i} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-xs space-y-3 hover:border-amber-200 transition-colors group">
                    <div className="flex justify-between items-start">
                       <div className="w-10 h-10 rounded-xl bg-zinc-50 flex items-center justify-center text-amber-600 group-hover:bg-amber-600 group-hover:text-white transition-colors shadow-inner">
                         <item.icon className="w-5 h-5" />

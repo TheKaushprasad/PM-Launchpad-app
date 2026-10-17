@@ -89,7 +89,7 @@ export const Day0Content = () => {
       ]}
       />
 
-      <section className="bg-indigo-50 rounded-2xl p-4 sm:p-5 border border-indigo-100 shadow-sm relative overflow-hidden">
+      <section className="bg-indigo-50 rounded-2xl p-4 sm:p-5 border border-indigo-100 shadow-xs relative overflow-hidden">
         <div className="flex items-center gap-3 mb-2.5 relative z-10">
           <div className="p-3 bg-indigo-600 rounded-xl shadow-md">
             <Users className="w-5 h-5 text-white" />

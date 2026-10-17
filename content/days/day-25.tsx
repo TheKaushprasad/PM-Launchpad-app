@@ -57,7 +57,7 @@ export const Day25Content = () => {
         </p>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-3.5">
-           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
               <h4 className="font-black text-zinc-900 flex items-center gap-2">
                 <Layers className="w-5 h-5 text-indigo-600" />
                 UX (User Experience)
@@ -74,7 +74,7 @@ export const Day25Content = () => {
               </ul>
            </div>
            
-           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
               <h4 className="font-black text-zinc-900 flex items-center gap-2">
                 <Layout className="w-5 h-5 text-pink-600" />
                 UI (User Interface)
@@ -139,8 +139,8 @@ export const Day25Content = () => {
              { title: "Law of Proximity", desc: "Objects that are near each other tend to be grouped together.", icon: Sparkles },
              { title: "Zeigarnik Effect", desc: "People remember uncompleted or interrupted tasks better than completed ones.", icon: Activity }
            ].map((law, i) => (
-             <div key={i} className="p-4 bg-zinc-50 border border-zinc-200 rounded-[2rem] flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-indigo-600 shrink-0 shadow-sm">
+             <div key={i} className="p-4 bg-zinc-50 border border-zinc-200 rounded-4xl flex items-start gap-4">
+                <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-indigo-600 shrink-0 shadow-xs">
                   <law.icon className="w-5 h-5" />
                 </div>
                 <div>

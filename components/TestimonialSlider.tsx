@@ -212,14 +212,14 @@ export const TestimonialSlider: React.FC = () => {
             <button
               onClick={() => nudge('prev')}
               aria-label="Nudge testimonials backward"
-              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-[#E2E8F0] bg-white hover:bg-slate-50 hover:border-[#065F46] text-[#334155] hover:text-[#065F46] flex items-center justify-center transition-all shadow-xs active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#065F46]/30 cursor-pointer"
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-[#E2E8F0] bg-white hover:bg-slate-50 hover:border-[#065F46] text-[#334155] hover:text-[#065F46] flex items-center justify-center transition-all shadow-2xs active:scale-95 focus:outline-hidden focus:ring-2 focus:ring-[#065F46]/30 cursor-pointer"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
             <button
               onClick={() => nudge('next')}
               aria-label="Nudge testimonials forward"
-              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-[#E2E8F0] bg-white hover:bg-slate-50 hover:border-[#065F46] text-[#334155] hover:text-[#065F46] flex items-center justify-center transition-all shadow-xs active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#065F46]/30 cursor-pointer"
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-[#E2E8F0] bg-white hover:bg-slate-50 hover:border-[#065F46] text-[#334155] hover:text-[#065F46] flex items-center justify-center transition-all shadow-2xs active:scale-95 focus:outline-hidden focus:ring-2 focus:ring-[#065F46]/30 cursor-pointer"
             >
               <ChevronRight className="w-4 h-4" />
             </button>
@@ -250,8 +250,8 @@ export const TestimonialSlider: React.FC = () => {
           onTouchEnd={handleTouchEnd}
         >
           {/* Subtle edge fades for smooth marquee entry and exit */}
-          <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-14 sm:w-20 bg-gradient-to-r from-[#F8FAFC] via-[#F8FAFC]/80 to-transparent z-10" />
-          <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-14 sm:w-20 bg-gradient-to-l from-[#F8FAFC] via-[#F8FAFC]/80 to-transparent z-10" />
+          <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-14 sm:w-20 bg-linear-to-r from-[#F8FAFC] via-[#F8FAFC]/80 to-transparent z-10" />
+          <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-14 sm:w-20 bg-linear-to-l from-[#F8FAFC] via-[#F8FAFC]/80 to-transparent z-10" />
 
           {/* Continuously gliding marquee track */}
           <div
@@ -261,7 +261,7 @@ export const TestimonialSlider: React.FC = () => {
             {marqueeCards.map((t, idx) => (
               <div
                 key={idx}
-                className="w-[82vw] sm:w-[320px] md:w-[335px] h-[230px] shrink-0 bg-white border border-[#E2E8F0] hover:border-[#065F46]/40 rounded-2xl p-5 sm:p-6 shadow-xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group cursor-default"
+                className="w-[82vw] sm:w-[320px] md:w-[335px] h-[230px] shrink-0 bg-white border border-[#E2E8F0] hover:border-[#065F46]/40 rounded-2xl p-5 sm:p-6 shadow-2xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group cursor-default"
               >
                 <div>
                   {/* Top Bar: 5 Stars + Subtle Quote Icon */}

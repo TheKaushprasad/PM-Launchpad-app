@@ -61,7 +61,7 @@ export const Day22Content = () => {
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-3.5">
-           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
               <h4 className="font-black text-zinc-900 flex items-center gap-2">
                 <Search className="w-5 h-5 text-indigo-600" />
                 What Is A/B Testing?
@@ -74,7 +74,7 @@ export const Day22Content = () => {
               </p>
            </div>
            
-           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
               <h4 className="font-black text-zinc-900 flex items-center gap-2">
                 <TrendingUp className="w-5 h-5 text-emerald-600" />
                 Why It Matters
@@ -109,7 +109,7 @@ export const Day22Content = () => {
              { title: "Run the experiment & analyze", desc: "Monitor for technical issues early. Analyze results rigorously looking at confidence intervals and significance before drawing conclusions." },
              { title: "Make a decision & document", desc: "Ship the winner or iterate. Document institucional knowledge—why you think things happened and what you learned." }
            ].map((step, i) => (
-             <div key={i} className="flex gap-3 md:gap-3.5 p-4 bg-white border border-zinc-100 rounded-3xl shadow-sm hover:border-indigo-100 transition-colors">
+             <div key={i} className="flex gap-3 md:gap-3.5 p-4 bg-white border border-zinc-100 rounded-3xl shadow-xs hover:border-indigo-100 transition-colors">
                 <div className="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600 font-black shrink-0">{i+1}</div>
                 <div>
                    <h4 className="font-black text-zinc-900 text-sm mb-1">{step.title}</h4>
@@ -136,8 +136,8 @@ export const Day22Content = () => {
              { title: "Monitor Product Health", desc: "Catch sudden drops in traffic or spikes in bounce rates using real-time data and automated alerts.", icon: Zap },
              { title: "Roadmap Prioritization", desc: "If 80% of users never touch a feature you built, that is valuable feedback for your next prioritization cycle.", icon: Layout }
            ].map((benefit, i) => (
-             <div key={i} className="p-4 bg-zinc-50 border border-zinc-200 rounded-[2rem] flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-indigo-600 shrink-0 shadow-sm">
+             <div key={i} className="p-4 bg-zinc-50 border border-zinc-200 rounded-4xl flex items-start gap-4">
+                <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-indigo-600 shrink-0 shadow-xs">
                   <benefit.icon className="w-5 h-5" />
                 </div>
                 <div>

@@ -135,7 +135,7 @@ export const Dashboard: React.FC = () => {
       {(path && path.toLowerCase() !== 'dashboard' || filterMode !== 'all') && (
         <button 
           onClick={handleRestore}
-          className="fixed bottom-8 right-8 z-[100] bg-zinc-900 text-white px-6 py-3 rounded-2xl font-bold text-xs uppercase tracking-widest flex items-center gap-2 shadow-2xl hover:bg-black transition-all group"
+          className="fixed bottom-8 right-8 z-100 bg-zinc-900 text-white px-6 py-3 rounded-2xl font-bold text-xs uppercase tracking-widest flex items-center gap-2 shadow-2xl hover:bg-black transition-all group"
         >
           <RefreshCw className="w-4 h-4 group-hover:rotate-180 transition-transform duration-500" />
           View All Lessons
@@ -172,7 +172,7 @@ export const Dashboard: React.FC = () => {
         {/* 4 Quick Metric Boxes */}
         <motion.div variants={item} className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-8 pt-6 border-t border-white/10 relative z-10">
           {/* Target Role */}
-          <div className="p-3 sm:p-3.5 rounded-2xl bg-white/[0.04] border border-white/[0.08] flex items-center gap-3.5">
+          <div className="p-3 sm:p-3.5 rounded-2xl bg-white/4 border border-white/8 flex items-center gap-3.5">
             <div className="w-11 h-11 rounded-xl bg-[#064E3B] flex items-center justify-center shrink-0 border border-brand-500/30 shadow-inner">
               <Briefcase className="w-5 h-5 text-brand-400" />
             </div>
@@ -187,7 +187,7 @@ export const Dashboard: React.FC = () => {
           </div>
 
           {/* Profile Strength */}
-          <div className="p-3 sm:p-3.5 rounded-2xl bg-white/[0.04] border border-white/[0.08] flex items-center gap-3.5">
+          <div className="p-3 sm:p-3.5 rounded-2xl bg-white/4 border border-white/8 flex items-center gap-3.5">
             <div className="w-11 h-11 rounded-xl bg-[#064E3B] flex items-center justify-center shrink-0 border border-brand-500/30 shadow-inner">
               <BarChart2 className="w-5 h-5 text-brand-400" />
             </div>
@@ -202,7 +202,7 @@ export const Dashboard: React.FC = () => {
           </div>
 
           {/* Curriculum */}
-          <div className="p-3 sm:p-3.5 rounded-2xl bg-white/[0.04] border border-white/[0.08] flex items-center gap-3.5">
+          <div className="p-3 sm:p-3.5 rounded-2xl bg-white/4 border border-white/8 flex items-center gap-3.5">
             <div className="w-11 h-11 rounded-xl bg-[#064E3B] flex items-center justify-center shrink-0 border border-emerald-500/30 shadow-inner">
               <BookOpen className="w-5 h-5 text-emerald-400" />
             </div>
@@ -222,7 +222,7 @@ export const Dashboard: React.FC = () => {
           </div>
 
           {/* Daily Streak */}
-          <div className="p-3 sm:p-3.5 rounded-2xl bg-white/[0.04] border border-white/[0.08] flex items-center gap-3.5">
+          <div className="p-3 sm:p-3.5 rounded-2xl bg-white/4 border border-white/8 flex items-center gap-3.5">
             <div className="w-11 h-11 rounded-xl bg-[#451A03] flex items-center justify-center shrink-0 border border-amber-500/30 shadow-inner">
               <Flame className="w-5 h-5 text-amber-400" />
             </div>
@@ -254,7 +254,7 @@ export const Dashboard: React.FC = () => {
                 onClick={() => setFilterMode('all')}
                 className={`h-9 px-4 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all duration-150 cursor-pointer ${
                   filterMode === 'all' 
-                    ? 'bg-[#111827] text-white shadow-xs' 
+                    ? 'bg-[#111827] text-white shadow-2xs' 
                     : 'bg-white hover:bg-slate-50 text-slate-700 border border-slate-200/90'
                 }`}
              >
@@ -265,7 +265,7 @@ export const Dashboard: React.FC = () => {
                 onClick={() => setFilterMode('completed')}
                 className={`h-9 px-3.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all duration-150 cursor-pointer ${
                   filterMode === 'completed' 
-                    ? 'bg-[#111827] text-white shadow-xs' 
+                    ? 'bg-[#111827] text-white shadow-2xs' 
                     : 'bg-white hover:bg-slate-50 text-slate-700 border border-slate-200/90'
                 }`}
              >
@@ -277,7 +277,7 @@ export const Dashboard: React.FC = () => {
                 onClick={() => setFilterMode('syllabus')}
                 className={`h-9 px-3.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all duration-150 cursor-pointer ${
                   filterMode === 'syllabus' 
-                    ? 'bg-[#111827] text-white shadow-xs' 
+                    ? 'bg-[#111827] text-white shadow-2xs' 
                     : 'bg-white hover:bg-slate-50 text-slate-700 border border-slate-200/90'
                 }`}
              >
@@ -289,7 +289,7 @@ export const Dashboard: React.FC = () => {
                 onClick={() => setFilterMode('bookmarked')}
                 className={`h-9 px-3.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all duration-150 cursor-pointer ${
                   filterMode === 'bookmarked' 
-                    ? 'bg-[#111827] text-white shadow-xs' 
+                    ? 'bg-[#111827] text-white shadow-2xs' 
                     : 'bg-white hover:bg-slate-50 text-slate-700 border border-slate-200/90'
                 }`}
              >
@@ -301,7 +301,7 @@ export const Dashboard: React.FC = () => {
                 onClick={() => setFilterMode('notes')}
                 className={`h-9 px-3.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all duration-150 cursor-pointer ${
                   filterMode === 'notes' 
-                    ? 'bg-[#111827] text-white shadow-xs' 
+                    ? 'bg-[#111827] text-white shadow-2xs' 
                     : 'bg-white hover:bg-slate-50 text-slate-700 border border-slate-200/90'
                 }`}
              >
@@ -341,10 +341,10 @@ export const Dashboard: React.FC = () => {
                       {/* Top Badges */}
                       <div className="flex items-center justify-between gap-2 mb-4">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider bg-zinc-900 text-white shadow-xs">
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider bg-zinc-900 text-white shadow-2xs">
                             Day {lesson.day}
                           </span>
-                          <span className={`text-[9px] px-2.5 py-1 rounded-lg font-black uppercase tracking-wider flex items-center gap-1 border ${getCategoryColor(lesson.category)} shadow-xs`}>
+                          <span className={`text-[9px] px-2.5 py-1 rounded-lg font-black uppercase tracking-wider flex items-center gap-1 border ${getCategoryColor(lesson.category)} shadow-2xs`}>
                             {getCategoryIcon(lesson.category)}
                             {lesson.category}
                           </span>
@@ -375,7 +375,7 @@ export const Dashboard: React.FC = () => {
                           <FileEdit className="w-3 h-3" />
                           Personal Notes
                         </div>
-                        <p className="text-xs text-zinc-700 font-medium whitespace-pre-wrap leading-relaxed break-words line-clamp-6">
+                        <p className="text-xs text-zinc-700 font-medium whitespace-pre-wrap leading-relaxed wrap-break-word line-clamp-6">
                           {notes}
                         </p>
                       </div>
@@ -397,7 +397,7 @@ export const Dashboard: React.FC = () => {
               </div>
             ) : (
               <div className="py-20 text-center bg-white rounded-3xl border border-dashed border-zinc-200 p-8 space-y-4 max-w-xl mx-auto">
-                <div className="w-14 h-14 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center mx-auto shadow-sm">
+                <div className="w-14 h-14 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center mx-auto shadow-xs">
                   <FileEdit className="w-7 h-7" />
                 </div>
                 <div className="space-y-1">
@@ -408,7 +408,7 @@ export const Dashboard: React.FC = () => {
                 </div>
                 <button
                   onClick={() => setFilterMode('all')}
-                  className="px-5 py-2.5 bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-bold rounded-xl transition-all shadow-sm"
+                  className="px-5 py-2.5 bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-bold rounded-xl transition-all shadow-xs"
                 >
                   Explore All Lessons
                 </button>

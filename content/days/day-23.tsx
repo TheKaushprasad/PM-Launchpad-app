@@ -28,7 +28,7 @@ export const Day23Content = () => {
           <Globe className="text-indigo-600" />
           Foundation: How the Internet Works
         </h2>
-        <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm flex flex-col md:flex-row gap-3.5 md:gap-4 items-center">
+        <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs flex flex-col md:flex-row gap-3.5 md:gap-4 items-center">
            <div className="flex-1 space-y-4">
               <h4 className="font-black text-zinc-900">Lets first understand How the Internet Works</h4>
               <p className="text-sm font-medium text-zinc-600 leading-relaxed">
@@ -87,7 +87,7 @@ export const Day23Content = () => {
              { title: "Build products that scale with partner ecosystems", desc: "Turn your product into a platform that others can build upon.", icon: Layers },
              { title: "Reduce dependencies on reinventing functionality internally", desc: "Know when to buy or integrate instead of building from scratch.", icon: ShieldCheck }
            ].map((item, i) => (
-             <div key={i} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-sm flex items-start gap-4 hover:border-cyan-200 transition-colors group">
+             <div key={i} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-xs flex items-start gap-4 hover:border-cyan-200 transition-colors group">
                 <div className="w-12 h-12 rounded-2xl bg-zinc-50 flex items-center justify-center text-cyan-600 shrink-0 group-hover:bg-cyan-600 group-hover:text-white transition-colors">
                   <item.icon className="w-6 h-6" />
                 </div>

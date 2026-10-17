@@ -29,7 +29,7 @@ Domain: GoDaddy DNS points thenoobpm.com at Vercel.
 | Layer | Choice |
 |---|---|
 | Frontend | React 18, TypeScript, Vite 5, react-router-dom 6 (`BrowserRouter`), framer-motion, GSAP (scroll reveals), lucide-react |
-| Styling | Tailwind via CDN script in `index.html`, plus a small inline stylesheet; Inter and Caveat fonts |
+| Styling | Tailwind CSS v4, compiled by Vite (`@tailwindcss/vite`); theme and app styles in `index.css`; Inter and Caveat fonts |
 | Backend | Express 5 in a single `server.ts`, wrapped for Vercel by `api-handler.ts` |
 | Auth | Firebase Auth (Google popup and email/password, email verification) |
 | Database | Cloud Firestore, a NAMED database (not `(default)`); ids live in `firebase-applet-config.json` |
@@ -202,7 +202,6 @@ Names only; values live in Vercel and in each developer's local env file, never 
 
 - `server.ts` is about 1,600 lines; routes, AI helper and email logic all live in one file.
 - `returnUrl` on the auth email endpoints is taken from the request body; Firebase only accepts domains on the Authentication authorized-domains list.
-- Tailwind is loaded from the CDN script, not compiled.
 - Supabase leftovers (`lib/supabaseClient.ts`, `supabase_setup.sql`, `@supabase/supabase-js`) and a stray `bun.lock`.
 - The compiled `api/index.js` and its source map are committed.
 - In-app interview types are 4 (`InterviewTrack` has no `metrics`), while the evaluator supports 5.

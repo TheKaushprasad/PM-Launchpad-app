@@ -75,7 +75,7 @@ export const Day37Content = () => {
           <Layers className="text-amber-600" />
           What Is a Product Teardown?
         </h2>
-        <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm">
+        <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-xs">
           <p className="text-sm font-medium text-zinc-600 leading-relaxed">
             A product teardown is a structured analysis where you reverse-engineer a digital product to understand how it works, why it was built that way, and what strategic decisions underlie its design, user flows, and business model. This goes far beyond a simple review — you dig into user journeys, feature decisions, growth mechanics, and UX logic to derive insights.
           </p>
@@ -112,7 +112,7 @@ export const Day37Content = () => {
             }
           ].map((item, i) => (
             <div key={i} className="flex gap-4 p-4 bg-zinc-50 border border-zinc-100 rounded-3xl items-start">
-               <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-amber-600 shrink-0 shadow-sm border border-zinc-100">
+               <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-amber-600 shrink-0 shadow-xs border border-zinc-100">
                  <item.icon className="w-5 h-5" />
                </div>
                <div>

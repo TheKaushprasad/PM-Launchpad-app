@@ -105,7 +105,7 @@ export const ScratchpadModal: React.FC<ScratchpadModalProps> = ({
                 <button
                   onClick={() => setActiveTab('scratchpad')}
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black uppercase tracking-wider transition-all ${
-                    activeTab === 'scratchpad' ? 'bg-white text-brand-600 shadow-sm' : 'text-zinc-500 hover:text-zinc-800'
+                    activeTab === 'scratchpad' ? 'bg-white text-brand-600 shadow-xs' : 'text-zinc-500 hover:text-zinc-800'
                   }`}
                 >
                   <FileText className="w-3.5 h-3.5" /> Notes
@@ -113,7 +113,7 @@ export const ScratchpadModal: React.FC<ScratchpadModalProps> = ({
                 <button
                   onClick={() => setActiveTab('calculator')}
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black uppercase tracking-wider transition-all ${
-                    activeTab === 'calculator' ? 'bg-white text-brand-600 shadow-sm' : 'text-zinc-500 hover:text-zinc-800'
+                    activeTab === 'calculator' ? 'bg-white text-brand-600 shadow-xs' : 'text-zinc-500 hover:text-zinc-800'
                   }`}
                 >
                   <Calculator className="w-3.5 h-3.5" /> Calculator
@@ -121,7 +121,7 @@ export const ScratchpadModal: React.FC<ScratchpadModalProps> = ({
                 <button
                   onClick={() => setActiveTab('cheatSheet')}
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black uppercase tracking-wider transition-all ${
-                    activeTab === 'cheatSheet' ? 'bg-white text-brand-600 shadow-sm' : 'text-zinc-500 hover:text-zinc-800'
+                    activeTab === 'cheatSheet' ? 'bg-white text-brand-600 shadow-xs' : 'text-zinc-500 hover:text-zinc-800'
                   }`}
                 >
                   <BookOpen className="w-3.5 h-3.5" /> Numbers
@@ -167,7 +167,7 @@ export const ScratchpadModal: React.FC<ScratchpadModalProps> = ({
                   value={scratchpadNotes}
                   onChange={(e) => setScratchpadNotes(e.target.value)}
                   placeholder="Type your structured outline, hypotheses, segmentation branches, or calculation scratchpad here..."
-                  className="flex-1 w-full p-4 rounded-2xl bg-zinc-50 border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-brand-500 font-mono text-sm leading-relaxed text-zinc-800 resize-none min-h-[300px]"
+                  className="flex-1 w-full p-4 rounded-2xl bg-zinc-50 border border-zinc-200 focus:outline-hidden focus:ring-2 focus:ring-brand-500 font-mono text-sm leading-relaxed text-zinc-800 resize-none min-h-[300px]"
                 />
               </div>
             )}

@@ -56,8 +56,8 @@ export const Day5Content = () => {
               color: "bg-blue-50 border-blue-100 text-blue-700"
             }
           ].map((item, i) => (
-            <div key={i} className={`p-4 sm:p-5 rounded-2xl border ${item.color} space-y-4 shadow-sm group hover:scale-[1.02] transition-transform duration-300`}>
-              <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center shadow-sm">
+            <div key={i} className={`p-4 sm:p-5 rounded-2xl border ${item.color} space-y-4 shadow-xs group hover:scale-[1.02] transition-transform duration-300`}>
+              <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center shadow-xs">
                 <item.icon className="w-5 h-5" />
               </div>
               <h3 className="text-xl font-black">{item.title}</h3>
@@ -80,15 +80,15 @@ export const Day5Content = () => {
             <div className="space-y-2.5">
               <h3 className="text-xl font-black text-zinc-900">User Research & Personas</h3>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-sm">
+                <div className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-xs">
                    <p className="text-[10px] font-black uppercase tracking-widest text-indigo-500 mb-2">Research Methods</p>
                    <p className="text-sm font-bold text-zinc-700">Interviews, surveys, and usability testing.</p>
                 </div>
-                <div className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-sm">
+                <div className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-xs">
                    <p className="text-[10px] font-black uppercase tracking-widest text-emerald-500 mb-2">Personas</p>
                    <p className="text-sm font-bold text-zinc-700">Visualize different user groups.</p>
                 </div>
-                <div className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-sm">
+                <div className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-xs">
                    <p className="text-[10px] font-black uppercase tracking-widest text-amber-500 mb-2">Empathy Maps</p>
                    <p className="text-sm font-bold text-zinc-700">Map what users think, feel, experience, and do.</p>
                 </div>
@@ -140,7 +140,7 @@ export const Day5Content = () => {
               { title: 'User Flows', desc: 'Step-by-step task completion.', icon: Smartphone },
               { title: 'User Segments', desc: 'Categorizing unique group needs.', icon: Users }
             ].map((item, i) => (
-              <div key={i} className="p-4 bg-white border border-zinc-100 rounded-[2rem] shadow-sm hover:shadow-md transition-shadow">
+              <div key={i} className="p-4 bg-white border border-zinc-100 rounded-4xl shadow-xs hover:shadow-md transition-shadow">
                 <div className="w-10 h-10 bg-zinc-50 rounded-xl flex items-center justify-center text-zinc-400 mb-4">
                   <item.icon className="w-5 h-5" />
                 </div>

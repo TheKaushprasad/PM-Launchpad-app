@@ -368,7 +368,7 @@ export const AuthActionPage: React.FC = () => {
                       placeholder="Minimum 8 characters with numbers"
                       required
                       autoComplete="new-password"
-                      className="w-full pl-10 pr-10 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all"
+                      className="w-full pl-10 pr-10 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all"
                     />
                     <button
                       type="button"
@@ -395,7 +395,7 @@ export const AuthActionPage: React.FC = () => {
                       placeholder="Re-type your new password"
                       required
                       autoComplete="new-password"
-                      className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all"
+                      className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all"
                     />
                   </div>
                 </div>
@@ -457,7 +457,7 @@ export const AuthActionPage: React.FC = () => {
               <div className="space-y-3">
                 <button
                   onClick={() => navigate('/', { replace: true })}
-                  className="w-full py-3 px-5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl flex items-center justify-center gap-2 transition-all shadow-sm active:scale-[0.98]"
+                  className="w-full py-3 px-5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl flex items-center justify-center gap-2 transition-all shadow-xs active:scale-[0.98]"
                 >
                   <Home className="w-4 h-4" />
                   <span>Return to TheNoobPM Home</span>

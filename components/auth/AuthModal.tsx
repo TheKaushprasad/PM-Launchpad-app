@@ -371,7 +371,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
-          className="fixed inset-0 bg-zinc-950/60 backdrop-blur-sm transition-opacity"
+          className="fixed inset-0 bg-zinc-950/60 backdrop-blur-xs transition-opacity"
         />
 
         {/* Modal Window: Optimized dimensions (width ~480-510px, max-height 90vh) */}
@@ -457,7 +457,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   <div className="w-16 h-16 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center shadow-md shadow-amber-100/50 border border-amber-200">
                     <Mail className="w-8 h-8 text-amber-600 animate-pulse" />
                   </div>
-                  <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-amber-500 text-white rounded-full flex items-center justify-center ring-2 ring-white shadow-xs">
+                  <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-amber-500 text-white rounded-full flex items-center justify-center ring-2 ring-white shadow-2xs">
                     <Clock className="w-3.5 h-3.5" />
                   </div>
                 </div>
@@ -472,7 +472,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   </h4>
                   <p className="text-xs text-zinc-600 leading-relaxed font-normal">
                     We've dispatched a verification link to{' '}
-                    <span className="font-semibold text-zinc-900 bg-zinc-100 px-1.5 py-0.5 rounded break-all">
+                    <span className="font-semibold text-zinc-900 bg-zinc-100 px-1.5 py-0.5 rounded-sm break-all">
                       {email || 'your email'}
                     </span>.
                     You must verify your email address before accessing your PM workspace and curriculum.
@@ -573,7 +573,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                         id="google-auth-btn"
                         onClick={handleGoogleAuth}
                         disabled={googleLoading || loading}
-                        className="w-full h-11 px-4 rounded-xl border border-zinc-200 hover:border-zinc-300 bg-white hover:bg-zinc-50/80 text-zinc-800 font-bold text-xs sm:text-sm flex items-center justify-center gap-2.5 shadow-xs transition-all active:scale-[0.99] cursor-pointer disabled:opacity-50"
+                        className="w-full h-11 px-4 rounded-xl border border-zinc-200 hover:border-zinc-300 bg-white hover:bg-zinc-50/80 text-zinc-800 font-bold text-xs sm:text-sm flex items-center justify-center gap-2.5 shadow-2xs transition-all active:scale-[0.99] cursor-pointer disabled:opacity-50"
                       >
                         {googleLoading ? (
                           <Loader2 className="w-4 h-4 animate-spin text-brand-600" />
@@ -612,7 +612,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             placeholder="e.g. Kaushal Prasad"
-                            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-zinc-200 focus:border-brand-600 focus:ring-2 focus:ring-brand-100 text-xs sm:text-sm outline-none transition-all"
+                            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-zinc-200 focus:border-brand-600 focus:ring-2 focus:ring-brand-100 text-xs sm:text-sm outline-hidden transition-all"
                           />
                         </div>
                       </div>
@@ -639,7 +639,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                             onBlur={() => setEmailTouched(true)}
                             onChange={(e) => handleEmailChange(e.target.value)}
                             placeholder="name@example.com"
-                            className={`w-full pl-10 pr-4 py-2.5 rounded-xl border text-xs sm:text-sm outline-none transition-all ${
+                            className={`w-full pl-10 pr-4 py-2.5 rounded-xl border text-xs sm:text-sm outline-hidden transition-all ${
                               showEmailInvalid
                                 ? 'border-rose-400 focus:border-rose-500 ring-2 ring-rose-100 bg-rose-50/20 text-rose-900'
                                 : 'border-zinc-200 focus:border-brand-600 focus:ring-2 focus:ring-brand-100 text-zinc-900'
@@ -661,7 +661,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="Create a strong password"
-                            className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-zinc-200 focus:border-brand-600 focus:ring-2 focus:ring-brand-100 text-xs sm:text-sm outline-none transition-all"
+                            className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-zinc-200 focus:border-brand-600 focus:ring-2 focus:ring-brand-100 text-xs sm:text-sm outline-hidden transition-all"
                           />
                           <button
                             type="button"
@@ -725,7 +725,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                           onClick={() => setUserType('college_student')}
                           className={`p-3 rounded-xl border text-left flex items-center gap-2.5 transition-all cursor-pointer ${
                             userType === 'student' || userType === 'college_student'
-                              ? 'border-brand-600 bg-brand-50/60 text-brand-950 ring-1 ring-brand-500/20 font-bold shadow-xs'
+                              ? 'border-brand-600 bg-brand-50/60 text-brand-950 ring-1 ring-brand-500/20 font-bold shadow-2xs'
                               : 'border-zinc-200 bg-white hover:border-zinc-300 text-zinc-700 font-medium'
                           }`}
                         >
@@ -740,7 +740,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                           onClick={() => setUserType('working_professional')}
                           className={`p-3 rounded-xl border text-left flex items-center gap-2.5 transition-all cursor-pointer ${
                             userType === 'professional' || userType === 'working_professional'
-                              ? 'border-brand-600 bg-brand-50/60 text-brand-950 ring-1 ring-brand-500/20 font-bold shadow-xs'
+                              ? 'border-brand-600 bg-brand-50/60 text-brand-950 ring-1 ring-brand-500/20 font-bold shadow-2xs'
                               : 'border-zinc-200 bg-white hover:border-zinc-300 text-zinc-700 font-medium'
                           }`}
                         >
@@ -769,7 +769,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                                 value={collegeName}
                                 onChange={(e) => setCollegeName(e.target.value)}
                                 placeholder="e.g. IIT Delhi, BITS Pilani, Stanford"
-                                className="w-full pl-10 pr-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs sm:text-sm outline-none focus:border-brand-600 focus:ring-1 focus:ring-brand-100"
+                                className="w-full pl-10 pr-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs sm:text-sm outline-hidden focus:border-brand-600 focus:ring-1 focus:ring-brand-100"
                               />
                             </div>
                           </div>
@@ -786,7 +786,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                                 value={degree}
                                 onChange={(e) => setDegree(e.target.value)}
                                 placeholder="e.g. B.Tech / MBA"
-                                className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs sm:text-sm outline-none focus:border-brand-600 focus:ring-1 focus:ring-brand-100"
+                                className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs sm:text-sm outline-hidden focus:border-brand-600 focus:ring-1 focus:ring-brand-100"
                               />
                             </div>
 
@@ -797,7 +797,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                               <select
                                 value={passingOutYear}
                                 onChange={(e) => setPassingOutYear(e.target.value)}
-                                className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs sm:text-sm outline-none focus:border-brand-600 font-medium"
+                                className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs sm:text-sm outline-hidden focus:border-brand-600 font-medium"
                               >
                                 <option value="2024">2024 (Recent)</option>
                                 <option value="2025">2025</option>
@@ -819,7 +819,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                               <select
                                 value={yearsOfExperience}
                                 onChange={(e) => setYearsOfExperience(e.target.value)}
-                                className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs sm:text-sm outline-none focus:border-brand-600 font-medium"
+                                className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs sm:text-sm outline-hidden focus:border-brand-600 font-medium"
                               >
                                 <option value="0-1 years">0-1 years</option>
                                 <option value="1-3 years">1-3 years</option>
@@ -838,7 +838,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                                 value={designation}
                                 onChange={(e) => setDesignation(e.target.value)}
                                 placeholder="e.g. Software Engineer"
-                                className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs sm:text-sm outline-none focus:border-brand-600 focus:ring-1 focus:ring-brand-100"
+                                className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs sm:text-sm outline-hidden focus:border-brand-600 focus:ring-1 focus:ring-brand-100"
                               />
                             </div>
                           </div>
@@ -858,7 +858,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                                 value={companyName}
                                 onChange={(e) => setCompanyName(e.target.value)}
                                 placeholder="e.g. Microsoft, Flipkart, Startup"
-                                className="w-full pl-10 pr-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs sm:text-sm outline-none focus:border-brand-600 focus:ring-1 focus:ring-brand-100"
+                                className="w-full pl-10 pr-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs sm:text-sm outline-hidden focus:border-brand-600 focus:ring-1 focus:ring-brand-100"
                               />
                             </div>
                           </div>
@@ -874,7 +874,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                           <select
                             value={targetRole}
                             onChange={(e) => setTargetRole(e.target.value)}
-                            className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs sm:text-sm outline-none focus:border-brand-600 font-medium"
+                            className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs sm:text-sm outline-hidden focus:border-brand-600 font-medium"
                           >
                             {TARGET_ROLES.map((r) => (
                               <option key={r} value={r}>{r}</option>
@@ -886,7 +886,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                               placeholder="Specify target role"
                               value={customRole}
                               onChange={(e) => setCustomRole(e.target.value)}
-                              className="mt-1.5 w-full px-3 py-1.5 rounded-lg border border-zinc-200 text-xs outline-none focus:border-brand-600"
+                              className="mt-1.5 w-full px-3 py-1.5 rounded-lg border border-zinc-200 text-xs outline-hidden focus:border-brand-600"
                             />
                           )}
                         </div>
@@ -901,7 +901,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                           <select
                             value={industry}
                             onChange={(e) => setIndustry(e.target.value)}
-                            className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs sm:text-sm outline-none focus:border-brand-600 font-medium"
+                            className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs sm:text-sm outline-hidden focus:border-brand-600 font-medium"
                           >
                             {INDUSTRIES.map((ind) => (
                               <option key={ind} value={ind}>{ind}</option>
@@ -913,7 +913,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                               placeholder="Specify industry"
                               value={customIndustry}
                               onChange={(e) => setCustomIndustry(e.target.value)}
-                              className="mt-1.5 w-full px-3 py-1.5 rounded-lg border border-zinc-200 text-xs outline-none focus:border-brand-600"
+                              className="mt-1.5 w-full px-3 py-1.5 rounded-lg border border-zinc-200 text-xs outline-hidden focus:border-brand-600"
                             />
                           )}
                         </div>
@@ -963,7 +963,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                         id="google-login-btn"
                         onClick={handleGoogleAuth}
                         disabled={googleLoading || loading}
-                        className="w-full h-11 px-4 rounded-xl border border-zinc-200 hover:border-zinc-300 bg-white hover:bg-zinc-50/80 text-zinc-800 font-bold text-xs sm:text-sm flex items-center justify-center gap-2.5 shadow-xs transition-all active:scale-[0.99] cursor-pointer disabled:opacity-50"
+                        className="w-full h-11 px-4 rounded-xl border border-zinc-200 hover:border-zinc-300 bg-white hover:bg-zinc-50/80 text-zinc-800 font-bold text-xs sm:text-sm flex items-center justify-center gap-2.5 shadow-2xs transition-all active:scale-[0.99] cursor-pointer disabled:opacity-50"
                       >
                         {googleLoading ? (
                           <Loader2 className="w-4 h-4 animate-spin text-brand-600" />
@@ -1009,7 +1009,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                             onBlur={() => setEmailTouched(true)}
                             onChange={(e) => handleEmailChange(e.target.value)}
                             placeholder="name@example.com"
-                            className={`w-full pl-10 pr-4 py-2.5 rounded-xl border text-xs sm:text-sm outline-none transition-all ${
+                            className={`w-full pl-10 pr-4 py-2.5 rounded-xl border text-xs sm:text-sm outline-hidden transition-all ${
                               showEmailInvalid
                                 ? 'border-rose-400 focus:border-rose-500 ring-2 ring-rose-100 bg-rose-50/20 text-rose-900'
                                 : 'border-zinc-200 focus:border-brand-600 focus:ring-2 focus:ring-brand-100 text-zinc-900'
@@ -1039,7 +1039,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="Enter your password"
-                            className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-zinc-200 focus:border-brand-600 focus:ring-2 focus:ring-brand-100 text-xs sm:text-sm outline-none transition-all"
+                            className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-zinc-200 focus:border-brand-600 focus:ring-2 focus:ring-brand-100 text-xs sm:text-sm outline-hidden transition-all"
                           />
                           <button
                             type="button"
@@ -1089,7 +1089,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                             onBlur={() => setEmailTouched(true)}
                             onChange={(e) => handleEmailChange(e.target.value)}
                             placeholder="name@example.com"
-                            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-zinc-200 focus:border-brand-600 focus:ring-2 focus:ring-brand-100 text-xs sm:text-sm outline-none transition-all"
+                            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-zinc-200 focus:border-brand-600 focus:ring-2 focus:ring-brand-100 text-xs sm:text-sm outline-hidden transition-all"
                           />
                         </div>
                       </div>

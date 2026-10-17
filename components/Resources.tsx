@@ -1126,7 +1126,7 @@ const CompanyLogo: React.FC<{ company: string }> = ({ company }) => {
       );
     case 'Uber':
       return (
-        <div className="w-8 h-8 rounded-xl bg-black flex items-center justify-center text-white font-extrabold text-sm tracking-tight shadow-xs">
+        <div className="w-8 h-8 rounded-xl bg-black flex items-center justify-center text-white font-extrabold text-sm tracking-tight shadow-2xs">
           Uber
         </div>
       );
@@ -1158,7 +1158,7 @@ const CompanyLogo: React.FC<{ company: string }> = ({ company }) => {
       );
     case 'Salesforce':
       return (
-        <div className="w-8 h-8 rounded-lg bg-[#00A1E0] flex items-center justify-center text-white shadow-xs">
+        <div className="w-8 h-8 rounded-lg bg-[#00A1E0] flex items-center justify-center text-white shadow-2xs">
           <Cloud className="w-5 h-5 fill-white text-white" />
         </div>
       );
@@ -1171,7 +1171,7 @@ const CompanyLogo: React.FC<{ company: string }> = ({ company }) => {
       );
     case 'Lyft':
       return (
-        <div className="w-8 h-8 rounded-xl bg-[#FF00BF] flex items-center justify-center text-white font-black text-xs tracking-tight shadow-xs">
+        <div className="w-8 h-8 rounded-xl bg-[#FF00BF] flex items-center justify-center text-white font-black text-xs tracking-tight shadow-2xs">
           lyft
         </div>
       );
@@ -1315,7 +1315,7 @@ const CompanyLogo: React.FC<{ company: string }> = ({ company }) => {
       );
     default:
       return (
-        <div className="w-8 h-8 rounded-xl bg-slate-900 flex items-center justify-center text-white font-extrabold text-sm shadow-xs">
+        <div className="w-8 h-8 rounded-xl bg-slate-900 flex items-center justify-center text-white font-extrabold text-sm shadow-2xs">
           {company.charAt(0)}
         </div>
       );
@@ -1507,7 +1507,7 @@ export const Resources: React.FC = () => {
       className={`pb-16 transition-all duration-300 mx-auto ${isCollapsed ? 'max-w-[1360px] px-4 sm:px-6 lg:px-8' : 'max-w-[1180px] px-4 sm:px-6 lg:px-8'}`}
     >
       {/* Hero Section: Matched to Reference resources.png */}
-      <header className="relative bg-gradient-to-r from-[#070D2A] via-[#0E1B4F] to-[#1E3A8A] rounded-3xl p-6 sm:p-8 md:p-10 text-white overflow-hidden shadow-xl border border-brand-950/40 mb-8">
+      <header className="relative bg-linear-to-r from-[#070D2A] via-[#0E1B4F] to-[#1E3A8A] rounded-3xl p-6 sm:p-8 md:p-10 text-white overflow-hidden shadow-xl border border-brand-950/40 mb-8">
         <div className="absolute top-0 right-1/4 w-96 h-96 bg-brand-500/10 rounded-full blur-3xl pointer-events-none -translate-y-1/2" />
         <div className="relative z-10 max-w-2xl">
           {activeView !== 'main' && (
@@ -1848,7 +1848,7 @@ export const Resources: React.FC = () => {
                 <div className="relative z-10 flex flex-col h-full">
                   {/* Icon Container: Soft lavender with Award icon */}
                   <div className="w-14 h-14 rounded-2xl bg-[#EEF2FF] flex items-center justify-center text-[#4F46E5] mb-5 group-hover:scale-105 transition-transform duration-200">
-                    <Award className="w-7 h-7 stroke-[2]" />
+                    <Award className="w-7 h-7 stroke-2" />
                   </div>
 
                   {/* Eyebrow badge */}
@@ -1889,7 +1889,7 @@ export const Resources: React.FC = () => {
                 <div className="relative z-10 flex flex-col h-full">
                   {/* Icon Container: Soft amber with Briefcase */}
                   <div className="w-14 h-14 rounded-2xl bg-[#FEF3C7] flex items-center justify-center text-[#F59E0B] mb-5 group-hover:scale-105 transition-transform duration-200">
-                    <Briefcase className="w-7 h-7 stroke-[2]" />
+                    <Briefcase className="w-7 h-7 stroke-2" />
                   </div>
 
                   {/* Eyebrow badge */}
@@ -1930,7 +1930,7 @@ export const Resources: React.FC = () => {
                 <div className="relative z-10 flex flex-col h-full">
                   {/* Icon Container: Soft emerald with BookOpen */}
                   <div className="w-14 h-14 rounded-2xl bg-[#ECFDF5] flex items-center justify-center text-[#10B981] mb-5 group-hover:scale-105 transition-transform duration-200">
-                    <BookOpen className="w-7 h-7 stroke-[2]" />
+                    <BookOpen className="w-7 h-7 stroke-2" />
                   </div>
 
                   {/* Eyebrow badge */}
@@ -1971,7 +1971,7 @@ export const Resources: React.FC = () => {
                 <div className="relative z-10 flex flex-col h-full">
                   {/* Icon Container: Soft rose with FileText */}
                   <div className="w-14 h-14 rounded-2xl bg-[#FFE4E6] flex items-center justify-center text-[#F43F5E] mb-5 group-hover:scale-105 transition-transform duration-200">
-                    <FileText className="w-7 h-7 stroke-[2]" />
+                    <FileText className="w-7 h-7 stroke-2" />
                   </div>
 
                   {/* Eyebrow badge */}
@@ -2026,7 +2026,7 @@ export const Resources: React.FC = () => {
                 placeholder="Search by company name..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-11 sm:pl-12 pr-10 sm:pr-12 py-3.5 sm:py-4 bg-white border border-slate-200/90 rounded-2xl text-xs sm:text-sm font-medium placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition-all shadow-xs"
+                className="w-full pl-11 sm:pl-12 pr-10 sm:pr-12 py-3.5 sm:py-4 bg-white border border-slate-200/90 rounded-2xl text-xs sm:text-sm font-medium placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition-all shadow-2xs"
               />
               {searchQuery ? (
                 <button 
@@ -2053,7 +2053,7 @@ export const Resources: React.FC = () => {
                     onClick={() => setSelectedQuestionCategory(filter.id)}
                     className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all shrink-0 cursor-pointer border ${
                       isSelected 
-                        ? 'bg-[#0F172A] text-white border-[#0F172A] shadow-xs' 
+                        ? 'bg-[#0F172A] text-white border-[#0F172A] shadow-2xs' 
                         : 'bg-white text-slate-700 border-slate-200/90 hover:bg-slate-50'
                     }`}
                   >
@@ -2084,7 +2084,7 @@ export const Resources: React.FC = () => {
                 return (
                   <div 
                     key={data.company || idx} 
-                    className="bg-white rounded-3xl border border-slate-200/90 hover:border-slate-300 transition-all duration-200 overflow-hidden shadow-xs hover:shadow-md"
+                    className="bg-white rounded-3xl border border-slate-200/90 hover:border-slate-300 transition-all duration-200 overflow-hidden shadow-2xs hover:shadow-md"
                   >
                     {/* Category Header Row - Clicking toggles dropdown */}
                     <button 
@@ -2094,7 +2094,7 @@ export const Resources: React.FC = () => {
                     >
                       {/* Left: Company Logo + Company Name + Subtitle */}
                       <div className="flex items-center gap-4 sm:gap-5 min-w-0 pr-4">
-                        <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0 shadow-xs group-hover:scale-105 transition-transform duration-200 p-2">
+                        <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform duration-200 p-2">
                           <CompanyLogo company={data.company} />
                         </div>
                         
@@ -2159,7 +2159,7 @@ export const Resources: React.FC = () => {
                                 return (
                                   <div 
                                     key={qIdx} 
-                                    className="group/q bg-white rounded-2xl border border-slate-200/80 hover:border-slate-300 p-4 sm:p-5 flex items-start justify-between gap-4 transition-all duration-200 hover:shadow-xs"
+                                    className="group/q bg-white rounded-2xl border border-slate-200/80 hover:border-slate-300 p-4 sm:p-5 flex items-start justify-between gap-4 transition-all duration-200 hover:shadow-2xs"
                                   >
                                     <div className="flex items-start gap-3.5 min-w-0 pr-2">
                                       <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-slate-100/90 text-slate-500 font-bold text-xs shrink-0 font-mono mt-0.5">
@@ -2237,7 +2237,7 @@ export const Resources: React.FC = () => {
               return (
                 <div 
                   key={section.id || sectionIdx} 
-                  className="bg-white rounded-3xl border border-slate-200/90 hover:border-slate-300 transition-all duration-200 overflow-hidden shadow-xs hover:shadow-md"
+                  className="bg-white rounded-3xl border border-slate-200/90 hover:border-slate-300 transition-all duration-200 overflow-hidden shadow-2xs hover:shadow-md"
                 >
                   {/* Category Header Row - Clicking toggles dropdown */}
                   <button 
@@ -2247,8 +2247,8 @@ export const Resources: React.FC = () => {
                   >
                     <div className="flex items-center gap-4 sm:gap-5 min-w-0 pr-4">
                       {/* Icon Container: Soft colored background matching category */}
-                      <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl ${section.iconBg} flex items-center justify-center shrink-0 shadow-xs group-hover:scale-105 transition-transform duration-200`}>
-                        <SectionIcon className="w-6 h-6 sm:w-7 sm:h-7 stroke-[2]" />
+                      <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl ${section.iconBg} flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform duration-200`}>
+                        <SectionIcon className="w-6 h-6 sm:w-7 sm:h-7 stroke-2" />
                       </div>
                       
                       <div className="min-w-0">
@@ -2308,7 +2308,7 @@ export const Resources: React.FC = () => {
                                     href={cert.url} 
                                     target="_blank" 
                                     rel="noopener noreferrer" 
-                                    className="mt-auto inline-flex items-center justify-between w-full px-4 py-3 bg-slate-900 hover:bg-brand-600 text-white rounded-xl font-bold text-xs uppercase tracking-wider transition-colors shadow-xs"
+                                    className="mt-auto inline-flex items-center justify-between w-full px-4 py-3 bg-slate-900 hover:bg-brand-600 text-white rounded-xl font-bold text-xs uppercase tracking-wider transition-colors shadow-2xs"
                                   >
                                     <span>View Certification</span>
                                     <ExternalLink className="w-3.5 h-3.5" />
@@ -2346,7 +2346,7 @@ export const Resources: React.FC = () => {
                 placeholder="Search assignments by company or title..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-11 sm:pl-12 pr-10 sm:pr-12 py-3.5 sm:py-4 bg-white border border-slate-200/90 rounded-2xl text-xs sm:text-sm font-medium placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition-all shadow-xs"
+                className="w-full pl-11 sm:pl-12 pr-10 sm:pr-12 py-3.5 sm:py-4 bg-white border border-slate-200/90 rounded-2xl text-xs sm:text-sm font-medium placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition-all shadow-2xs"
               />
               {searchQuery && (
                 <button 
@@ -2385,7 +2385,7 @@ export const Resources: React.FC = () => {
                 return (
                   <div 
                     key={section.id || sIdx} 
-                    className="bg-white rounded-3xl border border-slate-200/90 hover:border-slate-300 transition-all duration-200 overflow-hidden shadow-xs hover:shadow-md"
+                    className="bg-white rounded-3xl border border-slate-200/90 hover:border-slate-300 transition-all duration-200 overflow-hidden shadow-2xs hover:shadow-md"
                   >
                     {/* Header Row */}
                     <button 
@@ -2394,8 +2394,8 @@ export const Resources: React.FC = () => {
                       className="w-full text-left p-5 sm:p-6 md:p-7 flex items-center justify-between group cursor-pointer transition-colors hover:bg-slate-50/50"
                     >
                       <div className="flex items-center gap-4 sm:gap-5 min-w-0 pr-4">
-                        <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl ${section.iconBg} flex items-center justify-center shrink-0 shadow-xs group-hover:scale-105 transition-transform duration-200`}>
-                          <SectionIcon className="w-6 h-6 sm:w-7 sm:h-7 stroke-[2]" />
+                        <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl ${section.iconBg} flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform duration-200`}>
+                          <SectionIcon className="w-6 h-6 sm:w-7 sm:h-7 stroke-2" />
                         </div>
                         
                         <div className="min-w-0">
@@ -2433,7 +2433,7 @@ export const Resources: React.FC = () => {
                               {filteredItems.map((item, idx) => (
                                 <div 
                                   key={idx} 
-                                  className="group/card bg-white rounded-2xl border border-slate-200/80 hover:border-brand-300 p-5 flex flex-col justify-between transition-all duration-200 hover:shadow-sm"
+                                  className="group/card bg-white rounded-2xl border border-slate-200/80 hover:border-brand-300 p-5 flex flex-col justify-between transition-all duration-200 hover:shadow-xs"
                                 >
                                   <div>
                                     <div className="flex items-center gap-3 mb-3">
@@ -2456,7 +2456,7 @@ export const Resources: React.FC = () => {
 
                                   <Link
                                     to={assignmentPath(item)}
-                                    className="mt-4 flex items-center justify-between w-full px-3.5 py-2.5 bg-slate-900 hover:bg-brand-600 text-white rounded-xl font-bold text-xs uppercase tracking-wider transition-colors shadow-xs"
+                                    className="mt-4 flex items-center justify-between w-full px-3.5 py-2.5 bg-slate-900 hover:bg-brand-600 text-white rounded-xl font-bold text-xs uppercase tracking-wider transition-colors shadow-2xs"
                                   >
                                     <span>Read Assignment</span>
                                     <ArrowRight className="w-3.5 h-3.5" />
@@ -2494,7 +2494,7 @@ export const Resources: React.FC = () => {
                 placeholder="Search casebooks and problem sets..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-11 sm:pl-12 pr-10 sm:pr-12 py-3.5 sm:py-4 bg-white border border-slate-200/90 rounded-2xl text-xs sm:text-sm font-medium placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition-all shadow-xs"
+                className="w-full pl-11 sm:pl-12 pr-10 sm:pr-12 py-3.5 sm:py-4 bg-white border border-slate-200/90 rounded-2xl text-xs sm:text-sm font-medium placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition-all shadow-2xs"
               />
               {searchQuery && (
                 <button 
@@ -2532,7 +2532,7 @@ export const Resources: React.FC = () => {
                 return (
                   <div 
                     key={section.id || sIdx} 
-                    className="bg-white rounded-3xl border border-slate-200/90 hover:border-slate-300 transition-all duration-200 overflow-hidden shadow-xs hover:shadow-md"
+                    className="bg-white rounded-3xl border border-slate-200/90 hover:border-slate-300 transition-all duration-200 overflow-hidden shadow-2xs hover:shadow-md"
                   >
                     {/* Header Row */}
                     <button 
@@ -2541,8 +2541,8 @@ export const Resources: React.FC = () => {
                       className="w-full text-left p-5 sm:p-6 md:p-7 flex items-center justify-between group cursor-pointer transition-colors hover:bg-slate-50/50"
                     >
                       <div className="flex items-center gap-4 sm:gap-5 min-w-0 pr-4">
-                        <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl ${section.iconBg} flex items-center justify-center shrink-0 shadow-xs group-hover:scale-105 transition-transform duration-200`}>
-                          <SectionIcon className="w-6 h-6 sm:w-7 sm:h-7 stroke-[2]" />
+                        <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl ${section.iconBg} flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform duration-200`}>
+                          <SectionIcon className="w-6 h-6 sm:w-7 sm:h-7 stroke-2" />
                         </div>
                         
                         <div className="min-w-0">
@@ -2582,7 +2582,7 @@ export const Resources: React.FC = () => {
                                 return (
                                   <div 
                                     key={idx} 
-                                    className="group/card bg-white rounded-2xl border border-slate-200/80 hover:border-brand-300 p-5 flex flex-col justify-between transition-all duration-200 hover:shadow-sm"
+                                    className="group/card bg-white rounded-2xl border border-slate-200/80 hover:border-brand-300 p-5 flex flex-col justify-between transition-all duration-200 hover:shadow-xs"
                                   >
                                     <div>
                                       <div className="flex items-center justify-between gap-3 mb-3">
@@ -2602,7 +2602,7 @@ export const Resources: React.FC = () => {
                                       href={item.url} 
                                       target="_blank" 
                                       rel="noopener noreferrer" 
-                                      className="mt-auto flex items-center justify-between w-full px-3.5 py-2.5 bg-slate-900 hover:bg-brand-600 text-white rounded-xl font-bold text-xs uppercase tracking-wider transition-colors shadow-xs"
+                                      className="mt-auto flex items-center justify-between w-full px-3.5 py-2.5 bg-slate-900 hover:bg-brand-600 text-white rounded-xl font-bold text-xs uppercase tracking-wider transition-colors shadow-2xs"
                                     >
                                       <span>View Casebook</span>
                                       <ExternalLink className="w-3.5 h-3.5" />
@@ -2624,7 +2624,7 @@ export const Resources: React.FC = () => {
       </AnimatePresence>
 
       {/* Bottom Showcase & Journey CTA Banner: Matched to Reference resources.png */}
-      <div className="mt-10 sm:mt-12 bg-gradient-to-r from-[#EFF6FF] via-[#F0F9FF] to-[#E0F2FE] border border-brand-100 rounded-3xl p-6 sm:p-8 md:p-10 relative overflow-hidden shadow-xs flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+      <div className="mt-10 sm:mt-12 bg-linear-to-r from-[#EFF6FF] via-[#F0F9FF] to-[#E0F2FE] border border-brand-100 rounded-3xl p-6 sm:p-8 md:p-10 relative overflow-hidden shadow-2xs flex flex-col md:flex-row md:items-center md:justify-between gap-6">
         <div className="relative z-10 max-w-xl">
           <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0F172A] tracking-tight mb-2">
             Ready to showcase your <span className="text-[#2563EB]">skills?</span>
@@ -2634,7 +2634,7 @@ export const Resources: React.FC = () => {
           </p>
           <button
             onClick={() => navigate('/dashboard')}
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#0F172A] hover:bg-slate-800 text-white font-bold text-xs uppercase tracking-wider transition-all duration-200 shadow-sm cursor-pointer group"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#0F172A] hover:bg-slate-800 text-white font-bold text-xs uppercase tracking-wider transition-all duration-200 shadow-xs cursor-pointer group"
           >
             <span>START LEARNING</span>
             <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" />

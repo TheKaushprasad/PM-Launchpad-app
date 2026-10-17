@@ -179,7 +179,7 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
       <div className="flex flex-wrap items-center justify-between gap-4">
         <button
           onClick={onNewInterview}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-zinc-200 text-zinc-700 font-bold text-xs uppercase tracking-wider hover:bg-zinc-50 shadow-sm transition-all"
+          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-zinc-200 text-zinc-700 font-bold text-xs uppercase tracking-wider hover:bg-zinc-50 shadow-xs transition-all"
         >
           <ArrowLeft className="w-4 h-4" /> Scenario Hub
         </button>
@@ -187,7 +187,7 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
         <div className="flex items-center gap-3">
           <button
             onClick={handleCopySummary}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white border border-zinc-200 text-zinc-700 font-bold text-xs uppercase tracking-wider hover:bg-zinc-50 shadow-sm transition-all"
+            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white border border-zinc-200 text-zinc-700 font-bold text-xs uppercase tracking-wider hover:bg-zinc-50 shadow-xs transition-all"
           >
             {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
             {copied ? "Copied Scorecard!" : "Share Summary"}
@@ -212,8 +212,8 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
 
       {/* Non-blocking persistence warning if save failed */}
       {evaluation.saved === false && (
-        <div className="bg-amber-50 border border-amber-200/90 text-amber-900 px-4 py-3 rounded-2xl flex items-center gap-3 text-sm font-semibold shadow-sm">
-          <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0" />
+        <div className="bg-amber-50 border border-amber-200/90 text-amber-900 px-4 py-3 rounded-2xl flex items-center gap-3 text-sm font-semibold shadow-xs">
+          <AlertCircle className="w-5 h-5 text-amber-600 shrink-0" />
           <span>We couldn't save this session to your history. Your results are shown below.</span>
         </div>
       )}
@@ -293,7 +293,7 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
             return (
               <div 
                 key={key}
-                className="bg-white rounded-3xl border border-zinc-200/80 shadow-sm overflow-hidden transition-all duration-300"
+                className="bg-white rounded-3xl border border-zinc-200/80 shadow-xs overflow-hidden transition-all duration-300"
               >
                 <div 
                   onClick={() => setExpandedPillar(isExpanded ? null : key)}
@@ -373,7 +373,7 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
                                 <span className="text-brand-600 font-bold shrink-0">›</span>
                                 <div>
                                   {turnIndex !== null && turnIndex > 0 && (
-                                    <span className="inline-block px-1.5 py-0.5 rounded bg-brand-50 text-brand-700 font-bold text-[9px] mr-1.5 border border-brand-100 uppercase tracking-wider">
+                                    <span className="inline-block px-1.5 py-0.5 rounded-sm bg-brand-50 text-brand-700 font-bold text-[9px] mr-1.5 border border-brand-100 uppercase tracking-wider">
                                       Turn {turnIndex}
                                     </span>
                                   )}
@@ -394,7 +394,7 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
                         </span>
                         <ul className="space-y-2">
                           {data.strengths.map((s, idx) => (
-                            <li key={idx} className="text-xs font-semibold text-zinc-700 flex items-start gap-2 bg-white p-3 rounded-xl border border-emerald-100 shadow-sm">
+                            <li key={idx} className="text-xs font-semibold text-zinc-700 flex items-start gap-2 bg-white p-3 rounded-xl border border-emerald-100 shadow-xs">
                               <span className="text-emerald-500 font-bold">•</span>
                               <span>{s}</span>
                             </li>
@@ -409,7 +409,7 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
                         </span>
                         <ul className="space-y-2">
                           {data.improvements.map((imp, idx) => (
-                            <li key={idx} className="text-xs font-semibold text-zinc-700 flex items-start gap-2 bg-white p-3 rounded-xl border border-amber-100 shadow-sm">
+                            <li key={idx} className="text-xs font-semibold text-zinc-700 flex items-start gap-2 bg-white p-3 rounded-xl border border-amber-100 shadow-xs">
                               <span className="text-amber-500 font-bold">•</span>
                               <span>{imp}</span>
                             </li>
@@ -427,14 +427,14 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
 
       {/* Top Strengths & Critical Growth Areas Summary */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-emerald-50/40 rounded-3xl p-8 border border-emerald-100 shadow-sm space-y-4">
+        <div className="bg-emerald-50/40 rounded-3xl p-8 border border-emerald-100 shadow-xs space-y-4">
           <div className="flex items-center gap-2 text-emerald-800">
             <CheckCircle2 className="w-6 h-6 text-emerald-600" />
             <h3 className="font-extrabold text-xl tracking-tight">Key strengths demonstrated</h3>
           </div>
           <ul className="space-y-3">
             {evaluation.topStrengths.map((str, i) => (
-              <li key={i} className="flex items-start gap-3 bg-white p-4 rounded-2xl border border-emerald-200/60 shadow-sm text-xs font-bold text-zinc-800 leading-relaxed">
+              <li key={i} className="flex items-start gap-3 bg-white p-4 rounded-2xl border border-emerald-200/60 shadow-xs text-xs font-bold text-zinc-800 leading-relaxed">
                 <span className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-black shrink-0 text-[10px]">
                   {i+1}
                 </span>
@@ -444,14 +444,14 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
           </ul>
         </div>
 
-        <div className="bg-amber-50/40 rounded-3xl p-8 border border-amber-100 shadow-sm space-y-4">
+        <div className="bg-amber-50/40 rounded-3xl p-8 border border-amber-100 shadow-xs space-y-4">
           <div className="flex items-center gap-2 text-amber-800">
             <AlertCircle className="w-6 h-6 text-amber-600" />
             <h3 className="font-extrabold text-xl tracking-tight">Highest-priority growth areas</h3>
           </div>
           <ul className="space-y-3">
             {evaluation.criticalGrowthAreas.map((area, i) => (
-              <li key={i} className="flex items-start gap-3 bg-white p-4 rounded-2xl border border-amber-200/60 shadow-sm text-xs font-bold text-zinc-800 leading-relaxed">
+              <li key={i} className="flex items-start gap-3 bg-white p-4 rounded-2xl border border-amber-200/60 shadow-xs text-xs font-bold text-zinc-800 leading-relaxed">
                 <span className="w-5 h-5 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center font-black shrink-0 text-[10px]">
                   {i+1}
                 </span>
@@ -464,7 +464,7 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
 
       {/* Exemplar Benchmark Answer & Recommended Structural Breakdown */}
       {evaluation.exemplarAnswer && (
-        <div className="bg-white rounded-3xl p-8 md:p-10 border border-zinc-200 shadow-sm space-y-6">
+        <div className="bg-white rounded-3xl p-8 md:p-10 border border-zinc-200 shadow-xs space-y-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center">
@@ -510,7 +510,7 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
               </div>
 
               {evaluation.exemplarAnswer.highestLeverageImprovement && (
-                <div className="p-6 rounded-3xl bg-gradient-to-br from-brand-50/80 via-brand-50/40 to-pink-50/30 border border-brand-200/80 shadow-sm space-y-4">
+                <div className="p-6 rounded-3xl bg-linear-to-br from-brand-50/80 via-brand-50/40 to-pink-50/30 border border-brand-200/80 shadow-xs space-y-4">
                   <div className="flex items-center gap-2 text-brand-900">
                     <Sparkles className="w-5 h-5 text-brand-600" />
                     <h4 className="font-extrabold text-sm tracking-tight uppercase tracking-wider">

@@ -157,7 +157,7 @@ export const InterviewHub: React.FC = () => {
     switch (company) {
       case 'Meta':
         return (
-          <div className="w-9 h-9 rounded-xl bg-[#0081FB] flex items-center justify-center shadow-xs shrink-0">
+          <div className="w-9 h-9 rounded-xl bg-[#0081FB] flex items-center justify-center shadow-2xs shrink-0">
             <svg viewBox="0 0 24 24" className="w-5 h-5 fill-white">
               <path d="M12 9.5c-1.1-1.3-2.6-2-4.3-2-3.3 0-5.7 2.5-5.7 5.8 0 3.3 2.5 5.8 5.7 5.8 2.2 0 3.8-1.2 4.3-2.1.5.9 2.1 2.1 4.3 2.1 3.2 0 5.7-2.5 5.7-5.8 0-3.3-2.4-5.8-5.7-5.8-1.7 0-3.2.7-4.3 2zm-4.3 7.3c-2 0-3.4-1.5-3.4-3.5 0-2 1.4-3.5 3.4-3.5 1.5 0 2.7.9 3.2 2.3-.3.8-.7 1.8-1.2 2.6-.6 1.3-1.3 2.1-2 2.1zm8.6 0c-.7 0-1.4-.8-2-2.1-.5-.8-.9-1.8-1.2-2.6.5-1.4 1.7-2.3 3.2-2.3 2 0 3.4 1.5 3.4 3.5 0 2-1.4 3.5-3.4 3.5z"/>
             </svg>
@@ -165,13 +165,13 @@ export const InterviewHub: React.FC = () => {
         );
       case 'Notion':
         return (
-          <div className="w-9 h-9 rounded-xl bg-white border border-slate-200/90 shadow-xs flex items-center justify-center shrink-0">
+          <div className="w-9 h-9 rounded-xl bg-white border border-slate-200/90 shadow-2xs flex items-center justify-center shrink-0">
             <span className="font-serif font-black text-xl text-slate-900 leading-none">N</span>
           </div>
         );
       case 'Canva':
         return (
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#00C4CC] to-[#7D2AE8] flex items-center justify-center shadow-xs shrink-0">
+          <div className="w-9 h-9 rounded-xl bg-linear-to-tr from-[#00C4CC] to-[#7D2AE8] flex items-center justify-center shadow-2xs shrink-0">
             <span className="text-white font-extrabold text-xs tracking-tight italic" style={{ fontFamily: 'Georgia, serif' }}>
               Canva
             </span>
@@ -179,7 +179,7 @@ export const InterviewHub: React.FC = () => {
         );
       case 'Google':
         return (
-          <div className="w-9 h-9 rounded-xl bg-white border border-slate-200 shadow-xs flex items-center justify-center shrink-0">
+          <div className="w-9 h-9 rounded-xl bg-white border border-slate-200 shadow-2xs flex items-center justify-center shrink-0">
             <svg viewBox="0 0 24 24" className="w-5 h-5">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
               <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -190,7 +190,7 @@ export const InterviewHub: React.FC = () => {
         );
       case 'Amazon':
         return (
-          <div className="w-9 h-9 rounded-xl bg-slate-900 flex items-center justify-center shadow-xs shrink-0">
+          <div className="w-9 h-9 rounded-xl bg-slate-900 flex items-center justify-center shadow-2xs shrink-0">
             <svg viewBox="0 0 24 24" className="w-5 h-5">
               <path d="M14.5 10.5c0-.9-.6-1.4-1.6-1.4-.9 0-1.4.5-1.5 1.1h-1.6c.1-1.5 1.4-2.4 3.1-2.4 2 0 3.2 1 3.2 2.8v4.6h-1.5v-1.1c-.6.8-1.5 1.3-2.6 1.3-1.6 0-2.6-1-2.6-2.4 0-1.6 1.2-2.3 3.2-2.3h1.4v-.2zm-1.4 3.7c.9 0 1.4-.6 1.4-1.2v-.8h-1.2c-1.1 0-1.7.3-1.7 1.1 0 .6.5.9 1.5.9z" fill="#FFF"/>
               <path d="M20.2 18.2C15.5 21.6 8.5 21.6 3.8 18.2c-.3-.2-.1-.6.2-.4 4.5 2.6 11.4 2.6 15.9-.2.4-.2.6.2.3.6z" fill="#FF9900"/>
@@ -200,7 +200,7 @@ export const InterviewHub: React.FC = () => {
         );
       case 'Apple':
         return (
-          <div className="w-9 h-9 rounded-xl bg-slate-900 flex items-center justify-center text-white shadow-xs shrink-0">
+          <div className="w-9 h-9 rounded-xl bg-slate-900 flex items-center justify-center text-white shadow-2xs shrink-0">
             <svg viewBox="0 0 24 24" className="w-5 h-5 fill-white">
               <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.84c.62-.75 1.04-1.8 0.92-2.84-.9.04-2 .6-2.65 1.34-.58.65-1.09 1.73-.95 2.76.99.08 2.05-.51 2.68-1.26z"/>
             </svg>
@@ -208,13 +208,13 @@ export const InterviewHub: React.FC = () => {
         );
       case 'Netflix':
         return (
-          <div className="w-9 h-9 rounded-xl bg-black flex items-center justify-center shadow-xs shrink-0">
+          <div className="w-9 h-9 rounded-xl bg-black flex items-center justify-center shadow-2xs shrink-0">
             <span className="text-[#E50914] font-black text-xl leading-none tracking-tighter">N</span>
           </div>
         );
       case 'Spotify':
         return (
-          <div className="w-9 h-9 rounded-xl bg-[#1DB954] flex items-center justify-center shadow-xs shrink-0">
+          <div className="w-9 h-9 rounded-xl bg-[#1DB954] flex items-center justify-center shadow-2xs shrink-0">
             <svg viewBox="0 0 24 24" className="w-5 h-5 fill-white">
               <path d="M12 2C6.4 2 2 6.4 2 12s4.4 10 10 10 10-4.4 10-10S17.6 2 12 2zm4.6 14.4c-.2.3-.5.4-.8.2-2.3-1.4-5.2-1.7-8.6-1-.4.1-.7-.1-.8-.5-.1-.4.1-.7.5-.8 3.7-.8 7-.5 9.5 1 .3.2.4.6.2.9zm1.2-2.7c-.2.4-.7.5-1.1.2-2.6-1.6-6.6-2.1-9.7-1.1-.4.1-.9-.1-1-.5-.1-.4.1-.9.5-1 3.6-1.1 8-.5 11 1.3.4.2.5.7.3 1.1zm.1-2.8C14.8 9.1 9.7 8.9 6.8 9.8c-.5.2-1-.1-1.2-.6-.2-.5.1-1 .6-1.2 3.4-1 9-0.8 12.6 1.3.5.3.6.9.3 1.4-.3.4-.9.5-1.4.2z"/>
             </svg>
@@ -222,13 +222,13 @@ export const InterviewHub: React.FC = () => {
         );
       case 'Uber':
         return (
-          <div className="w-9 h-9 rounded-xl bg-black flex items-center justify-center text-white font-black text-xs tracking-tight shadow-xs shrink-0">
+          <div className="w-9 h-9 rounded-xl bg-black flex items-center justify-center text-white font-black text-xs tracking-tight shadow-2xs shrink-0">
             Uber
           </div>
         );
       case 'Airbnb':
         return (
-          <div className="w-9 h-9 rounded-xl bg-[#FF5A5F] flex items-center justify-center shadow-xs shrink-0">
+          <div className="w-9 h-9 rounded-xl bg-[#FF5A5F] flex items-center justify-center shadow-2xs shrink-0">
             <svg viewBox="0 0 24 24" className="w-5 h-5 fill-white">
               <path d="M12 2C7.5 2 4.4 5.3 4.4 8.7c0 4.2 4.3 8.8 7.6 13.3.3.4.9.4 1.2 0 3.3-4.5 7.6-9.1 7.6-13.3C20.8 5.3 17.7 2 12 2zm0 10c-1.7 0-3-1.3-3-3s1.3-3 3-3 3 1.3 3 3-1.3 3-3 3z"/>
             </svg>
@@ -236,7 +236,7 @@ export const InterviewHub: React.FC = () => {
         );
       default:
         return (
-          <div className="w-9 h-9 rounded-xl bg-slate-900 flex items-center justify-center text-white font-extrabold text-sm shadow-xs shrink-0">
+          <div className="w-9 h-9 rounded-xl bg-slate-900 flex items-center justify-center text-white font-extrabold text-sm shadow-2xs shrink-0">
             {company.charAt(0)}
           </div>
         );
@@ -496,7 +496,7 @@ export const InterviewHub: React.FC = () => {
           {/* Quick Metrics: 4 Sleek Frosted Containers */}
           <div className="pt-2 grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             {/* Metric 1 */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-white/[0.04] border border-white/[0.08] backdrop-blur-md flex items-center gap-3.5">
+            <div className="p-4 sm:p-5 rounded-2xl bg-white/4 border border-white/8 backdrop-blur-md flex items-center gap-3.5">
               <div className="w-11 h-11 rounded-xl bg-[#065F46] flex items-center justify-center shrink-0 shadow-inner">
                 <FileText className="w-5 h-5 text-white" />
               </div>
@@ -507,7 +507,7 @@ export const InterviewHub: React.FC = () => {
             </div>
 
             {/* Metric 2 */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-white/[0.04] border border-white/[0.08] backdrop-blur-md flex items-center gap-3.5">
+            <div className="p-4 sm:p-5 rounded-2xl bg-white/4 border border-white/8 backdrop-blur-md flex items-center gap-3.5">
               <div className="w-11 h-11 rounded-xl bg-[#065F46] flex items-center justify-center shrink-0 shadow-inner">
                 <Play className="w-5 h-5 text-white fill-white ml-0.5" />
               </div>
@@ -520,7 +520,7 @@ export const InterviewHub: React.FC = () => {
             </div>
 
             {/* Metric 3 */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-white/[0.04] border border-white/[0.08] backdrop-blur-md flex items-center gap-3.5">
+            <div className="p-4 sm:p-5 rounded-2xl bg-white/4 border border-white/8 backdrop-blur-md flex items-center gap-3.5">
               <div className="w-11 h-11 rounded-xl bg-[#065F46] flex items-center justify-center shrink-0 shadow-inner">
                 <Trophy className="w-5 h-5 text-white" />
               </div>
@@ -535,7 +535,7 @@ export const InterviewHub: React.FC = () => {
             </div>
 
             {/* Metric 4 */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-white/[0.04] border border-white/[0.08] backdrop-blur-md flex items-center gap-3.5">
+            <div className="p-4 sm:p-5 rounded-2xl bg-white/4 border border-white/8 backdrop-blur-md flex items-center gap-3.5">
               <div className="w-11 h-11 rounded-xl bg-[#065F46] flex items-center justify-center shrink-0 shadow-inner">
                 <Users className="w-5 h-5 text-white" />
               </div>
@@ -569,7 +569,7 @@ export const InterviewHub: React.FC = () => {
                     onClick={() => setSelectedTrack(t.id)}
                     className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold tracking-wide transition-all cursor-pointer ${
                       isSelected 
-                        ? 'bg-[#111827] text-white shadow-sm border border-[#111827]' 
+                        ? 'bg-[#111827] text-white shadow-xs border border-[#111827]' 
                         : 'bg-white border border-slate-200/90 text-slate-600 hover:text-slate-900 hover:bg-slate-50 hover:border-slate-300'
                     }`}
                   >
@@ -619,7 +619,7 @@ export const InterviewHub: React.FC = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by company, case, or interview type..."
-              className="w-full h-11 pl-11 pr-4 rounded-xl bg-white border border-slate-200 text-xs sm:text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all shadow-2xs"
+              className="w-full h-11 pl-11 pr-4 rounded-xl bg-white border border-slate-200 text-xs sm:text-sm text-slate-800 placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all shadow-2xs"
             />
           </div>
 
@@ -637,7 +637,7 @@ export const InterviewHub: React.FC = () => {
                   onClick={() => setSelectedDifficulty(diff.id)}
                   className={`h-11 px-4 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
                     isSelected 
-                      ? 'bg-[#111827] text-white shadow-sm border border-[#111827]' 
+                      ? 'bg-[#111827] text-white shadow-xs border border-[#111827]' 
                       : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-slate-900'
                   }`}
                 >
@@ -867,11 +867,11 @@ export const InterviewHub: React.FC = () => {
                           {getTrackConfig(h.track).shortLabel} • {h.company}
                         </span>
                         {h.scoringVersion === 'v3' ? (
-                          <span className="text-[9px] font-black uppercase tracking-wider text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded border border-emerald-200" title="Scored with the v3 rubric">
+                          <span className="text-[9px] font-black uppercase tracking-wider text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded-sm border border-emerald-200" title="Scored with the v3 rubric">
                             v3{h.level ? ` • ${h.level === 'spm' ? 'Senior PM' : h.level.toUpperCase()}` : ''}
                           </span>
                         ) : (
-                          <span className="text-[9px] font-black uppercase tracking-wider text-amber-700 bg-amber-50 px-1.5 py-0.2 rounded border border-amber-200" title="Scored with an older rubric">
+                          <span className="text-[9px] font-black uppercase tracking-wider text-amber-700 bg-amber-50 px-1.5 py-0.2 rounded-sm border border-amber-200" title="Scored with an older rubric">
                             {h.scoringVersion === 'v2' ? 'v2' : 'v1 (legacy)'}
                           </span>
                         )}

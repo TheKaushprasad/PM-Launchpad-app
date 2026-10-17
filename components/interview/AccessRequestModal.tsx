@@ -125,7 +125,7 @@ export const AccessRequestModal: React.FC<AccessRequestModalProps> = ({
     <AnimatePresence>
       <div 
         id="access-request-modal-overlay"
-        className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-zinc-950/80 backdrop-blur-md"
+        className="fixed inset-0 z-70 flex items-center justify-center p-4 bg-zinc-950/80 backdrop-blur-md"
       >
         <motion.div
           id="access-request-card"

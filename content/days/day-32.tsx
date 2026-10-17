@@ -35,7 +35,7 @@ export const Day32Content = () => {
           <Info className="text-orange-600" />
           Understanding the Problem RAG Solves
         </h2>
-        <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm space-y-6">
+        <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-xs space-y-6">
            <p className="text-sm font-medium text-zinc-600 leading-relaxed">
              When an LLM, such as ChatGPT, is asked a question about private data—like a company’s reimbursement policy—it cannot access that private document. In this situation, the LLM lacks the necessary context and will typically hallucinate (provide an incorrect or generic answer).
            </p>
@@ -74,8 +74,8 @@ export const Day32Content = () => {
                bgColor: "bg-emerald-50"
              }
            ].map((comp, i) => (
-             <div key={i} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
-                <div className={`w-12 h-12 rounded-2xl ${comp.bgColor} flex items-center justify-center ${comp.color} shadow-sm`}>
+             <div key={i} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
+                <div className={`w-12 h-12 rounded-2xl ${comp.bgColor} flex items-center justify-center ${comp.color} shadow-xs`}>
                   <comp.icon className="w-6 h-6" />
                 </div>
                 <h4 className="font-black text-zinc-900 text-sm mb-1">{comp.title}</h4>
@@ -90,7 +90,7 @@ export const Day32Content = () => {
           <RefreshCw className="text-orange-600" />
           RAG VS Fine Tuning VS Prompt Engineering
         </h2>
-        <div className="bg-white border border-zinc-100 rounded-2xl shadow-sm overflow-hidden">
+        <div className="bg-white border border-zinc-100 rounded-2xl shadow-xs overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs font-medium border-collapse">
               <thead>
@@ -218,7 +218,7 @@ export const Day32Content = () => {
         </h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
-           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
               <h4 className="font-black text-zinc-900 flex items-center gap-2">
                 <Cpu className="w-5 h-5 text-orange-600" />
                 Embedding Models
@@ -231,7 +231,7 @@ export const Day32Content = () => {
               </div>
            </div>
 
-           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
               <h4 className="font-black text-zinc-900 flex items-center gap-2">
                 <Layout className="w-5 h-5 text-indigo-600" />
                 Vector Databases
@@ -300,7 +300,7 @@ export const Day32Content = () => {
                 { title: "Embedding Generation", desc: "Convert chunks into vectors using an embedding model.", icon: Cpu },
                 { title: "Storage in Vector DB", desc: "Load vectors into Chroma or Pinecone for instant retrieval.", icon: Database }
               ].map((step, i) => (
-                <div key={i} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-sm space-y-3">
+                <div key={i} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-xs space-y-3">
                    <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center text-orange-600">
                       <step.icon className="w-5 h-5" />
                    </div>
@@ -324,7 +324,7 @@ export const Day32Content = () => {
                 { label: "Generation (G)", text: "LLM receives question + context and produces a factual, accurate response." }
               ].map((step, i) => (
                 <div key={i} className="flex gap-3 md:gap-3.5 p-4 sm:p-5 bg-zinc-50 border border-zinc-200 rounded-2xl items-center">
-                   <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center text-indigo-600 font-black text-lg shadow-sm shrink-0 border border-zinc-100">{step.label[0]}</div>
+                   <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center text-indigo-600 font-black text-lg shadow-xs shrink-0 border border-zinc-100">{step.label[0]}</div>
                    <div>
                       <h4 className="font-black text-zinc-900 text-sm mb-1">{step.label}</h4>
                       <p className="text-xs font-medium text-zinc-500 leading-relaxed">{step.text}</p>

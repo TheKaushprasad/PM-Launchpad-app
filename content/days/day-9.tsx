@@ -49,7 +49,7 @@ export const Day9Content = () => {
           <Layers className="text-indigo-600" />
           1. User Research vs Market Research
         </h2>
-        <div className="bg-white border border-zinc-100 rounded-2xl shadow-sm overflow-hidden">
+        <div className="bg-white border border-zinc-100 rounded-2xl shadow-xs overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm font-medium border-collapse">
               <thead>
@@ -103,7 +103,7 @@ export const Day9Content = () => {
             { id: 4, title: "Collect Data", desc: "Ask open-ended questions.", icon: MessageSquare },
             { id: 5, title: "Synthesize", desc: "Identify themes and insights.", icon: Sparkles }
           ].map((step, i) => (
-            <div key={step.id} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-sm text-center space-y-3">
+            <div key={step.id} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-xs text-center space-y-3">
                <div className="w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center font-black mx-auto shadow-md">
                  {step.id}
                </div>
@@ -125,19 +125,19 @@ export const Day9Content = () => {
              <h3 className="text-xl font-black text-zinc-900 mb-2.5">Empathy Map</h3>
              <p className="text-sm font-bold text-zinc-500 mb-3">Map out what users: Says, Does, Thinks, and Feels.</p>
              <div className="grid grid-cols-2 gap-4">
-                <div className="p-4 bg-white rounded-2xl border border-zinc-100 text-center shadow-sm">
+                <div className="p-4 bg-white rounded-2xl border border-zinc-100 text-center shadow-xs">
                    <span className="text-[10px] font-black uppercase text-indigo-500 mb-2 block">SAYS</span>
                    <p className="text-xs font-medium text-zinc-400">Verbal expressions</p>
                 </div>
-                <div className="p-4 bg-white rounded-2xl border border-zinc-100 text-center shadow-sm">
+                <div className="p-4 bg-white rounded-2xl border border-zinc-100 text-center shadow-xs">
                    <span className="text-[10px] font-black uppercase text-rose-500 mb-2 block">DOES</span>
                    <p className="text-xs font-medium text-zinc-400">Behaviors observed</p>
                 </div>
-                <div className="p-4 bg-white rounded-2xl border border-zinc-100 text-center shadow-sm">
+                <div className="p-4 bg-white rounded-2xl border border-zinc-100 text-center shadow-xs">
                    <span className="text-[10px] font-black uppercase text-emerald-500 mb-2 block">THINKS</span>
                    <p className="text-xs font-medium text-zinc-400">Internal thoughts</p>
                 </div>
-                <div className="p-4 bg-white rounded-2xl border border-zinc-100 text-center shadow-sm">
+                <div className="p-4 bg-white rounded-2xl border border-zinc-100 text-center shadow-xs">
                    <span className="text-[10px] font-black uppercase text-amber-500 mb-2 block">FEELS</span>
                    <p className="text-xs font-medium text-zinc-400">Emotional state</p>
                 </div>
@@ -175,7 +175,7 @@ export const Day9Content = () => {
                   { title: "Behavior", desc: "Usage freq, loyalty, spending.", icon: Zap },
                   { title: "Needs-Based", desc: "Specific pain points & goals.", icon: Target }
                 ].map((item, i) => (
-                  <div key={i} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-sm space-y-2">
+                  <div key={i} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-xs space-y-2">
                      <h4 className="font-black text-zinc-900">{item.title}</h4>
                      <p className="text-[10px] font-bold text-zinc-500 leading-relaxed">{item.desc}</p>
                   </div>
@@ -198,7 +198,7 @@ export const Day9Content = () => {
              { title: "Visualization", tool: "Canva", use: "Create visually compelling user personas.", icon: MonitorPlay }
            ].map((item, i) => (
              <div key={i} className="flex gap-4 p-4 bg-zinc-50 rounded-3xl border border-zinc-100 items-start">
-                <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-indigo-600 shrink-0 shadow-sm">
+                <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-indigo-600 shrink-0 shadow-xs">
                   <item.icon className="w-5 h-5" />
                 </div>
                 <div>
@@ -215,7 +215,7 @@ export const Day9Content = () => {
           <BarChart className="text-indigo-600" />
           Real-World Case: Zomato One-Tap
         </h2>
-        <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-6">
+        <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-6">
            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-3.5">
               {[
                 { label: "Pain Point", text: "“Hungry but don't want to call restaurants or search again.”", color: "text-rose-500" },

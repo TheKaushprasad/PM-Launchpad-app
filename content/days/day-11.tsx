@@ -54,7 +54,7 @@ export const Day11Content = () => {
             { id: 2, title: "Identification", desc: "Find recurring pain points and primary goals across clusters.", icon: Search },
             { id: 3, title: "Narrative", desc: "Write a short, human-centric story for each segment.", icon: FileText }
           ].map((step) => (
-            <div key={step.id} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
+            <div key={step.id} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
                <div className="w-10 h-10 rounded-xl bg-zinc-50 flex items-center justify-center text-indigo-600 shadow-inner">
                  <step.icon className="w-5 h-5" />
                </div>
@@ -101,7 +101,7 @@ export const Day11Content = () => {
           2. Persona Template
         </h2>
         
-        <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm relative overflow-hidden group">
+        <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs relative overflow-hidden group">
            <div className="absolute top-0 right-0 p-4 sm:p-5 opacity-5 group-hover:opacity-10 transition-opacity">
              <Users className="w-48 h-48 text-indigo-600" />
            </div>
@@ -195,7 +195,7 @@ export const Day11Content = () => {
              { name: "Notion", job: "When I start a project, I want everything in one place, so I stay organized." },
              { name: "Swiggy", job: "When I’m tired, I want fast ordering, so I can relax without effort." }
            ].map((item, i) => (
-             <div key={i} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-sm space-y-3">
+             <div key={i} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-xs space-y-3">
                 <h4 className="font-black text-zinc-900">{item.name}</h4>
                 <p className="text-xs font-bold text-zinc-500 leading-relaxed">"{item.job}"</p>
              </div>
@@ -208,7 +208,7 @@ export const Day11Content = () => {
           <Sparkles className="text-indigo-600" />
           4. Connecting Personas → JTBD → Features
         </h2>
-        <div className="bg-white border border-zinc-100 rounded-2xl shadow-sm overflow-hidden">
+        <div className="bg-white border border-zinc-100 rounded-2xl shadow-xs overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm font-medium border-collapse">
               <thead>
@@ -250,13 +250,13 @@ export const Day11Content = () => {
               “You are a Product Manager summarizing 10 interview transcripts about study habits. Group user patterns into 2-3 personas and write JTBD statements for each.”
             </p>
             <div className="flex gap-3 pt-2">
-              <span className="px-2 py-1 bg-white/10 rounded text-[10px] font-bold text-zinc-400">ChatGPT</span>
-              <span className="px-2 py-1 bg-white/10 rounded text-[10px] font-bold text-zinc-400">Notion AI</span>
+              <span className="px-2 py-1 bg-white/10 rounded-sm text-[10px] font-bold text-zinc-400">ChatGPT</span>
+              <span className="px-2 py-1 bg-white/10 rounded-sm text-[10px] font-bold text-zinc-400">Notion AI</span>
             </div>
           </div>
         </div>
 
-        <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm space-y-6">
+        <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-xs space-y-6">
            <h2 className="text-lg md:text-xl font-black text-zinc-900 mb-4">Spotify Case Study</h2>
            <div className="space-y-4">
               <div className="p-4 bg-zinc-50 rounded-2xl border border-zinc-100">

@@ -51,7 +51,7 @@ export const Day14Content = () => {
         </h2>
         
         <div className="space-y-2.5">
-          <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
+          <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
             <h4 className="font-black text-zinc-900 flex items-center gap-2">
               <Database className="w-5 h-5 text-indigo-600" />
               What is SQL?
@@ -71,7 +71,7 @@ export const Day14Content = () => {
             </ul>
           </div>
 
-          <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
+          <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
             <h4 className="font-black text-zinc-900 flex items-center gap-2">
               <Zap className="w-5 h-5 text-indigo-600" />
               Why PMs Need SQL
@@ -119,7 +119,7 @@ export const Day14Content = () => {
                <span className="w-8 h-8 rounded-lg bg-zinc-900 text-white flex items-center justify-center font-black text-xs">C1</span>
                <h4 className="font-black text-zinc-900">Case 1: Feature Adoption</h4>
             </div>
-            <div className="bg-zinc-900 p-4 rounded-[2rem] border border-zinc-800 font-mono text-sm overflow-hidden">
+            <div className="bg-zinc-900 p-4 rounded-4xl border border-zinc-800 font-mono text-sm overflow-hidden">
               <pre className="text-indigo-300">
 {`SELECT feature_name, COUNT(DISTINCT user_id) as users
 FROM feature_usage
@@ -138,7 +138,7 @@ GROUP BY feature_name;`}
                <span className="w-8 h-8 rounded-lg bg-zinc-900 text-white flex items-center justify-center font-black text-xs">C2</span>
                <h4 className="font-black text-zinc-900">Case 2: Churn Analysis</h4>
             </div>
-            <div className="bg-zinc-900 p-4 rounded-[2rem] border border-zinc-800 font-mono text-sm overflow-hidden">
+            <div className="bg-zinc-900 p-4 rounded-4xl border border-zinc-800 font-mono text-sm overflow-hidden">
               <pre className="text-indigo-300">
 {`SELECT * FROM users
 WHERE last_active_date < '2025-01-01'

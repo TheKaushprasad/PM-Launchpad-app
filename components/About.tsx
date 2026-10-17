@@ -16,7 +16,7 @@ export const About: React.FC = () => {
       
       {/* Hero Section */}
       <div className="relative rounded-3xl p-8 md:p-16 text-zinc-900 shadow-xl bg-[#34D399] overflow-hidden isolate">
-        <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-black/5 -z-10"></div>
+        <div className="absolute inset-0 bg-linear-to-br from-white/20 via-transparent to-black/5 -z-10"></div>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div className="space-y-6 text-center lg:text-left">
@@ -45,12 +45,12 @@ export const About: React.FC = () => {
             </div>
             
             <div className="hidden lg:grid grid-cols-2 gap-4 shrink-0">
-                <div className="bg-white/20 border border-white/30 p-8 rounded-3xl backdrop-blur-sm">
+                <div className="bg-white/20 border border-white/30 p-8 rounded-3xl backdrop-blur-xs">
                     <Clock className="w-10 h-10 text-zinc-900 mb-4" />
                     <p className="text-zinc-800 text-[10px] font-black uppercase tracking-wider mb-1">Commitment</p>
                     <p className="text-xl font-black leading-tight">1-3 Hours / Day</p>
                 </div>
-                <div className="bg-white/20 border border-white/30 p-8 rounded-3xl mt-12 backdrop-blur-sm">
+                <div className="bg-white/20 border border-white/30 p-8 rounded-3xl mt-12 backdrop-blur-xs">
                     <Briefcase className="w-10 h-10 text-zinc-900 mb-4" />
                     <p className="text-zinc-800 text-[10px] font-black uppercase tracking-wider mb-1">Roles</p>
                     <p className="text-xl font-black leading-tight">Product and adjacent</p>
@@ -64,7 +64,7 @@ export const About: React.FC = () => {
         <div className="lg:col-span-2 space-y-12">
             
             {/* About the Course */}
-            <section data-reveal className="bg-white p-8 md:p-12 rounded-3xl border border-zinc-100 shadow-sm">
+            <section data-reveal className="bg-white p-8 md:p-12 rounded-3xl border border-zinc-100 shadow-xs">
                 <h2 className="text-3xl font-black text-zinc-900 mb-6 tracking-tighter flex items-center gap-3">
                     <BookOpen className="text-[#34D399]" />
                     About the Course
@@ -144,7 +144,7 @@ export const About: React.FC = () => {
             </div>
 
             {/* Difference Card */}
-            <div className="bg-white rounded-3xl p-8 border border-zinc-100 shadow-sm space-y-6">
+            <div className="bg-white rounded-3xl p-8 border border-zinc-100 shadow-xs space-y-6">
                 <h3 className="text-lg font-black text-zinc-900 uppercase tracking-widest flex items-center gap-2">
                     <Lightbulb className="text-amber-500 w-5 h-5" /> Why This?
                 </h3>
@@ -169,15 +169,15 @@ export const About: React.FC = () => {
                 <p className="text-zinc-900 font-black text-2xl mb-6 tracking-tighter leading-tight">In 45 Days, you will have:</p>
                 <ul className="space-y-4">
                     <li className="flex gap-3">
-                        <div className="w-6 h-6 rounded-full bg-[#34D399] flex items-center justify-center text-white shrink-0 shadow-sm"><CheckCircle className="w-4 h-4" /></div>
+                        <div className="w-6 h-6 rounded-full bg-[#34D399] flex items-center justify-center text-white shrink-0 shadow-xs"><CheckCircle className="w-4 h-4" /></div>
                         <p className="text-xs font-black text-zinc-700">Skills for Entry-Level roles</p>
                     </li>
                     <li className="flex gap-3">
-                        <div className="w-6 h-6 rounded-full bg-[#34D399] flex items-center justify-center text-white shrink-0 shadow-sm"><CheckCircle className="w-4 h-4" /></div>
+                        <div className="w-6 h-6 rounded-full bg-[#34D399] flex items-center justify-center text-white shrink-0 shadow-xs"><CheckCircle className="w-4 h-4" /></div>
                         <p className="text-xs font-black text-zinc-700">Portfolio + Resume + Prep</p>
                     </li>
                     <li className="flex gap-3">
-                        <div className="w-6 h-6 rounded-full bg-[#34D399] flex items-center justify-center text-white shrink-0 shadow-sm"><CheckCircle className="w-4 h-4" /></div>
+                        <div className="w-6 h-6 rounded-full bg-[#34D399] flex items-center justify-center text-white shrink-0 shadow-xs"><CheckCircle className="w-4 h-4" /></div>
                         <p className="text-xs font-black text-zinc-700">Shortlisting Confidence</p>
                     </li>
                 </ul>
@@ -226,7 +226,7 @@ export const About: React.FC = () => {
 
 const BlueprintCard = ({ icon, title, items }: { icon: React.ReactNode, title: string, items: string[] }) => {
     return (
-        <div className="p-8 rounded-3xl bg-white border border-zinc-100 shadow-sm hover:border-[#34D399]/40 transition-all group">
+        <div className="p-8 rounded-3xl bg-white border border-zinc-100 shadow-xs hover:border-[#34D399]/40 transition-all group">
             <div className="flex items-center gap-4 mb-6">
                 <div className="p-3.5 bg-zinc-50 rounded-2xl text-zinc-500 group-hover:bg-[#34D399] group-hover:text-white transition-colors duration-500 shadow-inner">
                     {icon}

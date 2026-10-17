@@ -65,7 +65,7 @@ export const Day43Content = () => {
                 { q: "Increase in returns at Amazon", company: "Amazon", icon: Smartphone },
                 { q: "Inactive users on Netflix – what would you do?", company: "Netflix", icon: Users }
               ].map((item, i) => (
-                <div key={i} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-sm space-y-3 hover:border-amber-200 transition-colors group">
+                <div key={i} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-xs space-y-3 hover:border-amber-200 transition-colors group">
                    <div className="flex justify-between items-start">
                       <div className="w-10 h-10 rounded-xl bg-zinc-50 flex items-center justify-center text-amber-600 group-hover:bg-amber-600 group-hover:text-white transition-colors shadow-inner">
                         <item.icon className="w-5 h-5" />
@@ -125,7 +125,7 @@ export const Day43Content = () => {
                 { q: "Cars sold in India", company: "PhonePe", icon: BarChart },
                 { q: "Credit card users in India", company: "Visa", icon: Search }
               ].map((item, i) => (
-                <div key={i} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-sm space-y-4 hover:border-amber-200 transition-colors group">
+                <div key={i} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-xs space-y-4 hover:border-amber-200 transition-colors group">
                    <div className="w-10 h-10 rounded-xl bg-zinc-50 flex items-center justify-center text-amber-600 group-hover:bg-amber-600 group-hover:text-white transition-colors shadow-inner">
                      <item.icon className="w-5 h-5" />
                    </div>

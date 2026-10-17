@@ -66,7 +66,7 @@ export const Day7Content = () => {
             { title: "Customer Success", desc: "On the front lines with users. Care about usability and support." },
             { title: "Customers", desc: "The ultimate end-users whose problems you are solving." }
           ].map((item, i) => (
-            <div key={i} className="p-4 bg-white border border-zinc-100 rounded-[2rem] shadow-sm space-y-2">
+            <div key={i} className="p-4 bg-white border border-zinc-100 rounded-4xl shadow-xs space-y-2">
                <h4 className="font-black text-zinc-900">{item.title}</h4>
                <p className="text-xs font-medium text-zinc-500 leading-relaxed">{item.desc}</p>
             </div>
@@ -128,7 +128,7 @@ export const Day7Content = () => {
         <p className="text-zinc-600 font-medium leading-relaxed italic">
           "Here's a liberating truth: you don't need everyone to agree. Seeking universal consensus leads to watered-down products that please no one. Instead, build coalitions around decisions."
         </p>
-        <div className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-sm">
+        <div className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-xs">
            <p className="text-sm text-zinc-600 font-medium leading-relaxed">
              Identify champions who will advocate alongside you. Find common ground with skeptics rather than trying to convert them entirely. Sometimes the best outcome is neutral acceptance.
            </p>

@@ -50,12 +50,12 @@ export const Day35Content = () => {
           <Info className="text-orange-600" />
           What Are AI Agents?
         </h2>
-        <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm space-y-6">
+        <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-xs space-y-6">
            <p className="text-sm font-medium text-zinc-600 leading-relaxed">
              An AI agent is an autonomous system that perceives its environment, makes decisions, and takes actions to achieve specific goals without constant human intervention. Unlike traditional software that follows predefined rules or AI chatbots that simply respond to prompts, agents can plan multi-step tasks, use tools, adapt strategies based on feedback, and work toward objectives over extended periods.
            </p>
            
-           <div className="bg-zinc-900 text-white p-4 sm:p-5 rounded-[2rem] space-y-4">
+           <div className="bg-zinc-900 text-white p-4 sm:p-5 rounded-4xl space-y-4">
               <h4 className="text-[10px] font-black uppercase tracking-widest text-orange-400">The Difference</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
                  <div className="space-y-2">
@@ -85,7 +85,7 @@ export const Day35Content = () => {
              { title: "Memory and context", desc: "Maintain continuity across interactions. They remember previous conversations and learn from past actions.", icon: Database },
              { title: "Perception and feedback", desc: "Observe results of actions and adjust. If a strategy isn't working, agents notice and try different approaches.", icon: RefreshCw }
            ].map((item, i) => (
-             <div key={i} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
+             <div key={i} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
                 <div className="w-12 h-12 rounded-2xl bg-orange-50 flex items-center justify-center text-orange-600 shadow-inner">
                   <item.icon className="w-6 h-6" />
                 </div>
@@ -109,8 +109,8 @@ export const Day35Content = () => {
              { title: "Utility-based agents", desc: "Optimize for specific metrics or preferences. An agent negotiating prices might maximize savings while minimizing time." },
              { title: "Learning agents", desc: "Improve performance over time through experience. Recommendation agents that personalize suggestions based on behavior." }
            ].map((type, i) => (
-             <div key={i} className="flex gap-3 md:gap-3.5 p-4 bg-zinc-50 border border-zinc-200 rounded-[2rem] items-start">
-                <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-indigo-600 font-black text-sm shadow-sm shrink-0 border border-zinc-100">{i+1}</div>
+             <div key={i} className="flex gap-3 md:gap-3.5 p-4 bg-zinc-50 border border-zinc-200 rounded-4xl items-start">
+                <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-indigo-600 font-black text-sm shadow-xs shrink-0 border border-zinc-100">{i+1}</div>
                 <div>
                    <h4 className="font-black text-zinc-900 text-sm mb-0.5">{type.title}</h4>
                    <p className="text-xs font-medium text-zinc-500 leading-relaxed">{type.desc}</p>
@@ -126,25 +126,25 @@ export const Day35Content = () => {
           Why AI Agents Matter for Product Managers
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
-           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
               <h4 className="font-black text-zinc-900">New Product Possibilities</h4>
               <p className="text-xs font-medium text-zinc-500 leading-relaxed">
                 Instead of building tools users must learn to operate, you build agents that accomplish tasks for users. The product does the work rather than merely enabling it.
               </p>
            </div>
-           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
               <h4 className="font-black text-zinc-900">Competitive Differentiation</h4>
               <p className="text-xs font-medium text-zinc-500 leading-relaxed">
                 The question shifts from "does your product have AI?" to "can your product accomplish complex tasks autonomously?"
               </p>
            </div>
-           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
               <h4 className="font-black text-zinc-900">Value Propositions Transform</h4>
               <p className="text-xs font-medium text-zinc-500 leading-relaxed">
                 Time savings, error reduction, and capability extension become core value drivers. A product that saves users 20 hours per week justifies premium pricing.
               </p>
            </div>
-           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
               <h4 className="font-black text-zinc-900">Business Models Evolve</h4>
               <p className="text-xs font-medium text-zinc-500 leading-relaxed">
                 Outcome-based pricing becomes feasible—charge for tasks completed rather than seats or features.
@@ -168,7 +168,7 @@ export const Day35Content = () => {
              "Competitive awareness sharpens by replicating competitors' features.",
              "Customer conversations become richer through real-time co-creation sessions."
            ].map((text, i) => (
-             <li key={i} className="flex gap-3 items-start bg-white p-5 rounded-2xl border border-zinc-100 shadow-sm">
+             <li key={i} className="flex gap-3 items-start bg-white p-5 rounded-2xl border border-zinc-100 shadow-xs">
                 <CheckCircle className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
                 <p className="text-xs font-bold text-zinc-700 leading-relaxed">{text}</p>
              </li>
@@ -240,7 +240,7 @@ export const Day35Content = () => {
                 { title: "Gradual complexity", desc: "Start simple and add memory or error handling over time." },
                 { title: "Template community", desc: "Clone and customize workflows shared by other users." }
               ].map((benefit, i) => (
-                <div key={i} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-sm space-y-2">
+                <div key={i} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-xs space-y-2">
                    <h4 className="font-black text-zinc-900 text-xs uppercase tracking-widest text-orange-600">{benefit.title}</h4>
                    <p className="text-[11px] font-bold text-zinc-500 leading-relaxed">{benefit.desc}</p>
                 </div>

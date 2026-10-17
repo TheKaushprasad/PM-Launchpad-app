@@ -243,7 +243,7 @@ export const Profile: React.FC = () => {
       <div className="max-w-5xl mx-auto space-y-6 pb-20">
 
         {/* Hero Banner Header */}
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#032A1F] via-[#043C2C] to-[#064E3B] p-6 sm:p-8 md:p-10 shadow-lg border border-slate-800">
+        <div className="relative overflow-hidden rounded-3xl bg-linear-to-r from-[#032A1F] via-[#043C2C] to-[#064E3B] p-6 sm:p-8 md:p-10 shadow-lg border border-slate-800">
           {/* Subtle Ambient Radial Light */}
           <div className="absolute top-0 right-1/4 w-96 h-96 bg-brand-500/10 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute bottom-0 right-10 w-80 h-80 bg-brand-500/15 rounded-full blur-3xl pointer-events-none" />
@@ -299,13 +299,13 @@ export const Profile: React.FC = () => {
               {/* 3D Tilted ID Card */}
               <div className="relative mt-6 sm:mt-8 mr-0 sm:mr-6 transform -rotate-3 hover:rotate-0 transition-transform duration-300">
                 {/* Soft Ambient Card Glow */}
-                <div className="absolute -inset-1 bg-gradient-to-r from-brand-500/25 to-brand-500/35 rounded-3xl blur-md" />
+                <div className="absolute -inset-1 bg-linear-to-r from-brand-500/25 to-brand-500/35 rounded-3xl blur-md" />
                 
                 {/* Physical Card */}
-                <div className="relative w-64 sm:w-72 bg-gradient-to-br from-white via-[#ECFDF5] to-[#D1FAE5] rounded-2xl p-4 sm:p-5 shadow-2xl border border-white/80">
+                <div className="relative w-64 sm:w-72 bg-linear-to-br from-white via-[#ECFDF5] to-[#D1FAE5] rounded-2xl p-4 sm:p-5 shadow-2xl border border-white/80">
                   <div className="flex items-center gap-3.5">
                     {/* Avatar circle / square */}
-                    <div className="w-13 h-13 rounded-2xl bg-gradient-to-tr from-brand-600 to-brand-600 flex items-center justify-center text-white shadow-md shrink-0">
+                    <div className="w-13 h-13 rounded-2xl bg-linear-to-tr from-brand-600 to-brand-600 flex items-center justify-center text-white shadow-md shrink-0">
                       <UserIcon className="w-7 h-7" />
                     </div>
                     {/* Placeholder Lines */}
@@ -323,7 +323,7 @@ export const Profile: React.FC = () => {
                   </div>
 
                   {/* 3D Shiny Blue Gear Cog on Bottom Right */}
-                  <div className="absolute -bottom-3 -right-3 w-12 h-12 rounded-2xl bg-gradient-to-br from-[#047857] to-[#065F46] text-white flex items-center justify-center shadow-xl border-2 border-white">
+                  <div className="absolute -bottom-3 -right-3 w-12 h-12 rounded-2xl bg-linear-to-br from-[#047857] to-[#065F46] text-white flex items-center justify-center shadow-xl border-2 border-white">
                     <svg className="w-7 h-7 text-white" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z" />
                       <path fillRule="evenodd" clipRule="evenodd" d="M9.9 2.25c.34-.9 1.63-.9 1.97 0l.4.98a2.25 2.25 0 0 0 2.24 1.34l1.05-.13c.96-.12 1.6 1 1.05 1.83l-.6.91a2.25 2.25 0 0 0 .54 2.58l.78.74c.72.68.42 1.95-.5 2.22l-1.02.3a2.25 2.25 0 0 0-1.57 2.15v1.07c0 .97-1.14 1.54-1.92.96l-.86-.64a2.25 2.25 0 0 0-2.67 0l-.86.64c-.78.58-1.92.01-1.92-.96v-1.07a2.25 2.25 0 0 0-1.57-2.15l-1.02-.3c-.92-.27-1.22-1.54-.5-2.22l.78-.74a2.25 2.25 0 0 0 .54-2.58l-.6-.91c-.55-.83.09-1.95 1.05-1.83l1.05.13a2.25 2.25 0 0 0 2.24-1.34l.4-.98Z" />
@@ -342,7 +342,7 @@ export const Profile: React.FC = () => {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm font-semibold flex items-center gap-3 shadow-xs"
+              className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm font-semibold flex items-center gap-3 shadow-2xs"
             >
               <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
               <span>Profile changes saved successfully!</span>
@@ -354,7 +354,7 @@ export const Profile: React.FC = () => {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-sm font-semibold flex items-center gap-3 shadow-xs"
+              className="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-sm font-semibold flex items-center gap-3 shadow-2xs"
             >
               <AlertTriangle className="w-5 h-5 text-rose-600 shrink-0" />
               <span>{saveError}</span>
@@ -366,7 +366,7 @@ export const Profile: React.FC = () => {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="p-4 rounded-2xl bg-brand-50 border border-brand-200 text-brand-800 text-sm font-semibold flex items-center gap-3 shadow-xs"
+              className="p-4 rounded-2xl bg-brand-50 border border-brand-200 text-brand-800 text-sm font-semibold flex items-center gap-3 shadow-2xs"
             >
               <CheckCircle2 className="w-5 h-5 text-brand-600 shrink-0" />
               <span>Password reset email dispatched to {user?.email}! Check your inbox.</span>
@@ -378,7 +378,7 @@ export const Profile: React.FC = () => {
         <form onSubmit={handleSaveChanges} className="space-y-6">
 
           {/* Card 1: Personal Information */}
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-7 border border-[#E2E8F0] shadow-xs space-y-5">
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-7 border border-[#E2E8F0] shadow-2xs space-y-5">
             {/* Header */}
             <div className="flex items-center gap-3.5 pb-2">
               <div className="w-10 h-10 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center shrink-0">
@@ -402,7 +402,7 @@ export const Profile: React.FC = () => {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="e.g. Alex Johnson"
-                  className="w-full px-4 py-2.5 rounded-xl border border-[#CBD5E1] bg-white text-sm text-[#0F172A] placeholder:text-slate-400 outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100 transition-all font-medium"
+                  className="w-full px-4 py-2.5 rounded-xl border border-[#CBD5E1] bg-white text-sm text-[#0F172A] placeholder:text-slate-400 outline-hidden focus:border-brand-600 focus:ring-2 focus:ring-brand-100 transition-all font-medium"
                 />
               </div>
 
@@ -416,7 +416,7 @@ export const Profile: React.FC = () => {
                     type="email"
                     disabled
                     value={user?.email || ''}
-                    className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] text-sm text-slate-600 cursor-not-allowed outline-none font-medium"
+                    className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] text-sm text-slate-600 cursor-not-allowed outline-hidden font-medium"
                   />
                 </div>
               </div>
@@ -432,13 +432,13 @@ export const Profile: React.FC = () => {
                 value={photoURL}
                 onChange={(e) => setPhotoURL(e.target.value)}
                 placeholder="https://images.unsplash.com/... or Google avatar link"
-                className="w-full px-4 py-2.5 rounded-xl border border-[#CBD5E1] bg-white text-sm text-[#0F172A] placeholder:text-slate-400 outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100 transition-all font-normal"
+                className="w-full px-4 py-2.5 rounded-xl border border-[#CBD5E1] bg-white text-sm text-[#0F172A] placeholder:text-slate-400 outline-hidden focus:border-brand-600 focus:ring-2 focus:ring-brand-100 transition-all font-normal"
               />
             </div>
           </div>
 
           {/* Card 2: Academic & Professional Background */}
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-7 border border-[#E2E8F0] shadow-xs space-y-5">
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-7 border border-[#E2E8F0] shadow-2xs space-y-5">
             {/* Header */}
             <div className="flex items-center gap-3.5 pb-2">
               <div className="w-10 h-10 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center shrink-0">
@@ -459,7 +459,7 @@ export const Profile: React.FC = () => {
                   onClick={() => setUserType('college_student')}
                   className={`py-3 px-4 rounded-xl border text-sm font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer ${
                     isStudent
-                      ? 'border-brand-600 bg-white text-brand-600 shadow-xs'
+                      ? 'border-brand-600 bg-white text-brand-600 shadow-2xs'
                       : 'border-[#E2E8F0] bg-white text-slate-700 hover:bg-slate-50'
                   }`}
                 >
@@ -472,7 +472,7 @@ export const Profile: React.FC = () => {
                   onClick={() => setUserType('working_professional')}
                   className={`py-3 px-4 rounded-xl border text-sm font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer ${
                     !isStudent
-                      ? 'border-brand-600 bg-white text-brand-600 shadow-xs'
+                      ? 'border-brand-600 bg-white text-brand-600 shadow-2xs'
                       : 'border-[#E2E8F0] bg-white text-slate-700 hover:bg-slate-50'
                   }`}
                 >
@@ -494,7 +494,7 @@ export const Profile: React.FC = () => {
                     value={collegeName}
                     onChange={(e) => setCollegeName(e.target.value)}
                     placeholder="e.g. IIT Kharagpur, BITS Pilani"
-                    className="w-full px-4 py-2.5 rounded-xl border border-[#CBD5E1] bg-white text-sm text-[#0F172A] placeholder:text-slate-400 outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100 transition-all font-medium"
+                    className="w-full px-4 py-2.5 rounded-xl border border-[#CBD5E1] bg-white text-sm text-[#0F172A] placeholder:text-slate-400 outline-hidden focus:border-brand-600 focus:ring-2 focus:ring-brand-100 transition-all font-medium"
                   />
                 </div>
 
@@ -506,7 +506,7 @@ export const Profile: React.FC = () => {
                       value={degree}
                       onChange={(e) => setDegree(e.target.value)}
                       placeholder="e.g. B.Tech Computer Science"
-                      className="w-full px-4 py-2.5 rounded-xl border border-[#CBD5E1] bg-white text-sm text-[#0F172A] placeholder:text-slate-400 outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100 transition-all font-medium"
+                      className="w-full px-4 py-2.5 rounded-xl border border-[#CBD5E1] bg-white text-sm text-[#0F172A] placeholder:text-slate-400 outline-hidden focus:border-brand-600 focus:ring-2 focus:ring-brand-100 transition-all font-medium"
                     />
                   </div>
 
@@ -516,7 +516,7 @@ export const Profile: React.FC = () => {
                       <select
                         value={passingOutYear}
                         onChange={(e) => setPassingOutYear(e.target.value)}
-                        className="w-full appearance-none px-4 py-2.5 pr-10 rounded-xl border border-[#CBD5E1] bg-white text-sm text-[#0F172A] outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100 font-medium cursor-pointer"
+                        className="w-full appearance-none px-4 py-2.5 pr-10 rounded-xl border border-[#CBD5E1] bg-white text-sm text-[#0F172A] outline-hidden focus:border-brand-600 focus:ring-2 focus:ring-brand-100 font-medium cursor-pointer"
                       >
                         <option value="2023">2023</option>
                         <option value="2024">2024</option>
@@ -546,7 +546,7 @@ export const Profile: React.FC = () => {
                     value={companyName}
                     onChange={(e) => setCompanyName(e.target.value)}
                     placeholder="e.g. Amazon, Zomato, Tech Startup"
-                    className="w-full px-4 py-2.5 rounded-xl border border-[#CBD5E1] bg-white text-sm text-[#0F172A] placeholder:text-slate-400 outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100 transition-all font-medium"
+                    className="w-full px-4 py-2.5 rounded-xl border border-[#CBD5E1] bg-white text-sm text-[#0F172A] placeholder:text-slate-400 outline-hidden focus:border-brand-600 focus:ring-2 focus:ring-brand-100 transition-all font-medium"
                   />
                 </div>
 
@@ -558,7 +558,7 @@ export const Profile: React.FC = () => {
                       value={designation}
                       onChange={(e) => setDesignation(e.target.value)}
                       placeholder="e.g. Senior Business Analyst"
-                      className="w-full px-4 py-2.5 rounded-xl border border-[#CBD5E1] bg-white text-sm text-[#0F172A] placeholder:text-slate-400 outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100 transition-all font-medium"
+                      className="w-full px-4 py-2.5 rounded-xl border border-[#CBD5E1] bg-white text-sm text-[#0F172A] placeholder:text-slate-400 outline-hidden focus:border-brand-600 focus:ring-2 focus:ring-brand-100 transition-all font-medium"
                     />
                   </div>
 
@@ -568,7 +568,7 @@ export const Profile: React.FC = () => {
                       <select
                         value={yearsOfExperience}
                         onChange={(e) => setYearsOfExperience(e.target.value)}
-                        className="w-full appearance-none px-4 py-2.5 pr-10 rounded-xl border border-[#CBD5E1] bg-white text-sm text-[#0F172A] outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100 font-medium cursor-pointer"
+                        className="w-full appearance-none px-4 py-2.5 pr-10 rounded-xl border border-[#CBD5E1] bg-white text-sm text-[#0F172A] outline-hidden focus:border-brand-600 focus:ring-2 focus:ring-brand-100 font-medium cursor-pointer"
                       >
                         <option value="0-1 years">0-1 years</option>
                         <option value="1-3 years">1-3 years</option>
@@ -584,7 +584,7 @@ export const Profile: React.FC = () => {
           </div>
 
           {/* Card 3: Career Benchmark & LinkedIn URL */}
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-7 border border-[#E2E8F0] shadow-xs space-y-5">
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-7 border border-[#E2E8F0] shadow-2xs space-y-5">
             {/* Header */}
             <div className="flex items-center gap-3.5 pb-2">
               <div className="w-10 h-10 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center shrink-0">
@@ -604,7 +604,7 @@ export const Profile: React.FC = () => {
                   <select
                     value={targetRole}
                     onChange={(e) => setTargetRole(e.target.value)}
-                    className="w-full appearance-none px-4 py-2.5 pr-10 rounded-xl border border-[#CBD5E1] bg-white text-sm text-[#0F172A] outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100 font-medium cursor-pointer"
+                    className="w-full appearance-none px-4 py-2.5 pr-10 rounded-xl border border-[#CBD5E1] bg-white text-sm text-[#0F172A] outline-hidden focus:border-brand-600 focus:ring-2 focus:ring-brand-100 font-medium cursor-pointer"
                   >
                     {TARGET_ROLES.map((r) => (
                       <option key={r} value={r}>{r}</option>
@@ -618,7 +618,7 @@ export const Profile: React.FC = () => {
                     placeholder="Specify target role"
                     value={customRole}
                     onChange={(e) => setCustomRole(e.target.value)}
-                    className="mt-2 w-full px-4 py-2 rounded-xl border border-[#CBD5E1] text-xs outline-none focus:border-brand-600"
+                    className="mt-2 w-full px-4 py-2 rounded-xl border border-[#CBD5E1] text-xs outline-hidden focus:border-brand-600"
                   />
                 )}
               </div>
@@ -629,7 +629,7 @@ export const Profile: React.FC = () => {
                   <select
                     value={industry}
                     onChange={(e) => setIndustry(e.target.value)}
-                    className="w-full appearance-none px-4 py-2.5 pr-10 rounded-xl border border-[#CBD5E1] bg-white text-sm text-[#0F172A] outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100 font-medium cursor-pointer"
+                    className="w-full appearance-none px-4 py-2.5 pr-10 rounded-xl border border-[#CBD5E1] bg-white text-sm text-[#0F172A] outline-hidden focus:border-brand-600 focus:ring-2 focus:ring-brand-100 font-medium cursor-pointer"
                   >
                     {INDUSTRIES.map((ind) => (
                       <option key={ind} value={ind}>{ind}</option>
@@ -643,7 +643,7 @@ export const Profile: React.FC = () => {
                     placeholder="Specify target industry"
                     value={customIndustry}
                     onChange={(e) => setCustomIndustry(e.target.value)}
-                    className="mt-2 w-full px-4 py-2 rounded-xl border border-[#CBD5E1] text-xs outline-none focus:border-brand-600"
+                    className="mt-2 w-full px-4 py-2 rounded-xl border border-[#CBD5E1] text-xs outline-hidden focus:border-brand-600"
                   />
                 )}
               </div>
@@ -661,7 +661,7 @@ export const Profile: React.FC = () => {
                   value={linkedinUrl}
                   onChange={(e) => setLinkedinUrl(e.target.value)}
                   placeholder="https://www.linkedin.com/in/username"
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[#CBD5E1] bg-white text-sm text-[#0F172A] placeholder:text-slate-400 outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100 transition-all font-medium"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-[#CBD5E1] bg-white text-sm text-[#0F172A] placeholder:text-slate-400 outline-hidden focus:border-brand-600 focus:ring-2 focus:ring-brand-100 transition-all font-medium"
                 />
               </div>
             </div>
@@ -673,7 +673,7 @@ export const Profile: React.FC = () => {
               type="submit"
               id="save-profile-btn"
               disabled={isSaving}
-              className="px-6 py-2.5 rounded-xl bg-[#047857] hover:bg-brand-700 text-white font-semibold text-sm shadow-sm transition-all flex items-center gap-2 active:scale-[0.99] cursor-pointer disabled:opacity-75"
+              className="px-6 py-2.5 rounded-xl bg-[#047857] hover:bg-brand-700 text-white font-semibold text-sm shadow-xs transition-all flex items-center gap-2 active:scale-[0.99] cursor-pointer disabled:opacity-75"
             >
               {isSaving ? (
                 <>
@@ -696,7 +696,7 @@ export const Profile: React.FC = () => {
         </form>
 
         {/* Card 4: Account & Security */}
-        <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-7 border border-[#E2E8F0] shadow-xs space-y-5">
+        <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-7 border border-[#E2E8F0] shadow-2xs space-y-5">
           {/* Header */}
           <div className="flex items-center gap-3.5 pb-2">
             <div className="w-10 h-10 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center shrink-0">
@@ -719,7 +719,7 @@ export const Profile: React.FC = () => {
             <button
               type="button"
               onClick={handleSendPasswordReset}
-              className="bg-white border border-[#CBD5E1] hover:bg-slate-50 text-slate-700 text-xs font-semibold px-4 py-2.5 rounded-xl transition-colors flex items-center justify-center gap-2 shadow-xs shrink-0 cursor-pointer"
+              className="bg-white border border-[#CBD5E1] hover:bg-slate-50 text-slate-700 text-xs font-semibold px-4 py-2.5 rounded-xl transition-colors flex items-center justify-center gap-2 shadow-2xs shrink-0 cursor-pointer"
             >
               <KeyRound className="w-3.5 h-3.5 text-slate-500" />
               <span>Send Reset Email</span>
@@ -737,7 +737,7 @@ export const Profile: React.FC = () => {
             <button
               type="button"
               onClick={() => setShowDeleteModal(true)}
-              className="bg-[#E11D48] hover:bg-rose-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition-colors flex items-center justify-center gap-2 shadow-xs shrink-0 cursor-pointer"
+              className="bg-[#E11D48] hover:bg-rose-700 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition-colors flex items-center justify-center gap-2 shadow-2xs shrink-0 cursor-pointer"
             >
               <Trash2 className="w-3.5 h-3.5" />
               <span>Delete Account</span>
@@ -789,7 +789,7 @@ export const Profile: React.FC = () => {
                   value={deleteConfirmText}
                   onChange={(e) => setDeleteConfirmText(e.target.value)}
                   placeholder="delete"
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs outline-none focus:border-rose-600 font-medium"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-xs outline-hidden focus:border-rose-600 font-medium"
                 />
               </div>
 
@@ -805,7 +805,7 @@ export const Profile: React.FC = () => {
                   type="button"
                   disabled={isDeleting || deleteConfirmText.toLowerCase() !== 'delete'}
                   onClick={handleDeleteAccount}
-                  className="px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold disabled:opacity-50 flex items-center gap-1.5 shadow-sm cursor-pointer"
+                  className="px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold disabled:opacity-50 flex items-center gap-1.5 shadow-xs cursor-pointer"
                 >
                   {isDeleting ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Trash2 className="w-3.5 h-3.5" />}
                   <span>Confirm Delete</span>

@@ -63,13 +63,13 @@ export const Day30Content = () => {
           <Brain className="text-orange-600" />
           1. What Is Prompt Engineering?
         </h2>
-        <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm space-y-6">
+        <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-xs space-y-6">
           <p className="text-sm font-medium text-zinc-600 leading-relaxed">
             Prompt Engineering is the practice of crafting inputs (prompts) so that a language model produces outputs that are:
           </p>
           <div className="flex flex-wrap gap-3">
             {['Relevant', 'Accurate', 'Actionable'].map((word) => (
-              <span key={word} className="px-4 py-2 bg-orange-50 text-orange-700 rounded-xl text-xs font-black uppercase tracking-wider border border-orange-100 shadow-sm">
+              <span key={word} className="px-4 py-2 bg-orange-50 text-orange-700 rounded-xl text-xs font-black uppercase tracking-wider border border-orange-100 shadow-xs">
                 {word}
               </span>
             ))}
@@ -86,7 +86,7 @@ export const Day30Content = () => {
                 /* Fix: Added missing Search icon import above to resolve line 87 error */
                 { title: "Competitive analysis", icon: Search }
               ].map((item, i) => (
-                <div key={i} className="flex items-center gap-3 p-4 bg-zinc-50 rounded-2xl border border-zinc-100 shadow-sm">
+                <div key={i} className="flex items-center gap-3 p-4 bg-zinc-50 rounded-2xl border border-zinc-100 shadow-xs">
                    <item.icon className="w-4 h-4 text-orange-600 shrink-0" />
                    <span className="text-xs font-bold text-zinc-700">{item.title}</span>
                 </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
+import './index.css';
 
 // The site used to put pages after a "#" (thenoobpm.com/#/dashboard). Old bookmarks
 // and emailed links still arrive that way, so move them onto the real path.

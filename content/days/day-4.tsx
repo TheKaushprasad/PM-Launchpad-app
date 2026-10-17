@@ -72,7 +72,7 @@ export const Day4Content = () => {
               icon: Eye
             }
           ].map((pillar, i) => (
-            <div key={i} className="p-4 bg-white border border-zinc-100 rounded-[2rem] shadow-sm space-y-3 group hover:border-indigo-200 transition-colors">
+            <div key={i} className="p-4 bg-white border border-zinc-100 rounded-4xl shadow-xs space-y-3 group hover:border-indigo-200 transition-colors">
               <div className="w-10 h-10 rounded-xl bg-zinc-50 flex items-center justify-center text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
                 <pillar.icon className="w-5 h-5" />
               </div>
@@ -96,7 +96,7 @@ export const Day4Content = () => {
             { title: "Stakeholder Alignment", desc: "Provides the rationale needed to explain trade-offs to engineers and execs.", icon: Users }
           ].map((item, i) => (
             <div key={i} className="flex gap-4 p-4 bg-zinc-50 rounded-3xl border border-zinc-100 items-start">
-               <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-indigo-600 shrink-0 shadow-sm">
+               <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-indigo-600 shrink-0 shadow-xs">
                  <item.icon className="w-5 h-5" />
                </div>
                <div>
@@ -120,7 +120,7 @@ export const Day4Content = () => {
             { habit: "Perform Product Drills", action: "List 3 strengths and 3 weaknesses of a daily-use app with justifications.", icon: Activity },
             { habit: "Embrace Constraints", action: "Design solutions under strict limits (e.g., 30s onboarding) to sharpen judgment.", icon: Target }
           ].map((item, i) => (
-            <div key={i} className="flex items-center gap-3 md:gap-3.5 p-4 bg-white border border-zinc-100 rounded-2xl shadow-sm">
+            <div key={i} className="flex items-center gap-3 md:gap-3.5 p-4 bg-white border border-zinc-100 rounded-2xl shadow-xs">
                <div className="w-12 h-12 rounded-2xl bg-zinc-50 flex items-center justify-center text-indigo-600 shrink-0 shadow-inner">
                  <item.icon className="w-6 h-6" />
                </div>

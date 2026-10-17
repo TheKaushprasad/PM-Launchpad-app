@@ -180,7 +180,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
       </div>
 
       {/* Hero Scorecard Section */}
-      <section className="bg-gradient-to-br from-[#032A1F] via-[#043C2C] to-[#064E3B] rounded-3xl p-8 sm:p-10 text-white shadow-2xl relative overflow-hidden border border-zinc-800">
+      <section className="bg-linear-to-br from-[#032A1F] via-[#043C2C] to-[#064E3B] rounded-3xl p-8 sm:p-10 text-white shadow-2xl relative overflow-hidden border border-zinc-800">
         <div className="absolute top-0 right-0 w-96 h-96 bg-brand-500/10 rounded-full blur-[100px] pointer-events-none" />
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
@@ -213,7 +213,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
 
           {/* 10-Second Recruiter Impression Test */}
           <div className="lg:col-span-7 space-y-4">
-            <div className="p-5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm space-y-2">
+            <div className="p-5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xs space-y-2">
               <div className="flex items-center gap-2 text-amber-400 text-xs font-black uppercase tracking-wider">
                 <Eye className="w-4 h-4" />
                 <span>The 10-Second Recruiter Skim Test</span>
@@ -295,7 +295,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
             {analysis.topActions.map((action, i) => (
               <div 
                 key={i} 
-                className="bg-white p-5 rounded-2xl border border-amber-200/80 shadow-xs space-y-2 flex flex-col justify-between"
+                className="bg-white p-5 rounded-2xl border border-amber-200/80 shadow-2xs space-y-2 flex flex-col justify-between"
               >
                 <div className="space-y-1.5">
                   <div className="flex items-center gap-2">
@@ -338,7 +338,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
               onClick={() => setActiveTab(tab.id as any)}
               className={`px-4 py-2.5 rounded-xl font-bold text-xs whitespace-nowrap transition-all ${
                 activeTab === tab.id
-                  ? 'bg-zinc-900 text-white shadow-sm'
+                  ? 'bg-zinc-900 text-white shadow-xs'
                   : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'
               }`}
             >
@@ -352,7 +352,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
           <div className="space-y-8">
             {/* Category Score Explanations */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="bg-white p-6 rounded-3xl border border-zinc-200 shadow-xs space-y-4">
+              <div className="bg-white p-6 rounded-3xl border border-zinc-200 shadow-2xs space-y-4">
                 <h4 className="font-black text-zinc-900 text-sm flex items-center gap-2">
                   <Award className="w-4 h-4 text-brand-600" />
                   Strengths & Competitive Advantages
@@ -367,7 +367,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
                 </ul>
               </div>
 
-              <div className="bg-white p-6 rounded-3xl border border-zinc-200 shadow-xs space-y-4">
+              <div className="bg-white p-6 rounded-3xl border border-zinc-200 shadow-2xs space-y-4">
                 <h4 className="font-black text-zinc-900 text-sm flex items-center gap-2">
                   <AlertTriangle className="w-4 h-4 text-rose-600" />
                   Identified Weaknesses & Bottlenecks
@@ -399,7 +399,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
                     className={`p-6 rounded-3xl border transition-all ${
                       rec.completed 
                         ? 'bg-zinc-50 border-zinc-200 opacity-60' 
-                        : 'bg-white border-zinc-200 shadow-xs hover:border-brand-200'
+                        : 'bg-white border-zinc-200 shadow-2xs hover:border-brand-200'
                     }`}
                   >
                     <div className="flex items-start justify-between gap-4 mb-3">
@@ -460,7 +460,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
         {/* TAB 2: HEADLINE REWRITES */}
         {activeTab === 'headline' && (
           <div className="space-y-8">
-            <div className="bg-white p-6 sm:p-8 rounded-3xl border border-zinc-200 shadow-xs space-y-6">
+            <div className="bg-white p-6 sm:p-8 rounded-3xl border border-zinc-200 shadow-2xs space-y-6">
               <div className="flex items-center justify-between border-b border-zinc-100 pb-4">
                 <div>
                   <span className="text-[10px] font-black uppercase tracking-widest text-brand-600">Section Analysis</span>
@@ -494,7 +494,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
                   {analysis.rewrites?.headline?.improvedVersions?.map((opt, i) => (
                     <div 
                       key={i}
-                      className="p-6 rounded-2xl bg-gradient-to-r from-brand-50/50 via-white to-brand-50/30 border border-brand-100 shadow-xs space-y-3 relative group"
+                      className="p-6 rounded-2xl bg-linear-to-r from-brand-50/50 via-white to-brand-50/30 border border-brand-100 shadow-2xs space-y-3 relative group"
                     >
                       <div className="flex items-center justify-between">
                         <span className="font-bold text-xs text-brand-900">{opt.title}</span>
@@ -510,7 +510,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
                       <div className="flex items-center justify-end">
                         <button
                           onClick={() => handleCopy(opt.content, `headline_${i}`)}
-                          className="px-3.5 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-xs"
+                          className="px-3.5 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-2xs"
                         >
                           {copiedId === `headline_${i}` ? (
                             <>
@@ -536,7 +536,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
         {/* TAB 3: ABOUT SECTION */}
         {activeTab === 'about' && (
           <div className="space-y-8">
-            <div className="bg-white p-6 sm:p-8 rounded-3xl border border-zinc-200 shadow-xs space-y-6">
+            <div className="bg-white p-6 sm:p-8 rounded-3xl border border-zinc-200 shadow-2xs space-y-6">
               <div className="flex items-center justify-between border-b border-zinc-100 pb-4">
                 <div>
                   <span className="text-[10px] font-black uppercase tracking-widest text-brand-600">Section Analysis</span>
@@ -570,7 +570,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
                   {analysis.rewrites?.about?.improvedVersions?.map((opt, i) => (
                     <div 
                       key={i}
-                      className="p-6 rounded-3xl bg-white border border-zinc-200 shadow-xs space-y-4"
+                      className="p-6 rounded-3xl bg-white border border-zinc-200 shadow-2xs space-y-4"
                     >
                       <div className="flex items-center justify-between border-b border-zinc-100 pb-3">
                         <span className="font-black text-xs text-zinc-900">{opt.title}</span>
@@ -586,7 +586,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
                       <div className="flex items-center justify-end">
                         <button
                           onClick={() => handleCopy(opt.content, `about_${i}`)}
-                          className="px-4 py-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-xs"
+                          className="px-4 py-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-2xs"
                         >
                           {copiedId === `about_${i}` ? (
                             <>
@@ -612,7 +612,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
         {/* TAB 4: EXPERIENCE BULLETS (ACAR) */}
         {activeTab === 'experience' && (
           <div className="space-y-8">
-            <div className="bg-white p-6 sm:p-8 rounded-3xl border border-zinc-200 shadow-xs space-y-6">
+            <div className="bg-white p-6 sm:p-8 rounded-3xl border border-zinc-200 shadow-2xs space-y-6">
               <div className="flex items-center justify-between border-b border-zinc-100 pb-4">
                 <div>
                   <span className="text-[10px] font-black uppercase tracking-widest text-brand-600">Experience Audit</span>
@@ -628,7 +628,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
                   {analysis.rewrites.experience.map((role, rIdx) => (
                     <div 
                       key={rIdx}
-                      className="rounded-3xl border border-zinc-200 overflow-hidden shadow-xs"
+                      className="rounded-3xl border border-zinc-200 overflow-hidden shadow-2xs"
                     >
                       <button
                         onClick={() => toggleRoleExpand(rIdx)}
@@ -678,7 +678,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
                                     <span className="text-[10px] font-black uppercase tracking-wider text-amber-700">Missing Elements</span>
                                     <div className="flex flex-wrap gap-1 pt-1">
                                       {b.frameworkMissing?.map((f, fi) => (
-                                        <span key={fi} className="px-2 py-0.5 bg-amber-200/70 text-amber-900 rounded font-bold text-[10px]">
+                                        <span key={fi} className="px-2 py-0.5 bg-amber-200/70 text-amber-900 rounded-sm font-bold text-[10px]">
                                           {f}
                                         </span>
                                       ))}
@@ -742,7 +742,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
                   value={customInputText}
                   onChange={(e) => setCustomInputText(e.target.value)}
                   placeholder="e.g. Worked with design and engineering on the new customer onboarding flow."
-                  className="w-full p-3 bg-zinc-800 border border-zinc-700 rounded-xl text-xs text-white placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  className="w-full p-3 bg-zinc-800 border border-zinc-700 rounded-xl text-xs text-white placeholder:text-zinc-500 focus:outline-hidden focus:ring-2 focus:ring-brand-500"
                 />
 
                 <div className="flex justify-end">
@@ -780,7 +780,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
         {/* TAB 5: SKILLS & KEYWORD GAP */}
         {activeTab === 'skills' && (
           <div className="space-y-8">
-            <div className="bg-white p-6 sm:p-8 rounded-3xl border border-zinc-200 shadow-xs space-y-6">
+            <div className="bg-white p-6 sm:p-8 rounded-3xl border border-zinc-200 shadow-2xs space-y-6">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-100 pb-4">
                 <div>
                   <span className="text-[10px] font-black uppercase tracking-widest text-brand-600">ATS & Search Optimization</span>
@@ -814,7 +814,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
                     >
                       <div className="flex items-center justify-between">
                         <span className="font-black text-xs text-rose-950 font-mono">{kw.keyword}</span>
-                        <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded bg-rose-200/60 text-rose-900">
+                        <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-sm bg-rose-200/60 text-rose-900">
                           {kw.importance}
                         </span>
                       </div>
@@ -871,7 +871,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
         {/* TAB 6: PROFILE COMPLETENESS */}
         {activeTab === 'completeness' && (
           <div className="space-y-8">
-            <div className="bg-white p-6 sm:p-8 rounded-3xl border border-zinc-200 shadow-xs space-y-6">
+            <div className="bg-white p-6 sm:p-8 rounded-3xl border border-zinc-200 shadow-2xs space-y-6">
               <div className="flex items-center justify-between border-b border-zinc-100 pb-4">
                 <div>
                   <span className="text-[10px] font-black uppercase tracking-widest text-brand-600">Completeness Checklist</span>
@@ -925,7 +925,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
         {/* TAB 7: 3-DAY ACTION PLAN */}
         {activeTab === 'actionPlan' && (
           <div className="space-y-8">
-            <div className="bg-white p-6 sm:p-8 rounded-3xl border border-zinc-200 shadow-xs space-y-6">
+            <div className="bg-white p-6 sm:p-8 rounded-3xl border border-zinc-200 shadow-2xs space-y-6">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-100 pb-4">
                 <div>
                   <span className="text-[10px] font-black uppercase tracking-widest text-brand-600">Prioritized Roadmap</span>
@@ -967,7 +967,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
                           className={`p-4 rounded-2xl border transition-all flex items-start justify-between gap-3 ${
                             task.completed 
                               ? 'bg-white/50 border-zinc-200 opacity-60' 
-                              : 'bg-white border-zinc-200 shadow-xs'
+                              : 'bg-white border-zinc-200 shadow-2xs'
                           }`}
                         >
                           <div className="flex items-start gap-3">
@@ -991,7 +991,7 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
                             </div>
                           </div>
 
-                          <span className="text-[10px] font-bold text-brand-600 bg-brand-50 px-2 py-0.5 rounded shrink-0">
+                          <span className="text-[10px] font-bold text-brand-600 bg-brand-50 px-2 py-0.5 rounded-sm shrink-0">
                             {task.category}
                           </span>
                         </div>

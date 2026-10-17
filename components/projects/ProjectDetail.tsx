@@ -210,7 +210,7 @@ export const ProjectDetail: React.FC = () => {
                 onChange={(e) => setDraft(e.target.value.slice(0, MAX_CHARS))}
                 rows={18}
                 placeholder={project.deliverables.map((d, i) => `${i + 1}. ${d}\n`).join('\n')}
-                className="w-full rounded-xl border border-slate-200 p-4 text-sm text-slate-800 leading-relaxed focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-400 resize-y font-mono"
+                className="w-full rounded-xl border border-slate-200 p-4 text-sm text-slate-800 leading-relaxed focus:outline-hidden focus:ring-2 focus:ring-brand-500/30 focus:border-brand-400 resize-y font-mono"
               />
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-3">
                 <span className={`text-xs ${draft.trim().length < MIN_CHARS ? 'text-slate-400' : 'text-emerald-600'}`}>

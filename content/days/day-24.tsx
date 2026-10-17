@@ -31,7 +31,7 @@ export const Day24Content = () => {
           <Info className="text-indigo-600" />
           What Is System Design?
         </h2>
-        <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm space-y-4">
+        <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-xs space-y-4">
            <p className="text-sm font-medium text-zinc-600 leading-relaxed">
              System design is the process of defining the architecture, components, modules, interfaces, and data flows needed to build software systems that meet specific requirements. It's the blueprint that guides how engineers will implement your product vision.
            </p>
@@ -98,7 +98,7 @@ export const Day24Content = () => {
                icon: Activity
              }
            ].map((item, i) => (
-             <div key={i} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-sm flex items-start gap-4 hover:border-indigo-200 transition-colors group">
+             <div key={i} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-xs flex items-start gap-4 hover:border-indigo-200 transition-colors group">
                 <div className="w-12 h-12 rounded-2xl bg-zinc-50 flex items-center justify-center text-indigo-600 shrink-0 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
                   <item.icon className="w-6 h-6" />
                 </div>

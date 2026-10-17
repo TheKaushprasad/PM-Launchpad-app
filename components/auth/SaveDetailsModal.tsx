@@ -80,7 +80,7 @@ export const SaveDetailsModal: React.FC = () => {
               <div className="relative z-10 space-y-4">
                 {/* Header with Icon and Dismiss */}
                 <div className="flex items-start justify-between gap-3">
-                  <div className="w-12 h-12 rounded-2xl bg-brand-50 border border-brand-100 flex items-center justify-center shadow-xs">
+                  <div className="w-12 h-12 rounded-2xl bg-brand-50 border border-brand-100 flex items-center justify-center shadow-2xs">
                     {getActionIcon()}
                   </div>
                   <button

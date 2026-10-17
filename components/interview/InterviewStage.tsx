@@ -1205,7 +1205,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
           className="w-full bg-white rounded-3xl border border-zinc-200 shadow-2xl p-6 md:p-8 relative overflow-hidden"
         >
           {/* Ambient Background Gradient Accent */}
-          <div className="absolute top-0 inset-x-0 h-2 bg-gradient-to-r from-brand-500 via-brand-500 to-pink-500" />
+          <div className="absolute top-0 inset-x-0 h-2 bg-linear-to-r from-brand-500 via-brand-500 to-pink-500" />
 
           {/* Top Bar: Case Tags */}
           <div className="flex items-center justify-between mb-6 pb-4 border-b border-zinc-100">
@@ -1240,7 +1240,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
           </div>
 
           {/* Interviewer Persona Box */}
-          <div className="flex items-center gap-4 p-4 rounded-2xl bg-gradient-to-r from-zinc-900 to-zinc-950 text-white mb-6 shadow-md">
+          <div className="flex items-center gap-4 p-4 rounded-2xl bg-linear-to-r from-zinc-900 to-zinc-950 text-white mb-6 shadow-md">
             <div className="relative">
               <img 
                 src={persona.avatarImage} 
@@ -1371,7 +1371,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
   return (
     <div className="flex flex-col h-[calc(100vh-4rem)] max-w-7xl mx-auto px-2 md:px-4 py-3 select-none">
       {/* Top Bar: Scenario Info & Live Timer */}
-      <div className="bg-white rounded-2xl border border-zinc-200 p-3 md:p-4 mb-3 shadow-sm flex flex-wrap items-center justify-between gap-3">
+      <div className="bg-white rounded-2xl border border-zinc-200 p-3 md:p-4 mb-3 shadow-xs flex flex-wrap items-center justify-between gap-3">
         {/* Left: Scenario Info */}
         <div className="flex items-center gap-3">
           <button
@@ -1491,7 +1491,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
           <button
             onClick={() => setIsEndModalOpen(true)}
             disabled={isEvaluating}
-            className="flex items-center gap-1.5 px-4 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-extrabold shadow-sm transition-all disabled:opacity-50"
+            className="flex items-center gap-1.5 px-4 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-extrabold shadow-xs transition-all disabled:opacity-50"
           >
             {isEvaluating ? (
               <>
@@ -1513,10 +1513,10 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="mb-3 px-4 py-3 rounded-2xl bg-gradient-to-r from-amber-500/15 via-orange-500/10 to-amber-500/15 border border-amber-400/40 text-amber-950 text-xs font-semibold flex items-center justify-between shadow-sm"
+            className="mb-3 px-4 py-3 rounded-2xl bg-linear-to-r from-amber-500/15 via-orange-500/10 to-amber-500/15 border border-amber-400/40 text-amber-950 text-xs font-semibold flex items-center justify-between shadow-xs"
           >
             <div className="flex items-center gap-2.5">
-              <div className="p-1.5 bg-amber-500 text-white rounded-lg shadow-sm">
+              <div className="p-1.5 bg-amber-500 text-white rounded-lg shadow-xs">
                 <Lightbulb className="w-4 h-4" />
               </div>
               <div>
@@ -1538,7 +1538,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="mb-3 px-4 py-2.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-900 text-xs font-bold flex items-center justify-between shadow-sm"
+            className="mb-3 px-4 py-2.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-900 text-xs font-bold flex items-center justify-between shadow-xs"
           >
             <div className="flex items-center gap-2">
               <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0" />
@@ -1627,7 +1627,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
           )}
 
           {/* Bottom Candidate Response Toolbar */}
-          <div className="mt-3 bg-white rounded-2xl border border-zinc-200 p-2.5 shadow-sm flex items-center gap-2">
+          <div className="mt-3 bg-white rounded-2xl border border-zinc-200 p-2.5 shadow-xs flex items-center gap-2">
             {/* Text Input Box with Live Word-by-Word Preview */}
             <form onSubmit={handleSendMessage} className="flex-1 flex items-center gap-2">
               <input
@@ -1644,13 +1644,13 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
                     : "Tap the circle above to answer, or type here."
                 }
                 disabled={isThinking || isTranscribing || isEvaluating || !!chatError}
-                className="flex-1 px-4 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-xs md:text-sm text-zinc-800 focus:outline-none focus:ring-2 focus:ring-brand-500 font-medium"
+                className="flex-1 px-4 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-xs md:text-sm text-zinc-800 focus:outline-hidden focus:ring-2 focus:ring-brand-500 font-medium"
               />
 
               <button
                 type="submit"
                 disabled={(!inputText.trim() && !isListening) || isThinking || isTranscribing || isEvaluating || !!chatError}
-                className="px-4 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-sm disabled:opacity-40 transition-all shrink-0"
+                className="px-4 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-xs disabled:opacity-40 transition-all shrink-0"
               >
                 {isThinking || isTranscribing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
                 <span className="hidden sm:inline">Done answering</span>
@@ -1677,7 +1677,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
 
         {/* Right Conversation Transcript Drawer */}
         {isTranscriptOpen && (
-          <div className="lg:col-span-4 h-full bg-white rounded-3xl border border-zinc-200 shadow-sm flex flex-col overflow-hidden">
+          <div className="lg:col-span-4 h-full bg-white rounded-3xl border border-zinc-200 shadow-xs flex flex-col overflow-hidden">
             <div className="px-4 py-3 border-b border-zinc-100 flex items-center justify-between bg-zinc-50/70">
               <div className="flex items-center gap-2">
                 <FileText className="w-4 h-4 text-brand-600" />
@@ -1697,7 +1697,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
 
                 if (isHint) {
                   return (
-                    <div key={m.id} className="p-3 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-semibold leading-relaxed shadow-sm flex items-start gap-2">
+                    <div key={m.id} className="p-3 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-semibold leading-relaxed shadow-xs flex items-start gap-2">
                       <Lightbulb className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
                       <span>{m.text}</span>
                     </div>
@@ -1713,7 +1713,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
                       <span className="text-[9px] text-zinc-400">{m.timestamp}</span>
                     </div>
 
-                    <div className={`p-3.5 rounded-2xl text-xs font-medium leading-relaxed max-w-[90%] shadow-sm ${
+                    <div className={`p-3.5 rounded-2xl text-xs font-medium leading-relaxed max-w-[90%] shadow-xs ${
                       isCandidate 
                         ? 'bg-brand-600 text-white rounded-tr-none' 
                         : 'bg-zinc-100 text-zinc-800 rounded-tl-none border border-zinc-200/70'
@@ -1756,7 +1756,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
       {/* Custom End & Evaluate Confirmation Modal */}
       <AnimatePresence>
         {isEndModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}

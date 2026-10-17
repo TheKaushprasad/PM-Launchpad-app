@@ -28,7 +28,7 @@ export const Day36Content = () => {
           <Target className="text-amber-600" />
           Why Proof of Work Matters More Than Credentials
         </h2>
-        <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm space-y-6">
+        <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-xs space-y-6">
            <p className="text-sm font-medium text-zinc-600 leading-relaxed">
              Product management is fundamentally about turning ideas into reality that people actually use. It's not a theoretical discipline. You can't truly understand product management from books alone any more than you can learn to swim by reading about it.
            </p>
@@ -81,7 +81,7 @@ export const Day36Content = () => {
                 { name: "Cursor", desc: "AI code editor for building apps conversationally.", icon: Code }
               ].map((tool, i) => (
                 <div key={i} className="p-5 bg-white/5 border border-white/10 rounded-2xl space-y-3">
-                   <div className="w-8 h-8 rounded-lg bg-amber-500/20 flex items-center justify-center text-amber-500 shadow-sm">
+                   <div className="w-8 h-8 rounded-lg bg-amber-500/20 flex items-center justify-center text-amber-500 shadow-xs">
                       <tool.icon className="w-4 h-4" />
                    </div>
                    <h5 className="font-black text-white text-[10px] uppercase tracking-widest">{tool.name}</h5>
@@ -106,7 +106,7 @@ export const Day36Content = () => {
              { title: "Iterate Based on Feedback", desc: "The best portfolio projects show evolution. Version 2 and 3 after analyzing usage patterns prove you can actually manage a product lifecycle.", icon: RefreshCw }
            ].map((step, i) => (
              <div key={i} className="flex gap-3 md:gap-3.5 p-4 sm:p-5 bg-zinc-50 border border-zinc-200 rounded-2xl items-start">
-                <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center text-amber-600 shrink-0 shadow-sm border border-zinc-100">
+                <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center text-amber-600 shrink-0 shadow-xs border border-zinc-100">
                   <step.icon className="w-6 h-6" />
                 </div>
                 <div>
@@ -125,7 +125,7 @@ export const Day36Content = () => {
         </h2>
         
         <div className="space-y-2.5">
-           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
               <div className="flex items-center gap-3">
                  <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600 shadow-inner">
                    <BarChart className="w-5 h-5" />
@@ -136,7 +136,7 @@ export const Day36Content = () => {
               <p className="text-xs font-medium text-zinc-600">A simple web dashboard where users log habits, mood, and sleep. Use Claude or Lovable to create the interface and a simple database for persistence.</p>
            </div>
 
-           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
               <div className="flex items-center gap-3">
                  <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600 shadow-inner">
                    <MessageSquare className="w-5 h-5" />
@@ -147,7 +147,7 @@ export const Day36Content = () => {
               <p className="text-xs font-medium text-zinc-600">Generates contextual behavioral questions based on role and industry. Use the Google AI Studio API for the brain and a simple form interface.</p>
            </div>
 
-           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
               <div className="flex items-center gap-3">
                  <div className="w-10 h-10 rounded-xl bg-pink-50 flex items-center justify-center text-pink-600 shadow-inner">
                    <Smartphone className="w-5 h-5" />

@@ -53,7 +53,7 @@ export const Day6Content = () => {
           <p className="text-zinc-600 font-medium leading-relaxed">
             The PRD is the product manager's most fundamental artifact. It defines what you're building, why you're building it, and what success looks like. Think of it as the single source of truth that aligns engineering, design, marketing, and leadership around a shared understanding.
           </p>
-          <div className="bg-white border border-zinc-100 rounded-2xl p-4 sm:p-5 shadow-sm space-y-4">
+          <div className="bg-white border border-zinc-100 rounded-2xl p-4 sm:p-5 shadow-xs space-y-4">
             <p className="text-sm font-bold text-zinc-800">A strong PRD typically includes:</p>
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {[
@@ -162,7 +162,7 @@ export const Day6Content = () => {
                 content: "Distilled summaries for busy stakeholders to grab context quickly."
               }
             ].map((item, i) => (
-              <div key={i} className="p-4 bg-white border border-zinc-100 rounded-[2rem] shadow-sm flex flex-col gap-4">
+              <div key={i} className="p-4 bg-white border border-zinc-100 rounded-4xl shadow-xs flex flex-col gap-4">
                 <div className="w-10 h-10 rounded-xl bg-zinc-50 flex items-center justify-center text-indigo-600">
                    <item.icon className="w-5 h-5" />
                 </div>
