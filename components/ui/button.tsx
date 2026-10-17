@@ -18,6 +18,9 @@ const buttonVariants = cva(
         ghost:
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
+        // App's forest-green call to action (sign-up, continue, send).
+        brand:
+          "bg-brand-600 text-white shadow-md shadow-brand-200 hover:bg-brand-700 active:scale-[0.99]",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",
@@ -28,6 +31,8 @@ const buttonVariants = cva(
         "icon-xs": "size-6 rounded-md [&_svg:not([class*='size-'])]:size-3",
         "icon-sm": "size-8",
         "icon-lg": "size-10",
+        // Full-height pill used for the main action in popups.
+        cta: "h-12 rounded-xl px-4 text-xs font-extrabold tracking-wider uppercase",
       },
     },
     defaultVariants: {

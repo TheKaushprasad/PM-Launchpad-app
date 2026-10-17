@@ -47,6 +47,7 @@ Priority: **P0** blocks safe growth, **P1** important next, **P2** nice to have.
 ### Code health
 - [ ] **P1** Split `server.ts` (about 1,600 lines) into route files: `linkedin`, `resume`, `interview`, `projects`, `auth-email`, plus a shared `ai.ts` helper.
 - [x] **P2** Compile Tailwind instead of using the CDN script (Tailwind v4 via Vite, 2026-10-17). Design tokens next, with shadcn/ui.
+- [ ] **P2** Move screens onto shadcn/ui a few at a time (2026-10-17): sign-in popup done; next the other popups (save details, interview setup, access request, scratchpad), then dropdowns, tabs and toasts.
 - [ ] **P2** Add unit tests for `server/scoring.ts` and `server/grounding.ts`.
 
 ### Business
