@@ -408,7 +408,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               aria-label="Close modal"
               className="text-zinc-400 hover:text-zinc-700 hover:bg-zinc-200/70 rounded-full"
             >
-              <X className="w-4 h-4" />
+              <X className="size-4" />
             </Button>
           </div>
 
@@ -512,9 +512,9 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     className="w-full h-auto py-2.5 px-4 rounded-xl border-zinc-200 shadow-none hover:bg-zinc-50 text-zinc-600 hover:text-zinc-600 font-semibold text-xs"
                   >
                     {resendingEmail ? (
-                      <Loader2 className="w-3.5 h-3.5 animate-spin text-brand-600" />
+                      <Loader2 className="size-3.5 animate-spin text-brand-600" />
                     ) : (
-                      <RefreshCw className="w-3.5 h-3.5 text-zinc-400" />
+                      <RefreshCw className="size-3.5 text-zinc-400" />
                     )}
                     <span>{resendingEmail ? 'Sending Link...' : 'Resend Verification Email'}</span>
                   </Button>
@@ -572,7 +572,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                         className="w-full h-11 px-4 rounded-xl border-zinc-200 hover:border-zinc-300 bg-white hover:bg-zinc-50/80 text-zinc-800 font-bold text-xs sm:text-sm gap-2.5 shadow-2xs active:scale-[0.99]"
                       >
                         {googleLoading ? (
-                          <Loader2 className="w-4 h-4 animate-spin text-brand-600" />
+                          <Loader2 className="size-4 animate-spin text-brand-600" />
                         ) : (
                           <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
                             <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -939,7 +939,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                         disabled={loading || googleLoading}
                         className="w-full"
                       >
-                        {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+                        {loading ? <Loader2 className="size-4 animate-spin" /> : <Sparkles className="size-4" />}
                         <span>{loading ? 'Creating Account...' : 'CREATE MY ACCOUNT →'}</span>
                       </Button>
 
@@ -978,7 +978,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                         className="w-full h-11 px-4 rounded-xl border-zinc-200 hover:border-zinc-300 bg-white hover:bg-zinc-50/80 text-zinc-800 font-bold text-xs sm:text-sm gap-2.5 shadow-2xs active:scale-[0.99]"
                       >
                         {googleLoading ? (
-                          <Loader2 className="w-4 h-4 animate-spin text-brand-600" />
+                          <Loader2 className="size-4 animate-spin text-brand-600" />
                         ) : (
                           <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
                             <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -1074,7 +1074,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                           disabled={loading || googleLoading}
                           className="w-full"
                         >
-                          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <ArrowRight className="w-4 h-4" />}
+                          {loading ? <Loader2 className="size-4 animate-spin" /> : <ArrowRight className="size-4" />}
                           <span>{loading ? 'Logging In...' : 'LOG IN →'}</span>
                         </Button>
                       </div>
@@ -1118,7 +1118,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                         disabled={loading}
                         className="w-full"
                       >
-                        {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Mail className="w-4 h-4" />}
+                        {loading ? <Loader2 className="size-4 animate-spin" /> : <Mail className="size-4" />}
                         <span>{loading ? 'Sending Link...' : 'SEND RESET LINK →'}</span>
                       </Button>
 

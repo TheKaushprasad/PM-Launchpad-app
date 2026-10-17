@@ -2,6 +2,8 @@ import React from 'react';
 import { X, Layers } from 'lucide-react';
 import { CandidateLevel, InterviewMode } from '../../types/interview';
 import { LEVELS } from '../../data/interviewTracks';
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 
 interface FullLoopSetupModalProps {
   isOpen: boolean;
@@ -14,19 +16,23 @@ interface FullLoopSetupModalProps {
 /** Setup for a full interview loop: three rounds back to back with one combined verdict. */
 export const FullLoopSetupModal: React.FC<FullLoopSetupModalProps> = ({ isOpen, level, onLevelChange, onClose, onStart }) => {
   const mode: InterviewMode = 'voice';
-  if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-950/80 backdrop-blur-md">
-      <div className="bg-white rounded-3xl border border-zinc-200 shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto text-zinc-900">
+    <Dialog open={isOpen} onOpenChange={(open) => { if (!open) onClose(); }}>
+      <DialogContent
+        showCloseButton={false}
+        overlayClassName="bg-zinc-950/80 backdrop-blur-md"
+        aria-describedby={undefined}
+        className="block gap-0 p-0 bg-white rounded-3xl border-zinc-200 shadow-2xl w-[calc(100%-2rem)] max-w-lg sm:max-w-lg max-h-[90vh] overflow-y-auto text-zinc-900"
+      >
         <div className="px-6 py-4 border-b border-zinc-100 flex items-center justify-between bg-zinc-50/80">
           <div className="flex items-center gap-2">
             <Layers className="w-5 h-5 text-brand-600" />
-            <h2 className="text-lg font-black tracking-tight">Full interview loop</h2>
+            <DialogTitle className="text-lg leading-7 font-black tracking-tight">Full interview loop</DialogTitle>
           </div>
-          <button onClick={onClose} className="p-2 rounded-xl text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100" aria-label="Close">
-            <X className="w-5 h-5" />
-          </button>
+          <Button variant="ghost" size="icon" onClick={onClose} className="rounded-xl text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100" aria-label="Close">
+            <X className="size-5" />
+          </Button>
         </div>
 
         <div className="p-6 space-y-6">
@@ -51,15 +57,15 @@ export const FullLoopSetupModal: React.FC<FullLoopSetupModalProps> = ({ isOpen, 
             </div>
           </div>
 
-          <button
-            type="button"
+          <Button
+            variant="brand"
             onClick={() => onStart(mode)}
-            className="w-full py-3 rounded-2xl bg-brand-600 hover:bg-brand-700 text-white font-extrabold text-sm"
+            className="w-full h-auto py-3 rounded-2xl shadow-none active:scale-100 font-extrabold text-sm"
           >
             Start round 1
-          </button>
+          </Button>
         </div>
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 };
