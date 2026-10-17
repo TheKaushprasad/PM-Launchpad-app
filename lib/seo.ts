@@ -3,6 +3,7 @@
 // so the HTML Google downloads and the page a visitor sees always agree.
 import { LESSONS, MODULES } from '../constants';
 import { REAL_WORLD_PROJECTS } from '../data/realWorldProjects';
+import { ON_SITE_ASSIGNMENTS, assignmentPath, findAssignment } from '../data/assignments';
 import { allQuestionPaths, findQuestion, questionsForTrack, trackBySlug, trackFor } from './interviewQuestions';
 
 export const SITE_URL = 'https://www.thenoobpm.com';
@@ -159,6 +160,16 @@ export function getRouteMeta(rawPath: string): RouteMeta {
     }
   }
 
+  const assignment = path.match(/^\/resources\/assignments\/([\w-]+)$/);
+  const a = assignment && findAssignment(assignment[1]);
+  if (a) {
+    return {
+      title: withBrand(`${a.company} ${a.position} Assignment: ${a.title}`),
+      description: clip(`${a.summary} A real take-home assignment from ${a.company}'s ${a.position} hiring process.`),
+      canonicalPath: path,
+    };
+  }
+
   return { title: HOME_TITLE, description: HOME_DESCRIPTION, canonicalPath: '/' };
 }
 
@@ -175,6 +186,7 @@ export function indexablePaths(): string[] {
     ...allQuestionPaths(),
     '/jobs',
     '/resources',
+    ...ON_SITE_ASSIGNMENTS.map(assignmentPath),
     '/tools',
     '/tools/resume-auditor',
     '/tools/linkedin-optimiser',

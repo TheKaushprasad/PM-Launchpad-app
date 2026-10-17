@@ -9,6 +9,8 @@ import path from 'path';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { LESSONS, MODULES } from '../constants';
 import { REAL_WORLD_PROJECTS } from '../data/realWorldProjects';
+import { findAssignment } from '../data/assignments';
+import { BriefMarkdown } from '../components/assignments/BriefMarkdown';
 import { QUESTION_TRACKS, findQuestion, questionPath, questionsForTrack, trackBySlug, trackFor } from '../lib/interviewQuestions';
 import { getRouteMeta, indexablePaths, lessonTopic, SITE_NAME, SITE_URL } from '../lib/seo';
 
@@ -142,6 +144,16 @@ function bodyFor(p: string): string {
         `<h2>How to approach it</h2>${list(q.candidateBrief, 'ol')}<p><strong>Framework:</strong> ${esc(q.suggestedFramework)}</p>` +
         `<h2>Sample answer</h2>${list(o.coreHypothesesOrSegments)}${list(o.analyticalPath, 'ol')}<p>${esc(o.synthesisModel)}</p>` +
         `<h2>What interviewers look for</h2>${list(q.keyEvaluationMetrics)}`,
+    );
+  }
+
+  const asg = p.match(/^\/resources\/assignments\/([\w-]+)$/);
+  const a = asg && findAssignment(asg[1]);
+  if (a) {
+    return shell(
+      `<p>${link('/resources?view=assignments', 'PM Assignments')}</p><h1>${esc(a.title!)}</h1>` +
+        `<p>${esc(a.company)} · ${esc(a.position)}</p><p>${esc(a.summary!)}</p>` +
+        renderToStaticMarkup(<BriefMarkdown source={a.body!} />),
     );
   }
 
