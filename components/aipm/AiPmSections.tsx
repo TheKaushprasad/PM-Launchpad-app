@@ -82,7 +82,7 @@ export const AiPmTemplates: React.FC = () => (
     <PageTitle eyebrow="Templates" title="T1 to T10">
       Copy each template into your notebook. The 90-day plan says when to use each one.
     </PageTitle>
-    <div className="grid md:grid-cols-2 gap-4">
+    <div data-reveal-stagger className="grid md:grid-cols-2 gap-4">
       {AI_PM_TEMPLATES.map((t) => (
         <Card key={t.id} className="scroll-mt-24">
           <div id={t.id.toLowerCase()} className="scroll-mt-24" />
@@ -215,7 +215,7 @@ export const AiPmReading: React.FC = () => (
     </Section>
     <Section title="Video resources">
       <p className="text-sm text-slate-600">Use each video in the weeks shown.</p>
-      <div className="grid md:grid-cols-2 gap-3">
+      <div data-reveal-stagger className="grid md:grid-cols-2 gap-3">
         {AI_PM_VIDEOS.map((v) => (
           <Card key={v.key}>
             <ResourceLink id={v.key} />

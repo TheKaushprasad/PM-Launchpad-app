@@ -76,7 +76,7 @@ export const AiPmOverview: React.FC = () => {
 
       <Section title="Outcomes">
         <p className="text-sm text-slate-500 font-bold">At day 90 you can do these tasks without help.</p>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div data-reveal-stagger className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {o.outcomes.map((g, i) => (
             <Card key={g.title}>
               <p className="text-[11px] font-black uppercase tracking-widest text-brand-600 mb-1">{i + 1}</p>
@@ -130,7 +130,7 @@ export const AiPmPlan: React.FC = () => {
         {o.planIntro}
       </PageTitle>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      <div data-reveal-stagger className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
         {o.rules.map((r) => (
           <Card key={r.title}>
             <h3 className="font-black text-slate-900 text-sm mb-1">{r.title}</h3>
@@ -160,7 +160,7 @@ export const AiPmPlan: React.FC = () => {
               </div>
             </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            <div data-reveal-stagger className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {days.map((d) => {
                 const done = isDone(d.day);
                 return (

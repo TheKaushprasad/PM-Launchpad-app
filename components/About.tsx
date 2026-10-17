@@ -64,7 +64,7 @@ export const About: React.FC = () => {
         <div className="lg:col-span-2 space-y-12">
             
             {/* About the Course */}
-            <section className="bg-white p-8 md:p-12 rounded-3xl border border-zinc-100 shadow-sm">
+            <section data-reveal className="bg-white p-8 md:p-12 rounded-3xl border border-zinc-100 shadow-sm">
                 <h2 className="text-3xl font-black text-zinc-900 mb-6 tracking-tighter flex items-center gap-3">
                     <BookOpen className="text-[#34D399]" />
                     About the Course
@@ -84,12 +84,12 @@ export const About: React.FC = () => {
 
             {/* Industry Validated Blueprint */}
             <section>
-                <div className="px-4 mb-8">
+                <div data-reveal className="px-4 mb-8">
                     <h2 className="text-3xl font-black text-zinc-900 tracking-tighter">Industry-Validated Skill Blueprint</h2>
                     <p className="text-zinc-500 font-medium mt-2">Essential competencies recruiters expect from entry-level PMs.</p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div data-reveal-stagger className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <BlueprintCard 
                         icon={<BarChart className="w-6 h-6" />}
                         title="Data & Experimentation"

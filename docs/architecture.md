@@ -28,7 +28,7 @@ Domain: GoDaddy DNS points thenoobpm.com at Vercel.
 
 | Layer | Choice |
 |---|---|
-| Frontend | React 18, TypeScript, Vite 5, react-router-dom 6 (`BrowserRouter`), framer-motion, lucide-react |
+| Frontend | React 18, TypeScript, Vite 5, react-router-dom 6 (`BrowserRouter`), framer-motion, GSAP (scroll reveals), lucide-react |
 | Styling | Tailwind via CDN script in `index.html`, plus a small inline stylesheet; Inter and Caveat fonts |
 | Backend | Express 5 in a single `server.ts`, wrapped for Vercel by `api-handler.ts` |
 | Auth | Firebase Auth (Google popup and email/password, email verification) |

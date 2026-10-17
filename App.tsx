@@ -30,6 +30,7 @@ import { Analytics } from '@vercel/analytics/react';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { SaveDetailsModal } from './components/auth/SaveDetailsModal';
+import { useScrollReveal } from './components/motion/useScrollReveal';
 import { VerifyEmailGate } from './components/auth/VerifyEmailGate';
 
 // The live site shows a Coming soon page until the AI interview is switched on (see lib/featureFlags.ts).
@@ -126,6 +127,16 @@ const MainShell = () => {
     const [isFocusMode, setIsFocusMode] = useState(false);
     const location = useLocation();
     const scrollContainerRef = useRef<HTMLElement>(null);
+    const pageRef = useRef<HTMLDivElement>(null);
+    // Scroll reveals for every page in the shell (pages mark elements with data-reveal; see useScrollReveal).
+    // Dashboard category tabs are separate routes but one page, so they share a key.
+    // While the session loads or the email gate shows, the page wrapper is not on screen yet.
+    const pageKey = loading || (user && !isEmailVerified)
+        ? 'waiting'
+        : location.pathname.startsWith('/dashboard') && !location.pathname.includes('/day/')
+            ? '/dashboard'
+            : location.pathname;
+    useScrollReveal(pageRef, { scrollerRef: scrollContainerRef, resetKey: pageKey });
     
     useEffect(() => {
         // When navigating to general pages (dashboard, profile, tools, etc.), scroll to top.
@@ -195,7 +206,7 @@ const MainShell = () => {
                     </header>
                 )}
                 <main ref={scrollContainerRef} className="flex-1 overflow-y-auto scroll-smooth">
-                    <div className="w-full min-h-full">
+                    <div ref={pageRef} className="w-full min-h-full">
                         <ErrorBoundary>
                             <Outlet context={{ isCollapsed, isFocusMode, setIsFocusMode }} />
                         </ErrorBoundary>

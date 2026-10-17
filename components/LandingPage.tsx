@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -13,11 +13,15 @@ import { Logo } from './Logo';
 import { HeroSkillOrbit } from './HeroSkillOrbit';
 import { useAuth } from '../context/AuthContext';
 import { AuthModal } from './auth/AuthModal';
+import { useScrollReveal } from './motion/useScrollReveal';
 
 export const LandingPage: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { user, logout, isEmailVerified } = useAuth();
+  // Sections marked data-reveal fade in as they scroll into view (see useScrollReveal).
+  const pageRef = useRef<HTMLDivElement>(null);
+  useScrollReveal(pageRef);
   
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authModalMode, setAuthModalMode] = useState<'login' | 'signup'>('signup');
@@ -199,7 +203,7 @@ export const LandingPage: React.FC = () => {
     : searchableItems;
 
   return (
-    <div className="min-h-screen bg-[#FAF9F6] font-sans text-slate-900 overflow-x-hidden selection:bg-emerald-100 selection:text-emerald-900">
+    <div ref={pageRef} className="min-h-screen bg-[#FAF9F6] font-sans text-slate-900 overflow-x-hidden selection:bg-emerald-100 selection:text-emerald-900">
       
       {/* Auth Modal */}
       <AuthModal
@@ -791,7 +795,7 @@ export const LandingPage: React.FC = () => {
         {/* Section Header Container */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
 
-          <div>
+          <div data-reveal>
             <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
               Built by PMs. <span className="text-[#059669]">Loved by learners.</span>
             </h2>
@@ -858,7 +862,7 @@ export const LandingPage: React.FC = () => {
           <div className="grid lg:grid-cols-12 gap-12 items-center">
             
             {/* Left Column: Heading & Description */}
-            <div className="lg:col-span-4 space-y-5">
+            <div data-reveal className="lg:col-span-4 space-y-5">
 
               <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">
                 Your Entire PM Transition. <span className="text-[#059669] block">All Under One Roof.</span>
@@ -887,7 +891,7 @@ export const LandingPage: React.FC = () => {
                 </span>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+              <div data-reveal-stagger className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
                 
                 {/* Card 01: 45-Day PM Launchpad */}
                 <div 
@@ -1110,7 +1114,7 @@ export const LandingPage: React.FC = () => {
         
 
         {/* Section Heading */}
-        <div className="text-center max-w-2xl mx-auto mb-12">
+        <div data-reveal className="text-center max-w-2xl mx-auto mb-12">
           <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
             8 Professional Pillars
           </h2>
@@ -1120,7 +1124,7 @@ export const LandingPage: React.FC = () => {
         </div>
 
         {/* Track list: each row opens that track */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 border-t border-slate-200/80">
+        <div data-reveal-stagger className="grid grid-cols-1 md:grid-cols-2 gap-x-12 border-t border-slate-200/80">
           {pillars.map((pillar) => {
             const Icon = pillar.icon;
             return (
@@ -1152,7 +1156,7 @@ export const LandingPage: React.FC = () => {
       <section className="py-20 bg-[#07281E] text-white overflow-hidden relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="grid lg:grid-cols-12 gap-12 items-center">
+          <div data-reveal-stagger className="grid lg:grid-cols-12 gap-12 items-center">
             
             {/* Left Column */}
             <div className="lg:col-span-5 space-y-6">
@@ -1301,7 +1305,7 @@ export const LandingPage: React.FC = () => {
 
       {/* READY TO BECOME A PRODUCT MANAGER? (BOTTOM CTA BANNER) */}
       <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-gradient-to-r from-emerald-50/90 via-teal-50/70 to-emerald-100/80 border border-emerald-200/80 rounded-3xl p-8 sm:p-14 relative overflow-hidden text-center shadow-sm">
+        <div data-reveal className="bg-gradient-to-r from-emerald-50/90 via-teal-50/70 to-emerald-100/80 border border-emerald-200/80 rounded-3xl p-8 sm:p-14 relative overflow-hidden text-center shadow-sm">
           
           {/* Decorative Loop Doodle on Left */}
           <div className="absolute left-6 top-8 hidden sm:block opacity-60 text-amber-500">

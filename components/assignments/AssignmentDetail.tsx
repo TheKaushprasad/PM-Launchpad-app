@@ -62,8 +62,8 @@ export const AssignmentDetail: React.FC = () => {
 
       {more.length > 0 && (
         <section className="pt-8">
-          <h2 className="text-lg font-extrabold text-zinc-900 mb-3">More PM assignments</h2>
-          <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <h2 data-reveal className="text-lg font-extrabold text-zinc-900 mb-3">More PM assignments</h2>
+          <ul data-reveal-stagger className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {more.map((m) => (
               <li key={m.slug}>
                 <Link

@@ -1839,7 +1839,7 @@ export const Resources: React.FC = () => {
             </div>
 
             {/* 4 Cards Grid: 4 columns on desktop, 2x2 on tablet, 1 column on mobile */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6">
+            <div data-reveal-stagger className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6">
               {/* Card 1: Certifications */}
               <div 
                 onClick={() => handleViewChange('certs')}
@@ -2278,7 +2278,7 @@ export const Resources: React.FC = () => {
                         className="overflow-hidden"
                       >
                         <div className="border-t border-slate-100 p-5 sm:p-6 md:p-7 bg-slate-50/30">
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
+                          <div data-reveal-stagger className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
                             {section.items.map((cert, certIdx) => {
                               const CertIcon = cert.icon;
                               return (
@@ -2429,7 +2429,7 @@ export const Resources: React.FC = () => {
                           className="overflow-hidden"
                         >
                           <div className="border-t border-slate-100 p-5 sm:p-6 md:p-7 bg-slate-50/40">
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+                            <div data-reveal-stagger className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
                               {filteredItems.map((item, idx) => (
                                 <div 
                                   key={idx} 
@@ -2576,7 +2576,7 @@ export const Resources: React.FC = () => {
                           className="overflow-hidden"
                         >
                           <div className="border-t border-slate-100 p-5 sm:p-6 md:p-7 bg-slate-50/40">
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+                            <div data-reveal-stagger className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
                               {filteredItems.map((item, idx) => {
                                 const ItemIcon = item.icon || GraduationCap;
                                 return (

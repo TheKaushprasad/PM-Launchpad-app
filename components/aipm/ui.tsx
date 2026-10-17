@@ -13,7 +13,7 @@ export const PageTitle: React.FC<{ eyebrow?: string; title: string; children?: R
 );
 
 export const Section: React.FC<{ title: string; children: React.ReactNode; id?: string }> = ({ title, children, id }) => (
-  <section id={id} className="space-y-3 scroll-mt-24">
+  <section data-reveal id={id} className="space-y-3 scroll-mt-24">
     <h2 className="text-lg sm:text-xl font-black text-slate-900 tracking-tight">{title}</h2>
     {children}
   </section>

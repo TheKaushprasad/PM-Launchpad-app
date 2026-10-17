@@ -35,7 +35,7 @@ How work is done on this repository, for humans and AI coding assistants alike. 
 - Static content and catalogues live in `data/` (scenarios, personas, projects) and `content/days/` (lessons).
 - Client Firestore access goes through `context/AuthContext.tsx`; do not scatter new Firestore calls across components without a reason.
 - Styling uses Tailwind utility classes and follows [design.md](design.md). Prefer zinc neutrals and indigo accents.
-- Icons from `lucide-react`; animation with `framer-motion`.
+- Icons from `lucide-react`; animation with `framer-motion`. Scroll reveals use GSAP through `data-reveal` / `data-reveal-stagger` attributes (`components/motion/useScrollReveal.ts`); never put them on an element that already animates with Motion, so nothing animates twice. Import GSAP from `lib/gsap.ts`. The official GSAP skills live in `.claude/skills/gsap-*`.
 - Commit messages follow Conventional Commits: `feat(scope): …`, `fix(scope): …`, `refactor: …`, `chore: …`.
 
 ## 5. Backend and AI

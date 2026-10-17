@@ -294,7 +294,7 @@ export const JobsBoard: React.FC = () => {
           {filtered.length === 0 ? (
             <p className="text-center py-16 text-sm text-slate-500">No roles match these filters. Try removing one.</p>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div data-reveal-stagger className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {filtered.slice(0, visible).map((job) => (
                 <JobCard
                   key={job.id}

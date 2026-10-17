@@ -230,7 +230,7 @@ export const ToolsHub: React.FC = () => {
         </header>
 
         {/* 2 Main Tool Cards Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full items-stretch">
+        <div data-reveal-stagger className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full items-stretch">
           {tools.map((tool) => (
             <div 
               key={tool.title}
