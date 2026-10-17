@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect, useRef, ReactNode } from 'react';
+import React, { Component, useState, useEffect, useRef, ReactNode, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, Outlet, useOutletContext, Link } from 'react-router-dom';
 import { SeoMeta } from './components/SeoMeta';
 import { InterviewQuestionsHub, InterviewQuestionsTrack, InterviewQuestionDetail } from './components/questions/InterviewQuestions';
@@ -13,7 +13,7 @@ import { LinkedInOptimiser } from './components/LinkedInOptimiser';
 import { ResumeAuditor } from './components/ResumeAuditor';
 import { InterviewHub } from './components/interview/InterviewHub';
 import { InterviewComingSoon } from './components/interview/InterviewComingSoon';
-import { isAiInterviewEnabled } from './lib/featureFlags';
+import { isAiInterviewEnabled, isAiPmCourseEnabled } from './lib/featureFlags';
 
 import { ProjectsHub } from './components/projects/ProjectsHub';
 import { ProjectDetail } from './components/projects/ProjectDetail';
@@ -34,6 +34,15 @@ import { VerifyEmailGate } from './components/auth/VerifyEmailGate';
 
 // The live site shows a Coming soon page until the AI interview is switched on (see lib/featureFlags.ts).
 const interviewStudio = isAiInterviewEnabled ? <InterviewHub /> : <InterviewComingSoon />;
+
+// The PM → AI PM course is local-only: its code is only loaded when switched on, and the live
+// site sends /ai-pm to the dashboard (see lib/featureFlags.ts).
+const AiPmCourse = isAiPmCourseEnabled ? lazy(() => import('./components/aipm/AiPmCourse')) : null;
+const aiPmCourse = AiPmCourse ? (
+    <Suspense fallback={<div className="flex justify-center py-24"><Loader2 className="w-6 h-6 animate-spin text-slate-400" /></div>}>
+        <AiPmCourse />
+    </Suspense>
+) : <Navigate to="/dashboard" replace />;
 
 // Action Link Redirector to catch Firebase direct action queries (e.g. ?mode=verifyEmail&oobCode=...)
 const AuthActionRedirector = () => {
@@ -275,6 +284,9 @@ const App: React.FC = () => {
                 <Route path="/interview-studio" element={interviewStudio} />
                 <Route path="/practice" element={interviewStudio} />
                 <Route path="/resume-auditor" element={<ResumeAuditor />} />
+
+                {/* PM → AI PM course (local only) */}
+                <Route path="/ai-pm/*" element={aiPmCourse} />
 
                 {/* Real-World PM Projects Routes */}
                 <Route path="/projects" element={<ProjectsHub />} />
