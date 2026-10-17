@@ -168,7 +168,7 @@ export const ProjectDetail: React.FC = () => {
           All projects
         </Link>
 
-        <div className="grid lg:grid-cols-5 gap-6">
+        <div data-reveal-stagger className="grid lg:grid-cols-5 gap-6">
           {/* Brief */}
           <section className="lg:col-span-2 bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 space-y-5 h-fit">
             <div>

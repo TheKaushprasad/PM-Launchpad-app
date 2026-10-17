@@ -79,7 +79,7 @@ export const InterviewQuestionsHub: React.FC = () => (
       title="Product Manager Interview Questions with Answers"
       intro="Real PM interview questions grouped by type, each with a framework, the clarifying questions to ask, a step-by-step approach and a sample answer. Free, no sign-up needed."
     />
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div data-reveal-stagger className="grid grid-cols-1 sm:grid-cols-2 gap-4">
       {QUESTION_TRACKS.map((t) => {
         const count = questionsForTrack(t.track).length;
         return (
@@ -116,7 +116,7 @@ export const InterviewQuestionsTrack: React.FC = () => {
         intro={track.intro}
         crumbs={<Crumbs items={[{ to: '/interview-questions', label: 'Interview Questions' }, { label: track.label }]} />}
       />
-      <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <ul data-reveal-stagger className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {questions.map((q) => (
           <QuestionRow key={q.id} q={q} />
         ))}
@@ -126,7 +126,7 @@ export const InterviewQuestionsTrack: React.FC = () => {
 };
 
 const Section: React.FC<{ icon: React.ElementType; title: string; children: React.ReactNode }> = ({ icon: Icon, title, children }) => (
-  <section className="bg-white rounded-2xl border border-zinc-200/80 p-5 sm:p-6 space-y-3">
+  <section data-reveal className="bg-white rounded-2xl border border-zinc-200/80 p-5 sm:p-6 space-y-3">
     <h2 className="flex items-center gap-2 text-lg font-extrabold text-zinc-900">
       <Icon className="w-5 h-5 text-brand-600" />
       {title}
@@ -251,7 +251,7 @@ export const InterviewQuestionDetail: React.FC = () => {
         {more.length > 0 && (
           <section className="pt-4">
             <h2 className="text-lg font-extrabold text-zinc-900 mb-3">More {track.label.toLowerCase()} questions</h2>
-            <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <ul data-reveal-stagger className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {more.map((s) => (
                 <QuestionRow key={s.id} q={s} />
               ))}

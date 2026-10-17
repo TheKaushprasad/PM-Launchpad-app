@@ -61,6 +61,7 @@ Score and verdict colours should stay consistent everywhere: Strong Yes and 85+ 
 | Score dashboard | Big overall number, verdict pill, per-pillar progress bars | Interview scorecard, LinkedIn and resume dashboards, project feedback |
 | Icons | lucide-react, 16 to 20px, stroke style | Everywhere |
 | Motion | framer-motion for page and modal transitions; `.page-transition` uses `cubic-bezier(0.4, 0, 0.2, 1)` over 0.4s | Pages, modals |
+| Scroll reveal | GSAP ScrollTrigger: mark an element `data-reveal` (fades and rises in) or a grid `data-reveal-stagger` (its cards follow one after another). Wired once in `App.tsx` and `LandingPage.tsx` via `components/motion/useScrollReveal.ts`; off under reduced motion | Landing, tools, projects, questions, resources, about, AI PM course |
 | Scrollbars | Thin 6px, slate thumbs | Global |
 
 ## 6. Key flows
