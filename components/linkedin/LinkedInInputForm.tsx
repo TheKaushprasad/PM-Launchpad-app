@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { extractTextFromPdfBuffer } from '../../lib/pdfParser';
 import { authJsonHeaders } from '../../lib/apiClient';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 interface LinkedInInputFormProps {
   onBackToLanding: () => void;
@@ -498,16 +499,16 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                     <span>Target role <span className="text-brand-600">*</span></span>
                   </span>
                 </label>
-                <select
-                  id="target-role-select"
-                  value={targetRole}
-                  onChange={(e) => setTargetRole(e.target.value)}
-                  className="w-full h-11 sm:h-12 px-3.5 bg-zinc-50 border border-zinc-200 rounded-xl text-xs sm:text-sm font-semibold text-zinc-900 focus:outline-hidden focus:ring-2 focus:ring-brand-500/20 focus:border-brand-600 transition-all cursor-pointer"
-                >
-                  {targetRoleOptions.map((role) => (
-                    <option key={role} value={role}>{role}</option>
-                  ))}
-                </select>
+                <Select value={targetRole} onValueChange={(v) => setTargetRole(v)}>
+                  <SelectTrigger id="target-role-select" className="w-full h-11 sm:h-12 px-3.5 bg-zinc-50 border border-zinc-200 rounded-xl text-xs sm:text-sm font-semibold text-zinc-900 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-brand-500/20 focus-visible:border-brand-600 transition-all cursor-pointer shadow-none">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {targetRoleOptions.map((role) => (
+                      <SelectItem key={role} value={role}>{role}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
 
                 {targetRole === 'Other (Custom)' && (
                   <div className="pt-1.5">
@@ -528,16 +529,16 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                   <Target className="w-3.5 h-3.5 text-zinc-400" />
                   <span>Experience level <span className="text-brand-600">*</span></span>
                 </label>
-                <select
-                  id="experience-level-select"
-                  value={experience}
-                  onChange={(e) => setExperience(e.target.value)}
-                  className="w-full h-11 sm:h-12 px-3.5 bg-zinc-50 border border-zinc-200 rounded-xl text-xs sm:text-sm font-semibold text-zinc-900 focus:outline-hidden focus:ring-2 focus:ring-brand-500/20 focus:border-brand-600 transition-all cursor-pointer"
-                >
-                  {experienceOptions.map((exp) => (
-                    <option key={exp} value={exp}>{exp}</option>
-                  ))}
-                </select>
+                <Select value={experience} onValueChange={(v) => setExperience(v)}>
+                  <SelectTrigger id="experience-level-select" className="w-full h-11 sm:h-12 px-3.5 bg-zinc-50 border border-zinc-200 rounded-xl text-xs sm:text-sm font-semibold text-zinc-900 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-brand-500/20 focus-visible:border-brand-600 transition-all cursor-pointer shadow-none">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {experienceOptions.map((exp) => (
+                      <SelectItem key={exp} value={exp}>{exp}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
               {/* Target Industry */}
@@ -546,16 +547,16 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                   <Building className="w-3.5 h-3.5 text-zinc-400" />
                   <span>Target industry <span className="text-brand-600">*</span></span>
                 </label>
-                <select
-                  id="industry-select"
-                  value={industry}
-                  onChange={(e) => setIndustry(e.target.value)}
-                  className="w-full h-11 sm:h-12 px-3.5 bg-zinc-50 border border-zinc-200 rounded-xl text-xs sm:text-sm font-semibold text-zinc-900 focus:outline-hidden focus:ring-2 focus:ring-brand-500/20 focus:border-brand-600 transition-all cursor-pointer"
-                >
-                  {industryOptions.map((ind) => (
-                    <option key={ind} value={ind}>{ind}</option>
-                  ))}
-                </select>
+                <Select value={industry} onValueChange={(v) => setIndustry(v)}>
+                  <SelectTrigger id="industry-select" className="w-full h-11 sm:h-12 px-3.5 bg-zinc-50 border border-zinc-200 rounded-xl text-xs sm:text-sm font-semibold text-zinc-900 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-brand-500/20 focus-visible:border-brand-600 transition-all cursor-pointer shadow-none">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {industryOptions.map((ind) => (
+                      <SelectItem key={ind} value={ind}>{ind}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
             </div>
 
@@ -564,16 +565,16 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
               {/* Target Company Type */}
               <div className="space-y-1.5">
                 <label className="block text-xs font-bold text-zinc-800">Target company type</label>
-                <select
-                  id="company-type-select"
-                  value={companyType}
-                  onChange={(e) => setCompanyType(e.target.value)}
-                  className="w-full h-11 sm:h-12 px-3.5 bg-zinc-50 border border-zinc-200 rounded-xl text-xs sm:text-sm font-semibold text-zinc-900 focus:outline-hidden focus:ring-2 focus:ring-brand-500/20 focus:border-brand-600 transition-all cursor-pointer"
-                >
-                  {companyTypeOptions.map((comp) => (
-                    <option key={comp} value={comp}>{comp}</option>
-                  ))}
-                </select>
+                <Select value={companyType} onValueChange={(v) => setCompanyType(v)}>
+                  <SelectTrigger id="company-type-select" className="w-full h-11 sm:h-12 px-3.5 bg-zinc-50 border border-zinc-200 rounded-xl text-xs sm:text-sm font-semibold text-zinc-900 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-brand-500/20 focus-visible:border-brand-600 transition-all cursor-pointer shadow-none">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {companyTypeOptions.map((comp) => (
+                      <SelectItem key={comp} value={comp}>{comp}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
               {/* Target Location / Hiring Market */}
