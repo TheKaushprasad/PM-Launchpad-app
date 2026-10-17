@@ -52,7 +52,7 @@ export const Day13Content = () => {
           <PieChart className="text-[#7d99bf]" />
           1. Key Concepts
         </h2>
-        <div className="bg-white border border-zinc-100 rounded-2xl shadow-sm overflow-hidden">
+        <div className="bg-white border border-zinc-100 rounded-2xl shadow-xs overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm font-medium border-collapse">
               <thead>
@@ -95,7 +95,7 @@ export const Day13Content = () => {
         </h2>
         
         <div className="space-y-2.5">
-           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
               <div className="flex items-center gap-3">
                  <div className="w-10 h-10 rounded-xl bg-[#7d99bf]/10 flex items-center justify-center text-[#7d99bf] shadow-inner">
                    <FileText className="w-5 h-5" />
@@ -115,7 +115,7 @@ export const Day13Content = () => {
               </div>
            </div>
 
-           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
               <div className="flex items-center gap-3">
                  <div className="w-10 h-10 rounded-xl bg-[#b4c17b]/10 flex items-center justify-center text-[#b4c17b] shadow-inner">
                    <Users className="w-5 h-5" />
@@ -134,7 +134,7 @@ export const Day13Content = () => {
               </div>
            </div>
 
-           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
               <div className="flex items-center gap-3">
                  <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600 shadow-inner">
                    <Zap className="w-5 h-5" />
@@ -194,7 +194,7 @@ export const Day13Content = () => {
               </p>
            </div>
 
-           <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm space-y-4">
+           <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-xs space-y-4">
               <div className="flex items-center gap-3">
                  <Globe className="text-[#7d99bf] w-5 h-5" />
                  <h4 className="font-black text-zinc-900">Google Trends</h4>
@@ -207,7 +207,7 @@ export const Day13Content = () => {
               </div>
            </div>
 
-           <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm space-y-4">
+           <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-xs space-y-4">
               <div className="flex items-center gap-3">
                  <Layout className="text-[#7d99bf] w-5 h-5" />
                  <h4 className="font-black text-zinc-900">Power BI / Excel</h4>
@@ -256,7 +256,7 @@ export const Day13Content = () => {
           <Activity className="text-[#7d99bf]" />
           5. Example: Zomato (Early Days)
         </h2>
-        <div className="bg-white border border-zinc-100 rounded-2xl shadow-sm overflow-hidden">
+        <div className="bg-white border border-zinc-100 rounded-2xl shadow-xs overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm font-medium border-collapse">
               <thead>
@@ -296,7 +296,7 @@ export const Day13Content = () => {
           <Briefcase className="text-[#7d99bf]" />
           6. Real-World PM Example
         </h2>
-        <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm relative overflow-hidden group">
+        <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs relative overflow-hidden group">
            <div className="absolute top-0 right-0 p-4 sm:p-5 opacity-5 group-hover:opacity-10 transition-opacity">
              <Globe className="w-48 h-48 text-[#7d99bf]" />
            </div>

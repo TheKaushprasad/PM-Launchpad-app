@@ -165,10 +165,10 @@ export const Day2Content = () => {
           ].map((p) => (
             <div key={p.id} className="relative group">
               <div className="absolute -left-12 top-0 text-5xl font-black text-zinc-100 group-hover:text-indigo-50 transition-colors hidden lg:block">{p.id}</div>
-              <div className={`p-4 sm:p-5 md:p-4 sm:p-5 rounded-2xl border bg-white border-zinc-100 shadow-sm space-y-8`}>
+              <div className={`p-4 sm:p-5 md:p-4 sm:p-5 rounded-2xl border bg-white border-zinc-100 shadow-xs space-y-8`}>
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 md:gap-3.5">
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-zinc-50 flex items-center justify-center text-indigo-600 shadow-sm">
+                    <div className="w-12 h-12 rounded-2xl bg-zinc-50 flex items-center justify-center text-indigo-600 shadow-xs">
                       <p.icon className="w-6 h-6" />
                     </div>
                     <div>
@@ -198,7 +198,7 @@ export const Day2Content = () => {
                     <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Key Outputs</p>
                     <div className="flex flex-wrap gap-2">
                       {p.outputs.map((o, i) => (
-                        <span key={i} className="px-3 py-1.5 bg-white border border-zinc-200 rounded-xl text-xs font-black text-zinc-500 shadow-sm">{o}</span>
+                        <span key={i} className="px-3 py-1.5 bg-white border border-zinc-200 rounded-xl text-xs font-black text-zinc-500 shadow-xs">{o}</span>
                       ))}
                     </div>
                   </div>
@@ -244,7 +244,7 @@ export const Day2Content = () => {
           <Scale className="text-indigo-600" />
           SDLC VS PDLC
         </h2>
-        <div className="bg-white border border-zinc-100 rounded-2xl shadow-sm overflow-hidden">
+        <div className="bg-white border border-zinc-100 rounded-2xl shadow-xs overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm font-medium border-collapse">
               <thead>

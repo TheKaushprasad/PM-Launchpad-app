@@ -10,7 +10,7 @@ The visual language and UX patterns of thenoobpm.com, taken from the current cod
 
 ## 2. Colour
 
-Tailwind's default palette, loaded from the CDN. Neutrals do most of the work; forest green is the one brand accent. A `tailwind.config` block in `index.html` defines the green `brand` scale, and every component uses `brand-*`. The old `indigo`, `blue`, `sky`, `violet` and `purple` names are still mapped to the same green as a safety net, so use hex (for example `#3B82F6`) when a real blue is needed. Run `.claude/skills/impeccable/scripts/impeccable detect components` to check for design anti-patterns.
+Tailwind's default palette, compiled with the app. Neutrals do most of the work; forest green is the one brand accent. The `@theme` block in `index.css` defines the green `brand` scale, and every component uses `brand-*`. The old `indigo`, `blue`, `sky`, `violet` and `purple` names are still mapped to the same green as a safety net, so use hex (for example `#3B82F6`) when a real blue is needed. Run `.claude/skills/impeccable/scripts/impeccable detect components` to check for design anti-patterns.
 
 | Role | Tailwind classes | Notes |
 |---|---|---|
@@ -35,7 +35,7 @@ Score and verdict colours should stay consistent everywhere: Strong Yes and 85+ 
 
 - **Inter** (300 to 900) for everything; set on `body`.
 - **Caveat** (500 to 700) for handwritten accents only (annotations, playful callouts), never for body text.
-- Headings: weight 800, letter-spacing `-0.025em`. `font-black` is capped at 800 in the Tailwind config.
+- Headings: weight 800, letter-spacing `-0.025em`. `font-black` is capped at 800 in the `@theme` block of `index.css`.
 - Small labels inside lessons: use the `uppercase` class; the lesson `.prose` size overrides skip uppercase elements.
 - Lesson prose (`.prose`): h1 2.5rem, h2 1.875rem, h3 1.5rem; paragraphs 1.125rem, line-height 1.7, colour `#3f3f46`, max width 75ch.
 - Small labels: `text-xs font-bold uppercase tracking-widest text-zinc-400`.
@@ -91,7 +91,7 @@ Score and verdict colours should stay consistent everywhere: Strong Yes and 85+ 
 
 ## 9. Gaps to fix
 
-- Tailwind comes from the CDN; its only config is the inline block in `index.html`. Zinc and slate are still used interchangeably. Pick one neutral (zinc) for new work.
+- Tailwind v4 is compiled from `index.css`, which also carries small compatibility rules so pages keep their v3 spacing (border colour, text line heights, space-y). Zinc and slate are still used interchangeably. Pick one neutral (zinc) for new work.
 - Illustrations (`RocketIllustration.tsx`), the logo and `Resources.tsx` company colours still use their original hex blues on purpose.
 - No dark mode.
 - Fonts are loaded twice in `index.html` (Caveat in the head, Inter later); consolidate when touching it.

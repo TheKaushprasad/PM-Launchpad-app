@@ -79,8 +79,8 @@ export const Day12Content = () => {
                bgColor: "bg-amber-50"
              }
            ].map((item, i) => (
-             <div key={i} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
-                <div className={`w-12 h-12 rounded-2xl ${item.bgColor} flex items-center justify-center ${item.color} shadow-sm`}>
+             <div key={i} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
+                <div className={`w-12 h-12 rounded-2xl ${item.bgColor} flex items-center justify-center ${item.color} shadow-xs`}>
                   <item.icon className="w-6 h-6" />
                 </div>
                 <h4 className="font-black text-zinc-900">{item.title}</h4>
@@ -136,7 +136,7 @@ export const Day12Content = () => {
           </div>
         </div>
 
-        <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm space-y-8">
+        <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-xs space-y-8">
            <div className="flex items-center gap-3">
               <BarChart className="text-indigo-600 w-6 h-6" />
               <h2 className="text-lg md:text-xl font-black text-zinc-900">Zerodha vs Groww</h2>
@@ -154,7 +154,7 @@ export const Day12Content = () => {
                     <p className="text-sm font-medium text-zinc-500">UI simplicity for First-timers.</p>
                  </div>
               </div>
-              <div className="bg-emerald-50 p-4 rounded-[2rem] border border-emerald-100">
+              <div className="bg-emerald-50 p-4 rounded-4xl border border-emerald-100">
                  <p className="text-sm font-bold text-emerald-800 leading-relaxed italic">
                    "Design simplicity was the differentiator Groww used to disrupt a market of 'complex dashboards.'"
                  </p>

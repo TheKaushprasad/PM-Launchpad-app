@@ -28,7 +28,7 @@ export const Day27Content = () => {
           <Info className="text-indigo-600" />
           What Is Cloud Computing?
         </h2>
-        <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm space-y-4">
+        <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-xs space-y-4">
            <p className="text-sm font-medium text-zinc-600 leading-relaxed">
              Cloud computing means accessing computing resources—servers, storage, databases, networking, software—over the internet rather than owning and maintaining physical infrastructure.
            </p>
@@ -67,7 +67,7 @@ export const Day27Content = () => {
                icon: Smartphone
              }
            ].map((model, i) => (
-             <div key={i} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
+             <div key={i} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
                 <div className="w-12 h-12 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-600">
                   <model.icon className="w-6 h-6" />
                 </div>
@@ -88,21 +88,21 @@ export const Day27Content = () => {
           Major Cloud Providers: AWS, Azure, and GCP
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-3.5">
-           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4 hover:border-indigo-200 transition-colors group">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4 hover:border-indigo-200 transition-colors group">
               <h4 className="font-black text-zinc-900">AWS</h4>
               <p className="text-xs font-medium text-zinc-500 leading-relaxed">
                 Pioneered modern cloud computing and remains the market leader. Offers the broadest portfolio—over 200 services. Maturity means extensive documentation and proven reliability.
               </p>
               <p className="text-[10px] font-black text-indigo-600 uppercase tracking-widest">Strength: Breadth & Maturity</p>
            </div>
-           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4 hover:border-indigo-200 transition-colors group">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4 hover:border-indigo-200 transition-colors group">
               <h4 className="font-black text-zinc-900">Microsoft Azure</h4>
               <p className="text-xs font-medium text-zinc-500 leading-relaxed">
                 Excels in hybrid cloud scenarios and enterprise integration. tight Office 365 and Active Directory integration makes it popular for large company migrations.
               </p>
               <p className="text-[10px] font-black text-indigo-600 uppercase tracking-widest">Strength: Enterprise Ecosystem</p>
            </div>
-           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4 hover:border-indigo-200 transition-colors group">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4 hover:border-indigo-200 transition-colors group">
               <h4 className="font-black text-zinc-900">Google Cloud (GCP)</h4>
               <p className="text-xs font-medium text-zinc-500 leading-relaxed">
                 Leads in data analytics, machine learning, and Kubernetes. BigQuery offers unmatched performance. TensorFlow and other AI tools integrate seamlessly.
@@ -125,7 +125,7 @@ export const Day27Content = () => {
              { title: "Ongoing Optimization", desc: "Right-sized instances and reserved capacity directly improve product margins." }
            ].map((item, i) => (
              <div key={i} className="p-4 bg-zinc-50 border border-zinc-200 rounded-3xl flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-indigo-600 shadow-sm shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-indigo-600 shadow-xs shrink-0">
                   <Zap className="w-5 h-5" />
                 </div>
                 <div>
@@ -149,7 +149,7 @@ export const Day27Content = () => {
              { title: "Containerization", desc: "Packages apps with all dependencies into portable containers (e.g., Docker & Kubernetes)." },
              { title: "API-first Design", desc: "Expose functionality through well-designed APIs that any interface can consume." }
            ].map((item, i) => (
-             <div key={i} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-sm space-y-2">
+             <div key={i} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-xs space-y-2">
                 <h4 className="font-black text-zinc-900 text-sm mb-1">{item.title}</h4>
                 <p className="text-xs font-medium text-zinc-500 leading-relaxed">{item.desc}</p>
              </div>
@@ -174,7 +174,7 @@ export const Day27Content = () => {
              { name: "API Gateways", desc: "Manage, monitor, and secure API traffic efficiently.", icon: Share2 }
            ].map((item, i) => (
              <div key={i} className="p-5 bg-zinc-50 border border-zinc-100 rounded-2xl space-y-3">
-                <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-indigo-600 shadow-sm">
+                <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-indigo-600 shadow-xs">
                    <item.icon className="w-4 h-4" />
                 </div>
                 <h5 className="font-black text-zinc-900 text-[10px] uppercase tracking-widest">{item.name}</h5>
@@ -215,15 +215,15 @@ export const Day27Content = () => {
           Cloud's variable costs require new financial disciplines. PMs should monitor infrastructure costs as a key product metric.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-3.5">
-           <div className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-sm">
+           <div className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-xs">
               <h4 className="font-black text-zinc-900 text-sm mb-2">Cost Visibility</h4>
               <p className="text-xs font-medium text-zinc-500">Understand what drives spending—by feature, customer, or business unit.</p>
            </div>
-           <div className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-sm">
+           <div className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-xs">
               <h4 className="font-black text-zinc-900 text-sm mb-2">Reserved Capacity</h4>
               <p className="text-xs font-medium text-zinc-500">Get 30-70% discounts for committed, predictable usage patterns.</p>
            </div>
-           <div className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-sm">
+           <div className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-xs">
               <h4 className="font-black text-zinc-900 text-sm mb-2">Right-sizing</h4>
               <p className="text-xs font-medium text-zinc-500">Continuously optimize resource allocation to avoid paying for idle CPU or storage.</p>
            </div>
@@ -243,7 +243,7 @@ export const Day27Content = () => {
              "What are the compliance and data residency requirements for our target market?",
              "How can we ensure reliability through redundancy and graceful degradation?"
            ].map((q, i) => (
-             <div key={i} className="flex gap-3 items-start bg-white p-4 rounded-2xl border border-zinc-100 shadow-sm">
+             <div key={i} className="flex gap-3 items-start bg-white p-4 rounded-2xl border border-zinc-100 shadow-xs">
                 <CheckCircle className="w-5 h-5 text-indigo-500 shrink-0 mt-0.5" />
                 <p className="text-xs font-bold text-zinc-700">{q}</p>
              </div>
@@ -256,7 +256,7 @@ export const Day27Content = () => {
           <Activity className="text-indigo-600" />
           The Bottom Line
         </h2>
-        <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm space-y-4">
+        <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-xs space-y-4">
            <p className="text-sm font-medium text-zinc-600 leading-relaxed">
              Cloud computing fundamentally changed what's possible in product development. Features that once required months of infrastructure planning now deploy in minutes. Capabilities that once required expert teams now come as managed services.
            </p>

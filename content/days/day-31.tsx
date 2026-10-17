@@ -36,7 +36,7 @@ export const Day31Content = () => {
              <Info className="text-orange-600" />
              What is Context?
            </h2>
-           <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm">
+           <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-xs">
               <p className="text-sm font-medium text-zinc-600 leading-relaxed">
                 Context refers to the set of tokens included when sampling from a large-language model (LLM).
               </p>
@@ -48,7 +48,7 @@ export const Day31Content = () => {
              <Settings className="text-orange-600" />
              What is Context Engineering?
            </h2>
-           <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm">
+           <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-xs">
               <p className="text-sm font-medium text-zinc-600 leading-relaxed">
                 Context engineering refers to the set of strategies for curating and maintaining the optimal set of tokens (information) during LLM inference, including all the other information that may land there outside of the prompts.
               </p>
@@ -89,8 +89,8 @@ export const Day31Content = () => {
              { title: "Knowledge", desc: "Facts, memories, external domain-specific data.", icon: Brain },
              { title: "Tools", desc: "Feedback from tool calls and structured outputs.", icon: Zap }
            ].map((item, i) => (
-             <div key={i} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
-                <div className="w-12 h-12 rounded-2xl bg-orange-50 flex items-center justify-center text-orange-600 shadow-sm">
+             <div key={i} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
+                <div className="w-12 h-12 rounded-2xl bg-orange-50 flex items-center justify-center text-orange-600 shadow-xs">
                   <item.icon className="w-6 h-6" />
                 </div>
                 <h4 className="font-black text-zinc-900 text-sm mb-1">{item.title}</h4>
@@ -118,7 +118,7 @@ export const Day31Content = () => {
           Why is Context Engineering Important?
         </h2>
         <div className="space-y-2.5">
-           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs">
               <h4 className="text-lg font-black text-zinc-900 mb-4 flex items-center gap-2">
                 <TrendingUp className="text-orange-500 w-5 h-5" />
                 The Concept of Context Rot
@@ -174,7 +174,7 @@ export const Day31Content = () => {
                icon: Share2
              }
            ].map((item, i) => (
-             <div key={i} className="flex gap-3 md:gap-3.5 p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm items-start">
+             <div key={i} className="flex gap-3 md:gap-3.5 p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs items-start">
                 <div className="w-12 h-12 rounded-2xl bg-zinc-50 flex items-center justify-center text-orange-600 shrink-0 shadow-inner">
                   <item.icon className="w-6 h-6" />
                 </div>
@@ -234,7 +234,7 @@ export const Day31Content = () => {
            <div className="space-y-2.5">
               <h4 className="text-lg font-black text-zinc-900">4. Isolating Context</h4>
               <p className="text-sm font-medium text-zinc-500">Modularizing into three sub-agents with their own local context.</p>
-              <div className="bg-white border border-zinc-100 rounded-2xl shadow-sm overflow-hidden">
+              <div className="bg-white border border-zinc-100 rounded-2xl shadow-xs overflow-hidden">
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-sm font-medium border-collapse">
                     <thead>

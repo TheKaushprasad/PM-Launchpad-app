@@ -52,7 +52,7 @@ export const Day18Content = () => {
         </h2>
         
         <div className="space-y-2.5">
-          <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
+          <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
             <h4 className="font-black text-zinc-900 flex items-center gap-2">
               <Table className="w-5 h-5 text-indigo-600" />
               What is Excel?
@@ -62,7 +62,7 @@ export const Day18Content = () => {
             </p>
           </div>
 
-          <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-6">
+          <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-6">
             <h4 className="font-black text-zinc-900 flex items-center gap-2">
               <Zap className="w-5 h-5 text-indigo-600" />
               Why PMs Use Excel Daily
@@ -129,8 +129,8 @@ export const Day18Content = () => {
                bgColor: "bg-emerald-50"
              }
            ].map((item, i) => (
-             <div key={i} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
-                <div className={`w-12 h-12 rounded-2xl ${item.bgColor} flex items-center justify-center ${item.color} shadow-sm`}>
+             <div key={i} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
+                <div className={`w-12 h-12 rounded-2xl ${item.bgColor} flex items-center justify-center ${item.color} shadow-xs`}>
                   <item.icon className="w-6 h-6" />
                 </div>
                 <h4 className="font-black text-zinc-900">{item.title}</h4>

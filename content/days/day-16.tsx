@@ -81,15 +81,15 @@ export const Day16Content = () => {
                bgColor: "bg-amber-50"
              }
            ].map((item, i) => (
-             <div key={i} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
-                <div className={`w-12 h-12 rounded-2xl ${item.bgColor} flex items-center justify-center ${item.color} shadow-sm`}>
+             <div key={i} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
+                <div className={`w-12 h-12 rounded-2xl ${item.bgColor} flex items-center justify-center ${item.color} shadow-xs`}>
                   <item.icon className="w-6 h-6" />
                 </div>
                 <h4 className="font-black text-zinc-900">{item.title}</h4>
                 <p className="text-xs font-bold text-zinc-500 leading-relaxed">{item.desc}</p>
                 <div className="pt-2">
                    <p className="text-[10px] font-black uppercase text-zinc-400 mb-1">SQL snippet</p>
-                   <code className="text-[10px] font-black text-indigo-600 bg-zinc-50 px-2 py-1 rounded border border-zinc-100 block truncate">{item.example}</code>
+                   <code className="text-[10px] font-black text-indigo-600 bg-zinc-50 px-2 py-1 rounded-sm border border-zinc-100 block truncate">{item.example}</code>
                 </div>
              </div>
            ))}
@@ -116,7 +116,7 @@ export const Day16Content = () => {
                   { name: "CONCAT()", use: "Combine columns (e.g., first_name + last_name)." },
                   { name: "SUBSTRING()", use: "Extract specific parts of a string (e.g., area code from phone)." }
                 ].map((item, i) => (
-                  <div key={i} className="bg-white p-4 rounded-2xl border border-zinc-100 shadow-sm">
+                  <div key={i} className="bg-white p-4 rounded-2xl border border-zinc-100 shadow-xs">
                      <p className="text-xs font-black text-indigo-600 mb-1 font-mono">{item.name}</p>
                      <p className="text-xs font-bold text-zinc-500">{item.use}</p>
                   </div>
@@ -137,7 +137,7 @@ export const Day16Content = () => {
                   { name: "CEIL() / FLOOR()", use: "Round up or down to the nearest integer." },
                   { name: "RAND()", use: "Generate random numbers for data sampling." }
                 ].map((item, i) => (
-                  <div key={i} className="bg-white p-4 rounded-2xl border border-zinc-100 shadow-sm">
+                  <div key={i} className="bg-white p-4 rounded-2xl border border-zinc-100 shadow-xs">
                      <p className="text-xs font-black text-emerald-600 mb-1 font-mono">{item.name}</p>
                      <p className="text-xs font-bold text-zinc-500">{item.use}</p>
                   </div>

@@ -170,7 +170,7 @@ export const VerifyEmailGate: React.FC<VerifyEmailGateProps> = ({ from = '/dashb
               <div className="w-20 h-20 bg-brand-50 border border-brand-100 rounded-3xl flex items-center justify-center shadow-lg shadow-brand-100/50">
                 <Mail className="w-10 h-10 text-brand-600 animate-pulse" />
               </div>
-              <div className="absolute -bottom-1.5 -right-1.5 w-7 h-7 bg-amber-500 text-white rounded-full flex items-center justify-center ring-4 ring-white shadow-sm">
+              <div className="absolute -bottom-1.5 -right-1.5 w-7 h-7 bg-amber-500 text-white rounded-full flex items-center justify-center ring-4 ring-white shadow-xs">
                 <ShieldCheck className="w-4 h-4" />
               </div>
             </div>

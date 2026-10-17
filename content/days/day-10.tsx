@@ -70,7 +70,7 @@ export const Day10Content = () => {
               icon: Star
             }
           ].map((item, i) => (
-            <div key={i} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-sm flex flex-col gap-3">
+            <div key={i} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-xs flex flex-col gap-3">
                <div className="w-10 h-10 rounded-xl bg-zinc-50 flex items-center justify-center text-indigo-600 shadow-inner">
                  <item.icon className="w-5 h-5" />
                </div>
@@ -96,7 +96,7 @@ export const Day10Content = () => {
           <MessageSquare className="text-indigo-600" />
           2. Types of Interview Questions
         </h2>
-        <div className="bg-white border border-zinc-100 rounded-2xl shadow-sm overflow-hidden">
+        <div className="bg-white border border-zinc-100 rounded-2xl shadow-xs overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm font-medium border-collapse">
               <thead>
@@ -144,7 +144,7 @@ export const Day10Content = () => {
             { id: 3, title: "Core Questions", desc: "Explore behaviors & pain. Deep dive into the specific problem area you're solving." },
             { id: 4, title: "Wrap Up", desc: "Final insights & referrals. Ask if they have anything to add or know someone else to talk to." }
           ].map((step, i) => (
-            <div key={step.id} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-sm text-center space-y-3">
+            <div key={step.id} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-xs text-center space-y-3">
                <div className="w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center font-black mx-auto shadow-md">
                  {step.id}
                </div>
@@ -178,7 +178,7 @@ export const Day10Content = () => {
       ]}
       />
 
-        <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm">
+        <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-xs">
            <h2 className="text-lg md:text-xl font-black text-zinc-900 mb-2.5">Survey Principles</h2>
            <ul className="space-y-3">
               {[

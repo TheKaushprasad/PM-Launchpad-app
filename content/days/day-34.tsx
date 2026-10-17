@@ -20,7 +20,7 @@ export const Day34Content = () => {
           <p className="text-sm font-bold text-orange-700">
             Task cover this course <a href="https://www.deeplearning.ai/courses/agentic-ai/" target="_blank" rel="noopener noreferrer" className="underline decoration-orange-300">https://www.deeplearning.ai/courses/agentic-ai/</a>
           </p>
-          <div className="bg-white border border-orange-200 p-4 rounded-2xl shadow-sm space-y-4">
+          <div className="bg-white border border-orange-200 p-4 rounded-2xl shadow-xs space-y-4">
             <h2 className="text-xl font-black text-orange-900">What Is an Agentic AI Workflow?</h2>
             <p className="text-sm font-medium text-orange-900/80 leading-relaxed">
               An agentic AI workflow is a process in which an AI system, most commonly leveraging Large Language Models (LLMs), executes a series of steps—often iteratively—to complete a task. This is distinct from the classic, linear approach where a user prompts an LLM once for an entire output (e.g., writing an essay) and receives a single response. Agentic workflows are designed to more closely mimic complex human problem-solving by involving multiple discrete stages: planning, researching, synthesizing, reviewing, and revising.
@@ -40,8 +40,8 @@ export const Day34Content = () => {
              { title: "Task Decomposition", desc: "Complex tasks are broken down into smaller, manageable components—mirroring human strategies for complex work.", icon: Split },
              { title: "Varying Autonomy", desc: "The workflow can be scripted (less autonomous) or grant the AI greater decision-making power (more autonomous).", icon: Cpu }
            ].map((item, i) => (
-             <div key={i} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
-                <div className="w-12 h-12 rounded-2xl bg-orange-50 flex items-center justify-center text-orange-600 shadow-sm">
+             <div key={i} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
+                <div className="w-12 h-12 rounded-2xl bg-orange-50 flex items-center justify-center text-orange-600 shadow-xs">
                   <item.icon className="w-6 h-6" />
                 </div>
                 <h4 className="font-black text-zinc-900 text-sm mb-1">{item.title}</h4>
@@ -68,7 +68,7 @@ export const Day34Content = () => {
                 "Sequence the steps so output from one subtask flows to the next.",
                 "Refine and iterate—decompose further if a step is not easily automatable."
               ].map((step, i) => (
-                <div key={i} className="flex gap-4 items-start bg-white p-4 rounded-2xl border border-zinc-100 shadow-sm">
+                <div key={i} className="flex gap-4 items-start bg-white p-4 rounded-2xl border border-zinc-100 shadow-xs">
                    <div className="w-6 h-6 rounded-full bg-orange-500 flex items-center justify-center text-[10px] font-black text-white shrink-0 mt-0.5">Step {i+1}</div>
                    <p className="text-xs font-bold text-zinc-700 leading-relaxed">{step}</p>
                 </div>
@@ -82,7 +82,7 @@ export const Day34Content = () => {
           <Activity className="text-orange-600" />
           Examples & Use Cases
         </h2>
-        <div className="bg-white border border-zinc-100 rounded-2xl shadow-sm overflow-hidden">
+        <div className="bg-white border border-zinc-100 rounded-2xl shadow-xs overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm font-medium border-collapse">
               <thead>
@@ -163,7 +163,7 @@ export const Day34Content = () => {
              { title: "Parallelization", desc: "Some subtasks (like web search or data retrieval) can run simultaneously, outperforming human speed for scalable workloads." },
              { title: "Modularity", desc: "Components (tools, models, steps) can be swapped or optimized individually. E.g., swapping web search engines or integrating better LLMs for distinct parts of the workflow." }
            ].map((benefit, i) => (
-             <div key={i} className="flex gap-4 p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm items-start">
+             <div key={i} className="flex gap-4 p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs items-start">
                 <CheckCircle className="w-6 h-6 text-emerald-500 shrink-0 mt-0.5" />
                 <div>
                    <h4 className="font-black text-zinc-900 text-sm mb-1">{benefit.title}</h4>
@@ -199,7 +199,7 @@ export const Day34Content = () => {
           <ShieldCheck className="text-orange-600" />
           Evaluating Agentic AI Workflows ("AI Evals")
         </h2>
-        <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm space-y-6">
+        <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-xs space-y-6">
            <p className="text-sm font-medium text-zinc-600 leading-relaxed">
              Rigorous evaluation ("evals") is essential to gauge, debug, and improve agentic workflows.
            </p>
@@ -241,7 +241,7 @@ export const Day34Content = () => {
              { title: "3. Planning", desc: "AI autonomously determines the workflow sequencing for unstructured requests, planning step-by-step action chains. E.g., a “Hugging GPT” style agent plans multiple APIs to fulfill one complex objective.", icon: Target },
              { title: "4. Multi-Agent Collaboration", desc: "Multiple simulated agents work together, each with a specialized role: e.g., researcher, writer, editor, or test/critique agent for software. Collaboration between specialized agents often yields more thoughtful and robust outputs for multi-stage tasks.", icon: Users2 }
            ].map((pattern, i) => (
-             <div key={i} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm flex flex-col gap-4">
+             <div key={i} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs flex flex-col gap-4">
                 <div className="w-12 h-12 rounded-2xl bg-orange-50 flex items-center justify-center text-orange-600 shadow-inner">
                   <pattern.icon className="w-6 h-6" />
                 </div>

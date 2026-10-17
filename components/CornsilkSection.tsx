@@ -24,7 +24,7 @@ export const CornsilkSection: React.FC<CornsilkSectionProps> = ({
   return (
     <section 
       style={{ backgroundColor: '#FFF8DC' }}
-      className={`rounded-2xl border border-[#F3E5AB] p-4 sm:p-5 md:p-5 space-y-3 shadow-sm ${className}`}
+      className={`rounded-2xl border border-[#F3E5AB] p-4 sm:p-5 md:p-5 space-y-3 shadow-xs ${className}`}
     >
       <h3 className={`text-base md:text-lg font-black tracking-tight ${mainTitleClass}`}>
         {title}

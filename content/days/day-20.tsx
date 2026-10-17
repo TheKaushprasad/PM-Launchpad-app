@@ -58,7 +58,7 @@ export const Day20Content = () => {
           This is where Power BI comes in. Understanding what it does, how it helps product managers, and whether you should invest time learning it can significantly impact your effectiveness in the role.
         </p>
 
-        <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
+        <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
            <h4 className="font-black text-zinc-900 flex items-center gap-2">
              <Layout className="w-5 h-5 text-indigo-600" />
              What Is Power BI?
@@ -144,7 +144,7 @@ export const Day20Content = () => {
                icon: Info
              }
            ].map((benefit, i) => (
-             <div key={i} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-sm flex items-start gap-4 hover:border-emerald-200 transition-colors group">
+             <div key={i} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-xs flex items-start gap-4 hover:border-emerald-200 transition-colors group">
                 <div className="w-12 h-12 rounded-2xl bg-zinc-50 flex items-center justify-center text-emerald-600 shrink-0 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
                   <benefit.icon className="w-6 h-6" />
                 </div>
@@ -203,7 +203,7 @@ export const Day20Content = () => {
              { name: "Automated Refresh", desc: "Schedule daily or hourly refreshes so stakeholders never see stale snapshots." },
              { name: "Mobile Optimization", desc: "Check your critical metrics on the go from your phone or tablet." }
            ].map((cap, i) => (
-             <div key={i} className="p-4 bg-zinc-50 border border-zinc-200 rounded-[2rem] flex flex-col gap-2">
+             <div key={i} className="p-4 bg-zinc-50 border border-zinc-200 rounded-4xl flex flex-col gap-2">
                 <h4 className="font-black text-indigo-900 text-sm uppercase tracking-widest">{cap.name}</h4>
                 <p className="text-xs font-bold text-zinc-500 leading-relaxed">{cap.desc}</p>
              </div>

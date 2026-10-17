@@ -20,8 +20,8 @@ export const AssignmentDetail: React.FC = () => {
       transition={{ duration: 0.25, ease: 'easeOut' }}
       className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-7 pb-20"
     >
-      <header className="relative w-full bg-gradient-to-r from-[#032A1F] via-[#043C2C] to-[#064E3B] rounded-3xl p-7 sm:p-9 text-white overflow-hidden shadow-2xl border border-[#065F46]/60 mb-6">
-        <div className="absolute top-0 right-0 w-[420px] h-[420px] bg-gradient-to-bl from-brand-600/25 via-brand-600/15 to-transparent rounded-full blur-[100px] pointer-events-none -translate-y-1/4 translate-x-1/4" aria-hidden="true" />
+      <header className="relative w-full bg-linear-to-r from-[#032A1F] via-[#043C2C] to-[#064E3B] rounded-3xl p-7 sm:p-9 text-white overflow-hidden shadow-2xl border border-[#065F46]/60 mb-6">
+        <div className="absolute top-0 right-0 w-[420px] h-[420px] bg-linear-to-bl from-brand-600/25 via-brand-600/15 to-transparent rounded-full blur-[100px] pointer-events-none -translate-y-1/4 translate-x-1/4" aria-hidden="true" />
         <div className="relative z-10 max-w-3xl">
           <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-1 text-xs font-semibold text-slate-300 mb-3">
             <Link to="/resources" className="hover:text-white transition-colors">Resources</Link>
@@ -36,7 +36,7 @@ export const AssignmentDetail: React.FC = () => {
         </div>
       </header>
 
-      <article className="bg-white rounded-3xl border border-zinc-200/80 p-6 sm:p-8 shadow-xs">
+      <article className="bg-white rounded-3xl border border-zinc-200/80 p-6 sm:p-8 shadow-2xs">
         <BriefMarkdown source={a.body} />
       </article>
 

@@ -66,7 +66,7 @@ export const SkillProgress: React.FC<SkillProgressProps> = ({ history }) => {
           const tone = r.delta > 0.2 ? 'text-emerald-600' : r.delta < -0.2 ? 'text-rose-600' : 'text-slate-400';
           return (
             <div key={r.key} className="p-3 rounded-2xl bg-slate-50 border border-slate-200/80">
-              <div className="text-[11px] font-bold text-slate-500 leading-tight min-h-[2rem]">{BASE_PILLAR_NAMES[r.key]}</div>
+              <div className="text-[11px] font-bold text-slate-500 leading-tight min-h-8">{BASE_PILLAR_NAMES[r.key]}</div>
               <div className="flex items-center justify-between mt-1">
                 <span className="text-sm font-black text-slate-900 tabular-nums">
                   {r.from !== null ? r.from.toFixed(1) : '–'} → {r.to !== null ? r.to.toFixed(1) : '–'}

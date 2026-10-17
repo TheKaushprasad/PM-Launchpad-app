@@ -18,7 +18,7 @@ export const LinkedInLanding: React.FC<LinkedInLandingProps> = ({
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#032A1F] via-[#043C2C] to-[#064E3B] pt-10 sm:pt-14 pb-8 sm:pb-10 px-6 sm:px-10 md:px-12 text-white border border-zinc-800 shadow-2xl">
+      <section className="relative overflow-hidden rounded-3xl bg-linear-to-br from-[#032A1F] via-[#043C2C] to-[#064E3B] pt-10 sm:pt-14 pb-8 sm:pb-10 px-6 sm:px-10 md:px-12 text-white border border-zinc-800 shadow-2xl">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-500/10 rounded-full blur-[120px] pointer-events-none -translate-y-1/2 translate-x-1/3" />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-brand-500/10 rounded-full blur-[100px] pointer-events-none translate-y-1/2 -translate-x-1/4" />
 
@@ -115,7 +115,7 @@ export const LinkedInLanding: React.FC<LinkedInLandingProps> = ({
           ].map((item, idx) => (
             <div 
               key={idx} 
-              className="p-6 bg-white rounded-3xl border border-zinc-200/80 shadow-sm space-y-3 relative hover:shadow-md transition-shadow"
+              className="p-6 bg-white rounded-3xl border border-zinc-200/80 shadow-xs space-y-3 relative hover:shadow-md transition-shadow"
             >
               <div className="flex items-center justify-between">
                 <div className="w-10 h-10 rounded-2xl bg-brand-50 border border-brand-100 flex items-center justify-center text-brand-600 font-black text-sm">
@@ -152,7 +152,7 @@ export const LinkedInLanding: React.FC<LinkedInLandingProps> = ({
             { name: 'Personal Branding', points: '10 Pts', desc: 'Niche positioning and 10-second recruiter impression test.', badge: 'Perception' },
             { name: 'Discoverability', points: '10 Pts', desc: 'Boolean search indexing and keyword gap optimization.', badge: 'Search Rank' }
           ].map((cat, i) => (
-            <div key={i} className="bg-white p-5 rounded-2xl border border-zinc-200 shadow-xs space-y-2">
+            <div key={i} className="bg-white p-5 rounded-2xl border border-zinc-200 shadow-2xs space-y-2">
               <div className="flex items-center justify-between">
                 <span className="font-black text-zinc-900 text-sm">{cat.name}</span>
                 <span className="px-2 py-0.5 rounded-full bg-brand-50 text-brand-700 font-extrabold text-[11px]">
@@ -171,7 +171,7 @@ export const LinkedInLanding: React.FC<LinkedInLandingProps> = ({
       </section>
 
       {/* Interactive Sample Preview Card */}
-      <section className="mt-14 bg-white rounded-3xl p-8 sm:p-12 border border-zinc-200 shadow-sm space-y-8">
+      <section className="mt-14 bg-white rounded-3xl p-8 sm:p-12 border border-zinc-200 shadow-xs space-y-8">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-100 pb-6">
           <div>
             <span className="text-[10px] font-black uppercase tracking-widest text-brand-600">Sample Audit Snapshot</span>

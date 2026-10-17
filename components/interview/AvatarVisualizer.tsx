@@ -49,7 +49,7 @@ export const AvatarVisualizer: React.FC<AvatarVisualizerProps> = ({
     : 'from-brand-400 via-emerald-300 to-brand-600';
 
   return (
-    <div className="relative w-full h-full flex flex-col items-center justify-between p-4 md:p-6 bg-gradient-to-b from-zinc-900 via-zinc-950 to-black text-white rounded-3xl border border-zinc-800 shadow-2xl overflow-hidden select-none">
+    <div className="relative w-full h-full flex flex-col items-center justify-between p-4 md:p-6 bg-linear-to-b from-zinc-900 via-zinc-950 to-black text-white rounded-3xl border border-zinc-800 shadow-2xl overflow-hidden select-none">
       {/* Dynamic Ambient Background Glow */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <motion.div 
@@ -60,8 +60,8 @@ export const AvatarVisualizer: React.FC<AvatarVisualizerProps> = ({
           transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
           className={`absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[420px] h-[420px] rounded-full blur-[110px] ${
             isListening 
-              ? 'bg-gradient-to-tr from-rose-500 via-pink-500 to-brand-500' 
-              : 'bg-gradient-to-tr from-brand-500 via-brand-500 to-pink-500'
+              ? 'bg-linear-to-tr from-rose-500 via-pink-500 to-brand-500' 
+              : 'bg-linear-to-tr from-brand-500 via-brand-500 to-pink-500'
           }`}
         />
       </div>
@@ -130,7 +130,7 @@ export const AvatarVisualizer: React.FC<AvatarVisualizerProps> = ({
               aria-label={isListening ? 'Pause the microphone' : 'Start answering'}
               animate={{ rotate: isThinking ? 360 : 0 }}
               transition={{ rotate: { duration: 6, repeat: isThinking ? Infinity : 0, ease: 'linear' } }}
-              className={`relative w-full h-full rounded-full p-1 bg-gradient-to-tr ${ringClass} shadow-[0_0_60px_rgba(16,185,129,0.3)] focus:outline-none focus-visible:ring-4 focus-visible:ring-white/40 ${canUseMic ? 'cursor-pointer' : 'cursor-default'}`}
+              className={`relative w-full h-full rounded-full p-1 bg-linear-to-tr ${ringClass} shadow-[0_0_60px_rgba(16,185,129,0.3)] focus:outline-hidden focus-visible:ring-4 focus-visible:ring-white/40 ${canUseMic ? 'cursor-pointer' : 'cursor-default'}`}
             >
               <motion.div
                 animate={{ rotate: isThinking ? -360 : 0 }}

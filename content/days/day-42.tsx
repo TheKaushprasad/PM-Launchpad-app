@@ -24,7 +24,7 @@ export const Day42Content = () => {
           <Briefcase className="text-amber-600" />
           Round One: Case Study Round
         </h2>
-        <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm space-y-6">
+        <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-xs space-y-6">
            <h3 className="text-[10px] font-black uppercase tracking-widest text-zinc-400">What is evaluated:</h3>
            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {[
@@ -108,7 +108,7 @@ export const Day42Content = () => {
              { title: "Design a car parking system", company: "Google, Atlassian, Meta", icon: Activity },
              { title: "Design a gardening / hobby app", company: "Atlassian, Adobe", icon: Search }
            ].map((item, i) => (
-             <div key={i} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4 hover:border-amber-200 transition-colors group">
+             <div key={i} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4 hover:border-amber-200 transition-colors group">
                 <div className="w-12 h-12 rounded-2xl bg-zinc-50 flex items-center justify-center text-amber-600 group-hover:bg-amber-600 group-hover:text-white transition-colors shadow-inner">
                   <item.icon className="w-6 h-6" />
                 </div>

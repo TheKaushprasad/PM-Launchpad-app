@@ -26,7 +26,7 @@ export const Day39Content = () => {
           <User className="text-amber-600" />
           About Section
         </h2>
-        <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm">
+        <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-xs">
           <p className="text-sm font-medium text-zinc-600 leading-relaxed">
             An aspiring Product Manager with a strong focus on solving user-centric problems through structured thinking, data-backed decision-making, and clear prioritisation. Interested in working on products that improve user experience, drive engagement, and create measurable business impact, especially in early-stage and fast-growing environments.
           </p>
@@ -40,7 +40,7 @@ export const Day39Content = () => {
         </h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-3.5">
-          <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
+          <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600">
                 <FileText className="w-5 h-5" />
@@ -52,7 +52,7 @@ export const Day39Content = () => {
             </p>
           </div>
 
-          <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
+          <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600">
                 <Award className="w-5 h-5" />
@@ -64,7 +64,7 @@ export const Day39Content = () => {
             </p>
           </div>
 
-          <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
+          <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600">
                 <MessageSquare className="w-5 h-5" />
@@ -76,7 +76,7 @@ export const Day39Content = () => {
             </p>
           </div>
 
-          <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
+          <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600">
                 <Briefcase className="w-5 h-5" />
@@ -88,7 +88,7 @@ export const Day39Content = () => {
             </p>
           </div>
 
-          <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
+          <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600">
                 <GraduationCap className="w-5 h-5" />
@@ -100,7 +100,7 @@ export const Day39Content = () => {
             </p>
           </div>
 
-          <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
+          <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600">
                 <Link className="w-5 h-5" />
@@ -120,8 +120,8 @@ export const Day39Content = () => {
           Contact Details
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="flex items-center gap-4 p-4 bg-zinc-50 rounded-2xl border border-zinc-100 shadow-sm">
-             <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-amber-600 shadow-sm">
+          <div className="flex items-center gap-4 p-4 bg-zinc-50 rounded-2xl border border-zinc-100 shadow-xs">
+             <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-amber-600 shadow-xs">
                <Link className="w-4 h-4" />
              </div>
              <div>
@@ -129,8 +129,8 @@ export const Day39Content = () => {
                 <p className="text-xs font-bold text-zinc-700">Networking & History</p>
              </div>
           </div>
-          <div className="flex items-center gap-4 p-4 bg-zinc-50 rounded-2xl border border-zinc-100 shadow-sm">
-             <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-amber-600 shadow-sm">
+          <div className="flex items-center gap-4 p-4 bg-zinc-50 rounded-2xl border border-zinc-100 shadow-xs">
+             <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-amber-600 shadow-xs">
                <Mail className="w-4 h-4" />
              </div>
              <div>
@@ -138,8 +138,8 @@ export const Day39Content = () => {
                 <p className="text-xs font-bold text-zinc-700">Opportunities</p>
              </div>
           </div>
-          <div className="flex items-center gap-4 p-4 bg-zinc-50 rounded-2xl border border-zinc-100 shadow-sm">
-             <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-amber-600 shadow-sm">
+          <div className="flex items-center gap-4 p-4 bg-zinc-50 rounded-2xl border border-zinc-100 shadow-xs">
+             <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-amber-600 shadow-xs">
                <Phone className="w-4 h-4" />
              </div>
              <div>

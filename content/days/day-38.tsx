@@ -42,7 +42,7 @@ export const Day38Content = () => {
               <span className="w-8 h-8 rounded-lg bg-zinc-900 text-white flex items-center justify-center text-sm">1</span>
               Pick the Right Startup (Very Important)
             </h3>
-            <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm space-y-6">
+            <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-xs space-y-6">
               <p className="text-sm font-bold text-zinc-500 uppercase tracking-widest">Choose a startup where:</p>
               <ul className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {['The product is live and usable', 'The problem space is clear', 'You can observe gaps, friction, or missed opportunities'].map((item, i) => (
@@ -73,7 +73,7 @@ export const Day38Content = () => {
               <span className="w-8 h-8 rounded-lg bg-zinc-900 text-white flex items-center justify-center text-sm">2</span>
               Define the Scope (Don’t Do Everything)
             </h3>
-            <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm space-y-4">
+            <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-xs space-y-4">
               <p className="text-sm font-medium text-zinc-600">A common mistake is trying to analyze the entire product. Instead, pick ONE clear focus:</p>
               <div className="flex flex-wrap gap-2">
                 {['Onboarding experience', 'Activation & first value moment', 'Retention / engagement', 'Monetisation / pricing', 'A single core feature'].map((tag) => (
@@ -92,7 +92,7 @@ export const Day38Content = () => {
               <span className="w-8 h-8 rounded-lg bg-zinc-900 text-white flex items-center justify-center text-sm">3</span>
               Understand the Business & Users (Assumptions Allowed)
             </h3>
-            <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm space-y-6">
+            <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-xs space-y-6">
               <p className="text-sm font-medium text-zinc-600">You won’t have internal data — that’s okay. Write explicit assumptions:</p>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {['Target user', 'User goal', 'Startup’s business goal', 'How success is measured (assumed metrics)'].map((item, i) => (
@@ -148,7 +148,7 @@ export const Day38Content = () => {
                  <span className="w-8 h-8 rounded-lg bg-zinc-900 text-white flex items-center justify-center text-sm">5</span>
                  Identify 1–2 High-Impact Problems
                </h3>
-               <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
+               <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
                  <p className="text-xs font-medium text-zinc-500">Do not list 10 issues. Pick 1 or 2 that:</p>
                  <ul className="space-y-2 text-[11px] font-bold text-zinc-700">
                    <li className="flex gap-2"><CheckCircle className="w-3.5 h-3.5 text-emerald-500" /> Affect a core metric</li>
@@ -162,7 +162,7 @@ export const Day38Content = () => {
                  <span className="w-8 h-8 rounded-lg bg-zinc-900 text-white flex items-center justify-center text-sm">6</span>
                  Do Root Cause Analysis
                </h3>
-               <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
+               <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
                  <p className="text-xs font-medium text-zinc-500">Think Like a PM. For each problem:</p>
                  <ul className="space-y-2 text-[11px] font-bold text-zinc-700">
                    <li className="flex gap-2"><ArrowRight className="w-3.5 h-3.5 text-indigo-500" /> Is it UX, messaging, or incentive?</li>
@@ -205,7 +205,7 @@ export const Day38Content = () => {
            <div className="space-y-4">
               <h3 className="text-xl font-black text-zinc-900">1. Identify the Right Founder to Reach Out To</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
-                 <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm space-y-4">
+                 <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-xs space-y-4">
                     <p className="text-xs font-black uppercase text-zinc-400">Target:</p>
                     <ul className="space-y-3">
                        {['Founders of early-stage startups (Seed–Series A)', 'Solo PMs or founders acting as PMs', 'Companies actively building & iterating'].map((item, i) => (
@@ -215,7 +215,7 @@ export const Day38Content = () => {
                        ))}
                     </ul>
                  </div>
-                 <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm space-y-4">
+                 <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-xs space-y-4">
                     <p className="text-xs font-black uppercase text-zinc-400">Best places to find them:</p>
                     <div className="flex flex-wrap gap-2">
                        {['LinkedIn', 'Twitter / X', 'Company “About” pages', 'YC / AngelList'].map((tag) => (
@@ -307,7 +307,7 @@ export const Day38Content = () => {
              'Over-polishing the case study and never sharing it',
              'Asking for referrals immediately'
            ].map((text, i) => (
-             <li key={i} className="flex gap-3 items-center bg-white p-4 rounded-2xl border border-rose-100 text-xs font-bold text-rose-700 shadow-sm">
+             <li key={i} className="flex gap-3 items-center bg-white p-4 rounded-2xl border border-rose-100 text-xs font-bold text-rose-700 shadow-xs">
                 <X className="w-4 h-4 text-rose-500" /> {text}
              </li>
            ))}

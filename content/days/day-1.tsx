@@ -30,7 +30,7 @@ export const Day1Content = () => {
           </p>
           <div className="flex flex-wrap gap-2 pt-2">
             {['Uber', 'Spotify', 'iPhone', 'Google Ads', 'ATM', 'WhatsApp'].map((item) => (
-              <span key={item} className="px-4 py-2 bg-zinc-100 text-zinc-700 rounded-xl text-xs font-black uppercase tracking-wider border border-zinc-200 shadow-sm">
+              <span key={item} className="px-4 py-2 bg-zinc-100 text-zinc-700 rounded-xl text-xs font-black uppercase tracking-wider border border-zinc-200 shadow-xs">
                 {item}
               </span>
             ))}
@@ -92,15 +92,15 @@ export const Day1Content = () => {
             Some companies have succeeded without formal PMs:
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="p-4 bg-white border border-zinc-100 rounded-2xl shadow-sm">
+            <div className="p-4 bg-white border border-zinc-100 rounded-2xl shadow-xs">
               <h4 className="font-black text-zinc-900 mb-1">Basecamp</h4>
               <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Design-led product development</p>
             </div>
-            <div className="p-4 bg-white border border-zinc-100 rounded-2xl shadow-sm">
+            <div className="p-4 bg-white border border-zinc-100 rounded-2xl shadow-xs">
               <h4 className="font-black text-zinc-900 mb-1">Valve</h4>
               <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Self-organized teams</p>
             </div>
-            <div className="p-4 bg-white border border-zinc-100 rounded-2xl shadow-sm">
+            <div className="p-4 bg-white border border-zinc-100 rounded-2xl shadow-xs">
               <h4 className="font-black text-zinc-900 mb-1">Early FB / Stripe</h4>
               <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Engineer-led decisions</p>
             </div>
@@ -160,7 +160,7 @@ export const Day1Content = () => {
             <Activity className="text-indigo-600" />
             6. PM Responsibilities
           </h2>
-          <div className="bg-white border border-zinc-100 rounded-2xl shadow-sm overflow-hidden">
+          <div className="bg-white border border-zinc-100 rounded-2xl shadow-xs overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm font-medium border-collapse">
                 <thead>
@@ -271,7 +271,7 @@ export const Day1Content = () => {
                     <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1 block">{type.subtitle}</span>
                     <h3 className="text-xl font-black text-zinc-900">{type.id}. {type.title}</h3>
                   </div>
-                  <div className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest bg-white border border-zinc-100 shadow-sm`}>
+                  <div className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest bg-white border border-zinc-100 shadow-xs`}>
                     Specialist
                   </div>
                 </div>
@@ -330,7 +330,7 @@ export const Day1Content = () => {
               { title: 'Metrics Dashboard', desc: 'Tracks feature health & success', icon: BarChart },
               { title: 'GTM / Launch Plan', desc: 'Strategy for market entry', icon: Rocket }
             ].map((item, i) => (
-              <div key={i} className="p-4 bg-white border border-zinc-100 rounded-[2rem] shadow-sm hover:shadow-md transition-shadow">
+              <div key={i} className="p-4 bg-white border border-zinc-100 rounded-4xl shadow-xs hover:shadow-md transition-shadow">
                 <div className="w-10 h-10 bg-zinc-50 rounded-xl flex items-center justify-center text-zinc-400 mb-4">
                   <item.icon className="w-5 h-5" />
                 </div>

@@ -220,7 +220,7 @@ export const LandingPage: React.FC = () => {
       {/* Search Modal */}
       <AnimatePresence>
         {searchModalOpen && (
-          <div className="fixed inset-0 z-[100] flex items-start justify-center pt-24 px-4 bg-slate-950/40 backdrop-blur-sm">
+          <div className="fixed inset-0 z-100 flex items-start justify-center pt-24 px-4 bg-slate-950/40 backdrop-blur-xs">
             <motion.div 
               initial={{ opacity: 0, scale: 0.95, y: -10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -234,7 +234,7 @@ export const LandingPage: React.FC = () => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search curriculum, tools, interview prep, templates..."
-                  className="w-full text-base font-medium text-slate-900 placeholder:text-slate-400 focus:outline-none bg-transparent"
+                  className="w-full text-base font-medium text-slate-900 placeholder:text-slate-400 focus:outline-hidden bg-transparent"
                   autoFocus
                 />
                 <button 
@@ -458,7 +458,7 @@ export const LandingPage: React.FC = () => {
               <div className="flex items-center gap-2.5">
                 <button
                   onClick={() => navigate('/dashboard')}
-                  className="bg-[#064E3B] hover:bg-[#043C2C] text-white px-5 py-2.5 rounded-full text-xs font-bold transition-all shadow-sm cursor-pointer"
+                  className="bg-[#064E3B] hover:bg-[#043C2C] text-white px-5 py-2.5 rounded-full text-xs font-bold transition-all shadow-xs cursor-pointer"
                 >
                   My Dashboard →
                 </button>
@@ -480,7 +480,7 @@ export const LandingPage: React.FC = () => {
 
                 <button
                   onClick={() => openAuth('signup')}
-                  className="bg-[#064E3B] hover:bg-[#043C2C] text-white font-bold text-sm px-5 py-2 rounded-full shadow-xs hover:shadow-md transition-all cursor-pointer"
+                  className="bg-[#064E3B] hover:bg-[#043C2C] text-white font-bold text-sm px-5 py-2 rounded-full shadow-2xs hover:shadow-md transition-all cursor-pointer"
                 >
                   Sign up free
                 </button>
@@ -652,7 +652,7 @@ export const LandingPage: React.FC = () => {
                   <div className="flex -space-x-2.5 items-center">
                     {/* Person 1: Pink Hair Girl with red jacket & surprised/happy smile */}
                     <motion.div
-                      className="relative z-40 w-9 h-9 rounded-full ring-2 ring-white shadow-sm overflow-hidden bg-[#E8EEF5] shrink-0"
+                      className="relative z-40 w-9 h-9 rounded-full ring-2 ring-white shadow-xs overflow-hidden bg-[#E8EEF5] shrink-0"
                     >
                       <svg viewBox="0 0 100 100" className="w-full h-full">
                         <circle cx="50" cy="50" r="50" fill="#E8EEF5" />
@@ -683,7 +683,7 @@ export const LandingPage: React.FC = () => {
 
                     {/* Person 2: Pink Hijab with Heart Eyes & green accent */}
                     <motion.div
-                      className="relative z-30 w-9 h-9 rounded-full ring-2 ring-white shadow-sm overflow-hidden bg-[#E8EEF5] shrink-0"
+                      className="relative z-30 w-9 h-9 rounded-full ring-2 ring-white shadow-xs overflow-hidden bg-[#E8EEF5] shrink-0"
                     >
                       <svg viewBox="0 0 100 100" className="w-full h-full">
                         <circle cx="50" cy="50" r="50" fill="#E8EEF5" />
@@ -705,7 +705,7 @@ export const LandingPage: React.FC = () => {
 
                     {/* Person 3: Short Pink Buzzcut Guy in Blue Hoodie with Gritted/Nervous Smile */}
                     <motion.div
-                      className="relative z-20 w-9 h-9 rounded-full ring-2 ring-white shadow-sm overflow-hidden bg-[#E8EEF5] shrink-0"
+                      className="relative z-20 w-9 h-9 rounded-full ring-2 ring-white shadow-xs overflow-hidden bg-[#E8EEF5] shrink-0"
                     >
                       <svg viewBox="0 0 100 100" className="w-full h-full">
                         <circle cx="50" cy="50" r="50" fill="#E8EEF5" />
@@ -736,7 +736,7 @@ export const LandingPage: React.FC = () => {
 
                     {/* Person 4: Tan Guy with Pink/White Beanie/Headband & Tank Top */}
                     <motion.div
-                      className="relative z-10 w-9 h-9 rounded-full ring-2 ring-white shadow-sm overflow-hidden bg-[#E8EEF5] shrink-0"
+                      className="relative z-10 w-9 h-9 rounded-full ring-2 ring-white shadow-xs overflow-hidden bg-[#E8EEF5] shrink-0"
                     >
                       <svg viewBox="0 0 100 100" className="w-full h-full">
                         <circle cx="50" cy="50" r="50" fill="#E8EEF5" />
@@ -814,8 +814,8 @@ export const LandingPage: React.FC = () => {
           onTouchEnd={() => setIsMarqueePaused(false)}
         >
           {/* Edge Fade Masks for Seamless In/Out Transition */}
-          <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 sm:w-36 bg-gradient-to-r from-[#FCFDFE] to-transparent z-10" />
-          <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 sm:w-36 bg-gradient-to-l from-[#FCFDFE] to-transparent z-10" />
+          <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 sm:w-36 bg-linear-to-r from-[#FCFDFE] to-transparent z-10" />
+          <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 sm:w-36 bg-linear-to-l from-[#FCFDFE] to-transparent z-10" />
 
           {/* Continuously Scrolling Track */}
           <div 
@@ -825,7 +825,7 @@ export const LandingPage: React.FC = () => {
             {marqueeCards.map((item, idx) => (
               <div 
                 key={`${item.name}-${idx}`}
-                className="w-[280px] sm:w-[350px] md:w-[360px] h-[220px] sm:h-[230px] shrink-0 bg-white rounded-2xl border border-slate-200/80 p-5 sm:p-6 shadow-xs hover:shadow-md hover:border-emerald-300 transition-all duration-300 flex flex-col justify-between select-none"
+                className="w-[280px] sm:w-[350px] md:w-[360px] h-[220px] sm:h-[230px] shrink-0 bg-white rounded-2xl border border-slate-200/80 p-5 sm:p-6 shadow-2xs hover:shadow-md hover:border-emerald-300 transition-all duration-300 flex flex-col justify-between select-none"
               >
                 <div className="flex-1 flex flex-col justify-start overflow-hidden mb-4">
                   <p className="text-sm font-medium text-slate-700 leading-relaxed italic line-clamp-3 sm:line-clamp-4">
@@ -874,7 +874,7 @@ export const LandingPage: React.FC = () => {
 
               <button
                 onClick={() => navigate('/dashboard')}
-                className="bg-[#064E3B] hover:bg-[#043C2C] text-white px-6 py-3 rounded-xl font-bold text-sm inline-flex items-center gap-2 transition-all shadow-sm hover:shadow-md cursor-pointer"
+                className="bg-[#064E3B] hover:bg-[#043C2C] text-white px-6 py-3 rounded-xl font-bold text-sm inline-flex items-center gap-2 transition-all shadow-xs hover:shadow-md cursor-pointer"
               >
                 <span>Start learning free</span>
                 <ArrowRight className="w-4 h-4" />
@@ -896,7 +896,7 @@ export const LandingPage: React.FC = () => {
                 {/* Card 01: 45-Day PM Launchpad */}
                 <div 
                   onClick={() => navigate('/dashboard')}
-                  className="bg-white rounded-2xl border border-slate-200/90 p-4 shadow-sm flex flex-col justify-between hover:border-emerald-300 transition-colors cursor-pointer group"
+                  className="bg-white rounded-2xl border border-slate-200/90 p-4 shadow-xs flex flex-col justify-between hover:border-emerald-300 transition-colors cursor-pointer group"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-3">
@@ -932,7 +932,7 @@ export const LandingPage: React.FC = () => {
                 {/* Card 02: LinkedIn Optimiser */}
                 <div 
                   onClick={() => navigate('/tools/linkedin-optimiser')}
-                  className="bg-white rounded-2xl border border-slate-200/90 p-4 shadow-sm flex flex-col justify-between hover:border-emerald-300 transition-colors cursor-pointer group"
+                  className="bg-white rounded-2xl border border-slate-200/90 p-4 shadow-xs flex flex-col justify-between hover:border-emerald-300 transition-colors cursor-pointer group"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-3">
@@ -973,7 +973,7 @@ export const LandingPage: React.FC = () => {
                 {/* Card 03: AI Mock Interview Studio */}
                 <div 
                   onClick={() => navigate('/interview-studio')}
-                  className="bg-white rounded-2xl border border-slate-200/90 p-4 shadow-sm flex flex-col justify-between hover:border-emerald-300 transition-colors cursor-pointer group"
+                  className="bg-white rounded-2xl border border-slate-200/90 p-4 shadow-xs flex flex-col justify-between hover:border-emerald-300 transition-colors cursor-pointer group"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-3">
@@ -1015,7 +1015,7 @@ export const LandingPage: React.FC = () => {
                 {/* Card 04: PM Toolkit & Frameworks */}
                 <div 
                   onClick={() => navigate('/resources')}
-                  className="bg-white rounded-2xl border border-slate-200/90 p-4 shadow-sm flex flex-col justify-between hover:border-emerald-300 transition-colors cursor-pointer group"
+                  className="bg-white rounded-2xl border border-slate-200/90 p-4 shadow-xs flex flex-col justify-between hover:border-emerald-300 transition-colors cursor-pointer group"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-3">
@@ -1061,7 +1061,7 @@ export const LandingPage: React.FC = () => {
                 {/* Card 05: PM Jobs board (full width) */}
                 <div 
                   onClick={() => navigate('/jobs')}
-                  className="sm:col-span-2 xl:col-span-4 bg-white rounded-2xl border border-slate-200/90 p-4 sm:p-5 shadow-sm flex flex-col md:flex-row md:items-center gap-4 md:gap-6 hover:border-emerald-300 transition-colors cursor-pointer group"
+                  className="sm:col-span-2 xl:col-span-4 bg-white rounded-2xl border border-slate-200/90 p-4 sm:p-5 shadow-xs flex flex-col md:flex-row md:items-center gap-4 md:gap-6 hover:border-emerald-300 transition-colors cursor-pointer group"
                 >
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-2">
@@ -1291,7 +1291,7 @@ export const LandingPage: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="w-full bg-[#34D399] text-[#07281E] font-black text-xs py-2 rounded-full select-none text-center shadow-xs">
+                  <div className="w-full bg-[#34D399] text-[#07281E] font-black text-xs py-2 rounded-full select-none text-center shadow-2xs">
                     You Got This!
                   </div>
                 </div>
@@ -1305,7 +1305,7 @@ export const LandingPage: React.FC = () => {
 
       {/* READY TO BECOME A PRODUCT MANAGER? (BOTTOM CTA BANNER) */}
       <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div data-reveal className="bg-gradient-to-r from-emerald-50/90 via-teal-50/70 to-emerald-100/80 border border-emerald-200/80 rounded-3xl p-8 sm:p-14 relative overflow-hidden text-center shadow-sm">
+        <div data-reveal className="bg-linear-to-r from-emerald-50/90 via-teal-50/70 to-emerald-100/80 border border-emerald-200/80 rounded-3xl p-8 sm:p-14 relative overflow-hidden text-center shadow-xs">
           
           {/* Decorative Loop Doodle on Left */}
           <div className="absolute left-6 top-8 hidden sm:block opacity-60 text-amber-500">
@@ -1446,7 +1446,7 @@ export const LandingPage: React.FC = () => {
                     value={newsletterEmail}
                     onChange={(e) => setNewsletterEmail(e.target.value)}
                     placeholder="Enter your email"
-                    className="w-full text-xs px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:border-emerald-600 bg-slate-50"
+                    className="w-full text-xs px-3 py-2 rounded-xl border border-slate-300 focus:outline-hidden focus:border-emerald-600 bg-slate-50"
                   />
                   <button
                     type="submit"

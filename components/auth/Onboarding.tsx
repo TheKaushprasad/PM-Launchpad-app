@@ -225,7 +225,7 @@ export const Onboarding: React.FC = () => {
                     value={collegeName}
                     onChange={(e) => setCollegeName(e.target.value)}
                     placeholder="e.g. IIT Delhi, Stanford, BITS Pilani"
-                    className="w-full pl-10 pr-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs outline-none focus:border-brand-600"
+                    className="w-full pl-10 pr-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs outline-hidden focus:border-brand-600"
                   />
                 </div>
               </div>
@@ -241,7 +241,7 @@ export const Onboarding: React.FC = () => {
                     value={degree}
                     onChange={(e) => setDegree(e.target.value)}
                     placeholder="e.g. B.Tech / MBA / BCA"
-                    className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs outline-none focus:border-brand-600"
+                    className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs outline-hidden focus:border-brand-600"
                   />
                 </div>
 
@@ -252,7 +252,7 @@ export const Onboarding: React.FC = () => {
                   <select
                     value={passingOutYear}
                     onChange={(e) => setPassingOutYear(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs outline-none focus:border-brand-600 font-medium"
+                    className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs outline-hidden focus:border-brand-600 font-medium"
                   >
                     <option value="2024">2024 (Recent)</option>
                     <option value="2025">2025</option>
@@ -284,7 +284,7 @@ export const Onboarding: React.FC = () => {
                     value={companyName}
                     onChange={(e) => setCompanyName(e.target.value)}
                     placeholder="e.g. Microsoft, Razorpay, Fintech Startup"
-                    className="w-full pl-10 pr-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs outline-none focus:border-brand-600"
+                    className="w-full pl-10 pr-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs outline-hidden focus:border-brand-600"
                   />
                 </div>
               </div>
@@ -300,7 +300,7 @@ export const Onboarding: React.FC = () => {
                     value={designation}
                     onChange={(e) => setDesignation(e.target.value)}
                     placeholder="e.g. Associate PM / Analyst"
-                    className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs outline-none focus:border-brand-600"
+                    className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs outline-hidden focus:border-brand-600"
                   />
                 </div>
 
@@ -311,7 +311,7 @@ export const Onboarding: React.FC = () => {
                   <select
                     value={yearsOfExperience}
                     onChange={(e) => setYearsOfExperience(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs outline-none focus:border-brand-600 font-medium"
+                    className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs outline-hidden focus:border-brand-600 font-medium"
                   >
                     <option value="0-1 years">0-1 years</option>
                     <option value="1-3 years">1-3 years</option>
@@ -332,7 +332,7 @@ export const Onboarding: React.FC = () => {
               <select
                 value={targetRole}
                 onChange={(e) => setTargetRole(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl bg-zinc-50 border border-zinc-200 text-xs outline-none focus:border-brand-600 font-medium"
+                className="w-full px-3 py-2 rounded-xl bg-zinc-50 border border-zinc-200 text-xs outline-hidden focus:border-brand-600 font-medium"
               >
                 {TARGET_ROLES.map((r) => (
                   <option key={r} value={r}>{r}</option>
@@ -344,7 +344,7 @@ export const Onboarding: React.FC = () => {
                   placeholder="Enter target role"
                   value={customRole}
                   onChange={(e) => setCustomRole(e.target.value)}
-                  className="mt-1.5 w-full px-3 py-1.5 rounded-lg border border-zinc-200 text-xs outline-none focus:border-brand-600"
+                  className="mt-1.5 w-full px-3 py-1.5 rounded-lg border border-zinc-200 text-xs outline-hidden focus:border-brand-600"
                 />
               )}
             </div>
@@ -356,7 +356,7 @@ export const Onboarding: React.FC = () => {
               <select
                 value={industry}
                 onChange={(e) => setIndustry(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl bg-zinc-50 border border-zinc-200 text-xs outline-none focus:border-brand-600 font-medium"
+                className="w-full px-3 py-2 rounded-xl bg-zinc-50 border border-zinc-200 text-xs outline-hidden focus:border-brand-600 font-medium"
               >
                 {INDUSTRIES.map((ind) => (
                   <option key={ind} value={ind}>{ind}</option>
@@ -368,7 +368,7 @@ export const Onboarding: React.FC = () => {
                   placeholder="Enter target industry"
                   value={customIndustry}
                   onChange={(e) => setCustomIndustry(e.target.value)}
-                  className="mt-1.5 w-full px-3 py-1.5 rounded-lg border border-zinc-200 text-xs outline-none focus:border-brand-600"
+                  className="mt-1.5 w-full px-3 py-1.5 rounded-lg border border-zinc-200 text-xs outline-hidden focus:border-brand-600"
                 />
               )}
             </div>
@@ -386,7 +386,7 @@ export const Onboarding: React.FC = () => {
                 value={linkedinUrl}
                 onChange={(e) => setLinkedinUrl(e.target.value)}
                 placeholder="https://www.linkedin.com/in/username"
-                className="w-full pl-10 pr-4 py-2 rounded-xl border border-zinc-200 focus:border-brand-600 text-xs outline-none transition-all"
+                className="w-full pl-10 pr-4 py-2 rounded-xl border border-zinc-200 focus:border-brand-600 text-xs outline-hidden transition-all"
               />
             </div>
           </div>

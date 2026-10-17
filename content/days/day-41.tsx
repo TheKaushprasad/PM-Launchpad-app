@@ -22,13 +22,13 @@ export const Day41Content = () => {
           <Globe className="text-amber-600" />
           Platforms to apply PM jobs
         </h2>
-        <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm">
+        <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-xs">
           <div className="flex flex-wrap gap-3">
             {[
               "Naukri", "Linkedin", "Hirist", "Wellfound", "Glassdoor Jobs", 
               "IIM jobs", "Instahyre", "Ycombinator jobs"
             ].map((platform) => (
-              <span key={platform} className="px-5 py-3 bg-zinc-50 border border-zinc-100 rounded-2xl text-sm font-bold text-zinc-700 shadow-sm hover:border-amber-200 transition-colors">
+              <span key={platform} className="px-5 py-3 bg-zinc-50 border border-zinc-100 rounded-2xl text-sm font-bold text-zinc-700 shadow-xs hover:border-amber-200 transition-colors">
                 {platform}
               </span>
             ))}

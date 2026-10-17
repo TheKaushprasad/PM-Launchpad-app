@@ -58,9 +58,9 @@ export const Day3Content = () => {
               color: "bg-rose-50 border-rose-100 text-rose-700"
             }
           ].map((stage, i) => (
-            <div key={i} className={`p-4 sm:p-5 rounded-2xl border ${stage.color} space-y-4 shadow-sm`}>
+            <div key={i} className={`p-4 sm:p-5 rounded-2xl border ${stage.color} space-y-4 shadow-xs`}>
               <div className="flex items-center gap-3">
-                 <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center shadow-sm">
+                 <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center shadow-xs">
                    <stage.icon className="w-5 h-5" />
                  </div>
                  <h3 className="text-xl font-black">{stage.title}</h3>
@@ -98,7 +98,7 @@ export const Day3Content = () => {
             { stage: "Support Stage", goal: "Ongoing customer support including customer service, warranties, repairs, and services or training to enhance user experience.", icon: Users },
             { stage: "Retirement Stage", goal: "The life of the product ends due to better products, preference shifts, or tech moves. Includes responsible recycling or find new uses.", icon: Ship }
           ].map((item, i) => (
-            <div key={i} className="flex gap-3 md:gap-3.5 p-4 bg-white border border-zinc-100 rounded-[2rem] shadow-sm items-start">
+            <div key={i} className="flex gap-3 md:gap-3.5 p-4 bg-white border border-zinc-100 rounded-4xl shadow-xs items-start">
                <div className="w-12 h-12 rounded-2xl bg-zinc-50 flex items-center justify-center text-indigo-600 shrink-0 shadow-inner">
                  <item.icon className="w-6 h-6" />
                </div>

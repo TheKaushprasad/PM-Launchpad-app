@@ -112,7 +112,7 @@ export const Day8Content = () => {
               color: "bg-zinc-50"
             }
           ].map((item, i) => (
-            <div key={i} className={`p-4 rounded-3xl border border-zinc-100 ${item.color} shadow-sm`}>
+            <div key={i} className={`p-4 rounded-3xl border border-zinc-100 ${item.color} shadow-xs`}>
                <h4 className="font-black text-zinc-900 mb-2">{item.title}</h4>
                <p className="text-xs font-bold text-zinc-500 leading-relaxed">{item.lesson}</p>
             </div>
@@ -137,7 +137,7 @@ export const Day8Content = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
-          <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm space-y-4">
+          <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-xs space-y-4">
              <h4 className="font-black text-zinc-900 uppercase tracking-widest text-xs">Example Calculation</h4>
              <div className="space-y-1">
                 <p className="text-sm font-bold text-zinc-500">Marketing spend: $40,000</p>
@@ -147,7 +147,7 @@ export const Day8Content = () => {
              <p className="text-xl font-black text-indigo-600">CAC = ($40,000 + $10,000) / 500 = $100</p>
           </div>
           
-          <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm space-y-4">
+          <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-xs space-y-4">
              <h4 className="font-black text-zinc-900 uppercase tracking-widest text-xs">What to Include in CAC</h4>
              <div className="grid grid-cols-2 gap-4">
                <div>
@@ -297,7 +297,7 @@ export const Day8Content = () => {
            This ratio tells you whether your business model is sustainable and how aggressively you can grow.
         </p>
 
-        <div className="bg-white border border-zinc-100 rounded-2xl shadow-sm overflow-hidden">
+        <div className="bg-white border border-zinc-100 rounded-2xl shadow-xs overflow-hidden">
             <h3 className="p-6 bg-zinc-50 border-b border-zinc-100 text-sm font-black uppercase tracking-[0.2em] text-zinc-400">The Ratio Guide</h3>
             <div className="overflow-x-auto">
               <table className="w-full text-left text-sm font-medium border-collapse">
@@ -368,7 +368,7 @@ export const Day8Content = () => {
              { title: "Risk Reduction", desc: "Faster payback means less exposure to churn. More resilient to changes." },
              { title: "Growth Velocity", desc: "Revenue compounds quickly. Companies can scale much faster." }
            ].map((item, i) => (
-             <div key={i} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-sm">
+             <div key={i} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-xs">
                 <h4 className="font-black text-zinc-900 mb-2">{item.title}</h4>
                 <p className="text-xs font-bold text-zinc-500 leading-relaxed">{item.desc}</p>
              </div>
@@ -448,9 +448,9 @@ export const Day8Content = () => {
               icon: CreditCard
             }
           ].map((item) => (
-            <div key={item.id} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-6 group hover:border-indigo-100 transition-colors">
+            <div key={item.id} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-6 group hover:border-indigo-100 transition-colors">
                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-zinc-50 flex items-center justify-center text-indigo-600 shadow-sm group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                  <div className="w-12 h-12 rounded-2xl bg-zinc-50 flex items-center justify-center text-indigo-600 shadow-xs group-hover:bg-indigo-600 group-hover:text-white transition-colors">
                     <item.icon className="w-6 h-6" />
                   </div>
                   <div>

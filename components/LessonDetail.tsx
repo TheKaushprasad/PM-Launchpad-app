@@ -445,7 +445,7 @@ export const LessonDetail: React.FC = () => {
     return (
       <div className="max-w-2xl mx-auto py-12 px-4 sm:px-6">
         <div className="bg-white rounded-3xl p-8 sm:p-12 border border-zinc-200/90 shadow-xl text-center space-y-6">
-          <div className="w-16 h-16 rounded-2xl bg-brand-50 border border-brand-100 text-brand-600 flex items-center justify-center mx-auto shadow-xs">
+          <div className="w-16 h-16 rounded-2xl bg-brand-50 border border-brand-100 text-brand-600 flex items-center justify-center mx-auto shadow-2xs">
             <Lock className="w-8 h-8" />
           </div>
 
@@ -526,7 +526,7 @@ export const LessonDetail: React.FC = () => {
       <div className="sticky top-0 md:top-0 z-20 bg-zinc-50/95 backdrop-blur-md py-2 mb-3.5 flex items-center justify-between border-b border-zinc-200/60 -mx-4 md:mx-0 px-4 md:px-0">
         {/* Continuous Reading Progress Bar */}
         <div 
-          className="absolute top-0 left-0 h-[2.5px] bg-gradient-to-r from-brand-500 via-brand-600 to-emerald-500 transition-all duration-150 ease-out" 
+          className="absolute top-0 left-0 h-[2.5px] bg-linear-to-r from-brand-500 via-brand-600 to-emerald-500 transition-all duration-150 ease-out" 
           style={{ width: `${Math.min(100, Math.max(0, readingPercentage))}%` }}
         />
 
@@ -546,7 +546,7 @@ export const LessonDetail: React.FC = () => {
               <button 
                 onClick={handleRestartToTop}
                 title="Restart reading from top of day"
-                className="ml-1 text-zinc-400 hover:text-brand-600 transition-colors p-0.5 rounded hover:bg-zinc-100"
+                className="ml-1 text-zinc-400 hover:text-brand-600 transition-colors p-0.5 rounded-sm hover:bg-zinc-100"
               >
                 <RotateCcw className="w-2.5 h-2.5" />
               </button>
@@ -578,7 +578,7 @@ export const LessonDetail: React.FC = () => {
           {/* Mark Complete Button */}
           <button 
             onClick={() => toggleLessonComplete(currentDay)}
-            className={`flex items-center gap-1.5 px-3 py-1 rounded-lg font-bold text-xs border transition-all shadow-sm ${
+            className={`flex items-center gap-1.5 px-3 py-1 rounded-lg font-bold text-xs border transition-all shadow-xs ${
               isCompleted 
                 ? 'bg-emerald-50 border-emerald-300 text-emerald-800' 
                 : 'bg-brand-600 hover:bg-brand-700 border-brand-600 text-white'
@@ -589,7 +589,7 @@ export const LessonDetail: React.FC = () => {
           </button>
 
           {/* Day Stepper */}
-          <div className="flex items-center gap-0.5 bg-white rounded-lg border border-zinc-200 p-0.5 shadow-sm">
+          <div className="flex items-center gap-0.5 bg-white rounded-lg border border-zinc-200 p-0.5 shadow-xs">
              <button 
                 onClick={() => prevLesson && navigate(`/dashboard/day/${prevLesson.day}`)}
                 disabled={!prevLesson}
@@ -637,7 +637,7 @@ export const LessonDetail: React.FC = () => {
             </div>
             <button
               onClick={handleRestartToTop}
-              className="ml-3 text-[11px] font-bold text-brand-200 hover:text-white bg-brand-800/80 hover:bg-brand-800 px-2 py-0.5 rounded transition-all flex items-center gap-1 cursor-pointer"
+              className="ml-3 text-[11px] font-bold text-brand-200 hover:text-white bg-brand-800/80 hover:bg-brand-800 px-2 py-0.5 rounded-sm transition-all flex items-center gap-1 cursor-pointer"
             >
               <RotateCcw className="w-2.5 h-2.5" />
               Restart at top
@@ -647,12 +647,12 @@ export const LessonDetail: React.FC = () => {
       </AnimatePresence>
 
       {/* Hero Header Banner */}
-      <div className="bg-white rounded-2xl p-4 sm:p-5 md:p-6 border border-zinc-200/80 shadow-sm relative overflow-hidden mb-3.5">
+      <div className="bg-white rounded-2xl p-4 sm:p-5 md:p-6 border border-zinc-200/80 shadow-xs relative overflow-hidden mb-3.5">
         <div className="absolute top-0 right-0 w-[200px] md:w-[320px] h-[200px] md:h-[320px] bg-brand-50/40 rounded-full blur-[50px] md:blur-[70px] -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
         
         <div className="relative z-10">
             <div className="flex flex-wrap items-center gap-2 mb-2">
-                <span className={`text-[8px] md:text-[9px] px-2 py-0.5 rounded-full font-black uppercase tracking-widest flex items-center gap-1.5 ${getCategoryColor(lesson.category)} shadow-xs`}>
+                <span className={`text-[8px] md:text-[9px] px-2 py-0.5 rounded-full font-black uppercase tracking-widest flex items-center gap-1.5 ${getCategoryColor(lesson.category)} shadow-2xs`}>
                     {getCategoryIcon(lesson.category)}
                     {lesson.category}
                 </span>
@@ -670,7 +670,7 @@ export const LessonDetail: React.FC = () => {
 
       {/* Day 8 Milestone Section: "Have you completed Day 0 to Day 07?" */}
       {currentDay === 8 && (
-        <div className="bg-white rounded-2xl p-5 sm:p-6 border border-zinc-200/90 shadow-sm relative overflow-hidden mb-3.5">
+        <div className="bg-white rounded-2xl p-5 sm:p-6 border border-zinc-200/90 shadow-xs relative overflow-hidden mb-3.5">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="space-y-1.5">
               <div className="flex items-center gap-2">
@@ -753,7 +753,7 @@ export const LessonDetail: React.FC = () => {
                 </motion.div>
              )}
 
-             <div className="bg-white rounded-2xl p-4 sm:p-5 md:p-6 border border-zinc-200/80 shadow-xs overflow-hidden overflow-x-auto">
+             <div className="bg-white rounded-2xl p-4 sm:p-5 md:p-6 border border-zinc-200/80 shadow-2xs overflow-hidden overflow-x-auto">
                 <article className="prose prose-zinc prose-sm md:prose-base max-w-none prose-headings:font-black prose-headings:tracking-tight prose-headings:text-zinc-900 prose-p:text-zinc-600 prose-p:leading-relaxed prose-p:mb-2.5 prose-a:text-brand-600 prose-img:rounded-xl">
                     {lesson.content}
                 </article>
@@ -771,14 +771,14 @@ export const LessonDetail: React.FC = () => {
 
              {/* Assignment Section */}
              {lesson.assignment && (
-                 <div className="bg-brand-50/70 rounded-2xl p-4 sm:p-5 border border-brand-100 shadow-xs relative overflow-hidden">
+                 <div className="bg-brand-50/70 rounded-2xl p-4 sm:p-5 border border-brand-100 shadow-2xs relative overflow-hidden">
                     <div className="flex items-center gap-2.5 mb-2.5 relative z-10">
-                        <div className="p-2 bg-brand-600 rounded-lg shadow-sm">
+                        <div className="p-2 bg-brand-600 rounded-lg shadow-xs">
                             <PenTool className="w-3.5 h-3.5 text-white" />
                         </div>
                         <h3 className="font-black text-base md:text-lg text-brand-900 tracking-tight">Day's Assignment</h3>
                     </div>
-                    <div className="text-zinc-700 leading-relaxed relative z-10 text-xs sm:text-sm !leading-[1.55]">
+                    <div className="text-zinc-700 leading-relaxed relative z-10 text-xs sm:text-sm leading-[1.55]!">
                         {lesson.assignment}
                     </div>
                  </div>
@@ -789,13 +789,13 @@ export const LessonDetail: React.FC = () => {
           <div className="lg:col-span-4">
              <div className="sticky top-14 space-y-3">
                  {lesson.resources && lesson.resources.length > 0 && (
-                     <div className="bg-white rounded-2xl p-3.5 sm:p-4 border border-zinc-200/80 shadow-xs">
+                     <div className="bg-white rounded-2xl p-3.5 sm:p-4 border border-zinc-200/80 shadow-2xs">
                         <div className="flex items-center justify-between mb-2.5">
                             <h3 className="font-black text-zinc-900 tracking-tight text-sm flex items-center gap-1.5">
                                 <BookOpen className="w-4 h-4 text-brand-600" />
                                 Course Material
                             </h3>
-                            <span className="text-[9px] font-black text-zinc-400 uppercase bg-zinc-100 px-1.5 py-0.5 rounded">
+                            <span className="text-[9px] font-black text-zinc-400 uppercase bg-zinc-100 px-1.5 py-0.5 rounded-sm">
                                 {lesson.resources.length} items
                             </span>
                         </div>
@@ -819,7 +819,7 @@ export const LessonDetail: React.FC = () => {
                                                     setActiveVideo(embedUrl);
                                                 }
                                             }}
-                                            className={`w-full flex flex-col gap-2 p-2 rounded-xl transition-all border cursor-pointer select-none ${isActive ? 'bg-brand-50 border-brand-200 ring-2 ring-brand-100' : 'bg-zinc-50 border-zinc-100 hover:bg-white hover:border-brand-100 hover:shadow-xs'}`}
+                                            className={`w-full flex flex-col gap-2 p-2 rounded-xl transition-all border cursor-pointer select-none ${isActive ? 'bg-brand-50 border-brand-200 ring-2 ring-brand-100' : 'bg-zinc-50 border-zinc-100 hover:bg-white hover:border-brand-100 hover:shadow-2xs'}`}
                                         >
                                             <div className="relative aspect-video rounded-lg overflow-hidden bg-zinc-800">
                                                 <img 
@@ -863,7 +863,7 @@ export const LessonDetail: React.FC = () => {
                                             href={res.url} 
                                             target="_blank" 
                                             rel="noopener noreferrer" 
-                                            className="flex items-center gap-3 p-2.5 rounded-xl bg-zinc-50 border border-zinc-100 hover:bg-white hover:border-emerald-100 hover:shadow-xs transition-all group/link"
+                                            className="flex items-center gap-3 p-2.5 rounded-xl bg-zinc-50 border border-zinc-100 hover:bg-white hover:border-emerald-100 hover:shadow-2xs transition-all group/link"
                                         >
                                             <div className="w-8 h-8 rounded-lg bg-white text-zinc-400 flex items-center justify-center shrink-0 group-hover/link:text-emerald-600 shadow-2xs">
                                                 <ExternalLink className="w-3.5 h-3.5" />
@@ -882,7 +882,7 @@ export const LessonDetail: React.FC = () => {
 
                  {/* Topics to cover Section */}
                  {lesson.topics && lesson.topics.length > 0 && (
-                    <div className="bg-white rounded-2xl p-3.5 sm:p-4 border border-zinc-200/80 shadow-xs">
+                    <div className="bg-white rounded-2xl p-3.5 sm:p-4 border border-zinc-200/80 shadow-2xs">
                         <div className="flex items-center justify-between mb-2.5">
                             <h3 className="font-black text-zinc-900 tracking-tight text-sm flex items-center gap-1.5">
                                 <List className="w-4 h-4 text-brand-600" />
@@ -893,7 +893,7 @@ export const LessonDetail: React.FC = () => {
                             {lesson.topics.map((topic, idx) => (
                                 <div key={idx} className="flex items-center gap-2.5 group">
                                     {topic.time && (
-                                        <span className="text-[9px] font-black text-brand-600 bg-brand-50 px-1.5 py-0.5 rounded border border-brand-100 shadow-2xs shrink-0 min-w-[42px] text-center">
+                                        <span className="text-[9px] font-black text-brand-600 bg-brand-50 px-1.5 py-0.5 rounded-sm border border-brand-100 shadow-2xs shrink-0 min-w-[42px] text-center">
                                             {topic.time}
                                         </span>
                                     )}
@@ -907,7 +907,7 @@ export const LessonDetail: React.FC = () => {
                  )}
 
                  {/* Personal Study Notes Pad */}
-                 <div className="bg-white rounded-2xl p-3.5 sm:p-4 border border-zinc-200/80 shadow-xs space-y-2.5">
+                 <div className="bg-white rounded-2xl p-3.5 sm:p-4 border border-zinc-200/80 shadow-2xs space-y-2.5">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-1.5">
                             <div className="w-6 h-6 rounded-md bg-brand-50 flex items-center justify-center text-brand-600">
@@ -922,17 +922,17 @@ export const LessonDetail: React.FC = () => {
                         </div>
                         <div className="flex items-center gap-1 text-[10px] font-bold">
                             {saveStatus === 'saving' ? (
-                                <span className="inline-flex items-center gap-1 text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded border border-amber-100 animate-pulse">
+                                <span className="inline-flex items-center gap-1 text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded-sm border border-amber-100 animate-pulse">
                                     <Cloud className="w-2.5 h-2.5 text-amber-500" />
                                     Saving...
                                 </span>
                             ) : saveStatus === 'saved' ? (
-                                <span className="inline-flex items-center gap-1 text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-100">
+                                <span className="inline-flex items-center gap-1 text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded-sm border border-emerald-100">
                                     <CheckCircle2 className="w-2.5 h-2.5 text-emerald-500" />
                                     {savedNotesTimestamp ? `Saved ${savedNotesTimestamp}` : 'Saved'}
                                 </span>
                             ) : (
-                                <span className="inline-flex items-center gap-1 text-zinc-400 bg-zinc-50 px-1.5 py-0.5 rounded border border-zinc-100">
+                                <span className="inline-flex items-center gap-1 text-zinc-400 bg-zinc-50 px-1.5 py-0.5 rounded-sm border border-zinc-100">
                                     <Cloud className="w-2.5 h-2.5 text-emerald-500" />
                                     {user ? 'Synced' : 'Saved'}
                                 </span>
@@ -950,7 +950,7 @@ export const LessonDetail: React.FC = () => {
                         }}
                         placeholder="Write down your key learnings, frameworks, or interview takeaways for this day. Notes auto-save as you type..."
                         rows={3}
-                        className="w-full text-xs font-medium text-zinc-800 bg-zinc-50/80 border border-zinc-200 rounded-lg p-2.5 focus:outline-none focus:ring-1.5 focus:ring-brand-500/20 focus:border-brand-500 focus:bg-white resize-none placeholder:text-zinc-400 transition-all leading-relaxed"
+                        className="w-full text-xs font-medium text-zinc-800 bg-zinc-50/80 border border-zinc-200 rounded-lg p-2.5 focus:outline-hidden focus:ring-1.5 focus:ring-brand-500/20 focus:border-brand-500 focus:bg-white resize-none placeholder:text-zinc-400 transition-all leading-relaxed"
                     />
 
                     <div className="flex items-center justify-between pt-0.5">
@@ -962,7 +962,7 @@ export const LessonDetail: React.FC = () => {
                                 type="button"
                                 onClick={handleSaveNotes}
                                 title="Save note and view under Saved Notes tab on dashboard"
-                                className="px-3 py-1 rounded-md bg-zinc-900 hover:bg-zinc-800 active:scale-95 text-white font-bold text-[10px] flex items-center gap-1 transition-all shadow-xs cursor-pointer"
+                                className="px-3 py-1 rounded-md bg-zinc-900 hover:bg-zinc-800 active:scale-95 text-white font-bold text-[10px] flex items-center gap-1 transition-all shadow-2xs cursor-pointer"
                             >
                                 {saveStatus === 'saved' ? (
                                     <>
@@ -985,7 +985,7 @@ export const LessonDetail: React.FC = () => {
                  </div>
 
                  {/* AI Mock Interview Callout Banner */}
-                 <div className="bg-gradient-to-br from-zinc-900 to-brand-950 rounded-2xl p-3.5 text-white shadow-md flex flex-col sm:flex-row items-center justify-between gap-2.5 border border-zinc-800">
+                 <div className="bg-linear-to-br from-zinc-900 to-brand-950 rounded-2xl p-3.5 text-white shadow-md flex flex-col sm:flex-row items-center justify-between gap-2.5 border border-zinc-800">
                     <div className="flex items-center gap-2.5">
                         <div className="w-8 h-8 rounded-lg bg-brand-600/30 border border-brand-400/30 flex items-center justify-center text-brand-400 shrink-0">
                             <Sparkles className="w-4 h-4" />
@@ -997,7 +997,7 @@ export const LessonDetail: React.FC = () => {
                     </div>
                     <button
                         onClick={() => navigate('/interview-studio')}
-                        className="px-3 py-1.5 rounded-lg bg-brand-600 hover:bg-brand-500 text-white font-bold text-[10px] uppercase tracking-wider shadow-sm transition-all shrink-0 flex items-center gap-1"
+                        className="px-3 py-1.5 rounded-lg bg-brand-600 hover:bg-brand-500 text-white font-bold text-[10px] uppercase tracking-wider shadow-xs transition-all shrink-0 flex items-center gap-1"
                     >
                         Start Mock <ArrowRight className="w-3 h-3" />
                     </button>
@@ -1032,7 +1032,7 @@ export const LessonDetail: React.FC = () => {
                     <span className="block text-[8px] font-black text-zinc-400 uppercase tracking-widest">Up Next</span>
                     <span className="block text-xs md:text-sm font-black text-zinc-900 group-hover:text-brand-600 tracking-tight line-clamp-1">{nextLesson.title}</span>
                 </div>
-                <div className="w-8 h-8 md:w-9 md:h-9 rounded-lg bg-brand-600 flex items-center justify-center text-white shadow-sm group-hover:rotate-3 group-hover:scale-105 transition-all">
+                <div className="w-8 h-8 md:w-9 md:h-9 rounded-lg bg-brand-600 flex items-center justify-center text-white shadow-xs group-hover:rotate-3 group-hover:scale-105 transition-all">
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                 </div>
              </button>
@@ -1057,7 +1057,7 @@ export const LessonDetail: React.FC = () => {
 
               <div className="relative z-10 space-y-4">
                 <div className="flex items-start justify-between gap-3">
-                  <div className="w-12 h-12 rounded-2xl bg-brand-50 border border-brand-100 flex items-center justify-center text-brand-600 shadow-xs">
+                  <div className="w-12 h-12 rounded-2xl bg-brand-50 border border-brand-100 flex items-center justify-center text-brand-600 shadow-2xs">
                     <CheckCircle2 className="w-6 h-6" />
                   </div>
                   <button

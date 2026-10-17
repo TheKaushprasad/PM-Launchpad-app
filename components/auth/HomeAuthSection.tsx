@@ -396,7 +396,7 @@ export const HomeAuthSection: React.FC = () => {
               id="home-tab-signup"
               onClick={() => { setMode('signup'); setErrorMessage(null); setSuccessMessage(null); }}
               className={`flex-1 py-2 text-xs font-bold rounded-xl transition-all ${
-                mode === 'signup' ? 'bg-white text-zinc-900 shadow-sm' : 'text-zinc-500 hover:text-zinc-900'
+                mode === 'signup' ? 'bg-white text-zinc-900 shadow-xs' : 'text-zinc-500 hover:text-zinc-900'
               }`}
             >
               Sign Up
@@ -406,7 +406,7 @@ export const HomeAuthSection: React.FC = () => {
               id="home-tab-login"
               onClick={() => { setMode('login'); setErrorMessage(null); setSuccessMessage(null); }}
               className={`flex-1 py-2 text-xs font-bold rounded-xl transition-all ${
-                mode === 'login' ? 'bg-white text-zinc-900 shadow-sm' : 'text-zinc-500 hover:text-zinc-900'
+                mode === 'login' ? 'bg-white text-zinc-900 shadow-xs' : 'text-zinc-500 hover:text-zinc-900'
               }`}
             >
               Sign In
@@ -441,7 +441,7 @@ export const HomeAuthSection: React.FC = () => {
             </h4>
             <p className="text-xs text-zinc-600 font-normal leading-relaxed">
               We sent a verification link to{' '}
-              <span className="font-bold text-zinc-900 bg-zinc-100 px-1.5 py-0.5 rounded break-all">
+              <span className="font-bold text-zinc-900 bg-zinc-100 px-1.5 py-0.5 rounded-sm break-all">
                 {email || 'your email'}
               </span>.
               Click the link to verify your account and unlock access.
@@ -509,7 +509,7 @@ export const HomeAuthSection: React.FC = () => {
                     type="button"
                     onClick={handleGoogleAuth}
                     disabled={googleLoading}
-                    className="w-full py-2 px-3 rounded-lg bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer"
+                    className="w-full py-2 px-3 rounded-lg bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-2xs transition-all cursor-pointer"
                   >
                     <Sparkles className="w-3.5 h-3.5" />
                     <span>Continue with Google 1-Tap</span>
@@ -540,7 +540,7 @@ export const HomeAuthSection: React.FC = () => {
                 id="home-google-btn"
                 onClick={handleGoogleAuth}
                 disabled={googleLoading || loading}
-                className="w-full py-2.5 px-4 rounded-xl bg-white hover:bg-zinc-50 border border-zinc-200 text-zinc-800 text-xs font-bold flex items-center justify-center gap-2.5 shadow-xs hover:border-zinc-300 transition-all cursor-pointer disabled:opacity-50"
+                className="w-full py-2.5 px-4 rounded-xl bg-white hover:bg-zinc-50 border border-zinc-200 text-zinc-800 text-xs font-bold flex items-center justify-center gap-2.5 shadow-2xs hover:border-zinc-300 transition-all cursor-pointer disabled:opacity-50"
               >
                 {googleLoading ? (
                   <Loader2 className="w-4 h-4 animate-spin text-brand-600" />
@@ -592,7 +592,7 @@ export const HomeAuthSection: React.FC = () => {
                   placeholder="e.g. Kaushal Prasad"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full px-3 py-2 bg-zinc-50 border border-zinc-200 rounded-xl text-xs font-medium text-zinc-900 focus:outline-none focus:border-brand-500"
+                  className="w-full px-3 py-2 bg-zinc-50 border border-zinc-200 rounded-xl text-xs font-medium text-zinc-900 focus:outline-hidden focus:border-brand-500"
                 />
               </div>
 
@@ -618,7 +618,7 @@ export const HomeAuthSection: React.FC = () => {
                   onBlur={() => setEmailTouched(true)}
                   onChange={(e) => handleEmailChange(e.target.value)}
                   placeholder={showEmailInvalid ? "Please enter a valid email (e.g. name@example.com)" : "name@example.com"}
-                  className={`w-full px-3 py-2 rounded-xl text-xs font-medium focus:outline-none transition-all ${
+                  className={`w-full px-3 py-2 rounded-xl text-xs font-medium focus:outline-hidden transition-all ${
                     showEmailInvalid
                       ? 'bg-rose-50/30 border border-rose-400 text-rose-900 placeholder:text-rose-400 placeholder:font-medium ring-2 ring-rose-100'
                       : 'bg-zinc-50 border border-zinc-200 text-zinc-900 placeholder:text-zinc-400 focus:border-brand-500'
@@ -641,7 +641,7 @@ export const HomeAuthSection: React.FC = () => {
                 placeholder="At least 6 characters"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-3 py-2 bg-zinc-50 border border-zinc-200 rounded-xl text-xs font-medium text-zinc-900 focus:outline-none focus:border-brand-500 pr-9"
+                className="w-full px-3 py-2 bg-zinc-50 border border-zinc-200 rounded-xl text-xs font-medium text-zinc-900 focus:outline-hidden focus:border-brand-500 pr-9"
               />
               <button
                 type="button"
@@ -704,7 +704,7 @@ export const HomeAuthSection: React.FC = () => {
                   placeholder="e.g. IIT Delhi, Stanford, BITS"
                   value={collegeName}
                   onChange={(e) => setCollegeName(e.target.value)}
-                  className="w-full px-2.5 py-1.5 bg-white border border-zinc-200 rounded-lg text-xs font-medium text-zinc-900 focus:outline-none focus:border-brand-500"
+                  className="w-full px-2.5 py-1.5 bg-white border border-zinc-200 rounded-lg text-xs font-medium text-zinc-900 focus:outline-hidden focus:border-brand-500"
                 />
               </div>
 
@@ -721,7 +721,7 @@ export const HomeAuthSection: React.FC = () => {
                     placeholder="e.g. B.Tech CS, MBA"
                     value={degree}
                     onChange={(e) => setDegree(e.target.value)}
-                    className="w-full px-2.5 py-1.5 bg-white border border-zinc-200 rounded-lg text-xs font-medium text-zinc-900 focus:outline-none focus:border-brand-500"
+                    className="w-full px-2.5 py-1.5 bg-white border border-zinc-200 rounded-lg text-xs font-medium text-zinc-900 focus:outline-hidden focus:border-brand-500"
                   />
                 </div>
 
@@ -734,7 +734,7 @@ export const HomeAuthSection: React.FC = () => {
                     id="home-signup-grad-year"
                     value={graduationYear}
                     onChange={(e) => setGraduationYear(e.target.value)}
-                    className="w-full px-2.5 py-1.5 bg-white border border-zinc-200 rounded-lg text-xs font-medium text-zinc-900 focus:outline-none focus:border-brand-500"
+                    className="w-full px-2.5 py-1.5 bg-white border border-zinc-200 rounded-lg text-xs font-medium text-zinc-900 focus:outline-hidden focus:border-brand-500"
                   >
                     {['2024', '2025', '2026', '2027', '2028', '2029'].map((yr) => (
                       <option key={yr} value={yr}>{yr}</option>
@@ -760,7 +760,7 @@ export const HomeAuthSection: React.FC = () => {
                   placeholder="e.g. Amazon, Infosys, Tech Startup"
                   value={companyName}
                   onChange={(e) => setCompanyName(e.target.value)}
-                  className="w-full px-2.5 py-1.5 bg-white border border-zinc-200 rounded-lg text-xs font-medium text-zinc-900 focus:outline-none focus:border-brand-500"
+                  className="w-full px-2.5 py-1.5 bg-white border border-zinc-200 rounded-lg text-xs font-medium text-zinc-900 focus:outline-hidden focus:border-brand-500"
                 />
               </div>
 
@@ -777,7 +777,7 @@ export const HomeAuthSection: React.FC = () => {
                     placeholder="e.g. Developer, APM"
                     value={designation}
                     onChange={(e) => setDesignation(e.target.value)}
-                    className="w-full px-2.5 py-1.5 bg-white border border-zinc-200 rounded-lg text-xs font-medium text-zinc-900 focus:outline-none focus:border-brand-500"
+                    className="w-full px-2.5 py-1.5 bg-white border border-zinc-200 rounded-lg text-xs font-medium text-zinc-900 focus:outline-hidden focus:border-brand-500"
                   />
                 </div>
 
@@ -790,7 +790,7 @@ export const HomeAuthSection: React.FC = () => {
                     id="home-signup-exp"
                     value={experienceYears}
                     onChange={(e) => setExperienceYears(e.target.value)}
-                    className="w-full px-2.5 py-1.5 bg-white border border-zinc-200 rounded-lg text-xs font-medium text-zinc-900 focus:outline-none focus:border-brand-500"
+                    className="w-full px-2.5 py-1.5 bg-white border border-zinc-200 rounded-lg text-xs font-medium text-zinc-900 focus:outline-hidden focus:border-brand-500"
                   >
                     {['0-1 years', '1-3 years', '3-5 years', '5-8 years', '8+ years'].map((exp) => (
                       <option key={exp} value={exp}>{exp}</option>
@@ -846,7 +846,7 @@ export const HomeAuthSection: React.FC = () => {
               onBlur={() => setEmailTouched(true)}
               onChange={(e) => handleEmailChange(e.target.value)}
               placeholder={showEmailInvalid ? "Please enter a valid email (e.g. name@example.com)" : "name@example.com"}
-              className={`w-full px-3 py-2 rounded-xl text-xs font-medium focus:outline-none transition-all ${
+              className={`w-full px-3 py-2 rounded-xl text-xs font-medium focus:outline-hidden transition-all ${
                 showEmailInvalid
                   ? 'bg-rose-50/30 border border-rose-400 text-rose-900 placeholder:text-rose-400 placeholder:font-medium ring-2 ring-rose-100'
                   : 'bg-zinc-50 border border-zinc-200 text-zinc-900 placeholder:text-zinc-400 focus:border-brand-500'
@@ -876,7 +876,7 @@ export const HomeAuthSection: React.FC = () => {
                 placeholder="Enter password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-3 py-2 bg-zinc-50 border border-zinc-200 rounded-xl text-xs font-medium text-zinc-900 focus:outline-none focus:border-brand-500 pr-9"
+                className="w-full px-3 py-2 bg-zinc-50 border border-zinc-200 rounded-xl text-xs font-medium text-zinc-900 focus:outline-hidden focus:border-brand-500 pr-9"
               />
               <button
                 type="button"
@@ -933,7 +933,7 @@ export const HomeAuthSection: React.FC = () => {
               onBlur={() => setEmailTouched(true)}
               onChange={(e) => handleEmailChange(e.target.value)}
               placeholder={showEmailInvalid ? "Please enter a valid email (e.g. name@example.com)" : "name@example.com"}
-              className={`w-full px-3 py-2 rounded-xl text-xs font-medium focus:outline-none transition-all ${
+              className={`w-full px-3 py-2 rounded-xl text-xs font-medium focus:outline-hidden transition-all ${
                 showEmailInvalid
                   ? 'bg-rose-50/30 border border-rose-400 text-rose-900 placeholder:text-rose-400 placeholder:font-medium ring-2 ring-rose-100'
                   : 'bg-zinc-50 border border-zinc-200 text-zinc-900 placeholder:text-zinc-400 focus:border-brand-500'

@@ -30,7 +30,7 @@ export const Day28Content = () => {
              <Bot className="text-orange-600" />
              1. Artificial Intelligence (AI) - The Broad Goal
            </h2>
-           <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm space-y-6">
+           <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-xs space-y-6">
               <div>
                  <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-2">Definition</h4>
                  <p className="text-sm font-medium text-zinc-600 leading-relaxed">
@@ -47,7 +47,7 @@ export const Day28Content = () => {
                  <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-2">Examples of AI (Non-ML)</h4>
                  <ul className="space-y-4 pt-2">
                     <li className="flex gap-4 items-start">
-                       <div className="w-8 h-8 rounded-lg bg-zinc-50 flex items-center justify-center text-orange-600 shrink-0 shadow-sm">
+                       <div className="w-8 h-8 rounded-lg bg-zinc-50 flex items-center justify-center text-orange-600 shrink-0 shadow-xs">
                           <Settings className="w-4 h-4" />
                        </div>
                        <div>
@@ -56,7 +56,7 @@ export const Day28Content = () => {
                        </div>
                     </li>
                     <li className="flex gap-4 items-start">
-                       <div className="w-8 h-8 rounded-lg bg-zinc-50 flex items-center justify-center text-orange-600 shrink-0 shadow-sm">
+                       <div className="w-8 h-8 rounded-lg bg-zinc-50 flex items-center justify-center text-orange-600 shrink-0 shadow-xs">
                           <Search className="w-4 h-4" />
                        </div>
                        <div>
@@ -75,7 +75,7 @@ export const Day28Content = () => {
              2. Machine Learning (ML) - The Modern Method for AI
            </h2>
            <p className="text-sm font-bold text-zinc-500 italic">ML is a subset of AI and is the dominant way to achieve AI today.</p>
-           <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm space-y-6">
+           <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-xs space-y-6">
               <div>
                  <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-2">Definition</h4>
                  <p className="text-sm font-medium text-zinc-600 leading-relaxed">
@@ -114,14 +114,14 @@ export const Day28Content = () => {
              3. Deep Learning (DL) - A Specialized Type of ML
            </h2>
            <p className="text-sm font-bold text-zinc-500 italic">DL is a specialized subset of ML and is responsible for the recent breakthroughs in AI.</p>
-           <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm space-y-6">
+           <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-xs space-y-6">
               <div>
                  <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-2">Definition</h4>
                  <p className="text-sm font-medium text-zinc-600 leading-relaxed">
                    A specific subfield of ML that uses Artificial Neural Networks with multiple processing layers (hence "deep") to learn complex patterns directly from large amounts of raw, unstructured data.
                  </p>
               </div>
-              <div className="p-4 bg-zinc-900 text-white rounded-[2rem] space-y-3">
+              <div className="p-4 bg-zinc-900 text-white rounded-4xl space-y-3">
                  <h4 className="text-[10px] font-black uppercase tracking-widest text-orange-400">Distinction from Traditional ML</h4>
                  <p className="text-xs font-medium text-zinc-400 leading-relaxed">
                    Traditional ML often requires a human to manually perform feature engineering (telling the algorithm what to look for, like a car's size). Deep Learning models can automatically extract the relevant features (like edges, shapes, and textures in an image) through its deep layers.
@@ -207,7 +207,7 @@ export const Day28Content = () => {
                icon: ShieldCheck
              }
            ].map((reason, i) => (
-             <div key={i} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
+             <div key={i} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
                 <div className="flex items-center gap-3">
                    <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center text-orange-600">
                       <reason.icon className="w-5 h-5" />
@@ -246,7 +246,7 @@ export const Day28Content = () => {
               <p className="text-sm font-medium text-zinc-600 leading-relaxed">
                 Supervised learning trains a model using labeled data where each input has a known correct output. The model learns by comparing its predictions with these correct answers and improves over time.
               </p>
-              <div className="bg-white border border-zinc-100 rounded-[2rem] overflow-hidden shadow-sm">
+              <div className="bg-white border border-zinc-100 rounded-4xl overflow-hidden shadow-xs">
                  <div className="bg-zinc-50 p-6 border-b border-zinc-100">
                     <p className="text-xs font-black text-zinc-900 uppercase tracking-widest mb-1">Example: Patient Diagnosis</p>
                     <p className="text-[10px] font-bold text-zinc-400">Predict if a patient is healthy or sick based on gender and age.</p>
@@ -293,7 +293,7 @@ export const Day28Content = () => {
               <p className="text-sm font-medium text-zinc-600 leading-relaxed">
                 Unsupervised learning works with unlabeled data where no correct answers or categories are provided. The model's job is to find the data, hidden patterns, similarities or groups on its own.
               </p>
-              <div className="bg-white border border-zinc-100 rounded-[2rem] overflow-hidden shadow-sm p-6">
+              <div className="bg-white border border-zinc-100 rounded-4xl overflow-hidden shadow-xs p-6">
                  <p className="text-xs font-black text-zinc-900 uppercase tracking-widest mb-4">Example: Clustering Patients</p>
                  <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-2 mb-2.5">
                     {['M,48', 'M,67', 'F,53', 'M,49', 'F,34', 'M,21'].map((row, i) => (

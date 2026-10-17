@@ -112,10 +112,10 @@ export const ToolsHub: React.FC = () => {
         </div>
 
         {/* Hero Section Banner */}
-        <header className="relative w-full bg-gradient-to-r from-[#032A1F] via-[#043C2C] to-[#064E3B] rounded-3xl p-7 sm:p-9 md:p-11 text-white overflow-hidden shadow-2xl border border-[#065F46]/60 mb-7 sm:mb-8">
+        <header className="relative w-full bg-linear-to-r from-[#032A1F] via-[#043C2C] to-[#064E3B] rounded-3xl p-7 sm:p-9 md:p-11 text-white overflow-hidden shadow-2xl border border-[#065F46]/60 mb-7 sm:mb-8">
           {/* Subtle vibrant background glow shapes */}
           <div 
-            className="absolute top-0 right-0 w-[480px] h-[480px] bg-gradient-to-bl from-brand-600/25 via-brand-600/15 to-transparent rounded-full blur-[100px] pointer-events-none -translate-y-1/4 translate-x-1/4" 
+            className="absolute top-0 right-0 w-[480px] h-[480px] bg-linear-to-bl from-brand-600/25 via-brand-600/15 to-transparent rounded-full blur-[100px] pointer-events-none -translate-y-1/4 translate-x-1/4" 
             aria-hidden="true"
           />
           <div 
@@ -235,18 +235,18 @@ export const ToolsHub: React.FC = () => {
             <div 
               key={tool.title}
               onClick={() => handleAction(tool.action)}
-              className="group bg-white rounded-3xl border border-slate-200/90 p-7 sm:p-8 flex flex-col justify-between shadow-xs hover:shadow-md hover:border-slate-300 transition-all duration-200 cursor-pointer"
+              className="group bg-white rounded-3xl border border-slate-200/90 p-7 sm:p-8 flex flex-col justify-between shadow-2xs hover:shadow-md hover:border-slate-300 transition-all duration-200 cursor-pointer"
             >
-              <div className="flex flex-col flex-grow">
+              <div className="flex flex-col grow">
                 {/* Header: Icon + Status Tag */}
                 <div className="flex items-center justify-between mb-5">
-                  <div className={`w-12 h-12 rounded-2xl ${tool.iconContainerStyle} flex items-center justify-center shrink-0 shadow-xs group-hover:scale-105 transition-transform duration-200`}>
+                  <div className={`w-12 h-12 rounded-2xl ${tool.iconContainerStyle} flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform duration-200`}>
                     {tool.iconType === 'linkedin' ? (
                       <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
                         <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
                       </svg>
                     ) : (
-                      <FileText className="w-6 h-6 stroke-[2]" />
+                      <FileText className="w-6 h-6 stroke-2" />
                     )}
                   </div>
 
@@ -269,8 +269,8 @@ export const ToolsHub: React.FC = () => {
                 <div className="space-y-3 mb-8">
                   {tool.features.map((feat) => (
                     <div key={feat} className="flex items-center gap-2.5 text-xs sm:text-sm font-semibold text-slate-700">
-                      <div className="w-5 h-5 rounded-full bg-[#059669] flex items-center justify-center shrink-0 text-white shadow-xs">
-                        <Check className="w-3.5 h-3.5 stroke-[3]" />
+                      <div className="w-5 h-5 rounded-full bg-[#059669] flex items-center justify-center shrink-0 text-white shadow-2xs">
+                        <Check className="w-3.5 h-3.5 stroke-3" />
                       </div>
                       <span>{feat}</span>
                     </div>
@@ -285,7 +285,7 @@ export const ToolsHub: React.FC = () => {
                   e.stopPropagation();
                   handleAction(tool.action);
                 }}
-                className="w-full py-4 px-6 rounded-2xl bg-[#064E3B] hover:bg-[#043C2C] active:scale-[0.98] text-white font-semibold text-sm flex items-center justify-between transition-colors shadow-xs group/btn cursor-pointer"
+                className="w-full py-4 px-6 rounded-2xl bg-[#064E3B] hover:bg-[#043C2C] active:scale-[0.98] text-white font-semibold text-sm flex items-center justify-between transition-colors shadow-2xs group/btn cursor-pointer"
               >
                 <span>{tool.cta}</span>
                 <ArrowRight className="w-4 h-4 transition-transform duration-200 ease-out group-hover/btn:translate-x-1" />
@@ -295,10 +295,10 @@ export const ToolsHub: React.FC = () => {
         </div>
 
         {/* Bottom Manual Review Banner Card */}
-        <div className="mt-6 sm:mt-7 w-full bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-7 shadow-xs hover:shadow-md transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-5">
+        <div className="mt-6 sm:mt-7 w-full bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-7 shadow-2xs hover:shadow-md transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-5">
           <div className="flex items-center gap-4 sm:gap-5 min-w-0">
-            <div className="w-12 h-12 rounded-2xl bg-[#ECFDF5] text-[#047857] flex items-center justify-center shrink-0 shadow-xs">
-              <Users className="w-6 h-6 stroke-[2]" />
+            <div className="w-12 h-12 rounded-2xl bg-[#ECFDF5] text-[#047857] flex items-center justify-center shrink-0 shadow-2xs">
+              <Users className="w-6 h-6 stroke-2" />
             </div>
             <div className="min-w-0">
               <h3 className="text-base sm:text-lg font-black text-slate-900 tracking-tight leading-snug">
@@ -314,7 +314,7 @@ export const ToolsHub: React.FC = () => {
             href="https://docs.google.com/forms/u/0/d/1gntWQiHg_RBueOSOqZzVQiJ4UGfMIvyuAYUsiuxbOUc/preview" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="px-6 py-3.5 rounded-2xl bg-[#ECFDF5] hover:bg-[#A7F3D0] text-[#047857] font-bold text-xs uppercase tracking-wider transition-colors shadow-xs flex items-center justify-center gap-2 shrink-0 self-start sm:self-auto cursor-pointer"
+            className="px-6 py-3.5 rounded-2xl bg-[#ECFDF5] hover:bg-[#A7F3D0] text-[#047857] font-bold text-xs uppercase tracking-wider transition-colors shadow-2xs flex items-center justify-center gap-2 shrink-0 self-start sm:self-auto cursor-pointer"
           >
             <span>BOOK A REVIEW</span>
             <ArrowRight className="w-4 h-4" />

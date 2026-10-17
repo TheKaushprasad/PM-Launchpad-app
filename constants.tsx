@@ -305,15 +305,15 @@ export const LESSONS: Lesson[] = [
         </div>
         
         <div className="space-y-4">
-          <div className="p-4 bg-white border border-zinc-100 rounded-2xl shadow-sm">
+          <div className="p-4 bg-white border border-zinc-100 rounded-2xl shadow-xs">
              <h4 className="text-sm font-black text-brand-900 mb-1">1. Define Target Segment</h4>
              <p className="text-xs text-zinc-500">Identify exactly who you are solving for using demographics and psychographics.</p>
           </div>
-          <div className="p-4 bg-white border border-zinc-100 rounded-2xl shadow-sm">
+          <div className="p-4 bg-white border border-zinc-100 rounded-2xl shadow-xs">
              <h4 className="text-sm font-black text-brand-900 mb-1">2. Pain Point vs. Outcome Table</h4>
              <p className="text-xs text-zinc-500">Create a 2x2 table mapping current struggles to desired future states.</p>
           </div>
-          <div className="p-4 bg-white border border-zinc-100 rounded-2xl shadow-sm">
+          <div className="p-4 bg-white border border-zinc-100 rounded-2xl shadow-xs">
              <h4 className="text-sm font-black text-brand-900 mb-1">3. Competitor Scan</h4>
              <p className="text-xs text-zinc-500">Use Perplexity AI to find 3 direct or indirect competitors.</p>
           </div>
@@ -347,15 +347,15 @@ export const LESSONS: Lesson[] = [
         </div>
         
         <div className="space-y-4">
-          <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm">
+          <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs">
              <h4 className="text-sm font-black text-brand-900 mb-2">1. Top 3 Pain Points</h4>
              <p className="text-xs text-zinc-500">Include supporting user quotes for each pain point identified.</p>
           </div>
-          <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm">
+          <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs">
              <h4 className="text-sm font-black text-brand-900 mb-2">2. Top 3 Desired Outcomes</h4>
              <p className="text-xs text-zinc-500">Describe what users explicitly want to achieve.</p>
           </div>
-          <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm">
+          <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs">
              <h4 className="text-sm font-black text-brand-600 font-bold">"How might we solve for X?"</h4>
           </div>
         </div>
@@ -384,15 +384,15 @@ export const LESSONS: Lesson[] = [
         </div>
         
         <div className="space-y-4">
-          <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm">
+          <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs">
              <h4 className="text-sm font-black text-brand-900 mb-2">1. 2 Personas</h4>
              <p className="text-xs text-zinc-500">Name, Bio, Goals, Pains, Behavior, Quote.</p>
           </div>
-          <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm">
+          <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs">
              <h4 className="text-sm font-black text-brand-900 mb-2">2. JTBD Statements</h4>
              <p className="text-xs text-zinc-500">1 clear statement per persona.</p>
           </div>
-          <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm">
+          <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs">
              <h4 className="text-sm font-black text-brand-600 font-bold">3. 1 Feature Suggestion</h4>
              <p className="text-xs font-bold text-brand-600">Clearly aligned to the "Job".</p>
           </div>
@@ -421,15 +421,15 @@ export const LESSONS: Lesson[] = [
         </div>
         
         <div className="space-y-4">
-          <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm">
+          <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs">
              <h4 className="text-sm font-black text-brand-900 mb-2">• 2 SWOT Analysis</h4>
              <p className="text-xs text-zinc-500">Complete analysis for Competitor A & B.</p>
           </div>
-          <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm">
+          <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs">
              <h4 className="text-sm font-black text-brand-900 mb-2">• Feature Comparison Matrix</h4>
              <p className="text-xs text-zinc-500">Us vs others mapping.</p>
           </div>
-          <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm">
+          <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs">
              <h4 className="text-sm font-black text-brand-900 mb-2">• Positioning Statement</h4>
              <p className="text-xs font-bold text-brand-600">“Unlike X and Y, our product [does what] for [whom].”</p>
           </div>
@@ -454,15 +454,15 @@ export const LESSONS: Lesson[] = [
         </div>
         
         <div className="space-y-4">
-          <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm">
+          <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs">
              <h4 className="text-sm font-black text-[#7d99bf] mb-2">1. Quantified Funnel</h4>
              <p className="text-xs text-zinc-500">Define TAM, SAM, and SOM for your product idea with specific $ or user numbers.</p>
           </div>
-          <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm">
+          <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs">
              <h4 className="text-sm font-black text-[#7d99bf] mb-2">2. Methodology Disclosure</h4>
              <p className="text-xs text-zinc-500">Note whether you used Top-Down, Bottom-Up, or Value-Based approaches.</p>
           </div>
-          <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm">
+          <div className="p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs">
              <h4 className="text-sm font-black text-[#7d99bf] mb-2">3. Strategic Justification</h4>
              <p className="text-xs font-bold text-[#7d99bf]">Explain why this market is "big enough" or "growing fast enough" to invest in.</p>
           </div>

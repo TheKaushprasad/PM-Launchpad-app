@@ -54,7 +54,7 @@ export const Day17Content = () => {
         </p>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-3.5">
-           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
               <h4 className="font-black text-zinc-900 flex items-center gap-2">
                  <Clock className="w-5 h-5 text-indigo-600" /> Key Functions
               </h4>
@@ -67,7 +67,7 @@ export const Day17Content = () => {
                  ].map((item, i) => (
                    <li key={i} className="flex items-start gap-2">
                       <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 mt-1.5 shrink-0" />
-                      <p className="text-xs font-bold text-zinc-700"><code className="text-indigo-600 bg-zinc-50 px-1 rounded">{item.f}</code>: {item.d}</p>
+                      <p className="text-xs font-bold text-zinc-700"><code className="text-indigo-600 bg-zinc-50 px-1 rounded-sm">{item.f}</code>: {item.d}</p>
                    </li>
                  ))}
               </ul>
@@ -98,7 +98,7 @@ GROUP BY 1;`}
         </p>
         
         <div className="space-y-2.5">
-           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm flex flex-col md:flex-row gap-3.5 md:gap-4">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs flex flex-col md:flex-row gap-3.5 md:gap-4">
               <div className="flex-1 space-y-4">
                  <h4 className="font-black text-zinc-900">COALESCE()</h4>
                  <p className="text-sm font-medium text-zinc-500 leading-relaxed">Returns the first non-null value in a list. Use it to replace missing values with zeros or "Unknown".</p>
@@ -157,7 +157,7 @@ FROM payments;`}
              { name: "AVG()", d: "Averages (AOV, avg time on page)." },
              { name: "MAX/MIN()", d: "Ranges (last login, first purchase)." }
            ].map((item, i) => (
-             <div key={i} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-sm space-y-2">
+             <div key={i} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-xs space-y-2">
                 <h4 className="font-black text-indigo-600 text-sm font-mono">{item.name}</h4>
                 <p className="text-[10px] font-bold text-zinc-500">{item.d}</p>
              </div>

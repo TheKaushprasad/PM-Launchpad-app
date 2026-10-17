@@ -56,7 +56,7 @@ export const Day21Content = () => {
           Product managers need to understand user behavior at a granular level. While web analytics tools like Google Analytics tell you about page views and traffic, product analytics tools dive deeper into how users actually interact with your product's features and functionality.
         </p>
 
-        <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-6">
+        <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-6">
            <h4 className="font-black text-zinc-900 flex items-center gap-2">
              <BarChart className="w-5 h-5 text-indigo-600" />
              What Is Product Analytics?
@@ -112,7 +112,7 @@ export const Day21Content = () => {
                icon: TrendingUp
              }
            ].map((benefit, i) => (
-             <div key={i} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-sm flex items-start gap-4 hover:border-emerald-200 transition-colors group">
+             <div key={i} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-xs flex items-start gap-4 hover:border-emerald-200 transition-colors group">
                 <div className="w-12 h-12 rounded-2xl bg-zinc-50 flex items-center justify-center text-emerald-600 shrink-0 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
                   <benefit.icon className="w-6 h-6" />
                 </div>
@@ -167,7 +167,7 @@ export const Day21Content = () => {
              { phase: "Optimization", action: "Continuously analyze funnels and engagement to identify incremental improvements." },
              { phase: "Stakeholder Communication", action: "Provide concrete evidence for decisions with visual reports and dashboards." }
            ].map((item, i) => (
-             <div key={i} className="p-4 bg-zinc-50 border border-zinc-200 rounded-[2rem] flex flex-col gap-2">
+             <div key={i} className="p-4 bg-zinc-50 border border-zinc-200 rounded-4xl flex flex-col gap-2">
                 <h4 className="font-black text-indigo-900 text-sm uppercase tracking-widest">{item.phase}</h4>
                 <p className="text-xs font-bold text-zinc-500 leading-relaxed">{item.action}</p>
              </div>

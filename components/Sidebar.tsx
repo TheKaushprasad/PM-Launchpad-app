@@ -77,7 +77,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-zinc-900/60 z-30 md:hidden backdrop-blur-sm"
+          className="fixed inset-0 bg-zinc-900/60 z-30 md:hidden backdrop-blur-xs"
           onClick={() => setMobileOpen(false)}
         />
       )}
@@ -128,7 +128,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
         {!collapsed && (
           <div className="px-6 pb-2">
             {user ? (
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 shadow-xs space-y-2">
+              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 shadow-2xs space-y-2">
                 <div className="flex items-center justify-between gap-2">
                   <Link to="/profile" className="flex items-center gap-2.5 min-w-0 hover:opacity-80 transition-opacity">
                     {user.photoURL ? (
@@ -257,7 +257,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
                       e.stopPropagation();
                       setModulesOpen(prev => !prev);
                     }}
-                    className="p-0.5 rounded hover:bg-black/5 transition-colors"
+                    className="p-0.5 rounded-sm hover:bg-black/5 transition-colors"
                   >
                     <motion.div
                       animate={{ rotate: modulesOpen ? 180 : 0 }}
@@ -346,7 +346,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
                   <div className="flex-1 flex items-center justify-between relative z-10">
                     <span className="tracking-tight">{item.label}</span>
                     {item.badge && (
-                      <span className="px-2 py-0.5 rounded-full bg-gradient-to-r from-brand-500 to-brand-500 text-white text-[9px] font-black uppercase tracking-wider shadow-sm">
+                      <span className="px-2 py-0.5 rounded-full bg-linear-to-r from-brand-500 to-brand-500 text-white text-[9px] font-black uppercase tracking-wider shadow-xs">
                         {item.badge}
                       </span>
                     )}

@@ -105,7 +105,7 @@ export const Day26Content = () => {
           <MessageSquare className="text-indigo-600" />
           5. User Stories: The Currency of Agile
         </h2>
-        <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-6">
+        <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-6">
            <div className="p-4 bg-zinc-50 rounded-2xl border border-zinc-100 text-center font-black text-lg italic text-zinc-700">
              "As a [user type], I want to [action] so that [benefit]."
            </div>

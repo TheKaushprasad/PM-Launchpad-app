@@ -78,15 +78,15 @@ export const Day15Content = () => {
                bgColor: "bg-amber-50"
              }
            ].map((item, i) => (
-             <div key={i} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
-                <div className={`w-12 h-12 rounded-2xl ${item.bgColor} flex items-center justify-center ${item.color} shadow-sm`}>
+             <div key={i} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
+                <div className={`w-12 h-12 rounded-2xl ${item.bgColor} flex items-center justify-center ${item.color} shadow-xs`}>
                   <item.icon className="w-6 h-6" />
                 </div>
                 <h4 className="font-black text-zinc-900">{item.title}</h4>
                 <p className="text-xs font-bold text-zinc-500 leading-relaxed">{item.desc}</p>
                 <div className="pt-2">
                    <p className="text-[10px] font-black uppercase text-zinc-400 mb-1">SQL snippet</p>
-                   <code className="text-[10px] font-black text-indigo-600 bg-zinc-50 px-2 py-1 rounded border border-zinc-100 block truncate">{item.example}</code>
+                   <code className="text-[10px] font-black text-indigo-600 bg-zinc-50 px-2 py-1 rounded-sm border border-zinc-100 block truncate">{item.example}</code>
                 </div>
              </div>
            ))}
@@ -102,14 +102,14 @@ export const Day15Content = () => {
         <div className="bg-zinc-50 p-4 sm:p-5 rounded-2xl border border-zinc-200">
            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
               <div className="space-y-2.5">
-                 <div className="p-4 bg-white rounded-3xl border border-zinc-100 shadow-sm relative overflow-hidden group">
+                 <div className="p-4 bg-white rounded-3xl border border-zinc-100 shadow-xs relative overflow-hidden group">
                     <div className="flex items-center gap-3 mb-3">
                        <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-black text-xs">INNER</div>
                        <h4 className="font-black text-zinc-900">Inner Join</h4>
                     </div>
                     <p className="text-xs font-medium text-zinc-500 leading-relaxed">Returns records that have matching values in both tables. Most common join for PMs.</p>
                  </div>
-                 <div className="p-4 bg-white rounded-3xl border border-zinc-100 shadow-sm relative overflow-hidden group">
+                 <div className="p-4 bg-white rounded-3xl border border-zinc-100 shadow-xs relative overflow-hidden group">
                     <div className="flex items-center gap-3 mb-3">
                        <div className="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center text-white font-black text-xs">LEFT</div>
                        <h4 className="font-black text-zinc-900">Left Join</h4>
@@ -118,14 +118,14 @@ export const Day15Content = () => {
                  </div>
               </div>
               <div className="space-y-2.5">
-                 <div className="p-4 bg-white rounded-3xl border border-zinc-100 shadow-sm relative overflow-hidden group">
+                 <div className="p-4 bg-white rounded-3xl border border-zinc-100 shadow-xs relative overflow-hidden group">
                     <div className="flex items-center gap-3 mb-3">
                        <div className="w-8 h-8 rounded-lg bg-amber-600 flex items-center justify-center text-white font-black text-xs">RIGHT</div>
                        <h4 className="font-black text-zinc-900">Right Join</h4>
                     </div>
                     <p className="text-xs font-medium text-zinc-500 leading-relaxed">Returns all records from the right table, and matched records from the left table. Rare compared to Left Join.</p>
                  </div>
-                 <div className="p-4 bg-white rounded-3xl border border-zinc-100 shadow-sm relative overflow-hidden group">
+                 <div className="p-4 bg-white rounded-3xl border border-zinc-100 shadow-xs relative overflow-hidden group">
                     <div className="flex items-center gap-3 mb-3">
                        <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-black text-xs">FULL</div>
                        <h4 className="font-black text-zinc-900">Full Outer Join</h4>
@@ -177,11 +177,11 @@ WHERE purchases.date >= '2025-01-01';`}
           3. Set Operators: UNION vs UNION ALL
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
-           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
               <h4 className="font-black text-zinc-900">UNION</h4>
               <p className="text-sm font-medium text-zinc-500 leading-relaxed">Combines results and <strong>removes duplicates</strong>. Slower because of the distinct operation.</p>
            </div>
-           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4">
+           <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4">
               <h4 className="font-black text-zinc-900">UNION ALL</h4>
               <p className="text-sm font-medium text-zinc-500 leading-relaxed">Combines results and <strong>keeps duplicates</strong>. Faster because it doesn't filter.</p>
            </div>

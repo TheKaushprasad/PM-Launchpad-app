@@ -35,12 +35,12 @@ export const Day33Content = () => {
           <Info className="text-orange-600" />
           What is the Model Context Protocol (MCP)?
         </h2>
-        <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-sm space-y-6">
+        <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-xs space-y-6">
            <p className="text-sm font-medium text-zinc-600 leading-relaxed">
              MCP (Model Context Protocol) is an open-source standard for connecting AI applications to external systems. Using MCP, AI applications like Claude or ChatGPT can connect to data sources (e.g. local files, databases), tools (e.g. search engines, calculators) and workflows (e.g. specialized prompts)—enabling them to access key information and perform tasks.
            </p>
            
-           <div className="bg-zinc-950 text-white p-4 sm:p-5 rounded-[2rem] border-l-8 border-orange-500 flex items-start gap-4">
+           <div className="bg-zinc-950 text-white p-4 sm:p-5 rounded-4xl border-l-8 border-orange-500 flex items-start gap-4">
               <div className="w-12 h-12 rounded-2xl bg-orange-500/10 flex items-center justify-center text-orange-400 shrink-0">
                  <Link className="w-6 h-6" />
               </div>
@@ -76,7 +76,7 @@ export const Day33Content = () => {
               ))}
            </ul>
            
-           <div className="bg-white border border-zinc-100 rounded-2xl shadow-sm p-4 sm:p-5 space-y-6">
+           <div className="bg-white border border-zinc-100 rounded-2xl shadow-xs p-4 sm:p-5 space-y-6">
               <h4 className="text-sm font-black uppercase tracking-widest text-zinc-400">Limitations of Previous Solutions</h4>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 md:gap-4">
                  <div className="space-y-2">
@@ -111,7 +111,7 @@ export const Day33Content = () => {
              { title: "Enterprise Connectivity", desc: "Enterprise chatbots can connect to multiple databases across an organization, empowering users to analyze data using chat." },
              { title: "Physical World Integration", desc: "AI models can create 3D designs on Blender and print them out using a 3D printer." }
            ].map((item, i) => (
-             <div key={i} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm flex items-start gap-4">
+             <div key={i} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs flex items-start gap-4">
                 <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center text-orange-600 shrink-0">
                   <CheckCircle className="w-5 h-5" />
                 </div>
@@ -151,7 +151,7 @@ export const Day33Content = () => {
              }
            ].map((item, i) => (
              <div key={i} className="p-4 sm:p-5 bg-zinc-50 border border-zinc-200 rounded-2xl space-y-4">
-                <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center text-orange-600 shadow-sm">
+                <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center text-orange-600 shadow-xs">
                   <item.icon className="w-6 h-6" />
                 </div>
                 <h4 className="font-black text-zinc-900 text-sm uppercase tracking-widest">{item.role}</h4>
@@ -189,7 +189,7 @@ export const Day33Content = () => {
                   color: "emerald"
                 }
               ].map((comp, i) => (
-                <div key={i} className={`p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-4 relative overflow-hidden group`}>
+                <div key={i} className={`p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4 relative overflow-hidden group`}>
                    <div className={`absolute top-0 right-0 w-1 h-full bg-${comp.color}-500`}></div>
                    <div className={`w-12 h-12 rounded-2xl bg-${comp.color}-50 flex items-center justify-center text-${comp.color}-600 shadow-inner`}>
                       <comp.icon className="w-6 h-6" />

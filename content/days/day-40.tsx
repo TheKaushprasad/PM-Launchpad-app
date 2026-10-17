@@ -65,11 +65,11 @@ export const Day40Content = () => {
         <div className="bg-zinc-50 p-4 sm:p-5 rounded-2xl border border-zinc-200 space-y-6">
            <h3 className="text-xl font-black text-zinc-900">How to use the Expert Prompt?</h3>
            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="p-4 bg-white rounded-3xl border border-zinc-100 shadow-sm flex items-center gap-4">
+              <div className="p-4 bg-white rounded-3xl border border-zinc-100 shadow-xs flex items-center gap-4">
                  <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600 font-black">1</div>
                  <p className="text-xs font-bold text-zinc-700">Copy paste the prompt in chatgpt</p>
               </div>
-              <div className="p-4 bg-white rounded-3xl border border-zinc-100 shadow-sm flex items-center gap-4">
+              <div className="p-4 bg-white rounded-3xl border border-zinc-100 shadow-xs flex items-center gap-4">
                  <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600 font-black">2</div>
                  <p className="text-xs font-bold text-zinc-700">Paste your LinkedinProfile data</p>
               </div>
