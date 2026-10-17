@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { LogIn, X, BookOpen, Bookmark, FileEdit, CheckCircle2, Video } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { AuthModal } from './AuthModal';
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 
 export const SaveDetailsModal: React.FC = () => {
   const { 
@@ -64,74 +65,70 @@ export const SaveDetailsModal: React.FC = () => {
 
   return (
     <>
-      <AnimatePresence>
-        {showSaveDetailsModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 15 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 15 }}
-              transition={{ duration: 0.2 }}
-              className="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full border border-zinc-200/90 shadow-2xl relative overflow-hidden"
-            >
-              {/* Top Accent Gradient */}
-              <div className="absolute top-0 right-0 w-36 h-36 bg-brand-50/80 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+      <Dialog open={showSaveDetailsModal} onOpenChange={(open) => { if (!open) closeSaveDetailsPopup(); }}>
+        <DialogContent
+          showCloseButton={false}
+          overlayClassName="bg-black/50 backdrop-blur-xs"
+          className="block gap-0 bg-white rounded-3xl p-6 sm:p-8 w-[calc(100%-2rem)] max-w-md sm:max-w-md border-zinc-200/90 shadow-2xl overflow-hidden"
+        >
+          {/* Top Accent Gradient */}
+          <div className="absolute top-0 right-0 w-36 h-36 bg-brand-50/80 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
 
-              <div className="relative z-10 space-y-4">
-                {/* Header with Icon and Dismiss */}
-                <div className="flex items-start justify-between gap-3">
-                  <div className="w-12 h-12 rounded-2xl bg-brand-50 border border-brand-100 flex items-center justify-center shadow-2xs">
-                    {getActionIcon()}
-                  </div>
-                  <button
-                    type="button"
-                    onClick={closeSaveDetailsPopup}
-                    className="p-1.5 text-zinc-400 hover:text-zinc-600 rounded-lg hover:bg-zinc-100 transition-colors cursor-pointer"
-                    title="Dismiss"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
-                </div>
-
-                {/* Title & Message */}
-                <div className="space-y-2">
-                  <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-800 text-[10px] font-black uppercase tracking-wider border border-amber-200/80">
-                    <span>Guest Mode</span>
-                  </div>
-                  <h3 className="text-xl sm:text-2xl font-black text-zinc-900 tracking-tight leading-snug">
-                    Log in to save the details
-                  </h3>
-                  <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed font-medium">
-                    {getActionDescription()}
-                  </p>
-                  <div className="p-3 bg-zinc-50 rounded-xl border border-zinc-200/80 text-zinc-500 text-[11px] leading-relaxed">
-                    You can freely explore Day 0 to Day 7. To preserve your notes, bookmarks, and milestone progress across devices, please log in or sign up.
-                  </div>
-                </div>
-
-                {/* Actions */}
-                <div className="flex flex-col sm:flex-row gap-2.5 pt-2">
-                  <button
-                    type="button"
-                    onClick={handleOpenLogin}
-                    className="flex-1 py-3 px-4 bg-[#065F46] hover:bg-[#064E3B] active:scale-95 text-white font-bold text-xs sm:text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
-                  >
-                    <LogIn className="w-4 h-4" />
-                    <span>Log In to Save</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={closeSaveDetailsPopup}
-                    className="py-3 px-4 bg-zinc-100 hover:bg-zinc-200 active:scale-95 text-zinc-700 font-bold text-xs sm:text-sm rounded-xl transition-all cursor-pointer"
-                  >
-                    Continue as Guest
-                  </button>
-                </div>
+          <div className="relative z-10 space-y-4">
+            {/* Header with Icon and Dismiss */}
+            <div className="flex items-start justify-between gap-3">
+              <div className="w-12 h-12 rounded-2xl bg-brand-50 border border-brand-100 flex items-center justify-center shadow-2xs">
+                {getActionIcon()}
               </div>
-            </motion.div>
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                onClick={closeSaveDetailsPopup}
+                className="size-7 text-zinc-400 hover:text-zinc-600 rounded-lg hover:bg-zinc-100"
+                title="Dismiss"
+                aria-label="Dismiss"
+              >
+                <X className="size-4" />
+              </Button>
+            </div>
+
+            {/* Title & Message */}
+            <div className="space-y-2">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-800 text-[10px] font-black uppercase tracking-wider border border-amber-200/80">
+                <span>Guest Mode</span>
+              </div>
+              <DialogTitle className="text-xl sm:text-2xl font-black text-zinc-900 tracking-tight leading-snug">
+                Log in to save the details
+              </DialogTitle>
+              <DialogDescription className="text-xs sm:text-sm text-zinc-600 leading-relaxed font-medium">
+                {getActionDescription()}
+              </DialogDescription>
+              <div className="p-3 bg-zinc-50 rounded-xl border border-zinc-200/80 text-zinc-500 text-[11px] leading-relaxed">
+                You can freely explore Day 0 to Day 7. To preserve your notes, bookmarks, and milestone progress across devices, please log in or sign up.
+              </div>
+            </div>
+
+            {/* Actions */}
+            <div className="flex flex-col sm:flex-row gap-2.5 pt-2">
+              <Button
+                variant="brand"
+                onClick={handleOpenLogin}
+                className="flex-1 h-auto py-3 px-4 bg-[#065F46] hover:bg-[#064E3B] shadow-md shadow-black/10 active:scale-95 font-bold text-xs sm:text-sm rounded-xl"
+              >
+                <LogIn className="size-4" />
+                <span>Log In to Save</span>
+              </Button>
+              <Button
+                variant="secondary"
+                onClick={closeSaveDetailsPopup}
+                className="h-auto py-3 px-4 bg-zinc-100 hover:bg-zinc-200 active:scale-95 text-zinc-700 font-bold text-xs sm:text-sm rounded-xl"
+              >
+                Continue as Guest
+              </Button>
+            </div>
           </div>
-        )}
-      </AnimatePresence>
+        </DialogContent>
+      </Dialog>
 
       <AuthModal
         isOpen={authModalOpen}
