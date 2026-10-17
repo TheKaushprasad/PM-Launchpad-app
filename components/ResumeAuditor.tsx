@@ -15,6 +15,7 @@ import { ResumeAuditResult, StoredResumeDocument } from '../types/resumeAuditor'
 import { evaluateResumeAlgorithmically } from '../lib/resumeAuditEngine';
 import { authJsonHeaders } from '../lib/apiClient';
 import { AuthModal } from './auth/AuthModal';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const INITIAL_ROLES = [
   'Associate Product Manager (APM)',
@@ -542,32 +543,24 @@ export const ResumeAuditor: React.FC = () => {
                       </button>
                     )}
                   </div>
-                  <div className="flex items-center bg-zinc-100 p-1 rounded-xl border border-zinc-200">
-                    <button
-                      type="button"
-                      onClick={() => setInputMode('upload')}
-                      className={`flex items-center gap-1.5 px-3 py-1 text-xs font-bold rounded-lg transition-all ${
-                        inputMode === 'upload'
-                          ? 'bg-white text-brand-700 shadow-2xs'
-                          : 'text-zinc-600 hover:text-zinc-900'
-                      }`}
-                    >
-                      <UploadCloud className="w-3.5 h-3.5" />
-                      <span>Upload PDF</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setInputMode('paste')}
-                      className={`flex items-center gap-1.5 px-3 py-1 text-xs font-bold rounded-lg transition-all ${
-                        inputMode === 'paste'
-                          ? 'bg-white text-brand-700 shadow-2xs'
-                          : 'text-zinc-600 hover:text-zinc-900'
-                      }`}
-                    >
-                      <FileText className="w-3.5 h-3.5" />
-                      <span>Paste Text</span>
-                    </button>
-                  </div>
+                  <Tabs value={inputMode} onValueChange={(v) => setInputMode(v as 'upload' | 'paste')} className="gap-0">
+                    <TabsList className="h-auto justify-start text-inherit flex items-center bg-zinc-100 p-1 rounded-xl border border-zinc-200">
+                      <TabsTrigger
+                        value="upload"
+                        className="flex items-center gap-1.5 px-3 py-1 text-xs font-bold rounded-lg transition-all flex-none h-auto border-0 text-zinc-600 hover:text-zinc-900 data-[state=active]:bg-white data-[state=active]:text-brand-700 data-[state=active]:shadow-2xs"
+                      >
+                        <UploadCloud className="size-3.5" />
+                        <span>Upload PDF</span>
+                      </TabsTrigger>
+                      <TabsTrigger
+                        value="paste"
+                        className="flex items-center gap-1.5 px-3 py-1 text-xs font-bold rounded-lg transition-all flex-none h-auto border-0 text-zinc-600 hover:text-zinc-900 data-[state=active]:bg-white data-[state=active]:text-brand-700 data-[state=active]:shadow-2xs"
+                      >
+                        <FileText className="size-3.5" />
+                        <span>Paste Text</span>
+                      </TabsTrigger>
+                    </TabsList>
+                  </Tabs>
                 </div>
 
                 {/* Saved in Firebase Resumes Quick Drawer */}

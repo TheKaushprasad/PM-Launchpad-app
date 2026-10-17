@@ -14,6 +14,7 @@ import {
   Hash
 } from 'lucide-react';
 import { ESTIMATION_CHEAT_SHEET } from '../../data/estimationCheatSheet';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export type PmToolTab = 'scratchpad' | 'calculator' | 'cheatSheet';
 
@@ -101,32 +102,28 @@ export const ScratchpadModal: React.FC<ScratchpadModalProps> = ({
           {/* Top Bar Header */}
           <div className="px-4 py-3 border-b border-zinc-100 flex items-center justify-between gap-2 bg-zinc-50/80">
             <div className="flex items-center gap-2 min-w-0">
-              <div className="flex bg-zinc-200/70 p-1 rounded-xl">
-                <button
-                  onClick={() => setActiveTab('scratchpad')}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black uppercase tracking-wider transition-all ${
-                    activeTab === 'scratchpad' ? 'bg-white text-brand-600 shadow-xs' : 'text-zinc-500 hover:text-zinc-800'
-                  }`}
-                >
-                  <FileText className="w-3.5 h-3.5" /> Notes
-                </button>
-                <button
-                  onClick={() => setActiveTab('calculator')}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black uppercase tracking-wider transition-all ${
-                    activeTab === 'calculator' ? 'bg-white text-brand-600 shadow-xs' : 'text-zinc-500 hover:text-zinc-800'
-                  }`}
-                >
-                  <Calculator className="w-3.5 h-3.5" /> Calculator
-                </button>
-                <button
-                  onClick={() => setActiveTab('cheatSheet')}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black uppercase tracking-wider transition-all ${
-                    activeTab === 'cheatSheet' ? 'bg-white text-brand-600 shadow-xs' : 'text-zinc-500 hover:text-zinc-800'
-                  }`}
-                >
-                  <BookOpen className="w-3.5 h-3.5" /> Numbers
-                </button>
-              </div>
+              <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as PmToolTab)} className="gap-0">
+                <TabsList className="h-auto justify-start text-inherit flex bg-zinc-200/70 p-1 rounded-xl">
+                  <TabsTrigger
+                    value="scratchpad"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black uppercase tracking-wider transition-all flex-none h-auto border-0 text-zinc-500 hover:text-zinc-800 data-[state=active]:bg-white data-[state=active]:text-brand-600 data-[state=active]:shadow-xs"
+                  >
+                    <FileText className="size-3.5" /> Notes
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="calculator"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black uppercase tracking-wider transition-all flex-none h-auto border-0 text-zinc-500 hover:text-zinc-800 data-[state=active]:bg-white data-[state=active]:text-brand-600 data-[state=active]:shadow-xs"
+                  >
+                    <Calculator className="size-3.5" /> Calculator
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="cheatSheet"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black uppercase tracking-wider transition-all flex-none h-auto border-0 text-zinc-500 hover:text-zinc-800 data-[state=active]:bg-white data-[state=active]:text-brand-600 data-[state=active]:shadow-xs"
+                  >
+                    <BookOpen className="size-3.5" /> Numbers
+                  </TabsTrigger>
+                </TabsList>
+              </Tabs>
             </div>
 
             <button 
