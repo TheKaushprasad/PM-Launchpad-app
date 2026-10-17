@@ -10,6 +10,7 @@ import {
 import { extractTextFromPdfBuffer } from '../../lib/pdfParser';
 import { authJsonHeaders } from '../../lib/apiClient';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 interface LinkedInInputFormProps {
   onBackToLanding: () => void;
@@ -639,47 +640,41 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
             </div>
 
             {/* Upload Method Selector */}
-            <div className="inline-flex p-1 bg-zinc-100 rounded-2xl border border-zinc-200/60 shrink-0">
-              <button
-                type="button"
-                id="tab-upload-pdf"
-                onClick={() => {
-                  setActiveTab('upload');
-                  setValidationError(null);
-                }}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-2 transition-all cursor-pointer ${
-                  activeTab === 'upload'
-                    ? 'bg-white text-brand-700 shadow-2xs ring-1 ring-black/5'
-                    : 'text-zinc-600 hover:text-zinc-900'
-                }`}
-              >
-                <Upload className="w-3.5 h-3.5" />
-                <span>Upload LinkedIn PDF</span>
-                <span className="text-[9px] font-black uppercase tracking-wider bg-brand-50 text-brand-700 px-1.5 py-0.5 rounded-sm">
-                  RECOMMENDED
-                </span>
-              </button>
+            <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as 'upload' | 'paste')} className="gap-0">
+              <TabsList className="h-auto justify-start text-inherit inline-flex p-1 bg-zinc-100 rounded-2xl border border-zinc-200/60 shrink-0">
+                <TabsTrigger
+                  value="upload"
+                  id="tab-upload-pdf"
+                  onClick={() => {
+                    setActiveTab('upload');
+                    setValidationError(null);
+                  }}
+                  className="px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-2 transition-all cursor-pointer flex-none h-auto border-0 text-zinc-600 hover:text-zinc-900 data-[state=active]:bg-white data-[state=active]:text-brand-700 data-[state=active]:shadow-2xs data-[state=active]:ring-1 data-[state=active]:ring-black/5"
+                >
+                  <Upload className="size-3.5" />
+                  <span>Upload LinkedIn PDF</span>
+                  <span className="text-[9px] font-black uppercase tracking-wider bg-brand-50 text-brand-700 px-1.5 py-0.5 rounded-sm">
+                    RECOMMENDED
+                  </span>
+                </TabsTrigger>
 
-              <button
-                type="button"
-                id="tab-paste-text"
-                onClick={() => {
-                  setActiveTab('paste');
-                  setValidationError(null);
-                }}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-2 transition-all cursor-pointer ${
-                  activeTab === 'paste'
-                    ? 'bg-white text-brand-700 shadow-2xs ring-1 ring-black/5'
-                    : 'text-zinc-600 hover:text-zinc-900'
-                }`}
-              >
-                <FileText className="w-3.5 h-3.5" />
-                <span>Paste profile text</span>
-                <span className="text-[9px] text-zinc-400 font-medium hidden sm:inline">
-                  Alternative
-                </span>
-              </button>
-            </div>
+                <TabsTrigger
+                  value="paste"
+                  id="tab-paste-text"
+                  onClick={() => {
+                    setActiveTab('paste');
+                    setValidationError(null);
+                  }}
+                  className="px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-2 transition-all cursor-pointer flex-none h-auto border-0 text-zinc-600 hover:text-zinc-900 data-[state=active]:bg-white data-[state=active]:text-brand-700 data-[state=active]:shadow-2xs data-[state=active]:ring-1 data-[state=active]:ring-black/5"
+                >
+                  <FileText className="size-3.5" />
+                  <span>Paste profile text</span>
+                  <span className="text-[9px] text-zinc-400 font-medium hidden sm:inline">
+                    Alternative
+                  </span>
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
           </div>
 
           {/* ==================================================

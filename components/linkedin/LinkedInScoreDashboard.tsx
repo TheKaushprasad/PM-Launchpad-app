@@ -15,6 +15,7 @@ import {
   HelpCircle, ExternalLink, Filter, Plus, Lightbulb
 } from 'lucide-react';
 import { authJsonHeaders } from '../../lib/apiClient';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 interface LinkedInScoreDashboardProps {
   analysis: LinkedInAnalysisResult;
@@ -323,29 +324,27 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
       {/* Main Tabbed Detail Views */}
       <div className="space-y-6">
         {/* Navigation Tabs */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-zinc-200 no-scrollbar">
-          {[
-            { id: 'overview', label: 'Full Overview' },
-            { id: 'headline', label: 'Headline Audit & Rewrites' },
-            { id: 'about', label: 'About Section' },
-            { id: 'experience', label: 'Experience Bullets (ACAR)' },
-            { id: 'skills', label: 'Skills & Keyword Gap' },
-            { id: 'completeness', label: 'Profile Completeness' },
-            { id: 'actionPlan', label: `3-Day Action Plan (${progressPercent}%)` }
-          ].map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
-              className={`px-4 py-2.5 rounded-xl font-bold text-xs whitespace-nowrap transition-all ${
-                activeTab === tab.id
-                  ? 'bg-zinc-900 text-white shadow-xs'
-                  : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
+        <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as typeof activeTab)} className="gap-0">
+          <TabsList className="h-auto justify-start text-inherit flex items-center gap-2 overflow-x-auto pb-2 border-b border-zinc-200 no-scrollbar w-full bg-transparent p-0 pb-2 rounded-none">
+            {[
+              { id: 'overview', label: 'Full Overview' },
+              { id: 'headline', label: 'Headline Audit & Rewrites' },
+              { id: 'about', label: 'About Section' },
+              { id: 'experience', label: 'Experience Bullets (ACAR)' },
+              { id: 'skills', label: 'Skills & Keyword Gap' },
+              { id: 'completeness', label: 'Profile Completeness' },
+              { id: 'actionPlan', label: `3-Day Action Plan (${progressPercent}%)` }
+            ].map((tab) => (
+              <TabsTrigger
+                value={tab.id}
+                key={tab.id}
+                className="px-4 py-2.5 rounded-xl font-bold text-xs whitespace-nowrap transition-all flex-none h-auto border-0 bg-zinc-100 text-zinc-600 hover:bg-zinc-200 data-[state=active]:bg-zinc-900 data-[state=active]:text-white data-[state=active]:shadow-xs"
+              >
+                {tab.label}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </Tabs>
 
         {/* TAB 1: OVERVIEW */}
         {activeTab === 'overview' && (

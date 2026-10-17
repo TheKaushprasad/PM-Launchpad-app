@@ -30,6 +30,7 @@ import { Analytics } from '@vercel/analytics/react';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { SaveDetailsModal } from './components/auth/SaveDetailsModal';
+import { Toaster } from './components/ui/sonner';
 import { useScrollReveal } from './components/motion/useScrollReveal';
 import { VerifyEmailGate } from './components/auth/VerifyEmailGate';
 
@@ -336,6 +337,7 @@ const App: React.FC = () => {
          </Routes>
          <Analytics />
          <SaveDetailsModal />
+         <Toaster position="top-right" offset={80} mobileOffset={{ top: 72 }} />
       </Router>
       </MotionConfig>
     </AuthProvider>

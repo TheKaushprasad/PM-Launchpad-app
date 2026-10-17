@@ -11,6 +11,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import { AuthModal } from './auth/AuthModal';
+import { toast } from 'sonner';
 import lessonOutlines from '../data/lessonOutlines.json';
 
 const getYoutubeId = (url: string) => {
@@ -57,7 +58,6 @@ export const LessonDetail: React.FC = () => {
   // Conditional Auth Gating & Day 8 Milestone Popup State
   const [authModalOpen, setAuthModalOpen] = useState<boolean>(() => !user && currentDay > 7);
   const [showDay8Popup, setShowDay8Popup] = useState<boolean>(false);
-  const [day8CompletedToast, setDay8CompletedToast] = useState<boolean>(false);
 
   // Automatically prompt auth modal when non-logged-in user tries to access days 8 to 45
   useEffect(() => {
@@ -102,8 +102,7 @@ export const LessonDetail: React.FC = () => {
       sessionStorage.setItem('pm_day8_popup_answered_guest', 'yes');
     }
     setShowDay8Popup(false);
-    setDay8CompletedToast(true);
-    setTimeout(() => setDay8CompletedToast(false), 4500);
+    toast.success('Day 0 to Day 07 marked as completed!');
   };
 
   const handleDay8No = () => {
@@ -1099,23 +1098,6 @@ export const LessonDetail: React.FC = () => {
               </div>
             </motion.div>
           </div>
-        )}
-      </AnimatePresence>
-
-      {/* Success Toast for Day 8 completion */}
-      <AnimatePresence>
-        {day8CompletedToast && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="fixed top-20 right-6 z-50 bg-zinc-900 text-white px-4 py-3 rounded-2xl shadow-xl border border-zinc-800 flex items-center gap-3 text-xs font-bold"
-          >
-            <div className="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
-              <Check className="w-3.5 h-3.5" />
-            </div>
-            <span>Day 0 to Day 07 marked as completed!</span>
-          </motion.div>
         )}
       </AnimatePresence>
     </motion.div>
