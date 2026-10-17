@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { useAuth, UserType, getFriendlyAuthErrorMessage } from '../../context/AuthContext';
 import { Logo } from '../Logo';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const TARGET_ROLES = [
   'Product Manager',
@@ -249,17 +250,18 @@ export const Onboarding: React.FC = () => {
                   <label className="block text-xs font-bold text-zinc-700 mb-1">
                     Passing Out Year <span className="text-rose-500">*</span>
                   </label>
-                  <select
-                    value={passingOutYear}
-                    onChange={(e) => setPassingOutYear(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs outline-hidden focus:border-brand-600 font-medium"
-                  >
-                    <option value="2024">2024 (Recent)</option>
-                    <option value="2025">2025</option>
-                    <option value="2026">2026</option>
-                    <option value="2027">2027</option>
-                    <option value="2028">2028+</option>
-                  </select>
+                  <Select value={passingOutYear} onValueChange={(v) => setPassingOutYear(v)}>
+                    <SelectTrigger className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs outline-hidden focus-visible:border-brand-600 font-medium shadow-none h-auto">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="2024">2024 (Recent)</SelectItem>
+                      <SelectItem value="2025">2025</SelectItem>
+                      <SelectItem value="2026">2026</SelectItem>
+                      <SelectItem value="2027">2027</SelectItem>
+                      <SelectItem value="2028">2028+</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
             </div>
@@ -308,16 +310,17 @@ export const Onboarding: React.FC = () => {
                   <label className="block text-xs font-bold text-zinc-700 mb-1">
                     Experience <span className="text-rose-500">*</span>
                   </label>
-                  <select
-                    value={yearsOfExperience}
-                    onChange={(e) => setYearsOfExperience(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs outline-hidden focus:border-brand-600 font-medium"
-                  >
-                    <option value="0-1 years">0-1 years</option>
-                    <option value="1-3 years">1-3 years</option>
-                    <option value="3-5 years">3-5 years</option>
-                    <option value="5+ years">5+ years</option>
-                  </select>
+                  <Select value={yearsOfExperience} onValueChange={(v) => setYearsOfExperience(v)}>
+                    <SelectTrigger className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs outline-hidden focus-visible:border-brand-600 font-medium shadow-none h-auto">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="0-1 years">0-1 years</SelectItem>
+                      <SelectItem value="1-3 years">1-3 years</SelectItem>
+                      <SelectItem value="3-5 years">3-5 years</SelectItem>
+                      <SelectItem value="5+ years">5+ years</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
             </div>
@@ -329,15 +332,16 @@ export const Onboarding: React.FC = () => {
               <label className="block text-xs font-bold text-zinc-700 mb-1">
                 Target Role <span className="text-rose-500">*</span>
               </label>
-              <select
-                value={targetRole}
-                onChange={(e) => setTargetRole(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl bg-zinc-50 border border-zinc-200 text-xs outline-hidden focus:border-brand-600 font-medium"
-              >
-                {TARGET_ROLES.map((r) => (
-                  <option key={r} value={r}>{r}</option>
-                ))}
-              </select>
+              <Select value={targetRole} onValueChange={(v) => setTargetRole(v)}>
+                <SelectTrigger className="w-full px-3 py-2 rounded-xl bg-zinc-50 border border-zinc-200 text-xs outline-hidden focus-visible:border-brand-600 font-medium shadow-none h-auto">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {TARGET_ROLES.map((r) => (
+                    <SelectItem key={r} value={r}>{r}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               {targetRole === 'Other' && (
                 <input
                   type="text"
@@ -353,15 +357,16 @@ export const Onboarding: React.FC = () => {
               <label className="block text-xs font-bold text-zinc-700 mb-1">
                 Target Industry
               </label>
-              <select
-                value={industry}
-                onChange={(e) => setIndustry(e.target.value)}
-                className="w-full px-3 py-2 rounded-xl bg-zinc-50 border border-zinc-200 text-xs outline-hidden focus:border-brand-600 font-medium"
-              >
-                {INDUSTRIES.map((ind) => (
-                  <option key={ind} value={ind}>{ind}</option>
-                ))}
-              </select>
+              <Select value={industry} onValueChange={(v) => setIndustry(v)}>
+                <SelectTrigger className="w-full px-3 py-2 rounded-xl bg-zinc-50 border border-zinc-200 text-xs outline-hidden focus-visible:border-brand-600 font-medium shadow-none h-auto">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {INDUSTRIES.map((ind) => (
+                    <SelectItem key={ind} value={ind}>{ind}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               {industry === 'Other' && (
                 <input
                   type="text"

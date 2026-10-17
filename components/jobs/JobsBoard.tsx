@@ -8,6 +8,7 @@ import { db } from '../../firebase';
 import { useAuth } from '../../context/AuthContext';
 import { AuthModal } from '../auth/AuthModal';
 import { JOB_LEVELS, JobDetail, JobLevel, JobPreferences, JobSummary, JobsListResponse, WorkMode } from '../../types/jobs';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const WORK_MODES: WorkMode[] = ['Remote', 'Hybrid', 'On-site'];
 const EXPERIENCE_OPTIONS = [
@@ -198,38 +199,38 @@ export const JobsBoard: React.FC = () => {
               className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-hidden focus:border-emerald-400"
             />
           </label>
-          <select
-            value={prefs.location}
-            onChange={(e) => setPrefs((p) => ({ ...p, location: e.target.value }))}
-            className="px-3 py-2.5 rounded-xl border border-slate-200 text-sm bg-white"
-            aria-label="Location"
-          >
-            <option value="all">All of India + remote</option>
-            <option value="remote">Remote only</option>
-            {cityOptions.map((c) => (
-              <option key={c} value={c}>{c}</option>
-            ))}
-          </select>
-          <select
-            value={prefs.experience}
-            onChange={(e) => setPrefs((p) => ({ ...p, experience: e.target.value }))}
-            className="px-3 py-2.5 rounded-xl border border-slate-200 text-sm bg-white"
-            aria-label="Experience"
-          >
-            {EXPERIENCE_OPTIONS.map((o) => (
-              <option key={o.value} value={o.value}>{o.label}</option>
-            ))}
-          </select>
-          <select
-            value={postedWithin}
-            onChange={(e) => setPostedWithin(Number(e.target.value))}
-            className="px-3 py-2.5 rounded-xl border border-slate-200 text-sm bg-white"
-            aria-label="Posted within"
-          >
-            {POSTED_OPTIONS.map((o) => (
-              <option key={o.value} value={o.value}>{o.label}</option>
-            ))}
-          </select>
+          <Select value={prefs.location} onValueChange={(v) => setPrefs((p) => ({ ...p, location: v }))}>
+            <SelectTrigger aria-label="Location" className="w-full md:w-fit px-3 py-2.5 rounded-xl border border-slate-200 text-sm bg-white shadow-none h-auto">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All of India + remote</SelectItem>
+              <SelectItem value="remote">Remote only</SelectItem>
+              {cityOptions.map((c) => (
+                <SelectItem key={c} value={c}>{c}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Select value={prefs.experience} onValueChange={(v) => setPrefs((p) => ({ ...p, experience: v }))}>
+            <SelectTrigger aria-label="Experience" className="w-full md:w-fit px-3 py-2.5 rounded-xl border border-slate-200 text-sm bg-white shadow-none h-auto">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {EXPERIENCE_OPTIONS.map((o) => (
+                <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Select value={String(postedWithin)} onValueChange={(v) => setPostedWithin(Number(v))}>
+            <SelectTrigger aria-label="Posted within" className="w-full md:w-fit px-3 py-2.5 rounded-xl border border-slate-200 text-sm bg-white shadow-none h-auto">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {POSTED_OPTIONS.map((o) => (
+                <SelectItem key={o.value} value={String(o.value)}>{o.label}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         <div className="flex flex-wrap gap-2">

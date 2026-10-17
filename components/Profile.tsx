@@ -5,9 +5,10 @@ import {
   User as UserIcon, Mail, Briefcase, GraduationCap, 
   Globe, Target, CheckCircle2, AlertTriangle, 
   Trash2, ShieldCheck, Save, Loader2, KeyRound,
-  Sparkles, ChevronDown, Compass
+  Sparkles, Compass
 } from 'lucide-react';
 import { useAuth, UserType, getFriendlyAuthErrorMessage } from '../context/AuthContext';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const TARGET_ROLES = [
   'Product Manager',
@@ -513,21 +514,21 @@ export const Profile: React.FC = () => {
                   <div>
                     <label className="block text-xs font-semibold text-slate-700 mb-1.5">Graduation Year</label>
                     <div className="relative">
-                      <select
-                        value={passingOutYear}
-                        onChange={(e) => setPassingOutYear(e.target.value)}
-                        className="w-full appearance-none px-4 py-2.5 pr-10 rounded-xl border border-[#CBD5E1] bg-white text-sm text-[#0F172A] outline-hidden focus:border-brand-600 focus:ring-2 focus:ring-brand-100 font-medium cursor-pointer"
-                      >
-                        <option value="2023">2023</option>
-                        <option value="2024">2024</option>
-                        <option value="2025">2025</option>
-                        <option value="2026">2026</option>
-                        <option value="2027">2027</option>
-                        <option value="2028">2028</option>
-                        <option value="2029">2029</option>
-                        <option value="2030">2030+</option>
-                      </select>
-                      <ChevronDown className="w-4 h-4 text-slate-400 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                      <Select value={passingOutYear} onValueChange={(v) => setPassingOutYear(v)}>
+                        <SelectTrigger className="w-full px-4 py-2.5 rounded-xl border border-[#CBD5E1] bg-white text-sm text-[#0F172A] outline-hidden focus-visible:border-brand-600 focus-visible:ring-2 focus-visible:ring-brand-100 font-medium cursor-pointer shadow-none h-auto">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="2023">2023</SelectItem>
+                          <SelectItem value="2024">2024</SelectItem>
+                          <SelectItem value="2025">2025</SelectItem>
+                          <SelectItem value="2026">2026</SelectItem>
+                          <SelectItem value="2027">2027</SelectItem>
+                          <SelectItem value="2028">2028</SelectItem>
+                          <SelectItem value="2029">2029</SelectItem>
+                          <SelectItem value="2030">2030+</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
                   </div>
                 </div>
@@ -565,17 +566,17 @@ export const Profile: React.FC = () => {
                   <div>
                     <label className="block text-xs font-semibold text-slate-700 mb-1.5">Years of Experience</label>
                     <div className="relative">
-                      <select
-                        value={yearsOfExperience}
-                        onChange={(e) => setYearsOfExperience(e.target.value)}
-                        className="w-full appearance-none px-4 py-2.5 pr-10 rounded-xl border border-[#CBD5E1] bg-white text-sm text-[#0F172A] outline-hidden focus:border-brand-600 focus:ring-2 focus:ring-brand-100 font-medium cursor-pointer"
-                      >
-                        <option value="0-1 years">0-1 years</option>
-                        <option value="1-3 years">1-3 years</option>
-                        <option value="3-5 years">3-5 years</option>
-                        <option value="5+ years">5+ years</option>
-                      </select>
-                      <ChevronDown className="w-4 h-4 text-slate-400 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                      <Select value={yearsOfExperience} onValueChange={(v) => setYearsOfExperience(v)}>
+                        <SelectTrigger className="w-full px-4 py-2.5 rounded-xl border border-[#CBD5E1] bg-white text-sm text-[#0F172A] outline-hidden focus-visible:border-brand-600 focus-visible:ring-2 focus-visible:ring-brand-100 font-medium cursor-pointer shadow-none h-auto">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="0-1 years">0-1 years</SelectItem>
+                          <SelectItem value="1-3 years">1-3 years</SelectItem>
+                          <SelectItem value="3-5 years">3-5 years</SelectItem>
+                          <SelectItem value="5+ years">5+ years</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
                   </div>
                 </div>
@@ -601,16 +602,16 @@ export const Profile: React.FC = () => {
               <div>
                 <label className="block text-xs font-semibold text-slate-700 mb-1.5">Target Role</label>
                 <div className="relative">
-                  <select
-                    value={targetRole}
-                    onChange={(e) => setTargetRole(e.target.value)}
-                    className="w-full appearance-none px-4 py-2.5 pr-10 rounded-xl border border-[#CBD5E1] bg-white text-sm text-[#0F172A] outline-hidden focus:border-brand-600 focus:ring-2 focus:ring-brand-100 font-medium cursor-pointer"
-                  >
-                    {TARGET_ROLES.map((r) => (
-                      <option key={r} value={r}>{r}</option>
-                    ))}
-                  </select>
-                  <ChevronDown className="w-4 h-4 text-slate-400 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  <Select value={targetRole} onValueChange={(v) => setTargetRole(v)}>
+                    <SelectTrigger className="w-full px-4 py-2.5 rounded-xl border border-[#CBD5E1] bg-white text-sm text-[#0F172A] outline-hidden focus-visible:border-brand-600 focus-visible:ring-2 focus-visible:ring-brand-100 font-medium cursor-pointer shadow-none h-auto">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {TARGET_ROLES.map((r) => (
+                        <SelectItem key={r} value={r}>{r}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
                 {targetRole === 'Other' && (
                   <input
@@ -626,16 +627,16 @@ export const Profile: React.FC = () => {
               <div>
                 <label className="block text-xs font-semibold text-slate-700 mb-1.5">Target Industry</label>
                 <div className="relative">
-                  <select
-                    value={industry}
-                    onChange={(e) => setIndustry(e.target.value)}
-                    className="w-full appearance-none px-4 py-2.5 pr-10 rounded-xl border border-[#CBD5E1] bg-white text-sm text-[#0F172A] outline-hidden focus:border-brand-600 focus:ring-2 focus:ring-brand-100 font-medium cursor-pointer"
-                  >
-                    {INDUSTRIES.map((ind) => (
-                      <option key={ind} value={ind}>{ind}</option>
-                    ))}
-                  </select>
-                  <ChevronDown className="w-4 h-4 text-slate-400 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  <Select value={industry} onValueChange={(v) => setIndustry(v)}>
+                    <SelectTrigger className="w-full px-4 py-2.5 rounded-xl border border-[#CBD5E1] bg-white text-sm text-[#0F172A] outline-hidden focus-visible:border-brand-600 focus-visible:ring-2 focus-visible:ring-brand-100 font-medium cursor-pointer shadow-none h-auto">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {INDUSTRIES.map((ind) => (
+                        <SelectItem key={ind} value={ind}>{ind}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
                 {industry === 'Other' && (
                   <input

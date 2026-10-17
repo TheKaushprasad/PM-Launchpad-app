@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { useAuth, UserType, SignUpParams, isValidEmail } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 export const HomeAuthSection: React.FC = () => {
   const navigate = useNavigate();
@@ -730,16 +731,16 @@ export const HomeAuthSection: React.FC = () => {
                     <Calendar className="w-3 h-3 text-brand-500" />
                     <span>Grad Year <span className="text-rose-500">*</span></span>
                   </label>
-                  <select
-                    id="home-signup-grad-year"
-                    value={graduationYear}
-                    onChange={(e) => setGraduationYear(e.target.value)}
-                    className="w-full px-2.5 py-1.5 bg-white border border-zinc-200 rounded-lg text-xs font-medium text-zinc-900 focus:outline-hidden focus:border-brand-500"
-                  >
-                    {['2024', '2025', '2026', '2027', '2028', '2029'].map((yr) => (
-                      <option key={yr} value={yr}>{yr}</option>
-                    ))}
-                  </select>
+                  <Select value={graduationYear} onValueChange={(v) => setGraduationYear(v)}>
+                    <SelectTrigger id="home-signup-grad-year" className="w-full px-2.5 py-1.5 bg-white border border-zinc-200 rounded-lg text-xs font-medium text-zinc-900 focus-visible:outline-hidden focus-visible:border-brand-500 shadow-none h-auto">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {['2024', '2025', '2026', '2027', '2028', '2029'].map((yr) => (
+                        <SelectItem key={yr} value={yr}>{yr}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
             </div>
@@ -786,16 +787,16 @@ export const HomeAuthSection: React.FC = () => {
                     <Calendar className="w-3 h-3 text-brand-500" />
                     <span>Experience <span className="text-rose-500">*</span></span>
                   </label>
-                  <select
-                    id="home-signup-exp"
-                    value={experienceYears}
-                    onChange={(e) => setExperienceYears(e.target.value)}
-                    className="w-full px-2.5 py-1.5 bg-white border border-zinc-200 rounded-lg text-xs font-medium text-zinc-900 focus:outline-hidden focus:border-brand-500"
-                  >
-                    {['0-1 years', '1-3 years', '3-5 years', '5-8 years', '8+ years'].map((exp) => (
-                      <option key={exp} value={exp}>{exp}</option>
-                    ))}
-                  </select>
+                  <Select value={experienceYears} onValueChange={(v) => setExperienceYears(v)}>
+                    <SelectTrigger id="home-signup-exp" className="w-full px-2.5 py-1.5 bg-white border border-zinc-200 rounded-lg text-xs font-medium text-zinc-900 focus-visible:outline-hidden focus-visible:border-brand-500 shadow-none h-auto">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {['0-1 years', '1-3 years', '3-5 years', '5-8 years', '8+ years'].map((exp) => (
+                        <SelectItem key={exp} value={exp}>{exp}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
             </div>

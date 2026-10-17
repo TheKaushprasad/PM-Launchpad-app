@@ -47,7 +47,7 @@ Priority: **P0** blocks safe growth, **P1** important next, **P2** nice to have.
 ### Code health
 - [ ] **P1** Split `server.ts` (about 1,600 lines) into route files: `linkedin`, `resume`, `interview`, `projects`, `auth-email`, plus a shared `ai.ts` helper.
 - [x] **P2** Compile Tailwind instead of using the CDN script (Tailwind v4 via Vite, 2026-10-17). Design tokens next, with shadcn/ui.
-- [ ] **P2** Move screens onto shadcn/ui a few at a time (2026-10-17): sign-in, save details, interview setup, full loop and mic access popups done; next dropdowns, tabs (incl. the PM Tools scratchpad panel) and toasts. Icons inside `Button` need `size-*` classes, not `w-* h-*`, or Button resizes them to 16px.
+- [ ] **P2** Move screens onto shadcn/ui a few at a time (2026-10-17): sign-in, save details, interview setup, full loop and mic access popups done; all native select boxes now use shadcn `Select`; next tabs (incl. the PM Tools scratchpad panel) and toasts. Landing nav hover menus stay hand-built. Icons inside `Button` need `size-*` classes, not `w-* h-*`, or Button resizes them to 16px.
 - [ ] **P2** Add unit tests for `server/scoring.ts` and `server/grounding.ts`.
 
 ### Business
