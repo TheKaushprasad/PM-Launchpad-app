@@ -2,9 +2,9 @@
  * Interviewer benchmark: checks the live interviewer behaves like a real one.
  *
  *   npm run eval:interviewer -- --validate   offline: checks every scenario's prompt for answer leaks, no API calls
- *   npm run eval:interviewer                 calls Gemini once per case (8 calls) and checks each reply
+ *   npm run eval:interviewer                 calls Gemini once per case (10 calls) and checks each reply
  *   npm run eval:interviewer -- --case a,b   only these cases
- *   npm run eval:interviewer -- --delay 15   wait between cases (default 5s) to stay under rate limits
+ *   npm run eval:interviewer -- --delay 15   wait between cases (default 15s; the free tier allows 5 calls a minute)
  *
  * Uses the same prompt builder as /api/interview/chat. Run it on the eval-only key,
  * like the evaluator benchmark. Exits 1 when any check fails.
@@ -148,7 +148,7 @@ async function main() {
   const caseIdx = argv.indexOf('--case');
   const only = caseIdx >= 0 ? (argv[caseIdx + 1] || '').split(',').filter(Boolean) : [];
   const delayIdx = argv.indexOf('--delay');
-  const delaySeconds = delayIdx >= 0 ? Number(argv[delayIdx + 1]) : 5;
+  const delaySeconds = delayIdx >= 0 ? Number(argv[delayIdx + 1]) : 15;
   const modelIdx = argv.indexOf('--model');
   const model = modelIdx >= 0 ? argv[modelIdx + 1] : 'gemini-3.8-flash';
 

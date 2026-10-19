@@ -16,6 +16,14 @@ export const RawPillarScoreSchema = z.object({
   score: z.number().int().min(1).max(5)
 });
 
+const IMPROVEMENT_FIELDS = ['focusArea', 'currentBehavior', 'targetBehavior', 'practiceDrill'] as const;
+
+function isCompleteImprovement(v: unknown): boolean {
+  if (!v || typeof v !== 'object') return false;
+  const o = v as Record<string, unknown>;
+  return IMPROVEMENT_FIELDS.every((k) => typeof o[k] === 'string' && (o[k] as string).trim().length > 0);
+}
+
 export const RawEvaluationSchema = z.object({
   injectionAttempt: z.boolean(),
   transcriptSummary: z.string(),
@@ -38,12 +46,18 @@ export const RawEvaluationSchema = z.object({
       })
     ),
     interviewerSecretNotes: z.string().optional(),
-    highestLeverageImprovement: z.object({
-      focusArea: z.string(),
-      currentBehavior: z.string(),
-      targetBehavior: z.string(),
-      practiceDrill: z.string()
-    }).optional()
+    // Optional coaching card. Models sometimes return it half-filled (often for
+    // strong answers with little to fix) or as null; drop it then instead of
+    // failing the whole evaluation and burning a retry.
+    highestLeverageImprovement: z.preprocess(
+      (v) => (isCompleteImprovement(v) ? v : undefined),
+      z.object({
+        focusArea: z.string(),
+        currentBehavior: z.string(),
+        targetBehavior: z.string(),
+        practiceDrill: z.string()
+      }).optional()
+    )
   })
 });
 
