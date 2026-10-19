@@ -20,7 +20,7 @@ It prints a threshold table and a per-track summary (cases passed, mean score fo
 
 ## Dataset
 
-50 cases, 10 per interview type: rca, guesstimate, strategy, design and metrics. Each type mixes strong, average and weak candidates with trap cases (prompt injection, quitting early, an interviewer who does the work or leaks the answer, garbled speech-to-text). Expected bands:
+54 cases: 10 each for rca, guesstimate, strategy and metrics, and 14 for design (including a Senior PM and an APM case that check level calibration). Each type mixes strong, average and weak candidates with trap cases (prompt injection, quitting early, an interviewer who does the work or leaks the answer, garbled speech-to-text). Expected bands:
 
 | Category | Expected verdict | Expected score |
 |---|---|---|

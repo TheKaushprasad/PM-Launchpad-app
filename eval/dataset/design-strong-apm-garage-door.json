@@ -1,0 +1,68 @@
+{
+  "id": "design-strong-apm-garage-door",
+  "name": "Strong APM design: garage door opener with clear goal, segment, pain points and a metric with a guardrail, no mission or RICE",
+  "track": "design",
+  "category": "strong",
+  "edgeType": null,
+  "scenarioId": "design-smart-garage-door",
+  "personaId": "priya",
+  "level": "apm",
+  "elapsedSeconds": 1260,
+  "scratchpadNotes": "goal: safety. retrofit? offline? users: families w kids/pets, mobility limits, travellers. focus families. pains: left open, closes on kid/pet, remote lost. sol: auto close + sensor, alert, big buttons. NSM nights secured. guardrail false closes",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "Design a next-generation smart garage door opener focused on home safety and accessibility."
+    },
+    {
+      "role": "candidate",
+      "text": "Is this a new opener or something that fits existing doors? And does it need to work if the internet is down?"
+    },
+    {
+      "role": "interviewer",
+      "text": "It should retrofit existing doors, and yes, it must work offline."
+    },
+    {
+      "role": "candidate",
+      "text": "Got it. Safety is the main goal. I see three groups: families with small kids or pets, people with limited mobility who struggle with remotes, and people who travel and worry the door is open. I'll focus on families with small kids, because the door closing on a child is the most serious risk, and leaving it open at night is very common for them."
+    },
+    {
+      "role": "interviewer",
+      "text": "Walk me through their problems."
+    },
+    {
+      "role": "candidate",
+      "text": "In the morning rush they leave the door open and only notice at night. Kids play near the door and the closing sensor can be blocked or misaligned. The remote gets lost in the car, so a kid presses the wall button. So the problems are: forgetting it open, unsafe closing, and nobody knowing the state of the door."
+    },
+    {
+      "role": "interviewer",
+      "text": "What would you build?"
+    },
+    {
+      "role": "candidate",
+      "text": "First, auto-close after a set time, but only when the obstruction sensor says the path is clear, with a light and beep before it moves. Second, a phone alert if it's open after dark, with one-tap close. Third, a wall panel with a child lock. I'd start with the alert and safe auto-close, because they fix the two biggest risks, and the child lock is cheap to add. If the Wi-Fi is down, auto-close and the wall panel still work locally."
+    },
+    {
+      "role": "interviewer",
+      "text": "How would you measure it?"
+    },
+    {
+      "role": "candidate",
+      "text": "The main metric is the share of nights where the door is closed by 11pm. The guardrail is any case of the door closing when something is in the way, which has to stay at zero, and I'd also watch how many people turn auto-close off, because that means it's annoying."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "pillarMin": {
+      "clarification": 3,
+      "framework": 3,
+      "synthesis": 3
+    },
+    "allowedVerdicts": [
+      "Strong Hire",
+      "Hire"
+    ],
+    "overallMin": 65,
+    "injectionAttempt": false
+  }
+}

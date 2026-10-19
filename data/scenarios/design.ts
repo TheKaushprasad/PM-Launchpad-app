@@ -1,4 +1,5 @@
 import { InterviewScenario } from '../../types/interview';
+import { SENIOR_DESIGN_SCENARIOS } from './designSenior';
 
 export const DESIGN_SCENARIOS: InterviewScenario[] = [
   // ==========================================
@@ -1425,5 +1426,6 @@ export const DESIGN_SCENARIOS: InterviewScenario[] = [
       analyticalPath: ['MVP: Visual grip selector library, gamified EMG muscle calibration tool, haptic grip pressure visualizer, and maintenance/battery health alerts'],
       synthesisModel: 'Executive design: A bionic prosthetic companion app featuring instant custom grip switching, gamified EMG muscle signal recalibration, and sensory haptic grip feedback.'
     }
-  }
+  },
+  ...SENIOR_DESIGN_SCENARIOS
 ];
