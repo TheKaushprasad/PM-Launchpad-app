@@ -1,0 +1,91 @@
+{
+  "id": "design-strong-senior-airbnb-post-booking",
+  "name": "Strong Senior PM design: Airbnb post-booking failures with mission, journey, fallbacks and guardrails",
+  "track": "design",
+  "category": "strong",
+  "edgeType": null,
+  "scenarioId": "design-airbnb-post-booking-failures",
+  "personaId": "priya",
+  "level": "spm",
+  "elapsedSeconds": 1860,
+  "scratchpadNotes": "goal: trust -> repeat bookings. journey: booked / pre-arrival / travel / check-in / stay. severity x freq. families late night. predict risky bookings. auto rebook + credit. NSM incident-free stays. guardrail rebook cost, host cancels. V1 rules not ML",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "How would you fix the worst post-booking failure points for Airbnb guests, such as last-minute host cancellations or missing keys?"
+    },
+    {
+      "role": "candidate",
+      "text": "Before I dive in: is the goal here guest retention and repeat bookings, or reducing support cost? And do we have a sense of which failures are most common versus most damaging? I'd also like to know whether Airbnb is willing to spend money on making guests whole, because that changes the solution space a lot."
+    },
+    {
+      "role": "interviewer",
+      "text": "The goal is trust, measured by guests booking again. Cancellations are rarer than check-in problems, but much more damaging. Airbnb will spend money if it clearly protects repeat bookings."
+    },
+    {
+      "role": "candidate",
+      "text": "Okay. Airbnb's mission is helping people belong anywhere, and nothing breaks that faster than arriving somewhere with nowhere to sleep. So my goal is: reduce the share of stays with a serious failure, and recover the guest so well that they still book again. I'll walk the journey after booking: pre-arrival, travel day, check-in, the stay itself. On guests, I don't want to segment by age; I'd segment by how exposed they are when things fail. A solo business traveller arriving at noon can recover; a family with kids arriving at 11pm in a foreign city cannot. Hosts also split into professional managers and casual hosts, and casual hosts cause most last-minute cancellations. I'll focus on high-exposure guests, late arrivals and families, because the damage per failure is highest and they're the most likely never to come back."
+    },
+    {
+      "role": "interviewer",
+      "text": "Why not focus on check-in problems, since those are more common?"
+    },
+    {
+      "role": "candidate",
+      "text": "Fair challenge, and check-in problems do matter. I'm ranking by frequency times severity times recoverability. A missing key is common but usually fixed in 30 minutes with a call to the host. A cancellation on arrival day is rarer but the guest has to find new lodging, often at night, and that's the moment they decide Airbnb isn't safe. So cancellations score higher on damage to repeat booking. I'd still include a light fix for check-in, which I'll come to."
+    },
+    {
+      "role": "interviewer",
+      "text": "Okay, what would you build?"
+    },
+    {
+      "role": "candidate",
+      "text": "Three layers. First, prevention: flag risky bookings early using signals like a casual host with a calendar that's also open elsewhere, or a past cancellation, and nudge the host to confirm 72 hours out. Second, instant recovery: if a host cancels within 48 hours, the guest automatically gets a comparable listing nearby held for them, with Airbnb paying the difference, rather than a refund and an apology email. Third, for check-in, a readiness check the host completes the day before: key method, door code tested, photo of the entrance. The quick fix is the readiness check, the data bet is the risk prediction, and the bolder one is auto-rebooking with guaranteed inventory."
+    },
+    {
+      "role": "interviewer",
+      "text": "If you only had three engineers for a quarter, what would you ship?"
+    },
+    {
+      "role": "candidate",
+      "text": "I'd cut the ML model and use simple rules for risk, like host cancellation history and same-week calendar conflicts, and I'd ship auto-rebooking for late cancellations in two big cities first, because that's where the damage is. The readiness checklist is cheap so it ships too. The prediction model is V2 once we have data from the rules."
+    },
+    {
+      "role": "interviewer",
+      "text": "A host cancels ten minutes before a family arrives at night. What happens?"
+    },
+    {
+      "role": "candidate",
+      "text": "The guest's app immediately shows: your host cancelled, we've already held this nearby place for tonight, here's the address and a ride credit. One tap to accept, or see two alternatives. If nothing comparable exists, we escalate to a live agent and fund a hotel. The host gets a penalty and loses search ranking. The failure state is designed up front so the guest is never left with just a refund."
+    },
+    {
+      "role": "interviewer",
+      "text": "How would you measure success?"
+    },
+    {
+      "role": "candidate",
+      "text": "North Star: share of stays completed without a serious incident, since that is what trust is made of. Supporting metrics: time to rehouse after a cancellation, and the repeat booking rate of guests who had an incident versus those who didn't. Guardrails: rebooking cost per stay, so we don't bleed money, host cancellation rate, so hosts don't rely on us to clean up, and false-positive risk flags that annoy good hosts. I'd launch in two cities with a holdout group and expand when incident guests re-book at close to the normal rate."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "pillarMin": {
+      "clarification": 4,
+      "framework": 4,
+      "analyticalRigor": 4,
+      "synthesis": 4
+    },
+    "allowedVerdicts": [
+      "Strong Hire",
+      "Hire"
+    ],
+    "overallMin": 70,
+    "injectionAttempt": false
+  },
+  "mustNotCredit": [
+    "Ideas the interviewer suggested rather than the candidate"
+  ],
+  "mustMention": [
+    "Fallback or recovery when a host cancels"
+  ]
+}

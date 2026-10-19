@@ -1,28 +1,33 @@
 ==================================================
 TRACK ADJUSTMENTS: PRODUCT DESIGN & SENSE (DESIGN)
 ==================================================
+These anchors follow the six stages of a strong senior product sense answer: (1) goal and mission, (2) segmentation, (3) journey and pain points, (4) solutions and prioritisation, (5) metrics, (6) trade-offs, edge cases and risks.
 
-1. CLARIFICATION & SCOPE (clarification)
-- Score 1 (Very Weak): Jumped straight into features or UI solutions without clarifying the target user, problem space, platform, or business goal.
-- Score 3 (Adequate): Clarified the primary user and business goal (e.g., "Is this mobile or web?", "Are we targeting riders or drivers?"), but accepted broad definitions without probing deeper user context.
-- Score 5 (Bar-Raiser): Deeply interrogated the product vision, core user persona, use cases, hardware/ecosystem constraints, and business intent upfront before touching solutions.
+1. CLARIFICATION & SCOPE (clarification) — stage 1: goal and mission
+- Score 1 (Very Weak): Jumped straight into features or UI ideas without setting a goal, user or boundaries. Or asked filler questions just to tick a box and ignored the answers.
+- Score 3 (Adequate): Clarified the primary user, platform and business goal (e.g., "Is this mobile or web?", "Are we optimising for adoption or retention?"), but did not tie the product to the company's mission or set one clear goal before moving on.
+- Score 5 (Bar-Raiser): Asked targeted scoping questions (business objective, product maturity, resource or hardware constraints), tied the product to the company's mission (e.g., Meta's community building), and committed to one explicit goal (adoption vs engagement vs retention vs efficiency) that drove every later choice.
 
-2. STRUCTURED THINKING (framework)
-- Score 1 (Very Weak): Unstructured feature brainstorming with no user segmentation or pain point mapping.
-- Score 3 (Adequate): Followed the standard design journey (user segments → pain points → solutions → prioritization), but execution felt formulaic rather than product-insight-driven.
-- Score 5 (Bar-Raiser): Masterful user-centered framework: distinct, non-obvious user segments → acute, prioritized user pain points → differentiated 10x solutions → rigorous multidimensional prioritization matrix.
+2. STRUCTURED THINKING (framework) — stages 2 and 3: segmentation, journey and pain points
+- Score 1 (Very Weak): Unstructured feature brainstorming with no user segmentation or pain point mapping. Stated solutions as problems ("users need a search filter").
+- Score 3 (Adequate): Followed the standard path (segments → pain points → solutions), but segments were demographic (e.g., age buckets only), the ecosystem was one-sided, or the chosen segment was not justified against the goal. Pain points covered only one moment of the journey.
+- Score 5 (Bar-Raiser): Segmented by behaviour, motivation or capability (e.g., intent level, tech comfort) and covered the whole ecosystem (buyers, sellers, admins, enablers such as family members). Picked one segment using explicit criteria (reach, how underserved the need is, business impact). Walked the end-to-end journey to find non-obvious friction, separated real pain points from feature requests, and grouped them into themes.
 
-3. ANALYSIS & REASONING (analyticalRigor)
-- Score 1 (Very Weak): Selected solutions based on personal whim; no evaluation criteria; ignored feasibility, edge cases, or trade-offs.
-- Score 3 (Adequate): Prioritized pain points and solutions with defined criteria, but evaluation lacked nuance regarding user behavior, counter-incentives, or edge cases.
-- Score 5 (Bar-Raiser): Deep product empathy combined with rigorous prioritization logic and trade-offs; addressed second-order behavioral effects, user friction points, and edge cases; articulated why alternative solutions fall short.
+3. ANALYSIS & REASONING (analyticalRigor) — stages 4 and 6: solutions, trade-offs and risks
+- Score 1 (Very Weak): Picked a favourite idea with no evaluation criteria; ignored feasibility, edge cases, failure modes or trade-offs. Presented the solution as flawless.
+- Score 3 (Adequate): Offered several solutions linked to pain points and prioritised them with stated criteria, but they were all incremental, or the evaluation missed second-order effects, unhappy paths or trust and safety risks.
+- Score 5 (Bar-Raiser): Brainstormed a real range (quick UX fix, data/ML, a bolder bet), each tied to a prioritised pain point, and prioritised with impact vs effort (or RICE). Proactively named failure modes, edge cases, privacy, legal or safety risks and gave concrete mitigations (human in the loop, fallback states, verification). When pushed back on, acknowledged the alternative and defended the choice using their own criteria.
 
 4. COMMUNICATION (communication)
-- Score 1 (Very Weak): Dry, robotic listing of features; poor storytelling; failed to paint a vivid picture of the user experience.
-- Score 3 (Adequate): Clear, structured explanations of features and workflows, but occasionally verbose or lacking storytelling flair.
-- Score 5 (Bar-Raiser): Compelling user empathy and product storytelling; painted an evocative vision of the user journey while maintaining tight structural discipline.
+- Score 1 (Very Weak): Dry, robotic listing of features; hard to follow; no picture of the user experience.
+- Score 3 (Adequate): Clear, structured explanations of features and flows, but occasionally rambling or lacking a story of the user's experience.
+- Score 5 (Bar-Raiser): Signposted each stage, painted a vivid picture of the user journey, and stayed concise while doing it.
 
-5. FINAL RECOMMENDATION (synthesis)
-- Score 1 (Very Weak): Vague summary; failed to pick a single winning solution; no metrics or validation roadmap.
-- Score 3 (Adequate): Recommended a concrete solution and stated standard engagement/adoption metrics, but lacked counter-metrics or MVP rollout phasing.
-- Score 5 (Bar-Raiser): Delivered a compelling executive pitch: prioritized MVP solution, primary North Star metric with secondary guardrail metrics, trade-offs accepted, and a staged launch/validation plan.
+5. FINAL RECOMMENDATION (synthesis) — stage 5: metrics and recommendation
+- Score 1 (Very Weak): Vague summary; no single recommended solution; no metrics, or only vanity metrics (e.g., "DAU goes up").
+- Score 3 (Adequate): Recommended a concrete solution with a sensible primary metric, but no guardrail or counter-metric, or no MVP scope versus later phases.
+- Score 5 (Bar-Raiser): Recommended one MVP with what is deferred to V2, a North Star tied to user value and the stated goal, funnel or proxy metrics for each step, and guardrail metrics for user experience, safety or quality (for AI features: e.g., wrong-answer rate). Avoided metrics that reward addiction or time spent for its own sake.
+
+DESIGN LEVEL NOTES
+- APM: a clear goal, a justified segment, real pain points, a prioritised solution and a primary metric with one guardrail is a strong answer. Do not require mission framing, ecosystem-wide segmentation, RICE scoring or AI-specific guardrails for a 4.
+- Senior PM: expect stages 1 and 6 unprompted: mission alignment, ecosystem thinking, risks and mitigations, and how they would cut scope under constraints.

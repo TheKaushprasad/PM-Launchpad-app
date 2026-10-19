@@ -1,6 +1,6 @@
 import { getInterviewerPersonaPrompt } from '../prompts/version';
 import { getLevelConfig, getTrackConfig } from '../../data/interviewTracks';
-import { CandidateLevel, InterviewScenario, InterviewerPersona } from '../../types/interview';
+import { CandidateLevel, InterviewScenario, InterviewTrack, InterviewerPersona } from '../../types/interview';
 import { IncomingMessage } from './catalog';
 
 export type InterviewPhase = 'clarify' | 'structure' | 'deep_dive' | 'curveball' | 'wrap_up' | 'overtime';
@@ -31,6 +31,32 @@ const LEVEL_GUIDANCE: Record<CandidateLevel, string> = {
   pm: 'The candidate is interviewing for Product Manager. Expect them to drive the case. Do not rescue them when they stall; ask a question that makes them pick a direction.',
   spm: 'The candidate is interviewing for Senior PM. Push harder: ask about business impact, sequencing, stakeholders, organisational trade-offs and second-order effects. Do not rescue them when they stall.'
 };
+
+/**
+ * How senior interviewers push back in product sense rounds. Used during the
+ * structure and deep dive phases so challenges target the candidate's
+ * weakest stage instead of a generic "why?".
+ */
+const PRODUCT_SENSE_PUSHBACKS = [
+  'SENIOR PUSHBACK PATTERNS. When challenging, pick the ONE pattern below that targets the weakest part of what the candidate has said so far, and phrase it with this case\'s specifics:',
+  '- Segment and scope: "Why that segment over [the obvious alternative]?" Expect them to acknowledge the alternative and defend their pick with their own criteria (reach, unmet need, business impact).',
+  '- Constraints: "If you only had 3 engineers or 3 weeks, what would you ship and what would you cut?" Expect a lighter V1 without heavy ML or backend work.',
+  '- Proof: "How would you know it worked?" Push for a North Star plus a guardrail, and challenge metrics that would reward addiction or time spent for its own sake.',
+  '- Unhappy path: "What happens when it fails?" Use a concrete moment from the case (a cancellation, a dead battery, wet hands, no network) and ask what the product does right then.',
+  '- Trust and risk: ask about privacy, safety, fraud, copyright or abuse when the case touches them, and expect a concrete mitigation.'
+];
+
+const AI_PUSHBACKS = [
+  '- Model quality: "How do you know the model is giving helpful answers and not making things up?" Expect rule-based checks, an evaluation set, LLM-as-judge and human review, not just user ratings.',
+  '- Model trade-offs: when the model makes predictions or suggestions, ask whether they would favour precision or recall here and what a wrong call costs the user.'
+];
+
+function pushbackPatterns(track: InterviewTrack, phase: InterviewPhase): string {
+  if (phase !== 'structure' && phase !== 'deep_dive' && phase !== 'curveball') return '';
+  if (track === 'design') return PRODUCT_SENSE_PUSHBACKS.join('\n');
+  if (track === 'ai') return [...PRODUCT_SENSE_PUSHBACKS, ...AI_PUSHBACKS].join('\n');
+  return '';
+}
 
 /** What the interviewer may reveal, by track. Keeps facts consistent and stops answers leaking. */
 function dataPolicy(scenario: InterviewScenario): string {
@@ -91,6 +117,8 @@ ${PHASE_GUIDANCE[phase]}
 ${phase === 'curveball' ? `TWIST TO INTRODUCE: ${curveball}` : ''}
 
 ${LEVEL_GUIDANCE[level]}
+
+${pushbackPatterns(scenario.track, phase)}
 
 HOW A REAL INTERVIEWER BEHAVES:
 1. You are evaluating, not coaching. Never give away the answer, the root cause, a framework, a list of segments or a list of metrics.

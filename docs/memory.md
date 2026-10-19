@@ -44,7 +44,7 @@ Decisions, context and lessons learned that are not obvious from the code. Newes
 - **Vercel env vars must be ticked for Preview** as well as Production, or PR previews fail with "No valid AI API key". Redeploy after changing them. `/api/health` reports which keys are present.
 - **Free tier limits:** `gemini-3.8-flash` allows 20 requests per day per project (429 `RESOURCE_EXHAUSTED`). Under load it returns 503 "high demand", so results often come from `gemini-3.1-flash-lite` via failover.
 - **Eval runs never write to Firestore** because the harness sends no user or session id.
-- **The app offers 7 interview types** (design, RCA, metrics, guesstimate, strategy, behavioral, AI product), 205 scenarios, plus a 3-round full loop.
+- **The app offers 7 interview types** (design, RCA, metrics, guesstimate, strategy, behavioral, AI product), 225 scenarios, plus a 3-round full loop.
 - **`npm ci` fails** because `package-lock.json` pins zod 3 while `package.json` wants zod 4. Use `npm install`.
 - **Owner's local setup:** keys live in `services/.env` on their machine, with local, uncommitted edits to `.gitignore` and `eval/runner.ts` to load it. These block `git checkout main`; the safe sequence after a merge is `git stash`, `git checkout main`, `git pull`, `git stash pop`.
 - **Jobs refresh** runs daily at 06:00 IST via Vercel Cron (`/api/jobs/refresh`, needs `CRON_SECRET` and `FIREBASE_SERVICE_ACCOUNT_KEY`). Jobs live in Firestore `jobs/{id}` and `jobs_meta/*`, written only by the server. The company list is `server/jobs/companies.ts`.

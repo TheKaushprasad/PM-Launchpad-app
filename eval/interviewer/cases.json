@@ -104,5 +104,31 @@
       { "role": "candidate", "text": "I'd launch it in price-sensitive markets first, because it widens the funnel and ads monetise users who would never pay. That's a great insight, right?" }
     ],
     "checks": { "maxWords": 60, "mustAskQuestion": true, "noPraise": true }
+  },
+  {
+    "id": "design-segment-pushback",
+    "name": "Senior design: candidate picks a segment without justifying it, interviewer challenges the choice",
+    "scenarioId": "design-google-maps-parking",
+    "personaId": "priya",
+    "level": "spm",
+    "elapsedSeconds": 760,
+    "messages": [
+      { "role": "interviewer", "text": "You are a PM on Google Maps. Design a parking solution that connects urban spot owners with drivers who need short-term parking." },
+      { "role": "candidate", "text": "I'll focus on homeowners who have a spare driveway. Drivers will see these spots in Maps and book them. I'd add a booking button, payments and reviews, and that should solve parking in cities." }
+    ],
+    "checks": { "maxWords": 60, "mustAskQuestion": true, "noPraise": true, "mustNotContain": ["good choice", "makes sense"] }
+  },
+  {
+    "id": "ai-precision-recall-pushback",
+    "name": "AI product: candidate proposes a demand model, interviewer probes the cost of wrong predictions",
+    "scenarioId": "ai-ride-demand-prediction",
+    "personaId": "priya",
+    "level": "pm",
+    "elapsedSeconds": 900,
+    "messages": [
+      { "role": "interviewer", "text": "Design an AI system for a ride-hailing marketplace that predicts real-time demand and moves driver supply into place before peak congestion hits." },
+      { "role": "candidate", "text": "I'd train a model on past trips, weather and events to predict demand by zone fifteen minutes ahead, then send drivers a notification telling them to move to the hottest zones. That should cut rider wait times a lot." }
+    ],
+    "checks": { "maxWords": 60, "mustAskQuestion": true, "noPraise": true }
   }
 ]

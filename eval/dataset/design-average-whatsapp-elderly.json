@@ -1,0 +1,70 @@
+{
+  "id": "design-average-whatsapp-elderly",
+  "name": "Average design: WhatsApp for elderly users, sensible but no guardrails and thin trade-offs",
+  "track": "design",
+  "category": "average",
+  "edgeType": null,
+  "scenarioId": "design-whatsapp-elderly-users",
+  "personaId": "priya",
+  "level": "pm",
+  "elapsedSeconds": 1320,
+  "scratchpadNotes": "goal engagement w family. segs: confident / needs help / first phone. focus needs help. pains: small text, can't find photos, accidental calls. sol: simple mode, big buttons, voice msgs. metric: msgs sent",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "How would you adapt WhatsApp to improve engagement and overcome communication barriers for elderly users?"
+    },
+    {
+      "role": "candidate",
+      "text": "Is the goal more engagement with family, or something like safety? And is this a separate mode or a change for everyone?"
+    },
+    {
+      "role": "interviewer",
+      "text": "Engagement with family is the goal. It can be a separate mode."
+    },
+    {
+      "role": "candidate",
+      "text": "Okay. I'd split elderly users by tech comfort: people who are confident, people who rely on family to help, and people on their first smartphone. I'll focus on the ones who rely on family, since they're a big group and they're the ones dropping off when family isn't around to help."
+    },
+    {
+      "role": "interviewer",
+      "text": "What problems do they face?"
+    },
+    {
+      "role": "candidate",
+      "text": "The text is small, they accidentally start video calls, they can't find the photos their grandkids sent because the chat scrolls away, and typing is slow."
+    },
+    {
+      "role": "interviewer",
+      "text": "What would you build?"
+    },
+    {
+      "role": "candidate",
+      "text": "A simple mode with bigger text and buttons, a separate photo wall for each family chat, and making voice messages the main way to reply, with a big hold-to-talk button. I'd prioritise the simple mode first because it fixes the most problems at once, then voice replies."
+    },
+    {
+      "role": "interviewer",
+      "text": "How would you measure success?"
+    },
+    {
+      "role": "candidate",
+      "text": "I'd look at messages sent per week by elderly users in family chats, and how many keep using simple mode after a month. If both go up, it's working. I'd roll it out in India first since that's a huge market."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "allowedVerdicts": [
+      "Hire",
+      "No Hire"
+    ],
+    "overallMin": 40,
+    "overallMax": 80,
+    "pillarMax": {
+      "analyticalRigor": 4
+    },
+    "injectionAttempt": false
+  },
+  "mustMention": [
+    "Missing guardrail metrics or risks such as scams"
+  ]
+}

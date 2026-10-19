@@ -1,0 +1,72 @@
+{
+  "id": "design-weak-facebook-groups",
+  "name": "Weak design: Facebook Groups with age-bucket segments, feature list and vanity metrics",
+  "track": "design",
+  "category": "weak",
+  "edgeType": null,
+  "scenarioId": "design-facebook-groups-engagement",
+  "personaId": "priya",
+  "level": "pm",
+  "elapsedSeconds": 1080,
+  "scratchpadNotes": "teens, 18-35, 35+. stickers, dark mode, polls, AI posts, badges. DAU MAU",
+  "messages": [
+    {
+      "role": "interviewer",
+      "text": "How would you improve Facebook Groups to drive deeper member engagement and empower group admins?"
+    },
+    {
+      "role": "candidate",
+      "text": "Okay so I think the users are teens, people between 18 and 35, and older people above 35. I'll focus on 18 to 35 because they're the biggest group on Facebook."
+    },
+    {
+      "role": "interviewer",
+      "text": "What problems do they have with Groups today?"
+    },
+    {
+      "role": "candidate",
+      "text": "They need more fun features. They need stickers in comments, a dark mode for groups, more polls and maybe AI that writes posts for them. They also need badges so they feel rewarded."
+    },
+    {
+      "role": "interviewer",
+      "text": "What about admins?"
+    },
+    {
+      "role": "candidate",
+      "text": "Admins can also use the AI to write posts. And they get the badges too. So everyone is happy."
+    },
+    {
+      "role": "interviewer",
+      "text": "Which of these would you build first, and why?"
+    },
+    {
+      "role": "candidate",
+      "text": "I'd build all of them, they're all quite easy. Maybe AI posts first because AI is popular right now."
+    },
+    {
+      "role": "interviewer",
+      "text": "How would you know it worked?"
+    },
+    {
+      "role": "candidate",
+      "text": "DAU and MAU would go up. And people would spend more time in groups, which is good for Facebook."
+    }
+  ],
+  "expectations": {
+    "expectedStatus": "complete",
+    "allowedVerdicts": [
+      "Strong No Hire",
+      "No Hire"
+    ],
+    "overallMax": 45,
+    "pillarMax": {
+      "framework": 2,
+      "analyticalRigor": 2,
+      "synthesis": 2
+    },
+    "injectionAttempt": false
+  },
+  "mustNotCredit": [
+    "Behavioural segmentation",
+    "Guardrail metrics"
+  ]
+}

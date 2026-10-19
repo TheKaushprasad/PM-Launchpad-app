@@ -868,5 +868,59 @@ export const STRATEGY_SCENARIOS: InterviewScenario[] = [
       analyticalPath: ['Economics modeling: 6th-Gen sensor suite drops vehicle cost from $150k to $60k; at 18 hours/day utilization, each Waymo generates $65k in annual gross profit, achieving payback in 14 months'],
       synthesisModel: 'Executive 5-year roadmap: 1) Scale to top 15 US metros with 6th-Gen low-cost sensor suites, 2) Transition to an asset-light fleet management partnership with Uber and rental operators, 3) Expand into Class-8 highway trucking (Waymo Via) to unlock global $10B+ high-margin ARR.'
     }
+  },
+  {
+    id: 'strat-openai-fine-tuning-platform',
+    track: 'strategy',
+    title: 'Platform strategy for OpenAI fine-tuning in the enterprise',
+    company: 'OpenAI',
+    companyColor: 'bg-zinc-800 text-white',
+    companyBadge: 'AI Platform Strategy',
+    difficulty: 'Hard',
+    targetDurationMinutes: 30,
+    problemStatement: 'Develop a product and platform strategy for OpenAI\'s model fine-tuning capabilities that drives enterprise adoption and builds long-term defensibility.',
+    contextBackground: 'Enterprises want models that know their domain, but fine-tuning is hard to do well, open-source models are catching up, and base models improve so fast that custom models can go stale.',
+    candidateBrief: [
+      'Tie the strategy to the company mission and the business goal (adoption, revenue, lock-in)',
+      'Segment enterprise buyers and say which you serve first and why',
+      'Lay out strategic options and where defensibility comes from',
+      'Make a clear bet with risks, metrics and what you would not do'
+    ],
+    keyEvaluationMetrics: ['Mission and goal alignment', 'Enterprise segmentation', 'Defensibility (data, workflow, ecosystem)', 'Clear bet with risks'],
+    suggestedFramework: 'Mission & goal -> Customers & their jobs -> Options -> Moats -> Bet, metrics & risks',
+    benchmarkOutline: {
+      clarificationQuestions: ['Is the goal adoption, revenue or retention against open-source?', 'Which enterprise segments matter most?', 'Who are the alternatives (open-source, cloud providers)?'],
+      coreHypothesesOrSegments: ['Enterprises want results, not fine-tuning: evals, data prep and deployment are the hard parts', 'Defensibility comes from workflow and evaluation tooling, not the tuned weights', 'Regulated industries need privacy, isolation and auditability'],
+      analyticalPath: ['Options: self-serve fine-tuning API, managed tuning service, vertical solutions with partners', 'Moats: eval and data tooling, upgrade path when base models improve, ecosystem of partners', 'Metrics: enterprise accounts with a tuned model in production, net revenue retention; risks: models going stale, data privacy, open-source price pressure'],
+      synthesisModel: 'Bet on an end-to-end customisation workflow (data prep, evals, one-click upgrade to new base models) for regulated enterprises, with isolated data hosting. Measure tuned models in production and net revenue retention.'
+    },
+    curveball: 'Tell them a major open-source model now matches their tuned quality at a tenth of the price. Ask what still makes customers stay.'
+  },
+  {
+    id: 'strat-ai-image-wau-growth-small-team',
+    track: 'strategy',
+    title: 'Double weekly users of an AI image tool with 3 engineers',
+    company: 'OpenAI',
+    companyColor: 'bg-zinc-800 text-white',
+    companyBadge: 'Growth Under Constraints',
+    difficulty: 'Hard',
+    targetDurationMinutes: 30,
+    problemStatement: 'How would you grow weekly active users of an AI image creation tool (such as ChatGPT image generation) from 175M to 350M in 3 months, with a team of only 3 engineers?',
+    contextBackground: 'The tool went viral at launch and usage is now flattening. Compute is expensive. The team is tiny, so every bet must be cheap to build.',
+    candidateBrief: [
+      'Clarify what counts as an active user and where growth stalls (acquisition, activation, retention)',
+      'Segment users by intent and pick where doubling is realistic',
+      'Choose a few cheap, high-leverage bets that fit 3 engineers',
+      'Define metrics and guardrails (compute cost, safety, copyright)'
+    ],
+    keyEvaluationMetrics: ['Funnel diagnosis', 'Prioritisation under constraints', 'Cost and safety guardrails', 'Realism of the target'],
+    suggestedFramework: 'Goal & definition -> Funnel diagnosis -> Segments -> Cheap high-leverage bets -> Metrics, guardrails & risks',
+    benchmarkOutline: {
+      clarificationQuestions: ['Is the problem new users or people not coming back?', 'Do we care about paid conversion or only usage?', 'What compute budget do we have?'],
+      coreHypothesesOrSegments: ['Retention, not acquisition, is the bigger lever after a viral launch', 'Casual users drop off because they do not know what to make next', 'With 3 engineers, prefer prompts, templates and sharing loops over new models'],
+      analyticalPath: ['Bets: shareable templates and remix loops, weekly creative prompts, re-engagement for lapsed users', 'Cut: anything needing new model training or complex backend', 'Metrics: WAU and week-4 retention; guardrails: compute cost per active user, policy violations, copyright complaints'],
+      synthesisModel: 'Focus on retention and sharing loops (templates, remixing, weekly prompts) that 3 engineers can ship. Measure WAU and week-4 retention, guarded by compute cost and copyright or safety complaints.'
+    },
+    curveball: 'Ask whether generating images in famous artists\' styles puts the company at risk with artists or IP holders, and what they change.'
   }
 ];
