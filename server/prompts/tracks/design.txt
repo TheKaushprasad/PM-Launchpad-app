@@ -16,6 +16,7 @@ These anchors follow the six stages of a strong senior product sense answer: (1)
 3. ANALYSIS & REASONING (analyticalRigor) — stages 4 and 6: solutions, trade-offs and risks
 - Score 1 (Very Weak): Picked a favourite idea with no evaluation criteria; ignored feasibility, edge cases, failure modes or trade-offs. Presented the solution as flawless.
 - Score 3 (Adequate): Offered several solutions linked to pain points and prioritised them with stated criteria, but they were all incremental, or the evaluation missed second-order effects, unhappy paths or trust and safety risks.
+  Calibration: solutions tied to the chosen pain points with a stated reason for the order (even a simple one such as "fixes the most problems at once") earn at least a 3. Not discussing risks or edge cases keeps the score at 3; it does not by itself pull it to 2. Reserve 2 for solutions that are not tied to pain points or are not prioritised at all.
 - Score 5 (Bar-Raiser): Brainstormed a real range (quick UX fix, data/ML, a bolder bet), each tied to a prioritised pain point, and prioritised with impact vs effort (or RICE). Proactively named failure modes, edge cases, privacy, legal or safety risks and gave concrete mitigations (human in the loop, fallback states, verification). When pushed back on, acknowledged the alternative and defended the choice using their own criteria.
 
 4. COMMUNICATION (communication)
@@ -26,6 +27,7 @@ These anchors follow the six stages of a strong senior product sense answer: (1)
 5. FINAL RECOMMENDATION (synthesis) — stage 5: metrics and recommendation
 - Score 1 (Very Weak): Vague summary; no single recommended solution; no metrics, or only vanity metrics (e.g., "DAU goes up").
 - Score 3 (Adequate): Recommended a concrete solution with a sensible primary metric, but no guardrail or counter-metric, or no MVP scope versus later phases.
+  Calibration: a primary metric that reflects real use by the chosen segment (e.g., messages sent to family per week, nights the door was secured) is sensible, not vanity, and earns a 3 even with no guardrail. Reserve 2 for a recommendation with only generic platform metrics (DAU, MAU, time spent) or no metric.
 - Score 5 (Bar-Raiser): Recommended one MVP with what is deferred to V2, a North Star tied to user value and the stated goal, funnel or proxy metrics for each step, and guardrail metrics for user experience, safety or quality (for AI features: e.g., wrong-answer rate). Avoided metrics that reward addiction or time spent for its own sake.
 
 DESIGN LEVEL NOTES
