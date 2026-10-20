@@ -105,6 +105,14 @@ EVALUATION INSTRUCTIONS:
   return { prompt, substantiveCount: substantiveTurns.length };
 }
 
+const VERDICT_LINES = [50, 70, 85];
+const NEAR_VERDICT_LINE_POINTS = 6;
+
+/** True when a score sits within a few points of a verdict boundary, where one call's noise can flip the verdict. */
+export function isNearVerdictLine(overallScore: number): boolean {
+  return VERDICT_LINES.some((line) => Math.abs(overallScore - line) <= NEAR_VERDICT_LINE_POINTS);
+}
+
 /**
  * Executes evaluation with multi-model failover, Zod schema validation,
  * and retry logic. Never returns unvalidated output.
@@ -156,182 +164,203 @@ export async function runEvaluationEngine(
     hintsUsed
   });
 
-  // 4. Multi-model failover chain with retry on schema failure
-  const geminiKey = process.env.GEMINI_API_KEY;
-  const openAiKey = process.env.OPENAI_API_KEY;
-  const OPENAI_EVAL_MODEL = "gpt-4o-mini";
-  const BUSY_RETRY_DELAY_MS = 3000;
-  // Free tier allows about 20 requests a day per model, so one scorecard may spend at most this many Gemini calls.
-  const MAX_GEMINI_CALLS = 3;
-  let geminiCalls = 0;
-  const forceOpenAI = process.env.FORCE_EVAL_PROVIDER === 'openai' || payload.provider === 'openai';
-  let candidateModels = forceOpenAI ? [] : [
-    'gemini-3.8-flash',
-    'gemini-3.1-flash-lite',
-    'gemini-flash-latest',
-    'gemini-3.7-flash'
-  ];
-  if (payload.model) candidateModels = candidateModels.filter((m) => m === payload.model);
-  if (payload.disableFailover) candidateModels = candidateModels.slice(0, 1);
+  // Steps 4-6 score the transcript once. They run again near a verdict line (see below).
+  const scoreOnce = async () => {
+    // 4. Multi-model failover chain with retry on schema failure
+    const geminiKey = process.env.GEMINI_API_KEY;
+    const openAiKey = process.env.OPENAI_API_KEY;
+    const OPENAI_EVAL_MODEL = "gpt-4o-mini";
+    const BUSY_RETRY_DELAY_MS = 3000;
+    // Free tier allows about 20 requests a day per model, so one scorecard may spend at most this many Gemini calls.
+    const MAX_GEMINI_CALLS = 3;
+    let geminiCalls = 0;
+    const forceOpenAI = process.env.FORCE_EVAL_PROVIDER === 'openai' || payload.provider === 'openai';
+    let candidateModels = forceOpenAI ? [] : [
+      'gemini-3.8-flash',
+      'gemini-3.1-flash-lite',
+      'gemini-flash-latest',
+      'gemini-3.7-flash'
+    ];
+    if (payload.model) candidateModels = candidateModels.filter((m) => m === payload.model);
+    if (payload.disableFailover) candidateModels = candidateModels.slice(0, 1);
 
-  // OpenAI runs as a fallback, unless a Gemini model or provider was forced
-  const allowOpenAI = payload.provider !== 'gemini'
-    && (!payload.model || payload.model === OPENAI_EVAL_MODEL)
-    && !(payload.disableFailover && candidateModels.length > 0);
-  if (candidateModels.length === 0 && !allowOpenAI) {
-    throw new Error(`Model ${payload.model} is not in the evaluator failover chain`);
-  }
+    // OpenAI runs as a fallback, unless a Gemini model or provider was forced
+    const allowOpenAI = payload.provider !== 'gemini'
+      && (!payload.model || payload.model === OPENAI_EVAL_MODEL)
+      && !(payload.disableFailover && candidateModels.length > 0);
+    if (candidateModels.length === 0 && !allowOpenAI) {
+      throw new Error(`Model ${payload.model} is not in the evaluator failover chain`);
+    }
 
-  let rawValidatedEval: RawEvaluation | null = null;
-  let winningModel = "gemini-3.8-flash";
-  let totalRetries = 0;
-  const temperature = 0.1;
-  if (!forceOpenAI && geminiKey && geminiKey.trim() !== "" && geminiKey !== "undefined" && geminiKey !== "null") {
-    const ai = new GoogleGenAI({
-      apiKey: geminiKey
+    let rawValidatedEval: RawEvaluation | null = null;
+    let winningModel = "gemini-3.8-flash";
+    let totalRetries = 0;
+    const temperature = 0;
+    if (!forceOpenAI && geminiKey && geminiKey.trim() !== "" && geminiKey !== "undefined" && geminiKey !== "null") {
+      const ai = new GoogleGenAI({
+        apiKey: geminiKey
+      });
+
+      for (let mIdx = 0; mIdx < candidateModels.length && geminiCalls < MAX_GEMINI_CALLS; mIdx++) {
+        const modelName = candidateModels[mIdx];
+        let modelAttempt = 0;
+
+        // Allow 1 retry on the same model if validation fails
+        while (modelAttempt < 2 && geminiCalls < MAX_GEMINI_CALLS) {
+          geminiCalls++;
+          try {
+            const config: any = {
+              systemInstruction,
+              temperature,
+              seed: 42,
+              responseMimeType: "application/json",
+              responseSchema: EVALUATION_RESPONSE_JSON_SCHEMA
+            };
+
+            const attemptPrompt = modelAttempt === 0
+              ? prompt
+              : `${prompt}\n\nIMPORTANT: Your previous output failed schema validation. You MUST return strictly valid JSON matching the evaluation schema with integer pillar scores 1 to 5 and evidence objects with quote and turnIndex.`;
+
+            const response = await traceStep(
+              { kind: "llm", name: "score-transcript", provider: "gemini", model: modelName, input: [{ role: "system", content: systemInstruction }, { role: "user", content: attemptPrompt }] },
+              () => ai.models.generateContent({ model: modelName, contents: attemptPrompt, config }),
+              (r) => ({ ...geminiUsage(r), output: r?.text })
+            );
+
+            const text = response?.text?.trim() || "";
+            if (text) {
+              let jsonParsed: any = null;
+              try {
+                jsonParsed = JSON.parse(text);
+              } catch (pErr) {
+                const match = text.match(/\{[\s\S]*\}/);
+                if (match) {
+                  jsonParsed = JSON.parse(match[0]);
+                }
+              }
+
+              if (jsonParsed) {
+                const validationResult = RawEvaluationSchema.safeParse(jsonParsed);
+                if (validationResult.success) {
+                  rawValidatedEval = validationResult.data;
+                  winningModel = modelName;
+                  break; // Model succeeded
+                } else {
+                  const zodErrorPaths = validationResult.error.issues
+                    .map((issue) => `${issue.path.join('.') || 'root'}: ${issue.message}`)
+                    .join('; ');
+                  console.warn(`[EvaluatorEngine] Model ${modelName} attempt ${modelAttempt + 1} validation failure at path(s): ${zodErrorPaths}`);
+                  noteGuardrail("eval_schema_invalid");
+                }
+              }
+            }
+          } catch (apiErr: any) {
+            console.warn(`[EvaluatorEngine] Model ${modelName} API error:`, apiErr?.message || apiErr);
+            // 429/503 spikes are usually brief: wait once and retry this model, then move to the next one
+            const msg = apiErr?.message || "";
+            if (msg.includes("503") || msg.includes("UNAVAILABLE") || msg.includes("429")) {
+              if (modelAttempt > 0) break;
+              await new Promise((resolve) => setTimeout(resolve, BUSY_RETRY_DELAY_MS));
+            }
+          }
+
+          modelAttempt++;
+          totalRetries++;
+        }
+
+        if (rawValidatedEval) {
+          break; // Successfully got validated evaluation
+        }
+      }
+    }
+
+    // Fallback to OpenAI if configured and Gemini chain failed (or if forced via FORCE_EVAL_PROVIDER=openai)
+    if (!rawValidatedEval && allowOpenAI && openAiKey && openAiKey.trim() !== "" && openAiKey !== "undefined") {
+      try {
+        const openai = new OpenAI({ apiKey: openAiKey });
+        const completion = await traceStep({ kind: "llm", name: "score-transcript", provider: "openai", model: OPENAI_EVAL_MODEL, input: [{ role: "system", content: systemInstruction }, { role: "user", content: prompt }] }, () => openai.chat.completions.create({
+          model: OPENAI_EVAL_MODEL,
+          temperature,
+          seed: 42,
+          response_format: {
+            type: "json_schema",
+            json_schema: {
+              name: "interview_evaluation",
+              strict: true,
+              schema: OPENAI_STRICT_EVALUATION_SCHEMA
+            }
+          },
+          messages: [
+            { role: "system", content: systemInstruction },
+            { role: "user", content: prompt }
+          ]
+        }), (c) => ({ ...openAiUsage(c), output: c.choices[0]?.message?.content || undefined }));
+
+        const text = completion.choices[0]?.message?.content || "";
+        if (text) {
+          const parsed = JSON.parse(text);
+          const valid = RawEvaluationSchema.safeParse(parsed);
+          if (valid.success) {
+            rawValidatedEval = valid.data;
+            winningModel = OPENAI_EVAL_MODEL;
+          } else {
+            const zodErrorPaths = valid.error.issues
+              .map((issue) => `${issue.path.join('.') || 'root'}: ${issue.message}`)
+              .join('; ');
+            console.warn(`[EvaluatorEngine] Model gpt-4o-mini validation failure at path(s): ${zodErrorPaths}`);
+          }
+        }
+      } catch (oaiErr) {
+        console.warn("[EvaluatorEngine] OpenAI fallback error:", oaiErr);
+      }
+    }
+
+    // Never return unvalidated output to the client
+    if (!rawValidatedEval) {
+      throw new Error("Evaluation engine failed to produce validated scoring schema across all models.");
+    }
+
+    // 5. Ground and validate verbatim candidate quotes & cap pillars lacking evidence
+    const { groundingStats } = groundAndCapPillars(rawValidatedEval.pillars, transcriptTurns);
+    if (groundingStats.dropped > 0) noteGuardrail("eval_quotes_not_in_transcript");
+    if (groundingStats.echoed > 0) noteGuardrail("eval_quotes_echoed_interviewer");
+
+    // 6. Compute overall score, verdict, display mapping, and format final response from CAPPED pillar scores
+    const latencyMs = Date.now() - startTime;
+    const finalEvaluation = formatEvaluationResponse({
+      rawEval: rawValidatedEval,
+      scenario,
+      persona,
+      elapsedSeconds,
+      candidateTurnCount: substantiveCandidateTurns.length,
+      groundingStats,
+      promptVersion: PROMPT_VERSION,
+      modelId: winningModel,
+      temperature,
+      latencyMs,
+      retryCount: totalRetries,
+      level,
+      hintsUsed
     });
+    return { finalEvaluation, winningModel, totalRetries };
+  };
 
-    for (let mIdx = 0; mIdx < candidateModels.length && geminiCalls < MAX_GEMINI_CALLS; mIdx++) {
-      const modelName = candidateModels[mIdx];
-      let modelAttempt = 0;
-
-      // Allow 1 retry on the same model if validation fails
-      while (modelAttempt < 2 && geminiCalls < MAX_GEMINI_CALLS) {
-        geminiCalls++;
-        try {
-          const config: any = {
-            systemInstruction,
-            temperature,
-            seed: 42,
-            responseMimeType: "application/json",
-            responseSchema: EVALUATION_RESPONSE_JSON_SCHEMA
-          };
-
-          const attemptPrompt = modelAttempt === 0
-            ? prompt
-            : `${prompt}\n\nIMPORTANT: Your previous output failed schema validation. You MUST return strictly valid JSON matching the evaluation schema with integer pillar scores 1 to 5 and evidence objects with quote and turnIndex.`;
-
-          const response = await traceStep(
-            { kind: "llm", name: "score-transcript", provider: "gemini", model: modelName, input: [{ role: "system", content: systemInstruction }, { role: "user", content: attemptPrompt }] },
-            () => ai.models.generateContent({ model: modelName, contents: attemptPrompt, config }),
-            (r) => ({ ...geminiUsage(r), output: r?.text })
-          );
-
-          const text = response?.text?.trim() || "";
-          if (text) {
-            let jsonParsed: any = null;
-            try {
-              jsonParsed = JSON.parse(text);
-            } catch (pErr) {
-              const match = text.match(/\{[\s\S]*\}/);
-              if (match) {
-                jsonParsed = JSON.parse(match[0]);
-              }
-            }
-
-            if (jsonParsed) {
-              const validationResult = RawEvaluationSchema.safeParse(jsonParsed);
-              if (validationResult.success) {
-                rawValidatedEval = validationResult.data;
-                winningModel = modelName;
-                break; // Model succeeded
-              } else {
-                const zodErrorPaths = validationResult.error.issues
-                  .map((issue) => `${issue.path.join('.') || 'root'}: ${issue.message}`)
-                  .join('; ');
-                console.warn(`[EvaluatorEngine] Model ${modelName} attempt ${modelAttempt + 1} validation failure at path(s): ${zodErrorPaths}`);
-                noteGuardrail("eval_schema_invalid");
-              }
-            }
-          }
-        } catch (apiErr: any) {
-          console.warn(`[EvaluatorEngine] Model ${modelName} API error:`, apiErr?.message || apiErr);
-          // 429/503 spikes are usually brief: wait once and retry this model, then move to the next one
-          const msg = apiErr?.message || "";
-          if (msg.includes("503") || msg.includes("UNAVAILABLE") || msg.includes("429")) {
-            if (modelAttempt > 0) break;
-            await new Promise((resolve) => setTimeout(resolve, BUSY_RETRY_DELAY_MS));
-          }
-        }
-
-        modelAttempt++;
-        totalRetries++;
-      }
-
-      if (rawValidatedEval) {
-        break; // Successfully got validated evaluation
+  // The same transcript can land a few points either side of a verdict line from one call to the next.
+  // When the first score is that close, score twice more and keep the median, so the verdict is stable.
+  const scoreRuns = [await scoreOnce()];
+  if (isNearVerdictLine((scoreRuns[0].finalEvaluation as any).overallScore)) {
+    noteGuardrail("eval_rescored_near_verdict_line");
+    for (let extra = 0; extra < 2; extra++) {
+      try {
+        scoreRuns.push(await scoreOnce());
+      } catch (rescoreErr: any) {
+        console.warn("[EvaluatorEngine] Re-score near the verdict line failed:", rescoreErr?.message || rescoreErr);
       }
     }
+    scoreRuns.sort((a, b) => (a.finalEvaluation as any).overallScore - (b.finalEvaluation as any).overallScore);
   }
-
-  // Fallback to OpenAI if configured and Gemini chain failed (or if forced via FORCE_EVAL_PROVIDER=openai)
-  if (!rawValidatedEval && allowOpenAI && openAiKey && openAiKey.trim() !== "" && openAiKey !== "undefined") {
-    try {
-      const openai = new OpenAI({ apiKey: openAiKey });
-      const completion = await traceStep({ kind: "llm", name: "score-transcript", provider: "openai", model: OPENAI_EVAL_MODEL, input: [{ role: "system", content: systemInstruction }, { role: "user", content: prompt }] }, () => openai.chat.completions.create({
-        model: OPENAI_EVAL_MODEL,
-        temperature,
-        seed: 42,
-        response_format: {
-          type: "json_schema",
-          json_schema: {
-            name: "interview_evaluation",
-            strict: true,
-            schema: OPENAI_STRICT_EVALUATION_SCHEMA
-          }
-        },
-        messages: [
-          { role: "system", content: systemInstruction },
-          { role: "user", content: prompt }
-        ]
-      }), (c) => ({ ...openAiUsage(c), output: c.choices[0]?.message?.content || undefined }));
-
-      const text = completion.choices[0]?.message?.content || "";
-      if (text) {
-        const parsed = JSON.parse(text);
-        const valid = RawEvaluationSchema.safeParse(parsed);
-        if (valid.success) {
-          rawValidatedEval = valid.data;
-          winningModel = OPENAI_EVAL_MODEL;
-        } else {
-          const zodErrorPaths = valid.error.issues
-            .map((issue) => `${issue.path.join('.') || 'root'}: ${issue.message}`)
-            .join('; ');
-          console.warn(`[EvaluatorEngine] Model gpt-4o-mini validation failure at path(s): ${zodErrorPaths}`);
-        }
-      }
-    } catch (oaiErr) {
-      console.warn("[EvaluatorEngine] OpenAI fallback error:", oaiErr);
-    }
-  }
-
-  // Never return unvalidated output to the client
-  if (!rawValidatedEval) {
-    throw new Error("Evaluation engine failed to produce validated scoring schema across all models.");
-  }
-
-  // 5. Ground and validate verbatim candidate quotes & cap pillars lacking evidence
-  const { groundingStats } = groundAndCapPillars(rawValidatedEval.pillars, transcriptTurns);
-  if (groundingStats.dropped > 0) noteGuardrail("eval_quotes_not_in_transcript");
-  if (groundingStats.echoed > 0) noteGuardrail("eval_quotes_echoed_interviewer");
-
-  // 6. Compute overall score, verdict, display mapping, and format final response from CAPPED pillar scores
-  const latencyMs = Date.now() - startTime;
-  const finalEvaluation = formatEvaluationResponse({
-    rawEval: rawValidatedEval,
-    scenario,
-    persona,
-    elapsedSeconds,
-    candidateTurnCount: substantiveCandidateTurns.length,
-    groundingStats,
-    promptVersion: PROMPT_VERSION,
-    modelId: winningModel,
-    temperature,
-    latencyMs,
-    retryCount: totalRetries,
-    level,
-    hintsUsed
-  });
+  // Median of three, or the lower of two if one re-score failed
+  const { finalEvaluation, winningModel, totalRetries } = scoreRuns[Math.floor((scoreRuns.length - 1) / 2)];
 
   // 7. Persist evaluation and audit drift-tracking metrics server-side via Firebase Admin SDK
   let saved = true;
@@ -374,6 +403,7 @@ export async function runEvaluationEngine(
     candidateTurns: substantiveCandidateTurns.length,
     evalModel: winningModel,
     evalRetries: totalRetries,
+    scoreRuns: scoreRuns.map((r) => (r.finalEvaluation as any).overallScore),
     saved
   });
   traceIO({
