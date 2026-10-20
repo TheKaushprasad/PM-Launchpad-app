@@ -24,6 +24,13 @@ export const RCA_SCENARIOS: InterviewScenario[] = [
     ],
     keyEvaluationMetrics: ['DAU / WAU Ratio', 'Crash Rate', 'Login Success Rate', 'Telemetry Pipeline Health', 'Session Duration'],
     suggestedFramework: 'Clarify Metric & Bounds -> Segment by Dimensions -> Internal (Release/Telemetry/Infra) vs External -> Root Cause Confirmation -> Action Plan',
+    dataPack: [
+      'Logging pipeline: healthy, and sessions dropped along with unique users',
+      'Platform: Android DAU is down about 9%; iOS and Web are flat',
+      'App version: the Android drop is concentrated in v14.2, released two days ago',
+      'Crash rate: Android v14.2 crash-on-launch rate rose from 0.3% to 6%',
+      'Crash logs: a null-pointer in feed initialization on Android v14.2'
+    ],
     benchmarkOutline: {
       clarificationQuestions: ['Is this drop global or localized?', 'Did sessions/events also drop or just unique user IDs?', 'Was there a deployment in the last 24-48 hours?'],
       coreHypothesesOrSegments: ['Telemetry logging pipeline latency', 'Auth token expiry bug in latest app build', 'Android OS version update causing crash on launch'],
