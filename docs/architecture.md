@@ -124,11 +124,11 @@ Routes accept a trailing slash variant. In local dev the same Express app also s
 
 1. `/api/interview/evaluate` verifies the Firebase ID token and gets the user id.
 2. `evaluatorEngine.ts` builds a numbered transcript (`[T3][CANDIDATE]: …`) and returns `insufficient` if the candidate has fewer than 3 turns of more than 5 words.
-3. The prompt is `server/prompts/evaluator.txt` plus the track rubric from `server/prompts/tracks/{rca,guesstimate,strategy,design,metrics,behavioral,ai}.txt`, injected before the grounding rules. Version: `PROMPT_VERSION = "eval-v3.4"`. The prompt also gets the candidate level (APM, PM, Senior PM) and the number of hints used.
+3. The prompt is `server/prompts/evaluator.txt` plus the track rubric from `server/prompts/tracks/{rca,guesstimate,strategy,design,metrics,behavioral,ai}.txt`, injected before the grounding rules. Version: `PROMPT_VERSION = "eval-v3.5"`. The prompt also gets the candidate level (APM, PM, Senior PM) and the number of hints used.
 4. The model returns JSON that must match the zod schema in `server/schemas/evaluation.ts`.
 5. `grounding.ts` checks every evidence quote against the transcript: valid, reindexed, echoed (the interviewer said it) or dropped (fabricated). Pillars built mainly on interviewer echoes are capped.
 6. `scoring.ts` computes the overall score with per-track pillar weights (`data/interviewTracks.ts`), applies the hiring bar (any pillar at 1, or two pillars at 2 or below, caps at 69; Strong Hire needs every pillar at 4+, else cap 84), maps it to a verdict (85+ Strong Hire, 70 to 84 Hire, 50 to 69 No Hire, below 50 Strong No Hire) and caps injection attempts at 69. Old saved verdicts (Strong Yes, Lean Yes, Lean No, Strong No) are mapped to the new names on display.
-   Scoring runs at temperature 0. If the overall score lands within 6 points of a verdict line (50, 70, 85), steps 4 to 6 run twice more and the median score is kept, because one pillar moving between 3 and 4 can otherwise flip the verdict from call to call.
+   Scoring runs at temperature 0 with Gemini thinking set to low. If the overall score lands within 6 points of a verdict line (50, 70, 85), steps 4 to 6 run twice more and the median score is kept, because one pillar moving between 3 and 4 can otherwise flip the verdict from call to call.
 7. `persistence.ts` writes the scorecard with the Admin SDK to `users/{uid}/interview_sessions/{sessionId}`, including audit fields (model id, prompt version, grounding stats, latency, retries).
 
 Interviewer personas come from `server/prompts/interviewer-{maya,alex,priya,marcus}.txt`. Personas change the interviewer's tone only; the scorecard uses the same bar for all of them.

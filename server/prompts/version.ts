@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-export const PROMPT_VERSION = "eval-v3.4";
+export const PROMPT_VERSION = "eval-v3.5";
 
 // In-memory cache for prompts loaded at server start
 let cachedEvaluatorPrompt = "";
