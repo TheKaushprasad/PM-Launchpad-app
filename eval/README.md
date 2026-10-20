@@ -44,7 +44,7 @@ The app has no metrics scenarios yet, so metrics cases embed their own scenario;
 | Consistency (with `--consistency`) | score std dev ≤ 5, pillar spread ≤ 1, no verdict flips across runs |
 | Human calibration | skipped until 10+ cases have `humanLabels` |
 
-The judge uses `gemini-3.8-flash`, retries when Google says the model is busy, then falls back to other Gemini models and finally `gpt-4o` if `OPENAI_API_KEY` is set. Set `EVAL_JUDGE_MODEL` to pin one Gemini model.
+The judge uses `gpt-4o` when `OPENAI_API_KEY` is set, so a different model family checks Gemini's scoring and the Gemini quota is kept for the evaluator. Without it (or if OpenAI fails) it uses `gemini-3.8-flash`, retrying when Google says the model is busy and falling back to other Gemini models. Set `EVAL_JUDGE_MODEL` to pin one Gemini model instead.
 
 ## Adding a case
 

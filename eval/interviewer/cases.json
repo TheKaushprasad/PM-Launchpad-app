@@ -25,7 +25,7 @@
       { "role": "interviewer", "text": "Okay. Logging is healthy and sessions dropped too. Where next?" },
       { "role": "candidate", "text": "Can you split the drop by platform and app version, and show crash rate by version?" }
     ],
-    "checks": { "maxWords": 60, "noPraise": true, "mustNotContain": ["null-pointer", "null pointer", "feed initialization", "rolled back", "hotfix", "root cause is"] }
+    "checks": { "maxWords": 60, "noPraise": true, "mustNotContain": ["null-pointer", "null pointer", "feed initialization", "rolled back", "hotfix", "root cause is", "crash"] }
   },
   {
     "id": "guesstimate-asks-for-number",

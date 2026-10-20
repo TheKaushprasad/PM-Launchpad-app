@@ -78,9 +78,11 @@ function evaluationView(output: any) {
 
 /**
  * Checks the evaluator output against the case's mustNotCredit / mustMention
- * criteria with a separate LLM call. Uses EVAL_JUDGE_MODEL if set, otherwise
- * gemini-3.8-flash with busy retries and Gemini fallbacks, then gpt-4o when
- * OPENAI_API_KEY is set.
+ * criteria with a separate LLM call. When OPENAI_API_KEY is set (and no
+ * EVAL_JUDGE_MODEL is pinned) the judge is
+ * gpt-4o first, so a different model family checks Gemini's scoring and the
+ * Gemini quota is kept for the evaluator. Otherwise (or if OpenAI fails) it uses
+ * EVAL_JUDGE_MODEL if set, else gemini-3.8-flash with busy retries and fallbacks.
  * Throws on failure: the threshold step treats a missing judge as a FAIL.
  */
 export async function runJudge(bCase: BenchmarkCase, output: any): Promise<JudgeResult> {
@@ -103,7 +105,26 @@ export async function runJudge(bCase: BenchmarkCase, output: any): Promise<Judge
   let text = '';
   let judgeModel = '';
 
-  if (geminiKey) {
+  if (openAiKey && !process.env.EVAL_JUDGE_MODEL) {
+    const model = 'gpt-4o';
+    try {
+      const openai = new OpenAI({ apiKey: openAiKey });
+      const res = await openai.chat.completions.create({
+        model,
+        temperature: 0,
+        response_format: { type: 'json_object' },
+        messages: [
+          { role: 'system', content: SYSTEM },
+          { role: 'user', content: prompt },
+        ],
+      });
+      text = res.choices[0]?.message?.content ?? '';
+      judgeModel = model;
+    } catch (e: any) {
+      errors.push(`${model}: ${e?.message ?? e}`);
+    }
+  }
+  if (!text && geminiKey) {
     // EVAL_JUDGE_MODEL pins one model; otherwise busy models fall through the chain
     const models = process.env.EVAL_JUDGE_MODEL ? [process.env.EVAL_JUDGE_MODEL] : GEMINI_JUDGE_MODELS;
     const ai = new GoogleGenAI({ apiKey: geminiKey });
@@ -122,25 +143,6 @@ export async function runJudge(bCase: BenchmarkCase, output: any): Promise<Judge
       } catch (e: any) {
         errors.push(`${model}: ${e?.message ?? e}`);
       }
-    }
-  }
-  if (!text && openAiKey) {
-    const model = 'gpt-4o';
-    try {
-      const openai = new OpenAI({ apiKey: openAiKey });
-      const res = await openai.chat.completions.create({
-        model,
-        temperature: 0,
-        response_format: { type: 'json_object' },
-        messages: [
-          { role: 'system', content: SYSTEM },
-          { role: 'user', content: prompt },
-        ],
-      });
-      text = res.choices[0]?.message?.content ?? '';
-      judgeModel = model;
-    } catch (e: any) {
-      errors.push(`${model}: ${e?.message ?? e}`);
     }
   }
   if (!geminiKey && !openAiKey) throw new Error('Judge needs GEMINI_API_KEY or OPENAI_API_KEY');
