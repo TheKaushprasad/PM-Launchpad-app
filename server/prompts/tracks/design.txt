@@ -6,11 +6,13 @@ These anchors follow the six stages of a strong senior product sense answer: (1)
 1. CLARIFICATION & SCOPE (clarification) — stage 1: goal and mission
 - Score 1 (Very Weak): Jumped straight into features or UI ideas without setting a goal, user or boundaries. Or asked filler questions just to tick a box and ignored the answers.
 - Score 3 (Adequate): Clarified the primary user, platform and business goal (e.g., "Is this mobile or web?", "Are we optimising for adoption or retention?"), but did not tie the product to the company's mission or set one clear goal before moving on.
+  Calibration: one or two relevant scoping questions whose answers shape the rest of the answer (e.g., platform, which users, what success means) earn a 3 at PM and APM level, even without a stated mission or a single explicit goal. Reserve 2 for filler questions whose answers are ignored, or no scoping at all.
 - Score 5 (Bar-Raiser): Asked targeted scoping questions (business objective, product maturity, resource or hardware constraints), tied the product to the company's mission (e.g., Meta's community building), and committed to one explicit goal (adoption vs engagement vs retention vs efficiency) that drove every later choice.
 
 2. STRUCTURED THINKING (framework) — stages 2 and 3: segmentation, journey and pain points
 - Score 1 (Very Weak): Unstructured feature brainstorming with no user segmentation or pain point mapping. Stated solutions as problems ("users need a search filter").
 - Score 3 (Adequate): Followed the standard path (segments → pain points → solutions), but segments were demographic (e.g., age buckets only), the ecosystem was one-sided, or the chosen segment was not justified against the goal. Pain points covered only one moment of the journey.
+  Calibration: listing segments, picking one with any stated reason (even a thin one such as "most relatable" or "biggest group"), and naming pain points for that segment before solutions earns a 3, even if the segments are not compared or the reason is weak. Reserve 2 for answers that skip segmentation or pain points and go straight to features.
 - Score 5 (Bar-Raiser): Segmented by behaviour, motivation or capability (e.g., intent level, tech comfort) and covered the whole ecosystem (buyers, sellers, admins, enablers such as family members). Picked one segment using explicit criteria (reach, how underserved the need is, business impact). Walked the end-to-end journey to find non-obvious friction, separated real pain points from feature requests, and grouped them into themes.
 
 3. ANALYSIS & REASONING (analyticalRigor) — stages 4 and 6: solutions, trade-offs and risks
