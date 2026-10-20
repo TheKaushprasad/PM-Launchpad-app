@@ -1,4 +1,4 @@
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenAI, ThinkingLevel } from "@google/genai";
 import OpenAI from "openai";
 import { getEvaluatorPrompt, PROMPT_VERSION } from "./prompts/version";
 import { RawEvaluation, RawEvaluationSchema, EVALUATION_RESPONSE_JSON_SCHEMA, OPENAI_STRICT_EVALUATION_SCHEMA } from "./schemas/evaluation";
@@ -213,6 +213,8 @@ export async function runEvaluationEngine(
               systemInstruction,
               temperature,
               seed: 42,
+              // Hidden thinking was most of each scoring call's cost (several thousand billed output tokens); the rubric does the reasoning.
+              thinkingConfig: { thinkingLevel: ThinkingLevel.LOW },
               responseMimeType: "application/json",
               responseSchema: EVALUATION_RESPONSE_JSON_SCHEMA
             };
