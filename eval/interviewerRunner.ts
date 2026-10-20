@@ -22,10 +22,14 @@ import {
   getInterviewPhase
 } from '../server/interview/interviewerPrompt';
 import { normalizeLevel } from '../data/interviewTracks';
+import { initObservability, flushObservability, traceRun, traceStep, geminiUsage } from '../server/observability';
 
 dotenv.config();
 // Keys usually live in services/.env (same place the main eval reads them from).
 dotenv.config({ path: 'services/.env' });
+// Sends each interviewer reply to Langfuse when LANGFUSE_PUBLIC_KEY / LANGFUSE_SECRET_KEY are set.
+initObservability();
+const EVAL_SESSION_ID = `eval-interviewer-${new Date().toISOString().replace(/[:.]/g, '-')}`;
 
 const CaseSchema = z.object({
   id: z.string().regex(/^[a-z0-9-]+$/),
@@ -136,17 +140,29 @@ async function callInterviewer(c: InterviewerCase, model: string): Promise<strin
   const { GoogleGenAI } = await import('@google/genai');
   const ai = new GoogleGenAI({ apiKey: key });
   const messages = sanitizeMessages(c.messages)!;
-  const response = await ai.models.generateContent({
-    model,
-    contents: buildInterviewerTranscript(messages, getPersonaById(c.personaId)),
-    config: {
-      systemInstruction: promptFor(c),
-      temperature: 0.7,
-      maxOutputTokens: 400,
-      thinkingConfig: { thinkingBudget: 0 }
-    }
-  });
-  return cleanInterviewerReply(response.text || '');
+  const contents = buildInterviewerTranscript(messages, getPersonaById(c.personaId));
+  return traceRun(
+    'eval-interviewer-turn',
+    { sessionId: EVAL_SESSION_ID, tags: ['eval', 'interviewer'], metadata: { caseId: c.id }, input: messages },
+    async () => {
+      const response = await traceStep(
+        { kind: 'llm', name: 'generate-response', provider: 'gemini', model, input: contents },
+        () => ai.models.generateContent({
+          model,
+          contents,
+          config: {
+            systemInstruction: promptFor(c),
+            temperature: 0.7,
+            maxOutputTokens: 400,
+            thinkingConfig: { thinkingBudget: 0 }
+          }
+        }),
+        (r) => ({ ...geminiUsage(r), output: r.text })
+      );
+      return cleanInterviewerReply(response.text || '');
+    },
+    (reply) => reply
+  );
 }
 
 async function main() {
@@ -185,6 +201,8 @@ async function main() {
     }
   }
   console.log(`\n${cases.length - failed} of ${cases.length} cases passed.`);
+  // Without this the last traces are still queued when the process exits and never reach Langfuse.
+  await flushObservability();
   process.exit(failed === 0 ? 0 : 1);
 }
 

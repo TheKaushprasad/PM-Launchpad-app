@@ -54,7 +54,8 @@ interface RequestTrace {
   name: string;
   sessionId?: string;
   turn?: number;
-  res: Response;
+  /** The interview request; absent for script runs (evals) started with traceRun. */
+  res?: Response;
   startedAt: number;
   guardrails: string[];
   metadata: Record<string, unknown>;
@@ -74,6 +75,7 @@ const text = <T>(value: T): T | undefined => (logText() ? value : undefined);
 
 let spanProcessor: LangfuseSpanProcessor | null = null;
 let scoreClient: LangfuseClient | null = null;
+let sdk: NodeSDK | null = null;
 
 /**
  * Starts OpenTelemetry with the Langfuse span processor. Call once, after the .env file is loaded
@@ -99,7 +101,10 @@ export function initObservability() {
       environment: process.env.VERCEL_ENV || (process.env.NODE_ENV === "production" ? "production" : "development"),
       release: process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7),
     });
-    new NodeSDK({ spanProcessors: [spanProcessor] }).start();
+    // Host/process detection adds nothing Langfuse shows, and its async host id holds up exports, so a
+    // short script (an eval run) can exit before its traces are sent.
+    sdk = new NodeSDK({ spanProcessors: [spanProcessor], autoDetectResources: false });
+    sdk.start();
     scoreClient = new LangfuseClient({ baseUrl: baseUrl() });
     void checkLangfuseConnection();
   } catch (err: any) {
@@ -241,7 +246,7 @@ function stepCostInr(info: StepInfo): number | undefined {
 // The user is known only after the auth check that runs inside the request, so it is attached to each
 // observation as it is created (any observation can carry the trace's user).
 function withUser<T>(state: RequestTrace, fn: () => T): T {
-  const uid = (state.res.locals?.user as { uid?: string } | undefined)?.uid;
+  const uid = (state.res?.locals?.user as { uid?: string } | undefined)?.uid;
   return uid ? propagateAttributes({ userId: uid }, fn) : fn();
 }
 
@@ -316,10 +321,10 @@ export function openAiUsage(completion: any): Partial<StepInfo> {
   return u ? { inputTokens: u.prompt_tokens, outputTokens: u.completion_tokens } : {};
 }
 
-function finishTrace(state: RequestTrace, status: number) {
+function finishTrace(state: RequestTrace, status: number, log = true) {
   const sum = (kind: StepKind) => state.steps.filter((s) => s.kind === kind).reduce((ms, s) => ms + s.ms, 0);
   const costs = state.steps.map((s) => s.costInr).filter((c): c is number => typeof c === "number");
-  console.log("[obs]", JSON.stringify({
+  if (log) console.log("[obs]", JSON.stringify({
     trace: state.root?.traceId,
     name: state.name,
     session: state.sessionId,
@@ -337,7 +342,7 @@ function finishTrace(state: RequestTrace, status: number) {
   }));
   if (!state.root) return;
   try {
-    const uid = (state.res.locals?.user as { uid?: string } | undefined)?.uid;
+    const uid = (state.res?.locals?.user as { uid?: string } | undefined)?.uid;
     if (uid) state.root.otelSpan.setAttribute("user.id", uid);
     state.root.update({
       metadata: { status },
@@ -390,5 +395,50 @@ function keepAliveUntil(promise: Promise<unknown>) {
     ctx?.waitUntil?.(safe);
   } catch {
     /* not on Vercel */
+  }
+}
+
+/**
+ * Traces one unit of work outside an Express request (an eval case, for example) as its own Langfuse
+ * trace, so traceStep calls inside it are recorded. Runs `fn` untraced when Langfuse is off.
+ */
+export async function traceRun<T>(
+  name: string,
+  opts: { sessionId?: string; tags?: string[]; metadata?: Record<string, unknown>; input?: unknown },
+  fn: () => Promise<T>,
+  output?: (result: T) => unknown
+): Promise<T> {
+  if (!spanProcessor) return fn();
+  const state: RequestTrace = { name, sessionId: opts.sessionId, startedAt: Date.now(), guardrails: [], metadata: {}, steps: [] };
+  let status = 200;
+  try {
+    return await propagateAttributes({ sessionId: opts.sessionId, traceName: name, tags: opts.tags, metadata: opts.metadata }, async () => {
+      const root = startObservation(name, { input: text(opts.input), metadata: opts.metadata }, { asType: "span" });
+      state.root = root;
+      const result = await otelContext.with(otelTrace.setSpan(otelContext.active(), root.otelSpan), () => storage.run(state, fn));
+      try {
+        if (output) root.update({ output: text(output(result)) });
+      } catch { /* tracing is best effort */ }
+      return result;
+    });
+  } catch (err) {
+    status = 500;
+    throw err;
+  } finally {
+    finishTrace(state, status, false);
+  }
+}
+
+/**
+ * Sends every trace and score still queued, then stops tracing. Scripts (evals) must await this before
+ * process.exit, or the last traces are lost: the span processor sends in batches in the background.
+ */
+export async function flushObservability() {
+  if (!spanProcessor) return;
+  try {
+    await Promise.all([spanProcessor.forceFlush(), scoreClient?.flush()]);
+    await sdk?.shutdown();
+  } catch (err: any) {
+    console.warn("[obs] Langfuse flush failed:", err?.message || err);
   }
 }
