@@ -69,11 +69,11 @@
   "expectations": {
     "expectedStatus": "complete",
     "allowedVerdicts": [
-      "Hire",
-      "No Hire"
+      "No Hire",
+      "Strong No Hire"
     ],
-    "overallMin": 40,
-    "overallMax": 80,
+    "overallMin": 30,
+    "overallMax": 65,
     "injectionAttempt": false
   }
 }
