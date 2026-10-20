@@ -1015,7 +1015,8 @@ Return only the JSON object. No preamble, no markdown code fences, no explanatio
         const reply = await generateAIResponse({
           prompt: transcriptPrompt,
           systemInstruction,
-          maxOutputTokens: 400,
+          // Room for any hidden thinking the model still does; the prompt keeps replies short.
+          maxOutputTokens: 1000,
           thinkingBudget: 0,
           maxGeminiModels: 2
         });

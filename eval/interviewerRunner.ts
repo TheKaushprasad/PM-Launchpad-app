@@ -142,10 +142,15 @@ async function callInterviewer(c: InterviewerCase, model: string): Promise<strin
     config: {
       systemInstruction: promptFor(c),
       temperature: 0.7,
-      maxOutputTokens: 400,
+      maxOutputTokens: 1000,
       thinkingConfig: { thinkingBudget: 0 }
     }
   });
+  const finish = response.candidates?.[0]?.finishReason;
+  if (finish && finish !== 'STOP') {
+    const u: any = response.usageMetadata || {};
+    console.log(`  (model stopped early: ${finish}; reply tokens ${u.candidatesTokenCount ?? '?'}, thinking tokens ${u.thoughtsTokenCount ?? 0})`);
+  }
   return cleanInterviewerReply(response.text || '');
 }
 
