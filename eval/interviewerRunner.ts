@@ -24,6 +24,8 @@ import {
 import { normalizeLevel } from '../data/interviewTracks';
 
 dotenv.config();
+// Keys usually live in services/.env (same place the main eval reads them from).
+dotenv.config({ path: 'services/.env' });
 
 const CaseSchema = z.object({
   id: z.string().regex(/^[a-z0-9-]+$/),
