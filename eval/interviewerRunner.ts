@@ -35,6 +35,8 @@ const CaseSchema = z.object({
   messages: z.array(z.object({ role: z.enum(['interviewer', 'candidate']), text: z.string().min(1) }).strict()).min(1),
   checks: z.object({
     maxWords: z.number().int().positive().optional(),
+    /** Most question marks allowed in one reply. Defaults to 1: real interviewers ask one thing at a time. */
+    maxQuestions: z.number().int().positive().optional(),
     mustAskQuestion: z.boolean().optional(),
     noPraise: z.boolean().optional(),
     mustNotContain: z.array(z.string()).optional(),
@@ -113,6 +115,9 @@ function checkReply(c: InterviewerCase, reply: string): string[] {
   if (c.checks.maxWords && words > c.checks.maxWords) failures.push(`${words} words (max ${c.checks.maxWords})`);
   if (/[*#`]|^\s*[-•]\s/m.test(reply)) failures.push('contains markdown');
   if (c.checks.mustAskQuestion && !reply.includes('?')) failures.push('does not ask a question');
+  const questions = (reply.match(/\?/g) || []).length;
+  const maxQuestions = c.checks.maxQuestions ?? 1;
+  if (questions > maxQuestions) failures.push(`asks ${questions} questions in one turn (max ${maxQuestions})`);
   if (c.checks.noPraise && PRAISE.test(reply)) failures.push(`praises the candidate ("${reply.match(PRAISE)?.[0]}")`);
   for (const s of c.checks.mustNotContain || []) {
     if (lower.includes(s.toLowerCase())) failures.push(`leaks or confirms "${s}"`);
