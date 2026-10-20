@@ -10,6 +10,7 @@
  *    loudly if a different model actually answered.
  */
 import { runEvaluationEngine, EvaluationRequestPayload } from '../server/evaluatorEngine';
+import { traceRun } from '../server/observability';
 import { BenchmarkCase } from './types';
 
 export interface EngineCallOptions {
@@ -26,6 +27,9 @@ export class ForcedModelMismatchError extends Error {
     this.name = 'ForcedModelMismatchError';
   }
 }
+
+// One eval run is one Langfuse session, so a run's cases can be compared side by side.
+const EVAL_SESSION_ID = `eval-${new Date().toISOString().replace(/[:.]/g, '-')}`;
 
 export async function callEngine(bCase: BenchmarkCase, opts: EngineCallOptions = {}): Promise<any> {
   // Explicit allow-list: nothing else from the case file reaches the engine.
@@ -48,7 +52,12 @@ export async function callEngine(bCase: BenchmarkCase, opts: EngineCallOptions =
     );
   }
 
-  const output: any = await runEvaluationEngine(payload as unknown as EvaluationRequestPayload);
+  const output: any = await traceRun(
+    'eval-score-case',
+    { sessionId: EVAL_SESSION_ID, tags: ['eval', bCase.track], metadata: { caseId: bCase.id, category: bCase.category }, input: payload },
+    () => runEvaluationEngine(payload as unknown as EvaluationRequestPayload),
+    (out: any) => ({ status: out?.status, score: out?.overallScore ?? out?.score, verdict: out?.verdict, model: out?.modelId })
+  );
 
   if (opts.model && output?.status !== 'insufficient') {
     const actual = output?.modelId ?? 'unknown';

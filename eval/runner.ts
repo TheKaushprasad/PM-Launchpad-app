@@ -24,8 +24,11 @@ import { computeHumanAgreement } from './checks/agreement';
 import { runJudge } from './judge';
 import { evaluateThresholds, formatThresholdsTable, ThresholdCaseResult } from './thresholds';
 import { BenchmarkCase, TRACKS, Track } from './types';
+import { initObservability, flushObservability } from '../server/observability';
 
 dotenv.config();
+// Sends each scored case to Langfuse when LANGFUSE_PUBLIC_KEY / LANGFUSE_SECRET_KEY are set.
+initObservability();
 
 interface Flags {
   validate: boolean;
@@ -325,10 +328,13 @@ async function main() {
   );
   console.log(`Full report: ${path.relative(process.cwd(), outFile)}`);
 
+  // Without this the last traces are still queued when the process exits and never reach Langfuse.
+  await flushObservability();
   process.exit(thresholds.allPassed ? 0 : 1);
 }
 
-main().catch((e) => {
+main().catch(async (e) => {
   console.error(e.message || e);
+  await flushObservability();
   process.exit(1);
 });
