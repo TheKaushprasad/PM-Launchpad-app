@@ -15,6 +15,7 @@ import dotenv from 'dotenv';
 import { z } from 'zod';
 import { INTERVIEW_SCENARIOS } from '../data/interviewScenarios';
 import { getScenarioById, getPersonaById, sanitizeMessages } from '../server/interview/catalog';
+import { getInterviewGeminiKey } from '../server/geminiKeys';
 import {
   buildInterviewerSystemPrompt,
   buildInterviewerTranscript,
@@ -131,8 +132,8 @@ function checkReply(c: InterviewerCase, reply: string): string[] {
 }
 
 async function callInterviewer(c: InterviewerCase, model: string): Promise<string> {
-  const key = process.env.GEMINI_API_KEY;
-  if (!key) throw new Error('GEMINI_API_KEY is not set (use the eval-only key)');
+  const key = getInterviewGeminiKey();
+  if (!key) throw new Error('GEMINI_INTERVIEW_API_KEY (or GEMINI_API_KEY) is not set (use the eval-only key)');
   const { GoogleGenAI } = await import('@google/genai');
   const ai = new GoogleGenAI({ apiKey: key });
   const messages = sanitizeMessages(c.messages)!;

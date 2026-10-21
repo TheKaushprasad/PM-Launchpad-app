@@ -6,7 +6,7 @@ Checks that the mock-interview scorer (`server/evaluatorEngine.ts`) grades sensi
 
 ```
 npm run eval -- --validate          # offline dataset check, no API key needed
-npm run eval                        # full run (needs GEMINI_API_KEY in .env)
+npm run eval                        # full run (needs GEMINI_INTERVIEW_API_KEY or GEMINI_API_KEY in .env)
 npm run eval -- --tier smoke        # one case per track/category plus every trap case
 npm run eval -- --case edge-stt-noise,rca-strong-signups-flat
 npm run eval -- --track rca         # one interview type (rca, guesstimate, strategy, design, metrics)

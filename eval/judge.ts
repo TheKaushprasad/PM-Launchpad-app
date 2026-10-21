@@ -2,6 +2,7 @@ import { GoogleGenAI } from '@google/genai';
 import OpenAI from 'openai';
 import { z } from 'zod';
 import { BenchmarkCase } from './types';
+import { getInterviewGeminiKey } from '../server/geminiKeys';
 
 export interface JudgeCriterionResult {
   type: 'mustMention' | 'mustNotCredit';
@@ -99,7 +100,7 @@ export async function runJudge(bCase: BenchmarkCase, output: any): Promise<Judge
     .map((c, i) => `${i}. ${c.type === 'mustNotCredit' ? 'MUST_NOT_CREDIT' : 'MUST_MENTION'}: ${c.criterion}`)
     .join('\n')}`;
 
-  const geminiKey = process.env.GEMINI_API_KEY?.trim();
+  const geminiKey = getInterviewGeminiKey();
   const openAiKey = process.env.OPENAI_API_KEY?.trim();
   const errors: string[] = [];
   let text = '';
@@ -145,7 +146,7 @@ export async function runJudge(bCase: BenchmarkCase, output: any): Promise<Judge
       }
     }
   }
-  if (!geminiKey && !openAiKey) throw new Error('Judge needs GEMINI_API_KEY or OPENAI_API_KEY');
+  if (!geminiKey && !openAiKey) throw new Error('Judge needs GEMINI_INTERVIEW_API_KEY, GEMINI_API_KEY or OPENAI_API_KEY');
   if (!text) throw new Error(`Judge failed on every model. ${errors.join(' | ')}`);
 
   const parsed = JudgeOutputSchema.safeParse(JSON.parse(text));

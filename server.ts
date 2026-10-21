@@ -28,6 +28,7 @@ import { deepgramVoiceFor, isDeepgramConfigured, isGroqConfigured, isSarvamConfi
 import { getProjectById } from "./data/realWorldProjects";
 import { discoverJobBoards, getJobDetail, getJobsList, jobsStoreReady, refreshJobs } from "./server/jobs/store";
 import { requireAiAccess, getVerifiedUser, consumeDailyQuota, clientIp } from "./server/security";
+import { getGeminiKey, getInterviewGeminiKey, hasSeparateInterviewGeminiKey } from "./server/geminiKeys";
 import { initObservability, traceInterviewRequests, traceStep, traceMeta, traceIO, noteGuardrail, geminiUsage, openAiUsage, recordClientEvent, cleanSessionId, cleanTraceId, isLangfuseConfigured } from "./server/observability";
 
 dotenv.config();
@@ -60,7 +61,8 @@ export async function createExpressApp() {
     res.json({ 
       status: "ok", 
       env: process.env.NODE_ENV,
-      hasGeminiKey: !!process.env.GEMINI_API_KEY?.trim(),
+      hasGeminiKey: !!getGeminiKey(),
+      hasInterviewGeminiKey: hasSeparateInterviewGeminiKey(),
       hasOpenAIKey: !!process.env.OPENAI_API_KEY,
       hasResendKey: !!process.env.RESEND_API_KEY,
       hasFirebaseAdmin: isFirebaseAdminConfigured(),
@@ -140,7 +142,8 @@ export async function createExpressApp() {
     jsonMode = false,
     maxOutputTokens,
     thinkingBudget,
-    maxGeminiModels
+    maxGeminiModels,
+    geminiKey = getGeminiKey()
   }: { 
     prompt: string; 
     systemInstruction: string; 
@@ -150,8 +153,9 @@ export async function createExpressApp() {
     thinkingBudget?: number;
     /** Try at most this many Gemini models before giving up, to protect the free-tier quota. */
     maxGeminiModels?: number;
+    /** Defaults to the general key; the interview passes its own (server/geminiKeys.ts). */
+    geminiKey?: string;
   }): Promise<string> {
-    const geminiKey = process.env.GEMINI_API_KEY;
     const openAiKey = process.env.OPENAI_API_KEY;
     const hasValidGeminiKey = geminiKey && geminiKey.trim() !== "" && geminiKey !== "undefined" && geminiKey !== "null";
     const hasValidOpenAiKey = openAiKey && openAiKey.trim() !== "" && openAiKey !== "undefined" && openAiKey !== "null";
@@ -1018,7 +1022,8 @@ Return only the JSON object. No preamble, no markdown code fences, no explanatio
           // Room for any hidden thinking the model still does; the prompt keeps replies short.
           maxOutputTokens: 1000,
           thinkingBudget: 0,
-          maxGeminiModels: 2
+          maxGeminiModels: 2,
+          geminiKey: getInterviewGeminiKey()
         });
         const text = cleanInterviewerReply(reply);
         if (!text) {
@@ -1110,7 +1115,7 @@ Plain text, 1-2 sentences. No markdown.
       const prompt = `Transcript so far:\n${safeMessages.map((m) => `${m.role.toUpperCase()}: ${m.text}`).join('\n')}\n\nGenerate the next contextual hint:`;
 
       try {
-        const hint = await generateAIResponse({ prompt, systemInstruction, maxOutputTokens: 300, thinkingBudget: 0, maxGeminiModels: 2 });
+        const hint = await generateAIResponse({ prompt, systemInstruction, maxOutputTokens: 300, thinkingBudget: 0, maxGeminiModels: 2, geminiKey: getInterviewGeminiKey() });
         const cleanHint = hint.replace(/\*\*/g, '').replace(/\*/g, '').trim();
         if (cleanHint) {
           traceIO({ output: cleanHint });
@@ -1139,7 +1144,7 @@ Plain text, 1-2 sentences. No markdown.
         return res.status(400).json({ error: "Missing text for voice synthesis" });
       }
 
-      const geminiKey = process.env.GEMINI_API_KEY;
+      const geminiKey = getInterviewGeminiKey();
       const openAiKey = process.env.OPENAI_API_KEY;
       traceIO({ input: text.trim() });
 
@@ -1285,7 +1290,7 @@ Plain text, 1-2 sentences. No markdown.
       }
 
       // 2. Gemini fallback (one AI call per answer, so it spends the free quota faster).
-      const geminiKey = process.env.GEMINI_API_KEY;
+      const geminiKey = getInterviewGeminiKey();
       if (geminiKey && geminiKey.trim() !== "" && geminiKey !== "undefined") {
         const { GoogleGenAI } = await import("@google/genai");
         const ai = new GoogleGenAI({ apiKey: geminiKey });
