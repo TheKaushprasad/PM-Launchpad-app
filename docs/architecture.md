@@ -186,7 +186,8 @@ Names only; values live in Vercel and in each developer's local env file, never 
 
 | Variable | Used by |
 |---|---|
-| `GEMINI_API_KEY` | All AI features |
+| `GEMINI_API_KEY` | All AI features (tools, projects, resume) |
+| `GEMINI_INTERVIEW_API_KEY` | Optional: AI interview only (Priya, hints, scoring, evals); falls back to `GEMINI_API_KEY` |
 | `OPENAI_API_KEY` | Optional AI fallback |
 | `FIRECRAWL_API_KEY` | LinkedIn scraping |
 | `RESEND_API_KEY`, `APP_URL` | Emails |

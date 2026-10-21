@@ -24,6 +24,7 @@ import { computeHumanAgreement } from './checks/agreement';
 import { runJudge } from './judge';
 import { evaluateThresholds, formatThresholdsTable, ThresholdCaseResult } from './thresholds';
 import { BenchmarkCase, TRACKS, Track } from './types';
+import { getInterviewGeminiKey } from '../server/geminiKeys';
 
 dotenv.config();
 
@@ -221,8 +222,8 @@ async function main() {
     process.exit((await validate(cases)) ? 0 : 1);
   }
 
-  if (!process.env.GEMINI_API_KEY?.trim() && !process.env.OPENAI_API_KEY?.trim()) {
-    throw new Error('Set GEMINI_API_KEY (or OPENAI_API_KEY) in .env to run the benchmark. Use --validate for an offline check.');
+  if (!getInterviewGeminiKey() && !process.env.OPENAI_API_KEY?.trim()) {
+    throw new Error('Set GEMINI_INTERVIEW_API_KEY or GEMINI_API_KEY (or OPENAI_API_KEY) in .env to run the benchmark. Use --validate for an offline check.');
   }
 
   const engineOpts: EngineCallOptions = { model: flags.model, provider: flags.provider };

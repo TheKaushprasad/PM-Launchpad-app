@@ -8,6 +8,7 @@ import { saveInterviewEvaluationServerSide } from "./persistence";
 import { getLevelConfig, normalizeLevel } from "../data/interviewTracks";
 import { CandidateLevel } from "../types/interview";
 import { traceStep, traceMeta, traceIO, noteGuardrail, geminiUsage, openAiUsage } from "./observability";
+import { getInterviewGeminiKey } from "./geminiKeys";
 
 export interface EvaluationRequestPayload {
   scenario: any;
@@ -167,7 +168,7 @@ export async function runEvaluationEngine(
   // Steps 4-6 score the transcript once. They run again near a verdict line (see below).
   const scoreOnce = async () => {
     // 4. Multi-model failover chain with retry on schema failure
-    const geminiKey = process.env.GEMINI_API_KEY;
+    const geminiKey = getInterviewGeminiKey();
     const openAiKey = process.env.OPENAI_API_KEY;
     const OPENAI_EVAL_MODEL = "gpt-4o-mini";
     const BUSY_RETRY_DELAY_MS = 3000;
