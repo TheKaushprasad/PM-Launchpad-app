@@ -11,6 +11,8 @@ export interface AiPmDay {
   kind?: 'weekend' | 'review';
   time?: string; // overrides the default time line on the day page
   video?: string; // YouTube video id, embedded at the top of the day page
+  videoTitle?: string;
+  level?: string; // e.g. Beginner
 }
 
 export interface AiPmPhase {
@@ -178,7 +180,7 @@ export const AI_PM_PHASES: AiPmPhase[] = [
 
 export const AI_PM_DAYS: AiPmDay[] = [
   // Phase 1 — Foundations and capstone
-  { day: 1, topic: 'What is AI? Build your AI landscape map', learn: 'AI, machine learning, deep learning and generative AI: how they differ, and when rules beat AI', do: 'Map 3 real products to the problem they solve and their likely AI approach, get an AI review, and record your 0–15 baseline score', time: 'Beginner-friendly. About 45–60 minutes.', video: 'mUw27wG7uFA' },
+  { day: 1, topic: 'What is AI? Build your AI landscape map', learn: 'AI, machine learning, deep learning and generative AI: how they differ, and when rules beat AI', do: 'Map 3 real products to the problem they solve and their likely AI approach, get an AI review, and record your 0–15 baseline score', time: '45–60 minutes', level: 'Beginner', video: 'mUw27wG7uFA', videoTitle: 'AI Simplified: 6 Concepts You Need to Know About Modern AI (IBM Technology)' },
   { day: 2, topic: 'Large language model (LLM) foundations', learn: 'What LLMs are, how they work, tokens and tokenisation, and their capabilities and limits', do: 'Paste one of your PRDs into a tokenizer (for example tiktokenizer). Count its tokens and note one word that splits in a surprising way', resources: ['karpathy_tokenizer'] },
   { day: 3, topic: 'Prompt engineering for PMs', learn: 'How to write prompts so that LLMs return useful, reliable and actionable outputs', do: 'Write a prompt for one task you do every week. Improve it twice and note what changed in the output each time' },
   { day: 4, topic: 'Classic PRD vs AI PRD', learn: 'Which sections break: acceptance criteria, success metrics, edge cases, launch', do: 'Try one real AI feature 10 times, with 3 hard inputs. Log each try as good or bad, with a reason' },

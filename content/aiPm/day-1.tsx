@@ -11,7 +11,7 @@ import { AuthModal } from '../../components/auth/AuthModal';
 const STORAGE_KEY = 'aipm_day1_v1';
 
 const Label: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-2">{children}</h4>
+  <h4 className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 mb-2">{children}</h4>
 );
 
 const Dot: React.FC = () => <div className="w-1.5 h-1.5 rounded-full bg-brand-300 mt-2 shrink-0" />;
@@ -27,12 +27,14 @@ const CONCEPTS = [
   {
     icon: Bot,
     title: '1. Artificial Intelligence (AI)',
+    tone: 'bg-brand-50 text-brand-600',
     definition: 'AI is the broad category. It includes systems that reason, perceive, plan, predict, or generate outputs.',
     example: 'A chess program chooses a move. It may use search and planning rather than learning from a large training dataset.',
   },
   {
     icon: Brain,
     title: '2. Machine Learning (ML)',
+    tone: 'bg-sky-50 text-sky-600',
     definition: 'Instead of programming every rule explicitly, developers train a model on data so it can learn patterns.',
     example: 'A payment product predicts whether a transaction is fraudulent based on patterns in past transactions.',
     note: 'The model produces a prediction; the product decides what to do with it.',
@@ -40,6 +42,7 @@ const CONCEPTS = [
   {
     icon: Cpu,
     title: '3. Deep Learning (DL)',
+    tone: 'bg-teal-50 text-teal-600',
     definition: 'A subset of ML that uses neural networks with multiple layers to learn complex representations from data.',
     example: 'A speech recognition system converts spoken audio into text.',
     note: 'Deep learning is especially useful for complex inputs such as language, images, audio, and video.',
@@ -47,6 +50,7 @@ const CONCEPTS = [
   {
     icon: Sparkles,
     title: '4. Generative AI (GenAI)',
+    tone: 'bg-violet-50 text-violet-600',
     definition: 'AI that generates new content based on learned patterns and the input it receives.',
     example: 'An AI assistant drafts a customer support reply, summarizes a meeting, or generates code.',
     note: 'Many modern GenAI systems use large language models (LLMs), though generative AI also includes image, audio, and video models.',
@@ -136,6 +140,18 @@ const VERDICT_STYLES: Record<string, string> = {
   Rethink: 'bg-rose-50 text-rose-700 border-rose-200',
 };
 
+// Sections for the "Topics to cover" list on the day page; ids match the <section> ids below.
+export const AI_PM_DAY1_TOPICS = [
+  { id: 'objective', label: 'Today’s objective' },
+  { id: 'concepts', label: 'Learn the concepts' },
+  { id: 'distinction', label: 'The distinction to remember' },
+  { id: 'think-like-a-pm', label: 'Think like a Product Manager' },
+  { id: 'landscape-map', label: 'Build your AI landscape map' },
+  { id: 'baseline', label: 'Baseline assessment' },
+  { id: 'completion', label: 'Completion criteria' },
+  { id: 'review', label: 'Review my landscape map' },
+];
+
 export const AiPmDay1Content = () => {
   const { user } = useAuth();
   const [state, setState] = useState<Day1State>(loadState);
@@ -180,9 +196,9 @@ export const AiPmDay1Content = () => {
       <AuthModal isOpen={authOpen} onClose={() => setAuthOpen(false)} initialMode="login" redirectTo="/ai-pm/day/1" onSuccess={() => setAuthOpen(false)} />
 
       {/* Objective */}
-      <section className="bg-brand-50/60 p-4 sm:p-5 rounded-2xl border border-brand-100 space-y-2">
-        <span className="text-[10px] font-black uppercase tracking-widest text-brand-600">Today’s objective</span>
-        <p className="text-base font-black text-zinc-900 leading-relaxed">
+      <section id="objective" className="scroll-mt-20 bg-brand-50/60 p-4 sm:p-5 rounded-2xl border border-brand-100 space-y-2">
+        <span className="text-[10px] font-bold uppercase tracking-widest text-brand-600">Today’s objective</span>
+        <p className="text-base font-bold text-zinc-900 leading-relaxed">
           Understand AI, ML, deep learning, and generative AI well enough to explain the differences and identify where each is useful in a real product.
         </p>
         <p className="text-sm font-bold text-brand-700">By the end of today, you’ll have three outputs:</p>
@@ -194,25 +210,25 @@ export const AiPmDay1Content = () => {
       </section>
 
       {/* Part 1: concepts */}
-      <section className="space-y-3">
-        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
-          <Layers className="text-brand-600" />
+      <section id="concepts" className="scroll-mt-20 space-y-3">
+        <h2 className="text-lg md:text-xl font-bold text-zinc-900 flex items-center gap-2.5 tracking-tight">
+          <Layers className="w-5 h-5 text-brand-600" />
           Part 1 — Learn the concepts
         </h2>
         <p className="text-zinc-600 font-medium leading-relaxed">
           Think of AI as an umbrella of techniques that enable computers to perform tasks associated with intelligence, such as recognizing patterns, making predictions, understanding language, or generating content.
         </p>
         <div className={`rounded-2xl border-2 ${LAYERS[0].border} ${LAYERS[0].bg} p-3 sm:p-4`}>
-          <p className={`text-xs font-black uppercase tracking-widest ${LAYERS[0].color}`}>{LAYERS[0].name}</p>
+          <p className={`text-xs font-bold uppercase tracking-widest ${LAYERS[0].color}`}>{LAYERS[0].name}</p>
           <p className="text-[11px] font-bold text-zinc-500 mb-3">{LAYERS[0].text}</p>
           <div className={`rounded-2xl border-2 ${LAYERS[1].border} ${LAYERS[1].bg} p-3 sm:p-4`}>
-            <p className={`text-xs font-black uppercase tracking-widest ${LAYERS[1].color}`}>{LAYERS[1].name}</p>
+            <p className={`text-xs font-bold uppercase tracking-widest ${LAYERS[1].color}`}>{LAYERS[1].name}</p>
             <p className="text-[11px] font-bold text-zinc-500 mb-3">{LAYERS[1].text}</p>
             <div className={`rounded-2xl border-2 ${LAYERS[2].border} ${LAYERS[2].bg} p-3 sm:p-4`}>
-              <p className={`text-xs font-black uppercase tracking-widest ${LAYERS[2].color}`}>{LAYERS[2].name}</p>
+              <p className={`text-xs font-bold uppercase tracking-widest ${LAYERS[2].color}`}>{LAYERS[2].name}</p>
               <p className="text-[11px] font-bold text-zinc-500 mb-3">{LAYERS[2].text}</p>
               <div className={`rounded-2xl border-2 ${LAYERS[3].border} ${LAYERS[3].bg} p-3 sm:p-4`}>
-                <p className={`text-xs font-black uppercase tracking-widest ${LAYERS[3].color}`}>{LAYERS[3].name}</p>
+                <p className={`text-xs font-bold uppercase tracking-widest ${LAYERS[3].color}`}>{LAYERS[3].name}</p>
                 <p className="text-[11px] font-bold text-zinc-500">{LAYERS[3].text}</p>
               </div>
             </div>
@@ -225,8 +241,8 @@ export const AiPmDay1Content = () => {
 
       <section className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-3.5">
         {CONCEPTS.map((c) => (
-          <div key={c.title} className="bg-zinc-50/70 border border-zinc-200/70 p-4 rounded-xl space-y-3">
-            <h3 className="font-black text-zinc-900 flex items-center gap-2"><c.icon className="w-5 h-5 text-brand-600" />{c.title}</h3>
+          <div key={c.title} className="bg-white border border-zinc-200/80 p-4 rounded-xl space-y-3">
+            <h3 className="font-bold text-zinc-900 flex items-center gap-2.5"><span className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 ${c.tone}`}><c.icon className="w-4 h-4" /></span>{c.title}</h3>
             <p className="text-sm font-medium text-zinc-600 leading-relaxed">{c.definition}</p>
             <div>
               <Label>Product example</Label>
@@ -237,20 +253,20 @@ export const AiPmDay1Content = () => {
         ))}
       </section>
 
-      <section className="space-y-3">
-        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
-          <Target className="text-brand-600" />
+      <section id="distinction" className="scroll-mt-20 space-y-3">
+        <h2 className="text-lg md:text-xl font-bold text-zinc-900 flex items-center gap-2.5 tracking-tight">
+          <Target className="w-5 h-5 text-brand-600" />
           The distinction you must remember
         </h2>
         <div className="border border-zinc-200/70 rounded-xl overflow-x-auto">
           <table className="w-full text-sm text-left">
-            <thead className="bg-zinc-50 text-[10px] font-black uppercase tracking-widest text-zinc-400">
+            <thead className="bg-zinc-50 text-[10px] font-bold uppercase tracking-widest text-zinc-400">
               <tr><th className="py-3 px-4">Technology</th><th className="py-3 px-4">Core question</th><th className="py-3 px-4">Example</th></tr>
             </thead>
             <tbody className="text-zinc-600">
               {DISTINCTION.map((d) => (
                 <tr key={d.tech} className="border-t border-zinc-50 align-top">
-                  <td className="py-3 px-4 font-black text-zinc-900">{d.tech}</td>
+                  <td className="py-3 px-4 font-bold text-zinc-900">{d.tech}</td>
                   <td className="py-3 px-4">{d.question}</td>
                   <td className="py-3 px-4 italic">{d.example}</td>
                 </tr>
@@ -262,9 +278,9 @@ export const AiPmDay1Content = () => {
       </section>
 
       {/* Part 2: think like a PM */}
-      <section className="space-y-3">
-        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
-          <Briefcase className="text-brand-600" />
+      <section id="think-like-a-pm" className="scroll-mt-20 space-y-3">
+        <h2 className="text-lg md:text-xl font-bold text-zinc-900 flex items-center gap-2.5 tracking-tight">
+          <Briefcase className="w-5 h-5 text-brand-600" />
           Part 2 — Think like a Product Manager (10 minutes)
         </h2>
         <p className="text-zinc-600 font-medium leading-relaxed">A PM shouldn’t ask only, “Can we use AI here?” Ask three questions:</p>
@@ -275,7 +291,7 @@ export const AiPmDay1Content = () => {
             { title: 'Value and risk', text: 'Will this improve the user outcome enough to justify the cost, latency, and potential errors?' },
           ].map((q) => (
             <div key={q.title} className="p-4 bg-zinc-50/70 border border-zinc-200/70 rounded-xl space-y-1.5">
-              <p className="font-black text-zinc-900 text-sm">{q.title}</p>
+              <p className="font-bold text-zinc-900 text-sm">{q.title}</p>
               <p className="text-xs font-medium text-zinc-500 leading-relaxed">{q.text}</p>
             </div>
           ))}
@@ -285,8 +301,8 @@ export const AiPmDay1Content = () => {
           {USE_CASES.map((u) => (
             <div key={u.title} className="p-4 bg-zinc-50/70 border border-zinc-200/70 rounded-xl space-y-2">
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <p className="font-black text-zinc-900 text-sm"><span className="text-zinc-400">{u.label} — </span>{u.title}</p>
-                <span className="px-2.5 py-1 rounded-lg bg-brand-50 text-brand-700 text-[11px] font-black">{u.approach}</span>
+                <p className="font-bold text-zinc-900 text-sm"><span className="text-zinc-400">{u.label} — </span>{u.title}</p>
+                <span className="px-2.5 py-1 rounded-lg bg-brand-50 text-brand-700 text-[11px] font-bold">{u.approach}</span>
               </div>
               <p className="text-sm font-medium text-zinc-600">{u.what}</p>
               <p className="text-xs font-medium text-zinc-500 leading-relaxed">{u.why}</p>
@@ -299,9 +315,9 @@ export const AiPmDay1Content = () => {
       </section>
 
       {/* Part 3: landscape map */}
-      <section className="space-y-3">
-        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
-          <Search className="text-brand-600" />
+      <section id="landscape-map" className="scroll-mt-20 space-y-3">
+        <h2 className="text-lg md:text-xl font-bold text-zinc-900 flex items-center gap-2.5 tracking-tight">
+          <Search className="w-5 h-5 text-brand-600" />
           Part 3 — Your first exercise: build an AI landscape map (15 minutes)
         </h2>
         <p className="text-zinc-600 font-medium leading-relaxed">
@@ -309,13 +325,13 @@ export const AiPmDay1Content = () => {
         </p>
         <div className="border border-zinc-200/70 rounded-xl overflow-x-auto">
           <table className="w-full text-sm text-left">
-            <thead className="bg-zinc-50 text-[10px] font-black uppercase tracking-widest text-zinc-400">
+            <thead className="bg-zinc-50 text-[10px] font-bold uppercase tracking-widest text-zinc-400">
               <tr><th className="py-3 px-4">Product</th><th className="py-3 px-4">User problem</th><th className="py-3 px-4">Likely approach</th></tr>
             </thead>
             <tbody className="text-zinc-600">
               {STARTER_MAP.map((r) => (
                 <tr key={r.product} className="border-t border-zinc-50 align-top">
-                  <td className="py-3 px-4 font-black text-zinc-900">{r.product}</td>
+                  <td className="py-3 px-4 font-bold text-zinc-900">{r.product}</td>
                   <td className="py-3 px-4">{r.problem}</td>
                   <td className="py-3 px-4">{r.approach}</td>
                 </tr>
@@ -329,14 +345,14 @@ export const AiPmDay1Content = () => {
 
         <div className="bg-zinc-50/70 p-4 sm:p-5 rounded-xl border border-zinc-200/70 space-y-4">
           <div>
-            <p className="font-black text-zinc-900">Your AI landscape map</p>
+            <p className="font-bold text-zinc-900">Your AI landscape map</p>
             <p className="text-xs font-medium text-zinc-500 mt-0.5">
               Pick three products you use at work, in daily life, or while building AI applications. It’s okay to be uncertain.
             </p>
           </div>
           {state.map.map((row, i) => (
             <div key={i} className="bg-white border border-zinc-200 rounded-xl p-3.5 space-y-2.5">
-              <p className="text-[10px] font-black uppercase tracking-widest text-brand-600">Product {i + 1}</p>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-brand-600">Product {i + 1}</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 <input className={inputClass} placeholder="Product name" value={row.product} onChange={(e) => setRow(i, { product: e.target.value })} aria-label={`Product ${i + 1} name`} />
                 <input className={inputClass} placeholder="User problem solved" value={row.problem} onChange={(e) => setRow(i, { problem: e.target.value })} aria-label={`Product ${i + 1} user problem`} />
@@ -364,14 +380,14 @@ export const AiPmDay1Content = () => {
       </section>
 
       {/* Part 4: baseline */}
-      <section className="space-y-3">
-        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
-          <CheckCircle className="text-brand-600" />
+      <section id="baseline" className="scroll-mt-20 space-y-3">
+        <h2 className="text-lg md:text-xl font-bold text-zinc-900 flex items-center gap-2.5 tracking-tight">
+          <CheckCircle className="w-5 h-5 text-brand-600" />
           Part 4 — Baseline assessment (5 minutes)
         </h2>
         <p className="text-zinc-600 font-medium leading-relaxed">Before moving on, score yourself honestly. This is your starting point, not an exam.</p>
         <div className="border border-zinc-200/70 rounded-xl p-4 space-y-4">
-          <p className="font-black text-zinc-900 text-sm">Day 1 skills checklist</p>
+          <p className="font-bold text-zinc-900 text-sm">Day 1 skills checklist</p>
           {SKILLS.map((skill, i) => (
             <div key={skill} className="space-y-1.5">
               <p className="text-sm font-bold text-zinc-800">{i + 1}. {skill}</p>
@@ -392,16 +408,16 @@ export const AiPmDay1Content = () => {
             </div>
           ))}
           <div className="flex items-center justify-between border-t border-zinc-100 pt-3">
-            <p className="text-sm font-black text-zinc-900">Your baseline score</p>
-            <p className="text-2xl font-black text-brand-600">{score} <span className="text-sm text-zinc-400">/ 15</span></p>
+            <p className="text-sm font-bold text-zinc-900">Your baseline score</p>
+            <p className="text-2xl font-bold text-brand-600">{score} <span className="text-sm text-zinc-400">/ 15</span></p>
           </div>
         </div>
       </section>
 
       {/* Completion criteria */}
-      <section className="bg-zinc-50/70 p-4 sm:p-5 rounded-xl border border-zinc-200/70 space-y-3">
-        <h2 className="text-xl font-black text-zinc-900 flex items-center gap-3">
-          <Lightbulb className="text-amber-500" />
+      <section id="completion" className="scroll-mt-20 bg-zinc-50/70 p-4 sm:p-5 rounded-xl border border-zinc-200/70 space-y-3">
+        <h2 className="text-lg md:text-xl font-bold text-zinc-900 flex items-center gap-2.5 tracking-tight">
+          <Lightbulb className="w-5 h-5 text-amber-500" />
           Day 1 completion criteria
         </h2>
         <p className="text-sm font-medium text-zinc-600">Before you finish today, make sure you can:</p>
@@ -421,7 +437,7 @@ export const AiPmDay1Content = () => {
       </section>
 
       {/* Review */}
-      <section className="bg-brand-50/60 p-4 sm:p-5 rounded-xl border border-brand-100 space-y-3">
+      <section id="review" className="scroll-mt-20 bg-brand-50/60 p-4 sm:p-5 rounded-xl border border-brand-100 space-y-3">
         <p className="text-sm font-bold text-zinc-800 leading-relaxed">
           Your task now: Complete the landscape map and click <span className="text-brand-700">Review my landscape map</span>. AI will evaluate your reasoning and correct any misconceptions before you move to Day 2.
         </p>
@@ -429,7 +445,7 @@ export const AiPmDay1Content = () => {
           type="button"
           onClick={reviewMap}
           disabled={reviewing}
-          className="h-11 px-5 rounded-xl bg-brand-600 hover:bg-brand-700 disabled:opacity-60 text-white font-black text-sm flex items-center gap-2"
+          className="h-11 px-5 rounded-xl bg-brand-600 hover:bg-brand-700 disabled:opacity-60 text-white font-bold text-sm flex items-center gap-2"
         >
           {reviewing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
           {reviewing ? 'Reviewing…' : state.review ? 'Review again' : 'Review my landscape map'}
@@ -443,8 +459,8 @@ export const AiPmDay1Content = () => {
             {state.review.products.map((p) => (
               <div key={p.product} className="space-y-1">
                 <div className="flex items-center gap-2">
-                  <p className="font-black text-zinc-900 text-sm">{p.product}</p>
-                  <span className={`px-2 py-0.5 rounded-md border text-[10px] font-black ${VERDICT_STYLES[p.verdict] || VERDICT_STYLES['Partly right']}`}>{p.verdict}</span>
+                  <p className="font-bold text-zinc-900 text-sm">{p.product}</p>
+                  <span className={`px-2 py-0.5 rounded-md border text-[10px] font-bold ${VERDICT_STYLES[p.verdict] || VERDICT_STYLES['Partly right']}`}>{p.verdict}</span>
                 </div>
                 <p className="text-xs font-medium text-zinc-600 leading-relaxed">{p.comment}</p>
               </div>

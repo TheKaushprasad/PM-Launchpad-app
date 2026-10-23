@@ -10,9 +10,10 @@ export interface AiPmProgress {
   skills: Record<string, number>;
   notes: Record<string, string>; // day number -> personal notes
   bookmarks: number[];
+  videosDone: number[];
 }
 
-const empty: AiPmProgress = { done: [], checks: {}, skills: {}, notes: {}, bookmarks: [] };
+const empty: AiPmProgress = { done: [], checks: {}, skills: {}, notes: {}, bookmarks: [], videosDone: [] };
 
 const load = (): AiPmProgress => {
   try {
@@ -58,6 +59,12 @@ export const useAiPmProgress = () => {
       save({
         ...state,
         bookmarks: state.bookmarks.includes(day) ? state.bookmarks.filter((d) => d !== day) : [...state.bookmarks, day].sort((a, b) => a - b),
+      }),
+    isVideoDone: (day: number) => progress.videosDone.includes(day),
+    toggleVideoDone: (day: number) =>
+      save({
+        ...state,
+        videosDone: state.videosDone.includes(day) ? state.videosDone.filter((d) => d !== day) : [...state.videosDone, day],
       }),
     setNote: (day: number, text: string) => save({ ...state, notes: { ...state.notes, [day]: text.slice(0, 5000) } }),
   };

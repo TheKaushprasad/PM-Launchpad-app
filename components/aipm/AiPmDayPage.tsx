@@ -1,17 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import {
-  ArrowLeft, BookOpen, Hammer, CheckCircle2, Calculator, Lightbulb, Bookmark, ChevronLeft, ChevronRight,
-  FileEdit, Clock, MonitorPlay,
+  BookOpen, Hammer, CheckCircle2, Calculator, Lightbulb, Bookmark, ChevronLeft, ChevronRight,
+  FileEdit, Clock, Save, GraduationCap, BarChart3, PlayCircle, List, FileText, ExternalLink,
 } from 'lucide-react';
 import { AI_PM_DAYS, AI_PM_PHASES, phaseForDay, DESIGN_CASE_STEPS } from '../../data/aiPmCourse/plan';
 import { AI_PM_BACKGROUND_EXAMPLE } from '../../data/aiPmCourse/content';
 import { useAiPmProgress } from './progress';
-import { AI_PM_LESSONS } from './lessons';
-import { Card, TemplateChip, ResourceLink, Checklist } from './ui';
+import { AI_PM_LESSONS, AI_PM_LESSON_TOPICS } from './lessons';
+import { AI_PM_RESOURCES } from '../../data/aiPmCourse/resources';
+import { Card, TemplateChip, Checklist } from './ui';
 
-// Same layout as the 45-day course day page (components/LessonDetail.tsx): sticky top bar with
-// bookmark / done / day stepper, a header card, the lesson on the left and notes on the right.
+// Layout follows the owner's day-page mockup (2026-10-23): day stepper and course progress on top, header with
+// time / phase / level, the video with "Mark video complete", the lesson on the left; on the right, actions
+// (bookmark, save notes, done), course material, topics to cover and personal notes.
 
 const NotesPad: React.FC<{ day: number; value: string; onSave: (text: string) => void }> = ({ day, value, onSave }) => {
   const [text, setText] = useState(value);
@@ -38,13 +40,18 @@ const NotesPad: React.FC<{ day: number; value: string; onSave: (text: string) =>
             <FileEdit className="w-3.5 h-3.5" />
           </div>
           <div>
-            <h3 className="font-black text-zinc-900 text-sm">Personal Notes</h3>
+            <h3 className="font-bold text-zinc-900 text-sm">Personal Notes</h3>
             <p className="text-[11px] text-zinc-400 font-medium">Day {day} takeaways</p>
           </div>
         </div>
-        <span className="text-[11px] font-bold text-emerald-700">{savedAt ? `Saved ${savedAt}` : value ? 'Saved' : ''}</span>
+        {(savedAt || value) && (
+          <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700 bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded-full">
+            <CheckCircle2 className="w-3 h-3" /> {savedAt ? `Saved ${savedAt}` : 'Saved'}
+          </span>
+        )}
       </div>
       <textarea
+        id="aipm-notes"
         value={text}
         onChange={(e) => {
           const next = e.target.value.slice(0, 5000);
@@ -60,7 +67,16 @@ const NotesPad: React.FC<{ day: number; value: string; onSave: (text: string) =>
         rows={6}
         className="w-full text-sm font-medium text-zinc-800 bg-zinc-50/80 border border-zinc-200 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:bg-white resize-y placeholder:text-zinc-400 leading-relaxed"
       />
-      <p className="text-[11px] font-semibold text-zinc-400">{text.length}/5000 · Saved in this browser</p>
+      <div className="flex items-center justify-between">
+        <p className="text-[11px] font-medium text-zinc-400">{text.length}/5000 characters · this browser only</p>
+        <button
+          type="button"
+          onClick={() => { clearTimeout(timer.current); save(text); }}
+          className="px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-black text-white text-xs font-semibold flex items-center gap-1.5"
+        >
+          <Save className="w-3.5 h-3.5" /> Save notes
+        </button>
+      </div>
     </div>
   );
 };
@@ -71,7 +87,9 @@ export const AiPmDayPage: React.FC = () => {
   const dayNum = Number(dayParam);
   const day = AI_PM_DAYS.find((d) => d.day === dayNum);
   const phase = phaseForDay(dayNum);
-  const { progress, isDone, toggleDay, toggleCheck, isBookmarked, toggleBookmark, setNote } = useAiPmProgress();
+  const {
+    progress, isDone, toggleDay, toggleCheck, isBookmarked, toggleBookmark, setNote, isVideoDone, toggleVideoDone,
+  } = useAiPmProgress();
 
   useEffect(() => {
     document.querySelector('main')?.scrollTo({ top: 0 });
@@ -81,100 +99,92 @@ export const AiPmDayPage: React.FC = () => {
 
   const done = isDone(day.day);
   const bookmarked = isBookmarked(day.day);
+  const videoDone = isVideoDone(day.day);
   const prev = AI_PM_DAYS.find((d) => d.day === day.day - 1);
   const next = AI_PM_DAYS.find((d) => d.day === day.day + 1);
   const isPhaseEnd = day.day === phase.end;
   const example = AI_PM_PHASES.find((p) => p.workedExample?.day === day.day)?.workedExample;
   const Lesson = AI_PM_LESSONS[day.day];
+  const topics = AI_PM_LESSON_TOPICS[day.day] ?? [];
+  const resources = (day.resources ?? []).map((id) => ({ id, ...AI_PM_RESOURCES[id] })).filter((r) => r.title);
+  const materialCount = resources.length + (day.video ? 1 : 0);
+  const coursePercent = Math.round((progress.done.length / AI_PM_DAYS.length) * 100);
+  const timeLine = day.time ?? (day.kind === 'weekend' ? '3-hour block' : '90–120 minutes');
   const otherBookmarks = progress.bookmarks.filter((d) => d !== day.day);
-  const timeLine = day.time ?? (day.kind === 'weekend' ? 'A 3-hour block for the phase deliverable.' : 'About 60 minutes to learn and 30–60 minutes for the exercise.');
+
+  const goToSection = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  const focusNotes = () => {
+    const el = document.getElementById('aipm-notes');
+    el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    el?.focus({ preventScroll: true });
+  };
 
   return (
-    <article className="space-y-3.5">
-      {/* Top bar */}
-      <div className="sticky top-0 z-20 bg-zinc-50/95 backdrop-blur-md py-2 -mx-3 md:-mx-5 px-3 md:px-5 flex items-center justify-between gap-2 border-b border-zinc-200/60">
-        <Link to={`/ai-pm/plan#phase-${phase.id}`} className="flex items-center gap-1.5 text-xs font-bold text-zinc-600 hover:text-brand-600 min-w-0">
-          <ArrowLeft className="w-3.5 h-3.5 shrink-0" /> <span className="truncate">Phase {phase.id}: {phase.title}</span>
-        </Link>
-        <div className="flex items-center gap-1.5 shrink-0">
-          <button
-            type="button"
-            onClick={() => toggleBookmark(day.day)}
-            className={`flex items-center gap-1 px-2.5 py-1 rounded-lg font-bold text-xs border transition-colors ${
-              bookmarked ? 'bg-amber-50 border-amber-200 text-amber-800' : 'bg-white border-zinc-200 text-zinc-600 hover:border-amber-200 hover:text-amber-700'
-            }`}
-          >
-            <Bookmark className={`w-3.5 h-3.5 ${bookmarked ? 'fill-amber-500 text-amber-500' : ''}`} />
-            <span className="hidden sm:inline">{bookmarked ? 'Bookmarked' : 'Bookmark'}</span>
+    <article className="space-y-5">
+      {/* Day stepper + course progress */}
+      <div className="flex items-center justify-between gap-4 border-b border-zinc-200/70 pb-3">
+        <div className="flex items-center gap-1">
+          <button type="button" aria-label="Previous day" disabled={!prev} onClick={() => prev && navigate(`/ai-pm/day/${prev.day}`)} className="p-1.5 rounded-lg text-zinc-500 hover:bg-zinc-100 disabled:text-zinc-300 disabled:hover:bg-transparent">
+            <ChevronLeft className="w-4 h-4" />
           </button>
-          <button
-            type="button"
-            onClick={() => toggleDay(day.day)}
-            className={`flex items-center gap-1.5 px-3 py-1 rounded-lg font-bold text-xs border transition-colors ${
-              done ? 'bg-emerald-50 border-emerald-300 text-emerald-800' : 'bg-brand-600 hover:bg-brand-700 border-brand-600 text-white'
-            }`}
-          >
-            <CheckCircle2 className="w-3.5 h-3.5" />
-            {done ? 'Completed' : 'Mark Done'}
+          <span className="text-sm font-semibold text-zinc-900 px-1">Day {day.day}</span>
+          <button type="button" aria-label="Next day" disabled={!next} onClick={() => next && navigate(`/ai-pm/day/${next.day}`)} className="p-1.5 rounded-lg text-zinc-500 hover:bg-zinc-100 disabled:text-zinc-300 disabled:hover:bg-transparent">
+            <ChevronRight className="w-4 h-4" />
           </button>
-          <div className="flex items-center gap-0.5 bg-white rounded-lg border border-zinc-200 p-0.5">
-            <button
-              type="button"
-              aria-label="Previous day"
-              disabled={!prev}
-              onClick={() => prev && navigate(`/ai-pm/day/${prev.day}`)}
-              className="p-1 rounded-md text-zinc-600 hover:bg-zinc-100 disabled:text-zinc-300 disabled:hover:bg-transparent"
-            >
-              <ChevronLeft className="w-3.5 h-3.5" />
-            </button>
-            <span className="text-[10px] font-black text-zinc-500 px-2 uppercase tracking-wider border-x border-zinc-100 whitespace-nowrap">Day {day.day}</span>
-            <button
-              type="button"
-              aria-label="Next day"
-              disabled={!next}
-              onClick={() => next && navigate(`/ai-pm/day/${next.day}`)}
-              className="p-1 rounded-md text-zinc-600 hover:bg-zinc-100 disabled:text-zinc-300 disabled:hover:bg-transparent"
-            >
-              <ChevronRight className="w-3.5 h-3.5" />
-            </button>
+        </div>
+        <div className="w-40 sm:w-64">
+          <div className="flex items-center justify-between text-[11px] font-semibold text-zinc-500 mb-1">
+            <span>Day {day.day} of 90</span>
+            <span>{coursePercent}% done</span>
+          </div>
+          <div className="h-2 w-full rounded-full bg-zinc-200 overflow-hidden">
+            <div className="h-full bg-brand-600 rounded-full" style={{ width: `${Math.max(coursePercent, 2)}%` }} />
           </div>
         </div>
       </div>
 
-      {/* Header */}
-      <header className="bg-white rounded-2xl p-4 sm:p-5 md:p-6 border border-zinc-200/80 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-[220px] md:w-[320px] h-[220px] md:h-[320px] bg-brand-50/50 rounded-full blur-[60px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-        <div className="relative space-y-2">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-[10px] px-2.5 py-0.5 rounded-full font-black uppercase tracking-widest bg-brand-50 text-brand-700 border border-brand-100">
-              Day {day.day} of 90{day.kind === 'weekend' ? ' · Weekend block' : day.kind === 'review' ? ' · Review day' : ''}
-            </span>
-            <span className="flex items-center gap-1 text-[10px] font-bold text-zinc-500 bg-zinc-50 px-2.5 py-0.5 rounded-full border border-zinc-100">
-              <Clock className="w-3 h-3" /> {timeLine}
-            </span>
-          </div>
-          <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-zinc-900 leading-tight tracking-tight">{day.topic}</h1>
-          <p className="text-sm md:text-base text-zinc-600 leading-relaxed max-w-4xl border-l-[3px] border-brand-600 pl-3 font-medium">{day.learn}</p>
-        </div>
-      </header>
-
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 md:gap-4 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
         {/* Main column */}
-        <div className="lg:col-span-8 space-y-3.5 min-w-0">
+        <div className="lg:col-span-8 space-y-4 min-w-0">
+          <header className="space-y-2.5">
+            <Link to={`/ai-pm/plan#phase-${phase.id}`} className="inline-flex items-center gap-1 text-sm font-medium text-zinc-600 hover:text-brand-700">
+              <ChevronLeft className="w-4 h-4" /> Back to curriculum
+            </Link>
+            <div>
+              <span className="inline-block text-xs font-semibold px-2.5 py-1 rounded-lg bg-brand-50 text-brand-800 border border-brand-100">
+                Day {day.day} of 90{day.kind === 'weekend' ? ' · Weekend block' : day.kind === 'review' ? ' · Review day' : ''}
+              </span>
+            </div>
+            <h1 className="text-2xl sm:text-3xl md:text-[2rem] font-bold text-zinc-900 leading-tight tracking-tight">{day.topic}</h1>
+            <p className="text-sm sm:text-base text-zinc-600 leading-relaxed max-w-2xl">{day.learn}</p>
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5 pt-1 text-sm text-zinc-600">
+              <span className="inline-flex items-center gap-1.5"><Clock className="w-4 h-4 text-zinc-500" />{timeLine}</span>
+              <span className="inline-flex items-center gap-1.5"><GraduationCap className="w-4 h-4 text-zinc-500" />{phase.title}</span>
+              {day.level && <span className="inline-flex items-center gap-1.5"><BarChart3 className="w-4 h-4 text-zinc-500" />{day.level}</span>}
+            </div>
+          </header>
+
           {day.video && (
-            <div className="bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-800">
-              <div className="px-3 py-2 flex items-center gap-1.5 border-b border-zinc-700/50">
-                <MonitorPlay className="w-3.5 h-3.5 text-brand-400" />
-                <span className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Watch first</span>
-              </div>
-              <div className="aspect-video w-full">
+            <div className="space-y-2.5">
+              <div className="rounded-2xl overflow-hidden bg-zinc-900 aspect-video shadow-sm">
                 <iframe
                   src={`https://www.youtube.com/embed/${day.video}`}
                   className="w-full h-full"
-                  title={`Day ${day.day} video`}
+                  title={day.videoTitle ?? `Day ${day.day} video`}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                 />
+              </div>
+              <div className="flex items-center rounded-xl border border-brand-100 bg-brand-50/50 p-1.5">
+                <button
+                  type="button"
+                  onClick={() => toggleVideoDone(day.day)}
+                  className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-lg text-sm font-semibold transition-colors ${
+                    videoDone ? 'bg-brand-600 text-white' : 'bg-white border border-brand-100 text-brand-800 hover:bg-brand-50'
+                  }`}
+                >
+                  <CheckCircle2 className="w-4 h-4" /> {videoDone ? 'Video completed' : 'Mark video complete'}
+                </button>
               </div>
             </div>
           )}
@@ -185,7 +195,7 @@ export const AiPmDayPage: React.FC = () => {
             </div>
           ) : (
             <Card>
-              <h2 className="font-black text-zinc-900 flex items-center gap-2 mb-2">
+              <h2 className="font-bold text-zinc-900 flex items-center gap-2 mb-2">
                 <BookOpen className="w-4 h-4 text-brand-600" /> Learn
               </h2>
               <p className="text-sm sm:text-base text-zinc-700 leading-relaxed">{day.learn}</p>
@@ -193,10 +203,10 @@ export const AiPmDayPage: React.FC = () => {
           )}
 
           <Card className="border-brand-100 bg-brand-50/40">
-            <h2 className="font-black text-zinc-900 flex items-center gap-2 mb-2">
+            <h2 className="font-bold text-zinc-900 flex items-center gap-2 mb-2">
               <Hammer className="w-4 h-4 text-brand-600" /> Do
             </h2>
-            <p className="text-sm sm:text-base text-zinc-800 font-medium leading-relaxed">{day.do}</p>
+            <p className="text-sm sm:text-base text-zinc-800 leading-relaxed">{day.do}</p>
             {day.templates && (
               <div className="flex flex-wrap gap-2 mt-3">
                 {day.templates.map((t) => <TemplateChip key={t} id={t} />)}
@@ -206,7 +216,7 @@ export const AiPmDayPage: React.FC = () => {
 
           {example && (
             <Card className="bg-amber-50/50 border-amber-200/70">
-              <h2 className="font-black text-zinc-900 flex items-center gap-2 mb-2">
+              <h2 className="font-bold text-zinc-900 flex items-center gap-2 mb-2">
                 <Calculator className="w-4 h-4 text-amber-600" /> Worked example (illustrative)
               </h2>
               <p className="text-sm text-zinc-700 leading-relaxed">{example.text}</p>
@@ -215,11 +225,11 @@ export const AiPmDayPage: React.FC = () => {
 
           {day.day === 81 && (
             <Card className="bg-amber-50/50 border-amber-200/70">
-              <h2 className="font-black text-zinc-900 flex items-center gap-2 mb-2">
+              <h2 className="font-bold text-zinc-900 flex items-center gap-2 mb-2">
                 <Lightbulb className="w-4 h-4 text-amber-600" /> Example background line
               </h2>
-              <p className="text-sm text-zinc-700 leading-relaxed"><span className="font-bold">Before:</span> {AI_PM_BACKGROUND_EXAMPLE.before}</p>
-              <p className="text-sm text-zinc-700 leading-relaxed mt-1"><span className="font-bold">After:</span> {AI_PM_BACKGROUND_EXAMPLE.after}</p>
+              <p className="text-sm text-zinc-700 leading-relaxed"><span className="font-semibold">Before:</span> {AI_PM_BACKGROUND_EXAMPLE.before}</p>
+              <p className="text-sm text-zinc-700 leading-relaxed mt-1"><span className="font-semibold">After:</span> {AI_PM_BACKGROUND_EXAMPLE.after}</p>
             </Card>
           )}
 
@@ -231,7 +241,7 @@ export const AiPmDayPage: React.FC = () => {
 
           {isPhaseEnd && (
             <Card className="bg-zinc-50/70">
-              <h2 className="font-black text-zinc-900 text-sm mb-1">Phase {phase.id} checklist: {phase.checklistTitle}</h2>
+              <h2 className="font-bold text-zinc-900 text-sm mb-1">Phase {phase.id} checklist: {phase.checklistTitle}</h2>
               <p className="text-xs text-zinc-500 mb-2">The deliverable passes only if every check is true.</p>
               <Checklist idPrefix={`phase${phase.id}`} items={phase.checklist} checks={progress.checks} onToggle={toggleCheck} />
             </Card>
@@ -241,14 +251,14 @@ export const AiPmDayPage: React.FC = () => {
             <button
               type="button"
               onClick={() => toggleDay(day.day)}
-              className={`h-11 px-5 rounded-xl font-black text-sm flex items-center justify-center gap-2 transition-colors ${
+              className={`h-11 px-5 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 transition-colors ${
                 done ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-brand-600 text-white hover:bg-brand-700'
               }`}
             >
-              <CheckCircle2 className="w-4 h-4" /> {done ? 'Completed' : 'Mark day as done'}
+              <CheckCircle2 className="w-4 h-4" /> {done ? 'Completed' : 'Mark as done'}
             </button>
             {next && (
-              <Link to={`/ai-pm/day/${next.day}`} className="h-11 px-4 rounded-xl border border-zinc-200 bg-white text-sm font-bold flex items-center justify-center gap-1.5 hover:bg-zinc-50">
+              <Link to={`/ai-pm/day/${next.day}`} className="h-11 px-4 rounded-xl border border-zinc-200 bg-white text-sm font-semibold flex items-center justify-center gap-1.5 hover:bg-zinc-50">
                 Next: Day {next.day} <ChevronRight className="w-4 h-4" />
               </Link>
             )}
@@ -256,42 +266,95 @@ export const AiPmDayPage: React.FC = () => {
         </div>
 
         {/* Sidebar */}
-        <aside className="lg:col-span-4 space-y-3.5 lg:sticky lg:top-14">
-          <NotesPad day={day.day} value={progress.notes[day.day] || ''} onSave={(text) => setNote(day.day, text)} />
+        <aside className="lg:col-span-4 space-y-4 lg:sticky lg:top-4">
+          <div className="grid grid-cols-3 gap-2">
+            <button
+              type="button"
+              onClick={() => toggleBookmark(day.day)}
+              className={`h-11 rounded-xl border text-sm font-semibold flex items-center justify-center gap-1.5 transition-colors ${
+                bookmarked ? 'bg-amber-50 border-amber-200 text-amber-800' : 'bg-white border-zinc-200 text-zinc-700 hover:bg-zinc-50'
+              }`}
+            >
+              <Bookmark className={`w-4 h-4 ${bookmarked ? 'fill-amber-500 text-amber-500' : ''}`} />
+              {bookmarked ? 'Saved' : 'Bookmark'}
+            </button>
+            <button type="button" onClick={focusNotes} className="h-11 rounded-xl border border-zinc-200 bg-white text-sm font-semibold text-zinc-700 hover:bg-zinc-50 flex items-center justify-center gap-1.5">
+              <FileEdit className="w-4 h-4" /> Notes
+            </button>
+            <button
+              type="button"
+              onClick={() => toggleDay(day.day)}
+              className={`h-11 rounded-xl text-sm font-semibold flex items-center justify-center gap-1.5 transition-colors ${
+                done ? 'bg-emerald-50 border border-emerald-200 text-emerald-700' : 'bg-brand-600 hover:bg-brand-700 text-white'
+              }`}
+            >
+              <CheckCircle2 className="w-4 h-4" /> {done ? 'Done' : 'Mark done'}
+            </button>
+          </div>
 
-          {day.resources && (
-            <div className="bg-white rounded-2xl p-4 border border-zinc-200/80">
-              <h3 className="font-black text-zinc-900 text-sm flex items-center gap-2 mb-2">
-                <BookOpen className="w-4 h-4 text-brand-600" /> Also watch or read
-              </h3>
-              <ul className="space-y-1.5">
-                {day.resources.map((r) => (
-                  <li key={r}><ResourceLink id={r} /></li>
+          {materialCount > 0 && (
+            <div className="bg-white rounded-2xl p-4 border border-zinc-200/80 space-y-3">
+              <div className="flex items-center justify-between">
+                <h3 className="font-bold text-zinc-900 flex items-center gap-2"><BookOpen className="w-4 h-4 text-brand-600" /> Course material</h3>
+                <span className="text-[10px] font-semibold uppercase tracking-wide text-zinc-500 bg-zinc-100 px-2 py-0.5 rounded-md">{materialCount} {materialCount === 1 ? 'item' : 'items'}</span>
+              </div>
+              {day.video && (
+                <a href={`https://www.youtube.com/watch?v=${day.video}`} target="_blank" rel="noopener noreferrer" className="group flex items-start gap-3 rounded-xl border border-zinc-200/80 p-3 hover:border-brand-200 hover:bg-brand-50/30">
+                  <span className="w-9 h-9 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center shrink-0"><PlayCircle className="w-4 h-4" /></span>
+                  <span className="min-w-0">
+                    <span className="block text-sm font-semibold text-zinc-900 leading-snug group-hover:text-brand-800">{day.videoTitle ?? 'Video for today'}</span>
+                    <span className="block text-xs text-zinc-500 mt-0.5">Video · plays above</span>
+                  </span>
+                </a>
+              )}
+              {resources.map((r) => (
+                <a key={r.id} href={r.url} target="_blank" rel="noopener noreferrer" className="group flex items-start gap-3 rounded-xl border border-zinc-200/80 p-3 hover:border-brand-200 hover:bg-brand-50/30">
+                  <span className="w-9 h-9 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center shrink-0"><FileText className="w-4 h-4" /></span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-sm font-semibold text-zinc-900 leading-snug group-hover:text-brand-800">{r.title}</span>
+                    <span className="block text-xs text-zinc-500 mt-0.5">{r.by}</span>
+                  </span>
+                  {r.url && <ExternalLink className="w-3.5 h-3.5 text-zinc-400 mt-1 shrink-0" />}
+                </a>
+              ))}
+            </div>
+          )}
+
+          {topics.length > 0 && (
+            <div className="bg-white rounded-2xl p-4 border border-zinc-200/80 space-y-2">
+              <h3 className="font-bold text-zinc-900 flex items-center gap-2"><List className="w-4 h-4 text-brand-600" /> Topics to cover</h3>
+              <ul className="divide-y divide-zinc-100">
+                {topics.map((t, i) => (
+                  <li key={t.id}>
+                    <button type="button" onClick={() => goToSection(t.id)} className="w-full flex items-center gap-3 py-2 text-left group">
+                      <span className="text-xs font-semibold text-brand-800 bg-brand-50 rounded-md w-8 py-1 text-center shrink-0">{String(i + 1).padStart(2, '0')}</span>
+                      <span className="flex-1 text-sm text-zinc-700 group-hover:text-zinc-900">{t.label}</span>
+                      <ChevronRight className="w-4 h-4 text-zinc-400 group-hover:text-zinc-600" />
+                    </button>
+                  </li>
                 ))}
               </ul>
             </div>
           )}
 
-          <div className="bg-white rounded-2xl p-4 border border-zinc-200/80">
-            <h3 className="font-black text-zinc-900 text-sm flex items-center gap-2 mb-2">
-              <Bookmark className="w-4 h-4 text-amber-500" /> Your bookmarks
-            </h3>
-            {otherBookmarks.length === 0 ? (
-              <p className="text-xs font-medium text-zinc-500">Bookmark a day to come back to it. Bookmarked days show here and on the 90-day plan.</p>
-            ) : (
+          <NotesPad day={day.day} value={progress.notes[day.day] || ''} onSave={(text) => setNote(day.day, text)} />
+
+          {otherBookmarks.length > 0 && (
+            <div className="bg-white rounded-2xl p-4 border border-zinc-200/80">
+              <h3 className="font-bold text-zinc-900 text-sm flex items-center gap-2 mb-2">
+                <Bookmark className="w-4 h-4 text-amber-500" /> Your bookmarks
+              </h3>
               <ul className="space-y-1">
                 {otherBookmarks.map((d) => (
                   <li key={d}>
-                    <Link to={`/ai-pm/day/${d}`} className="text-sm font-bold text-zinc-700 hover:text-brand-600">
-                      Day {d}: <span className="font-medium">{AI_PM_DAYS.find((x) => x.day === d)?.topic}</span>
+                    <Link to={`/ai-pm/day/${d}`} className="text-sm font-semibold text-zinc-700 hover:text-brand-700">
+                      Day {d}: <span className="font-normal">{AI_PM_DAYS.find((x) => x.day === d)?.topic}</span>
                     </Link>
                   </li>
                 ))}
               </ul>
-            )}
-          </div>
-
-          <p className="text-xs text-zinc-500 px-1">End the day with 3 lines in your notes: one idea, one number, one question.</p>
+            </div>
+          )}
         </aside>
       </div>
     </article>
