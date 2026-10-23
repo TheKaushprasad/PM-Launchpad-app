@@ -1,13 +1,14 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import {
-  Bot, Brain, Cpu, Sparkles, Layers, Clock, Mic, Lightbulb, Info, Briefcase,
-  CheckCircle, ShieldAlert, Music, MessageSquare, Video, Settings, TrendingUp, Search,
-  ArrowRight, Target,
+  Bot, Brain, Cpu, Sparkles, Layers, Lightbulb, Briefcase, CheckCircle, Target, Search, Loader2,
 } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
+import { AuthModal } from '../../components/auth/AuthModal';
 
-// PM → AI PM, Day 1: the AI family tree (AI ⊃ ML ⊃ deep learning ⊃ GenAI) and what it means for a PM.
-// Same lesson layout as the 45-day course (see content/days/day-28.tsx).
+// PM → AI PM, Day 1: what AI is (AI, ML, deep learning, GenAI), when to use which, an AI landscape map
+// the learner fills in (reviewed by AI) and a 0–15 baseline self-score. Answers are kept in this browser only.
+
+const STORAGE_KEY = 'aipm_day1_v1';
 
 const Label: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-2">{children}</h4>
@@ -15,343 +16,453 @@ const Label: React.FC<{ children: React.ReactNode }> = ({ children }) => (
 
 const Dot: React.FC = () => <div className="w-1.5 h-1.5 rounded-full bg-orange-300 mt-2 shrink-0" />;
 
-const TYPES = [
-  { term: 'Machine learning (ML)', meaning: 'Systems learn predictions or decisions from data.', example: 'Recommending products on Amazon' },
-  { term: 'Deep learning', meaning: 'A type of ML using layered neural networks to learn complex patterns.', example: 'Face recognition in photos' },
-  { term: 'Generative AI', meaning: 'AI that creates new text, images, audio, video or code.', example: 'ChatGPT writing a draft' },
-  { term: 'Computer vision', meaning: 'AI that interprets images and video.', example: 'Detecting defects in manufacturing' },
-  { term: 'Natural language processing (NLP)', meaning: 'AI that understands or generates human language.', example: 'Voice assistants and chatbots' },
+const LAYERS = [
+  { name: 'Artificial Intelligence (AI)', text: 'The broad field of intelligent computer systems', border: 'border-orange-200', bg: 'bg-orange-50/40', color: 'text-orange-800' },
+  { name: 'Machine Learning (ML)', text: 'Learns patterns from data to make predictions or decisions', border: 'border-amber-200', bg: 'bg-amber-50/50', color: 'text-amber-800' },
+  { name: 'Deep Learning (DL)', text: 'Uses multi-layer neural networks to learn complex patterns', border: 'border-emerald-200', bg: 'bg-emerald-50/50', color: 'text-emerald-800' },
+  { name: 'Generative AI', text: 'Generates text, images, audio, code and other content', border: 'border-zinc-300', bg: 'bg-white', color: 'text-zinc-900' },
 ];
 
-const VOICE_STEPS = ['Listens to the customer', 'Converts speech to text', 'Understands the intent', 'Retrieves relevant information', 'Responds naturally'];
+const CONCEPTS = [
+  {
+    icon: Bot,
+    title: '1. Artificial Intelligence (AI)',
+    definition: 'AI is the broad category. It includes systems that reason, perceive, plan, predict, or generate outputs.',
+    example: 'A chess program chooses a move. It may use search and planning rather than learning from a large training dataset.',
+  },
+  {
+    icon: Brain,
+    title: '2. Machine Learning (ML)',
+    definition: 'Instead of programming every rule explicitly, developers train a model on data so it can learn patterns.',
+    example: 'A payment product predicts whether a transaction is fraudulent based on patterns in past transactions.',
+    note: 'The model produces a prediction; the product decides what to do with it.',
+  },
+  {
+    icon: Cpu,
+    title: '3. Deep Learning (DL)',
+    definition: 'A subset of ML that uses neural networks with multiple layers to learn complex representations from data.',
+    example: 'A speech recognition system converts spoken audio into text.',
+    note: 'Deep learning is especially useful for complex inputs such as language, images, audio, and video.',
+  },
+  {
+    icon: Sparkles,
+    title: '4. Generative AI (GenAI)',
+    definition: 'AI that generates new content based on learned patterns and the input it receives.',
+    example: 'An AI assistant drafts a customer support reply, summarizes a meeting, or generates code.',
+    note: 'Many modern GenAI systems use large language models (LLMs), though generative AI also includes image, audio, and video models.',
+  },
+];
+
+const DISTINCTION = [
+  { tech: 'AI', question: 'Can a computer perform an intelligent task?', example: 'Chess-playing system' },
+  { tech: 'ML', question: 'What pattern or outcome can it learn from data?', example: 'Fraud prediction' },
+  { tech: 'DL', question: 'Can neural networks learn complex patterns?', example: 'Speech recognition' },
+  { tech: 'GenAI', question: 'What can it generate?', example: 'Drafting a support response' },
+];
+
+const USE_CASES = [
+  { label: 'Use case A', title: 'Order tracking', what: 'A user enters an order ID and sees its delivery status.', approach: 'Rules + APIs', why: 'The status is already stored in a database. Generative AI usually adds unnecessary uncertainty.' },
+  { label: 'Use case B', title: 'Fraud detection', what: 'The system estimates whether a payment is suspicious.', approach: 'ML', why: 'A predictive model can learn patterns from historical transactions, with rules and human review added where appropriate.' },
+  { label: 'Use case C', title: 'Customer support assistant', what: 'The user asks a question in natural language and receives an answer grounded in order and policy data.', approach: 'GenAI + retrieval/tools', why: 'The model interprets the question and generates a response, while APIs retrieve order data and enforce permissions.' },
+];
+
+const STARTER_MAP = [
+  { product: 'Netflix', problem: 'Help users discover relevant content', approach: 'Recommendation systems, ML' },
+  { product: 'Gmail', problem: 'Filter unwanted messages', approach: 'ML classification and rules' },
+  { product: 'ChatGPT', problem: 'Answer questions and generate content', approach: 'Generative AI, LLMs' },
+  { product: 'Google Maps', problem: 'Find routes and estimate travel times', approach: 'Search, optimization, ML and other systems' },
+  { product: 'Spotify', problem: 'Discover music', approach: 'Recommendation systems, ML' },
+];
+
+const APPROACHES = [
+  'Rules / traditional software',
+  'Machine learning',
+  'Deep learning',
+  'Generative AI',
+  'Combination of approaches',
+  'Not sure yet',
+];
+
+const SKILLS = [
+  'Explain AI vs ML vs deep learning vs GenAI',
+  'Recognize when rules are better than AI',
+  'Explain how ML learns patterns from data',
+  'Explain what an LLM does at a high level',
+  'Identify AI risks such as incorrect outputs and unreliable predictions',
+];
+
+const LEVELS = [
+  '0 — I don’t know this yet',
+  '1 — I’ve heard of it',
+  '2 — I can explain it simply',
+  '3 — I can apply it to a product decision',
+];
+
+const COMPLETION = [
+  'Explain the four concepts in your own words.',
+  'Map three real products to their likely AI approaches.',
+  'Explain one situation where adding GenAI would be a bad product decision.',
+  'Record your baseline score.',
+];
+
+interface MapRow { product: string; problem: string; approach: string }
+interface Review {
+  summary: string;
+  products: { product: string; verdict: string; comment: string }[];
+  misconceptions: string[];
+  nextStep: string;
+}
+interface Day1State { map: MapRow[]; scores: (number | null)[]; done: boolean[]; review?: Review }
+
+const emptyState = (): Day1State => ({
+  map: [0, 1, 2].map(() => ({ product: '', problem: '', approach: '' })),
+  scores: SKILLS.map(() => null),
+  done: COMPLETION.map(() => false),
+});
+
+function loadState(): Day1State {
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+    if (saved && Array.isArray(saved.map) && Array.isArray(saved.scores)) return { ...emptyState(), ...saved };
+  } catch {}
+  return emptyState();
+}
+
+const inputClass = 'w-full h-10 px-3 rounded-xl border border-zinc-200 bg-white text-sm font-medium text-zinc-800 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-orange-200';
+
+const VERDICT_STYLES: Record<string, string> = {
+  Good: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+  'Partly right': 'bg-amber-50 text-amber-700 border-amber-200',
+  Rethink: 'bg-rose-50 text-rose-700 border-rose-200',
+};
 
 export const AiPmDay1Content = () => {
+  const { user } = useAuth();
+  const [state, setState] = useState<Day1State>(loadState);
+  const [reviewing, setReviewing] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [authOpen, setAuthOpen] = useState(false);
+
+  useEffect(() => {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch {}
+  }, [state]);
+
+  const score = state.scores.reduce<number>((sum, s) => sum + (s ?? 0), 0);
+  const mapReady = state.map.every((r) => r.product.trim() && r.problem.trim() && r.approach);
+
+  const setRow = (i: number, patch: Partial<MapRow>) =>
+    setState((s) => ({ ...s, map: s.map.map((r, j) => (j === i ? { ...r, ...patch } : r)) }));
+
+  const reviewMap = async () => {
+    if (!user) { setAuthOpen(true); return; }
+    if (!mapReady) { setError('Fill in all three products, the problem each solves, and an approach first.'); return; }
+    setError(null);
+    setReviewing(true);
+    try {
+      const token = await user.getIdToken();
+      const res = await fetch('/api/ai-pm/review-landscape', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ map: state.map }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data?.error || 'The review failed. Please try again.');
+      setState((s) => ({ ...s, review: data.review }));
+    } catch (err: any) {
+      setError(err?.message || 'Something went wrong. Please try again.');
+    } finally {
+      setReviewing(false);
+    }
+  };
+
   return (
     <div className="space-y-4 md:space-y-5 text-left">
-      <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
-        <div className="flex flex-col gap-1.5">
-          <span className="text-[10px] font-black uppercase tracking-widest text-orange-600">AI foundations</span>
-          <p className="text-lg font-black text-orange-900 leading-relaxed italic">
-            “AI is the umbrella. Machine learning sits inside it, deep learning sits inside machine learning, and generative AI is built on top of deep learning.”
-          </p>
-          <p className="text-sm font-bold text-orange-700">
-            Today you’ll learn how the four layers fit together, where today’s AI products come from, and why an AI feature behaves differently from the software you have shipped before.
-          </p>
-        </div>
+      <AuthModal isOpen={authOpen} onClose={() => setAuthOpen(false)} initialMode="login" redirectTo="/ai-pm/day/1" onSuccess={() => setAuthOpen(false)} />
+
+      {/* Objective */}
+      <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80 space-y-2">
+        <span className="text-[10px] font-black uppercase tracking-widest text-orange-600">Today’s objective</span>
+        <p className="text-base font-black text-orange-900 leading-relaxed">
+          Understand AI, ML, deep learning, and generative AI well enough to explain the differences and identify where each is useful in a real product.
+        </p>
+        <p className="text-sm font-bold text-orange-700">By the end of today, you’ll have three outputs:</p>
+        <ul className="space-y-1">
+          {['A clear mental model of the AI landscape.', 'A map of real products and the AI techniques they use.', 'A baseline score of your current AI PM knowledge.'].map((o) => (
+            <li key={o} className="flex gap-2 text-sm font-medium text-orange-900"><CheckCircle className="w-4 h-4 text-orange-500 mt-0.5 shrink-0" />{o}</li>
+          ))}
+        </ul>
       </section>
 
-      {/* The family tree */}
+      {/* Part 1: concepts */}
       <section className="space-y-3">
         <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
           <Layers className="text-orange-600" />
-          The AI family tree
-        </h2>
-        <div className="rounded-2xl border-2 border-orange-200 bg-orange-50/40 p-3 sm:p-4">
-          <p className="text-xs font-black text-orange-800 uppercase tracking-widest">Artificial intelligence</p>
-          <p className="text-[11px] font-bold text-zinc-500 mb-3">Machines that learn, infer and reason</p>
-          <div className="rounded-2xl border-2 border-amber-200 bg-amber-50/50 p-3 sm:p-4">
-            <p className="text-xs font-black text-amber-800 uppercase tracking-widest">Machine learning</p>
-            <p className="text-[11px] font-bold text-zinc-500 mb-3">Learns patterns from data</p>
-            <div className="rounded-2xl border-2 border-emerald-200 bg-emerald-50/50 p-3 sm:p-4">
-              <p className="text-xs font-black text-emerald-800 uppercase tracking-widest">Deep learning</p>
-              <p className="text-[11px] font-bold text-zinc-500 mb-3">Many-layered neural networks</p>
-              <div className="rounded-2xl border-2 border-zinc-300 bg-white p-3 sm:p-4">
-                <p className="text-xs font-black text-zinc-900 uppercase tracking-widest">Generative AI</p>
-                <p className="text-[11px] font-bold text-zinc-500">Foundation models and LLMs that create new content</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="space-y-3.5 md:space-y-4">
-        {/* 1. AI */}
-        <div className="space-y-3.5 md:space-y-4">
-          <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
-            <Bot className="text-orange-600" />
-            1. Artificial Intelligence (AI): the umbrella
-          </h2>
-          <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-xs space-y-6">
-            <div>
-              <Label>Definition</Label>
-              <p className="text-sm font-medium text-zinc-600 leading-relaxed">
-                AI is the broad field focused on creating computer systems that simulate or exceed human intelligence, specifically the ability to learn, infer and reason.
-              </p>
-              <p className="text-sm font-medium text-zinc-600 leading-relaxed mt-2">
-                In simple words: AI builds systems that can do tasks that normally need human intelligence, such as understanding language, recognising images, learning from data, reasoning and making decisions.
-              </p>
-            </div>
-            <div>
-              <Label>Early era and history</Label>
-              <ul className="space-y-4 pt-1">
-                <li className="flex gap-4 items-start">
-                  <div className="w-8 h-8 rounded-lg bg-zinc-50 flex items-center justify-center text-orange-600 shrink-0 shadow-xs">
-                    <Search className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <p className="text-xs font-black text-zinc-900">Research projects</p>
-                    <p className="text-xs font-medium text-zinc-500 leading-relaxed">Early AI was mostly research, written in programming languages such as Lisp and Prolog.</p>
-                  </div>
-                </li>
-                <li className="flex gap-4 items-start">
-                  <div className="w-8 h-8 rounded-lg bg-zinc-50 flex items-center justify-center text-orange-600 shrink-0 shadow-xs">
-                    <Settings className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <p className="text-xs font-black text-zinc-900">Expert systems (1980s and 1990s)</p>
-                    <p className="text-xs font-medium text-zinc-500 leading-relaxed">They ran on pre-programmed rules written by people. They did not learn from observations.</p>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        {/* 2. ML */}
-        <div className="space-y-3.5 md:space-y-4">
-          <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
-            <Brain className="text-orange-600" />
-            2. Machine Learning (ML): learning from data
-          </h2>
-          <p className="text-sm font-bold text-zinc-500 italic">ML is a subset of AI. It became widely adopted and mature from the 2010s.</p>
-          <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-xs space-y-6">
-            <div>
-              <Label>Definition</Label>
-              <p className="text-sm font-medium text-zinc-600 leading-relaxed">
-                Machines learn from data instead of being explicitly programmed for every scenario.
-              </p>
-            </div>
-            <div>
-              <Label>How it works</Label>
-              <p className="text-sm font-medium text-zinc-600 leading-relaxed">
-                ML algorithms analyse data to discover the patterns underneath it, and their predictions improve as more training data is provided. For example, instead of writing a rule for every possible spam email, you train a model on many labelled examples, and it learns to predict whether a new email is spam.
-              </p>
-            </div>
-            <div>
-              <Label>Key strengths</Label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
-                <div className="p-4 bg-zinc-50 rounded-2xl border border-zinc-100">
-                  <p className="text-[10px] font-black text-orange-600 uppercase mb-1">Predictions</p>
-                  <p className="text-xs font-bold text-zinc-500">Forecasting outcomes from historical patterns.</p>
-                </div>
-                <div className="p-4 bg-zinc-50 rounded-2xl border border-zinc-100">
-                  <p className="text-[10px] font-black text-orange-600 uppercase mb-1">Outlier detection</p>
-                  <p className="text-xs font-bold text-zinc-500">Spotting anomalies where a pattern or sequence is broken.</p>
-                </div>
-              </div>
-            </div>
-            <div className="p-4 bg-orange-50 rounded-xl border border-orange-100">
-              <p className="text-xs font-bold text-orange-900 leading-relaxed">
-                <span className="font-black">Real-world application:</span> cybersecurity relies heavily on ML outlier detection to flag suspicious user activity or unauthorised access.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* 3. DL */}
-        <div className="space-y-3.5 md:space-y-4">
-          <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
-            <Cpu className="text-orange-600" />
-            3. Deep Learning (DL): neural networks with many layers
-          </h2>
-          <p className="text-sm font-bold text-zinc-500 italic">DL is a specialised branch of ML. It rose with ML in the 2010s and is the foundation of modern AI.</p>
-          <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-xs space-y-6">
-            <div>
-              <Label>Definition</Label>
-              <p className="text-sm font-medium text-zinc-600 leading-relaxed">
-                Deep learning uses multi-layered neural networks that loosely simulate how the human brain works.
-              </p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
-              <div className="p-4 bg-zinc-50 border border-zinc-100 rounded-2xl">
-                <p className="text-xs font-black text-zinc-900">Multiple layers</p>
-                <p className="text-xs font-medium text-zinc-500 leading-relaxed mt-1">It is called “deep” because information passes through many connected layers of the network.</p>
-              </div>
-              <div className="p-4 bg-zinc-900 text-white rounded-2xl">
-                <p className="text-xs font-black text-orange-400">Hard to explain</p>
-                <p className="text-xs font-medium text-zinc-400 leading-relaxed mt-1">With so many layers, it can be hard to break down exactly how the network reached a specific result.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* 4. GenAI */}
-        <div className="space-y-3.5 md:space-y-4">
-          <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
-            <Sparkles className="text-orange-600" />
-            4. Generative AI (GenAI) and foundation models
-          </h2>
-          <p className="text-sm font-bold text-zinc-500 italic">The most recent advance, built directly on deep learning and neural networks.</p>
-          <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-xs space-y-6">
-            <div>
-              <Label>Foundation models and LLMs</Label>
-              <p className="text-sm font-medium text-zinc-600 leading-relaxed">
-                GenAI is built on foundation models such as large language models (LLMs). Basic autocomplete predicts the next single word. An LLM goes further and predicts the next sentences, paragraphs or even whole documents.
-              </p>
-            </div>
-            <div className="p-4 bg-amber-50 rounded-xl border border-amber-100 flex gap-3">
-              <Music className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
-              <div>
-                <p className="text-xs font-black text-amber-900">Myth: “LLMs just regurgitate their training data”</p>
-                <p className="text-xs font-medium text-amber-900/80 leading-relaxed mt-1">
-                  Think of music. Every musical note already exists, yet arranging existing notes in new ways creates original songs. In the same way, GenAI creates genuinely new content by recombining patterns it learned from existing data.
-                </p>
-              </div>
-            </div>
-            <div>
-              <Label>Forms and use cases</Label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
-                <div className="p-4 bg-zinc-50 rounded-2xl border border-zinc-100">
-                  <p className="text-xs font-black text-zinc-900 flex items-center gap-2"><MessageSquare className="w-4 h-4 text-orange-600" />Text and chatbots</p>
-                  <p className="text-xs font-medium text-zinc-500 leading-relaxed mt-1">Generating responses, holding conversations and summarising large amounts of information.</p>
-                </div>
-                <div className="p-4 bg-zinc-50 rounded-2xl border border-zinc-100">
-                  <p className="text-xs font-black text-zinc-900 flex items-center gap-2"><Video className="w-4 h-4 text-orange-600" />Audio and video</p>
-                  <p className="text-xs font-medium text-zinc-500 leading-relaxed mt-1">
-                    Recreating voices and realistic visuals. Useful in entertainment, parodies or helping people who have lost their voice.
-                  </p>
-                  <p className="text-xs font-bold text-rose-600 leading-relaxed mt-1 flex gap-1.5"><ShieldAlert className="w-3.5 h-3.5 shrink-0 mt-0.5" />The same tech powers deepfakes, so it carries a real risk of misuse.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Main types */}
-      <section className="space-y-3.5 md:space-y-4">
-        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
-          <Target className="text-orange-600" />
-          Main types of AI you will hear about
-        </h2>
-        <div className="bg-white border border-zinc-100 rounded-2xl shadow-sm overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm font-medium border-collapse min-w-[560px]">
-              <thead>
-                <tr className="bg-zinc-50 border-b border-zinc-100">
-                  <th className="py-4 px-6 font-black text-zinc-900">Term</th>
-                  <th className="py-4 px-6 font-black text-zinc-900">What it means</th>
-                  <th className="py-4 px-6 font-black text-zinc-900">Example</th>
-                </tr>
-              </thead>
-              <tbody className="text-zinc-600">
-                {TYPES.map((t) => (
-                  <tr key={t.term} className="border-b border-zinc-50 last:border-0 align-top">
-                    <td className="py-4 px-6 font-bold text-zinc-900">{t.term}</td>
-                    <td className="py-4 px-6">{t.meaning}</td>
-                    <td className="py-4 px-6 italic">{t.example}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      {/* Simple example */}
-      <section className="bg-zinc-50 p-4 sm:p-5 rounded-2xl border border-zinc-200 space-y-3">
-        <h2 className="text-xl font-black text-zinc-900 flex items-center gap-3">
-          <Mic className="text-orange-600" />
-          Simple example: a voice AI agent
-        </h2>
-        <div className="flex flex-wrap items-center gap-2">
-          {VOICE_STEPS.map((step, i) => (
-            <React.Fragment key={step}>
-              <span className="px-3 py-1.5 rounded-xl bg-white border border-zinc-200 text-xs font-bold text-zinc-700">{step}</span>
-              {i < VOICE_STEPS.length - 1 && <ArrowRight className="w-3.5 h-3.5 text-zinc-400" />}
-            </React.Fragment>
-          ))}
-        </div>
-        <p className="text-sm font-medium text-zinc-600 leading-relaxed">
-          One product, three kinds of AI working together: speech recognition, language understanding and generative AI.
-        </p>
-      </section>
-
-      {/* Timeline */}
-      <section className="space-y-3.5 md:space-y-4">
-        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
-          <Clock className="text-orange-600" />
-          Timeline of adoption
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-3.5">
-          {[
-            { era: 'Early AI', text: 'Adoption was slow. AI was seen as a research idea that was always “5–10 years away”.' },
-            { era: 'ML and deep learning (2010s)', text: 'Practical applications arrived, and adoption grew steadily.' },
-            { era: 'GenAI and foundation models', text: 'Adoption surged. AI moved from niche research into everyday use.' },
-          ].map((s, i) => (
-            <div key={s.era} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-2">
-              <div className="flex items-center gap-2">
-                <span className="w-6 h-6 rounded-full bg-orange-50 text-orange-600 text-xs font-black flex items-center justify-center">{i + 1}</span>
-                <p className="font-black text-zinc-900 text-sm">{s.era}</p>
-              </div>
-              <p className="text-xs font-medium text-zinc-500 leading-relaxed">{s.text}</p>
-            </div>
-          ))}
-        </div>
-        <p className="text-xs font-bold text-zinc-500 flex items-center gap-2"><TrendingUp className="w-4 h-4 text-orange-500" />Each layer sped up adoption more than the one before it.</p>
-      </section>
-
-      {/* Narrow vs AGI */}
-      <section className="space-y-3.5 md:space-y-4">
-        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
-          <Info className="text-orange-600" />
-          Important distinction: narrow AI vs AGI
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-3.5">
-          <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs">
-            <p className="text-[10px] font-black uppercase tracking-widest text-emerald-600 mb-1">Today</p>
-            <p className="font-black text-zinc-900 text-sm">Narrow AI</p>
-            <p className="text-xs font-medium text-zinc-500 leading-relaxed mt-1">Most AI today is excellent at specific tasks such as translation, recommendations or customer support.</p>
-          </div>
-          <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs">
-            <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1">Future goal</p>
-            <p className="font-black text-zinc-900 text-sm">Artificial General Intelligence (AGI)</p>
-            <p className="text-xs font-medium text-zinc-500 leading-relaxed mt-1">AI with broad, human-like intelligence across almost any task. It remains a goal, not current reality.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* Why it matters for an AI PM */}
-      <section className="space-y-3.5 md:space-y-4">
-        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
-          <Briefcase className="text-orange-600" />
-          Why this matters for an AI PM
+          Part 1 — Learn the concepts
         </h2>
         <p className="text-zinc-600 font-medium leading-relaxed">
-          Classic software is deterministic: the same input gives the same output, and a test passes or fails. ML, deep learning and GenAI learn from data, so their output is probabilistic.
+          Think of AI as an umbrella of techniques that enable computers to perform tasks associated with intelligence, such as recognizing patterns, making predictions, understanding language, or generating content.
         </p>
+        <div className={`rounded-2xl border-2 ${LAYERS[0].border} ${LAYERS[0].bg} p-3 sm:p-4`}>
+          <p className={`text-xs font-black uppercase tracking-widest ${LAYERS[0].color}`}>{LAYERS[0].name}</p>
+          <p className="text-[11px] font-bold text-zinc-500 mb-3">{LAYERS[0].text}</p>
+          <div className={`rounded-2xl border-2 ${LAYERS[1].border} ${LAYERS[1].bg} p-3 sm:p-4`}>
+            <p className={`text-xs font-black uppercase tracking-widest ${LAYERS[1].color}`}>{LAYERS[1].name}</p>
+            <p className="text-[11px] font-bold text-zinc-500 mb-3">{LAYERS[1].text}</p>
+            <div className={`rounded-2xl border-2 ${LAYERS[2].border} ${LAYERS[2].bg} p-3 sm:p-4`}>
+              <p className={`text-xs font-black uppercase tracking-widest ${LAYERS[2].color}`}>{LAYERS[2].name}</p>
+              <p className="text-[11px] font-bold text-zinc-500 mb-3">{LAYERS[2].text}</p>
+              <div className={`rounded-2xl border-2 ${LAYERS[3].border} ${LAYERS[3].bg} p-3 sm:p-4`}>
+                <p className={`text-xs font-black uppercase tracking-widest ${LAYERS[3].color}`}>{LAYERS[3].name}</p>
+                <p className="text-[11px] font-bold text-zinc-500">{LAYERS[3].text}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p className="text-xs font-bold text-zinc-500">
+          A simplified mental model: generative AI often uses deep learning, but AI also includes techniques outside this hierarchy.
+        </p>
+      </section>
+
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-3.5">
+        {CONCEPTS.map((c) => (
+          <div key={c.title} className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-xs space-y-3">
+            <h3 className="font-black text-zinc-900 flex items-center gap-2"><c.icon className="w-5 h-5 text-orange-600" />{c.title}</h3>
+            <p className="text-sm font-medium text-zinc-600 leading-relaxed">{c.definition}</p>
+            <div>
+              <Label>Product example</Label>
+              <p className="text-sm font-medium text-zinc-600 leading-relaxed italic">{c.example}</p>
+            </div>
+            {c.note && <p className="text-xs font-bold text-zinc-500 leading-relaxed">{c.note}</p>}
+          </div>
+        ))}
+      </section>
+
+      <section className="space-y-3">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
+          <Target className="text-orange-600" />
+          The distinction you must remember
+        </h2>
+        <div className="bg-white border border-zinc-100 rounded-2xl shadow-xs overflow-x-auto">
+          <table className="w-full text-sm text-left">
+            <thead className="bg-zinc-50 text-[10px] font-black uppercase tracking-widest text-zinc-400">
+              <tr><th className="py-3 px-4">Technology</th><th className="py-3 px-4">Core question</th><th className="py-3 px-4">Example</th></tr>
+            </thead>
+            <tbody className="text-zinc-600">
+              {DISTINCTION.map((d) => (
+                <tr key={d.tech} className="border-t border-zinc-50 align-top">
+                  <td className="py-3 px-4 font-black text-zinc-900">{d.tech}</td>
+                  <td className="py-3 px-4">{d.question}</td>
+                  <td className="py-3 px-4 italic">{d.example}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p className="text-xs font-bold text-zinc-500">These categories overlap. They are not four competing technologies.</p>
+      </section>
+
+      {/* Part 2: think like a PM */}
+      <section className="space-y-3">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
+          <Briefcase className="text-orange-600" />
+          Part 2 — Think like a Product Manager (10 minutes)
+        </h2>
+        <p className="text-zinc-600 font-medium leading-relaxed">A PM shouldn’t ask only, “Can we use AI here?” Ask three questions:</p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-3.5">
           {[
-            { title: 'Quality is a distribution', text: 'An AI feature is right most of the time, not all of the time. You will define “good enough” as a rate, not a yes or no.' },
-            { title: 'Failures are hard to explain', text: 'Deep learning is hard to break down, so you plan fallbacks and human review instead of promising zero errors.' },
-            { title: 'Pick the right layer', text: 'Not every problem needs GenAI. Some need rules, some need classic ML, and some need an LLM. Choosing is part of the job.' },
-          ].map((r) => (
-            <div key={r.title} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-2">
-              <p className="font-black text-zinc-900 text-sm flex items-center gap-2"><CheckCircle className="w-4 h-4 text-orange-500" />{r.title}</p>
-              <p className="text-xs font-medium text-zinc-500 leading-relaxed">{r.text}</p>
+            { title: 'Problem', text: 'What user problem are we solving?' },
+            { title: 'Approach', text: 'Do we need fixed rules, a predictive model, generative AI, or a combination?' },
+            { title: 'Value and risk', text: 'Will this improve the user outcome enough to justify the cost, latency, and potential errors?' },
+          ].map((q) => (
+            <div key={q.title} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-1.5">
+              <p className="font-black text-zinc-900 text-sm">{q.title}</p>
+              <p className="text-xs font-medium text-zinc-500 leading-relaxed">{q.text}</p>
+            </div>
+          ))}
+        </div>
+        <p className="text-sm font-bold text-zinc-700">Consider an e-commerce app:</p>
+        <div className="space-y-3">
+          {USE_CASES.map((u) => (
+            <div key={u.title} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-2">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <p className="font-black text-zinc-900 text-sm"><span className="text-zinc-400">{u.label} — </span>{u.title}</p>
+                <span className="px-2.5 py-1 rounded-lg bg-orange-50 text-orange-700 text-[11px] font-black">{u.approach}</span>
+              </div>
+              <p className="text-sm font-medium text-zinc-600">{u.what}</p>
+              <p className="text-xs font-medium text-zinc-500 leading-relaxed">{u.why}</p>
+            </div>
+          ))}
+        </div>
+        <p className="text-sm font-bold text-zinc-700 leading-relaxed italic border-l-4 border-orange-500 pl-4">
+          PM takeaway: The best solution is not necessarily the most advanced AI solution. Use the simplest approach that reliably solves the problem.
+        </p>
+      </section>
+
+      {/* Part 3: landscape map */}
+      <section className="space-y-3">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
+          <Search className="text-orange-600" />
+          Part 3 — Your first exercise: build an AI landscape map (15 minutes)
+        </h2>
+        <p className="text-zinc-600 font-medium leading-relaxed">
+          Choose real products you know. Identify the user problem, the likely AI approach, and the value created. Here is a starter map:
+        </p>
+        <div className="bg-white border border-zinc-100 rounded-2xl shadow-xs overflow-x-auto">
+          <table className="w-full text-sm text-left">
+            <thead className="bg-zinc-50 text-[10px] font-black uppercase tracking-widest text-zinc-400">
+              <tr><th className="py-3 px-4">Product</th><th className="py-3 px-4">User problem</th><th className="py-3 px-4">Likely approach</th></tr>
+            </thead>
+            <tbody className="text-zinc-600">
+              {STARTER_MAP.map((r) => (
+                <tr key={r.product} className="border-t border-zinc-50 align-top">
+                  <td className="py-3 px-4 font-black text-zinc-900">{r.product}</td>
+                  <td className="py-3 px-4">{r.problem}</td>
+                  <td className="py-3 px-4">{r.approach}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p className="text-xs font-bold text-zinc-500">
+          These products can use multiple techniques; the table identifies representative approaches, not their complete internal architectures.
+        </p>
+
+        <div className="bg-zinc-50 p-4 sm:p-5 rounded-2xl border border-zinc-200 space-y-4">
+          <div>
+            <p className="font-black text-zinc-900">Your AI landscape map</p>
+            <p className="text-xs font-medium text-zinc-500 mt-0.5">
+              Pick three products you use at work, in daily life, or while building AI applications. It’s okay to be uncertain.
+            </p>
+          </div>
+          {state.map.map((row, i) => (
+            <div key={i} className="bg-white border border-zinc-200 rounded-xl p-3.5 space-y-2.5">
+              <p className="text-[10px] font-black uppercase tracking-widest text-orange-600">Product {i + 1}</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <input className={inputClass} placeholder="Product name" value={row.product} onChange={(e) => setRow(i, { product: e.target.value })} aria-label={`Product ${i + 1} name`} />
+                <input className={inputClass} placeholder="User problem solved" value={row.problem} onChange={(e) => setRow(i, { problem: e.target.value })} aria-label={`Product ${i + 1} user problem`} />
+              </div>
+              <div>
+                <Label>Likely approach</Label>
+                <div className="flex flex-wrap gap-1.5">
+                  {APPROACHES.map((a) => (
+                    <button
+                      key={a}
+                      type="button"
+                      onClick={() => setRow(i, { approach: a })}
+                      className={`px-2.5 py-1.5 rounded-lg border text-xs font-bold transition-colors ${
+                        row.approach === a ? 'bg-orange-600 border-orange-600 text-white' : 'bg-white border-zinc-200 text-zinc-600 hover:border-orange-300'
+                      }`}
+                    >
+                      {a}
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
           ))}
         </div>
       </section>
 
-      <section className="bg-zinc-50 p-4 sm:p-5 rounded-2xl border border-zinc-200">
-        <h2 className="text-xl font-black text-zinc-900 mb-2.5 flex items-center gap-3">
-          <Lightbulb className="text-amber-500" />
-          The bottom line
+      {/* Part 4: baseline */}
+      <section className="space-y-3">
+        <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
+          <CheckCircle className="text-orange-600" />
+          Part 4 — Baseline assessment (5 minutes)
         </h2>
-        <div className="space-y-3">
-          <div className="flex gap-2 text-sm font-medium text-zinc-600 leading-relaxed"><Dot />AI is the umbrella; ML learns from data; deep learning uses many-layered networks; GenAI creates new content on top of deep learning.</div>
-          <div className="flex gap-2 text-sm font-medium text-zinc-600 leading-relaxed"><Dot />Almost all AI in products today is narrow AI built for one job.</div>
-          <p className="text-sm font-bold text-zinc-700 leading-relaxed italic border-l-4 border-orange-500 pl-4">
-            “Once you know which layer a feature uses, you know how it can fail, and that is where an AI PM’s work starts.”
-          </p>
+        <p className="text-zinc-600 font-medium leading-relaxed">Before moving on, score yourself honestly. This is your starting point, not an exam.</p>
+        <div className="bg-white border border-zinc-100 rounded-2xl shadow-xs p-4 sm:p-5 space-y-4">
+          <p className="font-black text-zinc-900 text-sm">Day 1 skills checklist</p>
+          {SKILLS.map((skill, i) => (
+            <div key={skill} className="space-y-1.5">
+              <p className="text-sm font-bold text-zinc-800">{i + 1}. {skill}</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                {LEVELS.map((level, n) => (
+                  <button
+                    key={level}
+                    type="button"
+                    onClick={() => setState((s) => ({ ...s, scores: s.scores.map((v, j) => (j === i ? n : v)) }))}
+                    className={`text-left px-3 py-2 rounded-lg border text-xs font-bold transition-colors ${
+                      state.scores[i] === n ? 'bg-orange-50 border-orange-400 text-orange-800' : 'bg-white border-zinc-200 text-zinc-600 hover:border-orange-300'
+                    }`}
+                  >
+                    {level}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
+          <div className="flex items-center justify-between border-t border-zinc-100 pt-3">
+            <p className="text-sm font-black text-zinc-900">Your baseline score</p>
+            <p className="text-2xl font-black text-orange-600">{score} <span className="text-sm text-zinc-400">/ 15</span></p>
+          </div>
         </div>
       </section>
 
-      <p className="text-xs font-bold text-zinc-500">
-        Want a refresher on ML types (supervised, unsupervised, reinforcement)? See{' '}
-        <Link to="/dashboard/day/28" className="text-orange-600 underline decoration-orange-300">Day 28 of the PM course</Link>.
-      </p>
+      {/* Completion criteria */}
+      <section className="bg-zinc-50 p-4 sm:p-5 rounded-2xl border border-zinc-200 space-y-3">
+        <h2 className="text-xl font-black text-zinc-900 flex items-center gap-3">
+          <Lightbulb className="text-amber-500" />
+          Day 1 completion criteria
+        </h2>
+        <p className="text-sm font-medium text-zinc-600">Before you finish today, make sure you can:</p>
+        <div className="space-y-2">
+          {COMPLETION.map((c, i) => (
+            <label key={c} className="flex gap-2.5 items-start text-sm font-medium text-zinc-700 cursor-pointer">
+              <input
+                type="checkbox"
+                className="mt-0.5 w-4 h-4 accent-orange-600"
+                checked={!!state.done[i]}
+                onChange={() => setState((s) => ({ ...s, done: s.done.map((v, j) => (j === i ? !v : v)) }))}
+              />
+              {c}
+            </label>
+          ))}
+        </div>
+      </section>
+
+      {/* Review */}
+      <section className="bg-orange-50/50 p-4 sm:p-5 rounded-2xl border border-orange-200/70 space-y-3">
+        <p className="text-sm font-bold text-zinc-800 leading-relaxed">
+          Your task now: Complete the landscape map and click <span className="text-orange-700">Review my landscape map</span>. AI will evaluate your reasoning and correct any misconceptions before you move to Day 2.
+        </p>
+        <button
+          type="button"
+          onClick={reviewMap}
+          disabled={reviewing}
+          className="h-11 px-5 rounded-xl bg-orange-600 hover:bg-orange-700 disabled:opacity-60 text-white font-black text-sm flex items-center gap-2"
+        >
+          {reviewing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+          {reviewing ? 'Reviewing…' : state.review ? 'Review again' : 'Review my landscape map'}
+        </button>
+        {!user && <p className="text-xs font-medium text-zinc-500">You’ll be asked to sign in first.</p>}
+        {error && <p className="text-sm font-bold text-rose-600">{error}</p>}
+
+        {state.review && (
+          <div className="bg-white border border-zinc-200 rounded-xl p-4 space-y-3">
+            <p className="text-sm font-medium text-zinc-700 leading-relaxed">{state.review.summary}</p>
+            {state.review.products.map((p) => (
+              <div key={p.product} className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <p className="font-black text-zinc-900 text-sm">{p.product}</p>
+                  <span className={`px-2 py-0.5 rounded-md border text-[10px] font-black ${VERDICT_STYLES[p.verdict] || VERDICT_STYLES['Partly right']}`}>{p.verdict}</span>
+                </div>
+                <p className="text-xs font-medium text-zinc-600 leading-relaxed">{p.comment}</p>
+              </div>
+            ))}
+            {state.review.misconceptions.length > 0 && (
+              <div>
+                <Label>Misconceptions to fix</Label>
+                <div className="space-y-1.5">
+                  {state.review.misconceptions.map((m) => (
+                    <div key={m} className="flex gap-2 text-xs font-medium text-zinc-600 leading-relaxed"><Dot />{m}</div>
+                  ))}
+                </div>
+              </div>
+            )}
+            {state.review.nextStep && <p className="text-xs font-bold text-orange-700">{state.review.nextStep}</p>}
+          </div>
+        )}
+      </section>
     </div>
   );
 };

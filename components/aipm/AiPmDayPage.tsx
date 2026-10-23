@@ -39,9 +39,9 @@ export const AiPmDayPage: React.FC = () => {
         </p>
         <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">{day.topic}</h1>
         <p className="text-sm text-slate-500">
-          {day.kind === 'weekend'
+          {day.time ?? (day.kind === 'weekend'
             ? 'A 3-hour block for the phase deliverable.'
-            : 'About 60 minutes to learn and 30–60 minutes for the exercise.'}
+            : 'About 60 minutes to learn and 30–60 minutes for the exercise.')}
         </p>
       </header>
 
