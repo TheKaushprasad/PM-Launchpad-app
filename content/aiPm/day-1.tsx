@@ -281,7 +281,7 @@ export const AiPmDay1Content = () => {
       <section id="think-like-a-pm" className="scroll-mt-20 space-y-3">
         <h2 className="text-lg md:text-xl font-bold text-zinc-900 flex items-center gap-2.5 tracking-tight">
           <Briefcase className="w-5 h-5 text-brand-600" />
-          Part 2 — Think like a Product Manager (10 minutes)
+          Part 2 — Think like a Product Manager
         </h2>
         <p className="text-zinc-600 font-medium leading-relaxed">A PM shouldn’t ask only, “Can we use AI here?” Ask three questions:</p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-3.5">
@@ -318,7 +318,7 @@ export const AiPmDay1Content = () => {
       <section id="landscape-map" className="scroll-mt-20 space-y-3">
         <h2 className="text-lg md:text-xl font-bold text-zinc-900 flex items-center gap-2.5 tracking-tight">
           <Search className="w-5 h-5 text-brand-600" />
-          Part 3 — Your first exercise: build an AI landscape map (15 minutes)
+          Part 3 — Your first exercise: build an AI landscape map
         </h2>
         <p className="text-zinc-600 font-medium leading-relaxed">
           Choose real products you know. Identify the user problem, the likely AI approach, and the value created. Here is a starter map:
@@ -383,7 +383,7 @@ export const AiPmDay1Content = () => {
       <section id="baseline" className="scroll-mt-20 space-y-3">
         <h2 className="text-lg md:text-xl font-bold text-zinc-900 flex items-center gap-2.5 tracking-tight">
           <CheckCircle className="w-5 h-5 text-brand-600" />
-          Part 4 — Baseline assessment (5 minutes)
+          Part 4 — Baseline assessment
         </h2>
         <p className="text-zinc-600 font-medium leading-relaxed">Before moving on, score yourself honestly. This is your starting point, not an exam.</p>
         <div className="border border-zinc-200/70 rounded-xl p-4 space-y-4">
