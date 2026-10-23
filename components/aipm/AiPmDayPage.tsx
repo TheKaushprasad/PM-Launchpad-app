@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight, BookOpen, Hammer, CheckCircle2, Calculator, Ligh
 import { AI_PM_DAYS, AI_PM_PHASES, phaseForDay, DESIGN_CASE_STEPS } from '../../data/aiPmCourse/plan';
 import { AI_PM_BACKGROUND_EXAMPLE } from '../../data/aiPmCourse/content';
 import { useAiPmProgress } from './progress';
+import { AI_PM_LESSONS } from './lessons';
 import { Card, TemplateChip, ResourceLink, Checklist } from './ui';
 
 export const AiPmDayPage: React.FC = () => {
@@ -24,6 +25,7 @@ export const AiPmDayPage: React.FC = () => {
   const next = AI_PM_DAYS.find((d) => d.day === day.day + 1);
   const isPhaseEnd = day.day === phase.end;
   const example = AI_PM_PHASES.find((p) => p.workedExample?.day === day.day)?.workedExample;
+  const Lesson = AI_PM_LESSONS[day.day];
 
   return (
     <article className="max-w-3xl space-y-6">
@@ -43,19 +45,23 @@ export const AiPmDayPage: React.FC = () => {
         </p>
       </header>
 
-      <Card>
-        <h2 className="font-black text-slate-900 flex items-center gap-2 mb-2">
-          <BookOpen className="w-4 h-4 text-brand-600" /> Learn
-        </h2>
-        <p className="text-sm sm:text-base text-slate-700 leading-relaxed">{day.learn}</p>
-        {day.resources && (
-          <ul className="mt-3 space-y-1.5 border-t border-slate-100 pt-3">
-            {day.resources.map((r) => (
-              <li key={r}><ResourceLink id={r} /></li>
-            ))}
-          </ul>
-        )}
-      </Card>
+      {Lesson ? (
+        <Lesson />
+      ) : (
+        <Card>
+          <h2 className="font-black text-slate-900 flex items-center gap-2 mb-2">
+            <BookOpen className="w-4 h-4 text-brand-600" /> Learn
+          </h2>
+          <p className="text-sm sm:text-base text-slate-700 leading-relaxed">{day.learn}</p>
+          {day.resources && (
+            <ul className="mt-3 space-y-1.5 border-t border-slate-100 pt-3">
+              {day.resources.map((r) => (
+                <li key={r}><ResourceLink id={r} /></li>
+              ))}
+            </ul>
+          )}
+        </Card>
+      )}
 
       <Card className="border-brand-100 bg-brand-50/40">
         <h2 className="font-black text-slate-900 flex items-center gap-2 mb-2">

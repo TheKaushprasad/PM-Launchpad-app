@@ -176,7 +176,7 @@ export const AI_PM_PHASES: AiPmPhase[] = [
 
 export const AI_PM_DAYS: AiPmDay[] = [
   // Phase 1 — Foundations and capstone
-  { day: 1, topic: 'How AI PM differs', learn: 'Output is probabilistic. Quality is a distribution, not pass or fail', do: 'List 3 AI features in your product or a competitor’s' },
+  { day: 1, topic: 'What AI is, and how AI PM differs', learn: 'AI, machine learning, deep learning and generative AI, and how they fit together. Output is probabilistic. Quality is a distribution, not pass or fail', do: 'List 3 AI features in your product or a competitor’s. Label each as classic ML, deep learning or GenAI' },
   { day: 2, topic: 'Role types and JDs', learn: 'Copilot, platform, ML feature, AI ops PM. See the JD research in “Why this course”', do: 'Read 10 JDs for your target role. Make a skills gap sheet' },
   { day: 3, topic: 'Self-audit', learn: 'Which PM skills transfer: discovery, specs, metrics, stakeholders', do: 'Rate yourself 0–3 on the skills checklist. Mark 5 gaps' },
   { day: 4, topic: 'Classic PRD vs AI PRD', learn: 'Which sections break: acceptance criteria, success metrics, edge cases, launch', do: 'Try one real AI feature 10 times, with 3 hard inputs. Log each try as good or bad, with a reason' },
