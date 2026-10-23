@@ -122,7 +122,8 @@ export const AiPmDayPage: React.FC = () => {
   const next = AI_PM_DAYS.find((d) => d.day === day.day + 1);
   const isPhaseEnd = day.day === phase.end;
   const example = AI_PM_PHASES.find((p) => p.workedExample?.day === day.day)?.workedExample;
-  const Lesson: React.FC | undefined = AI_PM_LESSONS[day.day];
+  const Lesson = AI_PM_LESSONS[day.day] as React.FC | undefined;
+  const hasLesson = day.day in AI_PM_LESSONS;
   const topics = AI_PM_LESSON_TOPICS[day.day] ?? [];
   const resources = (day.resources ?? []).map((id) => ({ id, ...AI_PM_RESOURCES[id] })).filter((r) => r.title);
   const materialCount = resources.length + (day.video ? 1 : 0);
@@ -170,7 +171,7 @@ export const AiPmDayPage: React.FC = () => {
               </span>
             </div>
             <h1 className="text-2xl sm:text-3xl md:text-[2rem] font-bold text-zinc-900 leading-tight tracking-tight">{day.topic}</h1>
-            {Lesson && <p className="text-sm sm:text-base text-zinc-600 leading-relaxed max-w-2xl">{day.learn}</p>}
+            {hasLesson && <p className="text-sm sm:text-base text-zinc-600 leading-relaxed max-w-2xl">{day.learn}</p>}
             <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5 pt-1 text-sm text-zinc-600">
               <span className="inline-flex items-center gap-1.5"><Clock className="w-4 h-4 text-zinc-500" />{timeLine}</span>
               <span className="inline-flex items-center gap-1.5"><GraduationCap className="w-4 h-4 text-zinc-500" />{day.skill ?? phase.title}</span>
