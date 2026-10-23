@@ -126,7 +126,7 @@ export const AiPmPlan: React.FC = () => {
 
   return (
     <div className="space-y-10">
-      <PageTitle eyebrow="90-day plan" title="Six phases, one capstone">
+      <PageTitle eyebrow="90-day plan" title="Seven phases, one capstone">
         {o.planIntro}
       </PageTitle>
 
@@ -176,7 +176,7 @@ export const AiPmPlan: React.FC = () => {
                   >
                     <div className="flex items-start justify-between gap-2">
                       <p className="text-[11px] font-black uppercase tracking-widest text-slate-400">
-                        Day {d.day}{d.kind === 'weekend' ? ' · Weekend' : d.kind === 'review' ? ' · Review' : ''}
+                        Day {d.day}{d.kind === 'weekend' ? ' · Weekend' : d.kind === 'review' ? ' · Gate' : ''}
                         {isBookmarked(d.day) && <Bookmark aria-label="Bookmarked" className="inline w-3.5 h-3.5 ml-1.5 -mt-0.5 fill-amber-500 text-amber-500" />}
                       </p>
                       <button

@@ -97,15 +97,15 @@ export const AI_PM_OVERVIEW = {
     'A job guarantee. The course gives you the skills and the proof; the job search still takes time.',
   ],
   rules: [
-    { title: 'Daily rhythm', text: 'On weekdays, learn for 60 minutes and do the exercise for 30–60 minutes. On a weekend day, do a 3-hour block for the phase deliverable. Use the 15th day of each phase to review and finish the deliverable. Do not put two phases into one; the limit is part of the design.' },
-    { title: 'One capstone, all 90 days', text: 'On day 5, pick one problem. Use it in every phase: the cost sheet, the AI PRD, the eval set, the prototype and the interview story. At the end you have one connected case, not five separate exercises.' },
+    { title: 'Daily rhythm', text: 'Usually 45–60 minutes a day; gate days take 60–75 minutes. Learn the concept, apply it to the capstone, record a decision or artifact, and note one open question.' },
+    { title: 'One capstone, all 90 days', text: 'Every day creates or improves an artifact for one AI product. Recommended default: a grounded knowledge assistant that answers questions from approved internal documents, with citations, access controls, fallbacks, evals and human escalation. You lock the user and problem on Day 26.' },
     { title: 'The notebook', text: 'Keep one doc with a page per phase. End each day with 3 lines: one idea, one number, one question.' },
     { title: 'The data rule', text: 'Do not put real customer, candidate, employer or personal data into an AI tool. Every case that you make is synthetic or anonymised.' },
     { title: 'The evidence rule', text: 'In a teardown, write “I observed” for what you tested and “I assume” for the rest. Do not state how a real company built a product.' },
     { title: 'Pass/fail checklists', text: 'Each phase ends with a checklist. A deliverable passes only if every check is true.' },
   ],
   planIntro:
-    'This plan is for a working PM. It takes 90 days at about 2 hours a day, about 180 hours in total. It skips PRD, user-story and basic-metric lessons, because you already do this work.',
+    'A build-first plan for working PMs: about 45–60 minutes a day for 90 days, in seven phases that each end with a gate. The goal is practical AI product judgment and one credible capstone, not mastering every technical discipline. You learn technical concepts deeply enough to make decisions and work with engineers; coding every component is not required.',
 };
 
 export const AI_PM_WHY = {

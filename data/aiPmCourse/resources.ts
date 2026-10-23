@@ -51,19 +51,19 @@ export const AI_PM_RESOURCES: Record<string, AiPmResource> = {
 };
 
 export const AI_PM_CORE_READING: { key: string; days: string }[] = [
-  { key: 'lenny_evals_podcast', days: 'Days 46, 53' },
-  { key: 'lenny_ai_lifecycle', days: 'Day 33' },
-  { key: 'anthropic_agents', days: 'Day 22' },
-  { key: 'openai_accuracy', days: 'Day 21' },
-  { key: 'pair_errors', days: 'Day 37' },
+  { key: 'lenny_evals_podcast', days: 'Day 39' },
+  { key: 'lenny_ai_lifecycle', days: 'Day 31' },
+  { key: 'anthropic_agents', days: 'Day 24' },
+  { key: 'openai_accuracy', days: 'Day 23' },
+  { key: 'pair_errors', days: 'Day 34' },
 ];
 
 export const AI_PM_FREE_READING: { key: string; days: string }[] = [
-  { key: 'hamel_evals_faq', days: 'Day 53' },
-  { key: 'hax_guidelines', days: 'Day 32' },
-  { key: 'rules_of_ml', days: 'Day 31' },
-  { key: 'openai_agents_guide', days: 'Day 23' },
-  { key: 'voice_ai_primer', days: 'Day 27, for capstone F' },
+  { key: 'hamel_evals_faq', days: 'Day 44' },
+  { key: 'hax_guidelines', days: 'Day 30' },
+  { key: 'rules_of_ml', days: 'Day 29' },
+  { key: 'openai_agents_guide', days: 'Day 24' },
+  { key: 'voice_ai_primer', days: 'Day 36, for voice capstones' },
 ];
 
 export const AI_PM_VIDEOS: { key: string; adds: string; weeks: string }[] = [
