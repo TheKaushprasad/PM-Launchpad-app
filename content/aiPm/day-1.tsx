@@ -196,7 +196,7 @@ export const AiPmDay1Content = () => {
       <AuthModal isOpen={authOpen} onClose={() => setAuthOpen(false)} initialMode="login" redirectTo="/ai-pm/day/1" onSuccess={() => setAuthOpen(false)} />
 
       {/* Objective */}
-      <section id="objective" className="scroll-mt-20 bg-brand-50/60 p-4 sm:p-5 rounded-2xl border border-brand-100 space-y-2">
+      <section id="objective" className="scroll-mt-32 bg-brand-50/60 p-4 sm:p-5 rounded-2xl border border-brand-100 space-y-2">
         <span className="text-[10px] font-bold uppercase tracking-widest text-brand-600">Today’s objective</span>
         <p className="text-base font-bold text-zinc-900 leading-relaxed">
           Understand AI, ML, deep learning, and generative AI well enough to explain the differences and identify where each is useful in a real product.
@@ -210,7 +210,7 @@ export const AiPmDay1Content = () => {
       </section>
 
       {/* Part 1: concepts */}
-      <section id="concepts" className="scroll-mt-20 space-y-3">
+      <section id="concepts" className="scroll-mt-32 space-y-3">
         <h2 className="text-lg md:text-xl font-bold text-zinc-900 flex items-center gap-2.5 tracking-tight">
           <Layers className="w-5 h-5 text-brand-600" />
           Part 1 — Learn the concepts
@@ -253,7 +253,7 @@ export const AiPmDay1Content = () => {
         ))}
       </section>
 
-      <section id="distinction" className="scroll-mt-20 space-y-3">
+      <section id="distinction" className="scroll-mt-32 space-y-3">
         <h2 className="text-lg md:text-xl font-bold text-zinc-900 flex items-center gap-2.5 tracking-tight">
           <Target className="w-5 h-5 text-brand-600" />
           The distinction you must remember
@@ -278,7 +278,7 @@ export const AiPmDay1Content = () => {
       </section>
 
       {/* Part 2: think like a PM */}
-      <section id="think-like-a-pm" className="scroll-mt-20 space-y-3">
+      <section id="think-like-a-pm" className="scroll-mt-32 space-y-3">
         <h2 className="text-lg md:text-xl font-bold text-zinc-900 flex items-center gap-2.5 tracking-tight">
           <Briefcase className="w-5 h-5 text-brand-600" />
           Part 2 — Think like a Product Manager
@@ -315,7 +315,7 @@ export const AiPmDay1Content = () => {
       </section>
 
       {/* Part 3: landscape map */}
-      <section id="landscape-map" className="scroll-mt-20 space-y-3">
+      <section id="landscape-map" className="scroll-mt-32 space-y-3">
         <h2 className="text-lg md:text-xl font-bold text-zinc-900 flex items-center gap-2.5 tracking-tight">
           <Search className="w-5 h-5 text-brand-600" />
           Part 3 — Your first exercise: build an AI landscape map
@@ -380,7 +380,7 @@ export const AiPmDay1Content = () => {
       </section>
 
       {/* Part 4: baseline */}
-      <section id="baseline" className="scroll-mt-20 space-y-3">
+      <section id="baseline" className="scroll-mt-32 space-y-3">
         <h2 className="text-lg md:text-xl font-bold text-zinc-900 flex items-center gap-2.5 tracking-tight">
           <CheckCircle className="w-5 h-5 text-brand-600" />
           Part 4 — Baseline assessment
@@ -415,7 +415,7 @@ export const AiPmDay1Content = () => {
       </section>
 
       {/* Completion criteria */}
-      <section id="completion" className="scroll-mt-20 bg-zinc-50/70 p-4 sm:p-5 rounded-xl border border-zinc-200/70 space-y-3">
+      <section id="completion" className="scroll-mt-32 bg-zinc-50/70 p-4 sm:p-5 rounded-xl border border-zinc-200/70 space-y-3">
         <h2 className="text-lg md:text-xl font-bold text-zinc-900 flex items-center gap-2.5 tracking-tight">
           <Lightbulb className="w-5 h-5 text-amber-500" />
           Day 1 completion criteria
@@ -437,7 +437,7 @@ export const AiPmDay1Content = () => {
       </section>
 
       {/* Review */}
-      <section id="review" className="scroll-mt-20 bg-brand-50/60 p-4 sm:p-5 rounded-xl border border-brand-100 space-y-3">
+      <section id="review" className="scroll-mt-32 bg-brand-50/60 p-4 sm:p-5 rounded-xl border border-brand-100 space-y-3">
         <p className="text-sm font-bold text-zinc-800 leading-relaxed">
           Your task now: Complete the landscape map and click <span className="text-brand-700">Review my landscape map</span>. AI will evaluate your reasoning and correct any misconceptions before you move to Day 2.
         </p>

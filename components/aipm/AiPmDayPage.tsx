@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import {
   BookOpen, Hammer, CheckCircle2, Calculator, Lightbulb, Bookmark, ChevronLeft, ChevronRight,
-  FileEdit, Clock, Save, GraduationCap, BarChart3, PlayCircle, List, FileText, ExternalLink,
+  FileEdit, Clock, Save, X, GraduationCap, BarChart3, PlayCircle, List, FileText, ExternalLink,
 } from 'lucide-react';
 import { AI_PM_DAYS, AI_PM_PHASES, phaseForDay, DESIGN_CASE_STEPS } from '../../data/aiPmCourse/plan';
 import { AI_PM_BACKGROUND_EXAMPLE } from '../../data/aiPmCourse/content';
@@ -15,7 +15,7 @@ import { Card, TemplateChip, Checklist } from './ui';
 // time / phase / level, the video with "Mark video complete", the lesson on the left; on the right, actions
 // (bookmark, save notes, done), course material, topics to cover and personal notes.
 
-const NotesPad: React.FC<{ day: number; value: string; onSave: (text: string) => void }> = ({ day, value, onSave }) => {
+const NotesPad: React.FC<{ day: number; value: string; onSave: (text: string) => void; onClose: () => void }> = ({ day, value, onSave, onClose }) => {
   const [text, setText] = useState(value);
   const [savedAt, setSavedAt] = useState<string | null>(null);
   const timer = useRef<ReturnType<typeof setTimeout>>();
@@ -27,13 +27,25 @@ const NotesPad: React.FC<{ day: number; value: string; onSave: (text: string) =>
 
   useEffect(() => () => clearTimeout(timer.current), []);
 
+  const close = () => {
+    clearTimeout(timer.current);
+    if (text !== value) save(text);
+    onClose();
+  };
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && close();
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  });
+
   const save = (next: string) => {
     onSave(next);
     setSavedAt(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
   };
 
   return (
-    <div className="bg-white rounded-2xl p-4 border border-zinc-200/80 space-y-2.5">
+    <div role="dialog" aria-label={`Personal notes for day ${day}`} className="bg-white rounded-2xl p-4 border border-zinc-200 shadow-xl shadow-zinc-900/10 space-y-2.5">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="w-7 h-7 rounded-lg bg-brand-50 flex items-center justify-center text-brand-600">
@@ -49,9 +61,13 @@ const NotesPad: React.FC<{ day: number; value: string; onSave: (text: string) =>
             <CheckCircle2 className="w-3 h-3" /> {savedAt ? `Saved ${savedAt}` : 'Saved'}
           </span>
         )}
+        <button type="button" aria-label="Close notes" onClick={close} className="ml-2 p-1 rounded-lg text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100">
+          <X className="w-4 h-4" />
+        </button>
       </div>
       <textarea
         id="aipm-notes"
+        autoFocus
         value={text}
         onChange={(e) => {
           const next = e.target.value.slice(0, 5000);
@@ -90,9 +106,11 @@ export const AiPmDayPage: React.FC = () => {
   const {
     progress, isDone, toggleDay, toggleCheck, isBookmarked, toggleBookmark, setNote, isVideoDone, toggleVideoDone,
   } = useAiPmProgress();
+  const [notesOpen, setNotesOpen] = useState(false);
 
   useEffect(() => {
     document.querySelector('main')?.scrollTo({ top: 0 });
+    setNotesOpen(false);
   }, [dayNum]);
 
   if (!day || !phase) return <Navigate to="/ai-pm/plan" replace />;
@@ -113,16 +131,12 @@ export const AiPmDayPage: React.FC = () => {
   const otherBookmarks = progress.bookmarks.filter((d) => d !== day.day);
 
   const goToSection = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  const focusNotes = () => {
-    const el = document.getElementById('aipm-notes');
-    el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    el?.focus({ preventScroll: true });
-  };
+  const hasNotes = Boolean(progress.notes[day.day]?.trim());
 
   return (
     <article className="space-y-5">
       {/* Day stepper + course progress */}
-      <div className="flex items-center justify-between gap-4 border-b border-zinc-200/70 pb-3">
+      <div className="sticky top-[53px] z-20 -mx-3 px-3 md:-mx-5 md:px-5 -mt-3 py-2.5 bg-zinc-50/95 backdrop-blur-md flex items-center justify-between gap-4 border-b border-zinc-200/70">
         <div className="flex items-center gap-1">
           <button type="button" aria-label="Previous day" disabled={!prev} onClick={() => prev && navigate(`/ai-pm/day/${prev.day}`)} className="p-1.5 rounded-lg text-zinc-500 hover:bg-zinc-100 disabled:text-zinc-300 disabled:hover:bg-transparent">
             <ChevronLeft className="w-4 h-4" />
@@ -266,7 +280,7 @@ export const AiPmDayPage: React.FC = () => {
         </div>
 
         {/* Sidebar */}
-        <aside className="lg:col-span-4 space-y-4 lg:sticky lg:top-4">
+        <aside className="relative lg:col-span-4 space-y-4 lg:sticky lg:top-[124px]">
           <div className="grid grid-cols-3 gap-2">
             <button
               type="button"
@@ -278,8 +292,16 @@ export const AiPmDayPage: React.FC = () => {
               <Bookmark className={`w-4 h-4 ${bookmarked ? 'fill-amber-500 text-amber-500' : ''}`} />
               {bookmarked ? 'Saved' : 'Bookmark'}
             </button>
-            <button type="button" onClick={focusNotes} className="h-11 rounded-xl border border-zinc-200 bg-white text-sm font-semibold text-zinc-700 hover:bg-zinc-50 flex items-center justify-center gap-1.5">
+            <button
+              type="button"
+              aria-expanded={notesOpen}
+              onClick={() => setNotesOpen((o) => !o)}
+              className={`relative h-11 rounded-xl border text-sm font-semibold flex items-center justify-center gap-1.5 transition-colors ${
+                notesOpen ? 'bg-brand-50 border-brand-200 text-brand-800' : 'bg-white border-zinc-200 text-zinc-700 hover:bg-zinc-50'
+              }`}
+            >
               <FileEdit className="w-4 h-4" /> Notes
+              {hasNotes && <span aria-label="Has notes" className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-brand-500" />}
             </button>
             <button
               type="button"
@@ -291,6 +313,12 @@ export const AiPmDayPage: React.FC = () => {
               <CheckCircle2 className="w-4 h-4" /> {done ? 'Done' : 'Mark done'}
             </button>
           </div>
+
+          {notesOpen && (
+            <div className="absolute left-0 right-0 top-[3.25rem] z-30">
+              <NotesPad day={day.day} value={progress.notes[day.day] || ''} onSave={(text) => setNote(day.day, text)} onClose={() => setNotesOpen(false)} />
+            </div>
+          )}
 
           {materialCount > 0 && (
             <div className="bg-white rounded-2xl p-4 border border-zinc-200/80 space-y-3">
@@ -337,7 +365,6 @@ export const AiPmDayPage: React.FC = () => {
             </div>
           )}
 
-          <NotesPad day={day.day} value={progress.notes[day.day] || ''} onSave={(text) => setNote(day.day, text)} />
 
           {otherBookmarks.length > 0 && (
             <div className="bg-white rounded-2xl p-4 border border-zinc-200/80">
