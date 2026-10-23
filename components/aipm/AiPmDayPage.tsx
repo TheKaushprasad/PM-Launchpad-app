@@ -46,7 +46,21 @@ export const AiPmDayPage: React.FC = () => {
       </header>
 
       {Lesson ? (
-        <Lesson />
+        <>
+          <Lesson />
+          {day.resources && (
+            <Card>
+              <h2 className="font-black text-slate-900 flex items-center gap-2 mb-2">
+                <BookOpen className="w-4 h-4 text-brand-600" /> Also watch or read
+              </h2>
+              <ul className="space-y-1.5">
+                {day.resources.map((r) => (
+                  <li key={r}><ResourceLink id={r} /></li>
+                ))}
+              </ul>
+            </Card>
+          )}
+        </>
       ) : (
         <Card>
           <h2 className="font-black text-slate-900 flex items-center gap-2 mb-2">

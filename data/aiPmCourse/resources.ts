@@ -19,6 +19,7 @@ export const AI_PM_RESOURCES: Record<string, AiPmResource> = {
   rules_of_ml: { title: 'Rules of Machine Learning', by: 'Google', url: 'https://developers.google.com/machine-learning/guides/rules-of-ml' },
   openai_agents_guide: { title: 'A practical guide to building agents', by: 'OpenAI', url: 'https://cdn.openai.com/business-guides-and-resources/a-practical-guide-to-building-agents.pdf' },
   voice_ai_primer: { title: 'Voice AI & Voice Agents: an illustrated primer', by: 'Kwindla Hultman Kramer', url: 'https://voiceaiandvoiceagents.com/' },
+  karpathy_tokenizer: { title: 'Let’s build the GPT Tokenizer (2 h 13 min)', by: 'Andrej Karpathy', url: 'https://youtu.be/zduSFxRajkE' },
   karpathy_intro_llms: { title: 'Intro to Large Language Models (1-hour talk)', by: 'Andrej Karpathy', url: 'https://www.youtube.com/watch?v=zjkBMFhNj_g' },
   deeplearning_short_courses: { title: 'Short courses on LLMs, agents and RAG', by: 'DeepLearning.AI', url: 'https://www.deeplearning.ai/courses' },
   openai_playground: { title: 'OpenAI Playground', by: 'OpenAI', url: 'https://platform.openai.com/playground' },
