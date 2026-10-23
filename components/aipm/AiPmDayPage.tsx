@@ -173,7 +173,7 @@ export const AiPmDayPage: React.FC = () => {
             <p className="text-sm sm:text-base text-zinc-600 leading-relaxed max-w-2xl">{day.learn}</p>
             <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5 pt-1 text-sm text-zinc-600">
               <span className="inline-flex items-center gap-1.5"><Clock className="w-4 h-4 text-zinc-500" />{timeLine}</span>
-              <span className="inline-flex items-center gap-1.5"><GraduationCap className="w-4 h-4 text-zinc-500" />{phase.title}</span>
+              <span className="inline-flex items-center gap-1.5"><GraduationCap className="w-4 h-4 text-zinc-500" />{day.skill ?? phase.title}</span>
               {day.level && <span className="inline-flex items-center gap-1.5"><BarChart3 className="w-4 h-4 text-zinc-500" />{day.level}</span>}
             </div>
           </header>
