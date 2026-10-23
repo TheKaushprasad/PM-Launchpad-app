@@ -3,11 +3,21 @@ import { AiPmDay1Content, AI_PM_DAY1_TOPICS } from '../../content/aiPm/day-1';
 import { AiPmDay2Content, AI_PM_DAY2_TOPICS } from '../../content/aiPm/day-2';
 import { AiPmDay3Content, AI_PM_DAY3_TOPICS } from '../../content/aiPm/day-3';
 import { AiPmDay4Content, AI_PM_DAY4_TOPICS } from '../../content/aiPm/day-4';
+import { AiPmLessonView, lessonTopics } from '../../content/aiPm/AiPmLesson';
+import { AI_PM_LESSON_DATA } from '../../data/aiPmCourse/lessons';
 import { Day29Content } from '../../content/days/day-29';
 import { Day30Content } from '../../content/days/day-30';
 
 // Full written lessons for the PM → AI PM course, by day. Days without one show the short Learn summary
-// from data/aiPmCourse/plan.ts. Days 15 and 17 reuse Days 29 and 30 of the 45-day course.
+// from data/aiPmCourse/plan.ts. Days 1–4 are hand-built; later days are drawn from data/aiPmCourse/lessons.
+// Days 15 and 17 reuse Days 29 and 30 of the 45-day course until their own lessons are written.
+const fromData = Object.fromEntries(
+  Object.entries(AI_PM_LESSON_DATA).map(([day, lesson]) => {
+    const Lesson: React.FC = () => React.createElement(AiPmLessonView, { day: Number(day), lesson });
+    return [day, Lesson];
+  }),
+) as Record<number, React.FC>;
+
 export const AI_PM_LESSONS: Record<number, React.FC> = {
   1: AiPmDay1Content,
   2: AiPmDay2Content,
@@ -15,6 +25,7 @@ export const AI_PM_LESSONS: Record<number, React.FC> = {
   4: AiPmDay4Content,
   15: Day29Content,
   17: Day30Content,
+  ...fromData,
 };
 
 // Sections of a lesson, listed under "Topics to cover" on the day page. Each id is a <section id> in the lesson.
@@ -23,4 +34,5 @@ export const AI_PM_LESSON_TOPICS: Record<number, { id: string; label: string }[]
   2: AI_PM_DAY2_TOPICS,
   3: AI_PM_DAY3_TOPICS,
   4: AI_PM_DAY4_TOPICS,
+  ...Object.fromEntries(Object.entries(AI_PM_LESSON_DATA).map(([day, lesson]) => [day, lessonTopics(lesson)])),
 };
