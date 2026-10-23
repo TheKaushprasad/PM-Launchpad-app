@@ -6,3 +6,7 @@ eval/results/
 
 # Impeccable engine binaries are downloaded per machine
 .claude/skills/impeccable/scripts/bin/
+
+# Local outputs of dev tools (see docs/dev-tools.md)
+graphify-out/
+strix_runs/

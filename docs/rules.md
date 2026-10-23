@@ -37,6 +37,7 @@ How work is done on this repository, for humans and AI coding assistants alike. 
 - Styling uses Tailwind utility classes and follows [design.md](design.md). Prefer zinc neutrals and indigo accents.
 - UI building blocks come from shadcn/ui in `components/ui` (button, input, textarea, label, select, dialog, dropdown-menu, tabs, tooltip, card, badge, sonner toasts). Prefer them over hand-built ones for new work; import as `@/components/ui/button`. Add more with the shadcn MCP or `npx shadcn@latest add <name>` (theme tokens live in `index.css`). For the app's green main action use `<Button variant="brand" size="cta">`; for popups use `Dialog` with `DialogTitle` so Escape, focus trapping and screen readers work.
 - Icons from `lucide-react`; animation with `framer-motion`. Scroll reveals use GSAP through `data-reveal` / `data-reveal-stagger` attributes (`components/motion/useScrollReveal.ts`); never put them on an element that already animates with Motion, so nothing animates twice. Import GSAP from `lib/gsap.ts`. The official GSAP skills live in `.claude/skills/gsap-*`.
+- Claude Code skills and MCP servers (Vercel React skills, Strix, 21st, Context7, shadcn) are listed in [dev-tools.md](dev-tools.md), with laptop setup steps for Graphify, Strix and gstack.
 - Commit messages follow Conventional Commits: `feat(scope): …`, `fix(scope): …`, `refactor: …`, `chore: …`.
 
 ## 5. Backend and AI
