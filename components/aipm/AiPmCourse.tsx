@@ -35,7 +35,7 @@ const HashScroller = () => {
 };
 
 const AiPmCourse: React.FC = () => (
-  <div className="px-4 md:px-8 py-6 md:py-8 max-w-6xl mx-auto space-y-6 pb-24">
+  <div className="px-3 md:px-5 py-4 md:py-6 max-w-[1280px] mx-auto space-y-5 pb-24">
     <HashScroller />
     <div className="flex items-center gap-2 text-xs font-bold text-amber-800 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2 w-fit">
       <Laptop className="w-4 h-4" />

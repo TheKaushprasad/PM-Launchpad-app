@@ -14,12 +14,12 @@ const Label: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-2">{children}</h4>
 );
 
-const Dot: React.FC = () => <div className="w-1.5 h-1.5 rounded-full bg-orange-300 mt-2 shrink-0" />;
+const Dot: React.FC = () => <div className="w-1.5 h-1.5 rounded-full bg-brand-300 mt-2 shrink-0" />;
 
 const LAYERS = [
-  { name: 'Artificial Intelligence (AI)', text: 'The broad field of intelligent computer systems', border: 'border-orange-200', bg: 'bg-orange-50/40', color: 'text-orange-800' },
-  { name: 'Machine Learning (ML)', text: 'Learns patterns from data to make predictions or decisions', border: 'border-amber-200', bg: 'bg-amber-50/50', color: 'text-amber-800' },
-  { name: 'Deep Learning (DL)', text: 'Uses multi-layer neural networks to learn complex patterns', border: 'border-emerald-200', bg: 'bg-emerald-50/50', color: 'text-emerald-800' },
+  { name: 'Artificial Intelligence (AI)', text: 'The broad field of intelligent computer systems', border: 'border-brand-200', bg: 'bg-brand-50/40', color: 'text-brand-800' },
+  { name: 'Machine Learning (ML)', text: 'Learns patterns from data to make predictions or decisions', border: 'border-emerald-200', bg: 'bg-emerald-50/60', color: 'text-emerald-800' },
+  { name: 'Deep Learning (DL)', text: 'Uses multi-layer neural networks to learn complex patterns', border: 'border-teal-200', bg: 'bg-teal-50/70', color: 'text-teal-800' },
   { name: 'Generative AI', text: 'Generates text, images, audio, code and other content', border: 'border-zinc-300', bg: 'bg-white', color: 'text-zinc-900' },
 ];
 
@@ -128,7 +128,7 @@ function loadState(): Day1State {
   return emptyState();
 }
 
-const inputClass = 'w-full h-10 px-3 rounded-xl border border-zinc-200 bg-white text-sm font-medium text-zinc-800 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-orange-200';
+const inputClass = 'w-full h-10 px-3 rounded-xl border border-zinc-200 bg-white text-sm font-medium text-zinc-800 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-brand-200';
 
 const VERDICT_STYLES: Record<string, string> = {
   Good: 'bg-emerald-50 text-emerald-700 border-emerald-200',
@@ -176,19 +176,19 @@ export const AiPmDay1Content = () => {
   };
 
   return (
-    <div className="space-y-4 md:space-y-5 text-left">
+    <div className="space-y-6 md:space-y-7 text-left">
       <AuthModal isOpen={authOpen} onClose={() => setAuthOpen(false)} initialMode="login" redirectTo="/ai-pm/day/1" onSuccess={() => setAuthOpen(false)} />
 
       {/* Objective */}
-      <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80 space-y-2">
-        <span className="text-[10px] font-black uppercase tracking-widest text-orange-600">Today’s objective</span>
-        <p className="text-base font-black text-orange-900 leading-relaxed">
+      <section className="bg-brand-50/60 p-4 sm:p-5 rounded-2xl border border-brand-100 space-y-2">
+        <span className="text-[10px] font-black uppercase tracking-widest text-brand-600">Today’s objective</span>
+        <p className="text-base font-black text-zinc-900 leading-relaxed">
           Understand AI, ML, deep learning, and generative AI well enough to explain the differences and identify where each is useful in a real product.
         </p>
-        <p className="text-sm font-bold text-orange-700">By the end of today, you’ll have three outputs:</p>
+        <p className="text-sm font-bold text-brand-700">By the end of today, you’ll have three outputs:</p>
         <ul className="space-y-1">
           {['A clear mental model of the AI landscape.', 'A map of real products and the AI techniques they use.', 'A baseline score of your current AI PM knowledge.'].map((o) => (
-            <li key={o} className="flex gap-2 text-sm font-medium text-orange-900"><CheckCircle className="w-4 h-4 text-orange-500 mt-0.5 shrink-0" />{o}</li>
+            <li key={o} className="flex gap-2 text-sm font-medium text-zinc-900"><CheckCircle className="w-4 h-4 text-brand-500 mt-0.5 shrink-0" />{o}</li>
           ))}
         </ul>
       </section>
@@ -196,7 +196,7 @@ export const AiPmDay1Content = () => {
       {/* Part 1: concepts */}
       <section className="space-y-3">
         <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
-          <Layers className="text-orange-600" />
+          <Layers className="text-brand-600" />
           Part 1 — Learn the concepts
         </h2>
         <p className="text-zinc-600 font-medium leading-relaxed">
@@ -225,8 +225,8 @@ export const AiPmDay1Content = () => {
 
       <section className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-3.5">
         {CONCEPTS.map((c) => (
-          <div key={c.title} className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-xs space-y-3">
-            <h3 className="font-black text-zinc-900 flex items-center gap-2"><c.icon className="w-5 h-5 text-orange-600" />{c.title}</h3>
+          <div key={c.title} className="bg-zinc-50/70 border border-zinc-200/70 p-4 rounded-xl space-y-3">
+            <h3 className="font-black text-zinc-900 flex items-center gap-2"><c.icon className="w-5 h-5 text-brand-600" />{c.title}</h3>
             <p className="text-sm font-medium text-zinc-600 leading-relaxed">{c.definition}</p>
             <div>
               <Label>Product example</Label>
@@ -239,10 +239,10 @@ export const AiPmDay1Content = () => {
 
       <section className="space-y-3">
         <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
-          <Target className="text-orange-600" />
+          <Target className="text-brand-600" />
           The distinction you must remember
         </h2>
-        <div className="bg-white border border-zinc-100 rounded-2xl shadow-xs overflow-x-auto">
+        <div className="border border-zinc-200/70 rounded-xl overflow-x-auto">
           <table className="w-full text-sm text-left">
             <thead className="bg-zinc-50 text-[10px] font-black uppercase tracking-widest text-zinc-400">
               <tr><th className="py-3 px-4">Technology</th><th className="py-3 px-4">Core question</th><th className="py-3 px-4">Example</th></tr>
@@ -264,7 +264,7 @@ export const AiPmDay1Content = () => {
       {/* Part 2: think like a PM */}
       <section className="space-y-3">
         <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
-          <Briefcase className="text-orange-600" />
+          <Briefcase className="text-brand-600" />
           Part 2 — Think like a Product Manager (10 minutes)
         </h2>
         <p className="text-zinc-600 font-medium leading-relaxed">A PM shouldn’t ask only, “Can we use AI here?” Ask three questions:</p>
@@ -274,7 +274,7 @@ export const AiPmDay1Content = () => {
             { title: 'Approach', text: 'Do we need fixed rules, a predictive model, generative AI, or a combination?' },
             { title: 'Value and risk', text: 'Will this improve the user outcome enough to justify the cost, latency, and potential errors?' },
           ].map((q) => (
-            <div key={q.title} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-1.5">
+            <div key={q.title} className="p-4 bg-zinc-50/70 border border-zinc-200/70 rounded-xl space-y-1.5">
               <p className="font-black text-zinc-900 text-sm">{q.title}</p>
               <p className="text-xs font-medium text-zinc-500 leading-relaxed">{q.text}</p>
             </div>
@@ -283,17 +283,17 @@ export const AiPmDay1Content = () => {
         <p className="text-sm font-bold text-zinc-700">Consider an e-commerce app:</p>
         <div className="space-y-3">
           {USE_CASES.map((u) => (
-            <div key={u.title} className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-2">
+            <div key={u.title} className="p-4 bg-zinc-50/70 border border-zinc-200/70 rounded-xl space-y-2">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <p className="font-black text-zinc-900 text-sm"><span className="text-zinc-400">{u.label} — </span>{u.title}</p>
-                <span className="px-2.5 py-1 rounded-lg bg-orange-50 text-orange-700 text-[11px] font-black">{u.approach}</span>
+                <span className="px-2.5 py-1 rounded-lg bg-brand-50 text-brand-700 text-[11px] font-black">{u.approach}</span>
               </div>
               <p className="text-sm font-medium text-zinc-600">{u.what}</p>
               <p className="text-xs font-medium text-zinc-500 leading-relaxed">{u.why}</p>
             </div>
           ))}
         </div>
-        <p className="text-sm font-bold text-zinc-700 leading-relaxed italic border-l-4 border-orange-500 pl-4">
+        <p className="text-sm font-bold text-zinc-700 leading-relaxed italic border-l-4 border-brand-500 pl-4">
           PM takeaway: The best solution is not necessarily the most advanced AI solution. Use the simplest approach that reliably solves the problem.
         </p>
       </section>
@@ -301,13 +301,13 @@ export const AiPmDay1Content = () => {
       {/* Part 3: landscape map */}
       <section className="space-y-3">
         <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
-          <Search className="text-orange-600" />
+          <Search className="text-brand-600" />
           Part 3 — Your first exercise: build an AI landscape map (15 minutes)
         </h2>
         <p className="text-zinc-600 font-medium leading-relaxed">
           Choose real products you know. Identify the user problem, the likely AI approach, and the value created. Here is a starter map:
         </p>
-        <div className="bg-white border border-zinc-100 rounded-2xl shadow-xs overflow-x-auto">
+        <div className="border border-zinc-200/70 rounded-xl overflow-x-auto">
           <table className="w-full text-sm text-left">
             <thead className="bg-zinc-50 text-[10px] font-black uppercase tracking-widest text-zinc-400">
               <tr><th className="py-3 px-4">Product</th><th className="py-3 px-4">User problem</th><th className="py-3 px-4">Likely approach</th></tr>
@@ -327,7 +327,7 @@ export const AiPmDay1Content = () => {
           These products can use multiple techniques; the table identifies representative approaches, not their complete internal architectures.
         </p>
 
-        <div className="bg-zinc-50 p-4 sm:p-5 rounded-2xl border border-zinc-200 space-y-4">
+        <div className="bg-zinc-50/70 p-4 sm:p-5 rounded-xl border border-zinc-200/70 space-y-4">
           <div>
             <p className="font-black text-zinc-900">Your AI landscape map</p>
             <p className="text-xs font-medium text-zinc-500 mt-0.5">
@@ -336,7 +336,7 @@ export const AiPmDay1Content = () => {
           </div>
           {state.map.map((row, i) => (
             <div key={i} className="bg-white border border-zinc-200 rounded-xl p-3.5 space-y-2.5">
-              <p className="text-[10px] font-black uppercase tracking-widest text-orange-600">Product {i + 1}</p>
+              <p className="text-[10px] font-black uppercase tracking-widest text-brand-600">Product {i + 1}</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 <input className={inputClass} placeholder="Product name" value={row.product} onChange={(e) => setRow(i, { product: e.target.value })} aria-label={`Product ${i + 1} name`} />
                 <input className={inputClass} placeholder="User problem solved" value={row.problem} onChange={(e) => setRow(i, { problem: e.target.value })} aria-label={`Product ${i + 1} user problem`} />
@@ -350,7 +350,7 @@ export const AiPmDay1Content = () => {
                       type="button"
                       onClick={() => setRow(i, { approach: a })}
                       className={`px-2.5 py-1.5 rounded-lg border text-xs font-bold transition-colors ${
-                        row.approach === a ? 'bg-orange-600 border-orange-600 text-white' : 'bg-white border-zinc-200 text-zinc-600 hover:border-orange-300'
+                        row.approach === a ? 'bg-brand-600 border-brand-600 text-white' : 'bg-white border-zinc-200 text-zinc-600 hover:border-brand-300'
                       }`}
                     >
                       {a}
@@ -366,11 +366,11 @@ export const AiPmDay1Content = () => {
       {/* Part 4: baseline */}
       <section className="space-y-3">
         <h2 className="text-lg md:text-xl font-black text-zinc-900 flex items-center gap-3">
-          <CheckCircle className="text-orange-600" />
+          <CheckCircle className="text-brand-600" />
           Part 4 — Baseline assessment (5 minutes)
         </h2>
         <p className="text-zinc-600 font-medium leading-relaxed">Before moving on, score yourself honestly. This is your starting point, not an exam.</p>
-        <div className="bg-white border border-zinc-100 rounded-2xl shadow-xs p-4 sm:p-5 space-y-4">
+        <div className="border border-zinc-200/70 rounded-xl p-4 space-y-4">
           <p className="font-black text-zinc-900 text-sm">Day 1 skills checklist</p>
           {SKILLS.map((skill, i) => (
             <div key={skill} className="space-y-1.5">
@@ -382,7 +382,7 @@ export const AiPmDay1Content = () => {
                     type="button"
                     onClick={() => setState((s) => ({ ...s, scores: s.scores.map((v, j) => (j === i ? n : v)) }))}
                     className={`text-left px-3 py-2 rounded-lg border text-xs font-bold transition-colors ${
-                      state.scores[i] === n ? 'bg-orange-50 border-orange-400 text-orange-800' : 'bg-white border-zinc-200 text-zinc-600 hover:border-orange-300'
+                      state.scores[i] === n ? 'bg-brand-50 border-brand-400 text-brand-800' : 'bg-white border-zinc-200 text-zinc-600 hover:border-brand-300'
                     }`}
                   >
                     {level}
@@ -393,13 +393,13 @@ export const AiPmDay1Content = () => {
           ))}
           <div className="flex items-center justify-between border-t border-zinc-100 pt-3">
             <p className="text-sm font-black text-zinc-900">Your baseline score</p>
-            <p className="text-2xl font-black text-orange-600">{score} <span className="text-sm text-zinc-400">/ 15</span></p>
+            <p className="text-2xl font-black text-brand-600">{score} <span className="text-sm text-zinc-400">/ 15</span></p>
           </div>
         </div>
       </section>
 
       {/* Completion criteria */}
-      <section className="bg-zinc-50 p-4 sm:p-5 rounded-2xl border border-zinc-200 space-y-3">
+      <section className="bg-zinc-50/70 p-4 sm:p-5 rounded-xl border border-zinc-200/70 space-y-3">
         <h2 className="text-xl font-black text-zinc-900 flex items-center gap-3">
           <Lightbulb className="text-amber-500" />
           Day 1 completion criteria
@@ -410,7 +410,7 @@ export const AiPmDay1Content = () => {
             <label key={c} className="flex gap-2.5 items-start text-sm font-medium text-zinc-700 cursor-pointer">
               <input
                 type="checkbox"
-                className="mt-0.5 w-4 h-4 accent-orange-600"
+                className="mt-0.5 w-4 h-4 accent-brand-600"
                 checked={!!state.done[i]}
                 onChange={() => setState((s) => ({ ...s, done: s.done.map((v, j) => (j === i ? !v : v)) }))}
               />
@@ -421,15 +421,15 @@ export const AiPmDay1Content = () => {
       </section>
 
       {/* Review */}
-      <section className="bg-orange-50/50 p-4 sm:p-5 rounded-2xl border border-orange-200/70 space-y-3">
+      <section className="bg-brand-50/60 p-4 sm:p-5 rounded-xl border border-brand-100 space-y-3">
         <p className="text-sm font-bold text-zinc-800 leading-relaxed">
-          Your task now: Complete the landscape map and click <span className="text-orange-700">Review my landscape map</span>. AI will evaluate your reasoning and correct any misconceptions before you move to Day 2.
+          Your task now: Complete the landscape map and click <span className="text-brand-700">Review my landscape map</span>. AI will evaluate your reasoning and correct any misconceptions before you move to Day 2.
         </p>
         <button
           type="button"
           onClick={reviewMap}
           disabled={reviewing}
-          className="h-11 px-5 rounded-xl bg-orange-600 hover:bg-orange-700 disabled:opacity-60 text-white font-black text-sm flex items-center gap-2"
+          className="h-11 px-5 rounded-xl bg-brand-600 hover:bg-brand-700 disabled:opacity-60 text-white font-black text-sm flex items-center gap-2"
         >
           {reviewing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
           {reviewing ? 'Reviewing…' : state.review ? 'Review again' : 'Review my landscape map'}
@@ -459,7 +459,7 @@ export const AiPmDay1Content = () => {
                 </div>
               </div>
             )}
-            {state.review.nextStep && <p className="text-xs font-bold text-orange-700">{state.review.nextStep}</p>}
+            {state.review.nextStep && <p className="text-xs font-bold text-brand-700">{state.review.nextStep}</p>}
           </div>
         )}
       </section>
