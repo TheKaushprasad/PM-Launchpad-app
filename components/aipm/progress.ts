@@ -8,9 +8,12 @@ export interface AiPmProgress {
   done: number[];
   checks: Record<string, boolean>;
   skills: Record<string, number>;
+  notes: Record<string, string>; // day number -> personal notes
+  bookmarks: number[];
+  videosDone: number[];
 }
 
-const empty: AiPmProgress = { done: [], checks: {}, skills: {} };
+const empty: AiPmProgress = { done: [], checks: {}, skills: {}, notes: {}, bookmarks: [], videosDone: [] };
 
 const load = (): AiPmProgress => {
   try {
@@ -51,5 +54,18 @@ export const useAiPmProgress = () => {
       }),
     toggleCheck: (id: string) => save({ ...state, checks: { ...state.checks, [id]: !state.checks[id] } }),
     setSkill: (id: string, score: number) => save({ ...state, skills: { ...state.skills, [id]: score } }),
+    isBookmarked: (day: number) => progress.bookmarks.includes(day),
+    toggleBookmark: (day: number) =>
+      save({
+        ...state,
+        bookmarks: state.bookmarks.includes(day) ? state.bookmarks.filter((d) => d !== day) : [...state.bookmarks, day].sort((a, b) => a - b),
+      }),
+    isVideoDone: (day: number) => progress.videosDone.includes(day),
+    toggleVideoDone: (day: number) =>
+      save({
+        ...state,
+        videosDone: state.videosDone.includes(day) ? state.videosDone.filter((d) => d !== day) : [...state.videosDone, day],
+      }),
+    setNote: (day: number, text: string) => save({ ...state, notes: { ...state.notes, [day]: text.slice(0, 5000) } }),
   };
 };

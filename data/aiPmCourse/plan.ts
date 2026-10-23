@@ -9,6 +9,11 @@ export interface AiPmDay {
   templates?: string[]; // template ids, e.g. "T3"
   resources?: string[]; // keys into AI_PM_RESOURCES
   kind?: 'weekend' | 'review';
+  time?: string; // overrides the default time line on the day page
+  video?: string; // YouTube video id, embedded at the top of the day page
+  videoTitle?: string;
+  level?: string; // e.g. Beginner
+  skill?: string; // shown in the day header in place of the phase name
 }
 
 export interface AiPmPhase {
@@ -176,8 +181,8 @@ export const AI_PM_PHASES: AiPmPhase[] = [
 
 export const AI_PM_DAYS: AiPmDay[] = [
   // Phase 1 — Foundations and capstone
-  { day: 1, topic: 'What AI is, and how AI PM differs', learn: 'AI, machine learning, deep learning and generative AI, and how they fit together. Output is probabilistic. Quality is a distribution, not pass or fail', do: 'List 3 AI features in your product or a competitor’s. Label each as classic ML, deep learning or GenAI' },
-  { day: 2, topic: 'Large language model (LLM) foundations', learn: 'What LLMs are, how they work, tokens and tokenisation, and their capabilities and limits', do: 'Paste one of your PRDs into a tokenizer (for example tiktokenizer). Count its tokens and note one word that splits in a surprising way', resources: ['karpathy_tokenizer'] },
+  { day: 1, topic: 'What is AI? Build your AI landscape map', learn: 'AI, machine learning, deep learning and generative AI: how they differ, and when rules beat AI', do: 'Map 3 real products to the problem they solve and their likely AI approach, get an AI review, and record your 0–15 baseline score', time: '45–60 minutes', level: 'Beginner', video: 'mUw27wG7uFA', videoTitle: 'AI Simplified: 6 Concepts You Need to Know About Modern AI (IBM Technology)' },
+  { day: 2, topic: 'AI vs. Traditional Software', learn: 'Learn when to use traditional software, predictive machine learning, or generative AI, and defend your choice like a Product Manager.', do: 'Choose the right approach for 3 scenarios, then analyse one real product feature with the five questions and get an AI review', time: '45–60 minutes', skill: 'Product judgment', level: 'Beginner', video: 'u8sQOpgkR5A', videoTitle: 'AI vs Traditional Software: What’s the Difference? (Explained Simply)' },
   { day: 3, topic: 'Prompt engineering for PMs', learn: 'How to write prompts so that LLMs return useful, reliable and actionable outputs', do: 'Write a prompt for one task you do every week. Improve it twice and note what changed in the output each time' },
   { day: 4, topic: 'Classic PRD vs AI PRD', learn: 'Which sections break: acceptance criteria, success metrics, edge cases, launch', do: 'Try one real AI feature 10 times, with 3 hard inputs. Log each try as good or bad, with a reason' },
   { day: 5, topic: 'Pick your capstone', learn: 'The capstone options table', do: 'Score all options. Lock one. Write its user and job in 2 lines' },

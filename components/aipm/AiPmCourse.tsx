@@ -35,13 +35,13 @@ const HashScroller = () => {
 };
 
 const AiPmCourse: React.FC = () => (
-  <div className="px-4 md:px-8 py-6 md:py-8 max-w-6xl mx-auto space-y-6 pb-24">
+  <div className="px-3 md:px-5 py-4 md:py-6 max-w-[1280px] mx-auto space-y-5 pb-24">
     <HashScroller />
     <div className="flex items-center gap-2 text-xs font-bold text-amber-800 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2 w-fit">
       <Laptop className="w-4 h-4" />
       Local preview only. This course is hidden on thenoobpm.com.
     </div>
-    <nav className="-mx-4 px-4 md:mx-0 md:px-0 overflow-x-auto no-scrollbar">
+    <nav className="sticky top-0 z-30 -mx-3 px-3 md:-mx-5 md:px-5 pt-2 bg-zinc-50/95 backdrop-blur-md overflow-x-auto no-scrollbar">
       <div className="flex gap-1.5 min-w-max border-b border-slate-200/80 pb-2">
         {TABS.map((t) => (
           <NavLink

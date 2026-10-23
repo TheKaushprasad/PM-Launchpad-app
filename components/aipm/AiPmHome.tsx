@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ArrowRight, CheckCircle2, Flag, Target, Package, Ban, Users } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Flag, Target, Package, Ban, Users, Bookmark } from 'lucide-react';
 import { AI_PM_OVERVIEW } from '../../data/aiPmCourse/content';
 import { AI_PM_PHASES, AI_PM_DAYS } from '../../data/aiPmCourse/plan';
 import { useAiPmProgress } from './progress';
@@ -121,7 +121,7 @@ export const AiPmOverview: React.FC = () => {
 
 export const AiPmPlan: React.FC = () => {
   const navigate = useNavigate();
-  const { progress, isDone, toggleDay, toggleCheck } = useAiPmProgress();
+  const { progress, isDone, toggleDay, toggleCheck, isBookmarked } = useAiPmProgress();
   const o = AI_PM_OVERVIEW;
 
   return (
@@ -177,6 +177,7 @@ export const AiPmPlan: React.FC = () => {
                     <div className="flex items-start justify-between gap-2">
                       <p className="text-[11px] font-black uppercase tracking-widest text-slate-400">
                         Day {d.day}{d.kind === 'weekend' ? ' · Weekend' : d.kind === 'review' ? ' · Review' : ''}
+                        {isBookmarked(d.day) && <Bookmark aria-label="Bookmarked" className="inline w-3.5 h-3.5 ml-1.5 -mt-0.5 fill-amber-500 text-amber-500" />}
                       </p>
                       <button
                         type="button"
