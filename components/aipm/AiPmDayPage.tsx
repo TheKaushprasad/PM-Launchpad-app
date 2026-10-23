@@ -4,7 +4,7 @@ import {
   BookOpen, Hammer, CheckCircle2, Calculator, Lightbulb, Bookmark, ChevronLeft, ChevronRight,
   FileEdit, Clock, Save, X, GraduationCap, BarChart3, PlayCircle, List, FileText, ExternalLink,
 } from 'lucide-react';
-import { AI_PM_DAYS, AI_PM_PHASES, phaseForDay, DESIGN_CASE_STEPS } from '../../data/aiPmCourse/plan';
+import { AI_PM_DAYS, AI_PM_PHASES, phaseForDay, DESIGN_CASE_STEPS, AI_PM_REFLECTION } from '../../data/aiPmCourse/plan';
 import { AI_PM_BACKGROUND_EXAMPLE } from '../../data/aiPmCourse/content';
 import { useAiPmProgress } from './progress';
 import { AI_PM_LESSONS, AI_PM_LESSON_TOPICS } from './lessons';
@@ -122,12 +122,13 @@ export const AiPmDayPage: React.FC = () => {
   const next = AI_PM_DAYS.find((d) => d.day === day.day + 1);
   const isPhaseEnd = day.day === phase.end;
   const example = AI_PM_PHASES.find((p) => p.workedExample?.day === day.day)?.workedExample;
-  const Lesson = AI_PM_LESSONS[day.day];
+  const Lesson = AI_PM_LESSONS[day.day] as React.FC | undefined;
+  const hasLesson = day.day in AI_PM_LESSONS;
   const topics = AI_PM_LESSON_TOPICS[day.day] ?? [];
   const resources = (day.resources ?? []).map((id) => ({ id, ...AI_PM_RESOURCES[id] })).filter((r) => r.title);
   const materialCount = resources.length + (day.video ? 1 : 0);
   const coursePercent = Math.round((progress.done.length / AI_PM_DAYS.length) * 100);
-  const timeLine = day.time ?? (day.kind === 'weekend' ? '3-hour block' : '90–120 minutes');
+  const timeLine = day.time ?? (day.kind === 'weekend' ? '3-hour block' : '45–60 minutes');
   const otherBookmarks = progress.bookmarks.filter((d) => d !== day.day);
 
   const goToSection = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -166,11 +167,11 @@ export const AiPmDayPage: React.FC = () => {
             </Link>
             <div>
               <span className="inline-block text-xs font-semibold px-2.5 py-1 rounded-lg bg-brand-50 text-brand-800 border border-brand-100">
-                Day {day.day} of 90{day.kind === 'weekend' ? ' · Weekend block' : day.kind === 'review' ? ' · Review day' : ''}
+                Day {day.day} of 90{day.kind === 'weekend' ? ' · Weekend block' : day.kind === 'review' ? ' · Gate day' : ''}
               </span>
             </div>
             <h1 className="text-2xl sm:text-3xl md:text-[2rem] font-bold text-zinc-900 leading-tight tracking-tight">{day.topic}</h1>
-            <p className="text-sm sm:text-base text-zinc-600 leading-relaxed max-w-2xl">{day.learn}</p>
+            {hasLesson && <p className="text-sm sm:text-base text-zinc-600 leading-relaxed max-w-2xl">{day.learn}</p>}
             <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5 pt-1 text-sm text-zinc-600">
               <span className="inline-flex items-center gap-1.5"><Clock className="w-4 h-4 text-zinc-500" />{timeLine}</span>
               <span className="inline-flex items-center gap-1.5"><GraduationCap className="w-4 h-4 text-zinc-500" />{day.skill ?? phase.title}</span>
@@ -218,7 +219,7 @@ export const AiPmDayPage: React.FC = () => {
 
           <Card className="border-brand-100 bg-brand-50/40">
             <h2 className="font-bold text-zinc-900 flex items-center gap-2 mb-2">
-              <Hammer className="w-4 h-4 text-brand-600" /> Do
+              <Hammer className="w-4 h-4 text-brand-600" /> Deliverable
             </h2>
             <p className="text-sm sm:text-base text-zinc-800 leading-relaxed">{day.do}</p>
             {day.templates && (
@@ -226,6 +227,13 @@ export const AiPmDayPage: React.FC = () => {
                 {day.templates.map((t) => <TemplateChip key={t} id={t} />)}
               </div>
             )}
+          </Card>
+
+          <Card className="bg-zinc-50/70">
+            <h2 className="font-bold text-zinc-900 flex items-center gap-2 mb-2">
+              <Lightbulb className="w-4 h-4 text-amber-500" /> Reflect
+            </h2>
+            <p className="text-sm sm:text-base text-zinc-700 leading-relaxed">{AI_PM_REFLECTION}</p>
           </Card>
 
           {example && (
@@ -237,7 +245,7 @@ export const AiPmDayPage: React.FC = () => {
             </Card>
           )}
 
-          {day.day === 81 && (
+          {day.day === 82 && (
             <Card className="bg-amber-50/50 border-amber-200/70">
               <h2 className="font-bold text-zinc-900 flex items-center gap-2 mb-2">
                 <Lightbulb className="w-4 h-4 text-amber-600" /> Example background line
