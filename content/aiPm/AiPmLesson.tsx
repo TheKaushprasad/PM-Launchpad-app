@@ -274,6 +274,8 @@ export const AiPmLessonView: React.FC<{ day: number; lesson: AiPmLesson }> = ({ 
             <p className="text-sm text-zinc-700 leading-relaxed">
               {day < CAPSTONE_LOCK_DAY ? (
                 <>Use the <span className="font-bold text-zinc-900">internal knowledge assistant</span> as your capstone for now: an assistant that answers employees’ questions from company documents. You can switch to a different project on Day {CAPSTONE_LOCK_DAY}.</>
+              ) : day === CAPSTONE_LOCK_DAY ? (
+                <>Today you lock your capstone. Keep the <span className="font-bold text-zinc-900">internal knowledge assistant</span> you have used so far, or switch to another AI product you can realistically build in the next six weeks.</>
               ) : (
                 <>Apply this to <span className="font-bold text-zinc-900">your capstone</span>, the AI product you locked on Day {CAPSTONE_LOCK_DAY}.</>
               )}
