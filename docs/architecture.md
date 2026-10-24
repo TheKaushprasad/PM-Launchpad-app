@@ -146,7 +146,7 @@ Interviewer personas come from `server/prompts/interviewer-{maya,alex,priya,marc
 
 ### Voice (`server/voice.ts`, `lib/answerRecorder.ts`)
 
-- Interviews are voice-only (`InterviewMode = 'voice'`); the avatar and text-chat modes were removed on 2026-10-11.
+- Two interview modes (`InterviewMode = 'voice' | 'text'`). Voice: Priya speaks her replies. Text (added 2026-10-24): the candidate types or records answers (recordings still go through Groq), and Priya replies in text only, so no TTS calls are made. Chat, hints and scoring are shared; the mode is sent as `X-Interview-Mode` (Langfuse tag `mode:text|voice`) and saved as `mode` on the scorecard. The avatar mode was removed on 2026-10-11.
 - Speaking: `/api/interview/tts` tries Sarvam Bulbul v4 Flash (`SARVAM_API_KEY`, Indian-English voice `roopa_en_conversational`), then Deepgram Aura-2 (`DEEPGRAM_API_KEY`), then Gemini TTS, then OpenAI, then the browser voice. A watchdog hands the turn back to the candidate if playback never reports that it ended, and tapping the mic interrupts the interviewer.
 - Listening: every answer is recorded (MediaRecorder) and, on "Done answering" or a 3.5 s pause in mic volume, sent to `/api/interview/transcribe`: Groq Whisper (`GROQ_API_KEY`), else Gemini. The browser's live recognition is only a preview and is switched off for the session if it errors (Brave, blocked service). If the candidate edits the text box, their text is sent instead.
 

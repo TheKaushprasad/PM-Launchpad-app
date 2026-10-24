@@ -1349,7 +1349,7 @@ Plain text, 1-2 sentences. No markdown.
         return res.status(401).json({ error: "Unauthorized: Invalid or expired authentication token" });
       }
 
-      const { scenarioId, personaId, level, elapsedSeconds, scratchpadNotes, sessionId } = req.body || {};
+      const { scenarioId, personaId, level, elapsedSeconds, scratchpadNotes, sessionId, mode } = req.body || {};
       const scenario = getScenarioById(scenarioId);
       const persona = getPersonaById(personaId);
       const messages = sanitizeMessages(req.body?.messages);
@@ -1380,7 +1380,8 @@ Plain text, 1-2 sentences. No markdown.
         scratchpadNotes: typeof scratchpadNotes === 'string' ? scratchpadNotes.slice(0, 10000) : '',
         userId, // Strictly from verified Firebase ID token (never from body or query)
         sessionId,
-        level: normalizeLevel(level)
+        level: normalizeLevel(level),
+        mode: mode === 'text' ? 'text' : 'voice'
       });
 
       res.json(result);

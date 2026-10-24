@@ -6,7 +6,7 @@ import { groundAndCapPillars, TranscriptTurn } from "./grounding";
 import { formatEvaluationResponse } from "./scoring";
 import { saveInterviewEvaluationServerSide } from "./persistence";
 import { getLevelConfig, normalizeLevel } from "../data/interviewTracks";
-import { CandidateLevel } from "../types/interview";
+import { CandidateLevel, InterviewMode } from "../types/interview";
 import { traceStep, traceMeta, traceIO, noteGuardrail, geminiUsage, openAiUsage } from "./observability";
 import { getInterviewGeminiKey } from "./geminiKeys";
 
@@ -20,6 +20,8 @@ export interface EvaluationRequestPayload {
   sessionId?: string;
   authHeader?: string;
   level?: CandidateLevel;
+  /** Voice or text interview; saved with the scorecard so scores from the two modes can be told apart. */
+  mode?: InterviewMode;
   /** Number of hints the candidate asked for. Counted from hint turns when omitted. */
   hintsUsed?: number;
   // Eval harness only; the app never sends these.
@@ -124,6 +126,7 @@ export async function runEvaluationEngine(
   const startTime = Date.now();
   const { scenario, persona, messages, elapsedSeconds = 0, scratchpadNotes = '', userId, sessionId, authHeader } = payload;
   const level = normalizeLevel(payload.level);
+  const mode: InterviewMode = payload.mode === 'text' ? 'text' : 'voice';
   const hintsUsed = typeof payload.hintsUsed === 'number'
     ? payload.hintsUsed
     : (messages || []).filter((m) => m.role === 'system_hint').length;
@@ -362,6 +365,7 @@ export async function runEvaluationEngine(
   }
   // Median of three, or the lower of two if one re-score failed
   const { finalEvaluation, winningModel, totalRetries } = scoreRuns[Math.floor((scoreRuns.length - 1) / 2)];
+  (finalEvaluation as any).mode = mode;
 
   // 7. Persist evaluation and audit drift-tracking metrics server-side via Firebase Admin SDK
   let saved = true;
@@ -399,6 +403,7 @@ export async function runEvaluationEngine(
   traceMeta({
     scenarioId: scenario?.id,
     level,
+    mode,
     verdict: (finalEvaluation as any).verdict,
     overallScore: (finalEvaluation as any).overallScore,
     candidateTurns: substantiveCandidateTurns.length,

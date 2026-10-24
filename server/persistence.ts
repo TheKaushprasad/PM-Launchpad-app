@@ -79,6 +79,7 @@ export async function saveInterviewEvaluationServerSide(
     retryCount: evaluation.retryCount || 0,
     candidateTurnCount: evaluation.candidateTurnCount || 0,
     level: evaluation.level || 'pm',
+    mode: evaluation.mode || 'voice',
     hintsUsed: evaluation.hintsUsed || 0,
     hireBarNotes: evaluation.hireBarNotes || []
   };

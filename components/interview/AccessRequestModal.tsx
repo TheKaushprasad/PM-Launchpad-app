@@ -22,7 +22,8 @@ export const AccessRequestModal: React.FC<AccessRequestModalProps> = ({
   const [isRequesting, setIsRequesting] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const isVoiceOnly = mode === 'voice';
+  // Both modes only use the microphone (text mode for recorded answers); no camera.
+  const isVoiceOnly = mode === 'voice' || mode === 'text';
 
   // Check initial permission states if supported by browser Permissions API
   useEffect(() => {

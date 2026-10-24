@@ -17,6 +17,7 @@ import { InterviewScenario, InterviewerPersona, InterviewMode, InterviewerPerson
 import { LEVELS, getTrackConfig } from '../../data/interviewTracks';
 import { ACTIVE_INTERVIEWER } from '../../data/interviewPersonas';
 import { AccessRequestModal } from './AccessRequestModal';
+import { InterviewModePicker } from './InterviewModePicker';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 
@@ -37,7 +38,7 @@ export const SetupModal: React.FC<SetupModalProps> = ({
   onLevelChange,
   onStartSession
 }) => {
-  const selectedMode: InterviewMode = 'voice';
+  const [selectedMode, setSelectedMode] = useState<InterviewMode>('voice');
   const [showAccessRequestModal, setShowAccessRequestModal] = useState<boolean>(false);
   const [hasPromptedPermissions, setHasPromptedPermissions] = useState<boolean>(false);
 
@@ -130,11 +131,11 @@ export const SetupModal: React.FC<SetupModalProps> = ({
               </p>
             </div>
 
-            {/* Step 1: Voice interview */}
+            {/* Step 1: How you'll answer */}
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <label className="text-xs font-black uppercase tracking-wider text-zinc-500 block">
-                  1. Voice Interview
+                  1. Interview Mode
                 </label>
                 <button
                   type="button"
@@ -144,14 +145,7 @@ export const SetupModal: React.FC<SetupModalProps> = ({
                   <Shield className="w-3 h-3" /> Test Microphone
                 </button>
               </div>
-              <div className="p-4 rounded-2xl border-2 border-brand-600 bg-brand-50/50 flex items-start gap-3">
-                <div className="p-2 rounded-xl bg-brand-600 text-white shrink-0">
-                  <Mic className="w-4 h-4" />
-                </div>
-                <p className="text-[11px] text-zinc-600 font-medium leading-snug">
-                  Speak your answers out loud, like a real phone screen. Your words appear as text so you can fix them before they're sent. Use Chrome or Edge on a laptop for the best results.
-                </p>
-              </div>
+              <InterviewModePicker value={selectedMode} onChange={setSelectedMode} />
             </div>
 
             {/* Step 2: Your interviewer */}
