@@ -153,6 +153,8 @@ export function traceInterviewRequests(req: Request, res: Response, next: NextFu
   if (req.path.startsWith("/telemetry")) return next();
   const route = req.path.replace(/^\/+|\/+$/g, "").split("/")[0] || "unknown";
   const turn = Number(headerValue(req, "x-interview-turn"));
+  // Voice or text interview, so Langfuse can filter and compare the two modes.
+  const mode = headerValue(req, "x-interview-mode") === "text" ? "text" : "voice";
   const state: RequestTrace = {
     name: TRACE_NAMES[route] || `interview-${route}`,
     sessionId: cleanSessionId(headerValue(req, "x-interview-session")),
@@ -160,7 +162,7 @@ export function traceInterviewRequests(req: Request, res: Response, next: NextFu
     res,
     startedAt: Date.now(),
     guardrails: [],
-    metadata: {},
+    metadata: { mode },
     steps: [],
   };
   res.on("finish", () => finishTrace(state, res.statusCode));
@@ -174,8 +176,8 @@ export function traceInterviewRequests(req: Request, res: Response, next: NextFu
       {
         sessionId: state.sessionId,
         traceName: state.name,
-        tags: ["interview"],
-        metadata: { route, ...(state.turn !== undefined ? { turn: state.turn } : {}) },
+        tags: ["interview", `mode:${mode}`],
+        metadata: { route, mode, ...(state.turn !== undefined ? { turn: state.turn } : {}) },
       },
       () => {
         const root = startObservation(state.name, {}, { asType: "span" });

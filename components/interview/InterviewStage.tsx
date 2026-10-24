@@ -105,6 +105,8 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
   onRoundComplete
 }) => {
   const { user, recordInterviewSession } = useAuth();
+  // Text mode: Priya replies in text only (no voice requests); the candidate can type or record answers.
+  const isTextMode = mode === 'text';
 
   // Initial Loading / Preparation State
   const [isSessionPreparing, setIsSessionPreparing] = useState<boolean>(true);
@@ -126,8 +128,8 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
   const [hintsUsed, setHintsUsed] = useState<number>(0);
 
   // Audio / Speech State
-  // Text chat starts muted so it doesn't spend voice quota; it can still be switched on.
-  const [isVoiceEnabled, setIsVoiceEnabled] = useState<boolean>(true);
+  // Text mode never plays Priya's voice, so it spends no voice quota.
+  const [isVoiceEnabled, setIsVoiceEnabled] = useState<boolean>(!isTextMode);
   const [isListening, setIsListening] = useState<boolean>(false);
   const [audioLevel, setAudioLevel] = useState<number>(0);
   const [micStatusNotice, setMicStatusNotice] = useState<string | null>(null);
@@ -187,7 +189,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
   useEffect(() => {
     messagesRef.current = messages;
   }, [messages]);
-  const isVoiceEnabledRef = useRef<boolean>(true);
+  const isVoiceEnabledRef = useRef<boolean>(!isTextMode);
   useEffect(() => {
     isVoiceEnabledRef.current = isVoiceEnabled;
   }, [isVoiceEnabled]);
@@ -238,15 +240,18 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
   const transcriptEndRef = useRef<HTMLDivElement>(null);
 
   // Observability (lib/interviewTelemetry.ts): one pending timing per turn, from the moment the
-  // candidate submits (or the interview opens) until Priya's voice starts playing.
+  // candidate submits (or the interview opens) until Priya's voice starts playing (in text mode, until her reply shows).
   const turnTimingRef = useRef<{ startedAt: number; transcribeMs?: number; replyMs?: number } | null>(null);
   const interviewEndedRef = useRef<boolean>(false);
-  const reportVoiceStarted = (voice: 'natural' | 'browser') => {
+  const reportVoiceStarted = (voice: 'natural' | 'browser' | 'text') => {
     const timing = turnTimingRef.current;
     if (!timing) return;
     turnTimingRef.current = null;
+    // The scripted opener shows instantly in text mode, so there is nothing to time.
+    if (voice === 'text' && currentInterviewTurn() === 0) return;
     // The opener has no interviewer-turn trace, so its wait is scored on the whole interview under its own name.
-    const waitName = currentInterviewTurn() === 0 ? 'opener_first_voice_ms' : 'first_voice_ms';
+    const waitName = voice === 'text' ? 'first_reply_ms'
+      : currentInterviewTurn() === 0 ? 'opener_first_voice_ms' : 'first_voice_ms';
     const metrics: Record<string, number> = { [waitName]: Math.round(performance.now() - timing.startedAt) };
     if (timing.transcribeMs !== undefined) metrics.transcribe_ms = timing.transcribeMs;
     if (timing.replyMs !== undefined) metrics.reply_ms = timing.replyMs;
@@ -366,6 +371,9 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
     clearSpeakWatchdog();
     setSpeaking(false);
 
+    // Text mode: the candidate chooses to type or tap the mic, so the mic never opens on its own.
+    if (isTextMode) return;
+
     // Auto-engage the microphone after a 400ms echo cooldown
     if (!isListeningRef.current && !isThinkingRef.current && !isEvaluatingRef.current) {
       if (autoStartListeningTimeoutRef.current) {
@@ -481,6 +489,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
   // Human-Like Voice Playback (Zero-Delay Direct Audio from Chat Payload -> Fallback Neural TTS)
   const speakTextWithHumanVoice = async (text: string) => {
     if (!isVoiceEnabledRef.current) {
+      if (isTextMode) reportVoiceStarted('text');
       handleInterviewerFinishedSpeaking();
       return;
     }
@@ -642,6 +651,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
       scenarioId: scenario.id,
       track: scenario.track,
       level,
+      mode,
       voice: isVoiceEnabledRef.current
     });
     const openerText = buildOpener(scenario, persona);
@@ -659,7 +669,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
 
   // Short briefing screen, then the scripted opener
   useEffect(() => {
-    startInterviewTelemetry();
+    startInterviewTelemetry(mode);
     if (isVoiceEnabledRef.current) {
       for (const part of splitForSpeech(buildOpener(scenario, persona)).slice(0, 2)) {
         const response = requestTts(part);
@@ -1107,6 +1117,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
           scenarioId: scenario.id,
           personaId: persona.id,
           level,
+          mode,
           messages: messages.map(({ role, text }) => ({ role, text })),
           elapsedSeconds,
           scratchpadNotes: scratchpadNotes || ''
@@ -1133,6 +1144,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
             durationMinutes: Math.ceil(elapsedSeconds / 60),
             scoringVersion: evalData.scoringVersion || 'v3',
             level,
+            mode,
             createdAt: new Date().toISOString(),
             pillarScores: Object.fromEntries(
               Object.entries(evalData.pillars || {}).map(([k, p]: [string, any]) => [k, p?.rawScore])
@@ -1180,9 +1192,62 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
     setScratchpadNotes('');
     typedEditRef.current = false;
     startedRef.current = false;
-    startInterviewTelemetry();
+    startInterviewTelemetry(mode);
     enterStudioImmediately();
   };
+
+  // The conversation as chat bubbles: the transcript drawer in voice mode, the main panel in text mode.
+  const renderTranscript = (large: boolean) => (
+    <>
+      {messages.map((m) => {
+        const isCandidate = m.role === 'candidate';
+        const isInterviewer = m.role === 'interviewer';
+        const isHint = m.role === 'system_hint';
+
+        if (isHint) {
+          return (
+            <div key={m.id} className="p-3 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-semibold leading-relaxed shadow-xs flex items-start gap-2">
+              <Lightbulb className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+              <span>{m.text}</span>
+            </div>
+          );
+        }
+
+        return (
+          <div key={m.id} className={`flex flex-col ${isCandidate ? 'items-end' : 'items-start'}`}>
+            <div className="flex items-center gap-1.5 mb-1 px-1">
+              <span className="text-[10px] font-black uppercase tracking-wider text-zinc-400">
+                {isCandidate ? 'You' : persona.name}
+              </span>
+              <span className="text-[9px] text-zinc-400">{m.timestamp}</span>
+            </div>
+
+            <div className={`p-3.5 rounded-2xl ${large ? 'text-sm' : 'text-xs'} font-medium leading-relaxed max-w-[90%] shadow-xs whitespace-pre-wrap select-text ${
+              isCandidate 
+                ? 'bg-brand-600 text-white rounded-tr-none' 
+                : 'bg-zinc-100 text-zinc-800 rounded-tl-none border border-zinc-200/70'
+            }`}>
+              {m.text}
+            </div>
+          </div>
+        );
+      })}
+
+      {isTranscribing && (
+        <div className="flex items-center gap-2 text-zinc-500 text-xs font-bold p-2 bg-zinc-50 rounded-xl border border-zinc-100">
+          <Loader2 className="w-3.5 h-3.5 animate-spin text-brand-500" />
+          <span>Transcribing your answer...</span>
+        </div>
+      )}
+
+      {isThinking && (
+        <div className="flex items-center gap-2 text-zinc-500 text-xs font-bold p-2 bg-zinc-50 rounded-xl border border-zinc-100">
+          <Loader2 className="w-3.5 h-3.5 animate-spin text-brand-500" />
+          <span>{persona.name} is reviewing your points and preparing follow-up...</span>
+        </div>
+      )}
+    </>
+  );
 
   // Format Elapsed / Remaining Timer
   const formatTime = (seconds: number) => {
@@ -1295,7 +1360,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-3 border-t border-zinc-100 text-xs text-zinc-500 font-medium">
             <div className="flex items-center gap-2">
               <Radio className="w-3.5 h-3.5 text-emerald-500 animate-pulse" />
-              <span>Studio Voice & Rubric Engine Initializing...</span>
+              <span>{isTextMode ? 'Text interview: Priya replies in writing' : 'Studio Voice & Rubric Engine Initializing...'}</span>
             </div>
 
             <div className="flex items-center gap-3">
@@ -1389,7 +1454,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
               </span>
             </div>
             <span className="text-[11px] text-zinc-500 font-bold uppercase tracking-wider">
-              {loopInfo ? `Round ${loopInfo.round} of ${loopInfo.total} • ` : ''}{getTrackConfig(scenario.track).label} • {getLevelConfig(level).short} • {scenario.targetDurationMinutes} Mins
+              {loopInfo ? `Round ${loopInfo.round} of ${loopInfo.total} • ` : ''}{isTextMode ? 'Text • ' : ''}{getTrackConfig(scenario.track).label} • {getLevelConfig(level).short} • {scenario.targetDurationMinutes} Mins
             </span>
           </div>
         </div>
@@ -1461,6 +1526,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
             )}
           </div>
 
+          {!isTextMode && (
           <button
             onClick={() => {
               if (isVoiceEnabled) {
@@ -1476,7 +1542,9 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
           >
             {isVoiceEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
           </button>
+          )}
 
+          {!isTextMode && (
           <button
             onClick={() => setIsTranscriptOpen(!isTranscriptOpen)}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-bold transition-colors ${
@@ -1487,6 +1555,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
             <FileText className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">{isTranscriptOpen ? 'Hide transcript' : 'Transcript'}</span>
           </button>
+          )}
 
           <button
             onClick={() => setIsEndModalOpen(true)}
@@ -1582,7 +1651,24 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
       {/* Main Workspace Stage */}
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-3 min-h-0 overflow-hidden">
         {/* Left/Center Visual Stage */}
-        <div className={`relative h-full flex flex-col ${isTranscriptOpen ? 'lg:col-span-8' : 'lg:col-span-12'} transition-all duration-300`}>
+        <div className={`relative h-full flex flex-col ${isTranscriptOpen && !isTextMode ? 'lg:col-span-8' : 'lg:col-span-12'} transition-all duration-300 min-h-0`}>
+          {isTextMode ? (
+            <div className="relative flex-1 w-full min-h-[300px] bg-white rounded-3xl border border-zinc-200 shadow-xs flex flex-col overflow-hidden">
+              <div className="px-4 py-3 border-b border-zinc-100 flex items-center gap-3 bg-zinc-50/70">
+                <img src={persona.avatarImage} alt={persona.name} className="w-9 h-9 rounded-full object-cover border-2 border-white shadow-sm" />
+                <div className="min-w-0">
+                  <div className="font-extrabold text-sm text-zinc-900">{persona.name}</div>
+                  <div className="text-[11px] text-zinc-500 font-medium truncate">
+                    {isThinking ? 'Typing...' : `${persona.role} • Text interview`}
+                  </div>
+                </div>
+              </div>
+              <div className="flex-1 p-4 md:p-6 overflow-y-auto space-y-3">
+                {renderTranscript(true)}
+                <div ref={transcriptEndRef} />
+              </div>
+            </div>
+          ) : (
           <div className="relative flex-1 w-full h-full min-h-[350px]">
             <AvatarVisualizer
               persona={persona}
@@ -1597,6 +1683,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
               micDisabled={isTranscribing || isEvaluating || !!chatError}
             />
           </div>
+          )}
 
           {/* Interviewer reply failed: retry, no scripted stand-in */}
           {chatError && (
@@ -1629,7 +1716,47 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
           {/* Bottom Candidate Response Toolbar */}
           <div className="mt-3 bg-white rounded-2xl border border-zinc-200 p-2.5 shadow-xs flex items-center gap-2">
             {/* Text Input Box with Live Word-by-Word Preview */}
-            <form onSubmit={handleSendMessage} className="flex-1 flex items-center gap-2">
+            <form onSubmit={handleSendMessage} className="flex-1 min-w-0 flex items-center gap-2">
+              {isTextMode ? (
+                <>
+                  <textarea
+                    value={inputText}
+                    autoFocus
+                    rows={2}
+                    onChange={(e) => {
+                      typedEditRef.current = true;
+                      setInputText(e.target.value);
+                      latestInputTextRef.current = e.target.value;
+                    }}
+                    onKeyDown={(e) => {
+                      // Enter sends, Shift+Enter starts a new line
+                      if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) {
+                        e.preventDefault();
+                        handleSendMessage();
+                      }
+                    }}
+                    placeholder={
+                      isListening
+                        ? "🎙️ Recording... Press Done answering when you finish. You can fix the text before it's sent."
+                        : 'Type your answer, or tap the mic to record it. Shift+Enter adds a new line.'
+                    }
+                    disabled={isThinking || isTranscribing || isEvaluating || !!chatError}
+                    className="flex-1 min-w-0 px-4 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-sm text-zinc-800 focus:outline-hidden focus:ring-2 focus:ring-brand-500 font-medium resize-none select-text"
+                  />
+                  <button
+                    type="button"
+                    onClick={toggleListening}
+                    disabled={isThinking || isTranscribing || isEvaluating || !!chatError}
+                    className={`p-2.5 rounded-xl border shrink-0 transition-colors disabled:opacity-40 ${
+                      isListening ? 'bg-rose-600 border-rose-600 text-white animate-pulse' : 'bg-zinc-100 border-zinc-200 text-zinc-600 hover:bg-zinc-200'
+                    }`}
+                    title={isListening ? 'Stop recording' : 'Record your answer'}
+                    aria-label={isListening ? 'Stop recording' : 'Record your answer'}
+                  >
+                    {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+                  </button>
+                </>
+              ) : (
               <input
                 type="text"
                 value={inputText}
@@ -1646,6 +1773,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
                 disabled={isThinking || isTranscribing || isEvaluating || !!chatError}
                 className="flex-1 px-4 py-2.5 rounded-xl bg-zinc-50 border border-zinc-200 text-xs md:text-sm text-zinc-800 focus:outline-hidden focus:ring-2 focus:ring-brand-500 font-medium"
               />
+              )}
 
               <button
                 type="submit"
@@ -1676,7 +1804,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
         </div>
 
         {/* Right Conversation Transcript Drawer */}
-        {isTranscriptOpen && (
+        {isTranscriptOpen && !isTextMode && (
           <div className="lg:col-span-4 h-full bg-white rounded-3xl border border-zinc-200 shadow-xs flex flex-col overflow-hidden">
             <div className="px-4 py-3 border-b border-zinc-100 flex items-center justify-between bg-zinc-50/70">
               <div className="flex items-center gap-2">
@@ -1690,53 +1818,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
 
             {/* Transcript Messages List */}
             <div className="flex-1 p-4 overflow-y-auto space-y-3">
-              {messages.map((m) => {
-                const isCandidate = m.role === 'candidate';
-                const isInterviewer = m.role === 'interviewer';
-                const isHint = m.role === 'system_hint';
-
-                if (isHint) {
-                  return (
-                    <div key={m.id} className="p-3 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-semibold leading-relaxed shadow-xs flex items-start gap-2">
-                      <Lightbulb className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
-                      <span>{m.text}</span>
-                    </div>
-                  );
-                }
-
-                return (
-                  <div key={m.id} className={`flex flex-col ${isCandidate ? 'items-end' : 'items-start'}`}>
-                    <div className="flex items-center gap-1.5 mb-1 px-1">
-                      <span className="text-[10px] font-black uppercase tracking-wider text-zinc-400">
-                        {isCandidate ? 'You' : persona.name}
-                      </span>
-                      <span className="text-[9px] text-zinc-400">{m.timestamp}</span>
-                    </div>
-
-                    <div className={`p-3.5 rounded-2xl text-xs font-medium leading-relaxed max-w-[90%] shadow-xs ${
-                      isCandidate 
-                        ? 'bg-brand-600 text-white rounded-tr-none' 
-                        : 'bg-zinc-100 text-zinc-800 rounded-tl-none border border-zinc-200/70'
-                    }`}>
-                      {m.text}
-                    </div>
-                  </div>
-                );
-              })}
-
-              {isTranscribing && (
-                <div className="flex items-center gap-2 text-zinc-500 text-xs font-bold p-2 bg-zinc-50 rounded-xl border border-zinc-100">
-                  <Loader2 className="w-3.5 h-3.5 animate-spin text-brand-500" />
-                  <span>Transcribing your answer...</span>
-                </div>
-              )}
-
-              {isThinking && (
-                <div className="flex items-center gap-2 text-zinc-500 text-xs font-bold p-2 bg-zinc-50 rounded-xl border border-zinc-100">
-                  <Loader2 className="w-3.5 h-3.5 animate-spin text-brand-500" />
-                  <span>{persona.name} is reviewing your points and preparing follow-up...</span>
-                </div>
-              )}
+              {renderTranscript(false)}
 
               <div ref={transcriptEndRef} />
             </div>

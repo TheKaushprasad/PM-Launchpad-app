@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mic, Sparkles, Volume2, Radio } from 'lucide-react';
-import { InterviewerPersona } from '../../types/interview';
+import { InterviewerPersona, InterviewMode } from '../../types/interview';
 
 interface AvatarVisualizerProps {
   persona: InterviewerPersona;
@@ -11,7 +11,7 @@ interface AvatarVisualizerProps {
   currentSubtitle: string;
   candidateLiveText?: string;
   audioLevel?: number;
-  mode: 'voice';
+  mode: InterviewMode;
   onToggleMic?: () => void;
   micDisabled?: boolean;
 }

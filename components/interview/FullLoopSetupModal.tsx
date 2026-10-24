@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { X, Layers } from 'lucide-react';
 import { CandidateLevel, InterviewMode } from '../../types/interview';
 import { LEVELS } from '../../data/interviewTracks';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
+import { InterviewModePicker } from './InterviewModePicker';
 
 interface FullLoopSetupModalProps {
   isOpen: boolean;
@@ -15,7 +16,7 @@ interface FullLoopSetupModalProps {
 
 /** Setup for a full interview loop: three rounds back to back with one combined verdict. */
 export const FullLoopSetupModal: React.FC<FullLoopSetupModalProps> = ({ isOpen, level, onLevelChange, onClose, onStart }) => {
-  const mode: InterviewMode = 'voice';
+  const [mode, setMode] = useState<InterviewMode>('voice');
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => { if (!open) onClose(); }}>
@@ -55,6 +56,11 @@ export const FullLoopSetupModal: React.FC<FullLoopSetupModalProps> = ({ isOpen, 
                 </button>
               ))}
             </div>
+          </div>
+
+          <div className="space-y-2">
+            <span className="text-xs font-black uppercase tracking-wider text-zinc-500">Interview mode</span>
+            <InterviewModePicker value={mode} onChange={setMode} />
           </div>
 
           <Button

@@ -589,6 +589,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             durationMinutes: d.durationMinutes || 15,
             scoringVersion: d.scoringVersion || (d.promptVersion ? 'v2' : 'v1'),
             level: d.level,
+            mode: d.mode || 'voice',
             createdAt: d.createdAt,
             pillarScores: d.pillars
               ? Object.fromEntries(Object.entries(d.pillars).map(([k, p]: [string, any]) => [k, typeof p?.rawScore === 'number' ? p.rawScore : undefined]))

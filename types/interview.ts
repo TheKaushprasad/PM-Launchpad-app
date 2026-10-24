@@ -1,6 +1,7 @@
 export type InterviewTrack = 'rca' | 'guesstimate' | 'strategy' | 'design' | 'metrics' | 'behavioral' | 'ai';
 /** Interviews are voice-only. Kept as a type so saved sessions and props stay explicit. */
-export type InterviewMode = 'voice';
+/** voice: Priya speaks her replies. text: she replies in text only (the candidate can still type or record). */
+export type InterviewMode = 'voice' | 'text';
 export type InterviewerPersonaId = 'maya' | 'alex' | 'priya' | 'marcus';
 export type DifficultyLevel = 'Easy' | 'Medium' | 'Hard';
 export type HiringVerdict = 'Strong Hire' | 'Hire' | 'No Hire' | 'Strong No Hire';
@@ -96,6 +97,8 @@ export interface InterviewEvaluation {
   verdict: HiringVerdict | LegacyHiringVerdict;
   confidence?: 'High' | 'Medium' | 'Low' | string;
   level?: CandidateLevel;
+  /** How the interview was taken. Missing on interviews saved before text mode (all voice). */
+  mode?: InterviewMode;
   hintsUsed?: number;
   /** Plain-language notes when the hiring bar lowered the verdict (e.g. a pillar scored 1). */
   hireBarNotes?: string[];
@@ -146,6 +149,7 @@ export interface InterviewSessionHistory {
   durationMinutes: number;
   scoringVersion?: string;
   level?: CandidateLevel;
+  mode?: InterviewMode;
   /** Raw 1-5 pillar scores, for the progress view. Missing on sessions saved before scoring v3. */
   pillarScores?: Partial<Record<PillarKey, number>>;
   createdAt?: string;
