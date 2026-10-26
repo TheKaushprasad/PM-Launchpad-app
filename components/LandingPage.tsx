@@ -492,14 +492,14 @@ export const LandingPage: React.FC = () => {
           <div className="flex lg:hidden items-center gap-2">
             <button
               onClick={() => setSearchModalOpen(true)}
-              className="p-2 text-slate-600 hover:bg-slate-100 rounded-lg"
+              className="tap-target p-2 text-slate-600 hover:bg-slate-100 rounded-lg"
               aria-label="Search"
             >
               <Search className="w-5 h-5" />
             </button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 text-slate-700 hover:bg-slate-100 rounded-lg"
+              className="tap-target p-2 text-slate-700 hover:bg-slate-100 rounded-lg"
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Layers className="w-6 h-6" />}
@@ -923,7 +923,7 @@ export const LandingPage: React.FC = () => {
                       e.stopPropagation();
                       navigate('/dashboard');
                     }}
-                    className="w-full text-center py-2 text-[11px] font-bold text-rose-600 hover:text-rose-700 bg-rose-50/70 hover:bg-rose-100/80 rounded-xl transition-colors cursor-pointer"
+                    className="w-full text-center py-2 pointer-coarse:py-3.5 text-[11px] font-bold text-rose-600 hover:text-rose-700 bg-rose-50/70 hover:bg-rose-100/80 rounded-xl transition-colors cursor-pointer"
                   >
                     Start Learning →
                   </button>
@@ -964,7 +964,7 @@ export const LandingPage: React.FC = () => {
                       e.stopPropagation();
                       navigate('/tools/linkedin-optimiser');
                     }}
-                    className="w-full text-center py-2 text-[11px] font-bold text-brand-600 hover:text-brand-700 bg-brand-50/70 hover:bg-brand-100/80 rounded-xl transition-colors cursor-pointer"
+                    className="w-full text-center py-2 pointer-coarse:py-3.5 text-[11px] font-bold text-brand-600 hover:text-brand-700 bg-brand-50/70 hover:bg-brand-100/80 rounded-xl transition-colors cursor-pointer"
                   >
                     Audit My Profile →
                   </button>
@@ -1006,7 +1006,7 @@ export const LandingPage: React.FC = () => {
                       e.stopPropagation();
                       navigate('/interview-studio');
                     }}
-                    className="w-full text-center py-2 text-[11px] font-bold text-brand-600 hover:text-brand-700 bg-brand-50/70 hover:bg-brand-100/80 rounded-xl transition-colors cursor-pointer"
+                    className="w-full text-center py-2 pointer-coarse:py-3.5 text-[11px] font-bold text-brand-600 hover:text-brand-700 bg-brand-50/70 hover:bg-brand-100/80 rounded-xl transition-colors cursor-pointer"
                   >
                     Start Practicing →
                   </button>
@@ -1052,7 +1052,7 @@ export const LandingPage: React.FC = () => {
                       e.stopPropagation();
                       navigate('/resources');
                     }}
-                    className="w-full text-center py-2 text-[11px] font-bold text-emerald-700 hover:text-emerald-800 bg-emerald-50/70 hover:bg-emerald-100/80 rounded-xl transition-colors cursor-pointer"
+                    className="w-full text-center py-2 pointer-coarse:py-3.5 text-[11px] font-bold text-emerald-700 hover:text-emerald-800 bg-emerald-50/70 hover:bg-emerald-100/80 rounded-xl transition-colors cursor-pointer"
                   >
                     Explore Resources →
                   </button>
@@ -1096,7 +1096,7 @@ export const LandingPage: React.FC = () => {
                       e.stopPropagation();
                       navigate('/jobs');
                     }}
-                    className="md:w-40 shrink-0 text-center py-2 px-3 text-[11px] font-bold text-amber-700 hover:text-amber-800 bg-amber-50/70 hover:bg-amber-100/80 rounded-xl transition-colors cursor-pointer"
+                    className="md:w-40 shrink-0 text-center py-2 pointer-coarse:py-3.5 px-3 text-[11px] font-bold text-amber-700 hover:text-amber-800 bg-amber-50/70 hover:bg-amber-100/80 rounded-xl transition-colors cursor-pointer"
                   >
                     Browse PM Jobs →
                   </button>
@@ -1346,10 +1346,10 @@ export const LandingPage: React.FC = () => {
       {/* FOOTER */}
       <footer className="border-t border-slate-200 bg-white pt-16 pb-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-slate-100">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-12 gap-10 pb-12 border-b border-slate-100">
             
             {/* Col 1: Brand & Bio */}
-            <div className="md:col-span-4 space-y-4">
+            <div className="col-span-2 sm:col-span-3 lg:col-span-4 space-y-4">
               <div className="flex items-center gap-2.5">
                 <Logo className="w-8 h-8 shrink-0" />
                 <div>
@@ -1368,7 +1368,7 @@ export const LandingPage: React.FC = () => {
                   href="https://www.linkedin.com/company/the-noob-pm/?viewAsMember=true" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center hover:text-[#0A66C2] hover:border-[#0A66C2] transition-colors"
+                  className="w-8 h-8 pointer-coarse:w-11 pointer-coarse:h-11 rounded-full border border-slate-200 flex items-center justify-center hover:text-[#0A66C2] hover:border-[#0A66C2] transition-colors"
                   aria-label="LinkedIn"
                 >
                   <span className="font-bold text-xs">in</span>
@@ -1377,7 +1377,7 @@ export const LandingPage: React.FC = () => {
                   href="https://www.youtube.com/@THE_NOOB_PM" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center hover:text-red-600 hover:border-red-600 transition-colors"
+                  className="w-8 h-8 pointer-coarse:w-11 pointer-coarse:h-11 rounded-full border border-slate-200 flex items-center justify-center hover:text-red-600 hover:border-red-600 transition-colors"
                   aria-label="YouTube"
                 >
                   <span className="font-bold text-xs">▶</span>
@@ -1386,40 +1386,40 @@ export const LandingPage: React.FC = () => {
             </div>
 
             {/* Col 2: Product */}
-            <div className="md:col-span-2 space-y-3">
+            <div className="lg:col-span-2 space-y-3">
               <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">Product</h4>
-              <ul className="space-y-2 text-xs text-slate-600">
-                <li><button onClick={() => navigate('/dashboard')} className="hover:text-emerald-700 transition-colors cursor-pointer">Learn</button></li>
-                <li><button onClick={() => navigate('/interview-studio')} className="hover:text-emerald-700 transition-colors cursor-pointer">AI Mock Interview</button></li>
-                <li><button onClick={() => navigate('/tools')} className="hover:text-emerald-700 transition-colors cursor-pointer">Resume Tools</button></li>
-                <li><button onClick={() => navigate('/jobs')} className="hover:text-emerald-700 transition-colors cursor-pointer">PM Jobs</button></li>
-                <li><button onClick={() => navigate('/resources')} className="hover:text-emerald-700 transition-colors cursor-pointer">Resources</button></li>
-                <li><a href="https://chat.whatsapp.com/GhkzK8bDAUwLAKfLw7hfbW" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-700 transition-colors">Community</a></li>
+              <ul className="space-y-2 pointer-coarse:space-y-0 pointer-coarse:[&>li]:flex pointer-coarse:[&>li]:min-h-11 pointer-coarse:[&>li]:items-center text-xs text-slate-600">
+                <li><button onClick={() => navigate('/dashboard')} className="pointer-coarse:flex pointer-coarse:items-center pointer-coarse:self-stretch hover:text-emerald-700 transition-colors cursor-pointer">Learn</button></li>
+                <li><button onClick={() => navigate('/interview-studio')} className="pointer-coarse:flex pointer-coarse:items-center pointer-coarse:self-stretch hover:text-emerald-700 transition-colors cursor-pointer">AI Mock Interview</button></li>
+                <li><button onClick={() => navigate('/tools')} className="pointer-coarse:flex pointer-coarse:items-center pointer-coarse:self-stretch hover:text-emerald-700 transition-colors cursor-pointer">Resume Tools</button></li>
+                <li><button onClick={() => navigate('/jobs')} className="pointer-coarse:flex pointer-coarse:items-center pointer-coarse:self-stretch hover:text-emerald-700 transition-colors cursor-pointer">PM Jobs</button></li>
+                <li><button onClick={() => navigate('/resources')} className="pointer-coarse:flex pointer-coarse:items-center pointer-coarse:self-stretch hover:text-emerald-700 transition-colors cursor-pointer">Resources</button></li>
+                <li><a href="https://chat.whatsapp.com/GhkzK8bDAUwLAKfLw7hfbW" target="_blank" rel="noopener noreferrer" className="pointer-coarse:flex pointer-coarse:items-center pointer-coarse:self-stretch hover:text-emerald-700 transition-colors">Community</a></li>
               </ul>
             </div>
 
             {/* Col 3: Company */}
-            <div className="md:col-span-2 space-y-3">
+            <div className="lg:col-span-2 space-y-3">
               <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">Company</h4>
-              <ul className="space-y-2 text-xs text-slate-600">
-                <li><button onClick={() => navigate('/dashboard/about')} className="hover:text-emerald-700 transition-colors cursor-pointer">About</button></li>
+              <ul className="space-y-2 pointer-coarse:space-y-0 pointer-coarse:[&>li]:flex pointer-coarse:[&>li]:min-h-11 pointer-coarse:[&>li]:items-center text-xs text-slate-600">
+                <li><button onClick={() => navigate('/dashboard/about')} className="pointer-coarse:flex pointer-coarse:items-center pointer-coarse:self-stretch hover:text-emerald-700 transition-colors cursor-pointer">About</button></li>
                 <li><span className="text-slate-400">Blog</span></li>
                 <li><span className="text-slate-400">Careers</span></li>
-                <li><a href="mailto:contact@thenoobpm.com" className="hover:text-emerald-700 transition-colors">Contact</a></li>
+                <li><a href="mailto:contact@thenoobpm.com" className="pointer-coarse:flex pointer-coarse:items-center pointer-coarse:self-stretch hover:text-emerald-700 transition-colors">Contact</a></li>
               </ul>
             </div>
 
             {/* Col 4: Legal */}
-            <div className="md:col-span-2 space-y-3">
+            <div className="lg:col-span-2 space-y-3">
               <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">Legal</h4>
-              <ul className="space-y-2 text-xs text-slate-600">
+              <ul className="space-y-2 pointer-coarse:space-y-0 pointer-coarse:[&>li]:flex pointer-coarse:[&>li]:min-h-11 pointer-coarse:[&>li]:items-center text-xs text-slate-600">
                 <li><span className="text-slate-400">Privacy Policy</span></li>
                 <li><span className="text-slate-400">Terms of Service</span></li>
               </ul>
             </div>
 
             {/* Col 5: Join our newsletter */}
-            <div className="md:col-span-2 space-y-3">
+            <div className="col-span-2 sm:col-span-3 lg:col-span-2 space-y-3">
               <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">Join our newsletter</h4>
               <p className="text-xs text-slate-500">
                 Get the latest PM resources, case studies and updates.
@@ -1446,11 +1446,11 @@ export const LandingPage: React.FC = () => {
                     value={newsletterEmail}
                     onChange={(e) => setNewsletterEmail(e.target.value)}
                     placeholder="Enter your email"
-                    className="w-full text-xs px-3 py-2 rounded-xl border border-slate-300 focus:outline-hidden focus:border-emerald-600 bg-slate-50"
+                    className="w-full min-w-0 text-xs px-3 py-2 pointer-coarse:py-3 rounded-xl border border-slate-300 focus:outline-hidden focus:border-emerald-600 bg-slate-50"
                   />
                   <button
                     type="submit"
-                    className="p-2 bg-[#064E3B] hover:bg-[#043C2C] text-white rounded-xl transition-colors cursor-pointer shrink-0"
+                    className="p-2 pointer-coarse:p-3.5 bg-[#064E3B] hover:bg-[#043C2C] text-white rounded-xl transition-colors cursor-pointer shrink-0"
                     aria-label="Subscribe"
                   >
                     <ArrowRight className="w-4 h-4" />

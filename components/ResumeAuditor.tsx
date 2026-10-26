@@ -420,7 +420,7 @@ export const ResumeAuditor: React.FC = () => {
           <div className="flex items-center gap-3">
             <button
               onClick={() => navigate('/tools')}
-              className="flex items-center gap-1.5 text-xs font-bold text-zinc-600 hover:text-zinc-900 bg-zinc-100 hover:bg-zinc-200 px-3 py-1.5 rounded-lg transition-colors"
+              className="tap-target flex items-center gap-1.5 text-xs font-bold text-zinc-600 hover:text-zinc-900 bg-zinc-100 hover:bg-zinc-200 px-3 py-1.5 rounded-lg transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>Career Tools</span>
@@ -469,7 +469,7 @@ export const ResumeAuditor: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => setIsAddingRole(true)}
-                      className="text-xs font-bold text-brand-600 hover:text-brand-700 flex items-center gap-1 hover:underline"
+                      className="tap-target text-xs font-bold text-brand-600 hover:text-brand-700 flex items-center gap-1 hover:underline"
                     >
                       <Plus className="w-3.5 h-3.5" />
                       <span>Add Custom Role</span>
@@ -484,7 +484,7 @@ export const ResumeAuditor: React.FC = () => {
                       key={role}
                       type="button"
                       onClick={() => setTargetRole(role)}
-                      className={`px-3.5 py-2.5 rounded-xl text-left text-xs font-bold transition-all border flex items-center justify-between ${
+                      className={`tap-target px-3.5 py-2.5 rounded-xl text-left text-xs font-bold transition-all border flex items-center justify-between ${
                         targetRole === role
                           ? 'bg-brand-50 text-brand-700 border-brand-400 ring-2 ring-brand-400/20'
                           : 'bg-zinc-50 text-zinc-700 border-zinc-200 hover:border-zinc-300'
@@ -536,7 +536,7 @@ export const ResumeAuditor: React.FC = () => {
                       <button
                         type="button"
                         onClick={() => setShowSavedResumesDrawer(!showSavedResumesDrawer)}
-                        className="flex items-center gap-1 text-[11px] font-bold text-brand-700 bg-brand-50 hover:bg-brand-100 border border-brand-200/80 px-2.5 py-0.5 rounded-full transition-colors"
+                        className="tap-target flex items-center gap-1 text-[11px] font-bold text-brand-700 bg-brand-50 hover:bg-brand-100 border border-brand-200/80 px-2.5 py-0.5 rounded-full transition-colors"
                       >
                         <Database className="w-3 h-3 text-brand-600" />
                         <span>{storedResumes.length} in Cloud ({user ? 'Firestore' : 'Saved'})</span>
@@ -547,14 +547,14 @@ export const ResumeAuditor: React.FC = () => {
                     <TabsList className="h-auto justify-start text-inherit flex items-center bg-zinc-100 p-1 rounded-xl border border-zinc-200">
                       <TabsTrigger
                         value="upload"
-                        className="flex items-center gap-1.5 px-3 py-1 text-xs font-bold rounded-lg transition-all flex-none h-auto border-0 text-zinc-600 hover:text-zinc-900 data-[state=active]:bg-white data-[state=active]:text-brand-700 data-[state=active]:shadow-2xs"
+                        className="tap-target flex items-center gap-1.5 px-3 py-1 text-xs font-bold rounded-lg transition-all flex-none h-auto border-0 text-zinc-600 hover:text-zinc-900 data-[state=active]:bg-white data-[state=active]:text-brand-700 data-[state=active]:shadow-2xs"
                       >
                         <UploadCloud className="size-3.5" />
                         <span>Upload PDF</span>
                       </TabsTrigger>
                       <TabsTrigger
                         value="paste"
-                        className="flex items-center gap-1.5 px-3 py-1 text-xs font-bold rounded-lg transition-all flex-none h-auto border-0 text-zinc-600 hover:text-zinc-900 data-[state=active]:bg-white data-[state=active]:text-brand-700 data-[state=active]:shadow-2xs"
+                        className="tap-target flex items-center gap-1.5 px-3 py-1 text-xs font-bold rounded-lg transition-all flex-none h-auto border-0 text-zinc-600 hover:text-zinc-900 data-[state=active]:bg-white data-[state=active]:text-brand-700 data-[state=active]:shadow-2xs"
                       >
                         <FileText className="size-3.5" />
                         <span>Paste Text</span>
@@ -668,7 +668,7 @@ export const ResumeAuditor: React.FC = () => {
                               e.stopPropagation();
                               handleLoadSample();
                             }}
-                            className="text-xs font-bold text-brand-600 hover:text-brand-700 bg-white border border-brand-200 px-3 py-1.5 rounded-xl hover:bg-brand-50 shadow-2xs transition-colors"
+                            className="tap-target text-xs font-bold text-brand-600 hover:text-brand-700 bg-white border border-brand-200 px-3 py-1.5 rounded-xl hover:bg-brand-50 shadow-2xs transition-colors"
                           >
                             Load Sample Resume
                           </button>
@@ -798,7 +798,7 @@ export const ResumeAuditor: React.FC = () => {
                       <button
                         type="button"
                         onClick={handleLoadSample}
-                        className="text-xs font-bold text-brand-600 hover:text-brand-700 hover:underline flex items-center gap-1"
+                        className="tap-target text-xs font-bold text-brand-600 hover:text-brand-700 hover:underline flex items-center gap-1"
                       >
                         <span>Load Sample Resume</span>
                       </button>

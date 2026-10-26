@@ -42,7 +42,7 @@ Score and verdict colours should stay consistent everywhere: Strong Yes and 85+ 
 
 ## 4. Layout
 
-- App shell (`MainShell` in `App.tsx`): left `Sidebar` on desktop, a top bar with a menu button on mobile. Content scrolls in its own container.
+- App shell (`MainShell` in `App.tsx`): the left `Sidebar` is fixed in place from 1024px (`lg`); below that, phones and tablets get a top bar with a menu button that opens the sidebar as a drawer. The shell is `h-dvh` and content scrolls in its own container. Full-height screens use `dvh`, not `vh`, so mobile browser bars never hide the bottom of the screen.
 - Sidebar groups: the 8 learning tracks (Foundations, Research, Strategy, Data, Tech, AI, Design, Job Ready), then AI Mock Interview (with an "AI" badge), Real-World Projects, Resources, Career Tools and User Profile.
 - Pages use a centred max-width container with generous padding; cards sit in responsive grids (1 column on mobile, 2 to 3 on desktop).
 - Lessons are long-form reading pages that remember the reader's scroll position.
@@ -63,6 +63,7 @@ Score and verdict colours should stay consistent everywhere: Strong Yes and 85+ 
 | Motion | framer-motion for page and modal transitions; `.page-transition` uses `cubic-bezier(0.4, 0, 0.2, 1)` over 0.4s | Pages, modals |
 | Scroll reveal | GSAP ScrollTrigger: mark an element `data-reveal` (fades and rises in) or a grid `data-reveal-stagger` (its cards follow one after another). Wired once in `App.tsx` and `LandingPage.tsx` via `components/motion/useScrollReveal.ts`; off under reduced motion | Landing, tools, projects, questions, resources, about, AI PM course |
 | Scrollbars | Thin 6px, slate thumbs | Global |
+| Touch targets | Small controls keep their look and add `tap-target` (a 44px invisible touch area on touch screens, in `index.css`). Rows of chips that wrap use `inline-flex items-center pointer-coarse:min-h-11` instead, so neighbouring touch areas don't overlap. On phones every text field is 16px so iOS doesn't zoom on focus | Global |
 
 ## 6. Key flows
 

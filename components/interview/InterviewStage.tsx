@@ -1263,7 +1263,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
   // If session is preparing, show dedicated Loading / Case Processing Briefing Screen
   if (isSessionPreparing) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[calc(100vh-5rem)] max-w-3xl mx-auto px-4 py-8 select-none">
+      <div className="flex flex-col items-center justify-center min-h-[calc(100dvh-5rem)] max-w-3xl mx-auto px-4 py-8 select-none">
         <motion.div 
           initial={{ opacity: 0, scale: 0.95, y: 15 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -1398,7 +1398,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
   // Scoring failed: say so plainly and keep the transcript. Never show an invented score.
   if (evaluationError) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[calc(100vh-5rem)] max-w-xl mx-auto px-4 py-8">
+      <div className="flex flex-col items-center justify-center min-h-[calc(100dvh-5rem)] max-w-xl mx-auto px-4 py-8">
         <div className="w-full bg-white rounded-3xl border border-amber-200 shadow-xl p-8 text-center space-y-5">
           <div className="w-14 h-14 rounded-2xl bg-amber-50 border border-amber-200 text-amber-600 flex items-center justify-center mx-auto">
             <AlertTriangle className="w-7 h-7" />
@@ -1434,14 +1434,15 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
   }
 
   return (
-    <div className="flex flex-col h-[calc(100vh-4rem)] max-w-7xl mx-auto px-2 md:px-4 py-3 select-none">
+    <div className="flex flex-col h-[calc(100dvh-4rem)] max-w-7xl mx-auto px-2 md:px-4 py-3 select-none">
       {/* Top Bar: Scenario Info & Live Timer */}
       <div className="bg-white rounded-2xl border border-zinc-200 p-3 md:p-4 mb-3 shadow-xs flex flex-wrap items-center justify-between gap-3">
         {/* Left: Scenario Info */}
         <div className="flex items-center gap-3">
           <button
             onClick={onExit}
-            className="p-1.5 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-600 transition-colors"
+            className="tap-target p-1.5 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-600 transition-colors"
+            aria-label="Exit session"
             title="Exit Session"
           >
             <X className="w-4 h-4" />
@@ -1492,7 +1493,8 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
               onClick={() => setIsPmToolsMenuOpen((open) => !open)}
               aria-haspopup="menu"
               aria-expanded={isPmToolsMenuOpen}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-700 text-xs font-bold transition-colors"
+              className="tap-target flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-700 text-xs font-bold transition-colors"
+              aria-label="PM Tools"
             >
               <Calculator className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">PM Tools</span>
@@ -1747,7 +1749,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
                     type="button"
                     onClick={toggleListening}
                     disabled={isThinking || isTranscribing || isEvaluating || !!chatError}
-                    className={`p-2.5 rounded-xl border shrink-0 transition-colors disabled:opacity-40 ${
+                    className={`tap-target p-2.5 rounded-xl border shrink-0 transition-colors disabled:opacity-40 ${
                       isListening ? 'bg-rose-600 border-rose-600 text-white animate-pulse' : 'bg-zinc-100 border-zinc-200 text-zinc-600 hover:bg-zinc-200'
                     }`}
                     title={isListening ? 'Stop recording' : 'Record your answer'}
@@ -1778,7 +1780,8 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
               <button
                 type="submit"
                 disabled={(!inputText.trim() && !isListening) || isThinking || isTranscribing || isEvaluating || !!chatError}
-                className="px-4 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-xs disabled:opacity-40 transition-all shrink-0"
+                className="tap-target px-4 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-xs disabled:opacity-40 transition-all shrink-0"
+                aria-label="Done answering"
               >
                 {isThinking || isTranscribing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
                 <span className="hidden sm:inline">Done answering</span>
@@ -1790,7 +1793,8 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
               type="button"
               onClick={handleRequestHint}
               disabled={hintLoading || isThinking || hintsLeft <= 0}
-              className="p-2.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold flex items-center gap-1.5 shrink-0 transition-colors disabled:opacity-40"
+              className="tap-target p-2.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-bold flex items-center gap-1.5 shrink-0 transition-colors disabled:opacity-40"
+              aria-label={hintsLeft > 0 ? `Get a hint, ${hintsLeft} left` : 'No hints left'}
               title={hintsLeft > 0 ? `Get a hint (${hintsLeft} left). Hints are shown on your scorecard.` : 'No hints left in this interview'}
             >
               {hintLoading ? (

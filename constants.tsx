@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy } from 'react';
 import { Lesson, ModuleInfo, Category } from './types';
 import { 
   Lightbulb, Search, BarChart, 
@@ -7,52 +7,61 @@ import {
   BookOpen, ExternalLink, Map, Ear, UserCheck, Link, Smile, History, FileStack, Presentation, Megaphone, Briefcase, Users2, DollarSign, TrendingDown, Percent, ClipboardCheck, Mic2, Users2 as UsersIcon, Star, BarChart2, GraduationCap,
   MonitorPlay, ArrowLeft, Coffee
 } from 'lucide-react';
-import { Day0Content } from './content/days/day-0';
-import { Day1Content } from './content/days/day-1';
-import { Day2Content } from './content/days/day-2';
-import { Day3Content } from './content/days/day-3';
-import { Day4Content } from './content/days/day-4';
-import { Day5Content } from './content/days/day-5';
-import { Day6Content } from './content/days/day-6';
-import { Day7Content } from './content/days/day-7';
-import { Day8Content } from './content/days/day-8';
-import { Day9Content } from './content/days/day-9';
-import { Day10Content } from './content/days/day-10';
-import { Day11Content } from './content/days/day-11';
-import { Day12Content } from './content/days/day-12';
-import { Day13Content } from './content/days/day-13';
-import { Day14Content } from './content/days/day-14';
-import { Day15Content } from './content/days/day-15';
-import { Day16Content } from './content/days/day-16';
-import { Day17Content } from './content/days/day-17';
-import { Day18Content } from './content/days/day-18';
-import { Day19Content } from './content/days/day-19';
-import { Day20Content } from './content/days/day-20';
-import { Day21Content } from './content/days/day-21';
-import { Day22Content } from './content/days/day-22';
-import { Day23Content } from './content/days/day-23';
-import { Day24Content } from './content/days/day-24';
-import { Day25Content } from './content/days/day-25';
-import { Day26Content } from './content/days/day-26';
-import { Day27Content } from './content/days/day-27';
-import { Day28Content } from './content/days/day-28';
-import { Day29Content } from './content/days/day-29';
-import { Day30Content } from './content/days/day-30';
-import { Day31Content } from './content/days/day-31';
-import { Day32Content } from './content/days/day-32';
-import { Day33Content } from './content/days/day-33';
-import { Day34Content } from './content/days/day-34';
-import { Day35Content } from './content/days/day-35';
-import { Day36Content } from './content/days/day-36';
-import { Day37Content } from './content/days/day-37';
-import { Day38Content } from './content/days/day-38';
-import { Day39Content } from './content/days/day-39';
-import { Day40Content } from './content/days/day-40';
-import { Day41Content } from './content/days/day-41';
-import { Day42Content } from './content/days/day-42';
-import { Day43Content } from './content/days/day-43';
-import { Day44Content } from './content/days/day-44';
-import { Day45Content } from './content/days/day-45';
+// Each lesson body is its own chunk, downloaded when that lesson opens, so the landing page
+// and dashboard don't carry all 46 lessons. The SEO script awaits these loaders directly.
+export const LESSON_BODIES: Record<number, () => Promise<React.ComponentType>> = {
+  0: () => import('./content/days/day-0').then((m) => m.Day0Content),
+  1: () => import('./content/days/day-1').then((m) => m.Day1Content),
+  2: () => import('./content/days/day-2').then((m) => m.Day2Content),
+  3: () => import('./content/days/day-3').then((m) => m.Day3Content),
+  4: () => import('./content/days/day-4').then((m) => m.Day4Content),
+  5: () => import('./content/days/day-5').then((m) => m.Day5Content),
+  6: () => import('./content/days/day-6').then((m) => m.Day6Content),
+  7: () => import('./content/days/day-7').then((m) => m.Day7Content),
+  8: () => import('./content/days/day-8').then((m) => m.Day8Content),
+  9: () => import('./content/days/day-9').then((m) => m.Day9Content),
+  10: () => import('./content/days/day-10').then((m) => m.Day10Content),
+  11: () => import('./content/days/day-11').then((m) => m.Day11Content),
+  12: () => import('./content/days/day-12').then((m) => m.Day12Content),
+  13: () => import('./content/days/day-13').then((m) => m.Day13Content),
+  14: () => import('./content/days/day-14').then((m) => m.Day14Content),
+  15: () => import('./content/days/day-15').then((m) => m.Day15Content),
+  16: () => import('./content/days/day-16').then((m) => m.Day16Content),
+  17: () => import('./content/days/day-17').then((m) => m.Day17Content),
+  18: () => import('./content/days/day-18').then((m) => m.Day18Content),
+  19: () => import('./content/days/day-19').then((m) => m.Day19Content),
+  20: () => import('./content/days/day-20').then((m) => m.Day20Content),
+  21: () => import('./content/days/day-21').then((m) => m.Day21Content),
+  22: () => import('./content/days/day-22').then((m) => m.Day22Content),
+  23: () => import('./content/days/day-23').then((m) => m.Day23Content),
+  24: () => import('./content/days/day-24').then((m) => m.Day24Content),
+  25: () => import('./content/days/day-25').then((m) => m.Day25Content),
+  26: () => import('./content/days/day-26').then((m) => m.Day26Content),
+  27: () => import('./content/days/day-27').then((m) => m.Day27Content),
+  28: () => import('./content/days/day-28').then((m) => m.Day28Content),
+  29: () => import('./content/days/day-29').then((m) => m.Day29Content),
+  30: () => import('./content/days/day-30').then((m) => m.Day30Content),
+  31: () => import('./content/days/day-31').then((m) => m.Day31Content),
+  32: () => import('./content/days/day-32').then((m) => m.Day32Content),
+  33: () => import('./content/days/day-33').then((m) => m.Day33Content),
+  34: () => import('./content/days/day-34').then((m) => m.Day34Content),
+  35: () => import('./content/days/day-35').then((m) => m.Day35Content),
+  36: () => import('./content/days/day-36').then((m) => m.Day36Content),
+  37: () => import('./content/days/day-37').then((m) => m.Day37Content),
+  38: () => import('./content/days/day-38').then((m) => m.Day38Content),
+  39: () => import('./content/days/day-39').then((m) => m.Day39Content),
+  40: () => import('./content/days/day-40').then((m) => m.Day40Content),
+  41: () => import('./content/days/day-41').then((m) => m.Day41Content),
+  42: () => import('./content/days/day-42').then((m) => m.Day42Content),
+  43: () => import('./content/days/day-43').then((m) => m.Day43Content),
+  44: () => import('./content/days/day-44').then((m) => m.Day44Content),
+  45: () => import('./content/days/day-45').then((m) => m.Day45Content),
+};
+
+const lessonBody = (day: number) => {
+  const Body = lazy(() => LESSON_BODIES[day]().then((Component) => ({ default: Component })));
+  return <Body />;
+};
 
 export const getCategoryColor = (category: Category): string => {
   switch (category) {
@@ -99,14 +108,14 @@ export const LESSONS: Lesson[] = [
     title: 'Day-0: Foundation & Mindset — Start Your PM Journey Right',
     category: 'Foundations',
     preview: 'Start Your PM Journey Right . Before we jump into frameworks, tools, and case studies, today is about building the right mindset.',
-    content: <Day0Content />
+    content: lessonBody(0)
   },
   {
     day: 1,
     title: 'Day 1: What is Product Management?',
     category: 'Foundations',
     preview: 'Understand the role, responsibilities, types, and myths about Product Management.',
-    content: <Day1Content />,
+    content: lessonBody(1),
     assignment: (
       <div className="space-y-4">
         <p className="font-bold">Pick a product you use daily (e.g., Spotify, Zomato, Notion, Cred) and answer:</p>
@@ -124,7 +133,7 @@ export const LESSONS: Lesson[] = [
     title: 'Day 2: The Product Development Lifecycle (PDLC)',
     category: 'Foundations',
     preview: 'Discover the end-to-end journey of a product from discovery to launch and iteration.',
-    content: <Day2Content />,
+    content: lessonBody(2),
     resources: [
       { title: 'SDLC Life Cycle for Beginners', url: 'https://youtu.be/SaCYkPD4_K0?si=yXgsQq8esgNLi575', type: 'video' }
     ],
@@ -151,7 +160,7 @@ export const LESSONS: Lesson[] = [
     title: 'Day 3: Product Life Cycle (PLC) & PLM',
     category: 'Foundations',
     preview: 'Understand how products evolve in the market over time and how companies manage that journey.',
-    content: <Day3Content />,
+    content: lessonBody(3),
     assignment: (
       <div className="space-y-4">
         <p className="font-bold">Pick any product (Spotify / Swiggy / Cred / Duolingo / ChatGPT) and evaluate its lifecycle:</p>
@@ -173,7 +182,7 @@ export const LESSONS: Lesson[] = [
     title: 'Day 4: Product Sense: The PM Sixth Sense',
     category: 'Foundations',
     preview: "Great PMs don’t build features. They solve meaningful problems. Master the 'sixth sense' of Product Management.",
-    content: <Day4Content />,
+    content: lessonBody(4),
     resources: [
       { title: 'What is Product Sense?', url: 'https://www.parallelhq.com/blog/what-product-sense', type: 'article' }
     ],
@@ -205,7 +214,7 @@ export const LESSONS: Lesson[] = [
     title: 'Day 5: User Empathy',
     category: 'Foundations',
     preview: "Step into their shoes. User empathy is the fundamental driver of human-centered development.",
-    content: <Day5Content />,
+    content: lessonBody(5),
     resources: [
       { title: 'The Importance of Empathy', url: 'https://youtu.be/fqNAWyOOVfw?si=kDNECTry9tz-J9yf', type: 'video' }
     ],
@@ -241,7 +250,7 @@ export const LESSONS: Lesson[] = [
     title: 'Day 6: Essential Product Documentation',
     category: 'Foundations',
     preview: "Essential Product Documentation for Product Managers. Distinguish between document types (PRD, BRD, user stories, roadmaps, etc.).",
-    content: <Day6Content />,
+    content: lessonBody(6),
     resources: [
       { title: 'Product Strategy & Roadmap', url: 'https://youtu.be/cnp6Ck8OIiY?si=eJHw5hzcwuiZZyf0', type: 'video' },
       { title: 'GTM Strategy', url: 'https://youtu.be/eDVtBleIxag?si=mE-x6s3HPTloD13x', type: 'video' }
@@ -258,7 +267,7 @@ export const LESSONS: Lesson[] = [
     title: 'Day 7: Stakeholder Management: The Product Manager\'s Essential Guide',
     category: 'Foundations',
     preview: "Identify and categorize stakeholders using influence and interest matrices to prioritize engagement efforts effectively.",
-    content: <Day7Content />,
+    content: lessonBody(7),
     resources: [
       { title: 'Communicating and Working with Stakeholders', url: 'https://youtu.be/jz7tPVDwb50?si=71B7Acqz6U2F0XA8', type: 'video' }
     ]
@@ -268,7 +277,7 @@ export const LESSONS: Lesson[] = [
     title: 'Day 8: Business Fundamentals for Product Managers',
     category: 'Foundations',
     preview: "Master the Metrics That Drive Sustainable Products. Learn CAC, LTV, and the 'Golden Ratio' of business success.",
-    content: <Day8Content />,
+    content: lessonBody(8),
     resources: [
       { title: 'Product Management Basics Certification', url: 'https://www.pendo.io/product-management-basics-certification/', type: 'tool' }
     ],
@@ -292,7 +301,7 @@ export const LESSONS: Lesson[] = [
     title: 'Day 9: Introduction to User & Market Research',
     category: 'Research',
     preview: "Think like a researcher. Learn structured methods to uncover pain points and validate product ideas.",
-    content: <Day9Content />,
+    content: lessonBody(9),
     resources: [
       { title: 'Doing User Research', url: 'https://youtu.be/MxwyGi-3dzY?si=CV5VWd2bNnUDW-fP', type: 'video' },
       { title: 'Market Research', url: 'https://youtu.be/LoJDAeq6i34?si=Ok2GW9U0wFmSJzz8', type: 'video' }
@@ -335,7 +344,7 @@ export const LESSONS: Lesson[] = [
     title: 'Day 10: User Interviews & Surveys',
     category: 'Research',
     preview: "“If you listen carefully, your users will write your roadmap for you.” Learn how to validate insights through real conversations and structured feedback.",
-    content: <Day10Content />,
+    content: lessonBody(10),
     resources: [
       { title: 'How To Conduct User Interviews Like A Pro', url: 'https://youtu.be/5tVbFfGDQCk?si=91eAIcNvjUAFfxM1', type: 'video' }
     ],
@@ -371,7 +380,7 @@ export const LESSONS: Lesson[] = [
     title: 'Day 11: User Personas & JTBD',
     category: 'Research',
     preview: "“You don’t design for everyone — you design for someone.” Convert raw feedback into structured user profiles.",
-    content: <Day11Content />,
+    content: lessonBody(11),
     resources: [
       { title: 'Jobs to be done', url: 'https://youtu.be/dbVN6EYql6k?si=2440TMiKd3ZVmGvK', type: 'video' },
       { title: 'Creating Personas', url: 'https://youtu.be/v6EWN4EjHM0?si=5up6JXpGPfYnIq1d', type: 'video' }
@@ -409,7 +418,7 @@ export const LESSONS: Lesson[] = [
     title: 'Day 12: Competitive & Market Analysis',
     category: 'Research',
     preview: "“You can’t build a better product until you understand what already exists.” Master SWOT and feature benchmarking.",
-    content: <Day12Content />,
+    content: lessonBody(12),
     resources: [
       { title: 'Competitive Analysis for Product Managers', url: 'https://youtu.be/UnBL8h8TVX8?si=v7_4Kx9EDy357xjg', type: 'video' }
     ],
@@ -442,7 +451,7 @@ export const LESSONS: Lesson[] = [
     title: 'Day 13: Opportunity Sizing (TAM / SAM / SOM)',
     category: 'Research',
     preview: "“A great product solves a real problem — but a great business solves it for a market that’s big enough.” Learn how to quantify your product idea.",
-    content: <Day13Content />,
+    content: lessonBody(13),
     resources: [
       { title: 'TAM, SAM, SOM Explained', url: 'https://youtu.be/nCYOMU7rKCs?si=cvu8yrnAbxDueKEI', type: 'video' }
     ],
@@ -475,7 +484,7 @@ export const LESSONS: Lesson[] = [
     title: 'Day 14: Introduction to SQL (SELECT, WHERE, Basics)',
     category: 'Data',
     preview: '"Data is the voice of your users. SQL lets you listen." Learn the fundamentals of querying databases to answer your own questions independently.',
-    content: <Day14Content />,
+    content: lessonBody(14),
     topics: [
       { time: "00:00", title: "Intro" },
       { time: "07:38", title: "Introduction to SQL" },
@@ -493,7 +502,7 @@ export const LESSONS: Lesson[] = [
     title: 'Day 15: Filtering Data & SQL Joins',
     category: 'Data',
     preview: '"Joining tables is where SQL becomes powerful for PMs." Master advanced filtering and learn to combine data from multiple tables.',
-    content: <Day15Content />,
+    content: lessonBody(15),
     topics: [
       { time: "02:08:03", title: "Filtering Data" },
       { time: "02:47:57", title: "SQL Joins (Basics)" },
@@ -508,7 +517,7 @@ export const LESSONS: Lesson[] = [
     title: 'Day 16: SQL Set Operators & Functions Deep Dive',
     category: 'Data',
     preview: '"Master SQL functions to transform raw data into actionable insights." learn advanced SQL techniques for combining datasets and manipulating data.',
-    content: <Day16Content />,
+    content: lessonBody(16),
     topics: [
       { time: "04:02:09", title: "Set Operators" },
       { time: "04:47:41", title: "SQL Functions" },
@@ -524,7 +533,7 @@ export const LESSONS: Lesson[] = [
     title: 'Day 17— SQL Date Functions, NULL Handling & Advanced Logic',
     category: 'Data',
     preview: '"Transform messy data into clean insights with SQL\'s most powerful functions." Today you\'ll master the essential SQL functions that PMs use daily for time-based analysis, handling missing data, and building conditional logic.',
-    content: <Day17Content />,
+    content: lessonBody(17),
     topics: [
       { time: "05:22:48", title: "Date and Time Functions" },
       { time: "06:59:06", title: "NULL Functions" },
@@ -540,7 +549,7 @@ export const LESSONS: Lesson[] = [
     title: 'Day 18 — Excel Fundamentals for PMs',
     category: 'Data',
     preview: '"Excel is the PM\'s Swiss Army knife — from quick analysis to complex models." Master Excel basics and essential formulas that PMs use daily for data analysis.',
-    content: <Day18Content />,
+    content: lessonBody(18),
     topics: [
       { time: "0:03:53", title: "What is Excel?" },
       { time: "0:07:19", title: "About Course" },
@@ -567,7 +576,7 @@ export const LESSONS: Lesson[] = [
     title: 'Day 19— Excel Charts, Pivot Tables & Dashboards',
     category: 'Data',
     preview: '"A picture is worth a thousand rows of data." Learn to transform data into compelling visualizations and build interactive dashboards.',
-    content: <Day19Content />,
+    content: lessonBody(19),
     topics: [
       { time: "3:01:33", title: "Charts Intro" },
       { time: "3:22:05", title: "Charts Advanced" },
@@ -591,7 +600,7 @@ export const LESSONS: Lesson[] = [
     title: 'Day 20 — Learn Power BI',
     category: 'Data',
     preview: 'Build a strong foundation in Power BI by understanding how raw data is transformed, modeled, calculated, and finally presented as interactive dashboards.',
-    content: <Day20Content />,
+    content: lessonBody(20),
     resources: [
       { title: 'Power BI Masterclass', url: 'https://youtu.be/I0vQ_VLZTWg?si=Gkh1WYh75MOngmbS', type: 'video' }
     ]
@@ -601,7 +610,7 @@ export const LESSONS: Lesson[] = [
     title: 'Day 21: Product Analytics & Metrics Foundations',
     category: 'Data',
     preview: 'Understand how product analytics fits into the PDLC, define success metrics, and learn the basics of behavior tracking with Mixpanel.',
-    content: <Day21Content />,
+    content: lessonBody(21),
     resources: [
       { title: 'Product Analytics & Mixpanel Foundations', url: 'https://youtu.be/5O4ST-R5ZVw?si=IN49CzqS5qHexth3', type: 'video' }
     ]
@@ -611,7 +620,7 @@ export const LESSONS: Lesson[] = [
     title: 'Day 22: Google Analytics 4 & A/B Testing',
     category: 'Data',
     preview: 'Gain a step-by-step understanding of GA4 and master the art of A/B testing to make evidence-based product decisions.',
-    content: <Day22Content />,
+    content: lessonBody(22),
     resources: [
       { title: 'Google Analytics 4 Mastery', url: 'https://youtu.be/hsIP4iH25Wg?si=kahtDEdtF6LY7cTU', type: 'video' },
       { title: 'A/B Testing with VWO', url: 'https://youtu.be/QEqholJ28qI?si=Y7KfY4Sr_eKJUIBn', type: 'video' }
@@ -622,7 +631,7 @@ export const LESSONS: Lesson[] = [
     title: 'Day 23: Understanding APIs as a Product Manager',
     category: 'Tech',
     preview: "APIs are the building blocks of modern software. Learn how they work and why they're critical for product strategy and execution.",
-    content: <Day23Content />,
+    content: lessonBody(23),
     resources: [
       { title: 'How Does the Internet Work?', url: 'https://www.cloudflare.com/en-in/learning/network-layer/how-does-the-internet-work/', type: 'article' },
       { title: 'API for Product Managers', url: 'https://dune-leek-31a.notion.site/API-for-Product-Managers-24abaab379148074abc3f57b062db2bf', type: 'article' }
@@ -633,7 +642,7 @@ export const LESSONS: Lesson[] = [
     title: 'Day 24: System Design for Product Managers',
     category: 'Strategy',
     preview: 'System Design for Product Managers: Building Products That Scale. Bridge the gap between product vision and technical reality.',
-    content: <Day24Content />,
+    content: lessonBody(24),
     resources: [
       { title: 'System Design for Product Managers', url: 'https://youtu.be/m8Icp_Cid5o?si=u52HzOf12e0cMvyI', type: 'video' }
     ]
@@ -643,7 +652,7 @@ export const LESSONS: Lesson[] = [
     title: 'Day 25: UI/UX for Product Managers',
     category: 'Design',
     preview: 'Build a solid foundation in UI/UX principles, including design fundamentals, usability testing, and visual design laws.',
-    content: <Day25Content />,
+    content: lessonBody(25),
     resources: [
       { title: 'UX Design UI Essentials Course', url: 'https://youtu.be/QJBP2uy8LcU?si=GIa6MA8amS8vYBdd', type: 'video' },
       { title: 'Usability Testing for UX', url: 'https://youtu.be/nYCJTea1AUQ?si=8RcveOgK6wybwlk4', type: 'video' },
@@ -656,7 +665,7 @@ export const LESSONS: Lesson[] = [
     title: 'Day 26: Foundations of Agile & Scrum Project Management',
     category: 'Strategy',
     preview: 'Build a solid understanding of Agile principles, Scrum practices, and prioritization frameworks used in real product delivery.',
-    content: <Day26Content />,
+    content: lessonBody(26),
     resources: [
       { title: 'Agile & Scrum Intro Video', url: 'https://youtu.be/WDAQq5vCMME?si=FaBFP9KwcKDsviFh', type: 'video' },
       { title: 'Jira Beginner Course', url: 'https://youtu.be/NDVSMlVYxm8?si=GptGyKBBY7AlhEZ8', type: 'video' },
@@ -668,14 +677,14 @@ export const LESSONS: Lesson[] = [
     title: 'Day 27: Cloud Computing for Product Managers',
     category: 'Strategy',
     preview: 'Understanding cloud computing fundamentally changes how you think about building products. Learn about service models, economics, and cloud-native architecture.',
-    content: <Day27Content />
+    content: lessonBody(27)
   },
   {
     day: 28,
     title: 'Day 28: What is Artificial Intelligence, Machine Learning and Deep Learning?',
     category: 'AI',
     preview: 'Understand the core foundations of AI, the modern method of Machine Learning, and the breakthroughs of Deep Learning.',
-    content: <Day28Content />,
+    content: lessonBody(28),
     resources: [
         { title: 'AI for Everyone - DeepLearning.ai', url: 'https://learn.deeplearning.ai/courses/ai-for-everyone/lesson/i76hs/machine-learning', type: 'video' }
     ]
@@ -685,7 +694,7 @@ export const LESSONS: Lesson[] = [
     title: 'Day 29: Large Language Models (LLM) Foundations',
     category: 'AI',
     preview: 'Deep dive into what LLMs are, how they work, and why product managers need to understand their capabilities and limitations.',
-    content: <Day29Content />,
+    content: lessonBody(29),
     resources: [
         { title: 'LLM Introduction Video', url: 'https://youtu.be/7xTGNNLPyMI?si=_FGxNCEjJcvyxdAz', type: 'video' }
     ]
@@ -695,7 +704,7 @@ export const LESSONS: Lesson[] = [
     title: 'Day 30: Prompt Engineering for Product Managers',
     category: 'AI',
     preview: 'Learn how to write effective prompts so that large language models (LLMs) return useful, reliable, and actionable outputs.',
-    content: <Day30Content />,
+    content: lessonBody(30),
     resources: [
         { title: 'Prompting 101 Video', url: 'https://youtu.be/ysPbXH0LpIE?si=5Riv7IB9ezFAt_Kc', type: 'video' },
         { title: 'AWS Prompt Engineering Foundation', url: 'https://share.google/FdZPEVTPVCkN85d33', type: 'tool' }
@@ -706,7 +715,7 @@ export const LESSONS: Lesson[] = [
     title: 'Day 31: Context Engineering',
     category: 'AI',
     preview: 'Master the set of strategies for curating and maintaining the optimal set of tokens during LLM inference.',
-    content: <Day31Content />,
+    content: lessonBody(31),
     resources: [
         { title: 'Context Engineering for Agents', url: 'https://www.blog.langchain.com/context-engineering-for-agents/', type: 'article' }
     ]
@@ -716,7 +725,7 @@ export const LESSONS: Lesson[] = [
     title: 'Day 32: Retrieval Augmented Generation (RAG)',
     category: 'AI',
     preview: 'Learn the technique used by LLMs to answer questions about specific source information by retrieving relevant dynamic data.',
-    content: <Day32Content />,
+    content: lessonBody(32),
     resources: [
         { title: 'Intro to RAG Video', url: 'https://youtu.be/fZM3oX4xEyg?si=lIBXXip-Qh0z962l', type: 'video' }
     ]
@@ -726,7 +735,7 @@ export const LESSONS: Lesson[] = [
     title: 'Day 33: Model Context Protocol (MCP)',
     category: 'AI',
     preview: 'Understand the open-source standard for connecting AI applications to external data sources and tools.',
-    content: <Day33Content />,
+    content: lessonBody(33),
     resources: [
         { title: 'MCP Introduction Video', url: 'https://youtu.be/-UQ6OZywZ2I?si=GumGiQn5M9tGi_Hg', type: 'video' }
     ]
@@ -736,7 +745,7 @@ export const LESSONS: Lesson[] = [
     title: 'Day 34: Introduction to Agent Workflow',
     category: 'AI',
     preview: 'Understand the iterative process where AI systems execute multiple discrete stages to solve complex human-like problems.',
-    content: <Day34Content />,
+    content: lessonBody(34),
     resources: [
         { title: 'Agentic AI Workflows Course', url: 'https://www.deeplearning.ai/courses/agentic-ai/', type: 'video' }
     ]
@@ -746,7 +755,7 @@ export const LESSONS: Lesson[] = [
     title: 'Day 35: AI Agents for Product Managers',
     category: 'Job Ready',
     preview: 'Learn how AI is shifting from tools to autonomous agents and how you can build them using low-code platforms.',
-    content: <Day35Content />,
+    content: lessonBody(35),
     resources: [
         { title: 'AI Agents Strategy Video', url: 'https://youtu.be/ZHH3sr234zY?si=5qMS4pLlfl2gYaDs', type: 'video' }
     ],
@@ -768,49 +777,49 @@ export const LESSONS: Lesson[] = [
     title: 'Day 36: Building Proof of Work: Why Aspiring PMs Must ship and How to Do It With No-Code Tools',
     category: 'Job Ready',
     preview: 'Why aspiring PMs must ship and how to do it with no-code tools to demonstrate capability to hiring managers.',
-    content: <Day36Content />
+    content: lessonBody(36)
   },
   {
     day: 37,
     title: 'Day 37: Building Proof of Work as an Aspiring Product Manager Through Structured Product Teardowns',
     category: 'Job Ready',
     preview: 'Demonstrate product thinking and strategic insight by reverse-engineering real digital products to propose improvements.',
-    content: <Day37Content />
+    content: lessonBody(37)
   },
   {
     day: 38,
     title: 'Day 38: How Aspiring Product Managers Can Do a Startup Case Study to Get a PM Job',
     category: 'Job Ready',
     preview: 'Master the exact process of creating high-impact startup case studies and reaching out to founders effectively.',
-    content: <Day38Content />
+    content: lessonBody(38)
   },
   {
     day: 39,
     title: 'Day 39: Building a Strong PM Portfolio',
     category: 'Job Ready',
     preview: 'Learn how to showcase hands-on proof of work through case studies, projects, and certifications to stand out to recruiters.',
-    content: <Day39Content />
+    content: lessonBody(39)
   },
   {
     day: 40,
     title: 'Day 40: Building CV and optimising your linkedin',
     category: 'Job Ready',
     preview: 'Learn how to build a high-impact CV and optimize your LinkedIn profile using expert AI prompts and ATS checklists.',
-    content: <Day40Content />
+    content: lessonBody(40)
   },
   {
     day: 41,
     title: 'Day 41: Job Search Platforms & Referral Strategies',
     category: 'Job Ready',
     preview: 'Learn where to apply for PM roles and master the art of asking for referrals that get responses.',
-    content: <Day41Content />
+    content: lessonBody(41)
   },
   {
     day: 42,
     title: 'Day 42: PM Interview Rounds - Case Study & Product Sense',
     category: 'Job Ready',
     preview: 'Master the first two critical interview rounds: Case Studies and Product Sense with real-world practice questions.',
-    content: <Day42Content />,
+    content: lessonBody(42),
     resources: [
       { title: 'Product Sense Masterclass', url: 'https://youtu.be/tlpfb_VsogA', type: 'video' }
     ]
@@ -820,7 +829,7 @@ export const LESSONS: Lesson[] = [
     title: 'Day 43: PM Interview Rounds - RCA & Guestimates',
     category: 'Job Ready',
     preview: 'Master Root Cause Analysis (RCA) and Guestimate interview rounds with detailed video guides and practice questions.',
-    content: <Day43Content />,
+    content: lessonBody(43),
     resources: [
       { title: 'RCA Masterclass', url: 'https://youtu.be/PA-Z__0G8Cs', type: 'video' },
       { title: 'Guestimates Masterclass', url: 'https://youtu.be/7C0L_XdlE50', type: 'video' }
@@ -831,7 +840,7 @@ export const LESSONS: Lesson[] = [
     title: 'Day 44: PM Interview Rounds - Product Improvement',
     category: 'Job Ready',
     preview: 'Master the Product Improvement interview round with a detailed video guide and common company questions.',
-    content: <Day44Content />,
+    content: lessonBody(44),
     resources: [
       { title: 'Product Improvement Masterclass', url: 'https://youtu.be/Fhm0F240v9Y', type: 'video' }
     ]
@@ -841,7 +850,7 @@ export const LESSONS: Lesson[] = [
     title: 'Day 45: PM Interview Rounds - Behavioral & Final Feedback',
     category: 'Job Ready',
     preview: 'Conclude the course with Behavioral interview techniques and share your feedback to help us improve.',
-    content: <Day45Content />,
+    content: lessonBody(45),
     resources: [
       { title: 'Behavioral Round Guide 1', url: 'https://youtu.be/1rOcpwcDTuY', type: 'video' },
       { title: 'Behavioral Round Guide 2', url: 'https://youtu.be/Wyvm8vcsaP0', type: 'video' }

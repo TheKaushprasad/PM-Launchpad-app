@@ -7,7 +7,7 @@
 import fs from 'fs';
 import path from 'path';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { LESSONS, MODULES } from '../constants';
+import { LESSONS, LESSON_BODIES, MODULES } from '../constants';
 import { REAL_WORLD_PROJECTS } from '../data/realWorldProjects';
 import { findAssignment } from '../data/assignments';
 import { BriefMarkdown } from '../components/assignments/BriefMarkdown';
@@ -26,6 +26,14 @@ const decode = (s: string) =>
 
 const sortedLessons = [...LESSONS].sort((a, b) => a.day - b.day);
 
+// In the app each lesson body is a lazy chunk; here every body is loaded up front so it renders synchronously.
+const lessonBodies = new Map<number, React.ReactNode>(
+  await Promise.all(sortedLessons.map(async (l) => {
+    const Body = await LESSON_BODIES[l.day]();
+    return [l.day, <Body />] as const;
+  })),
+);
+
 function lessonHeadings(content: React.ReactNode): string[] {
   const html = renderToStaticMarkup(<>{content}</>);
   return [...html.matchAll(/<h2[^>]*>([\s\S]*?)<\/h2>/g)]
@@ -35,7 +43,7 @@ function lessonHeadings(content: React.ReactNode): string[] {
 
 function writeOutlines() {
   const outlines: Record<number, string[]> = {};
-  for (const l of sortedLessons) outlines[l.day] = lessonHeadings(l.content);
+  for (const l of sortedLessons) outlines[l.day] = lessonHeadings(lessonBodies.get(l.day));
   const file = path.join(ROOT, 'data', 'lessonOutlines.json');
   fs.writeFileSync(file, `${JSON.stringify(outlines, null, 2)}\n`);
   console.log(`[seo] wrote ${path.relative(ROOT, file)} (${sortedLessons.length} lessons)`);
@@ -73,8 +81,8 @@ function bodyFor(p: string): string {
     const next = sortedLessons[i + 1];
     const body =
       lesson.day <= FREE_DAYS
-        ? renderToStaticMarkup(<>{lesson.content}</>)
-        : `<h2>In this lesson</h2><ul>${lessonHeadings(lesson.content).map((h) => `<li>${esc(h)}</li>`).join('')}</ul>` +
+        ? renderToStaticMarkup(<>{lessonBodies.get(lesson.day)}</>)
+        : `<h2>In this lesson</h2><ul>${lessonHeadings(lessonBodies.get(lesson.day)).map((h) => `<li>${esc(h)}</li>`).join('')}</ul>` +
           `<p>Sign up free to read the full lesson.</p>`;
     return shell(
       `<p>${link('/dashboard', 'Product Management Course')} › Day ${lesson.day}</p>` +

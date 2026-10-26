@@ -360,6 +360,34 @@
   }
 }
 
+/*
+  Touch screens. These sit outside the layers on purpose so they win over Tailwind's text-xs / text-sm.
+  - iOS Safari zooms the page when a field under 16px gets focus (the interview answer box, sign-up forms),
+    so phones get 16px fields.
+  - .tap-target keeps a small control's look but gives it a 44px touch area.
+*/
+@media (pointer: coarse) and (max-width: 1023px) {
+  input:not([type='checkbox']):not([type='radio']):not([type='range']),
+  textarea,
+  select {
+    font-size: 16px;
+  }
+}
+@media (pointer: coarse) {
+  .tap-target {
+    position: relative;
+  }
+  .tap-target::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: max(100%, 44px);
+    height: max(100%, 44px);
+    transform: translate(-50%, -50%);
+  }
+}
+
 @keyframes hero-line-in {
   from { opacity: 0; transform: translateY(0.35em); clip-path: inset(0 0 100% 0); }
   to { opacity: 1; transform: none; clip-path: inset(-10% -5% -15% -5%); }

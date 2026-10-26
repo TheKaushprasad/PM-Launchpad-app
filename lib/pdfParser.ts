@@ -1,15 +1,27 @@
-import * as pdfjsLib from 'pdfjs-dist';
 // @ts-ignore
 import pdfWorkerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 
-// Configure pdf.js worker URL locally
-try {
-  if (typeof window !== 'undefined') {
-    pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorkerUrl;
-  }
-} catch (e) {
-  console.warn('pdfjs worker configuration warning:', e);
-}
+// pdf.js is about 470 KB, so it downloads the first time a PDF is parsed rather than with
+// the resume auditor and LinkedIn pages that offer the upload.
+let pdfjsPromise: Promise<typeof import('pdfjs-dist')> | null = null;
+const loadPdfjs = () => {
+  pdfjsPromise ??= import('pdfjs-dist').then((pdfjsLib) => {
+    // Configure pdf.js worker URL locally
+    try {
+      if (typeof window !== 'undefined') {
+        pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorkerUrl;
+      }
+    } catch (e) {
+      console.warn('pdfjs worker configuration warning:', e);
+    }
+    return pdfjsLib;
+  }).catch((err) => {
+    // Let the next upload try the download again.
+    pdfjsPromise = null;
+    throw err;
+  });
+  return pdfjsPromise;
+};
 
 /**
  * Fast direct extraction of readable text from uncompressed PDF streams
@@ -76,6 +88,15 @@ export async function extractTextFromPdfBuffer(arrayBuffer: ArrayBuffer, timeout
     }
   } catch (backupErr) {
     console.warn('Initial PDF stream extraction note:', backupErr);
+  }
+
+  // Download pdf.js before the parse timer starts, so a slow connection doesn't eat the parse budget.
+  let pdfjsLib: typeof import('pdfjs-dist');
+  try {
+    pdfjsLib = await loadPdfjs();
+  } catch (loadErr) {
+    console.warn('pdfjs could not be loaded, using stream extraction:', loadErr);
+    return fallbackAscii;
   }
 
   let timeoutTimer: ReturnType<typeof setTimeout> | null = null;
