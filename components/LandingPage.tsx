@@ -1,19 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  ArrowRight, Search, Sparkles, BookOpen, Users, 
-  Folder, Layers, Zap, Star, ChevronDown, ChevronRight,
-  TrendingUp, Compass, MessageSquare, Briefcase, FileText,
-  BarChart2, Code, Bot, Smartphone, Mail, X, CheckCircle2,
-  Lock, Flame, Award, Target, HelpCircle,
-  Play, RotateCcw, Mic, Volume2, Sliders, User as UserIcon
+import {
+  ArrowRight, Search, BookOpen, Users, Layers, Star, ChevronDown, ChevronRight,
+  Briefcase, FileText, BarChart2, Code, Bot, Smartphone, X, Target,
+  User as UserIcon
 } from 'lucide-react';
 import { Logo } from './Logo';
 import { HeroSkillOrbit } from './HeroSkillOrbit';
 import { useAuth } from '../context/AuthContext';
 import { AuthModal } from './auth/AuthModal';
 import { useScrollReveal } from './motion/useScrollReveal';
+import { usePathProgress } from './motion/usePathProgress';
 
 export const LandingPage: React.FC = () => {
   const navigate = useNavigate();
@@ -22,6 +20,9 @@ export const LandingPage: React.FC = () => {
   // Sections marked data-reveal fade in as they scroll into view (see useScrollReveal).
   const pageRef = useRef<HTMLDivElement>(null);
   useScrollReveal(pageRef);
+  // The numbered path fills in as the visitor scrolls down it (see usePathProgress).
+  const pathRef = useRef<HTMLOListElement>(null);
+  usePathProgress(pathRef);
   
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authModalMode, setAuthModalMode] = useState<'login' | 'signup'>('signup');
@@ -35,14 +36,9 @@ export const LandingPage: React.FC = () => {
   const [searchModalOpen, setSearchModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   
-  // Newsletter state
-  const [newsletterEmail, setNewsletterEmail] = useState('');
-  const [newsletterSubmitted, setNewsletterSubmitted] = useState(false);
-
   // Testimonial marquee pause state
   const [isMarqueePaused, setIsMarqueePaused] = useState(false);
 
-  const [completedDemoDays, setCompletedDemoDays] = useState<number[]>([1, 2]);
 
   // Auto-open Auth modal if redirected from a protected route
   useEffect(() => {
@@ -76,43 +72,36 @@ export const LandingPage: React.FC = () => {
       name: "Sanskruti Palekar",
       role: "Business Analyst at Micron Industries Private Limited",
       quote: "Very helpful website",
-      rating: 5,
     },
     {
       name: "Srijita Chatterjee",
       role: "AI Product Manager at Travelved",
       quote: "Best website to prepare for PM roles.",
-      rating: 5,
     },
     {
       name: "Neeraj Gupta",
       role: "Business Delivery Executive @ IDfy",
       quote: "Extremely valuable and goldmines for aspiring Product Managers",
-      rating: 5,
     },
     {
       name: "Rachana Tripathi",
       role: "Product Manager at Repro India Limited",
       quote: "This stuff is actually cool !",
-      rating: 5,
     },
     {
       name: "Dimpal Dewasi",
       role: "Product Management Trainee @airpay",
       quote: "Amazing Resource",
-      rating: 5,
     },
     {
       name: "Crystal King",
       role: "Founder at Drama Land",
       quote: "The Strategy and data part of the course is amazing",
-      rating: 5,
     },
     {
       name: "Kunal Chaudhary",
       role: "Co-Founder at Krishi Culture",
       quote: "From starting to ending couse cover all the things a PM should know and help them to improve their skills",
-      rating: 5,
     }
   ];
 
@@ -186,11 +175,134 @@ export const LandingPage: React.FC = () => {
     }
   ];
 
-  const howItWorksSteps = [
-    { title: 'Learn', desc: 'Core frameworks and concepts in short daily lessons.', path: '/dashboard' },
-    { title: 'Build', desc: 'Real projects and case studies that go straight into your portfolio.', path: '/projects' },
-    { title: 'Practise', desc: 'AI mock interviews with a score and feedback after every answer.', path: '/interview-studio' },
-    { title: 'Land', desc: 'Polish your profile, apply on the PM Jobs Board, track every application.', path: '/jobs' },
+  // The path section: one ordered route, each step with a small preview of the real screen.
+  const difficultyChip: Record<string, string> = {
+    Beginner: 'bg-brand-50 border-brand-100 text-brand-800',
+    Intermediate: 'bg-amber-50 border-amber-200 text-amber-800',
+    Advanced: 'bg-rose-50 border-rose-200 text-rose-700',
+  };
+
+  const pathSteps: {
+    label: string;
+    title: string;
+    desc: string;
+    cta: string;
+    path: string;
+    badge?: string;
+    preview: React.ReactNode;
+  }[] = [
+    {
+      label: 'Learn',
+      title: '45-Day PM Launchpad',
+      desc: 'A day-by-day curriculum through PM fundamentals, frameworks and real-world case studies.',
+      cta: 'Start Day 0',
+      path: '/dashboard',
+      badge: 'Free',
+      preview: (
+        <div className="rounded-2xl bg-brand-900 text-white p-5">
+          <div className="flex items-center justify-between text-xs">
+            <span className="text-brand-100/80">Starts with</span>
+            <span className="font-bold">Day 0</span>
+          </div>
+          <p className="mt-1.5 text-base font-bold">Foundation &amp; Mindset</p>
+          <div className="mt-4 flex gap-1" aria-hidden="true">
+            {Array.from({ length: 8 }).map((_, d) => (
+              <span key={d} className={`h-1.5 flex-1 rounded-full ${d === 0 ? 'bg-[#7EE2B0]' : 'bg-white/15'}`} />
+            ))}
+          </div>
+          <p className="mt-2 text-xs text-brand-100/80">Day 0 of 45</p>
+        </div>
+      ),
+    },
+    {
+      label: 'Practise',
+      title: 'AI Mock Interview Studio',
+      desc: 'Product design, metrics, estimation and behavioural rounds. Type or speak your answers, then finish with a scorecard and clear next steps.',
+      cta: 'Start practising',
+      path: '/interview-studio',
+      preview: (
+        <div className="rounded-2xl bg-white border border-zinc-200 p-5 shadow-2xs">
+          <div className="flex items-center justify-between gap-3">
+            <span className="text-xs font-bold uppercase tracking-[0.1em] text-zinc-500">Example scorecard</span>
+            <span className="px-2.5 py-0.5 rounded-full bg-[#EFF6FF] border border-[#BFDBFE] text-[#2563EB] text-xs font-extrabold">Lean Yes</span>
+          </div>
+          <div className="mt-4 space-y-2.5">
+            {[
+              ['Framework', 82],
+              ['Analytical rigour', 70],
+              ['Communication', 88],
+            ].map(([pillar, value]) => (
+              <div key={pillar as string} className="grid grid-cols-[8.5rem_minmax(0,1fr)] items-center gap-3 text-sm font-semibold text-zinc-600">
+                <span>{pillar}</span>
+                <span className="h-2 rounded-full bg-zinc-100 overflow-hidden">
+                  <span className="block h-full rounded-full bg-brand-600" style={{ width: `${value}%` }} />
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      ),
+    },
+    {
+      label: 'Get noticed',
+      title: 'Resume & LinkedIn Optimiser',
+      desc: 'AI audits of your resume and LinkedIn profile, with personalised suggestions to make you stand out to recruiters.',
+      cta: 'Audit my profile',
+      path: '/tools',
+      preview: (
+        <div className="rounded-2xl bg-white border border-zinc-200 divide-y divide-zinc-100 text-sm shadow-2xs">
+          <div className="flex items-center gap-2.5 px-5 py-3 text-zinc-700">
+            <FileText className="w-4 h-4 text-brand-700" /> Resume Auditor
+          </div>
+          <div className="flex items-center gap-2.5 px-5 py-3 text-zinc-700">
+            <UserIcon className="w-4 h-4 text-brand-700" /> LinkedIn Optimiser
+          </div>
+        </div>
+      ),
+    },
+    {
+      label: 'Build',
+      title: 'Real-World Projects',
+      desc: 'Case briefs from fictional companies with realistic numbers. Write your answer and get AI feedback on every criterion.',
+      cta: 'Pick a project',
+      path: '/projects',
+      preview: (
+        <div className="space-y-1.5 text-sm">
+          {[
+            ['Win Back Lapsed Food Delivery Users', 'Beginner'],
+            ['Define a North Star Metric', 'Intermediate'],
+            ['Launch an AI Tutor Feature', 'Advanced'],
+          ].map(([brief, level]) => (
+            <div key={brief} className="flex items-center justify-between gap-3 bg-white rounded-xl px-4 py-2.5 border border-zinc-200">
+              <span className="font-semibold text-zinc-800 truncate">{brief}</span>
+              <span className={`shrink-0 px-2 py-0.5 rounded-full border text-[11px] font-bold ${difficultyChip[level]}`}>{level}</span>
+            </div>
+          ))}
+        </div>
+      ),
+    },
+    {
+      label: 'Apply',
+      title: 'PM Jobs Board',
+      desc: 'APM to CPO roles across India and remote, collected every morning from company job boards. Filter by level, city and experience.',
+      cta: 'Browse PM jobs',
+      path: '/jobs',
+      badge: 'New',
+      preview: (
+        <div className="space-y-1.5 text-sm">
+          {[
+            ['Associate Product Manager', 'Bengaluru'],
+            ['Product Manager', 'Remote'],
+            ['Senior Product Manager', 'Delhi NCR'],
+          ].map(([role, place]) => (
+            <div key={role} className="flex items-center justify-between gap-3 bg-white rounded-xl px-4 py-2.5 border border-zinc-200">
+              <span className="font-semibold text-zinc-800 truncate">{role}</span>
+              <span className="text-zinc-500 shrink-0">{place}</span>
+            </div>
+          ))}
+        </div>
+      ),
+    },
   ];
 
   const searchableItems = [
@@ -205,9 +317,24 @@ export const LandingPage: React.FC = () => {
     { title: "Data & Metrics Playbook", category: "Pillars", path: "/dashboard/data" },
   ];
 
-  const filteredSearchItems = searchQuery.trim() 
+  const filteredSearchItems = searchQuery.trim()
     ? searchableItems.filter(item => item.title.toLowerCase().includes(searchQuery.toLowerCase()) || item.category.toLowerCase().includes(searchQuery.toLowerCase()))
     : searchableItems;
+
+  const closeSearch = () => {
+    setSearchModalOpen(false);
+    setSearchQuery('');
+  };
+
+  // Escape closes the search modal
+  useEffect(() => {
+    if (!searchModalOpen) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeSearch();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [searchModalOpen]);
 
   return (
     <div ref={pageRef} className="min-h-screen bg-[#FAF9F6] font-sans text-slate-900 overflow-x-hidden selection:bg-emerald-100 selection:text-emerald-900">
@@ -227,37 +354,68 @@ export const LandingPage: React.FC = () => {
       {/* Search Modal */}
       <AnimatePresence>
         {searchModalOpen && (
-          <div className="fixed inset-0 z-100 flex items-start justify-center pt-24 px-4 bg-slate-950/40 backdrop-blur-xs">
-            <motion.div 
+          <div
+            className="fixed inset-0 z-100 flex items-start justify-center pt-24 px-4 bg-slate-950/40 backdrop-blur-xs"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) closeSearch();
+            }}
+          >
+            <motion.div
               initial={{ opacity: 0, scale: 0.95, y: -10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: -10 }}
+              role="dialog"
+              aria-modal="true"
+              aria-label="Search The NooB PM"
               className="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-xl overflow-hidden"
             >
               <div className="p-4 border-b border-slate-100 flex items-center gap-3">
                 <Search className="w-5 h-5 text-slate-400 shrink-0" />
                 <input
                   type="text"
+                  enterKeyHint="search"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search curriculum, tools, interview prep, templates..."
-                  className="w-full text-base font-medium text-slate-900 placeholder:text-slate-400 focus:outline-hidden bg-transparent"
+                  aria-label="Search curriculum, tools, interview prep and templates"
+                  className="w-full text-base font-medium text-slate-900 placeholder:text-slate-500 focus:outline-hidden bg-transparent"
                   autoFocus
                 />
-                <button 
-                  onClick={() => setSearchModalOpen(false)} 
-                  className="p-1 text-slate-400 hover:text-slate-700 rounded-lg"
+                <button
+                  onClick={closeSearch}
+                  className="tap-target p-1 text-slate-500 hover:text-slate-700 rounded-lg cursor-pointer"
+                  aria-label="Close search"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
               <div className="max-h-80 overflow-y-auto p-2">
+                {filteredSearchItems.length === 0 && (
+                  <div className="px-3.5 py-6 text-center" role="status">
+                    <p className="text-sm font-bold text-slate-800 break-words">
+                      Nothing matches “{searchQuery.trim()}”
+                    </p>
+                    <p className="text-sm text-slate-500 mt-1">
+                      Try a broader word like “interview”, “resume” or “metrics”, or{' '}
+                      <button
+                        onClick={() => {
+                          closeSearch();
+                          navigate('/dashboard');
+                        }}
+                        className="font-bold text-emerald-700 hover:underline underline-offset-2 cursor-pointer"
+                      >
+                        browse all lessons
+                      </button>
+                      .
+                    </p>
+                  </div>
+                )}
                 {filteredSearchItems.map((item, idx) => (
                   <button
                     key={idx}
                     onClick={() => {
-                      setSearchModalOpen(false);
+                      closeSearch();
                       navigate(item.path);
                     }}
                     className="w-full text-left px-3.5 py-2.5 rounded-xl hover:bg-slate-50 flex items-center justify-between group transition-colors cursor-pointer"
@@ -280,16 +438,18 @@ export const LandingPage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           
           {/* Logo */}
-          <div 
+          <button
+            type="button"
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="flex items-center gap-2.5 cursor-pointer group"
+            aria-label="The NooB PM, back to top"
+            className="flex items-center gap-2.5 cursor-pointer group text-left rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-600"
           >
             <Logo className="w-9 h-9 shrink-0" />
-            <div>
+            <span className="block">
               <span className="block font-black text-lg text-slate-900 tracking-tight leading-none">The NooB PM</span>
-              <span className="text-[8px] font-black text-emerald-600 uppercase tracking-wider block mt-0.5">ONE-STOP PM SOLUTION</span>
-            </div>
-          </div>
+              <span className="text-[11px] font-bold text-brand-700 uppercase tracking-wide block mt-1">ONE-STOP PM SOLUTION</span>
+            </span>
+          </button>
 
           {/* Desktop Center Links */}
           <nav className="hidden lg:flex items-center gap-7 text-sm font-semibold text-slate-700">
@@ -380,7 +540,7 @@ export const LandingPage: React.FC = () => {
               className="hover:text-emerald-700 transition-colors cursor-pointer inline-flex items-center gap-1.5"
             >
               PM Jobs
-              <span className="px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[9px] font-black uppercase tracking-wider">New</span>
+              <span className="px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-bold uppercase tracking-wide">New</span>
             </button>
 
             {/* Resources Dropdown */}
@@ -804,7 +964,7 @@ export const LandingPage: React.FC = () => {
 
           <div data-reveal>
             <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
-              Built by PMs. <span className="text-[#059669]">Loved by learners.</span>
+              What our <span className="text-[#059669]">learners say.</span>
             </h2>
             <p className="text-sm sm:text-base text-slate-600 mt-2">
               Real stories from aspiring and working product professionals.
@@ -830,9 +990,11 @@ export const LandingPage: React.FC = () => {
             style={{ animationPlayState: isMarqueePaused ? 'paused' : undefined }}
           >
             {marqueeCards.map((item, idx) => (
-              <div 
+              <div
                 key={`${item.name}-${idx}`}
-                className="w-[280px] sm:w-[350px] md:w-[360px] h-[220px] sm:h-[230px] shrink-0 bg-white rounded-2xl border border-slate-200/80 p-5 sm:p-6 shadow-2xs hover:shadow-md hover:border-emerald-300 transition-all duration-300 flex flex-col justify-between select-none"
+                // Only the first set is read out; the repeats exist just to make the loop seamless
+                aria-hidden={idx >= testimonials.length || undefined}
+                className="w-[280px] sm:w-[350px] md:w-[360px] h-[196px] sm:h-[204px] shrink-0 bg-white rounded-2xl border border-slate-200/80 p-5 sm:p-6 shadow-2xs hover:shadow-md hover:border-emerald-300 transition-all duration-300 flex flex-col justify-between select-none"
               >
                 <div className="flex-1 flex flex-col justify-start overflow-hidden mb-4">
                   <p className="text-sm font-medium text-slate-700 leading-relaxed italic line-clamp-3 sm:line-clamp-4">
@@ -841,19 +1003,14 @@ export const LandingPage: React.FC = () => {
                 </div>
 
                 <div className="pt-2 border-t border-slate-100/80">
-                  <div className="flex items-center gap-3 mb-2.5">
-                    <div className="w-10 h-10 rounded-full bg-slate-100 border border-slate-200/80 flex items-center justify-center text-slate-500 shrink-0 shadow-2xs">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-zinc-100 border border-zinc-200/80 flex items-center justify-center text-zinc-500 shrink-0 shadow-2xs">
                       <UserIcon className="w-5 h-5" />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <h4 className="text-xs sm:text-sm font-bold text-slate-900 truncate">{item.name}</h4>
-                      <p className="text-[11px] sm:text-xs text-slate-500 truncate" title={item.role}>{item.role}</p>
+                      <p className="text-sm font-bold text-zinc-900 truncate">{item.name}</p>
+                      <p className="text-xs text-zinc-500 truncate" title={item.role}>{item.role}</p>
                     </div>
-                  </div>
-
-                  {/* 5 Yellow Stars */}
-                  <div className="flex items-center gap-1 text-amber-400 text-sm">
-                    {'★'.repeat(item.rating)}
                   </div>
                 </div>
               </div>
@@ -862,182 +1019,97 @@ export const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* ALL-IN-ONE PLATFORM SECTION: SIX TOOLS */}
-      <section className="py-20 sm:py-24 bg-white/60 border-y border-slate-200/60">
+      {/* THE PATH: one numbered route from first lesson to first application (replaces "Six tools" and "How it works") */}
+      <section className="py-20 sm:py-24 bg-white/60 border-y border-zinc-200/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div data-reveal className="max-w-2xl mb-10 sm:mb-12">
-            <h2 className="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-[-0.035em] leading-[1.05]">
-              Six tools. One PM career. No juggling.
+          <div data-reveal className="max-w-2xl mb-12 sm:mb-16">
+            <h2 className="text-4xl sm:text-5xl font-extrabold text-zinc-900 tracking-[-0.035em] leading-[1.05]">
+              One path from your first lesson to your first application.
             </h2>
-            <p className="mt-4 text-sm sm:text-base text-slate-600 leading-relaxed">
-              No need to juggle multiple courses, tools and resources. Learn, practise, polish your profile and apply, all from one place.
+            <p className="mt-4 text-base text-zinc-600 leading-relaxed">
+              Each step hands you on to the next. Your lessons, scorecards, audits and projects stay together in one profile.
             </p>
           </div>
 
-          <div data-reveal-stagger className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-
-            {/* Learn: 45-Day PM Launchpad */}
-            <button
-              type="button"
-              onClick={() => navigate('/dashboard')}
-              className="group flex flex-col text-left bg-[#06382B] text-white rounded-2xl p-6 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_28px_-14px_rgba(6,56,43,0.6)]"
-            >
-              <div className="flex items-center justify-between">
-                <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#7EE2B0]">Learn</span>
-                <span className="px-2 py-0.5 rounded-full bg-[#7EE2B0] text-[#06382B] text-[11px] font-bold">Free</span>
-              </div>
-              <h3 className="mt-3 text-xl sm:text-2xl font-extrabold tracking-tight">45-Day PM Launchpad</h3>
-              <p className="mt-3 text-sm text-emerald-50/80 leading-relaxed">
-                A day-by-day curriculum through PM fundamentals, frameworks and real-world case studies.
-              </p>
-              <div className="mt-auto pt-6">
-                <div className="rounded-xl bg-white/[0.07] border border-white/10 px-4 py-3">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="text-emerald-50/70">Starts with</span>
-                    <span className="font-bold">Day 1</span>
+          {/* Not a stagger reveal: usePathProgress fills the rail as the visitor scrolls down it */}
+          <ol ref={pathRef}>
+            {pathSteps.map((step, i) => {
+              const first = i === 0;
+              const last = i === pathSteps.length - 1;
+              return (
+                <li
+                  key={step.title}
+                  data-path-step
+                  className="relative grid grid-cols-[2.5rem_minmax(0,1fr)] gap-x-4 sm:gap-x-6 lg:grid-cols-[2.75rem_minmax(0,1fr)_minmax(0,25rem)] lg:gap-x-12"
+                >
+                  {/* Rail: the number, and a line down to the next step (grey track, green fill on scroll) */}
+                  <div className="relative flex justify-center row-span-2 lg:row-span-1">
+                    <span
+                      data-path-number
+                      data-reached={first ? 'true' : 'false'}
+                      className="relative z-10 flex h-10 w-10 lg:h-11 lg:w-11 items-center justify-center rounded-full text-sm font-extrabold tabular-nums border transition-colors duration-300 bg-white text-brand-700 border-zinc-300 data-[reached=true]:bg-brand-800 data-[reached=true]:text-white data-[reached=true]:border-brand-800"
+                    >
+                      {i + 1}
+                    </span>
+                    {!last && (
+                      <>
+                        <span aria-hidden="true" className="absolute top-10 lg:top-11 bottom-0 w-px bg-zinc-200" />
+                        <span aria-hidden="true" data-path-fill className="absolute top-10 lg:top-11 bottom-0 w-0.5 bg-brand-600 origin-top scale-y-0" />
+                      </>
+                    )}
                   </div>
-                  <p className="mt-1.5 text-sm font-semibold">What is Product Management?</p>
-                </div>
-                <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-[#7EE2B0]">
-                  Start Day 1 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
-                </span>
-              </div>
-            </button>
 
-            {/* Practise: AI Mock Interview Studio */}
-            <button
-              type="button"
-              onClick={() => navigate('/interview-studio')}
-              className="group flex flex-col text-left bg-white border border-slate-200/80 rounded-2xl p-6 cursor-pointer transition-all duration-200 hover:border-emerald-300 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_-12px_rgba(6,78,59,0.25)]"
-            >
-              <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#047857]">Practise</span>
-              <h3 className="mt-3 text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">AI Mock Interview Studio</h3>
-              <p className="mt-3 text-sm text-slate-600 leading-relaxed">
-                Product design, metrics, estimation and behavioural rounds. Type or speak your answer, then get a score and clear next steps.
-              </p>
-              <div className="mt-auto pt-6">
-                <div className="flex flex-wrap gap-2">
-                  {['Product design', 'Metrics', 'Estimation', 'Behavioural'].map((tag) => (
-                    <span key={tag} className="px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-100 text-xs font-semibold text-emerald-900">{tag}</span>
-                  ))}
-                </div>
-                <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-[#047857]">
-                  Start practising <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
-                </span>
-              </div>
-            </button>
-
-            {/* Get noticed: Resume & LinkedIn */}
-            <button
-              type="button"
-              onClick={() => navigate('/tools')}
-              className="group flex flex-col text-left bg-white border border-slate-200/80 rounded-2xl p-6 cursor-pointer transition-all duration-200 hover:border-emerald-300 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_-12px_rgba(6,78,59,0.25)]"
-            >
-              <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#047857]">Get noticed</span>
-              <h3 className="mt-3 text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">Resume &amp; LinkedIn Optimiser</h3>
-              <p className="mt-3 text-sm text-slate-600 leading-relaxed">
-                AI audits of your resume and LinkedIn profile, with personalised suggestions to make you stand out to recruiters.
-              </p>
-              <div className="mt-auto pt-6">
-                <div className="rounded-xl bg-slate-50 border border-slate-100 divide-y divide-slate-100 text-sm">
-                  <div className="flex items-center gap-2.5 px-4 py-2.5 text-slate-700">
-                    <FileText className="w-4 h-4 text-[#047857]" /> Resume Auditor
-                  </div>
-                  <div className="flex items-center gap-2.5 px-4 py-2.5 text-slate-700">
-                    <UserIcon className="w-4 h-4 text-[#047857]" /> LinkedIn Optimiser
-                  </div>
-                </div>
-                <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-[#047857]">
-                  Audit my profile <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
-                </span>
-              </div>
-            </button>
-
-            {/* Apply: PM Jobs Board */}
-            <button
-              type="button"
-              onClick={() => navigate('/jobs')}
-              className="group flex flex-col text-left bg-white border border-slate-200/80 rounded-2xl p-6 cursor-pointer transition-all duration-200 hover:border-emerald-300 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_-12px_rgba(6,78,59,0.25)]"
-            >
-              <div className="flex items-center justify-between">
-                <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#047857]">Apply</span>
-                <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-bold uppercase">New</span>
-              </div>
-              <h3 className="mt-3 text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">PM Jobs Board</h3>
-              <p className="mt-3 text-sm text-slate-600 leading-relaxed">
-                APM to CPO roles across India and remote, collected every morning from company job boards. Filter by level, city and experience.
-              </p>
-              <div className="mt-auto pt-6">
-                <div className="space-y-1.5 text-xs">
-                  {[
-                    ['Associate Product Manager', 'Bengaluru'],
-                    ['Product Manager', 'Remote'],
-                    ['Senior Product Manager', 'Delhi NCR'],
-                  ].map(([role, place]) => (
-                    <div key={role} className="flex items-center justify-between gap-2 bg-slate-50 rounded-lg px-3 py-2 border border-slate-100">
-                      <span className="font-semibold text-slate-800 truncate">{role}</span>
-                      <span className="text-slate-500 shrink-0">{place}</span>
+                  {/* Copy */}
+                  <div className={`pt-1.5 lg:pt-2 pb-6 ${last ? 'lg:pb-0' : 'lg:pb-16'}`}>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="text-xs font-bold uppercase tracking-[0.1em] text-brand-700">{step.label}</span>
+                      {step.badge && (
+                        <span className="px-2 py-0.5 rounded-full bg-brand-50 border border-brand-100 text-brand-800 text-[11px] font-bold">
+                          {step.badge}
+                        </span>
+                      )}
                     </div>
-                  ))}
-                </div>
-                <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-[#047857]">
-                  Browse PM jobs <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
-                </span>
-              </div>
-            </button>
+                    <h3 className="mt-2 text-2xl font-extrabold tracking-tight text-zinc-900">{step.title}</h3>
+                    <p className="mt-2 max-w-[52ch] text-base text-zinc-600 leading-relaxed">{step.desc}</p>
+                    <button
+                      type="button"
+                      onClick={() => navigate(step.path)}
+                      className="tap-target group mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-brand-700 hover:text-brand-800 underline-offset-4 hover:underline cursor-pointer"
+                    >
+                      {step.cta}
+                      <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+                    </button>
+                  </div>
 
-            {/* Build: PM Toolkit (Resources) */}
+                  {/* Preview of the real thing */}
+                  <div className={`col-start-2 lg:col-start-3 lg:row-start-1 ${last ? '' : 'pb-12 lg:pb-16'}`}>
+                    {step.preview}
+                  </div>
+                </li>
+              );
+            })}
+          </ol>
+
+          <p data-reveal className="mt-12 sm:mt-14 pl-14 sm:pl-16 lg:pl-[5.5rem] text-base text-zinc-600 leading-relaxed">
+            Stuck between steps? Browse the{' '}
             <button
               type="button"
               onClick={() => navigate('/resources')}
-              className="group flex flex-col text-left bg-white border border-slate-200/80 rounded-2xl p-6 cursor-pointer transition-all duration-200 hover:border-emerald-300 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_-12px_rgba(6,78,59,0.25)]"
+              className="font-bold text-brand-700 hover:text-brand-800 underline underline-offset-4 decoration-brand-200 hover:decoration-brand-700 cursor-pointer"
             >
-              <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#047857]">Build</span>
-              <h3 className="mt-3 text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">PM Toolkit &amp; Resources</h3>
-              <p className="mt-3 text-sm text-slate-600 leading-relaxed">
-                Interview assignments, B-school casebooks, company interview questions and certifications, all in one place.
-              </p>
-              <div className="mt-auto pt-6">
-                <div className="divide-y divide-slate-100 text-sm text-slate-700 border-y border-slate-100">
-                  {[
-                    [FileText, 'Interview assignments'],
-                    [BookOpen, 'PM casebooks'],
-                    [Award, 'Certifications'],
-                  ].map(([Icon, label]) => {
-                    const I = Icon as typeof FileText;
-                    return (
-                      <div key={label as string} className="flex items-center gap-2.5 py-2.5">
-                        <I className="w-4 h-4 text-slate-500" /> {label as string}
-                      </div>
-                    );
-                  })}
-                </div>
-                <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-[#047857]">
-                  Explore resources <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
-                </span>
-              </div>
-            </button>
-
-            {/* Grow together: Community */}
+              PM toolkit
+            </button>{' '}
+            or ask the{' '}
             <a
               href="https://chat.whatsapp.com/GhkzK8bDAUwLAKfLw7hfbW"
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-col text-left bg-[#FFF8E6] border border-amber-200/70 rounded-2xl p-6 transition-all duration-200 hover:border-amber-300 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_-12px_rgba(146,99,14,0.3)]"
+              className="font-bold text-brand-700 hover:text-brand-800 underline underline-offset-4 decoration-brand-200 hover:decoration-brand-700"
             >
-              <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#047857]">Grow together</span>
-              <h3 className="mt-3 text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">PM Community</h3>
-              <p className="mt-3 text-sm text-slate-600 leading-relaxed">
-                Join our WhatsApp community to ask questions and learn alongside other aspiring PMs.
-              </p>
-              <div className="mt-auto pt-6">
-                <span className="inline-flex items-center gap-1.5 text-sm font-bold text-[#047857]">
-                  Join the community <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
-                </span>
-              </div>
+              WhatsApp community
             </a>
-
-          </div>
+            .
+          </p>
         </div>
       </section>
 
@@ -1047,7 +1119,7 @@ export const LandingPage: React.FC = () => {
           <div className="max-w-2xl">
             <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#047857]">The curriculum</p>
             <h2 className="mt-3 text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-[-0.035em] leading-[1.05]">
-              8 pillars, mapped to what hiring managers test.
+              8 pillars, from first principles to job-ready.
             </h2>
           </div>
           <button
@@ -1088,56 +1160,6 @@ export const LandingPage: React.FC = () => {
               </button>
             );
           })}
-        </div>
-      </section>
-
-      {/* HOW IT WORKS (DARK FOREST GREEN SECTION) */}
-      <section className="py-20 sm:py-24 bg-[#06382B] text-white overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div data-reveal className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-10 sm:mb-12">
-            <div className="max-w-2xl">
-              <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#7EE2B0]">How it works</p>
-              <h2 className="mt-3 text-4xl sm:text-5xl font-extrabold tracking-[-0.035em] leading-[1.05] text-white">
-                Built for action,<br className="hidden sm:block" /> not passive reading.
-              </h2>
-            </div>
-            <button
-              type="button"
-              onClick={() => navigate('/dashboard')}
-              className="self-start sm:self-auto bg-[#7EE2B0] hover:bg-[#9BEBC3] text-[#06382B] px-6 py-3.5 rounded-xl font-bold text-sm inline-flex items-center gap-2 transition-all hover:-translate-y-0.5 cursor-pointer shrink-0"
-            >
-              <span>Start learning free</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </div>
-
-          <div data-reveal-stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {howItWorksSteps.map((step, i) => {
-              const last = i === howItWorksSteps.length - 1;
-              return (
-                <button
-                  type="button"
-                  key={step.title}
-                  onClick={() => navigate(step.path)}
-                  className={`group flex flex-col text-left rounded-2xl p-6 sm:p-7 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${
-                    last
-                      ? 'bg-[#7EE2B0] text-[#06382B] hover:bg-[#8FE7BB]'
-                      : 'border border-white/15 hover:border-[#7EE2B0]/50 hover:bg-white/[0.03]'
-                  }`}
-                >
-                  <span className={`block text-4xl sm:text-5xl font-extrabold tracking-tight tabular-nums ${last ? 'text-[#06382B]' : 'text-[#7EE2B0]'}`}>
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
-                  <h3 className={`mt-3 text-xl font-bold ${last ? 'text-[#06382B]' : 'text-white'}`}>
-                    {step.title}
-                  </h3>
-                  <p className={`mt-3 text-sm sm:text-[15px] leading-relaxed ${last ? 'text-[#06382B]/85' : 'text-emerald-50/80'}`}>
-                    {step.desc}
-                  </p>
-                </button>
-              );
-            })}
-          </div>
         </div>
       </section>
 
@@ -1216,7 +1238,7 @@ export const LandingPage: React.FC = () => {
 
             {/* Product */}
             <div className="md:col-span-2 space-y-4">
-              <h4 className="text-xs font-bold text-white uppercase tracking-[0.12em]">Product</h4>
+              <h2 className="text-xs font-bold text-white uppercase tracking-[0.12em]">Product</h2>
               <ul className="space-y-2.5 pointer-coarse:space-y-0 pointer-coarse:[&>li]:flex pointer-coarse:[&>li]:min-h-11 pointer-coarse:[&>li]:items-center text-sm">
                 <li><button onClick={() => navigate('/dashboard')} className="pointer-coarse:flex pointer-coarse:items-center pointer-coarse:self-stretch hover:text-[#7EE2B0] transition-colors cursor-pointer">Learn</button></li>
                 <li><button onClick={() => navigate('/interview-studio')} className="pointer-coarse:flex pointer-coarse:items-center pointer-coarse:self-stretch hover:text-[#7EE2B0] transition-colors cursor-pointer">AI Mock Interview</button></li>
@@ -1227,58 +1249,40 @@ export const LandingPage: React.FC = () => {
               </ul>
             </div>
 
-            {/* Company (legal links have no pages yet, so they stay as plain text) */}
+            {/* Company (add Blog, Careers, Privacy and Terms here once those pages exist) */}
             <div className="md:col-span-2 space-y-4">
-              <h4 className="text-xs font-bold text-white uppercase tracking-[0.12em]">Company</h4>
+              <h2 className="text-xs font-bold text-white uppercase tracking-[0.12em]">Company</h2>
               <ul className="space-y-2.5 pointer-coarse:space-y-0 pointer-coarse:[&>li]:flex pointer-coarse:[&>li]:min-h-11 pointer-coarse:[&>li]:items-center text-sm">
                 <li><button onClick={() => navigate('/dashboard/about')} className="pointer-coarse:flex pointer-coarse:items-center pointer-coarse:self-stretch hover:text-[#7EE2B0] transition-colors cursor-pointer">About</button></li>
                 <li><a href="mailto:contact@thenoobpm.com" className="pointer-coarse:flex pointer-coarse:items-center pointer-coarse:self-stretch hover:text-[#7EE2B0] transition-colors">Contact</a></li>
-                <li><span className="text-slate-500">Blog</span></li>
-                <li><span className="text-slate-500">Careers</span></li>
-                <li><span className="text-slate-500">Privacy Policy</span></li>
-                <li><span className="text-slate-500">Terms of Service</span></li>
               </ul>
             </div>
 
-            {/* Newsletter */}
+            {/* Stay in the loop (no newsletter backend yet, so point to channels that exist) */}
             <div className="col-span-2 md:col-span-4 space-y-4">
-              <h4 className="text-xs font-bold text-white uppercase tracking-[0.12em]">Join our newsletter</h4>
+              <h2 className="text-xs font-bold text-white uppercase tracking-[0.12em]">Stay in the loop</h2>
               <p className="text-sm text-slate-300 leading-relaxed">
-                Get the latest PM resources, case studies and updates.
+                New lessons, PM resources and job posts land in our community first.
               </p>
-
-              {newsletterSubmitted ? (
-                <div className="p-3 rounded-xl bg-[#7EE2B0]/10 text-[#7EE2B0] text-sm font-bold flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4" />
-                  <span>Subscribed! Check your inbox.</span>
-                </div>
-              ) : (
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    if (newsletterEmail.trim()) {
-                      setNewsletterSubmitted(true);
-                    }
-                  }}
-                  className="flex items-center gap-2"
+              <div className="flex flex-wrap items-center gap-2">
+                <a
+                  href="https://chat.whatsapp.com/GhkzK8bDAUwLAKfLw7hfbW"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-5 py-3 bg-[#7EE2B0] hover:bg-[#9BEBC3] text-[#06382B] text-sm font-bold rounded-xl transition-colors"
                 >
-                  <input
-                    type="email"
-                    required
-                    value={newsletterEmail}
-                    onChange={(e) => setNewsletterEmail(e.target.value)}
-                    placeholder="you@email.com"
-                    aria-label="Email address"
-                    className="min-w-0 flex-1 text-sm px-4 py-3 rounded-xl border border-white/15 bg-white/[0.04] text-white placeholder:text-slate-500 focus:outline-hidden focus:border-[#7EE2B0]"
-                  />
-                  <button
-                    type="submit"
-                    className="px-5 py-3 bg-[#7EE2B0] hover:bg-[#9BEBC3] text-[#06382B] text-sm font-bold rounded-xl transition-colors cursor-pointer shrink-0"
-                  >
-                    Subscribe
-                  </button>
-                </form>
-              )}
+                  Join the WhatsApp community
+                  <ArrowRight className="w-4 h-4" />
+                </a>
+                <a
+                  href="https://www.youtube.com/@THE_NOOB_PM"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center px-5 py-3 border border-white/15 hover:border-[#7EE2B0] text-white text-sm font-bold rounded-xl transition-colors"
+                >
+                  YouTube
+                </a>
+              </div>
             </div>
 
           </div>

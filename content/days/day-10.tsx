@@ -12,7 +12,7 @@ export const Day10Content = () => {
     <div className="space-y-4 md:space-y-5 text-left">
       <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
         <div className="flex flex-col gap-1.5">
-          <span className="text-[10px] font-black uppercase tracking-widest text-purple-600">Research</span>
+          <span className="text-[11px] font-black uppercase tracking-widest text-purple-600">Research</span>
           <p className="text-sm sm:text-base font-medium text-blue-900 leading-relaxed italic">
             “If you listen carefully, your users will write your roadmap for you.”
           </p>
@@ -81,7 +81,7 @@ export const Day10Content = () => {
         </div>
 
         <div className="p-4 sm:p-5 bg-zinc-50 rounded-2xl border border-zinc-100">
-           <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-4">Example: Insight to Feature</h4>
+           <h4 className="text-[11px] font-black uppercase tracking-widest text-zinc-400 mb-4">Example: Insight to Feature</h4>
            <p className="text-sm font-bold text-zinc-700 italic border-l-4 border-emerald-500 pl-4">
              "I want to feel progress even if I study for 5 minutes."
            </p>
@@ -149,7 +149,7 @@ export const Day10Content = () => {
                  {step.id}
                </div>
                <h4 className="font-black text-zinc-900 text-sm">{step.title}</h4>
-               <p className="text-[10px] font-bold text-zinc-400 leading-tight">{step.desc}</p>
+               <p className="text-[11px] font-bold text-zinc-400 leading-tight">{step.desc}</p>
             </div>
           ))}
         </div>
@@ -208,16 +208,16 @@ export const Day10Content = () => {
         <div className="p-4 sm:p-5 bg-zinc-50 rounded-2xl border border-zinc-100 space-y-6">
            <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 md:gap-4">
               <div className="space-y-2">
-                 <p className="text-[10px] font-black uppercase tracking-widest text-rose-500">The Pain</p>
+                 <p className="text-[11px] font-black uppercase tracking-widest text-rose-500">The Pain</p>
                  <p className="text-sm font-bold text-zinc-900 italic">"I forget my fitness goals midweek."</p>
                  <p className="text-xs font-black text-zinc-400 mt-2">→ Motivation Drop</p>
               </div>
               <div className="space-y-2">
-                 <p className="text-[10px] font-black uppercase tracking-widest text-indigo-500">Feature Opportunity</p>
+                 <p className="text-[11px] font-black uppercase tracking-widest text-indigo-500">Feature Opportunity</p>
                  <p className="text-sm font-bold text-zinc-900">AI Reminder Coach</p>
               </div>
               <div className="space-y-2">
-                 <p className="text-[10px] font-black uppercase tracking-widest text-emerald-500">Value Proposition</p>
+                 <p className="text-[11px] font-black uppercase tracking-widest text-emerald-500">Value Proposition</p>
                  <p className="text-xs font-bold text-zinc-500 leading-relaxed">
                    Contextual nudges based on historical low-activity days.
                  </p>
@@ -226,10 +226,6 @@ export const Day10Content = () => {
         </div>
       </section>
 
-      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-        <p></p>
-        <p></p>
-      </div>
     </div>
   );
 };

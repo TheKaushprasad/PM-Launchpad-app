@@ -33,7 +33,7 @@ const AgentPipeline: React.FC<{ run: Run }> = ({ run }) => (
         <li key={agent} className={`rounded-xl border px-2 py-2.5 text-center ${tone}`}>
           <Icon className={`size-4 mx-auto ${status === 'running' ? 'animate-spin' : ''}`} />
           <p className="text-[11px] sm:text-xs font-black mt-1">{i + 1}. {AGENT_LABELS[agent]}</p>
-          <p className="text-[10px] sm:text-[11px] font-semibold capitalize">{status}</p>
+          <p className="text-[11px] font-semibold capitalize">{status}</p>
         </li>
       );
     })}

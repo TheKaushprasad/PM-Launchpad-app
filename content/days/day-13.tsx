@@ -15,7 +15,7 @@ export const Day13Content = () => {
     <div className="space-y-4 md:space-y-5 text-left">
       <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
         <div className="flex flex-col gap-1.5">
-          <span className="text-[10px] font-black uppercase tracking-widest text-purple-600">Research</span>
+          <span className="text-[11px] font-black uppercase tracking-widest text-purple-600">Research</span>
           <p className="text-sm font-black text-purple-600 uppercase tracking-widest mb-1">Theme</p>
           <p className="text-sm sm:text-base font-medium text-blue-900 leading-relaxed italic">
             “A great product solves a real problem — but a great business solves it for a market that’s big enough.”
@@ -105,7 +105,7 @@ export const Day13Content = () => {
               <p className="text-sm font-bold text-zinc-500 leading-relaxed">Use existing industry reports to derive size.</p>
               <div className="flex gap-2">
                  {['Statista', 'McKinsey', 'Gartner', 'IBISWorld'].map(s => (
-                   <span key={s} className="px-2 py-1 bg-zinc-50 border border-zinc-200 rounded-lg text-[10px] font-black text-zinc-400">{s}</span>
+                   <span key={s} className="px-2 py-1 bg-zinc-50 border border-zinc-200 rounded-lg text-[11px] font-black text-zinc-400">{s}</span>
                  ))}
               </div>
               <div className="p-4 bg-zinc-50 rounded-2xl border border-zinc-100">
@@ -124,7 +124,7 @@ export const Day13Content = () => {
               </div>
               <p className="text-sm font-bold text-zinc-500 leading-relaxed">Start from your customer base and scale up.</p>
               <div className="p-4 bg-[#b4c17b] text-white rounded-2xl border-t-4 border-[#b4c17b]/50">
-                 <p className="text-[10px] font-black uppercase text-white/80 mb-1">Formula</p>
+                 <p className="text-[11px] font-black uppercase text-white/80 mb-1">Formula</p>
                  <p className="text-lg font-black tracking-tight italic">SOM = (Number of target users × Price per user × Frequency)</p>
               </div>
               <div className="p-4 bg-zinc-50 rounded-2xl border border-zinc-100">
@@ -203,7 +203,7 @@ export const Day13Content = () => {
                 Use to identify demand spikes by region or term.
               </p>
               <div className="p-3 bg-zinc-50 rounded-xl border border-zinc-100">
-                <p className="text-[10px] font-black text-[#7d99bf]">Example: “AI productivity tools” searches ↑ 350% YoY → validates growing market.</p>
+                <p className="text-[11px] font-black text-[#7d99bf]">Example: “AI productivity tools” searches ↑ 350% YoY → validates growing market.</p>
               </div>
            </div>
 
@@ -329,10 +329,6 @@ export const Day13Content = () => {
         </div>
       </section>
 
-      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-        <p></p>
-        <p></p>
-      </div>
     </div>
   );
 };

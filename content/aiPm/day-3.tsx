@@ -11,7 +11,7 @@ import { AuthModal } from '../../components/auth/AuthModal';
 const STORAGE_KEY = 'aipm_day3_v1';
 
 const Label: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <h4 className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 mb-1.5">{children}</h4>
+  <h4 className="text-[11px] font-bold uppercase tracking-widest text-zinc-400 mb-1.5">{children}</h4>
 );
 
 const OBJECTIVES = [
@@ -187,7 +187,7 @@ export const AiPmDay3Content = () => {
       <AuthModal isOpen={authOpen} onClose={() => setAuthOpen(false)} initialMode="login" redirectTo="/ai-pm/day/3" onSuccess={() => setAuthOpen(false)} />
 
       <section id="objective" className="scroll-mt-32 bg-brand-50/60 p-4 sm:p-5 rounded-2xl border border-brand-100 space-y-2">
-        <span className="text-[10px] font-bold uppercase tracking-widest text-brand-600">Today’s learning objectives</span>
+        <span className="text-[11px] font-bold uppercase tracking-widest text-brand-600">Today’s learning objectives</span>
         <p className="text-sm font-medium text-brand-800">By the end of this lesson, you should be able to:</p>
         <ul className="space-y-1.5">
           {OBJECTIVES.map((o) => (

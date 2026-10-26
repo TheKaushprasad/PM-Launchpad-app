@@ -11,7 +11,7 @@ export const Day3Content = () => {
     <div className="space-y-4 md:space-y-5 text-left">
       <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
         <div className="flex flex-col gap-1.5">
-          <span className="text-[10px] font-black uppercase tracking-widest text-blue-600">Foundation</span>
+          <span className="text-[11px] font-black uppercase tracking-widest text-blue-600">Foundation</span>
           <p className="text-sm sm:text-base font-medium text-blue-900 leading-relaxed">
             Understand how products evolve in the market over time and how companies manage that journey.
           </p>
@@ -133,10 +133,6 @@ export const Day3Content = () => {
       ]}
       />
 
-      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-        <p></p>
-        <p></p>
-      </div>
     </div>
   );
 };

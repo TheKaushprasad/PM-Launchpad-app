@@ -161,7 +161,7 @@ export const LinkedInLanding: React.FC<LinkedInLandingProps> = ({
               </div>
               <p className="text-zinc-500 text-xs leading-relaxed">{cat.desc}</p>
               <div className="pt-2">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-400">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-400">
                   {cat.badge}
                 </span>
               </div>
@@ -174,7 +174,7 @@ export const LinkedInLanding: React.FC<LinkedInLandingProps> = ({
       <section className="mt-14 bg-white rounded-3xl p-8 sm:p-12 border border-zinc-200 shadow-xs space-y-8">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-100 pb-6">
           <div>
-            <span className="text-[10px] font-black uppercase tracking-widest text-brand-600">Sample Audit Snapshot</span>
+            <span className="text-[11px] font-black uppercase tracking-widest text-brand-600">Sample Audit Snapshot</span>
             <h3 className="text-xl sm:text-2xl font-black text-zinc-900 tracking-tight">
               See How We Diagnose Weaknesses
             </h3>
@@ -192,7 +192,7 @@ export const LinkedInLanding: React.FC<LinkedInLandingProps> = ({
           {/* Sample Score Card */}
           <div className="bg-zinc-900 text-white p-6 rounded-3xl flex flex-col justify-between space-y-6">
             <div className="space-y-2">
-              <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Overall Score</span>
+              <span className="text-[11px] font-black uppercase tracking-widest text-zinc-400">Overall Score</span>
               <div className="flex items-baseline gap-2">
                 <span className="text-5xl font-black text-[#34D399]">78</span>
                 <span className="text-xl text-zinc-400 font-bold">/100</span>
@@ -223,21 +223,21 @@ export const LinkedInLanding: React.FC<LinkedInLandingProps> = ({
           {/* Sample Diagnosis Card */}
           <div className="md:col-span-2 space-y-4">
             <div className="p-4 rounded-2xl bg-rose-50/70 border border-rose-100 space-y-1.5">
-              <span className="text-[10px] font-black uppercase tracking-wider text-rose-700">What's Holding It Back</span>
+              <span className="text-[11px] font-black uppercase tracking-wider text-rose-700">What's Holding It Back</span>
               <p className="text-xs font-bold text-rose-950">
                 Headline states: "Product Manager at Acme" — tells recruiters what your job is, but fails to indicate your domain (B2B SaaS / AI) or measurable business scale.
               </p>
             </div>
 
             <div className="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-100 space-y-1.5">
-              <span className="text-[10px] font-black uppercase tracking-wider text-emerald-700">Recruiter-Optimized Rewrite</span>
+              <span className="text-[11px] font-black uppercase tracking-wider text-emerald-700">Recruiter-Optimized Rewrite</span>
               <p className="text-xs font-bold text-emerald-950 font-mono">
                 "Product Manager | B2B SaaS & AI Workflows | 0-to-1 Product Discovery | Scaled ARR from $2M to $8M"
               </p>
             </div>
 
             <div className="p-4 rounded-2xl bg-brand-50/70 border border-brand-100 space-y-1.5">
-              <span className="text-[10px] font-black uppercase tracking-wider text-brand-700">Keyword Gap Flagged</span>
+              <span className="text-[11px] font-black uppercase tracking-wider text-brand-700">Keyword Gap Flagged</span>
               <p className="text-xs text-brand-950 font-medium">
                 Missing 4 high-frequency recruiter search filters: <strong className="font-bold">Product Discovery, A/B Testing, User Research, GTM</strong>.
               </p>

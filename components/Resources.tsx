@@ -177,7 +177,7 @@ const certificationData = [
 ];
 
 const casebookData = {
-  category: "🎓 Case book by Top B-Schools",
+  category: "Case book by Top B-Schools",
   items: [
     { title: "IIM C PM casebook", description: "Structured product cases from IIM Calcutta.", url: "https://lnkd.in/gAXsXx5f", icon: GraduationCap },
     { title: "IIM B PM casebook", description: "Exclusive PM interview prep material from IIM Bangalore.", url: "https://lnkd.in/gpesd2mc", icon: GraduationCap },
@@ -1853,7 +1853,7 @@ export const Resources: React.FC = () => {
 
                   {/* Eyebrow badge */}
                   <div className="mb-2">
-                    <span className="inline-block px-2.5 py-1 rounded-md bg-[#EEF2FF] text-[#4F46E5] text-[10px] font-black uppercase tracking-wider mb-2">
+                    <span className="inline-block px-2.5 py-1 rounded-md bg-[#EEF2FF] text-[#4F46E5] text-[11px] font-black uppercase tracking-wider mb-2">
                       LEARN & EARN
                     </span>
                     <h2 className="text-xl font-bold text-slate-900 tracking-tight leading-snug">
@@ -1894,7 +1894,7 @@ export const Resources: React.FC = () => {
 
                   {/* Eyebrow badge */}
                   <div className="mb-2">
-                    <span className="inline-block px-2.5 py-1 rounded-md bg-[#FEF3C7] text-[#D97706] text-[10px] font-black uppercase tracking-wider mb-2">
+                    <span className="inline-block px-2.5 py-1 rounded-md bg-[#FEF3C7] text-[#D97706] text-[11px] font-black uppercase tracking-wider mb-2">
                       PRACTICE & IMPROVE
                     </span>
                     <h2 className="text-xl font-bold text-slate-900 tracking-tight leading-snug">
@@ -1935,7 +1935,7 @@ export const Resources: React.FC = () => {
 
                   {/* Eyebrow badge */}
                   <div className="mb-2">
-                    <span className="inline-block px-2.5 py-1 rounded-md bg-[#ECFDF5] text-[#059669] text-[10px] font-black uppercase tracking-wider mb-2">
+                    <span className="inline-block px-2.5 py-1 rounded-md bg-[#ECFDF5] text-[#059669] text-[11px] font-black uppercase tracking-wider mb-2">
                       LEARN FROM
                     </span>
                     <h2 className="text-xl font-bold text-slate-900 tracking-tight leading-snug">
@@ -1976,7 +1976,7 @@ export const Resources: React.FC = () => {
 
                   {/* Eyebrow badge */}
                   <div className="mb-2">
-                    <span className="inline-block px-2.5 py-1 rounded-md bg-[#FFE4E6] text-[#E11D48] text-[10px] font-black uppercase tracking-wider mb-2">
+                    <span className="inline-block px-2.5 py-1 rounded-md bg-[#FFE4E6] text-[#E11D48] text-[11px] font-black uppercase tracking-wider mb-2">
                       GET INTERVIEW READY
                     </span>
                     <h2 className="text-xl font-bold text-slate-900 tracking-tight leading-snug">
@@ -2145,7 +2145,7 @@ export const Resources: React.FC = () => {
                             {selectedQuestionCategory !== 'All' && (
                               <div className="mb-4 text-xs font-medium text-slate-500 flex items-center gap-2">
                                 <span>Showing <b>{data.items.length}</b> questions in category:</span>
-                                <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${getTagBadgeStyle(selectedQuestionCategory)}`}>
+                                <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold ${getTagBadgeStyle(selectedQuestionCategory)}`}>
                                   {selectedQuestionCategory}
                                 </span>
                               </div>
@@ -2168,7 +2168,7 @@ export const Resources: React.FC = () => {
 
                                       <div className="space-y-2 min-w-0">
                                         <div className="flex items-center gap-2">
-                                          <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-tight ${getTagBadgeStyle(item.category)}`}>
+                                          <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-tight ${getTagBadgeStyle(item.category)}`}>
                                             {getQuestionIcon(item.category)}
                                             <span>{item.category}</span>
                                           </span>
@@ -2288,7 +2288,7 @@ export const Resources: React.FC = () => {
                                 >
                                   <div>
                                     <div className="flex items-center justify-between gap-3 mb-4">
-                                      <span className="inline-block px-2.5 py-1 rounded-md bg-brand-50 text-brand-700 text-[10px] font-black uppercase tracking-wider">
+                                      <span className="inline-block px-2.5 py-1 rounded-md bg-brand-50 text-brand-700 text-[11px] font-black uppercase tracking-wider">
                                         {cert.provider}
                                       </span>
                                       <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-400 group-hover/card:bg-brand-50 group-hover/card:text-brand-600 transition-colors">
@@ -2444,7 +2444,7 @@ export const Resources: React.FC = () => {
                                         <h3 className="font-extrabold text-sm text-slate-900 truncate group-hover/card:text-brand-600 transition-colors">
                                           {item.company}
                                         </h3>
-                                        <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">
+                                        <span className="text-[11px] font-black uppercase tracking-wider text-slate-400">
                                           {item.position}
                                         </span>
                                       </div>

@@ -12,7 +12,7 @@ export const Day40Content = () => {
     <div className="space-y-4 md:space-y-5 text-left">
       <section className="bg-amber-50 p-4 sm:p-5 rounded-2xl border border-amber-100">
         <div className="flex flex-col gap-1.5">
-          <span className="text-[10px] font-black uppercase tracking-widest text-amber-600">Job ready</span>
+          <span className="text-[11px] font-black uppercase tracking-widest text-amber-600">Job ready</span>
           <h2 className="text-xl font-black text-amber-900">Crafting Your Professional Identity</h2>
           <p className="text-sm font-medium text-amber-800 leading-relaxed italic">
             "Your CV and LinkedIn are not historical documents; they are marketing assets designed to get you the 'Yes' for the next round."
@@ -36,7 +36,7 @@ export const Day40Content = () => {
               <Link className="w-6 h-6" />
             </div>
             <div>
-              <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">CV Blueprint</p>
+              <p className="text-[11px] font-black uppercase tracking-widest text-zinc-400">CV Blueprint</p>
               <p className="text-sm font-bold text-zinc-700 group-hover:text-amber-600">Refer this template to build your cv</p>
             </div>
           </a>
@@ -50,7 +50,7 @@ export const Day40Content = () => {
               <ShieldCheck className="w-6 h-6" />
             </div>
             <div>
-              <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">ATS Optimization</p>
+              <p className="text-[11px] font-black uppercase tracking-widest text-zinc-400">ATS Optimization</p>
               <p className="text-sm font-bold text-zinc-700 group-hover:text-indigo-600">Check ATS score here & ensure above 85</p>
             </div>
           </a>
@@ -157,10 +157,6 @@ Provide: • Overall profile score (0–100) • Shortlisting probability: Low /
       ]}
       />
 
-      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-        <p></p>
-        <p></p>
-      </div>
     </div>
   );
 };

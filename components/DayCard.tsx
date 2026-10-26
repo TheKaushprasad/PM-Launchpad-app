@@ -182,15 +182,15 @@ export const DayCard: React.FC<DayCardProps> = ({ lesson, isCurrentLesson = fals
             </div>
 
             {isCompleted ? (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider bg-emerald-50 text-emerald-700 border border-emerald-200">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-black uppercase tracking-wider bg-emerald-50 text-emerald-700 border border-emerald-200">
                 <span>COMPLETED</span>
               </span>
             ) : isInProgress ? (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider bg-brand-50 text-brand-700 border border-brand-100">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-black uppercase tracking-wider bg-brand-50 text-brand-700 border border-brand-100">
                 <span>{scrollPercentage > 0 ? `${scrollPercentage}% COMPLETE` : '0% COMPLETE'}</span>
               </span>
             ) : (
-              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider bg-slate-100 text-slate-600 border border-slate-200/80">
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-black uppercase tracking-wider bg-slate-100 text-slate-600 border border-slate-200/80">
                 <span>NOT STARTED</span>
               </span>
             )}

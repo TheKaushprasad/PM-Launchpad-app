@@ -50,7 +50,7 @@ const FeedbackView: React.FC<{ record: ProjectSubmissionRecord }> = ({ record })
         </div>
         <div className="text-right">
           <div className={`text-4xl font-black ${scoreColor}`}>{feedback.overallScore}</div>
-          <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">out of 100</div>
+          <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">out of 100</div>
         </div>
       </div>
 
@@ -173,8 +173,8 @@ export const ProjectDetail: React.FC = () => {
           <section className="lg:col-span-2 bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 space-y-5 h-fit">
             <div>
               <div className="flex items-center gap-2 mb-2">
-                <span className="text-[10px] font-black uppercase tracking-wider text-brand-600">{project.category}</span>
-                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${DIFFICULTY_STYLES[project.difficulty]}`}>
+                <span className="text-[11px] font-black uppercase tracking-wider text-brand-600">{project.category}</span>
+                <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full border ${DIFFICULTY_STYLES[project.difficulty]}`}>
                   {project.difficulty}
                 </span>
               </div>

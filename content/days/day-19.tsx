@@ -12,7 +12,7 @@ export const Day19Content = () => {
     <div className="space-y-4 md:space-y-5 text-left">
       <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
         <div className="flex flex-col gap-1.5">
-          <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600">Data</span>
+          <span className="text-[11px] font-black uppercase tracking-widest text-emerald-600">Data</span>
           <p className="text-sm sm:text-base font-medium text-blue-900 leading-relaxed italic">
             "A picture is worth a thousand rows of data."
           </p>
@@ -160,7 +160,7 @@ export const Day19Content = () => {
                  ].map((item, i) => (
                    <div key={i} className="p-4 bg-zinc-50 rounded-2xl border border-zinc-100 text-center">
                       <p className="text-xs font-black text-zinc-900 mb-1">{item.step}</p>
-                      <p className="text-[10px] font-bold text-indigo-600 uppercase tracking-widest">{item.tool}</p>
+                      <p className="text-[11px] font-bold text-indigo-600 uppercase tracking-widest">{item.tool}</p>
                    </div>
                  ))}
               </div>
@@ -178,10 +178,6 @@ export const Day19Content = () => {
         </p>
       </section>
 
-      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-        <p></p>
-        <p></p>
-      </div>
     </div>
   );
 };

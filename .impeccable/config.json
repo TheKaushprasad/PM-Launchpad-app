@@ -8,6 +8,12 @@
         "value": "inter",
         "createdAt": "2026-10-26T11:15:58.255Z",
         "reason": "agent: docs/DESIGN.md section 3 names Inter as the brand typeface for all text"
+      },
+      {
+        "rule": "design-system-font",
+        "value": "georgia",
+        "createdAt": "2026-10-26T15:26:16.461Z",
+        "reason": "agent: only remaining Georgia draws the Canva brand logo tile in InterviewHub.tsx (brand mark, not UI type)"
       }
     ]
   }

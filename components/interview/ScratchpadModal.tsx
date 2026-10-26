@@ -230,7 +230,7 @@ export const ScratchpadModal: React.FC<ScratchpadModalProps> = ({
                           <div key={idx} className="flex justify-between items-start text-xs">
                             <div>
                               <span className="font-bold text-zinc-800 block">{item.label}</span>
-                              <span className="text-[10px] text-zinc-400">{item.note}</span>
+                              <span className="text-[11px] text-zinc-400">{item.note}</span>
                             </div>
                             <span className="font-extrabold text-brand-600 font-mono shrink-0 ml-2 bg-brand-50 px-2 py-0.5 rounded-md border border-brand-100">
                               {item.value}

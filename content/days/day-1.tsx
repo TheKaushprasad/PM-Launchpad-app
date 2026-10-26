@@ -12,7 +12,7 @@ export const Day1Content = () => {
     <div className="space-y-4 md:space-y-5 text-left">
       <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
         <div className="flex flex-col gap-1.5">
-          <span className="text-[10px] font-black uppercase tracking-widest text-blue-600">Foundation</span>
+          <span className="text-[11px] font-black uppercase tracking-widest text-blue-600">Foundation</span>
           <p className="text-sm sm:text-base font-medium text-blue-900 leading-relaxed">
             Understand the role, responsibilities, types, and myths about Product Management.
           </p>
@@ -94,15 +94,15 @@ export const Day1Content = () => {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="p-4 bg-white border border-zinc-100 rounded-2xl shadow-xs">
               <h4 className="font-black text-zinc-900 mb-1">Basecamp</h4>
-              <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Design-led product development</p>
+              <p className="text-[11px] font-bold text-zinc-400 uppercase tracking-widest">Design-led product development</p>
             </div>
             <div className="p-4 bg-white border border-zinc-100 rounded-2xl shadow-xs">
               <h4 className="font-black text-zinc-900 mb-1">Valve</h4>
-              <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Self-organized teams</p>
+              <p className="text-[11px] font-bold text-zinc-400 uppercase tracking-widest">Self-organized teams</p>
             </div>
             <div className="p-4 bg-white border border-zinc-100 rounded-2xl shadow-xs">
               <h4 className="font-black text-zinc-900 mb-1">Early FB / Stripe</h4>
-              <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Engineer-led decisions</p>
+              <p className="text-[11px] font-bold text-zinc-400 uppercase tracking-widest">Engineer-led decisions</p>
             </div>
           </div>
           <p className="text-zinc-500 text-sm font-bold italic pt-2">
@@ -268,10 +268,10 @@ export const Day1Content = () => {
               <div key={type.id} className={`p-4 sm:p-5 rounded-2xl border ${type.color}`}>
                 <div className="flex justify-between items-start mb-2.5">
                   <div>
-                    <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-1 block">{type.subtitle}</span>
+                    <span className="text-[11px] font-black uppercase tracking-widest text-zinc-400 mb-1 block">{type.subtitle}</span>
                     <h3 className="text-xl font-black text-zinc-900">{type.id}. {type.title}</h3>
                   </div>
-                  <div className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest bg-white border border-zinc-100 shadow-xs`}>
+                  <div className={`px-4 py-1.5 rounded-full text-[11px] font-black uppercase tracking-widest bg-white border border-zinc-100 shadow-xs`}>
                     Specialist
                   </div>
                 </div>
@@ -281,7 +281,7 @@ export const Day1Content = () => {
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
                   <div className="space-y-3">
-                    <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Responsibilities</p>
+                    <p className="text-[11px] font-black uppercase tracking-widest text-zinc-400">Responsibilities</p>
                     <ul className="space-y-2">
                       {type.res.map((r, i) => (
                         <li key={i} className="text-xs font-bold text-zinc-700 flex items-start gap-2">
@@ -293,21 +293,21 @@ export const Day1Content = () => {
                   </div>
                   <div className="space-y-2.5">
                     <div className="bg-white/50 p-4 rounded-2xl border border-white">
-                      <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-2">Real Example</p>
+                      <p className="text-[11px] font-black uppercase tracking-widest text-zinc-400 mb-2">Real Example</p>
                       <p className="text-xs font-bold text-zinc-700 italic">{type.ex}</p>
                     </div>
                     <div className="bg-white/50 p-4 rounded-2xl border border-white">
-                      <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-2">North Star Metrics</p>
+                      <p className="text-[11px] font-black uppercase tracking-widest text-zinc-400 mb-2">North Star Metrics</p>
                       <p className="text-xs font-black text-indigo-600">{type.nsm}</p>
                     </div>
                   </div>
                 </div>
                 {type.skills && (
                   <div className="mt-3 pt-6 border-t border-white/50">
-                    <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-3">Key Skills</p>
+                    <p className="text-[11px] font-black uppercase tracking-widest text-zinc-400 mb-3">Key Skills</p>
                     <div className="flex flex-wrap gap-2">
                       {type.skills.map((s, i) => (
-                        <span key={i} className="px-3 py-1 bg-white border border-zinc-100 rounded-lg text-[10px] font-bold text-zinc-600">{s}</span>
+                        <span key={i} className="px-3 py-1 bg-white border border-zinc-100 rounded-lg text-[11px] font-bold text-zinc-600">{s}</span>
                       ))}
                     </div>
                   </div>
@@ -355,14 +355,14 @@ export const Day1Content = () => {
             ].map((item, i) => (
               <div key={i} className="flex flex-col md:flex-row gap-4 p-4 bg-white rounded-2xl border border-zinc-100">
                 <div className="flex-1">
-                   <p className="text-[10px] font-black uppercase tracking-widest text-red-400 mb-1">Myth</p>
+                   <p className="text-[11px] font-black uppercase tracking-widest text-red-400 mb-1">Myth</p>
                    <p className="text-sm font-bold text-zinc-800">“{item.myth}”</p>
                 </div>
                 <div className="hidden md:flex items-center justify-center">
                    <ArrowRight className="w-5 h-5 text-zinc-300" />
                 </div>
                 <div className="flex-1">
-                   <p className="text-[10px] font-black uppercase tracking-widest text-emerald-500 mb-1">Reality</p>
+                   <p className="text-[11px] font-black uppercase tracking-widest text-emerald-500 mb-1">Reality</p>
                    <p className="text-sm font-bold text-zinc-800">{item.reality}</p>
                 </div>
               </div>
@@ -392,10 +392,6 @@ export const Day1Content = () => {
       ]}
       />
 
-      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-          <p></p>
-          <p></p>
-        </div>
       </section>
     </div>
   );

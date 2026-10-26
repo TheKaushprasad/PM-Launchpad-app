@@ -13,7 +13,7 @@ export const Day36Content = () => {
     <div className="space-y-4 md:space-y-5 text-left">
       <section className="bg-amber-50 p-4 sm:p-5 rounded-2xl border border-amber-100">
         <div className="flex flex-col gap-1.5">
-          <span className="text-[10px] font-black uppercase tracking-widest text-amber-600">Job ready</span>
+          <span className="text-[11px] font-black uppercase tracking-widest text-amber-600">Job ready</span>
           <p className="text-lg font-black text-amber-900 leading-relaxed italic">
             "The gap between those who get PM roles and those who don't often comes down to one thing: proof of work."
           </p>
@@ -84,8 +84,8 @@ export const Day36Content = () => {
                    <div className="w-8 h-8 rounded-lg bg-amber-500/20 flex items-center justify-center text-amber-500 shadow-xs">
                       <tool.icon className="w-4 h-4" />
                    </div>
-                   <h5 className="font-black text-white text-[10px] uppercase tracking-widest">{tool.name}</h5>
-                   <p className="text-[10px] font-medium text-zinc-500 leading-tight">{tool.desc}</p>
+                   <h5 className="font-black text-white text-[11px] uppercase tracking-widest">{tool.name}</h5>
+                   <p className="text-[11px] font-medium text-zinc-500 leading-tight">{tool.desc}</p>
                 </div>
               ))}
            </div>
@@ -182,10 +182,6 @@ export const Day36Content = () => {
       ]}
       />
 
-      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-        <p></p>
-        <p></p>
-      </div>
     </div>
   );
 };

@@ -19,7 +19,8 @@ import {
   Sparkles,
   KeyRound,
   RefreshCw,
-  Home
+  Home,
+  Check
 } from 'lucide-react';
 import { auth } from '../../firebase';
 import { useAuth, getFriendlyAuthErrorMessage } from '../../context/AuthContext';
@@ -242,7 +243,7 @@ export const AuthActionPage: React.FC = () => {
   const hasNumber = /[0-9]/.test(newPassword);
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col justify-center items-center p-4 sm:p-6 text-slate-900 font-sans">
+    <div className="min-h-dvh bg-slate-50 flex flex-col justify-center items-center p-4 sm:p-6 text-slate-900 font-sans">
       <div className="w-full max-w-md">
         {/* Brand Header */}
         <div className="text-center mb-8">
@@ -404,7 +405,7 @@ export const AuthActionPage: React.FC = () => {
                 <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1.5">
                   <div className="flex items-center gap-2 text-xs">
                     <div className={`w-3.5 h-3.5 rounded-full flex items-center justify-center ${hasMinLength ? 'bg-emerald-500 text-white' : 'bg-slate-300 text-white'}`}>
-                      ✓
+                      <Check className="w-2.5 h-2.5" strokeWidth={3} aria-hidden="true" />
                     </div>
                     <span className={hasMinLength ? 'text-emerald-700 font-medium' : 'text-slate-500'}>
                       At least 8 characters
@@ -412,7 +413,7 @@ export const AuthActionPage: React.FC = () => {
                   </div>
                   <div className="flex items-center gap-2 text-xs">
                     <div className={`w-3.5 h-3.5 rounded-full flex items-center justify-center ${hasNumber ? 'bg-emerald-500 text-white' : 'bg-slate-300 text-white'}`}>
-                      ✓
+                      <Check className="w-2.5 h-2.5" strokeWidth={3} aria-hidden="true" />
                     </div>
                     <span className={hasNumber ? 'text-emerald-700 font-medium' : 'text-slate-500'}>
                       At least one number (0-9)

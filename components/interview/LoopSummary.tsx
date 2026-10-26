@@ -60,7 +60,7 @@ export const LoopSummary: React.FC<LoopSummaryProps> = ({ plan, results, level, 
                 {verdict ? (
                   <>
                     <div className="text-lg font-black text-zinc-900 tabular-nums">{result.overallScore}/100</div>
-                    <span className={`text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full ${VERDICT_STYLES[verdict]}`}>{verdict}</span>
+                    <span className={`text-[11px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full ${VERDICT_STYLES[verdict]}`}>{verdict}</span>
                   </>
                 ) : (
                   <span className="text-xs font-bold text-zinc-400">Not scored</span>

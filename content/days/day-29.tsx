@@ -14,7 +14,7 @@ export const Day29Content = () => {
     <div className="space-y-4 md:space-y-5 text-left">
       <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
         <div className="flex flex-col gap-1.5">
-          <span className="text-[10px] font-black uppercase tracking-widest text-orange-600">AI & LLMs</span>
+          <span className="text-[11px] font-black uppercase tracking-widest text-orange-600">AI & LLMs</span>
           <p className="text-lg font-black text-orange-900 leading-relaxed italic">
             "Fundamentally a neural network designed to be a highly sophisticated predictive system for text."
           </p>
@@ -149,7 +149,7 @@ export const Day29Content = () => {
         {/* First Stage */}
         <div className="space-y-3.5 md:space-y-4">
            <div className="flex items-center gap-4">
-              <div className="px-4 py-1.5 bg-zinc-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg">First Stage</div>
+              <div className="px-4 py-1.5 bg-zinc-900 text-white rounded-xl text-[11px] font-black uppercase tracking-widest shadow-lg">First Stage</div>
               <h3 className="text-xl font-black text-zinc-900">The Pretraining Stage</h3>
            </div>
            <p className="text-sm font-medium text-zinc-600 leading-relaxed">
@@ -171,8 +171,8 @@ export const Day29Content = () => {
                       { name: "PII Removal", desc: "Removal of Personally Identifiable Information." }
                     ].map((item, i) => (
                       <div key={i} className="p-4 bg-white border border-zinc-100 rounded-2xl shadow-xs">
-                         <p className="text-[10px] font-black text-orange-600 uppercase mb-1">{item.name}</p>
-                         <p className="text-[10px] font-bold text-zinc-500 leading-tight">{item.desc}</p>
+                         <p className="text-[11px] font-black text-orange-600 uppercase mb-1">{item.name}</p>
+                         <p className="text-[11px] font-bold text-zinc-500 leading-tight">{item.desc}</p>
                       </div>
                     ))}
                  </div>
@@ -215,7 +215,7 @@ export const Day29Content = () => {
         {/* Second Stage */}
         <div className="space-y-3.5 md:space-y-4">
            <div className="flex items-center gap-4">
-              <div className="px-4 py-1.5 bg-zinc-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg">Second Stage</div>
+              <div className="px-4 py-1.5 bg-zinc-900 text-white rounded-xl text-[11px] font-black uppercase tracking-widest shadow-lg">Second Stage</div>
               <h3 className="text-xl font-black text-zinc-900">The post-training stage</h3>
            </div>
            <p className="text-sm font-medium text-zinc-600 leading-relaxed">
@@ -227,7 +227,7 @@ export const Day29Content = () => {
               <p className="text-sm font-medium text-zinc-500">Teaches the model its persona and conversational abilities. Programming is done implicitly via datasets of conversations.</p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4 pt-4">
                  <div className="space-y-4">
-                    <h5 className="text-[10px] font-black uppercase tracking-widest text-orange-600">Mechanism</h5>
+                    <h5 className="text-[11px] font-black uppercase tracking-widest text-orange-600">Mechanism</h5>
                     <ul className="space-y-2 text-xs font-bold text-zinc-600">
                        <li>• <strong>Data Swap:</strong> Discard massive internet dataset.</li>
                        <li>• <strong>Conversation Data:</strong> Millions of high-quality multi-turn conversations.</li>
@@ -235,7 +235,7 @@ export const Day29Content = () => {
                     </ul>
                  </div>
                  <div className="space-y-4">
-                    <h5 className="text-[10px] font-black uppercase tracking-widest text-orange-600">Data Creation</h5>
+                    <h5 className="text-[11px] font-black uppercase tracking-widest text-orange-600">Data Creation</h5>
                     <ul className="space-y-2 text-xs font-bold text-zinc-600">
                        <li>• <strong>Human Labelers:</strong> Contractors creating ideal responses.</li>
                        <li>• <strong>Labeling Instructions:</strong> Helpful, truthful, and harmless.</li>
@@ -249,7 +249,7 @@ export const Day29Content = () => {
         {/* Third Stage */}
         <div className="space-y-3.5 md:space-y-4">
            <div className="flex items-center gap-4">
-              <div className="px-4 py-1.5 bg-zinc-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg">Third Stage</div>
+              <div className="px-4 py-1.5 bg-zinc-900 text-white rounded-xl text-[11px] font-black uppercase tracking-widest shadow-lg">Third Stage</div>
               <h3 className="text-xl font-black text-zinc-900">Reinforcement Learning (RL)</h3>
            </div>
            <p className="text-sm font-medium text-zinc-600 leading-relaxed">
@@ -309,10 +309,6 @@ export const Day29Content = () => {
       ]}
       />
 
-      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-        <p></p>
-        <p></p>
-      </div>
     </div>
   );
 };

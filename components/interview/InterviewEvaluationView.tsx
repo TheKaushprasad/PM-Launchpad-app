@@ -339,7 +339,7 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {data.whyTheyEarnedThisScore && (
                           <div className="p-3.5 rounded-2xl bg-emerald-50/70 border border-emerald-100/80 text-xs">
-                            <span className="font-extrabold text-emerald-800 uppercase tracking-wider block text-[10px] mb-1">
+                            <span className="font-extrabold text-emerald-800 uppercase tracking-wider block text-[11px] mb-1">
                               Why this score makes sense:
                             </span>
                             <p className="text-emerald-950 font-medium leading-relaxed">{data.whyTheyEarnedThisScore}</p>
@@ -347,7 +347,7 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
                         )}
                         {data.whyTheyDidNotScoreHigher && (
                           <div className="p-3.5 rounded-2xl bg-amber-50/70 border border-amber-100/80 text-xs">
-                            <span className="font-extrabold text-amber-800 uppercase tracking-wider block text-[10px] mb-1">
+                            <span className="font-extrabold text-amber-800 uppercase tracking-wider block text-[11px] mb-1">
                               What would have made this stronger:
                             </span>
                             <p className="text-amber-950 font-medium leading-relaxed">{data.whyTheyDidNotScoreHigher}</p>
@@ -359,7 +359,7 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
                     {/* Verbatim Evidence Quotes */}
                     {data.evidence && data.evidence.length > 0 && (
                       <div className="p-3.5 rounded-2xl bg-zinc-100/80 border border-zinc-200 text-xs space-y-1.5">
-                        <span className="font-extrabold text-zinc-700 uppercase tracking-wider block text-[10px]">
+                        <span className="font-extrabold text-zinc-700 uppercase tracking-wider block text-[11px]">
                           What stood out from your answers:
                         </span>
                         <div className="space-y-1.5">
@@ -373,7 +373,7 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
                                 <span className="text-brand-600 font-bold shrink-0">›</span>
                                 <div>
                                   {turnIndex !== null && turnIndex > 0 && (
-                                    <span className="inline-block px-1.5 py-0.5 rounded-sm bg-brand-50 text-brand-700 font-bold text-[9px] mr-1.5 border border-brand-100 uppercase tracking-wider">
+                                    <span className="inline-block px-1.5 py-0.5 rounded-sm bg-brand-50 text-brand-700 font-bold text-[11px] mr-1.5 border border-brand-100 uppercase tracking-wider">
                                       Turn {turnIndex}
                                     </span>
                                   )}
@@ -435,7 +435,7 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
           <ul className="space-y-3">
             {evaluation.topStrengths.map((str, i) => (
               <li key={i} className="flex items-start gap-3 bg-white p-4 rounded-2xl border border-emerald-200/60 shadow-xs text-xs font-bold text-zinc-800 leading-relaxed">
-                <span className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-black shrink-0 text-[10px]">
+                <span className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-black shrink-0 text-[11px]">
                   {i+1}
                 </span>
                 <span>{str}</span>
@@ -452,7 +452,7 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
           <ul className="space-y-3">
             {evaluation.criticalGrowthAreas.map((area, i) => (
               <li key={i} className="flex items-start gap-3 bg-white p-4 rounded-2xl border border-amber-200/60 shadow-xs text-xs font-bold text-zinc-800 leading-relaxed">
-                <span className="w-5 h-5 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center font-black shrink-0 text-[10px]">
+                <span className="w-5 h-5 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center font-black shrink-0 text-[11px]">
                   {i+1}
                 </span>
                 <span>{area}</span>
@@ -520,19 +520,19 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
                     <div className="p-3.5 rounded-2xl bg-white/90 border border-brand-100 space-y-1">
-                      <span className="font-black text-[10px] uppercase tracking-wider text-zinc-500 block">Focus Area:</span>
+                      <span className="font-black text-[11px] uppercase tracking-wider text-zinc-500 block">Focus Area:</span>
                       <p className="font-bold text-zinc-900">{evaluation.exemplarAnswer.highestLeverageImprovement.focusArea}</p>
                     </div>
                     <div className="p-3.5 rounded-2xl bg-white/90 border border-brand-100 space-y-1">
-                      <span className="font-black text-[10px] uppercase tracking-wider text-amber-700 block">What you did in this session:</span>
+                      <span className="font-black text-[11px] uppercase tracking-wider text-amber-700 block">What you did in this session:</span>
                       <p className="font-medium text-zinc-800">{evaluation.exemplarAnswer.highestLeverageImprovement.currentBehavior}</p>
                     </div>
                     <div className="p-3.5 rounded-2xl bg-white/90 border border-brand-100 space-y-1">
-                      <span className="font-black text-[10px] uppercase tracking-wider text-emerald-600 block">What to aim for instead:</span>
+                      <span className="font-black text-[11px] uppercase tracking-wider text-emerald-600 block">What to aim for instead:</span>
                       <p className="font-medium text-zinc-800">{evaluation.exemplarAnswer.highestLeverageImprovement.targetBehavior}</p>
                     </div>
                     <div className="p-3.5 rounded-2xl bg-brand-900 text-white space-y-1">
-                      <span className="font-black text-[10px] uppercase tracking-wider text-brand-200 block">Actionable Practice Drill:</span>
+                      <span className="font-black text-[11px] uppercase tracking-wider text-brand-200 block">Actionable Practice Drill:</span>
                       <p className="font-medium text-brand-100">{evaluation.exemplarAnswer.highestLeverageImprovement.practiceDrill}</p>
                     </div>
                   </div>
@@ -541,7 +541,7 @@ ${evaluation.criticalGrowthAreas.map(g => `• ${g}`).join('\n')}
 
               {evaluation.exemplarAnswer.interviewerSecretNotes && (
                 <div className="p-4 rounded-2xl bg-zinc-900 text-zinc-300 text-xs font-mono space-y-1">
-                  <span className="text-amber-400 font-bold text-[10px] uppercase tracking-widest block">Interviewer Calibration Notes:</span>
+                  <span className="text-amber-400 font-bold text-[11px] uppercase tracking-widest block">Interviewer Calibration Notes:</span>
                   <p>{evaluation.exemplarAnswer.interviewerSecretNotes}</p>
                 </div>
               )}

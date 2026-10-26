@@ -34,7 +34,7 @@ const AuthActionPage = page(() => import('./components/auth/AuthActionPage'), (m
 
 // Shown while a page's chunk downloads. Inside the app shell the sidebar stays put; only the content area waits.
 const PageLoader: React.FC<{ fullScreen?: boolean }> = ({ fullScreen }) => (
-    <div className={`flex flex-col items-center justify-center gap-3 ${fullScreen ? 'min-h-screen bg-[#FDFDFD]' : 'py-24'}`} role="status">
+    <div className={`flex flex-col items-center justify-center gap-3 ${fullScreen ? 'min-h-dvh bg-[#FDFDFD]' : 'py-24'}`} role="status">
         <Loader2 className="w-6 h-6 text-brand-600 animate-spin" />
         <span className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Loading...</span>
     </div>
@@ -123,7 +123,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
     // Fix: Accessing state via correctly typed React.Component instance
     if (this.state.hasError) {
       return (
-        <div className="flex flex-col items-center justify-center min-h-[50vh] text-center p-8 bg-white rounded-3xl border border-zinc-200">
+        <div className="flex flex-col items-center justify-center min-h-[50dvh] text-center p-8 bg-white rounded-3xl border border-zinc-200">
           <AlertTriangle className="w-12 h-12 text-amber-500 mb-4" />
           <h2 className="text-xl font-black text-zinc-900">Something went wrong</h2>
           <button onClick={() => window.location.reload()} className="mt-4 px-6 py-3 bg-zinc-900 text-white rounded-xl font-bold">Refresh App</button>
@@ -165,7 +165,7 @@ const MainShell = () => {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-[#FDFDFD] flex items-center justify-center">
+            <div className="min-h-dvh bg-[#FDFDFD] flex items-center justify-center">
                 <div className="flex flex-col items-center gap-3">
                     <Loader2 className="w-8 h-8 text-brand-600 animate-spin" />
                     <span className="text-xs font-bold text-zinc-400 uppercase tracking-widest">
@@ -210,7 +210,7 @@ const MainShell = () => {
                                 <Logo className="w-8 h-8 shrink-0" />
                                 <div>
                                     <span className="font-black text-sm text-slate-900 tracking-tight block leading-none">The NooB PM</span>
-                                    <span className="text-[8px] font-black text-emerald-600 uppercase tracking-wider block mt-0.5">ONE-STOP PM SOLUTION</span>
+                                    <span className="text-[11px] font-black text-emerald-600 uppercase tracking-wider block mt-0.5">ONE-STOP PM SOLUTION</span>
                                 </div>
                             </Link>
                         </div>

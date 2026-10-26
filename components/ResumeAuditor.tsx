@@ -413,7 +413,7 @@ export const ResumeAuditor: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-zinc-50/60 pb-24">
+    <div className="min-h-dvh bg-zinc-50/60 pb-24">
       {/* Top Breadcrumb & Navigation */}
       <div className="bg-white border-b border-zinc-200 sticky top-0 z-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
@@ -601,7 +601,7 @@ export const ResumeAuditor: React.FC = () => {
                               className="min-w-0 flex-1 text-left"
                             >
                               <p className="text-xs font-bold text-zinc-900 truncate">{item.fileName}</p>
-                              <div className="flex items-center gap-2 text-[10px] text-zinc-500 mt-1">
+                              <div className="flex items-center gap-2 text-[11px] text-zinc-500 mt-1">
                                 <span>{(item.fileSize / 1024).toFixed(0)} KB</span>
                                 <span>•</span>
                                 <span>{item.wordCount} words</span>
@@ -705,16 +705,16 @@ export const ResumeAuditor: React.FC = () => {
                                 <span className="text-xs font-bold text-zinc-900 truncate max-w-[200px] sm:max-w-xs">
                                   {uploadedFile.name}
                                 </span>
-                                <span className="text-[10px] font-bold px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded-full shrink-0">
+                                <span className="text-[11px] font-bold px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded-full shrink-0">
                                   PDF Parsed
                                 </span>
                                 {user ? (
-                                  <span className="text-[10px] font-bold px-2 py-0.5 bg-brand-100 text-brand-800 rounded-full shrink-0 flex items-center gap-1">
+                                  <span className="text-[11px] font-bold px-2 py-0.5 bg-brand-100 text-brand-800 rounded-full shrink-0 flex items-center gap-1">
                                     <Cloud className="w-2.5 h-2.5" />
                                     <span>Saved in Firebase</span>
                                   </span>
                                 ) : (
-                                  <span className="text-[10px] font-bold px-2 py-0.5 bg-zinc-100 text-zinc-600 rounded-full shrink-0">
+                                  <span className="text-[11px] font-bold px-2 py-0.5 bg-zinc-100 text-zinc-600 rounded-full shrink-0">
                                     Local Session
                                   </span>
                                 )}
@@ -775,7 +775,7 @@ export const ResumeAuditor: React.FC = () => {
                                 <label className="text-[11px] font-bold uppercase text-zinc-600">
                                   Extracted Resume Content (Editable)
                                 </label>
-                                <span className="text-[10px] font-mono text-zinc-400">
+                                <span className="text-[11px] font-mono text-zinc-400">
                                   {resumeText.trim() ? `${resumeText.trim().split(/\s+/).length} words` : '0 words'}
                                 </span>
                               </div>
@@ -814,7 +814,7 @@ export const ResumeAuditor: React.FC = () => {
                         placeholder="Paste your raw resume text, work experience section, or bullet points here..."
                         className="w-full bg-zinc-50 border border-zinc-300 focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 rounded-2xl p-4 text-xs font-mono text-zinc-800 leading-relaxed resize-y focus:outline-hidden transition-all placeholder:text-zinc-400"
                       />
-                      <div className="absolute bottom-3 right-4 text-[10px] font-mono text-zinc-400">
+                      <div className="absolute bottom-3 right-4 text-[11px] font-mono text-zinc-400">
                         {resumeText.trim() ? `${resumeText.trim().split(/\s+/).length} words` : '0 words'}
                       </div>
                     </div>
@@ -834,7 +834,7 @@ export const ResumeAuditor: React.FC = () => {
                         <span className="text-xs font-black text-zinc-900">
                           Check Suitability for a Specific Job
                         </span>
-                        <span className="text-[10px] font-bold px-2 py-0.5 bg-brand-100 text-brand-700 rounded-full">
+                        <span className="text-[11px] font-bold px-2 py-0.5 bg-brand-100 text-brand-700 rounded-full">
                           Optional
                         </span>
                       </div>
@@ -932,19 +932,19 @@ export const ResumeAuditor: React.FC = () => {
               {/* 4 Pillars Info Strip */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 border-t border-zinc-100 text-center">
                 <div className="p-2.5 bg-zinc-50 rounded-xl border border-zinc-200/60">
-                  <span className="text-[10px] font-black uppercase text-zinc-400 block mb-0.5">Weight: 35%</span>
+                  <span className="text-[11px] font-black uppercase text-zinc-400 block mb-0.5">Weight: 35%</span>
                   <span className="text-xs font-bold text-zinc-800">Impact & Metrics</span>
                 </div>
                 <div className="p-2.5 bg-zinc-50 rounded-xl border border-zinc-200/60">
-                  <span className="text-[10px] font-black uppercase text-zinc-400 block mb-0.5">Weight: 30%</span>
+                  <span className="text-[11px] font-black uppercase text-zinc-400 block mb-0.5">Weight: 30%</span>
                   <span className="text-xs font-bold text-zinc-800">PM Ownership</span>
                 </div>
                 <div className="p-2.5 bg-zinc-50 rounded-xl border border-zinc-200/60">
-                  <span className="text-[10px] font-black uppercase text-zinc-400 block mb-0.5">Weight: 15%</span>
+                  <span className="text-[11px] font-black uppercase text-zinc-400 block mb-0.5">Weight: 15%</span>
                   <span className="text-xs font-bold text-zinc-800">ATS Readability</span>
                 </div>
                 <div className="p-2.5 bg-zinc-50 rounded-xl border border-zinc-200/60">
-                  <span className="text-[10px] font-black uppercase text-zinc-400 block mb-0.5">Weight: 20%</span>
+                  <span className="text-[11px] font-black uppercase text-zinc-400 block mb-0.5">Weight: 20%</span>
                   <span className="text-xs font-bold text-zinc-800">Clarity & Brevity</span>
                 </div>
               </div>
@@ -983,7 +983,7 @@ export const ResumeAuditor: React.FC = () => {
                     {auditResult.jobSuitability && (
                       <>
                         <span className="text-zinc-600">•</span>
-                        <span className="text-[10px] font-bold uppercase bg-brand-500/20 text-brand-300 border border-brand-500/30 px-2 py-0.5 rounded-full">
+                        <span className="text-[11px] font-bold uppercase bg-brand-500/20 text-brand-300 border border-brand-500/30 px-2 py-0.5 rounded-full">
                           Job Spec Benchmarked
                         </span>
                       </>
@@ -1004,7 +1004,7 @@ export const ResumeAuditor: React.FC = () => {
                       {auditResult.composite_score}
                       <span className="text-base text-zinc-400 font-bold">/100</span>
                     </div>
-                    <span className="text-[10px] font-mono uppercase tracking-wider text-brand-400 block mt-1">
+                    <span className="text-[11px] font-mono uppercase tracking-wider text-brand-400 block mt-1">
                       Composite Score
                     </span>
                   </div>
@@ -1013,7 +1013,7 @@ export const ResumeAuditor: React.FC = () => {
                     <span className={`text-xs font-black px-2.5 py-1 rounded-lg border block ${getScoreBadge(auditResult.composite_score).color}`}>
                       {getScoreBadge(auditResult.composite_score).label}
                     </span>
-                    <span className="text-[10px] text-zinc-400 font-medium block">
+                    <span className="text-[11px] text-zinc-400 font-medium block">
                       30-Second Recruiter Read
                     </span>
                   </div>
@@ -1061,7 +1061,7 @@ export const ResumeAuditor: React.FC = () => {
                       <div className="text-2xl font-black text-brand-700">
                         {auditResult.jobSuitability.match_score}%
                       </div>
-                      <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">
+                      <span className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">
                         Role Fit Match
                       </span>
                     </div>
@@ -1120,7 +1120,7 @@ export const ResumeAuditor: React.FC = () => {
                     <ul className="space-y-2">
                       {auditResult.jobSuitability.tailoring_recommendations?.map((item, idx) => (
                         <li key={idx} className="flex items-start gap-2 text-xs text-zinc-700">
-                          <span className="w-4 h-4 rounded-full bg-brand-200 text-brand-800 text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">
+                          <span className="w-4 h-4 rounded-full bg-brand-200 text-brand-800 text-[11px] font-bold flex items-center justify-center shrink-0 mt-0.5">
                             {idx + 1}
                           </span>
                           <span className="leading-snug">{item}</span>
@@ -1156,7 +1156,7 @@ export const ResumeAuditor: React.FC = () => {
                 <p className="text-[11px] text-zinc-500 leading-tight">
                   Quantified outcomes (%, $, users, latency, time saved) tied to real business results.
                 </p>
-                <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider block">Weight: 35%</span>
+                <span className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block">Weight: 35%</span>
               </div>
 
               {/* 2. PM Framing & Ownership */}
@@ -1181,7 +1181,7 @@ export const ResumeAuditor: React.FC = () => {
                 <p className="text-[11px] text-zinc-500 leading-tight">
                   Problem ownership, trade-off decisions, and strategic reasoning over mere task coordination.
                 </p>
-                <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider block">Weight: 30%</span>
+                <span className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block">Weight: 30%</span>
               </div>
 
               {/* 3. ATS Readability */}
@@ -1206,7 +1206,7 @@ export const ResumeAuditor: React.FC = () => {
                 <p className="text-[11px] text-zinc-500 leading-tight">
                   Structural cleanliness, standard headers, dates, and plain-text ATS parseability.
                 </p>
-                <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider block">Weight: 15%</span>
+                <span className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block">Weight: 15%</span>
               </div>
 
               {/* 4. Clarity & Brevity */}
@@ -1231,7 +1231,7 @@ export const ResumeAuditor: React.FC = () => {
                 <p className="text-[11px] text-zinc-500 leading-tight">
                   Concise active voice, scannable bullet lengths, and elimination of filler buzzwords.
                 </p>
-                <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-wider block">Weight: 20%</span>
+                <span className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block">Weight: 20%</span>
               </div>
             </div>
 
@@ -1248,7 +1248,7 @@ export const ResumeAuditor: React.FC = () => {
                 <ul className="space-y-2.5">
                   {auditResult.top_strengths?.map((strength, idx) => (
                     <li key={idx} className="flex items-start gap-2.5 text-xs text-zinc-700">
-                      <span className="w-5 h-5 rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center shrink-0 text-[10px] font-black mt-0.5">
+                      <span className="w-5 h-5 rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center shrink-0 text-[11px] font-black mt-0.5">
                         {idx + 1}
                       </span>
                       <span className="leading-relaxed font-medium">{strength}</span>
@@ -1268,7 +1268,7 @@ export const ResumeAuditor: React.FC = () => {
                 <ul className="space-y-2.5">
                   {auditResult.top_priorities?.map((priority, idx) => (
                     <li key={idx} className="flex items-start gap-2.5 text-xs text-zinc-700">
-                      <span className="w-5 h-5 rounded-full bg-amber-50 text-amber-700 flex items-center justify-center shrink-0 text-[10px] font-black mt-0.5">
+                      <span className="w-5 h-5 rounded-full bg-amber-50 text-amber-700 flex items-center justify-center shrink-0 text-[11px] font-black mt-0.5">
                         {idx + 1}
                       </span>
                       <span className="leading-relaxed font-medium">{priority}</span>
@@ -1335,7 +1335,7 @@ export const ResumeAuditor: React.FC = () => {
                     {/* Original Bullet */}
                     <div className="space-y-1">
                       <div className="flex items-center gap-1.5">
-                        <span className="text-[10px] font-black uppercase text-rose-600 bg-rose-50 px-2 py-0.5 rounded-sm border border-rose-200">
+                        <span className="text-[11px] font-black uppercase text-rose-600 bg-rose-50 px-2 py-0.5 rounded-sm border border-rose-200">
                           Original (Weak)
                         </span>
                       </div>
@@ -1347,7 +1347,7 @@ export const ResumeAuditor: React.FC = () => {
                     {/* Improved Rewrite */}
                     <div className="space-y-1">
                       <div className="flex items-center gap-1.5">
-                        <span className="text-[10px] font-black uppercase text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-sm border border-emerald-200">
+                        <span className="text-[11px] font-black uppercase text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-sm border border-emerald-200">
                           PM Outcome Framing (Improved)
                         </span>
                       </div>

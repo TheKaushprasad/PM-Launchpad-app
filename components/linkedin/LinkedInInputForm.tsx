@@ -372,7 +372,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
             <span>Back to Overview</span>
           </button>
 
-          <span className="text-[10px] font-bold uppercase tracking-widest text-brand-600 bg-brand-50/90 border border-brand-100/80 px-3 py-1 rounded-full">
+          <span className="text-[11px] font-bold uppercase tracking-widest text-brand-600 bg-brand-50/90 border border-brand-100/80 px-3 py-1 rounded-full">
             AI PROFILE AUDITOR
           </span>
         </div>
@@ -394,7 +394,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
             <div className={`flex items-center gap-1.5 transition-colors ${
               isTargetConfigured ? 'text-brand-600' : 'text-zinc-900'
             }`}>
-              <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold ${
+              <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold ${
                 isTargetConfigured ? 'bg-brand-100 text-brand-700' : 'bg-zinc-200 text-zinc-700'
               }`}>
                 {isTargetConfigured ? <Check className="w-3 h-3 stroke-[2.5]" /> : '01'}
@@ -414,7 +414,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                 ? 'text-brand-600' 
                 : 'text-zinc-400'
             }`}>
-              <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold ${
+              <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold ${
                 isProfileReady 
                   ? 'bg-emerald-100 text-emerald-700' 
                   : isTargetConfigured 
@@ -434,7 +434,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
             <div className={`flex items-center gap-1.5 transition-colors ${
               isProfileReady ? 'text-brand-600 font-bold' : 'text-zinc-400'
             }`}>
-              <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold ${
+              <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[11px] font-bold ${
                 isProfileReady ? 'bg-brand-600 text-white' : 'bg-zinc-100 text-zinc-400'
               }`}>
                 03
@@ -478,7 +478,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                 <h2 className="text-lg sm:text-xl font-bold text-zinc-900 tracking-tight">
                   Define your target role
                 </h2>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-500 bg-zinc-100 px-2 py-0.5 rounded-md border border-zinc-200/60">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-500 bg-zinc-100 px-2 py-0.5 rounded-md border border-zinc-200/60">
                   CALIBRATION BASELINE
                 </span>
               </div>
@@ -653,7 +653,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                 >
                   <Upload className="size-3.5" />
                   <span>Upload LinkedIn PDF</span>
-                  <span className="text-[9px] font-black uppercase tracking-wider bg-brand-50 text-brand-700 px-1.5 py-0.5 rounded-sm">
+                  <span className="text-[11px] font-black uppercase tracking-wider bg-brand-50 text-brand-700 px-1.5 py-0.5 rounded-sm">
                     RECOMMENDED
                   </span>
                 </TabsTrigger>
@@ -669,7 +669,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                 >
                   <FileText className="size-3.5" />
                   <span>Paste profile text</span>
-                  <span className="text-[9px] text-zinc-400 font-medium hidden sm:inline">
+                  <span className="text-[11px] text-zinc-400 font-medium hidden sm:inline">
                     Alternative
                   </span>
                 </TabsTrigger>
@@ -819,7 +819,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                           <h3 className="font-bold text-xs sm:text-sm text-zinc-900 truncate max-w-xs sm:max-w-md">
                             {uploadedFile.name}
                           </h3>
-                          <span className="text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full flex items-center gap-1">
+                          <span className="text-[11px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full flex items-center gap-1">
                             <Check className="w-3 h-3 stroke-[2.5]" />
                             <span>Uploaded</span>
                           </span>
@@ -941,7 +941,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
                       <div className="p-3 bg-zinc-50 rounded-xl space-y-1">
                         <div className="flex items-center gap-2">
-                          <span className="w-4 h-4 rounded-full bg-brand-100 text-brand-700 font-bold text-[10px] flex items-center justify-center">
+                          <span className="w-4 h-4 rounded-full bg-brand-100 text-brand-700 font-bold text-[11px] flex items-center justify-center">
                             1
                           </span>
                           <span className="font-bold text-zinc-900">01 Open your profile</span>
@@ -953,7 +953,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
 
                       <div className="p-3 bg-zinc-50 rounded-xl space-y-1">
                         <div className="flex items-center gap-2">
-                          <span className="w-4 h-4 rounded-full bg-brand-100 text-brand-700 font-bold text-[10px] flex items-center justify-center">
+                          <span className="w-4 h-4 rounded-full bg-brand-100 text-brand-700 font-bold text-[11px] flex items-center justify-center">
                             2
                           </span>
                           <span className="font-bold text-zinc-900">02 Click More (...)</span>
@@ -965,7 +965,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
 
                       <div className="p-3 bg-zinc-50 rounded-xl space-y-1">
                         <div className="flex items-center gap-2">
-                          <span className="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 font-bold text-[10px] flex items-center justify-center">
+                          <span className="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 font-bold text-[11px] flex items-center justify-center">
                             3
                           </span>
                           <span className="font-bold text-zinc-900">03 Save to PDF</span>
@@ -1127,7 +1127,7 @@ Certified Scrum Product Owner (CSPO) · Scrum Alliance`;
                         setActiveTab('paste');
                         setProfileText(prev => prev + '\n\nAbout\nProduct Manager with demonstrated experience delivering high-impact products.');
                       }}
-                      className="text-[10px] font-bold text-brand-600 hover:underline cursor-pointer"
+                      className="text-[11px] font-bold text-brand-600 hover:underline cursor-pointer"
                     >
                       Add manually
                     </button>

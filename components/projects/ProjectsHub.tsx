@@ -100,8 +100,8 @@ export const ProjectsHub: React.FC = () => {
               className="group bg-white rounded-2xl border border-slate-200 p-5 flex flex-col hover:shadow-lg hover:border-brand-200 transition-all"
             >
               <div className="flex items-center justify-between mb-3">
-                <span className="text-[10px] font-black uppercase tracking-wider text-brand-600">{project.category}</span>
-                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${DIFFICULTY_STYLES[project.difficulty]}`}>
+                <span className="text-[11px] font-black uppercase tracking-wider text-brand-600">{project.category}</span>
+                <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full border ${DIFFICULTY_STYLES[project.difficulty]}`}>
                   {project.difficulty}
                 </span>
               </div>

@@ -137,7 +137,7 @@ export const VerifyEmailGate: React.FC<VerifyEmailGateProps> = ({ from = '/dashb
   };
 
   return (
-    <div className="min-h-screen bg-zinc-50 flex flex-col items-center justify-center p-4 sm:p-6 text-zinc-900 relative">
+    <div className="min-h-dvh bg-zinc-50 flex flex-col items-center justify-center p-4 sm:p-6 text-zinc-900 relative">
       {/* Background Decor */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-100/40 rounded-full blur-3xl" />
@@ -199,19 +199,19 @@ export const VerifyEmailGate: React.FC<VerifyEmailGateProps> = ({ from = '/dashb
             </h4>
             <div className="space-y-2.5 text-xs text-zinc-700">
               <div className="flex items-start gap-2.5">
-                <span className="w-5 h-5 rounded-full bg-brand-600 text-white text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">
+                <span className="w-5 h-5 rounded-full bg-brand-600 text-white text-[11px] font-bold flex items-center justify-center shrink-0 mt-0.5">
                   1
                 </span>
                 <span>Open your email client and look for the verification email.</span>
               </div>
               <div className="flex items-start gap-2.5">
-                <span className="w-5 h-5 rounded-full bg-brand-600 text-white text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">
+                <span className="w-5 h-5 rounded-full bg-brand-600 text-white text-[11px] font-bold flex items-center justify-center shrink-0 mt-0.5">
                   2
                 </span>
                 <span>Click the confirmation link inside the email.</span>
               </div>
               <div className="flex items-start gap-2.5">
-                <span className="w-5 h-5 rounded-full bg-brand-600 text-white text-[10px] font-bold flex items-center justify-center shrink-0 mt-0.5">
+                <span className="w-5 h-5 rounded-full bg-brand-600 text-white text-[11px] font-bold flex items-center justify-center shrink-0 mt-0.5">
                   3
                 </span>
                 <span>Click <strong>"I've Verified My Email"</strong> below to unlock your workspace.</span>

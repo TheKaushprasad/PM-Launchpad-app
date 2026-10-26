@@ -11,7 +11,7 @@ import { AuthModal } from '../../components/auth/AuthModal';
 const STORAGE_KEY = 'aipm_day1_v1';
 
 const Label: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <h4 className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 mb-2">{children}</h4>
+  <h4 className="text-[11px] font-bold uppercase tracking-widest text-zinc-400 mb-2">{children}</h4>
 );
 
 const Dot: React.FC = () => <div className="w-1.5 h-1.5 rounded-full bg-brand-300 mt-2 shrink-0" />;
@@ -197,7 +197,7 @@ export const AiPmDay1Content = () => {
 
       {/* Objective */}
       <section id="objective" className="scroll-mt-32 bg-brand-50/60 p-4 sm:p-5 rounded-2xl border border-brand-100 space-y-2">
-        <span className="text-[10px] font-bold uppercase tracking-widest text-brand-600">Today’s objective</span>
+        <span className="text-[11px] font-bold uppercase tracking-widest text-brand-600">Today’s objective</span>
         <p className="text-base font-bold text-zinc-900 leading-relaxed">
           Understand AI, ML, deep learning, and generative AI well enough to explain the differences and identify where each is useful in a real product.
         </p>
@@ -260,7 +260,7 @@ export const AiPmDay1Content = () => {
         </h2>
         <div className="border border-zinc-200/70 rounded-xl overflow-x-auto">
           <table className="w-full text-sm text-left">
-            <thead className="bg-zinc-50 text-[10px] font-bold uppercase tracking-widest text-zinc-400">
+            <thead className="bg-zinc-50 text-[11px] font-bold uppercase tracking-widest text-zinc-400">
               <tr><th className="py-3 px-4">Technology</th><th className="py-3 px-4">Core question</th><th className="py-3 px-4">Example</th></tr>
             </thead>
             <tbody className="text-zinc-600">
@@ -325,7 +325,7 @@ export const AiPmDay1Content = () => {
         </p>
         <div className="border border-zinc-200/70 rounded-xl overflow-x-auto">
           <table className="w-full text-sm text-left">
-            <thead className="bg-zinc-50 text-[10px] font-bold uppercase tracking-widest text-zinc-400">
+            <thead className="bg-zinc-50 text-[11px] font-bold uppercase tracking-widest text-zinc-400">
               <tr><th className="py-3 px-4">Product</th><th className="py-3 px-4">User problem</th><th className="py-3 px-4">Likely approach</th></tr>
             </thead>
             <tbody className="text-zinc-600">
@@ -352,7 +352,7 @@ export const AiPmDay1Content = () => {
           </div>
           {state.map.map((row, i) => (
             <div key={i} className="bg-white border border-zinc-200 rounded-xl p-3.5 space-y-2.5">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-brand-600">Product {i + 1}</p>
+              <p className="text-[11px] font-bold uppercase tracking-widest text-brand-600">Product {i + 1}</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 <input className={inputClass} placeholder="Product name" value={row.product} onChange={(e) => setRow(i, { product: e.target.value })} aria-label={`Product ${i + 1} name`} />
                 <input className={inputClass} placeholder="User problem solved" value={row.problem} onChange={(e) => setRow(i, { problem: e.target.value })} aria-label={`Product ${i + 1} user problem`} />
@@ -460,7 +460,7 @@ export const AiPmDay1Content = () => {
               <div key={p.product} className="space-y-1">
                 <div className="flex items-center gap-2">
                   <p className="font-bold text-zinc-900 text-sm">{p.product}</p>
-                  <span className={`px-2 py-0.5 rounded-md border text-[10px] font-bold ${VERDICT_STYLES[p.verdict] || VERDICT_STYLES['Partly right']}`}>{p.verdict}</span>
+                  <span className={`px-2 py-0.5 rounded-md border text-[11px] font-bold ${VERDICT_STYLES[p.verdict] || VERDICT_STYLES['Partly right']}`}>{p.verdict}</span>
                 </div>
                 <p className="text-xs font-medium text-zinc-600 leading-relaxed">{p.comment}</p>
               </div>

@@ -12,7 +12,7 @@ export const Day37Content = () => {
     <div className="space-y-4 md:space-y-5 text-left">
       <section className="bg-amber-50 p-4 sm:p-5 rounded-2xl border border-amber-100">
         <div className="flex flex-col gap-1.5">
-          <span className="text-[10px] font-black uppercase tracking-widest text-amber-600">Job ready</span>
+          <span className="text-[11px] font-black uppercase tracking-widest text-amber-600">Job ready</span>
           <p className="text-lg font-black text-amber-900 leading-relaxed">
             As an aspiring Product Manager, one of the most credible ways to demonstrate product thinking, analytical rigor, and strategic insight is by doing product teardowns — systematic breakdowns of real products to extract insights and propose meaningful improvements.
           </p>
@@ -35,7 +35,7 @@ export const Day37Content = () => {
               <ExternalLink className="w-5 h-5" />
             </div>
             <div>
-              <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Refer</p>
+              <p className="text-[11px] font-black uppercase tracking-widest text-zinc-400">Refer</p>
               <p className="text-sm font-bold text-zinc-700 group-hover:text-amber-600">What is a Product Teardown?</p>
             </div>
           </a>
@@ -49,7 +49,7 @@ export const Day37Content = () => {
               <ExternalLink className="w-5 h-5" />
             </div>
             <div>
-              <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Refer</p>
+              <p className="text-[11px] font-black uppercase tracking-widest text-zinc-400">Refer</p>
               <p className="text-sm font-bold text-zinc-700 group-hover:text-amber-600">Case Studies Repository</p>
             </div>
           </a>
@@ -63,7 +63,7 @@ export const Day37Content = () => {
               <MonitorPlay className="w-5 h-5" />
             </div>
             <div>
-              <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Watch</p>
+              <p className="text-[11px] font-black uppercase tracking-widest text-zinc-400">Watch</p>
               <p className="text-sm font-bold text-zinc-700 group-hover:text-amber-600">Video Guide</p>
             </div>
           </a>
@@ -146,10 +146,6 @@ export const Day37Content = () => {
       ]}
       />
 
-      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-        <p></p>
-        <p></p>
-      </div>
     </div>
   );
 };

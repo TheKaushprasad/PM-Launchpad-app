@@ -332,7 +332,7 @@ export const AiPmDayPage: React.FC = () => {
             <div className="bg-white rounded-2xl p-4 border border-zinc-200/80 space-y-3">
               <div className="flex items-center justify-between">
                 <h3 className="font-bold text-zinc-900 flex items-center gap-2"><BookOpen className="w-4 h-4 text-brand-600" /> Course material</h3>
-                <span className="text-[10px] font-semibold uppercase tracking-wide text-zinc-500 bg-zinc-100 px-2 py-0.5 rounded-md">{materialCount} {materialCount === 1 ? 'item' : 'items'}</span>
+                <span className="text-[11px] font-semibold uppercase tracking-wide text-zinc-500 bg-zinc-100 px-2 py-0.5 rounded-md">{materialCount} {materialCount === 1 ? 'item' : 'items'}</span>
               </div>
               {day.video && (
                 <a href={`https://www.youtube.com/watch?v=${day.video}`} target="_blank" rel="noopener noreferrer" className="group flex items-start gap-3 rounded-xl border border-zinc-200/80 p-3 hover:border-brand-200 hover:bg-brand-50/30">

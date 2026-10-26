@@ -11,7 +11,7 @@ export const Day45Content = () => {
     <div className="space-y-4 md:space-y-5 text-left">
       <section className="bg-amber-50 p-4 sm:p-5 rounded-2xl border border-amber-100">
         <div className="flex flex-col gap-1.5">
-          <span className="text-[10px] font-black uppercase tracking-widest text-amber-600">Job ready</span>
+          <span className="text-[11px] font-black uppercase tracking-widest text-amber-600">Job ready</span>
           <p className="text-lg font-black text-amber-900 leading-relaxed italic">
             "Behavioral rounds are where you prove you can actually work with people. Your technical skills get you the interview; your behavioral skills get you the job."
           </p>
@@ -103,10 +103,6 @@ export const Day45Content = () => {
       ]}
       />
 
-      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-        <p></p>
-        <p></p>
-      </div>
     </div>
   );
 };

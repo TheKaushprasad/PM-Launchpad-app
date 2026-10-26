@@ -28,7 +28,7 @@ const ScoreCard: React.FC<{ review?: SectionReview }> = ({ review }) => {
         {RUBRIC.map(({ key, label }) => (
           <div key={key} className="text-center">
             <p className="text-base font-black text-slate-900">{review.scores[key]}</p>
-            <p className="text-[10px] text-slate-500 leading-tight">{label}</p>
+            <p className="text-[11px] text-slate-500 leading-tight">{label}</p>
           </div>
         ))}
       </div>
@@ -89,7 +89,7 @@ const SectionCard: React.FC<{ run: Run; section: Section; onChange: (run: Run) =
         {review && (
           <button onClick={() => setShowScores((v) => !v)} className={`shrink-0 rounded-xl px-3 py-1.5 text-white text-center ${scoreTone(review.average)}`} title="Critic score: click for details">
             <span className="block text-lg font-black leading-none">{review.average.toFixed(1)}</span>
-            <span className="block text-[10px] font-bold opacity-90">/ 5 Critic</span>
+            <span className="block text-[11px] font-bold opacity-90">/ 5 Critic</span>
           </button>
         )}
       </header>
@@ -137,7 +137,7 @@ const SourcesPanel: React.FC<{ run: Run }> = ({ run }) => {
   const r = run.research;
   if (!r) return null;
   return (
-    <aside className="bg-white border border-slate-200/80 rounded-2xl p-4 space-y-3 lg:sticky lg:top-6 lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto">
+    <aside className="bg-white border border-slate-200/80 rounded-2xl p-4 space-y-3 lg:sticky lg:top-6 lg:max-h-[calc(100dvh-3rem)] lg:overflow-y-auto">
       <h2 className="text-sm font-black text-slate-900 flex items-center gap-2"><BookOpen className="size-4" /> Research and sources</h2>
       {r.productArea && <p className="text-xs text-slate-600"><span className="font-bold">Product area:</span> {r.productArea}</p>}
       {r.competitors.length > 0 && <p className="text-xs text-slate-600"><span className="font-bold">Competitors:</span> {r.competitors.join(', ')}</p>}

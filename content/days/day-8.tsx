@@ -15,7 +15,7 @@ export const Day8Content = () => {
     <div className="space-y-4 md:space-y-5 text-left">
       <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
         <div className="flex flex-col gap-1.5">
-          <span className="text-[10px] font-black uppercase tracking-widest text-blue-600">Strategy</span>
+          <span className="text-[11px] font-black uppercase tracking-widest text-blue-600">Strategy</span>
           <p className="text-sm sm:text-base font-medium text-blue-900 leading-relaxed italic">
             "Master the Metrics That Drive Sustainable Products. Learn CAC, LTV, and the 'Golden Ratio' of business success."
           </p>
@@ -132,7 +132,7 @@ export const Day8Content = () => {
         </div>
 
         <div className="bg-zinc-900 text-white p-4 sm:p-5 rounded-2xl text-center border-t-8 border-indigo-500">
-           <p className="text-[10px] font-black uppercase tracking-widest text-indigo-400 mb-2">The Formula</p>
+           <p className="text-[11px] font-black uppercase tracking-widest text-indigo-400 mb-2">The Formula</p>
            <p className="text-2xl font-black tracking-tighter">CAC = (Total Marketing Costs + Total Sales Costs) / Number of New Customers Acquired</p>
         </div>
 
@@ -151,8 +151,8 @@ export const Day8Content = () => {
              <h4 className="font-black text-zinc-900 uppercase tracking-widest text-xs">What to Include in CAC</h4>
              <div className="grid grid-cols-2 gap-4">
                <div>
-                 <p className="text-[10px] font-black uppercase text-indigo-500 mb-2">Marketing</p>
-                 <ul className="text-[10px] font-bold text-zinc-500 space-y-1">
+                 <p className="text-[11px] font-black uppercase text-indigo-500 mb-2">Marketing</p>
+                 <ul className="text-[11px] font-bold text-zinc-500 space-y-1">
                    <li>Paid ads (Google/FB)</li>
                    <li>Content marketing</li>
                    <li>Marketing tools</li>
@@ -160,8 +160,8 @@ export const Day8Content = () => {
                  </ul>
                </div>
                <div>
-                 <p className="text-[10px] font-black uppercase text-rose-500 mb-2">Sales</p>
-                 <ul className="text-[10px] font-bold text-zinc-500 space-y-1">
+                 <p className="text-[11px] font-black uppercase text-rose-500 mb-2">Sales</p>
+                 <ul className="text-[11px] font-bold text-zinc-500 space-y-1">
                    <li>Team commissions</li>
                    <li>Sales tools (CRM)</li>
                    <li>Training/Enablement</li>
@@ -223,14 +223,14 @@ export const Day8Content = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
            <div className="bg-zinc-900 text-white p-4 sm:p-5 rounded-2xl border-t-8 border-emerald-500">
-              <p className="text-[10px] font-black uppercase tracking-widest text-emerald-400 mb-2">Simple LTV Formula</p>
+              <p className="text-[11px] font-black uppercase tracking-widest text-emerald-400 mb-2">Simple LTV Formula</p>
               <p className="text-xl font-black tracking-tighter mb-4">LTV = ARPU × Average Customer Lifespan</p>
               <div className="p-4 bg-white/5 rounded-xl text-xs font-bold text-zinc-400">
                  ARPU = Average Revenue Per User (monthly or annual)
               </div>
            </div>
            <div className="bg-zinc-900 text-white p-4 sm:p-5 rounded-2xl border-t-8 border-indigo-500">
-              <p className="text-[10px] font-black uppercase tracking-widest text-indigo-400 mb-2">Advanced LTV Formula (with Churn)</p>
+              <p className="text-[11px] font-black uppercase tracking-widest text-indigo-400 mb-2">Advanced LTV Formula (with Churn)</p>
               <p className="text-xl font-black tracking-tighter mb-4">LTV = (ARPU × Gross Margin) / Churn Rate</p>
            </div>
         </div>
@@ -312,25 +312,25 @@ export const Day8Content = () => {
                 <tbody className="text-zinc-600">
                   <tr className="border-b border-zinc-50">
                     <td className="py-4 px-6 font-bold text-zinc-900">{"< 1:1"}</td>
-                    <td className="py-4 px-6"><span className="px-3 py-1 bg-rose-100 text-rose-600 rounded-full text-[10px] font-black uppercase">Crisis Mode</span></td>
+                    <td className="py-4 px-6"><span className="px-3 py-1 bg-rose-100 text-rose-600 rounded-full text-[11px] font-black uppercase">Crisis Mode</span></td>
                     <td className="py-4 px-6">Losing money on every customer</td>
                     <td className="py-4 px-6 font-black text-rose-600">Reduce CAC or increase LTV urgently</td>
                   </tr>
                   <tr className="border-b border-zinc-50">
                     <td className="py-4 px-6 font-bold text-zinc-900">1:1 to 3:1</td>
-                    <td className="py-4 px-6"><span className="px-3 py-1 bg-amber-100 text-amber-600 rounded-full text-[10px] font-black uppercase">Concerning</span></td>
+                    <td className="py-4 px-6"><span className="px-3 py-1 bg-amber-100 text-amber-600 rounded-full text-[11px] font-black uppercase">Concerning</span></td>
                     <td className="py-4 px-6">Barely sustainable</td>
                     <td className="py-4 px-6">Optimize efficiency</td>
                   </tr>
                   <tr className="border-b border-zinc-50">
                     <td className="py-4 px-6 font-bold text-zinc-900">3:1 to 5:1</td>
-                    <td className="py-4 px-6"><span className="px-3 py-1 bg-emerald-100 text-emerald-600 rounded-full text-[10px] font-black uppercase">Sweet Spot</span></td>
+                    <td className="py-4 px-6"><span className="px-3 py-1 bg-emerald-100 text-emerald-600 rounded-full text-[11px] font-black uppercase">Sweet Spot</span></td>
                     <td className="py-4 px-6">Optimal balance. Scalable and healthy</td>
                     <td className="py-4 px-6 font-black text-emerald-600">Maintain and scale</td>
                   </tr>
                   <tr>
                     <td className="py-4 px-6 font-bold text-zinc-900">{"> 5:1"}</td>
-                    <td className="py-4 px-6"><span className="px-3 py-1 bg-orange-100 text-orange-600 rounded-full text-[10px] font-black uppercase">Underinvesting</span></td>
+                    <td className="py-4 px-6"><span className="px-3 py-1 bg-orange-100 text-orange-600 rounded-full text-[11px] font-black uppercase">Underinvesting</span></td>
                     <td className="py-4 px-6">Too conservative on growth</td>
                     <td className="py-4 px-6">Competitors might outgrow you</td>
                   </tr>
@@ -352,7 +352,7 @@ export const Day8Content = () => {
         </div>
 
         <div className="bg-zinc-900 text-white p-4 sm:p-5 rounded-2xl text-center border-t-8 border-indigo-500">
-           <p className="text-[10px] font-black uppercase tracking-widest text-indigo-400 mb-2">The Formula</p>
+           <p className="text-[11px] font-black uppercase tracking-widest text-indigo-400 mb-2">The Formula</p>
            <p className="text-2xl font-black tracking-tighter">Payback Period (months) = CAC / (ARPU × Gross Margin)</p>
         </div>
 
@@ -454,31 +454,31 @@ export const Day8Content = () => {
                     <item.icon className="w-6 h-6" />
                   </div>
                   <div>
-                    <span className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Model {item.id}</span>
+                    <span className="text-[11px] font-black uppercase tracking-widest text-zinc-400">Model {item.id}</span>
                     <h3 className="text-xl font-black text-zinc-900">{item.name}</h3>
                   </div>
                </div>
 
                <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
                   <div className="space-y-4">
-                     <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Revenue & Metrics</p>
+                     <p className="text-[11px] font-black uppercase tracking-widest text-zinc-400">Revenue & Metrics</p>
                      <div className="p-4 bg-zinc-50 rounded-2xl border border-zinc-100">
                         <p className="text-xs font-black text-zinc-900 mb-2">Primary Driver: {item.revenue}</p>
                         <div className="flex flex-wrap gap-1.5">
                            {item.metrics.map((m, idx) => (
-                             <span key={idx} className="px-2 py-1 bg-white border border-zinc-200 rounded-lg text-[10px] font-bold text-zinc-500">{m}</span>
+                             <span key={idx} className="px-2 py-1 bg-white border border-zinc-200 rounded-lg text-[11px] font-bold text-zinc-500">{m}</span>
                            ))}
                         </div>
                      </div>
                   </div>
                   <div className="space-y-4">
-                     <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">PM Strategy</p>
+                     <p className="text-[11px] font-black uppercase tracking-widest text-zinc-400">PM Strategy</p>
                      <p className="text-sm font-bold text-zinc-700 leading-relaxed">{item.strategy}</p>
                   </div>
                </div>
 
                <div className="pt-4 flex items-center gap-2 border-t border-zinc-50">
-                  <span className="text-[10px] font-black uppercase text-zinc-400">Examples:</span>
+                  <span className="text-[11px] font-black uppercase text-zinc-400">Examples:</span>
                   <span className="text-xs font-black text-indigo-600">{item.ex}</span>
                </div>
             </div>
@@ -508,10 +508,6 @@ export const Day8Content = () => {
       ]}
       />
 
-      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-        <p></p>
-        <p></p>
-      </div>
     </div>
   );
 };

@@ -25,7 +25,7 @@ export const RocketIllustration: React.FC<{ className?: string }> = ({ className
           <p className="text-[11px] font-bold text-slate-100 leading-tight">
             Smarter learning
           </p>
-          <p className="text-[10px] text-slate-400 font-medium leading-tight mt-0.5">
+          <p className="text-[11px] text-slate-400 font-medium leading-tight mt-0.5">
             for brighter PMs
           </p>
         </div>

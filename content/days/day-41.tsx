@@ -10,7 +10,7 @@ export const Day41Content = () => {
     <div className="space-y-4 md:space-y-5 text-left">
       <section className="bg-amber-50 p-4 sm:p-5 rounded-2xl border border-amber-100">
         <div className="flex flex-col gap-1.5">
-          <span className="text-[10px] font-black uppercase tracking-widest text-amber-600">Job ready</span>
+          <span className="text-[11px] font-black uppercase tracking-widest text-amber-600">Job ready</span>
           <p className="text-lg font-black text-amber-900 leading-relaxed italic">
             "Your application is just the first step. Where you apply and how you leverage your network determines whether you get the interview."
           </p>
@@ -43,7 +43,7 @@ export const Day41Content = () => {
         </h2>
         <div className="bg-zinc-950 text-white p-4 sm:p-5 rounded-2xl space-y-6 relative overflow-hidden">
            <div className="absolute top-0 right-0 p-4 sm:p-5 opacity-10"><MessageSquare className="w-32 h-32 text-white" /></div>
-           <p className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">The Referral Template</p>
+           <p className="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-500">The Referral Template</p>
            <div className="p-4 sm:p-5 bg-white/5 border border-white/10 rounded-2xl font-medium text-zinc-300 leading-relaxed text-sm">
               Hi [Name],<br/><br/>
               Hope you’re doing well!<br/><br/>
@@ -55,7 +55,7 @@ export const Day41Content = () => {
            </div>
            <div className="flex gap-4">
               {['Highlight Skills', 'Mention Accomplishment', 'Clear Ask'].map((point, i) => (
-                 <span key={i} className="text-[10px] font-black text-amber-400">✓ {point}</span>
+                 <span key={i} className="text-[11px] font-black text-amber-400">✓ {point}</span>
               ))}
            </div>
         </div>
@@ -90,7 +90,7 @@ export const Day41Content = () => {
               <ExternalLink className="w-6 h-6" />
             </div>
             <div>
-              <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Resource</p>
+              <p className="text-[11px] font-black uppercase tracking-widest text-zinc-400">Resource</p>
               <p className="text-sm font-bold text-zinc-700 group-hover:text-amber-600 leading-relaxed">Refer this detailed guide on shortlisting strategies by Kaushal Prasad</p>
             </div>
           </a>
@@ -119,10 +119,6 @@ export const Day41Content = () => {
       ]}
       />
 
-      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-        <p></p>
-        <p></p>
-      </div>
     </div>
   );
 };

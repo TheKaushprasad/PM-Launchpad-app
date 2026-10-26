@@ -16,7 +16,7 @@ const MAX_QUESTIONS = 10;
 const MIN_QUESTIONS = 5;
 
 const Label: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <h4 className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 mb-1.5">{children}</h4>
+  <h4 className="text-[11px] font-bold uppercase tracking-widest text-zinc-400 mb-1.5">{children}</h4>
 );
 
 const OBJECTIVES = [
@@ -175,7 +175,7 @@ export const AiPmDay4Content = () => {
       <AuthModal isOpen={authOpen} onClose={() => setAuthOpen(false)} initialMode="login" redirectTo="/ai-pm/day/4" onSuccess={() => setAuthOpen(false)} />
 
       <section id="objective" className="scroll-mt-32 bg-brand-50/60 p-4 sm:p-5 rounded-2xl border border-brand-100 space-y-2">
-        <span className="text-[10px] font-bold uppercase tracking-widest text-brand-600">Today’s learning objectives</span>
+        <span className="text-[11px] font-bold uppercase tracking-widest text-brand-600">Today’s learning objectives</span>
         <p className="text-sm font-medium text-brand-800">
           Yesterday you learned that the right approach depends on the data and feedback you have. Today you learn to judge whether that data is good enough. By the end of this lesson, you should be able to:
         </p>
@@ -203,8 +203,8 @@ export const AiPmDay4Content = () => {
           <table className="w-full text-sm min-w-[520px]">
             <thead>
               <tr className="bg-zinc-50 text-left">
-                <th className="px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-sky-700" colSpan={3}>Features (inputs)</th>
-                <th className="px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-brand-700 bg-brand-50">Label (answer)</th>
+                <th className="px-3 py-2 text-[11px] font-bold uppercase tracking-widest text-sky-700" colSpan={3}>Features (inputs)</th>
+                <th className="px-3 py-2 text-[11px] font-bold uppercase tracking-widest text-brand-700 bg-brand-50">Label (answer)</th>
               </tr>
               <tr className="text-left border-t border-zinc-200/80 text-xs text-zinc-500">
                 <th className="px-3 py-1.5 font-semibold">Ticket text</th>

@@ -240,7 +240,7 @@ export const Profile: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A] px-4 md:px-8 py-6 sm:py-8 font-sans">
+    <div className="min-h-dvh bg-[#F8FAFC] text-[#0F172A] px-4 md:px-8 py-6 sm:py-8 font-sans">
       <div className="max-w-5xl mx-auto space-y-6 pb-20">
 
         {/* Hero Banner Header */}

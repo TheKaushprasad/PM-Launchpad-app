@@ -701,10 +701,10 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
           setMilestoneAlert("⏱️ 5 Minutes Remaining: Time to begin synthesizing your hypothesis or final recommendation!");
           setTimeout(() => setMilestoneAlert(null), 8000);
         } else if (remaining === 60) { // 1 min left
-          setMilestoneAlert("⚠️ 1 Minute Remaining: Wrap up with your executive summary and key tradeoffs.");
+          setMilestoneAlert("1 Minute Remaining: Wrap up with your executive summary and key tradeoffs.");
           setTimeout(() => setMilestoneAlert(null), 8000);
         } else if (next === targetDurationSeconds) { // Overtime start
-          setMilestoneAlert("🚨 Target Duration Reached! Session is now in Overtime.");
+          setMilestoneAlert("Target Duration Reached! Session is now in Overtime.");
           setTimeout(() => setMilestoneAlert(null), 8000);
         }
 
@@ -791,7 +791,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
           stopListeningSession();
           return;
         }
-        setMicStatusNotice("🎙️ Listening... Your words will appear after you finish. Press Done answering when you're ready.");
+        setMicStatusNotice("Listening... Your words will appear after you finish. Press Done answering when you're ready.");
         setIsListening(true);
         return;
       }
@@ -852,7 +852,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
           liveRecognitionBrokenRef.current = true;
           try { recognition.stop(); } catch (e) {}
           if (recording) {
-            setMicStatusNotice("🎙️ Listening... Your words will appear after you finish. Press Done answering when you're ready.");
+            setMicStatusNotice("Listening... Your words will appear after you finish. Press Done answering when you're ready.");
           } else {
             setMicStatusNotice("Voice capture isn't working in this browser right now. Please refresh the page and try again.");
           }
@@ -871,7 +871,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
       recognition.start();
       recognitionRef.current = recognition;
       setIsListening(true);
-      setMicStatusNotice("🎙️ Listening... Take your time, then press Done answering.");
+      setMicStatusNotice("Listening... Take your time, then press Done answering.");
     } catch (err: any) {
       console.error("Speech recognition start failed:", err);
       setMicStatusNotice("Could not start microphone. You can type your response directly.");
@@ -1216,10 +1216,10 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
         return (
           <div key={m.id} className={`flex flex-col ${isCandidate ? 'items-end' : 'items-start'}`}>
             <div className="flex items-center gap-1.5 mb-1 px-1">
-              <span className="text-[10px] font-black uppercase tracking-wider text-zinc-400">
+              <span className="text-[11px] font-black uppercase tracking-wider text-zinc-400">
                 {isCandidate ? 'You' : persona.name}
               </span>
-              <span className="text-[9px] text-zinc-400">{m.timestamp}</span>
+              <span className="text-[11px] text-zinc-400">{m.timestamp}</span>
             </div>
 
             <div className={`p-3.5 rounded-2xl ${large ? 'text-sm' : 'text-xs'} font-medium leading-relaxed max-w-[90%] shadow-xs whitespace-pre-wrap select-text ${
@@ -1317,7 +1317,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
                 <span className="font-extrabold text-sm text-white">{persona.name}</span>
-                <span className="text-[10px] px-2 py-0.5 rounded-md bg-white/10 text-zinc-300 font-bold uppercase tracking-wider">
+                <span className="text-[11px] px-2 py-0.5 rounded-md bg-white/10 text-zinc-300 font-bold uppercase tracking-wider">
                   {persona.role}
                 </span>
               </div>
@@ -1450,7 +1450,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
           <div>
             <div className="flex items-center gap-2">
               <span className="font-extrabold text-sm text-zinc-900 line-clamp-1">{scenario.title}</span>
-              <span className={`px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider ${scenario.companyColor}`}>
+              <span className={`px-2 py-0.5 rounded-md text-[11px] font-black uppercase tracking-wider ${scenario.companyColor}`}>
                 {scenario.company}
               </span>
             </div>
@@ -1471,7 +1471,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
           </div>
 
           {isOvertime && (
-            <span className="px-2 py-0.5 rounded-md bg-rose-100 text-rose-700 text-[10px] font-black tracking-wider animate-pulse">
+            <span className="px-2 py-0.5 rounded-md bg-rose-100 text-rose-700 text-[11px] font-black tracking-wider animate-pulse">
               +{formatTime(overtimeSeconds)} OT
             </span>
           )}
@@ -1739,7 +1739,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
                     }}
                     placeholder={
                       isListening
-                        ? "🎙️ Recording... Press Done answering when you finish. You can fix the text before it's sent."
+                        ? "Recording... Press Done answering when you finish. You can fix the text before it's sent."
                         : 'Type your answer, or tap the mic to record it. Shift+Enter adds a new line.'
                     }
                     disabled={isThinking || isTranscribing || isEvaluating || !!chatError}
@@ -1769,7 +1769,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
                 }}
                 placeholder={
                   isListening
-                    ? "🎙️ Listening... You can fix the text here before you press Done answering."
+                    ? "Listening... You can fix the text here before you press Done answering."
                     : "Tap the circle above to answer, or type here."
                 }
                 disabled={isThinking || isTranscribing || isEvaluating || !!chatError}
@@ -1815,7 +1815,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
                 <FileText className="w-4 h-4 text-brand-600" />
                 <span className="font-extrabold text-xs text-zinc-800 uppercase tracking-wider">Live Transcript</span>
               </div>
-              <span className="text-[10px] font-bold text-zinc-400 px-2 py-0.5 rounded-full bg-zinc-200/60">
+              <span className="text-[11px] font-bold text-zinc-400 px-2 py-0.5 rounded-full bg-zinc-200/60">
                 {messages.length} {messages.length === 1 ? 'message' : 'messages'}
               </span>
             </div>
