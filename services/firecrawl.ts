@@ -1,5 +1,5 @@
-import dotenv from 'dotenv';
-dotenv.config();
+import { loadAppEnv } from './env';
+loadAppEnv();
 
 export function validateLinkedInUrl(url: string): boolean {
   if (!url || typeof url !== 'string') return false;

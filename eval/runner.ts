@@ -15,7 +15,7 @@
  */
 import fs from 'fs';
 import path from 'path';
-import dotenv from 'dotenv';
+import { loadAppEnv } from '../services/env';
 import { loadCases } from './dataset';
 import { callEngine, EngineCallOptions } from './engineCall';
 import { checkExpectations } from './checks/expectations';
@@ -26,7 +26,7 @@ import { evaluateThresholds, formatThresholdsTable, ThresholdCaseResult } from '
 import { BenchmarkCase, TRACKS, Track } from './types';
 import { getInterviewGeminiKey } from '../server/geminiKeys';
 
-dotenv.config();
+loadAppEnv();
 
 interface Flags {
   validate: boolean;

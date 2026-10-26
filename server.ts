@@ -1,8 +1,8 @@
 import express from "express";
 import path from "path";
 import OpenAI from "openai";
-import dotenv from "dotenv";
 import fs from "fs";
+import { loadAppEnv } from "./services/env";
 import { scrapeLinkedInProfile, validateLinkedInUrl } from "./services/firecrawl";
 import { normalizeProfileData, analyzeProfileWithAI, getSampleAnalysis, TARGET_ROLE_KEYWORDS } from "./services/profileAnalyzer";
 import { evaluateResumeAlgorithmically } from "./lib/resumeAuditEngine";
@@ -33,7 +33,7 @@ import { requireAiAccess, getVerifiedUser, consumeDailyQuota, clientIp } from ".
 import { getGeminiKey, getInterviewGeminiKey, hasSeparateInterviewGeminiKey } from "./server/geminiKeys";
 import { initObservability, traceInterviewRequests, traceStep, traceMeta, traceIO, noteGuardrail, geminiUsage, openAiUsage, recordClientEvent, cleanSessionId, cleanTraceId, isLangfuseConfigured } from "./server/observability";
 
-dotenv.config();
+loadAppEnv();
 // Langfuse reads its keys from the environment, so it starts only after .env is loaded.
 initObservability();
 
