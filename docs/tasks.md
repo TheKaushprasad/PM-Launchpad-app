@@ -31,6 +31,7 @@ Priority: **P0** blocks safe growth, **P1** important next, **P2** nice to have.
 - [ ] **P2** Completion certificate after Day 45.
 
 ### Career tools and projects
+- [ ] **P1** PM Assignment Solver (local only, docs/assignment-solver.md): run 10 real assignments, score them by hand on the Critic rubric, compare with the Critic, then decide on launch (`VITE_ASSIGNMENT_SOLVER_ENABLED=true`).
 - [ ] **P1** More real-world projects (currently 6), especially AI Product and Growth.
 - [ ] **P2** Let users resubmit a project and compare feedback versions.
 - [ ] **P2** Export resume audit and LinkedIn report as PDF.

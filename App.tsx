@@ -13,7 +13,7 @@ import { LinkedInOptimiser } from './components/LinkedInOptimiser';
 import { ResumeAuditor } from './components/ResumeAuditor';
 import { InterviewHub } from './components/interview/InterviewHub';
 import { InterviewComingSoon } from './components/interview/InterviewComingSoon';
-import { isAiInterviewEnabled, isAiPmCourseEnabled } from './lib/featureFlags';
+import { isAiInterviewEnabled, isAiPmCourseEnabled, isAssignmentSolverEnabled } from './lib/featureFlags';
 
 import { ProjectsHub } from './components/projects/ProjectsHub';
 import { ProjectDetail } from './components/projects/ProjectDetail';
@@ -45,6 +45,14 @@ const aiPmCourse = AiPmCourse ? (
         <AiPmCourse />
     </Suspense>
 ) : <Navigate to="/dashboard" replace />;
+
+// The PM Assignment Solver is local-only too; the live site sends its URL to the tools hub.
+const AssignmentSolver = isAssignmentSolverEnabled ? lazy(() => import('./components/assignmentSolver/AssignmentSolver')) : null;
+const assignmentSolver = AssignmentSolver ? (
+    <Suspense fallback={<div className="flex justify-center py-24"><Loader2 className="w-6 h-6 animate-spin text-slate-400" /></div>}>
+        <AssignmentSolver />
+    </Suspense>
+) : <Navigate to="/tools" replace />;
 
 // Action Link Redirector to catch Firebase direct action queries (e.g. ?mode=verifyEmail&oobCode=...)
 const AuthActionRedirector = () => {
@@ -320,6 +328,7 @@ const App: React.FC = () => {
                     {/* Publicly accessible Career Tools */}
                     <Route path="linkedin-optimiser" element={<LinkedInOptimiser />} />
                     <Route path="resume-auditor" element={<ResumeAuditor />} />
+                    <Route path="assignment-solver" element={assignmentSolver} />
                     <Route path="interview-studio" element={interviewStudio} />
                     <Route path="practice" element={interviewStudio} />
                     <Route 

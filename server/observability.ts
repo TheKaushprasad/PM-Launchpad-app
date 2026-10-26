@@ -155,14 +155,42 @@ export function traceInterviewRequests(req: Request, res: Response, next: NextFu
   const turn = Number(headerValue(req, "x-interview-turn"));
   // Voice or text interview, so Langfuse can filter and compare the two modes.
   const mode = headerValue(req, "x-interview-mode") === "text" ? "text" : "voice";
-  const state: RequestTrace = {
+  startRequestTrace(res, next, {
     name: TRACE_NAMES[route] || `interview-${route}`,
     sessionId: cleanSessionId(headerValue(req, "x-interview-session")),
     turn: Number.isInteger(turn) && turn >= 0 && turn < 1000 ? turn : undefined,
+    tags: ["interview", `mode:${mode}`],
+    metadata: { route, mode },
+  });
+}
+
+/**
+ * Express middleware for the PM Assignment Solver: each agent step (one request) is one trace, and
+ * all steps of one run share the run id as their Langfuse session.
+ */
+export function traceAssignmentSolverRequests(req: Request, res: Response, next: NextFunction) {
+  const agent = req.path.replace(/^\/+|\/+$/g, "").split("/")[0] || "unknown";
+  startRequestTrace(res, next, {
+    name: `solver-${agent}`,
+    sessionId: cleanSessionId(headerValue(req, "x-solver-run")),
+    tags: ["assignment-solver", `agent:${agent}`],
+    metadata: { agent },
+  });
+}
+
+function startRequestTrace(
+  res: Response,
+  next: NextFunction,
+  opts: { name: string; sessionId?: string; turn?: number; tags: string[]; metadata: Record<string, unknown> }
+) {
+  const state: RequestTrace = {
+    name: opts.name,
+    sessionId: opts.sessionId,
+    turn: opts.turn,
     res,
     startedAt: Date.now(),
     guardrails: [],
-    metadata: { mode },
+    metadata: { ...opts.metadata },
     steps: [],
   };
   res.on("finish", () => finishTrace(state, res.statusCode));
@@ -176,8 +204,8 @@ export function traceInterviewRequests(req: Request, res: Response, next: NextFu
       {
         sessionId: state.sessionId,
         traceName: state.name,
-        tags: ["interview", `mode:${mode}`],
-        metadata: { route, mode, ...(state.turn !== undefined ? { turn: state.turn } : {}) },
+        tags: opts.tags,
+        metadata: { ...opts.metadata, ...(state.turn !== undefined ? { turn: state.turn } : {}) },
       },
       () => {
         const root = startObservation(state.name, {}, { asType: "span" });
