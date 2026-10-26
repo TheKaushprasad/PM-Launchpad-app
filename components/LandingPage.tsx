@@ -862,255 +862,180 @@ export const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* ALL-IN-ONE PLATFORM SECTION */}
-      <section className="py-20 bg-white/60 border-y border-slate-200/60">
+      {/* ALL-IN-ONE PLATFORM SECTION: SIX TOOLS */}
+      <section className="py-20 sm:py-24 bg-white/60 border-y border-slate-200/60">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          <div className="grid lg:grid-cols-12 gap-12 items-center">
-            
-            {/* Left Column: Heading & Description */}
-            <div data-reveal className="lg:col-span-4 space-y-5">
+          <div data-reveal className="max-w-2xl mb-10 sm:mb-12">
+            <h2 className="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-[-0.035em] leading-[1.05]">
+              Six tools. One PM career. No juggling.
+            </h2>
+            <p className="mt-4 text-sm sm:text-base text-slate-600 leading-relaxed">
+              No need to juggle multiple courses, tools and resources. Learn, practise, polish your profile and apply, all from one place.
+            </p>
+          </div>
 
-              <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">
-                Your Entire PM Transition. <span className="text-[#059669] block">All Under One Roof.</span>
-              </h2>
+          <div data-reveal-stagger className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 
-              <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
-                No need to juggle multiple courses, tools, and resources. The NooB PM gives you everything you need to upskill, practice, optimize, and land your offer.
+            {/* Learn: 45-Day PM Launchpad */}
+            <button
+              type="button"
+              onClick={() => navigate('/dashboard')}
+              className="group flex flex-col text-left bg-[#06382B] text-white rounded-2xl p-6 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_28px_-14px_rgba(6,56,43,0.6)]"
+            >
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#7EE2B0]">Learn</span>
+                <span className="px-2 py-0.5 rounded-full bg-[#7EE2B0] text-[#06382B] text-[11px] font-bold">Free</span>
+              </div>
+              <h3 className="mt-3 text-xl sm:text-2xl font-extrabold tracking-tight">45-Day PM Launchpad</h3>
+              <p className="mt-3 text-sm text-emerald-50/80 leading-relaxed">
+                A day-by-day curriculum through PM fundamentals, frameworks and real-world case studies.
               </p>
-
-              <button
-                onClick={() => navigate('/dashboard')}
-                className="bg-[#064E3B] hover:bg-[#043C2C] text-white px-6 py-3 rounded-xl font-bold text-sm inline-flex items-center gap-2 transition-all shadow-xs hover:shadow-md cursor-pointer"
-              >
-                <span>Start learning free</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
-
-            {/* Right Column: Feature Cards */}
-            <div className="lg:col-span-8">
-              
-              {/* Playful Handwritten Annotation */}
-              <div className="flex justify-end mb-3 pr-2">
-                <span className="font-serif italic text-xs text-slate-600">
-                  Learn. Build. Practice. Land. ⤹
+              <div className="mt-auto pt-6">
+                <div className="rounded-xl bg-white/[0.07] border border-white/10 px-4 py-3">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-emerald-50/70">Starts with</span>
+                    <span className="font-bold">Day 1</span>
+                  </div>
+                  <p className="mt-1.5 text-sm font-semibold">What is Product Management?</p>
+                </div>
+                <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-[#7EE2B0]">
+                  Start Day 1 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
                 </span>
               </div>
+            </button>
 
-              <div data-reveal-stagger className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-                
-                {/* Card 01: 45-Day PM Launchpad */}
-                <div 
-                  onClick={() => navigate('/dashboard')}
-                  className="bg-white rounded-2xl border border-slate-200/90 p-4 shadow-xs flex flex-col justify-between hover:border-emerald-300 transition-colors cursor-pointer group"
-                >
-                  <div>
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-sm">
-                        🎓
-                      </div>
-                      <span className="text-xs font-mono font-bold text-slate-400">01</span>
-                    </div>
-
-                    <h3 className="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition-colors leading-snug">45-Day PM Launchpad</h3>
-                    <p className="text-[11px] text-slate-500 mt-1.5 leading-relaxed">
-                      A step-by-step curriculum covering PM fundamentals, frameworks, and real-world case studies.
-                    </p>
-
-                    {/* Graphic Preview */}
-                    <div className="my-4 p-2.5 bg-slate-50 rounded-xl border border-slate-100 text-[10px]">
-                      <span className="font-bold text-slate-800 block">Day 3</span>
-                      <span className="text-slate-500 block text-[9px]">What is Product Management?</span>
-                    </div>
-                  </div>
-
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      navigate('/dashboard');
-                    }}
-                    className="w-full text-center py-2 text-[11px] font-bold text-rose-600 hover:text-rose-700 bg-rose-50/70 hover:bg-rose-100/80 rounded-xl transition-colors cursor-pointer"
-                  >
-                    Start Learning →
-                  </button>
+            {/* Practise: AI Mock Interview Studio */}
+            <button
+              type="button"
+              onClick={() => navigate('/interview-studio')}
+              className="group flex flex-col text-left bg-white border border-slate-200/80 rounded-2xl p-6 cursor-pointer transition-all duration-200 hover:border-emerald-300 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_-12px_rgba(6,78,59,0.25)]"
+            >
+              <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#047857]">Practise</span>
+              <h3 className="mt-3 text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">AI Mock Interview Studio</h3>
+              <p className="mt-3 text-sm text-slate-600 leading-relaxed">
+                Product design, metrics, estimation and behavioural rounds. Type or speak your answer, then get a score and clear next steps.
+              </p>
+              <div className="mt-auto pt-6">
+                <div className="flex flex-wrap gap-2">
+                  {['Product design', 'Metrics', 'Estimation', 'Behavioural'].map((tag) => (
+                    <span key={tag} className="px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-100 text-xs font-semibold text-emerald-900">{tag}</span>
+                  ))}
                 </div>
-
-                {/* Card 02: LinkedIn Optimiser */}
-                <div 
-                  onClick={() => navigate('/tools/linkedin-optimiser')}
-                  className="bg-white rounded-2xl border border-slate-200/90 p-4 shadow-xs flex flex-col justify-between hover:border-emerald-300 transition-colors cursor-pointer group"
-                >
-                  <div>
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="w-8 h-8 rounded-lg bg-brand-100 text-brand-700 flex items-center justify-center font-bold text-sm">
-                        🔗
-                      </div>
-                      <span className="text-xs font-mono font-bold text-slate-400">02</span>
-                    </div>
-
-                    <h3 className="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition-colors leading-snug">LinkedIn Optimiser</h3>
-                    <p className="text-[11px] text-slate-500 mt-1.5 leading-relaxed">
-                      AI-powered profile audit with personalised suggestions to make you stand out to recruiters.
-                    </p>
-
-                    {/* Graphic Preview */}
-                    <div className="my-4 p-2.5 bg-slate-50 rounded-xl border border-slate-100 text-[10px]">
-                      <div className="flex items-center justify-between text-[9px] font-bold text-slate-700">
-                        <span>Profile Score</span>
-                        <span className="text-brand-600">80/100 → 92/100</span>
-                      </div>
-                      <div className="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden mt-1.5">
-                        <div className="bg-brand-500 h-full w-4/5 rounded-full" />
-                      </div>
-                    </div>
-                  </div>
-
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      navigate('/tools/linkedin-optimiser');
-                    }}
-                    className="w-full text-center py-2 text-[11px] font-bold text-brand-600 hover:text-brand-700 bg-brand-50/70 hover:bg-brand-100/80 rounded-xl transition-colors cursor-pointer"
-                  >
-                    Audit My Profile →
-                  </button>
-                </div>
-
-                {/* Card 03: AI Mock Interview Studio */}
-                <div 
-                  onClick={() => navigate('/interview-studio')}
-                  className="bg-white rounded-2xl border border-slate-200/90 p-4 shadow-xs flex flex-col justify-between hover:border-emerald-300 transition-colors cursor-pointer group"
-                >
-                  <div>
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="w-8 h-8 rounded-lg bg-brand-100 text-brand-700 flex items-center justify-center font-bold text-sm">
-                        ⚡
-                      </div>
-                      <span className="text-xs font-mono font-bold text-slate-400">03</span>
-                    </div>
-
-                    <h3 className="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition-colors leading-snug">AI Mock Interview Studio</h3>
-                    <p className="text-[11px] text-slate-500 mt-1.5 leading-relaxed">
-                      Practice PM, product sense, behavioural, and technical interviews with AI. Get instant feedback.
-                    </p>
-
-                    {/* Graphic Preview: Waveform Simulation */}
-                    <div className="my-4 p-2.5 bg-brand-50/50 rounded-xl border border-brand-100 text-[10px] text-center">
-                      <span className="text-[9px] font-semibold text-brand-700 block">Interview Simulation</span>
-                      <div className="flex items-center justify-center gap-1 my-1.5 h-4">
-                        <span className="w-1 bg-brand-400 h-2 rounded-full" />
-                        <span className="w-1 bg-brand-600 h-4 rounded-full" />
-                        <span className="w-1 bg-brand-500 h-3 rounded-full" />
-                        <span className="w-1 bg-brand-300 h-1.5 rounded-full" />
-                      </div>
-                      <span className="text-[8px] text-brand-600">Product Sense</span>
-                    </div>
-                  </div>
-
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      navigate('/interview-studio');
-                    }}
-                    className="w-full text-center py-2 text-[11px] font-bold text-brand-600 hover:text-brand-700 bg-brand-50/70 hover:bg-brand-100/80 rounded-xl transition-colors cursor-pointer"
-                  >
-                    Start Practicing →
-                  </button>
-                </div>
-
-                {/* Card 04: PM Toolkit & Frameworks */}
-                <div 
-                  onClick={() => navigate('/resources')}
-                  className="bg-white rounded-2xl border border-slate-200/90 p-4 shadow-xs flex flex-col justify-between hover:border-emerald-300 transition-colors cursor-pointer group"
-                >
-                  <div>
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="w-8 h-8 rounded-lg bg-rose-100 text-rose-700 flex items-center justify-center font-bold text-sm">
-                        📁
-                      </div>
-                      <span className="text-xs font-mono font-bold text-slate-400">04</span>
-                    </div>
-
-                    <h3 className="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition-colors leading-snug">PM Toolkit & Frameworks</h3>
-                    <p className="text-[11px] text-slate-500 mt-1.5 leading-relaxed">
-                      PRD templates, case studies, frameworks, swipe files and more — everything in one place.
-                    </p>
-
-                    {/* Graphic Preview */}
-                    <div className="my-4 p-2 bg-slate-50 rounded-xl border border-slate-100 space-y-1 text-[9px] text-slate-600">
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-rose-500">📄</span>
-                        <span className="truncate">PRD Template</span>
-                      </div>
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-emerald-500">👤</span>
-                        <span className="truncate">User Research Guide</span>
-                      </div>
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-brand-500">📊</span>
-                        <span className="truncate">Metrics Cheat Sheet</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      navigate('/resources');
-                    }}
-                    className="w-full text-center py-2 text-[11px] font-bold text-emerald-700 hover:text-emerald-800 bg-emerald-50/70 hover:bg-emerald-100/80 rounded-xl transition-colors cursor-pointer"
-                  >
-                    Explore Resources →
-                  </button>
-                </div>
-
-                {/* Card 05: PM Jobs board (full width) */}
-                <div 
-                  onClick={() => navigate('/jobs')}
-                  className="sm:col-span-2 xl:col-span-4 bg-white rounded-2xl border border-slate-200/90 p-4 sm:p-5 shadow-xs flex flex-col md:flex-row md:items-center gap-4 md:gap-6 hover:border-emerald-300 transition-colors cursor-pointer group"
-                >
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-2">
-                      <div className="w-8 h-8 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-sm">
-                        💼
-                      </div>
-                      <span className="text-xs font-mono font-bold text-slate-400">05</span>
-                      <span className="px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[9px] font-black uppercase tracking-wider">New</span>
-                    </div>
-                    <h3 className="text-xs font-bold text-slate-900 group-hover:text-emerald-700 transition-colors leading-snug">PM Jobs Board</h3>
-                    <p className="text-[11px] text-slate-500 mt-1.5 leading-relaxed">
-                      APM to CPO roles across India and remote, collected every morning from company job boards. Filter by level, city and experience, and save the ones you like.
-                    </p>
-                  </div>
-
-                  {/* Graphic Preview: job rows */}
-                  <div className="md:w-72 p-2.5 bg-amber-50/50 rounded-xl border border-amber-100 space-y-1.5 text-[9px]">
-                    {[
-                      ['Associate Product Manager', 'Bengaluru'],
-                      ['Product Manager', 'Remote'],
-                      ['Senior Product Manager', 'Delhi NCR'],
-                    ].map(([role, place]) => (
-                      <div key={role} className="flex items-center justify-between gap-2 bg-white rounded-lg px-2 py-1.5 border border-amber-100/80">
-                        <span className="font-semibold text-slate-700 truncate">{role}</span>
-                        <span className="text-amber-700 shrink-0">{place}</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      navigate('/jobs');
-                    }}
-                    className="md:w-40 shrink-0 text-center py-2 px-3 text-[11px] font-bold text-amber-700 hover:text-amber-800 bg-amber-50/70 hover:bg-amber-100/80 rounded-xl transition-colors cursor-pointer"
-                  >
-                    Browse PM Jobs →
-                  </button>
-                </div>
-
+                <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-[#047857]">
+                  Start practising <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+                </span>
               </div>
-            </div>
+            </button>
+
+            {/* Get noticed: Resume & LinkedIn */}
+            <button
+              type="button"
+              onClick={() => navigate('/tools')}
+              className="group flex flex-col text-left bg-white border border-slate-200/80 rounded-2xl p-6 cursor-pointer transition-all duration-200 hover:border-emerald-300 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_-12px_rgba(6,78,59,0.25)]"
+            >
+              <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#047857]">Get noticed</span>
+              <h3 className="mt-3 text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">Resume &amp; LinkedIn Optimiser</h3>
+              <p className="mt-3 text-sm text-slate-600 leading-relaxed">
+                AI audits of your resume and LinkedIn profile, with personalised suggestions to make you stand out to recruiters.
+              </p>
+              <div className="mt-auto pt-6">
+                <div className="rounded-xl bg-slate-50 border border-slate-100 divide-y divide-slate-100 text-sm">
+                  <div className="flex items-center gap-2.5 px-4 py-2.5 text-slate-700">
+                    <FileText className="w-4 h-4 text-[#047857]" /> Resume Auditor
+                  </div>
+                  <div className="flex items-center gap-2.5 px-4 py-2.5 text-slate-700">
+                    <UserIcon className="w-4 h-4 text-[#047857]" /> LinkedIn Optimiser
+                  </div>
+                </div>
+                <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-[#047857]">
+                  Audit my profile <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+                </span>
+              </div>
+            </button>
+
+            {/* Apply: PM Jobs Board */}
+            <button
+              type="button"
+              onClick={() => navigate('/jobs')}
+              className="group flex flex-col text-left bg-white border border-slate-200/80 rounded-2xl p-6 cursor-pointer transition-all duration-200 hover:border-emerald-300 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_-12px_rgba(6,78,59,0.25)]"
+            >
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#047857]">Apply</span>
+                <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-bold uppercase">New</span>
+              </div>
+              <h3 className="mt-3 text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">PM Jobs Board</h3>
+              <p className="mt-3 text-sm text-slate-600 leading-relaxed">
+                APM to CPO roles across India and remote, collected every morning from company job boards. Filter by level, city and experience.
+              </p>
+              <div className="mt-auto pt-6">
+                <div className="space-y-1.5 text-xs">
+                  {[
+                    ['Associate Product Manager', 'Bengaluru'],
+                    ['Product Manager', 'Remote'],
+                    ['Senior Product Manager', 'Delhi NCR'],
+                  ].map(([role, place]) => (
+                    <div key={role} className="flex items-center justify-between gap-2 bg-slate-50 rounded-lg px-3 py-2 border border-slate-100">
+                      <span className="font-semibold text-slate-800 truncate">{role}</span>
+                      <span className="text-slate-500 shrink-0">{place}</span>
+                    </div>
+                  ))}
+                </div>
+                <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-[#047857]">
+                  Browse PM jobs <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+                </span>
+              </div>
+            </button>
+
+            {/* Build: PM Toolkit (Resources) */}
+            <button
+              type="button"
+              onClick={() => navigate('/resources')}
+              className="group flex flex-col text-left bg-white border border-slate-200/80 rounded-2xl p-6 cursor-pointer transition-all duration-200 hover:border-emerald-300 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_-12px_rgba(6,78,59,0.25)]"
+            >
+              <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#047857]">Build</span>
+              <h3 className="mt-3 text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">PM Toolkit &amp; Resources</h3>
+              <p className="mt-3 text-sm text-slate-600 leading-relaxed">
+                Interview assignments, B-school casebooks, company interview questions and certifications, all in one place.
+              </p>
+              <div className="mt-auto pt-6">
+                <div className="divide-y divide-slate-100 text-sm text-slate-700 border-y border-slate-100">
+                  {[
+                    [FileText, 'Interview assignments'],
+                    [BookOpen, 'PM casebooks'],
+                    [Award, 'Certifications'],
+                  ].map(([Icon, label]) => {
+                    const I = Icon as typeof FileText;
+                    return (
+                      <div key={label as string} className="flex items-center gap-2.5 py-2.5">
+                        <I className="w-4 h-4 text-slate-500" /> {label as string}
+                      </div>
+                    );
+                  })}
+                </div>
+                <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-[#047857]">
+                  Explore resources <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+                </span>
+              </div>
+            </button>
+
+            {/* Grow together: Community */}
+            <a
+              href="https://chat.whatsapp.com/GhkzK8bDAUwLAKfLw7hfbW"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex flex-col text-left bg-[#FFF8E6] border border-amber-200/70 rounded-2xl p-6 transition-all duration-200 hover:border-amber-300 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_-12px_rgba(146,99,14,0.3)]"
+            >
+              <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#047857]">Grow together</span>
+              <h3 className="mt-3 text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">PM Community</h3>
+              <p className="mt-3 text-sm text-slate-600 leading-relaxed">
+                Join our WhatsApp community to ask questions and learn alongside other aspiring PMs.
+              </p>
+              <div className="mt-auto pt-6">
+                <span className="inline-flex items-center gap-1.5 text-sm font-bold text-[#047857]">
+                  Join the community <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+                </span>
+              </div>
+            </a>
 
           </div>
         </div>
@@ -1257,40 +1182,31 @@ export const LandingPage: React.FC = () => {
       </section>
 
       {/* FOOTER */}
-      <footer className="border-t border-slate-200 bg-white pt-16 pb-12">
+      <footer className="bg-[#0F1A16] text-slate-300 pt-16 pb-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-slate-100">
-            
-            {/* Col 1: Brand & Bio */}
-            <div className="md:col-span-4 space-y-4">
-              <div className="flex items-center gap-2.5">
-                <Logo className="w-8 h-8 shrink-0" />
-                <div>
-                  <span className="block font-black text-base text-slate-900 tracking-tight leading-none">The NooB PM</span>
-                  <span className="text-[7px] font-black text-emerald-600 uppercase tracking-wider block mt-0.5">ONE-STOP PM SOLUTION</span>
-                </div>
-              </div>
+          <div className="grid grid-cols-2 md:grid-cols-12 gap-x-8 gap-y-10 pb-12 border-b border-white/10">
 
-              <p className="text-xs text-slate-500 max-w-xs leading-relaxed">
+            {/* Brand & bio */}
+            <div className="col-span-2 md:col-span-4 space-y-4">
+              <span className="block font-extrabold text-xl text-white tracking-tight">The NooB PM</span>
+              <p className="text-sm text-slate-300 max-w-xs leading-relaxed">
                 Helping the next generation of Product Managers.
               </p>
-
-              {/* Social Icons */}
-              <div className="flex items-center gap-3 pt-2 text-slate-500">
-                <a 
-                  href="https://www.linkedin.com/company/the-noob-pm/?viewAsMember=true" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center hover:text-[#0A66C2] hover:border-[#0A66C2] transition-colors"
+              <div className="flex items-center gap-3 pt-1">
+                <a
+                  href="https://www.linkedin.com/company/the-noob-pm/?viewAsMember=true"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-9 h-9 rounded-full border border-white/15 flex items-center justify-center text-slate-300 hover:text-white hover:border-[#7EE2B0] transition-colors"
                   aria-label="LinkedIn"
                 >
                   <span className="font-bold text-xs">in</span>
                 </a>
-                <a 
-                  href="https://www.youtube.com/@THE_NOOB_PM" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center hover:text-red-600 hover:border-red-600 transition-colors"
+                <a
+                  href="https://www.youtube.com/@THE_NOOB_PM"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-9 h-9 rounded-full border border-white/15 flex items-center justify-center text-slate-300 hover:text-white hover:border-[#7EE2B0] transition-colors"
                   aria-label="YouTube"
                 >
                   <span className="font-bold text-xs">▶</span>
@@ -1298,75 +1214,68 @@ export const LandingPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Col 2: Product */}
-            <div className="md:col-span-2 space-y-3">
-              <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">Product</h4>
-              <ul className="space-y-2 text-xs text-slate-600">
-                <li><button onClick={() => navigate('/dashboard')} className="hover:text-emerald-700 transition-colors cursor-pointer">Learn</button></li>
-                <li><button onClick={() => navigate('/interview-studio')} className="hover:text-emerald-700 transition-colors cursor-pointer">AI Mock Interview</button></li>
-                <li><button onClick={() => navigate('/tools')} className="hover:text-emerald-700 transition-colors cursor-pointer">Resume Tools</button></li>
-                <li><button onClick={() => navigate('/jobs')} className="hover:text-emerald-700 transition-colors cursor-pointer">PM Jobs</button></li>
-                <li><button onClick={() => navigate('/resources')} className="hover:text-emerald-700 transition-colors cursor-pointer">Resources</button></li>
-                <li><a href="https://chat.whatsapp.com/GhkzK8bDAUwLAKfLw7hfbW" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-700 transition-colors">Community</a></li>
+            {/* Product */}
+            <div className="md:col-span-2 space-y-4">
+              <h4 className="text-xs font-bold text-white uppercase tracking-[0.12em]">Product</h4>
+              <ul className="space-y-2.5 text-sm">
+                <li><button onClick={() => navigate('/dashboard')} className="hover:text-[#7EE2B0] transition-colors cursor-pointer">Learn</button></li>
+                <li><button onClick={() => navigate('/interview-studio')} className="hover:text-[#7EE2B0] transition-colors cursor-pointer">AI Mock Interview</button></li>
+                <li><button onClick={() => navigate('/tools')} className="hover:text-[#7EE2B0] transition-colors cursor-pointer">Resume Tools</button></li>
+                <li><button onClick={() => navigate('/jobs')} className="hover:text-[#7EE2B0] transition-colors cursor-pointer">PM Jobs</button></li>
+                <li><button onClick={() => navigate('/resources')} className="hover:text-[#7EE2B0] transition-colors cursor-pointer">Resources</button></li>
+                <li><a href="https://chat.whatsapp.com/GhkzK8bDAUwLAKfLw7hfbW" target="_blank" rel="noopener noreferrer" className="hover:text-[#7EE2B0] transition-colors">Community</a></li>
               </ul>
             </div>
 
-            {/* Col 3: Company */}
-            <div className="md:col-span-2 space-y-3">
-              <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">Company</h4>
-              <ul className="space-y-2 text-xs text-slate-600">
-                <li><button onClick={() => navigate('/dashboard/about')} className="hover:text-emerald-700 transition-colors cursor-pointer">About</button></li>
-                <li><span className="text-slate-400">Blog</span></li>
-                <li><span className="text-slate-400">Careers</span></li>
-                <li><a href="mailto:contact@thenoobpm.com" className="hover:text-emerald-700 transition-colors">Contact</a></li>
+            {/* Company (legal links have no pages yet, so they stay as plain text) */}
+            <div className="md:col-span-2 space-y-4">
+              <h4 className="text-xs font-bold text-white uppercase tracking-[0.12em]">Company</h4>
+              <ul className="space-y-2.5 text-sm">
+                <li><button onClick={() => navigate('/dashboard/about')} className="hover:text-[#7EE2B0] transition-colors cursor-pointer">About</button></li>
+                <li><a href="mailto:contact@thenoobpm.com" className="hover:text-[#7EE2B0] transition-colors">Contact</a></li>
+                <li><span className="text-slate-500">Blog</span></li>
+                <li><span className="text-slate-500">Careers</span></li>
+                <li><span className="text-slate-500">Privacy Policy</span></li>
+                <li><span className="text-slate-500">Terms of Service</span></li>
               </ul>
             </div>
 
-            {/* Col 4: Legal */}
-            <div className="md:col-span-2 space-y-3">
-              <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">Legal</h4>
-              <ul className="space-y-2 text-xs text-slate-600">
-                <li><span className="text-slate-400">Privacy Policy</span></li>
-                <li><span className="text-slate-400">Terms of Service</span></li>
-              </ul>
-            </div>
-
-            {/* Col 5: Join our newsletter */}
-            <div className="md:col-span-2 space-y-3">
-              <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">Join our newsletter</h4>
-              <p className="text-xs text-slate-500">
+            {/* Newsletter */}
+            <div className="col-span-2 md:col-span-4 space-y-4">
+              <h4 className="text-xs font-bold text-white uppercase tracking-[0.12em]">Join our newsletter</h4>
+              <p className="text-sm text-slate-300 leading-relaxed">
                 Get the latest PM resources, case studies and updates.
               </p>
 
               {newsletterSubmitted ? (
-                <div className="p-2.5 rounded-xl bg-emerald-50 text-emerald-800 text-xs font-bold flex items-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                <div className="p-3 rounded-xl bg-[#7EE2B0]/10 text-[#7EE2B0] text-sm font-bold flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4" />
                   <span>Subscribed! Check your inbox.</span>
                 </div>
               ) : (
-                <form 
+                <form
                   onSubmit={(e) => {
                     e.preventDefault();
                     if (newsletterEmail.trim()) {
                       setNewsletterSubmitted(true);
                     }
                   }}
-                  className="flex items-center gap-1.5"
+                  className="flex items-center gap-2"
                 >
                   <input
                     type="email"
                     required
                     value={newsletterEmail}
                     onChange={(e) => setNewsletterEmail(e.target.value)}
-                    placeholder="Enter your email"
-                    className="w-full text-xs px-3 py-2 rounded-xl border border-slate-300 focus:outline-hidden focus:border-emerald-600 bg-slate-50"
+                    placeholder="you@email.com"
+                    aria-label="Email address"
+                    className="min-w-0 flex-1 text-sm px-4 py-3 rounded-xl border border-white/15 bg-white/[0.04] text-white placeholder:text-slate-500 focus:outline-hidden focus:border-[#7EE2B0]"
                   />
                   <button
                     type="submit"
-                    className="p-2 bg-[#064E3B] hover:bg-[#043C2C] text-white rounded-xl transition-colors cursor-pointer shrink-0"
-                    aria-label="Subscribe"
+                    className="px-5 py-3 bg-[#7EE2B0] hover:bg-[#9BEBC3] text-[#06382B] text-sm font-bold rounded-xl transition-colors cursor-pointer shrink-0"
                   >
-                    <ArrowRight className="w-4 h-4" />
+                    Subscribe
                   </button>
                 </form>
               )}
@@ -1374,13 +1283,13 @@ export const LandingPage: React.FC = () => {
 
           </div>
 
-          {/* Bottom Copyright & Made With Love */}
-          <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4">
+          <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-sm text-slate-400 gap-3">
             <p>© 2026 The NooB PM. All rights reserved.</p>
             <p>Made with ❤️ for aspiring PMs</p>
           </div>
         </div>
       </footer>
+
 
     </div>
   );
