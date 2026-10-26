@@ -8,3 +8,7 @@ export const isAiInterviewEnabled = env.DEV === true || env.VITE_AI_INTERVIEW_EN
 // To launch it, set VITE_AI_PM_COURSE_ENABLED=true in Vercel and redeploy. Written with full
 // `import.meta.env.X` paths so the build can drop the course code entirely when it is off.
 export const isAiPmCourseEnabled = import.meta.env.DEV || import.meta.env.VITE_AI_PM_COURSE_ENABLED === 'true';
+
+// The PM Assignment Solver is local-only for now, like the course above. To launch it, set
+// VITE_ASSIGNMENT_SOLVER_ENABLED=true in Vercel and redeploy.
+export const isAssignmentSolverEnabled = import.meta.env.DEV || import.meta.env.VITE_ASSIGNMENT_SOLVER_ENABLED === 'true';

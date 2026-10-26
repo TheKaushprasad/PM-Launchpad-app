@@ -9,6 +9,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { AuthModal } from './auth/AuthModal';
+import { isAssignmentSolverEnabled } from '../lib/featureFlags';
 
 export const ToolsHub: React.FC = () => {
   const navigate = useNavigate();
@@ -46,7 +47,23 @@ export const ToolsHub: React.FC = () => {
       ],
       action: "/tools/resume-auditor",
       cta: "Audit resume"
-    }
+    },
+    // Local-only until launched (lib/featureFlags.ts).
+    ...(isAssignmentSolverEnabled ? [{
+      title: "PM Assignment Solver",
+      badge: "Local preview",
+      badgeStyle: "bg-violet-50 text-violet-700",
+      description: "Five AI agents research, plan, draft and grade your take-home assignment. AI drafts, you decide.",
+      iconType: "assignment",
+      iconContainerStyle: "bg-violet-50 text-violet-700",
+      features: [
+        "Sourced company research",
+        "Critic score per section",
+        "Edit, regenerate, export"
+      ],
+      action: "/tools/assignment-solver",
+      cta: "Draft an assignment"
+    }] : [])
   ];
 
   const handleAction = (actionUrl: string) => {

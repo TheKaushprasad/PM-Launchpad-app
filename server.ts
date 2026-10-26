@@ -29,6 +29,7 @@ import { getProjectById } from "./data/realWorldProjects";
 import { AI_PM_LESSON_DATA } from "./data/aiPmCourse/lessons";
 import { AI_PM_DAYS } from "./data/aiPmCourse/plan";
 import { discoverJobBoards, getJobDetail, getJobsList, jobsStoreReady, refreshJobs } from "./server/jobs/store";
+import { registerAssignmentSolverRoutes } from "./server/assignmentSolver/routes";
 import { requireAiAccess, getVerifiedUser, consumeDailyQuota, clientIp } from "./server/security";
 import { getGeminiKey, getInterviewGeminiKey, hasSeparateInterviewGeminiKey } from "./server/geminiKeys";
 import { initObservability, traceInterviewRequests, traceStep, traceMeta, traceIO, noteGuardrail, geminiUsage, openAiUsage, recordClientEvent, cleanSessionId, cleanTraceId, isLangfuseConfigured } from "./server/observability";
@@ -1767,6 +1768,11 @@ ANSWERS>>>`;
       res.status(500).json({ error: error.message || "Failed to review your answers" });
     }
   });
+
+  // ==========================================
+  // PM Assignment Solver (local only): five agents draft a take-home assignment
+  // ==========================================
+  registerAssignmentSolverRoutes(app, requireAiAccess);
 
   // ==========================================
   // PM Jobs board

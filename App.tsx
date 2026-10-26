@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, Outlet, 
 import { SeoMeta } from './components/SeoMeta';
 import { Sidebar } from './components/Sidebar';
 import { LandingPage } from './components/LandingPage';
-import { isAiInterviewEnabled, isAiPmCourseEnabled } from './lib/featureFlags';
+import { isAiInterviewEnabled, isAiPmCourseEnabled, isAssignmentSolverEnabled } from './lib/featureFlags';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { Menu, X, AlertTriangle, Loader2 } from 'lucide-react';
 
@@ -56,6 +56,10 @@ const interviewStudio = isAiInterviewEnabled ? <InterviewHub /> : <InterviewComi
 // site sends /ai-pm to the dashboard (see lib/featureFlags.ts).
 const AiPmCourse = isAiPmCourseEnabled ? lazy(() => import('./components/aipm/AiPmCourse')) : null;
 const aiPmCourse = AiPmCourse ? <AiPmCourse /> : <Navigate to="/dashboard" replace />;
+
+// The PM Assignment Solver is local-only too; the live site sends its URL to the tools hub.
+const AssignmentSolver = isAssignmentSolverEnabled ? lazy(() => import('./components/assignmentSolver/AssignmentSolver')) : null;
+const assignmentSolver = AssignmentSolver ? <AssignmentSolver /> : <Navigate to="/tools" replace />;
 
 // Action Link Redirector to catch Firebase direct action queries (e.g. ?mode=verifyEmail&oobCode=...)
 const AuthActionRedirector = () => {
@@ -334,6 +338,7 @@ const App: React.FC = () => {
                     {/* Publicly accessible Career Tools */}
                     <Route path="linkedin-optimiser" element={<LinkedInOptimiser />} />
                     <Route path="resume-auditor" element={<ResumeAuditor />} />
+                    <Route path="assignment-solver" element={assignmentSolver} />
                     <Route path="interview-studio" element={interviewStudio} />
                     <Route path="practice" element={interviewStudio} />
                     <Route 
