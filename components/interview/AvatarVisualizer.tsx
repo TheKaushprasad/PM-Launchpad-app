@@ -72,7 +72,7 @@ export const AvatarVisualizer: React.FC<AvatarVisualizerProps> = ({
           <div>
             <div className="flex items-center gap-2">
               <span className="font-extrabold text-sm tracking-tight text-white">{persona.name}</span>
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/10 text-zinc-300 font-bold uppercase tracking-wider">
+              <span className="text-[11px] px-2 py-0.5 rounded-full bg-white/10 text-zinc-300 font-bold uppercase tracking-wider">
                 {persona.role}
               </span>
             </div>
@@ -204,17 +204,17 @@ export const AvatarVisualizer: React.FC<AvatarVisualizerProps> = ({
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
             {isSpeaking ? (
-              <span className="text-[10px] font-black uppercase tracking-wider text-brand-400 flex items-center gap-1.5">
+              <span className="text-[11px] font-black uppercase tracking-wider text-brand-400 flex items-center gap-1.5">
                 <Volume2 className="w-3 h-3 text-brand-400 animate-pulse" />
                 {persona.name}
               </span>
             ) : isListening ? (
-              <span className="text-[10px] font-black uppercase tracking-wider text-rose-400 flex items-center gap-1.5">
+              <span className="text-[11px] font-black uppercase tracking-wider text-rose-400 flex items-center gap-1.5">
                 <Mic className="w-3 h-3 animate-pulse" />
                 You
               </span>
             ) : (
-              <span className="text-[10px] font-black uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
+              <span className="text-[11px] font-black uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
                 <Volume2 className="w-3 h-3" />
                 {persona.name}
               </span>

@@ -14,7 +14,7 @@ export const Day28Content = () => {
     <div className="space-y-4 md:space-y-5 text-left">
       <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
         <div className="flex flex-col gap-1.5">
-          <span className="text-[10px] font-black uppercase tracking-widest text-orange-600">AI & Machine Learning</span>
+          <span className="text-[11px] font-black uppercase tracking-widest text-orange-600">AI & Machine Learning</span>
           <p className="text-sm font-bold text-orange-700">
             Cover AI for Everyone <a href="https://learn.deeplearning.ai/courses/ai-for-everyone/lesson/i76hs/machine-learning" target="_blank" rel="noopener noreferrer" className="underline decoration-orange-300">https://learn.deeplearning.ai/courses/ai-for-everyone/lesson/i76hs/machine-learning</a>
           </p>
@@ -32,19 +32,19 @@ export const Day28Content = () => {
            </h2>
            <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-xs space-y-6">
               <div>
-                 <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-2">Definition</h4>
+                 <h4 className="text-[11px] font-black uppercase tracking-widest text-zinc-400 mb-2">Definition</h4>
                  <p className="text-sm font-medium text-zinc-600 leading-relaxed">
                    The science and engineering of making intelligent machines, especially intelligent computer programs. The goal is to simulate human intelligence to perform tasks like problem-solving, decision-making, learning, and planning.
                  </p>
               </div>
               <div>
-                 <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-2">Scope</h4>
+                 <h4 className="text-[11px] font-black uppercase tracking-widest text-zinc-400 mb-2">Scope</h4>
                  <p className="text-sm font-medium text-zinc-600 leading-relaxed">
                    AI includes a vast array of techniques, both modern and old.
                  </p>
               </div>
               <div>
-                 <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-2">Examples of AI (Non-ML)</h4>
+                 <h4 className="text-[11px] font-black uppercase tracking-widest text-zinc-400 mb-2">Examples of AI (Non-ML)</h4>
                  <ul className="space-y-4 pt-2">
                     <li className="flex gap-4 items-start">
                        <div className="w-8 h-8 rounded-lg bg-zinc-50 flex items-center justify-center text-orange-600 shrink-0 shadow-xs">
@@ -52,7 +52,7 @@ export const Day28Content = () => {
                        </div>
                        <div>
                           <p className="text-xs font-black text-zinc-900">Rule-Based Systems (Expert Systems)</p>
-                          <p className="text-[10px] font-bold text-zinc-500">Early AI where human experts encoded knowledge into if/then rules (e.g., a simple diagnostic tool).</p>
+                          <p className="text-[11px] font-bold text-zinc-500">Early AI where human experts encoded knowledge into if/then rules (e.g., a simple diagnostic tool).</p>
                        </div>
                     </li>
                     <li className="flex gap-4 items-start">
@@ -61,7 +61,7 @@ export const Day28Content = () => {
                        </div>
                        <div>
                           <p className="text-xs font-black text-zinc-900">Search Algorithms</p>
-                          <p className="text-[10px] font-bold text-zinc-500">Algorithms used in older video games or route planners (A* search).</p>
+                          <p className="text-[11px] font-bold text-zinc-500">Algorithms used in older video games or route planners (A* search).</p>
                        </div>
                     </li>
                  </ul>
@@ -77,31 +77,31 @@ export const Day28Content = () => {
            <p className="text-sm font-bold text-zinc-500 italic">ML is a subset of AI and is the dominant way to achieve AI today.</p>
            <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-xs space-y-6">
               <div>
-                 <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-2">Definition</h4>
+                 <h4 className="text-[11px] font-black uppercase tracking-widest text-zinc-400 mb-2">Definition</h4>
                  <p className="text-sm font-medium text-zinc-600 leading-relaxed">
                    The practice of using algorithms to learn patterns from data and improve automatically, without being explicitly programmed for every scenario. Instead of writing rules, you feed the machine data and let it derive the rules.
                  </p>
               </div>
               <div>
-                 <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-2">Scope</h4>
+                 <h4 className="text-[11px] font-black uppercase tracking-widest text-zinc-400 mb-2">Scope</h4>
                  <p className="text-sm font-medium text-zinc-600 leading-relaxed">
                    ML encompasses all methods that rely on data to improve performance.
                  </p>
               </div>
               <div>
-                 <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-2">Key Techniques</h4>
+                 <h4 className="text-[11px] font-black uppercase tracking-widest text-zinc-400 mb-2">Key Techniques</h4>
                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                     <div className="p-4 bg-zinc-50 rounded-2xl border border-zinc-100">
-                       <p className="text-[10px] font-black text-orange-600 uppercase mb-1">Supervised Learning</p>
-                       <p className="text-[10px] font-bold text-zinc-500">Classification, Regression</p>
+                       <p className="text-[11px] font-black text-orange-600 uppercase mb-1">Supervised Learning</p>
+                       <p className="text-[11px] font-bold text-zinc-500">Classification, Regression</p>
                     </div>
                     <div className="p-4 bg-zinc-50 rounded-2xl border border-zinc-100">
-                       <p className="text-[10px] font-black text-orange-600 uppercase mb-1">Unsupervised Learning</p>
-                       <p className="text-[10px] font-bold text-zinc-500">Clustering, Dimensionality Reduction</p>
+                       <p className="text-[11px] font-black text-orange-600 uppercase mb-1">Unsupervised Learning</p>
+                       <p className="text-[11px] font-bold text-zinc-500">Clustering, Dimensionality Reduction</p>
                     </div>
                     <div className="p-4 bg-zinc-50 rounded-2xl border border-zinc-100 col-span-full">
-                       <p className="text-[10px] font-black text-orange-600 uppercase mb-1">Traditional Algorithms</p>
-                       <p className="text-[10px] font-bold text-zinc-500">Decision Trees, Support Vector Machines (SVMs), Random Forests, K-Means.</p>
+                       <p className="text-[11px] font-black text-orange-600 uppercase mb-1">Traditional Algorithms</p>
+                       <p className="text-[11px] font-bold text-zinc-500">Decision Trees, Support Vector Machines (SVMs), Random Forests, K-Means.</p>
                     </div>
                  </div>
               </div>
@@ -116,30 +116,30 @@ export const Day28Content = () => {
            <p className="text-sm font-bold text-zinc-500 italic">DL is a specialized subset of ML and is responsible for the recent breakthroughs in AI.</p>
            <div className="bg-white border border-zinc-100 p-4 sm:p-5 rounded-2xl shadow-xs space-y-6">
               <div>
-                 <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400 mb-2">Definition</h4>
+                 <h4 className="text-[11px] font-black uppercase tracking-widest text-zinc-400 mb-2">Definition</h4>
                  <p className="text-sm font-medium text-zinc-600 leading-relaxed">
                    A specific subfield of ML that uses Artificial Neural Networks with multiple processing layers (hence "deep") to learn complex patterns directly from large amounts of raw, unstructured data.
                  </p>
               </div>
               <div className="p-4 bg-zinc-900 text-white rounded-4xl space-y-3">
-                 <h4 className="text-[10px] font-black uppercase tracking-widest text-orange-400">Distinction from Traditional ML</h4>
+                 <h4 className="text-[11px] font-black uppercase tracking-widest text-orange-400">Distinction from Traditional ML</h4>
                  <p className="text-xs font-medium text-zinc-400 leading-relaxed">
                    Traditional ML often requires a human to manually perform feature engineering (telling the algorithm what to look for, like a car's size). Deep Learning models can automatically extract the relevant features (like edges, shapes, and textures in an image) through its deep layers.
                  </p>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
                  <div className="space-y-3">
-                    <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Key Techniques</h4>
+                    <h4 className="text-[11px] font-black uppercase tracking-widest text-zinc-400">Key Techniques</h4>
                     <div className="p-4 bg-zinc-50 border border-zinc-100 rounded-2xl">
                        <p className="text-xs font-black text-zinc-900">Deep Neural Networks</p>
-                       <p className="text-[10px] font-bold text-zinc-500 leading-relaxed">Including Convolutional Neural Networks (CNNs) for images and Recurrent Neural Networks (RNNs) and Transformers (used in LLMs) for sequence data like text.</p>
+                       <p className="text-[11px] font-bold text-zinc-500 leading-relaxed">Including Convolutional Neural Networks (CNNs) for images and Recurrent Neural Networks (RNNs) and Transformers (used in LLMs) for sequence data like text.</p>
                     </div>
                  </div>
                  <div className="space-y-3">
-                    <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Examples</h4>
+                    <h4 className="text-[11px] font-black uppercase tracking-widest text-zinc-400">Examples</h4>
                     <ul className="space-y-2">
                        {['Image recognition', 'Natural language processing (powering LLMs)', 'Autonomous driving'].map((ex, i) => (
-                          <li key={i} className="flex gap-2 items-center text-[10px] font-bold text-zinc-600">
+                          <li key={i} className="flex gap-2 items-center text-[11px] font-bold text-zinc-600">
                              <CheckCircle className="w-3 h-3 text-orange-500" /> {ex}
                           </li>
                        ))}
@@ -240,7 +240,7 @@ export const Day28Content = () => {
            {/* Supervised */}
            <div className="space-y-2.5">
               <div className="flex items-center gap-4">
-                 <div className="px-4 py-1.5 bg-indigo-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg">Supervised</div>
+                 <div className="px-4 py-1.5 bg-indigo-600 text-white rounded-xl text-[11px] font-black uppercase tracking-widest shadow-lg">Supervised</div>
                  <h3 className="text-xl font-black text-zinc-900">Labeled Learning</h3>
               </div>
               <p className="text-sm font-medium text-zinc-600 leading-relaxed">
@@ -249,7 +249,7 @@ export const Day28Content = () => {
               <div className="bg-white border border-zinc-100 rounded-4xl overflow-hidden shadow-xs">
                  <div className="bg-zinc-50 p-6 border-b border-zinc-100">
                     <p className="text-xs font-black text-zinc-900 uppercase tracking-widest mb-1">Example: Patient Diagnosis</p>
-                    <p className="text-[10px] font-bold text-zinc-400">Predict if a patient is healthy or sick based on gender and age.</p>
+                    <p className="text-[11px] font-bold text-zinc-400">Predict if a patient is healthy or sick based on gender and age.</p>
                  </div>
                  <div className="p-6">
                     <div className="overflow-x-auto">
@@ -287,7 +287,7 @@ export const Day28Content = () => {
            {/* Unsupervised */}
            <div className="space-y-2.5">
               <div className="flex items-center gap-4">
-                 <div className="px-4 py-1.5 bg-emerald-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg">Unsupervised</div>
+                 <div className="px-4 py-1.5 bg-emerald-600 text-white rounded-xl text-[11px] font-black uppercase tracking-widest shadow-lg">Unsupervised</div>
                  <h3 className="text-xl font-black text-zinc-900">Hidden Patterns</h3>
               </div>
               <p className="text-sm font-medium text-zinc-600 leading-relaxed">
@@ -298,7 +298,7 @@ export const Day28Content = () => {
                  <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-2 mb-2.5">
                     {['M,48', 'M,67', 'F,53', 'M,49', 'F,34', 'M,21'].map((row, i) => (
                        <div key={i} className="p-3 bg-zinc-50 rounded-xl border border-zinc-100 text-center">
-                          <p className="text-[10px] font-black text-zinc-400">{row.split(',')[0]}</p>
+                          <p className="text-[11px] font-black text-zinc-400">{row.split(',')[0]}</p>
                           <p className="text-xs font-black text-zinc-900">{row.split(',')[1]}</p>
                        </div>
                     ))}
@@ -312,7 +312,7 @@ export const Day28Content = () => {
            {/* Reinforcement */}
            <div className="space-y-2.5">
               <div className="flex items-center gap-4">
-                 <div className="px-4 py-1.5 bg-amber-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg">Reinforcement</div>
+                 <div className="px-4 py-1.5 bg-amber-600 text-white rounded-xl text-[11px] font-black uppercase tracking-widest shadow-lg">Reinforcement</div>
                  <h3 className="text-xl font-black text-zinc-900">Trial & Reward</h3>
               </div>
               <p className="text-sm font-medium text-zinc-600 leading-relaxed">
@@ -359,10 +359,6 @@ export const Day28Content = () => {
         </div>
       </section>
 
-      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-        <p></p>
-        <p></p>
-      </div>
     </div>
   );
 };

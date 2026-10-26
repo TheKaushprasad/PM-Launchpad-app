@@ -12,7 +12,7 @@ export const Day38Content = () => {
     <div className="space-y-4 md:space-y-5 text-left">
       <section className="bg-amber-50 p-4 sm:p-5 rounded-2xl border border-amber-100">
         <div className="flex flex-col gap-1.5">
-          <span className="text-[10px] font-black uppercase tracking-widest text-amber-600">Job ready</span>
+          <span className="text-[11px] font-black uppercase tracking-widest text-amber-600">Job ready</span>
           <p className="text-lg font-black text-amber-900 leading-relaxed italic">
             "A strong startup case study is proof of product thinking, not a presentation exercise. Hiring managers don’t care about fancy slides — they care whether you can identify real problems, make trade-offs, and think in metrics."
           </p>
@@ -77,7 +77,7 @@ export const Day38Content = () => {
               <p className="text-sm font-medium text-zinc-600">A common mistake is trying to analyze the entire product. Instead, pick ONE clear focus:</p>
               <div className="flex flex-wrap gap-2">
                 {['Onboarding experience', 'Activation & first value moment', 'Retention / engagement', 'Monetisation / pricing', 'A single core feature'].map((tag) => (
-                  <span key={tag} className="px-3 py-1.5 bg-zinc-100 border border-zinc-200 rounded-lg text-[10px] font-black uppercase text-zinc-500 tracking-wider">
+                  <span key={tag} className="px-3 py-1.5 bg-zinc-100 border border-zinc-200 rounded-lg text-[11px] font-black uppercase text-zinc-500 tracking-wider">
                     {tag}
                   </span>
                 ))}
@@ -97,7 +97,7 @@ export const Day38Content = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {['Target user', 'User goal', 'Startup’s business goal', 'How success is measured (assumed metrics)'].map((item, i) => (
                    <div key={i} className="p-4 bg-amber-50/50 border border-amber-100 rounded-2xl text-center">
-                     <p className="text-[10px] font-black text-amber-700 uppercase">{item}</p>
+                     <p className="text-[11px] font-black text-amber-700 uppercase">{item}</p>
                    </div>
                 ))}
               </div>
@@ -125,7 +125,7 @@ export const Day38Content = () => {
                     <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-amber-400">
                       <item.icon className="w-5 h-5" />
                     </div>
-                    <span className="text-[10px] font-black uppercase tracking-widest">{item.label}</span>
+                    <span className="text-[11px] font-black uppercase tracking-widest">{item.label}</span>
                   </div>
                 ))}
               </div>
@@ -177,15 +177,15 @@ export const Day38Content = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-3.5">
              <div className="p-4 sm:p-5 bg-zinc-50 border border-zinc-200 rounded-2xl space-y-3">
                 <h4 className="font-black text-zinc-900 text-sm">7. Propose a Solution</h4>
-                <p className="text-[10px] font-medium text-zinc-500">What will change, where it appears, and why it solves the root cause (with trade-offs).</p>
+                <p className="text-[11px] font-medium text-zinc-500">What will change, where it appears, and why it solves the root cause (with trade-offs).</p>
              </div>
              <div className="p-4 sm:p-5 bg-zinc-50 border border-zinc-200 rounded-2xl space-y-3">
                 <h4 className="font-black text-zinc-900 text-sm">8. Define Success Metrics</h4>
-                <p className="text-[10px] font-medium text-zinc-500">Primary, Secondary, and Guardrail metrics. Non-negotiable.</p>
+                <p className="text-[11px] font-medium text-zinc-500">Primary, Secondary, and Guardrail metrics. Non-negotiable.</p>
              </div>
              <div className="p-4 sm:p-5 bg-zinc-50 border border-zinc-200 rounded-2xl space-y-3">
                 <h4 className="font-black text-zinc-900 text-sm">9. Risks & Assumptions</h4>
-                <p className="text-[10px] font-medium text-zinc-500">Call out what could be wrong and what you'd validate next. Shows maturity.</p>
+                <p className="text-[11px] font-medium text-zinc-500">Call out what could be wrong and what you'd validate next. Shows maturity.</p>
              </div>
           </div>
         </div>
@@ -219,10 +219,10 @@ export const Day38Content = () => {
                     <p className="text-xs font-black uppercase text-zinc-400">Best places to find them:</p>
                     <div className="flex flex-wrap gap-2">
                        {['LinkedIn', 'Twitter / X', 'Company “About” pages', 'YC / AngelList'].map((tag) => (
-                          <span key={tag} className="px-3 py-1 bg-zinc-100 text-zinc-500 rounded-lg text-[10px] font-black">{tag}</span>
+                          <span key={tag} className="px-3 py-1 bg-zinc-100 text-zinc-500 rounded-lg text-[11px] font-black">{tag}</span>
                        ))}
                     </div>
-                    <p className="text-[10px] font-black text-indigo-600 italic">Rule: If the company has 20 PMs, your message won’t stand out.</p>
+                    <p className="text-[11px] font-black text-indigo-600 italic">Rule: If the company has 20 PMs, your message won’t stand out.</p>
                  </div>
               </div>
            </div>
@@ -259,7 +259,7 @@ export const Day38Content = () => {
               </h3>
               <div className="bg-zinc-950 text-white p-4 sm:p-5 rounded-2xl space-y-6 relative overflow-hidden">
                  <div className="absolute top-0 right-0 p-4 sm:p-5 opacity-10"><MessageSquare className="w-32 h-32 text-white" /></div>
-                 <p className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">LinkedIn / Email Message Template</p>
+                 <p className="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-500">LinkedIn / Email Message Template</p>
                  <div className="p-4 sm:p-5 bg-white/5 border border-white/10 rounded-2xl font-medium text-zinc-300 leading-relaxed text-sm">
                     Hi &lt;Name&gt;,<br/><br/>
                     I’ve been using &lt;Product Name&gt; and recently did a short product case study on it, focused on &lt;specific area: onboarding / activation / retention&gt;.<br/><br/>
@@ -271,7 +271,7 @@ export const Day38Content = () => {
                  </div>
                  <div className="flex gap-4">
                     {['Clear signal of effort', 'No pressure', 'Founder curiosity triggered'].map((point, i) => (
-                       <span key={i} className="text-[10px] font-black text-amber-400">✓ {point}</span>
+                       <span key={i} className="text-[11px] font-black text-amber-400">✓ {point}</span>
                     ))}
                  </div>
               </div>
@@ -281,15 +281,15 @@ export const Day38Content = () => {
            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-3.5">
               <div className="p-4 sm:p-5 bg-zinc-50 border border-zinc-200 rounded-2xl space-y-4">
                  <h4 className="font-black text-zinc-900 text-sm">5. Founder-Friendly</h4>
-                 <p className="text-[10px] font-medium text-zinc-500 leading-relaxed">Be 5–10 mins max. Start with a TL;DR. Highlight 1 core insight. Show trade-offs.</p>
+                 <p className="text-[11px] font-medium text-zinc-500 leading-relaxed">Be 5–10 mins max. Start with a TL;DR. Highlight 1 core insight. Show trade-offs.</p>
               </div>
               <div className="p-4 sm:p-5 bg-zinc-50 border border-zinc-200 rounded-2xl space-y-4">
                  <h4 className="font-black text-zinc-900 text-sm">6. If They Reply</h4>
-                 <p className="text-[10px] font-medium text-zinc-500 leading-relaxed">Be concise. Clarify thinking. Ask smart questions about constraints. Don't ask "Are you hiring?" yet.</p>
+                 <p className="text-[11px] font-medium text-zinc-500 leading-relaxed">Be concise. Clarify thinking. Ask smart questions about constraints. Don't ask "Are you hiring?" yet.</p>
               </div>
               <div className="p-4 sm:p-5 bg-zinc-50 border border-zinc-200 rounded-2xl space-y-4">
                  <h4 className="font-black text-zinc-900 text-sm">7. Turn Into Opportunity</h4>
-                 <p className="text-[10px] font-medium text-zinc-500 leading-relaxed">Say: "I really enjoyed understanding how you think. If you’re ever looking for someone who enjoys this kind of problem-solving..."</p>
+                 <p className="text-[11px] font-medium text-zinc-500 leading-relaxed">Say: "I really enjoyed understanding how you think. If you’re ever looking for someone who enjoys this kind of problem-solving..."</p>
               </div>
            </div>
         </div>
@@ -336,10 +336,6 @@ export const Day38Content = () => {
       ]}
       />
 
-      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-        <p></p>
-        <p></p>
-      </div>
     </div>
   );
 };

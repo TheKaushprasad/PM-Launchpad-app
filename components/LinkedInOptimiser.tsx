@@ -246,7 +246,7 @@ export const LinkedInOptimiser: React.FC = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="min-h-screen bg-[#FDFDFD] text-zinc-900 transition-all duration-300 px-4 sm:px-6 lg:px-8 py-5 sm:py-7"
+      className="min-h-dvh bg-[#FDFDFD] text-zinc-900 transition-all duration-300 px-4 sm:px-6 lg:px-8 py-5 sm:py-7"
     >
       <div className="w-full max-w-[1240px] mx-auto space-y-8">
         {/* Loading Overlay */}
@@ -261,7 +261,7 @@ export const LinkedInOptimiser: React.FC = () => {
               <div className="bg-white rounded-3xl p-10 max-w-md w-full text-center space-y-6 shadow-2xl border border-zinc-100">
                 <BenchAnimation />
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-zinc-400">
+                  <div className="flex items-center justify-between text-[11px] font-black uppercase tracking-widest text-zinc-400">
                     <span>{loadingPhase}</span>
                     <span>{progress}%</span>
                   </div>

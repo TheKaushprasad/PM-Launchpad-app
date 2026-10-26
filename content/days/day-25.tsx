@@ -15,7 +15,7 @@ export const Day25Content = () => {
     <div className="space-y-4 md:space-y-5 text-left">
       <section className="bg-pink-50 p-4 sm:p-5 rounded-2xl border border-pink-100">
         <div className="flex flex-col gap-1.5">
-          <span className="text-[10px] font-black uppercase tracking-widest text-pink-600">Design</span>
+          <span className="text-[11px] font-black uppercase tracking-widest text-pink-600">Design</span>
           <p className="text-lg font-black text-pink-900 leading-relaxed italic">
             "Essential UX & UI Concepts + Practical Usability"
           </p>
@@ -162,10 +162,6 @@ export const Day25Content = () => {
         </p>
       </section>
 
-      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-        <p></p>
-        <p></p>
-      </div>
     </div>
   );
 };

@@ -13,7 +13,7 @@ export const Day2Content = () => {
     <div className="space-y-4 md:space-y-5 text-left">
       <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
         <div className="flex flex-col gap-1.5">
-          <span className="text-[10px] font-black uppercase tracking-widest text-blue-600">Foundation</span>
+          <span className="text-[11px] font-black uppercase tracking-widest text-blue-600">Foundation</span>
           <p className="text-sm sm:text-base font-medium text-blue-900 leading-relaxed">
             Theme: How products move? Learn how products go from problem discovery → launch → continuous improvement.
           </p>
@@ -172,7 +172,7 @@ export const Day2Content = () => {
                       <p.icon className="w-6 h-6" />
                     </div>
                     <div>
-                      <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Phase {p.id}</p>
+                      <p className="text-[11px] font-black uppercase tracking-widest text-zinc-400">Phase {p.id}</p>
                       <h3 className="text-xl font-black text-zinc-900">{p.phase}</h3>
                     </div>
                   </div>
@@ -184,7 +184,7 @@ export const Day2Content = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
                   <div className="space-y-4">
-                    <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Activities</p>
+                    <p className="text-[11px] font-black uppercase tracking-widest text-zinc-400">Activities</p>
                     <ul className="space-y-2">
                       {p.activities.map((a, i) => (
                         <li key={i} className="text-sm font-bold text-zinc-700 flex items-center gap-2">
@@ -195,7 +195,7 @@ export const Day2Content = () => {
                     </ul>
                   </div>
                   <div className="space-y-4">
-                    <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Key Outputs</p>
+                    <p className="text-[11px] font-black uppercase tracking-widest text-zinc-400">Key Outputs</p>
                     <div className="flex flex-wrap gap-2">
                       {p.outputs.map((o, i) => (
                         <span key={i} className="px-3 py-1.5 bg-white border border-zinc-200 rounded-xl text-xs font-black text-zinc-500 shadow-xs">{o}</span>
@@ -207,7 +207,7 @@ export const Day2Content = () => {
                 <div className="pt-6 border-t border-zinc-100">
                   <div className="flex items-center gap-2 mb-2">
                     <Briefcase className="w-4 h-4 text-zinc-400" />
-                    <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Industry Case</p>
+                    <p className="text-[11px] font-black uppercase tracking-widest text-zinc-400">Industry Case</p>
                   </div>
                   <p className="text-sm font-bold text-indigo-900">{p.case}</p>
                 </div>
@@ -296,10 +296,6 @@ export const Day2Content = () => {
         </div>
       </section>
 
-      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-        <p></p>
-        <p></p>
-      </div>
     </div>
   );
 };

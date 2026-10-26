@@ -24,7 +24,7 @@ export const FullLoopSetupModal: React.FC<FullLoopSetupModalProps> = ({ isOpen, 
         showCloseButton={false}
         overlayClassName="bg-zinc-950/80 backdrop-blur-md"
         aria-describedby={undefined}
-        className="block gap-0 p-0 bg-white rounded-3xl border-zinc-200 shadow-2xl w-[calc(100%-2rem)] max-w-lg sm:max-w-lg max-h-[90vh] overflow-y-auto text-zinc-900"
+        className="block gap-0 p-0 bg-white rounded-3xl border-zinc-200 shadow-2xl w-[calc(100%-2rem)] max-w-lg sm:max-w-lg max-h-[90dvh] overflow-y-auto text-zinc-900"
       >
         <div className="px-6 py-4 border-b border-zinc-100 flex items-center justify-between bg-zinc-50/80">
           <div className="flex items-center gap-2">

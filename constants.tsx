@@ -236,7 +236,7 @@ export const LESSONS: Lesson[] = [
               "How is that empathy reflected in the current app experience?"
             ].map((q, i) => (
               <div key={i} className="flex gap-3 items-start bg-white/50 p-3 rounded-xl border border-brand-50">
-                <span className="w-6 h-6 rounded-full bg-brand-600 flex items-center justify-center text-[10px] font-black text-white shrink-0 mt-0.5">{i+1}</span>
+                <span className="w-6 h-6 rounded-full bg-brand-600 flex items-center justify-center text-[11px] font-black text-white shrink-0 mt-0.5">{i+1}</span>
                 <p className="text-sm font-bold text-zinc-700">{q}</p>
               </div>
             ))}
@@ -352,7 +352,7 @@ export const LESSONS: Lesson[] = [
       <div className="space-y-6">
         <div className="space-y-2">
           <p className="font-bold">Assignment: Day-8: User Insights Report</p>
-          <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">1-Page Deliverable</p>
+          <p className="text-[11px] font-black uppercase tracking-widest text-zinc-400">1-Page Deliverable</p>
         </div>
         
         <div className="space-y-4">
@@ -389,7 +389,7 @@ export const LESSONS: Lesson[] = [
       <div className="space-y-6">
         <div className="space-y-2">
           <p className="font-bold">Assignment: Day-9: Persona & JTBD Deck</p>
-          <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Final Deliverables</p>
+          <p className="text-[11px] font-black uppercase tracking-widest text-zinc-400">Final Deliverables</p>
         </div>
         
         <div className="space-y-4">
@@ -426,7 +426,7 @@ export const LESSONS: Lesson[] = [
       <div className="space-y-6">
         <div className="space-y-2">
           <p className="font-bold">Assignment: Competitive Report</p>
-          <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Final Deliverables (2–3 slides)</p>
+          <p className="text-[11px] font-black uppercase tracking-widest text-zinc-400">Final Deliverables (2–3 slides)</p>
         </div>
         
         <div className="space-y-4">
@@ -459,7 +459,7 @@ export const LESSONS: Lesson[] = [
       <div className="space-y-6">
         <div className="space-y-2">
           <p className="font-bold">Assignment: Market Opportunity Slide</p>
-          <p className="text-[10px] font-black uppercase tracking-widest text-zinc-400">For PRD or Pitch Deck</p>
+          <p className="text-[11px] font-black uppercase tracking-widest text-zinc-400">For PRD or Pitch Deck</p>
         </div>
         
         <div className="space-y-4">

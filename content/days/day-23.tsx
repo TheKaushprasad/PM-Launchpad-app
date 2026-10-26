@@ -13,7 +13,7 @@ export const Day23Content = () => {
     <div className="space-y-4 md:space-y-5 text-left">
       <section className="bg-cyan-50 p-4 sm:p-5 rounded-2xl border border-cyan-100">
         <div className="flex flex-col gap-1.5">
-          <span className="text-[10px] font-black uppercase tracking-widest text-cyan-600">Tech</span>
+          <span className="text-[11px] font-black uppercase tracking-widest text-cyan-600">Tech</span>
           <p className="text-lg font-black text-cyan-900 leading-relaxed italic">
             "APIs (Application Programming Interfaces) are how software systems communicate — they’re the building blocks of integrations, automation, and extensible products."
           </p>
@@ -132,10 +132,6 @@ export const Day23Content = () => {
         </p>
       </section>
 
-      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-        <p></p>
-        <p></p>
-      </div>
     </div>
   );
 };

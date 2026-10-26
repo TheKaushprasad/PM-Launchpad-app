@@ -11,7 +11,7 @@ export const Day30Content = () => {
     <div className="space-y-4 md:space-y-5 text-left">
       <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
         <div className="flex flex-col gap-1.5">
-          <span className="text-[10px] font-black uppercase tracking-widest text-orange-600">Today’s Goal</span>
+          <span className="text-[11px] font-black uppercase tracking-widest text-orange-600">Today’s Goal</span>
           <p className="text-lg font-black text-orange-900 leading-relaxed">
             Learn how to write effective prompts so that large language models (LLMs) return useful, reliable, and actionable outputs — a must-have skill for product managers working with AI-enabled workflows, prototypes, and documentation.
           </p>
@@ -76,7 +76,7 @@ export const Day30Content = () => {
           </div>
 
           <div className="space-y-4">
-            <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400">For PMs, prompt engineering accelerates:</h4>
+            <h4 className="text-[11px] font-black uppercase tracking-widest text-zinc-400">For PMs, prompt engineering accelerates:</h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {[
                 { title: "Ideation", icon: Lightbulb },
@@ -118,10 +118,6 @@ export const Day30Content = () => {
       ]}
       />
 
-      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-        <p></p>
-        <p></p>
-      </div>
     </div>
   );
 };

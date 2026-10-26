@@ -13,7 +13,7 @@ export const Day39Content = () => {
     <div className="space-y-4 md:space-y-5 text-left">
       <section className="bg-amber-50 p-4 sm:p-5 rounded-2xl border border-amber-100">
         <div className="flex flex-col gap-1.5">
-          <span className="text-[10px] font-black uppercase tracking-widest text-amber-600">Job ready</span>
+          <span className="text-[11px] font-black uppercase tracking-widest text-amber-600">Job ready</span>
           <h2 className="text-xl font-black text-amber-900">Portfolio Structure & Essential Sections</h2>
           <p className="text-sm font-medium text-amber-800 leading-relaxed italic">
             "Your portfolio is the ultimate proof of work. It translates your theoretical knowledge into tangible artifacts that prove you can think, execute, and deliver results like a PM."
@@ -125,7 +125,7 @@ export const Day39Content = () => {
                <Link className="w-4 h-4" />
              </div>
              <div>
-                <p className="text-[10px] font-black uppercase text-zinc-400">LinkedIn</p>
+                <p className="text-[11px] font-black uppercase text-zinc-400">LinkedIn</p>
                 <p className="text-xs font-bold text-zinc-700">Networking & History</p>
              </div>
           </div>
@@ -134,7 +134,7 @@ export const Day39Content = () => {
                <Mail className="w-4 h-4" />
              </div>
              <div>
-                <p className="text-[10px] font-black uppercase text-zinc-400">Email</p>
+                <p className="text-[11px] font-black uppercase text-zinc-400">Email</p>
                 <p className="text-xs font-bold text-zinc-700">Opportunities</p>
              </div>
           </div>
@@ -143,7 +143,7 @@ export const Day39Content = () => {
                <Phone className="w-4 h-4" />
              </div>
              <div>
-                <p className="text-[10px] font-black uppercase text-zinc-400">Phone</p>
+                <p className="text-[11px] font-black uppercase text-zinc-400">Phone</p>
                 <p className="text-xs font-bold text-zinc-700">Urgent Follow-ups</p>
              </div>
           </div>
@@ -172,10 +172,6 @@ export const Day39Content = () => {
       ]}
       />
 
-      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-        <p></p>
-        <p></p>
-      </div>
     </div>
   );
 };

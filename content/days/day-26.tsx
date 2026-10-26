@@ -15,7 +15,7 @@ export const Day26Content = () => {
     <div className="space-y-4 md:space-y-5 text-left">
       <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
         <div className="flex flex-col gap-1.5">
-          <span className="text-[10px] font-black uppercase tracking-widest text-indigo-600">Strategy & Execution</span>
+          <span className="text-[11px] font-black uppercase tracking-widest text-indigo-600">Strategy & Execution</span>
           <p className="text-lg font-black text-indigo-900 leading-relaxed italic">
             "Build a solid understanding of Agile principles, Scrum practices, and prioritization frameworks used in real product delivery."
           </p>
@@ -93,8 +93,8 @@ export const Day26Content = () => {
            ].map((event, i) => (
              <div key={i} className="p-4 bg-zinc-50 border border-zinc-200 rounded-2xl text-center space-y-2">
                 <event.icon className="w-5 h-5 text-indigo-600 mx-auto" />
-                <h5 className="font-black text-zinc-900 text-[10px] uppercase tracking-widest">{event.title}</h5>
-                <p className="text-[9px] font-bold text-zinc-400 leading-tight">{event.desc}</p>
+                <h5 className="font-black text-zinc-900 text-[11px] uppercase tracking-widest">{event.title}</h5>
+                <p className="text-[11px] font-bold text-zinc-400 leading-tight">{event.desc}</p>
              </div>
            ))}
         </div>
@@ -121,7 +121,7 @@ export const Day26Content = () => {
               </div>
               <div className="p-4 bg-emerald-50 border border-emerald-100 rounded-2xl">
                  <h4 className="font-black text-emerald-900 text-xs uppercase mb-3 tracking-widest">INVEST Principle</h4>
-                 <p className="text-[10px] font-bold text-emerald-700 leading-relaxed">
+                 <p className="text-[11px] font-bold text-emerald-700 leading-relaxed">
                    Independent, Negotiable, Valuable, Estimable, Small, Testable.
                  </p>
               </div>
@@ -166,10 +166,6 @@ export const Day26Content = () => {
         </p>
       </section>
 
-      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-        <p></p>
-        <p></p>
-      </div>
     </div>
   );
 };

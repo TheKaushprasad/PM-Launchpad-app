@@ -14,7 +14,7 @@ export const Day9Content = () => {
     <div className="space-y-4 md:space-y-5 text-left">
       <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
         <div className="flex flex-col gap-1.5">
-          <span className="text-[10px] font-black uppercase tracking-widest text-purple-600">Research</span>
+          <span className="text-[11px] font-black uppercase tracking-widest text-purple-600">Research</span>
           <p className="text-sm sm:text-base font-medium text-blue-900 leading-relaxed italic">
             “Great products start with deep understanding — of users, their needs, and the market around them.”
           </p>
@@ -108,7 +108,7 @@ export const Day9Content = () => {
                  {step.id}
                </div>
                <h4 className="font-black text-zinc-900 text-sm">{step.title}</h4>
-               <p className="text-[10px] font-bold text-zinc-400 leading-tight">{step.desc}</p>
+               <p className="text-[11px] font-bold text-zinc-400 leading-tight">{step.desc}</p>
             </div>
           ))}
         </div>
@@ -126,19 +126,19 @@ export const Day9Content = () => {
              <p className="text-sm font-bold text-zinc-500 mb-3">Map out what users: Says, Does, Thinks, and Feels.</p>
              <div className="grid grid-cols-2 gap-4">
                 <div className="p-4 bg-white rounded-2xl border border-zinc-100 text-center shadow-xs">
-                   <span className="text-[10px] font-black uppercase text-indigo-500 mb-2 block">SAYS</span>
+                   <span className="text-[11px] font-black uppercase text-indigo-500 mb-2 block">SAYS</span>
                    <p className="text-xs font-medium text-zinc-400">Verbal expressions</p>
                 </div>
                 <div className="p-4 bg-white rounded-2xl border border-zinc-100 text-center shadow-xs">
-                   <span className="text-[10px] font-black uppercase text-rose-500 mb-2 block">DOES</span>
+                   <span className="text-[11px] font-black uppercase text-rose-500 mb-2 block">DOES</span>
                    <p className="text-xs font-medium text-zinc-400">Behaviors observed</p>
                 </div>
                 <div className="p-4 bg-white rounded-2xl border border-zinc-100 text-center shadow-xs">
-                   <span className="text-[10px] font-black uppercase text-emerald-500 mb-2 block">THINKS</span>
+                   <span className="text-[11px] font-black uppercase text-emerald-500 mb-2 block">THINKS</span>
                    <p className="text-xs font-medium text-zinc-400">Internal thoughts</p>
                 </div>
                 <div className="p-4 bg-white rounded-2xl border border-zinc-100 text-center shadow-xs">
-                   <span className="text-[10px] font-black uppercase text-amber-500 mb-2 block">FEELS</span>
+                   <span className="text-[11px] font-black uppercase text-amber-500 mb-2 block">FEELS</span>
                    <p className="text-xs font-medium text-zinc-400">Emotional state</p>
                 </div>
              </div>
@@ -177,7 +177,7 @@ export const Day9Content = () => {
                 ].map((item, i) => (
                   <div key={i} className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-xs space-y-2">
                      <h4 className="font-black text-zinc-900">{item.title}</h4>
-                     <p className="text-[10px] font-bold text-zinc-500 leading-relaxed">{item.desc}</p>
+                     <p className="text-[11px] font-bold text-zinc-500 leading-relaxed">{item.desc}</p>
                   </div>
                 ))}
              </div>
@@ -224,7 +224,7 @@ export const Day9Content = () => {
                 { label: "Outcome", text: "1-Tap Reordering feature launched → Orders ↑ 22%", color: "text-amber-500" }
               ].map((item, i) => (
                 <div key={i} className="space-y-2">
-                   <p className={`text-[10px] font-black uppercase tracking-widest ${item.color}`}>{item.label}</p>
+                   <p className={`text-[11px] font-black uppercase tracking-widest ${item.color}`}>{item.label}</p>
                    <p className="text-sm font-bold text-zinc-900 leading-tight">{item.text}</p>
                 </div>
               ))}
@@ -254,10 +254,6 @@ export const Day9Content = () => {
       ]}
       />
 
-      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-        <p></p>
-        <p></p>
-      </div>
     </div>
   );
 };

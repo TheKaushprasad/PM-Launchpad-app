@@ -94,7 +94,7 @@ export const SaveDetailsModal: React.FC = () => {
 
             {/* Title & Message */}
             <div className="space-y-2">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-800 text-[10px] font-black uppercase tracking-wider border border-amber-200/80">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-800 text-[11px] font-black uppercase tracking-wider border border-amber-200/80">
                 <span>Guest Mode</span>
               </div>
               <DialogTitle className="text-xl sm:text-2xl font-black text-zinc-900 tracking-tight leading-snug">

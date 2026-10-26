@@ -13,7 +13,7 @@ export const Day11Content = () => {
     <div className="space-y-4 md:space-y-5 text-left">
       <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
         <div className="flex flex-col gap-1.5">
-          <span className="text-[10px] font-black uppercase tracking-widest text-purple-600">Research</span>
+          <span className="text-[11px] font-black uppercase tracking-widest text-purple-600">Research</span>
           <p className="text-sm sm:text-base font-medium text-blue-900 leading-relaxed italic">
             “You don’t design for everyone — you design for someone.”
           </p>
@@ -124,13 +124,13 @@ export const Day11Content = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
                  <div className="space-y-2.5">
                     <div>
-                       <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-2">Bio</h4>
+                       <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-2">Bio</h4>
                        <p className="text-sm font-medium text-zinc-600 leading-relaxed">
                          Works long hours; highly motivated to stay fit but misses consistency due to exhaustion.
                        </p>
                     </div>
                     <div>
-                       <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-2">Goals</h4>
+                       <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-2">Goals</h4>
                        <p className="text-sm font-medium text-zinc-600 leading-relaxed">
                          Build a long-term habit and see measurable physical results.
                        </p>
@@ -138,13 +138,13 @@ export const Day11Content = () => {
                  </div>
                  <div className="space-y-2.5">
                     <div>
-                       <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-2">Frustrations</h4>
+                       <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-2">Frustrations</h4>
                        <p className="text-sm font-medium text-zinc-600 leading-relaxed">
                          Lack of personalized accountability; generalized tools don't adapt to his schedule.
                        </p>
                     </div>
                     <div>
-                       <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-2">Tech Comfort</h4>
+                       <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-2">Tech Comfort</h4>
                        <p className="text-sm font-medium text-zinc-600 leading-relaxed">
                          High. Owns a Garmin smartwatch and uses multiple trackers.
                        </p>
@@ -250,8 +250,8 @@ export const Day11Content = () => {
               “You are a Product Manager summarizing 10 interview transcripts about study habits. Group user patterns into 2-3 personas and write JTBD statements for each.”
             </p>
             <div className="flex gap-3 pt-2">
-              <span className="px-2 py-1 bg-white/10 rounded-sm text-[10px] font-bold text-zinc-400">ChatGPT</span>
-              <span className="px-2 py-1 bg-white/10 rounded-sm text-[10px] font-bold text-zinc-400">Notion AI</span>
+              <span className="px-2 py-1 bg-white/10 rounded-sm text-[11px] font-bold text-zinc-400">ChatGPT</span>
+              <span className="px-2 py-1 bg-white/10 rounded-sm text-[11px] font-bold text-zinc-400">Notion AI</span>
             </div>
           </div>
         </div>
@@ -273,10 +273,6 @@ export const Day11Content = () => {
         </div>
       </section>
 
-      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-        <p></p>
-        <p></p>
-      </div>
     </div>
   );
 };

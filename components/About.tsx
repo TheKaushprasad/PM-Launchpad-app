@@ -47,12 +47,12 @@ export const About: React.FC = () => {
             <div className="hidden lg:grid grid-cols-2 gap-4 shrink-0">
                 <div className="bg-white/20 border border-white/30 p-8 rounded-3xl backdrop-blur-xs">
                     <Clock className="w-10 h-10 text-zinc-900 mb-4" />
-                    <p className="text-zinc-800 text-[10px] font-black uppercase tracking-wider mb-1">Commitment</p>
+                    <p className="text-zinc-800 text-[11px] font-black uppercase tracking-wider mb-1">Commitment</p>
                     <p className="text-xl font-black leading-tight">1-3 Hours / Day</p>
                 </div>
                 <div className="bg-white/20 border border-white/30 p-8 rounded-3xl mt-12 backdrop-blur-xs">
                     <Briefcase className="w-10 h-10 text-zinc-900 mb-4" />
-                    <p className="text-zinc-800 text-[10px] font-black uppercase tracking-wider mb-1">Roles</p>
+                    <p className="text-zinc-800 text-[11px] font-black uppercase tracking-wider mb-1">Roles</p>
                     <p className="text-xl font-black leading-tight">Product and adjacent</p>
                 </div>
             </div>

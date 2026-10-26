@@ -13,7 +13,7 @@ export const Day27Content = () => {
     <div className="space-y-4 md:space-y-5 text-left">
       <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
         <div className="flex flex-col gap-1.5">
-          <span className="text-[10px] font-black uppercase tracking-widest text-indigo-600">Strategy</span>
+          <span className="text-[11px] font-black uppercase tracking-widest text-indigo-600">Strategy</span>
           <p className="text-lg font-black text-indigo-900 leading-relaxed italic">
             "The cloud isn't just 'someone else's computer'—it's a paradigm shift."
           </p>
@@ -74,7 +74,7 @@ export const Day27Content = () => {
                 <h4 className="font-black text-zinc-900 text-sm mb-1">{model.title}</h4>
                 <p className="text-xs font-medium text-zinc-500 leading-relaxed">{model.desc}</p>
                 <div className="pt-2">
-                   <p className="text-[10px] font-black uppercase text-zinc-400 mb-1">Examples</p>
+                   <p className="text-[11px] font-black uppercase text-zinc-400 mb-1">Examples</p>
                    <p className="text-xs font-black text-indigo-600">{model.example}</p>
                 </div>
              </div>
@@ -93,21 +93,21 @@ export const Day27Content = () => {
               <p className="text-xs font-medium text-zinc-500 leading-relaxed">
                 Pioneered modern cloud computing and remains the market leader. Offers the broadest portfolio—over 200 services. Maturity means extensive documentation and proven reliability.
               </p>
-              <p className="text-[10px] font-black text-indigo-600 uppercase tracking-widest">Strength: Breadth & Maturity</p>
+              <p className="text-[11px] font-black text-indigo-600 uppercase tracking-widest">Strength: Breadth & Maturity</p>
            </div>
            <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4 hover:border-indigo-200 transition-colors group">
               <h4 className="font-black text-zinc-900">Microsoft Azure</h4>
               <p className="text-xs font-medium text-zinc-500 leading-relaxed">
                 Excels in hybrid cloud scenarios and enterprise integration. tight Office 365 and Active Directory integration makes it popular for large company migrations.
               </p>
-              <p className="text-[10px] font-black text-indigo-600 uppercase tracking-widest">Strength: Enterprise Ecosystem</p>
+              <p className="text-[11px] font-black text-indigo-600 uppercase tracking-widest">Strength: Enterprise Ecosystem</p>
            </div>
            <div className="p-4 sm:p-5 bg-white border border-zinc-100 rounded-2xl shadow-xs space-y-4 hover:border-indigo-200 transition-colors group">
               <h4 className="font-black text-zinc-900">Google Cloud (GCP)</h4>
               <p className="text-xs font-medium text-zinc-500 leading-relaxed">
                 Leads in data analytics, machine learning, and Kubernetes. BigQuery offers unmatched performance. TensorFlow and other AI tools integrate seamlessly.
               </p>
-              <p className="text-[10px] font-black text-indigo-600 uppercase tracking-widest">Strength: Data & AI</p>
+              <p className="text-[11px] font-black text-indigo-600 uppercase tracking-widest">Strength: Data & AI</p>
            </div>
         </div>
       </section>
@@ -177,8 +177,8 @@ export const Day27Content = () => {
                 <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-indigo-600 shadow-xs">
                    <item.icon className="w-4 h-4" />
                 </div>
-                <h5 className="font-black text-zinc-900 text-[10px] uppercase tracking-widest">{item.name}</h5>
-                <p className="text-[10px] font-bold text-zinc-500 leading-tight">{item.desc}</p>
+                <h5 className="font-black text-zinc-900 text-[11px] uppercase tracking-widest">{item.name}</h5>
+                <p className="text-[11px] font-bold text-zinc-500 leading-tight">{item.desc}</p>
              </div>
            ))}
         </div>
@@ -266,10 +266,6 @@ export const Day27Content = () => {
         </div>
       </section>
 
-      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-        <p></p>
-        <p></p>
-      </div>
     </div>
   );
 };

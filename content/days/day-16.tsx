@@ -13,7 +13,7 @@ export const Day16Content = () => {
     <div className="space-y-4 md:space-y-5 text-left">
       <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
         <div className="flex flex-col gap-1.5">
-          <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600">Data</span>
+          <span className="text-[11px] font-black uppercase tracking-widest text-emerald-600">Data</span>
           <p className="text-sm sm:text-base font-medium text-blue-900 leading-relaxed italic">
             "Master SQL functions to transform raw data into actionable insights."
           </p>
@@ -88,8 +88,8 @@ export const Day16Content = () => {
                 <h4 className="font-black text-zinc-900">{item.title}</h4>
                 <p className="text-xs font-bold text-zinc-500 leading-relaxed">{item.desc}</p>
                 <div className="pt-2">
-                   <p className="text-[10px] font-black uppercase text-zinc-400 mb-1">SQL snippet</p>
-                   <code className="text-[10px] font-black text-indigo-600 bg-zinc-50 px-2 py-1 rounded-sm border border-zinc-100 block truncate">{item.example}</code>
+                   <p className="text-[11px] font-black uppercase text-zinc-400 mb-1">SQL snippet</p>
+                   <code className="text-[11px] font-black text-indigo-600 bg-zinc-50 px-2 py-1 rounded-sm border border-zinc-100 block truncate">{item.example}</code>
                 </div>
              </div>
            ))}
@@ -177,7 +177,7 @@ JOIN logins l ON u.user_id = l.user_id;`}
            </div>
 
            <div className="pt-4 border-t border-white/10">
-              <p className="text-[10px] font-black uppercase text-zinc-500 mb-2">Why this works</p>
+              <p className="text-[11px] font-black uppercase text-zinc-500 mb-2">Why this works</p>
               <p className="text-sm font-medium text-zinc-400 leading-relaxed">
                 We use <code className="text-indigo-400">EXCEPT</code> to find the difference between "all users" and "users with login records". <code className="text-indigo-400">UPPER</code> and <code className="text-indigo-400">TRIM</code> ensure the marketing tool gets clean, consistent data.
               </p>
@@ -217,10 +217,6 @@ JOIN logins l ON u.user_id = l.user_id;`}
       ]}
       />
 
-      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-        <p></p>
-        <p></p>
-      </div>
     </div>
   );
 };

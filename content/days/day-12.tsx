@@ -16,7 +16,7 @@ export const Day12Content = () => {
     <div className="space-y-4 md:space-y-5 text-left">
       <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
         <div className="flex flex-col gap-1.5">
-          <span className="text-[10px] font-black uppercase tracking-widest text-purple-600">Research</span>
+          <span className="text-[11px] font-black uppercase tracking-widest text-purple-600">Research</span>
           <p className="text-sm sm:text-base font-medium text-blue-900 leading-relaxed italic">
             “You can’t build a better product until you understand what already exists.”
           </p>
@@ -86,7 +86,7 @@ export const Day12Content = () => {
                 <h4 className="font-black text-zinc-900">{item.title}</h4>
                 <p className="text-xs font-bold text-zinc-500 leading-relaxed">{item.desc}</p>
                 <div className="pt-2">
-                   <p className="text-[10px] font-black uppercase text-zinc-400 mb-1">Example</p>
+                   <p className="text-[11px] font-black uppercase text-zinc-400 mb-1">Example</p>
                    <p className="text-xs font-black text-zinc-700">{item.example}</p>
                 </div>
              </div>
@@ -163,10 +163,6 @@ export const Day12Content = () => {
         </div>
       </section>
 
-      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-        <p></p>
-        <p></p>
-      </div>
     </div>
   );
 };

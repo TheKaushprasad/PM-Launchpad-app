@@ -292,11 +292,11 @@ export const HomeAuthSection: React.FC = () => {
                   {user.displayName || 'PM Aspiring Talent'}
                 </h3>
                 {isEmailVerified ? (
-                  <span className="text-[10px] font-black uppercase tracking-wider bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full border border-emerald-200 flex items-center gap-1">
+                  <span className="text-[11px] font-black uppercase tracking-wider bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full border border-emerald-200 flex items-center gap-1">
                     <ShieldCheck className="w-3 h-3" /> Active
                   </span>
                 ) : (
-                  <span className="text-[10px] font-black uppercase tracking-wider bg-amber-50 text-amber-700 px-2 py-0.5 rounded-full border border-amber-200 flex items-center gap-1">
+                  <span className="text-[11px] font-black uppercase tracking-wider bg-amber-50 text-amber-700 px-2 py-0.5 rounded-full border border-amber-200 flex items-center gap-1">
                     <Clock className="w-3 h-3 text-amber-600" /> Verification Required
                   </span>
                 )}
@@ -309,7 +309,7 @@ export const HomeAuthSection: React.FC = () => {
         {/* Background Details */}
         <div className="p-4 rounded-2xl bg-zinc-50 border border-zinc-200/60 space-y-2 text-xs">
           <div className="flex items-center justify-between">
-            <span className="text-zinc-500 font-bold uppercase text-[10px] tracking-wider">Profile Category</span>
+            <span className="text-zinc-500 font-bold uppercase text-[11px] tracking-wider">Profile Category</span>
             <span className="font-bold text-zinc-800 flex items-center gap-1">
               {userProfile?.userType === 'professional' ? (
                 <>
@@ -381,7 +381,7 @@ export const HomeAuthSection: React.FC = () => {
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <span className="text-[10px] font-black uppercase tracking-wider text-brand-600 bg-brand-50 px-2 py-0.5 rounded-md border border-brand-100">
+            <span className="text-[11px] font-black uppercase tracking-wider text-brand-600 bg-brand-50 px-2 py-0.5 rounded-md border border-brand-100">
               PM Fast Pass
             </span>
             <h3 className="text-lg sm:text-xl font-black text-zinc-900 tracking-tight mt-1">
@@ -433,7 +433,7 @@ export const HomeAuthSection: React.FC = () => {
           </div>
 
           <div className="space-y-1.5 max-w-xs mx-auto">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-full text-[10px] font-bold">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-full text-[11px] font-bold">
               <CheckCircle2 className="w-3 h-3 text-emerald-600" />
               <span>Verification Email Sent</span>
             </div>
@@ -570,7 +570,7 @@ export const HomeAuthSection: React.FC = () => {
 
               <div className="relative flex items-center justify-center">
                 <div className="border-t border-zinc-200 w-full" />
-                <span className="bg-white px-2.5 text-[9px] uppercase font-bold tracking-widest text-zinc-400 absolute">
+                <span className="bg-white px-2.5 text-[11px] uppercase font-bold tracking-widest text-zinc-400 absolute">
                   or with credentials
                 </span>
               </div>
@@ -605,7 +605,7 @@ export const HomeAuthSection: React.FC = () => {
                     <span>Email Address <span className="text-rose-500">*</span></span>
                   </label>
                   {showEmailInvalid && (
-                    <span className="text-[10px] font-bold text-rose-600 flex items-center gap-1">
+                    <span className="text-[11px] font-bold text-rose-600 flex items-center gap-1">
                       <AlertCircle className="w-2.5 h-2.5" />
                       Invalid email
                     </span>
@@ -694,7 +694,7 @@ export const HomeAuthSection: React.FC = () => {
           {userType === 'student' && (
             <div className="p-3 bg-brand-50/40 border border-brand-100 rounded-xl space-y-2.5">
               <div className="space-y-1">
-                <label className="block text-[10px] font-bold text-zinc-700 flex items-center gap-1">
+                <label className="block text-[11px] font-bold text-zinc-700 flex items-center gap-1">
                   <Building2 className="w-3 h-3 text-brand-500" />
                   <span>College Name <span className="text-rose-500">*</span></span>
                 </label>
@@ -711,7 +711,7 @@ export const HomeAuthSection: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-2">
                 <div className="space-y-1">
-                  <label className="block text-[10px] font-bold text-zinc-700 flex items-center gap-1">
+                  <label className="block text-[11px] font-bold text-zinc-700 flex items-center gap-1">
                     <Award className="w-3 h-3 text-brand-500" />
                     <span>Degree <span className="text-rose-500">*</span></span>
                   </label>
@@ -727,7 +727,7 @@ export const HomeAuthSection: React.FC = () => {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="block text-[10px] font-bold text-zinc-700 flex items-center gap-1">
+                  <label className="block text-[11px] font-bold text-zinc-700 flex items-center gap-1">
                     <Calendar className="w-3 h-3 text-brand-500" />
                     <span>Grad Year <span className="text-rose-500">*</span></span>
                   </label>
@@ -750,7 +750,7 @@ export const HomeAuthSection: React.FC = () => {
           {userType === 'professional' && (
             <div className="p-3 bg-brand-50/40 border border-brand-100 rounded-xl space-y-2.5">
               <div className="space-y-1">
-                <label className="block text-[10px] font-bold text-zinc-700 flex items-center gap-1">
+                <label className="block text-[11px] font-bold text-zinc-700 flex items-center gap-1">
                   <Building2 className="w-3 h-3 text-brand-500" />
                   <span>Company Name <span className="text-rose-500">*</span></span>
                 </label>
@@ -767,7 +767,7 @@ export const HomeAuthSection: React.FC = () => {
 
               <div className="grid grid-cols-2 gap-2">
                 <div className="space-y-1">
-                  <label className="block text-[10px] font-bold text-zinc-700 flex items-center gap-1">
+                  <label className="block text-[11px] font-bold text-zinc-700 flex items-center gap-1">
                     <Award className="w-3 h-3 text-brand-500" />
                     <span>Designation <span className="text-rose-500">*</span></span>
                   </label>
@@ -783,7 +783,7 @@ export const HomeAuthSection: React.FC = () => {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="block text-[10px] font-bold text-zinc-700 flex items-center gap-1">
+                  <label className="block text-[11px] font-bold text-zinc-700 flex items-center gap-1">
                     <Calendar className="w-3 h-3 text-brand-500" />
                     <span>Experience <span className="text-rose-500">*</span></span>
                   </label>
@@ -833,7 +833,7 @@ export const HomeAuthSection: React.FC = () => {
                 <span>Email Address</span>
               </label>
               {showEmailInvalid && (
-                <span className="text-[10px] font-bold text-rose-600 flex items-center gap-1">
+                <span className="text-[11px] font-bold text-rose-600 flex items-center gap-1">
                   <AlertCircle className="w-2.5 h-2.5" />
                   Invalid format
                 </span>
@@ -864,7 +864,7 @@ export const HomeAuthSection: React.FC = () => {
               <button
                 type="button"
                 onClick={() => { setMode('forgot'); setErrorMessage(null); setSuccessMessage(null); }}
-                className="text-[10px] font-bold text-brand-600 hover:text-brand-700"
+                className="text-[11px] font-bold text-brand-600 hover:text-brand-700"
               >
                 Forgot?
               </button>
@@ -920,7 +920,7 @@ export const HomeAuthSection: React.FC = () => {
                 <span>Registered Email</span>
               </label>
               {showEmailInvalid && (
-                <span className="text-[10px] font-bold text-rose-600 flex items-center gap-1">
+                <span className="text-[11px] font-bold text-rose-600 flex items-center gap-1">
                   <AlertCircle className="w-2.5 h-2.5" />
                   Invalid format
                 </span>

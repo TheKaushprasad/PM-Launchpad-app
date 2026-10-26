@@ -11,7 +11,7 @@ import { AuthModal } from '../../components/auth/AuthModal';
 const STORAGE_KEY = 'aipm_day2_v1';
 
 const Label: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <h4 className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 mb-1.5">{children}</h4>
+  <h4 className="text-[11px] font-bold uppercase tracking-widest text-zinc-400 mb-1.5">{children}</h4>
 );
 
 const APPROACHES = [
@@ -195,7 +195,7 @@ export const AiPmDay2Content = () => {
       <AuthModal isOpen={authOpen} onClose={() => setAuthOpen(false)} initialMode="login" redirectTo="/ai-pm/day/2" onSuccess={() => setAuthOpen(false)} />
 
       <section id="objective" className="scroll-mt-32 bg-brand-50/60 p-4 sm:p-5 rounded-2xl border border-brand-100 space-y-2">
-        <span className="text-[10px] font-bold uppercase tracking-widest text-brand-600">Today’s objective</span>
+        <span className="text-[11px] font-bold uppercase tracking-widest text-brand-600">Today’s objective</span>
         <p className="text-base font-bold text-zinc-900 leading-relaxed">
           Learn when to use traditional software, predictive machine learning, or generative AI, and defend your choice like a Product Manager.
         </p>

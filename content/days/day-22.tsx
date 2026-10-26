@@ -15,7 +15,7 @@ export const Day22Content = () => {
     <div className="space-y-4 md:space-y-5 text-left">
       <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
         <div className="flex flex-col gap-1.5">
-          <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600">Data & Experimentation</span>
+          <span className="text-[11px] font-black uppercase tracking-widest text-emerald-600">Data & Experimentation</span>
           <p className="text-lg font-black text-emerald-900 leading-relaxed italic">
             "Gain a step-by-step understanding of Google Analytics 4 (GA4) and the frameworks of A/B Testing to drive evidence-based decisions."
           </p>
@@ -181,10 +181,6 @@ export const Day22Content = () => {
         </p>
       </section>
 
-      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-        <p></p>
-        <p></p>
-      </div>
     </div>
   );
 };

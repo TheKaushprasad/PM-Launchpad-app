@@ -15,7 +15,7 @@ export const Day33Content = () => {
     <div className="space-y-4 md:space-y-5 text-left">
       <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
         <div className="flex flex-col gap-1.5">
-          <span className="text-[10px] font-black uppercase tracking-widest text-orange-600">AI Module</span>
+          <span className="text-[11px] font-black uppercase tracking-widest text-orange-600">AI Module</span>
           <p className="text-lg font-black text-orange-900 leading-relaxed italic">
             "Connecting AI models to the tools and data they need to be truly useful."
           </p>
@@ -45,7 +45,7 @@ export const Day33Content = () => {
                  <Link className="w-6 h-6" />
               </div>
               <div className="space-y-2">
-                 <h4 className="text-[10px] font-black uppercase tracking-widest text-orange-400">The USB-C Analogy</h4>
+                 <h4 className="text-[11px] font-black uppercase tracking-widest text-orange-400">The USB-C Analogy</h4>
                  <p className="text-lg font-black text-zinc-300 leading-relaxed italic">
                    "Think of MCP like a USB-C port for AI applications. Just as USB-C provides a standardized way to connect electronic devices, MCP provides a standardized way to connect AI applications to external systems."
                  </p>
@@ -224,10 +224,6 @@ export const Day33Content = () => {
       ]}
       />
 
-      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-        <p></p>
-        <p></p>
-      </div>
     </div>
   );
 };

@@ -69,12 +69,12 @@ export const SetupModal: React.FC<SetupModalProps> = ({
           showCloseButton={false}
           overlayClassName="bg-zinc-950/80 backdrop-blur-md"
           aria-describedby={undefined}
-          className="gap-0 p-0 bg-white rounded-3xl border-zinc-200 shadow-2xl w-[calc(100%-2rem)] max-w-3xl sm:max-w-3xl max-h-[90vh] flex flex-col overflow-hidden text-zinc-900"
+          className="gap-0 p-0 bg-white rounded-3xl border-zinc-200 shadow-2xl w-[calc(100%-2rem)] max-w-3xl sm:max-w-3xl max-h-[90dvh] flex flex-col overflow-hidden text-zinc-900"
         >
           {/* Header */}
           <div className="px-6 py-4 border-b border-zinc-100 flex items-center justify-between bg-zinc-50/80">
             <div>
-              <span className="text-[10px] font-black uppercase tracking-wider text-brand-600">
+              <span className="text-[11px] font-black uppercase tracking-wider text-brand-600">
                 Session Customization
               </span>
               <DialogTitle className="text-xl leading-7 font-black text-zinc-900 tracking-tight">
@@ -97,7 +97,7 @@ export const SetupModal: React.FC<SetupModalProps> = ({
             {/* Scenario Summary Card */}
             <div className="p-5 rounded-2xl bg-zinc-50 border border-zinc-200 space-y-2">
               <div className="flex items-center justify-between">
-                <span className={`px-2.5 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider ${scenario.companyColor}`}>
+                <span className={`px-2.5 py-0.5 rounded-md text-[11px] font-black uppercase tracking-wider ${scenario.companyColor}`}>
                   {scenario.company}
                 </span>
                 <span className="text-xs font-bold text-zinc-500 flex items-center gap-1">
@@ -161,7 +161,7 @@ export const SetupModal: React.FC<SetupModalProps> = ({
                 />
                 <div className="flex-1 min-w-0">
                   <h4 className="font-black text-xs text-zinc-900">{selectedPersona.name}</h4>
-                  <span className="text-[10px] font-bold text-brand-600 block">{selectedPersona.role} • {selectedPersona.companyBackground}</span>
+                  <span className="text-[11px] font-bold text-brand-600 block">{selectedPersona.role} • {selectedPersona.companyBackground}</span>
                   <p className="text-[11px] text-zinc-500 font-medium mt-1">{selectedPersona.description}</p>
                 </div>
               </div>

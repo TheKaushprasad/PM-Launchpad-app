@@ -14,7 +14,7 @@ export const Day35Content = () => {
     <div className="space-y-4 md:space-y-5 text-left">
       <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
         <div className="flex flex-col gap-1.5">
-          <span className="text-[10px] font-black uppercase tracking-widest text-orange-600">AI AGENT</span>
+          <span className="text-[11px] font-black uppercase tracking-widest text-orange-600">AI AGENT</span>
           <h2 className="text-xl font-black text-orange-900">AI Agents for Product Managers: What They Are and Why Building Them Matters</h2>
           <p className="text-sm font-medium text-orange-800 leading-relaxed">
             Artificial intelligence is shifting from tools that respond to prompts to agents that accomplish complex tasks autonomously. This evolution fundamentally changes what product managers can build, how teams operate, and what customers expect from software products.
@@ -56,7 +56,7 @@ export const Day35Content = () => {
            </p>
            
            <div className="bg-zinc-900 text-white p-4 sm:p-5 rounded-4xl space-y-4">
-              <h4 className="text-[10px] font-black uppercase tracking-widest text-orange-400">The Difference</h4>
+              <h4 className="text-[11px] font-black uppercase tracking-widest text-orange-400">The Difference</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
                  <div className="space-y-2">
                     <p className="text-xs font-black text-zinc-300">Chatbot:</p>
@@ -192,7 +192,7 @@ export const Day35Content = () => {
 
            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
               <div className="space-y-2.5">
-                 <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-500">How n8n Works</h4>
+                 <h4 className="text-[11px] font-black uppercase tracking-widest text-zinc-500">How n8n Works</h4>
                  <ul className="space-y-3">
                     {[
                       { name: "Visual workflow editor", desc: "Drag and drop nodes to define agent behavior." },
@@ -210,7 +210,7 @@ export const Day35Content = () => {
                  </ul>
               </div>
               <div className="bg-white/5 p-4 rounded-3xl border border-white/10 space-y-4">
-                 <h4 className="text-[10px] font-black uppercase tracking-widest text-orange-400">Example: Feedback Agent</h4>
+                 <h4 className="text-[11px] font-black uppercase tracking-widest text-orange-400">Example: Feedback Agent</h4>
                  <div className="space-y-3">
                     {[
                       "Trigger monitors support inbox.",
@@ -220,7 +220,7 @@ export const Day35Content = () => {
                       "Database node stores analysis for reporting."
                     ].map((step, i) => (
                       <div key={i} className="flex gap-3 items-center">
-                         <div className="w-5 h-5 rounded-full bg-orange-500/20 flex items-center justify-center text-[10px] font-black text-orange-400">{i+1}</div>
+                         <div className="w-5 h-5 rounded-full bg-orange-500/20 flex items-center justify-center text-[11px] font-black text-orange-400">{i+1}</div>
                          <p className="text-[11px] font-medium text-zinc-400">{step}</p>
                       </div>
                     ))}
@@ -293,10 +293,6 @@ export const Day35Content = () => {
       ]}
       />
 
-      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-        <p></p>
-        <p></p>
-      </div>
     </div>
   );
 };

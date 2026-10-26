@@ -172,12 +172,12 @@ export const Dashboard: React.FC = () => {
         {/* 4 Quick Metric Boxes */}
         <motion.div variants={item} className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-8 pt-6 border-t border-white/10 relative z-10">
           {/* Target Role */}
-          <div className="p-3 sm:p-3.5 rounded-2xl bg-white/4 border border-white/8 flex items-center gap-3.5">
-            <div className="w-11 h-11 rounded-xl bg-[#064E3B] flex items-center justify-center shrink-0 border border-brand-500/30 shadow-inner">
+          <div className="p-3 sm:p-3.5 rounded-2xl bg-white/4 border border-white/8 flex items-center gap-2.5 sm:gap-3.5">
+            <div className="max-[379px]:hidden w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-[#064E3B] flex items-center justify-center shrink-0 border border-brand-500/30 shadow-inner">
               <Briefcase className="w-5 h-5 text-brand-400" />
             </div>
             <div className="min-w-0">
-              <div className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">
+              <div className="text-[11px] font-extrabold uppercase tracking-normal sm:tracking-wider text-slate-400">
                 TARGET ROLE
               </div>
               <div className="text-sm sm:text-base font-bold text-white truncate" title={targetRole}>
@@ -187,12 +187,12 @@ export const Dashboard: React.FC = () => {
           </div>
 
           {/* Profile Strength */}
-          <div className="p-3 sm:p-3.5 rounded-2xl bg-white/4 border border-white/8 flex items-center gap-3.5">
-            <div className="w-11 h-11 rounded-xl bg-[#064E3B] flex items-center justify-center shrink-0 border border-brand-500/30 shadow-inner">
+          <div className="p-3 sm:p-3.5 rounded-2xl bg-white/4 border border-white/8 flex items-center gap-2.5 sm:gap-3.5">
+            <div className="max-[379px]:hidden w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-[#064E3B] flex items-center justify-center shrink-0 border border-brand-500/30 shadow-inner">
               <BarChart2 className="w-5 h-5 text-brand-400" />
             </div>
             <div className="min-w-0">
-              <div className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">
+              <div className="text-[11px] font-extrabold uppercase tracking-normal sm:tracking-wider text-slate-400">
                 PROFILE STRENGTH
               </div>
               <div className="text-xl font-black text-white tracking-tight">
@@ -202,12 +202,12 @@ export const Dashboard: React.FC = () => {
           </div>
 
           {/* Curriculum */}
-          <div className="p-3 sm:p-3.5 rounded-2xl bg-white/4 border border-white/8 flex items-center gap-3.5">
-            <div className="w-11 h-11 rounded-xl bg-[#064E3B] flex items-center justify-center shrink-0 border border-emerald-500/30 shadow-inner">
+          <div className="p-3 sm:p-3.5 rounded-2xl bg-white/4 border border-white/8 flex items-center gap-2.5 sm:gap-3.5">
+            <div className="max-[379px]:hidden w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-[#064E3B] flex items-center justify-center shrink-0 border border-emerald-500/30 shadow-inner">
               <BookOpen className="w-5 h-5 text-emerald-400" />
             </div>
             <div className="min-w-0">
-              <div className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">
+              <div className="text-[11px] font-extrabold uppercase tracking-normal sm:tracking-wider text-slate-400">
                 CURRICULUM
               </div>
               <div className="flex items-baseline gap-1.5 flex-wrap">
@@ -222,12 +222,12 @@ export const Dashboard: React.FC = () => {
           </div>
 
           {/* Daily Streak */}
-          <div className="p-3 sm:p-3.5 rounded-2xl bg-white/4 border border-white/8 flex items-center gap-3.5">
-            <div className="w-11 h-11 rounded-xl bg-[#451A03] flex items-center justify-center shrink-0 border border-amber-500/30 shadow-inner">
+          <div className="p-3 sm:p-3.5 rounded-2xl bg-white/4 border border-white/8 flex items-center gap-2.5 sm:gap-3.5">
+            <div className="max-[379px]:hidden w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-[#451A03] flex items-center justify-center shrink-0 border border-amber-500/30 shadow-inner">
               <Flame className="w-5 h-5 text-amber-400" />
             </div>
             <div className="min-w-0">
-              <div className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400">
+              <div className="text-[11px] font-extrabold uppercase tracking-normal sm:tracking-wider text-slate-400">
                 DAILY STREAK
               </div>
               <div className="text-xl font-black text-white tracking-tight">
@@ -341,23 +341,23 @@ export const Dashboard: React.FC = () => {
                       {/* Top Badges */}
                       <div className="flex items-center justify-between gap-2 mb-4">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider bg-zinc-900 text-white shadow-2xs">
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-black uppercase tracking-wider bg-zinc-900 text-white shadow-2xs">
                             Day {lesson.day}
                           </span>
-                          <span className={`text-[9px] px-2.5 py-1 rounded-lg font-black uppercase tracking-wider flex items-center gap-1 border ${getCategoryColor(lesson.category)} shadow-2xs`}>
+                          <span className={`text-[11px] px-2.5 py-1 rounded-lg font-black uppercase tracking-wider flex items-center gap-1 border ${getCategoryColor(lesson.category)} shadow-2xs`}>
                             {getCategoryIcon(lesson.category)}
                             {lesson.category}
                           </span>
                         </div>
                         <div className="flex items-center gap-2">
                           {progress?.completed && (
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-emerald-50 text-emerald-700 border border-emerald-100">
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-black uppercase tracking-wider bg-emerald-50 text-emerald-700 border border-emerald-100">
                               <CheckCircle2 className="w-2.5 h-2.5 text-emerald-600" />
                               Done
                             </span>
                           )}
                           {progress?.bookmarked && (
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-amber-50 text-amber-700 border border-amber-100">
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-black uppercase tracking-wider bg-amber-50 text-amber-700 border border-amber-100">
                               <Bookmark className="w-2.5 h-2.5 fill-amber-500 text-amber-500" />
                             </span>
                           )}
@@ -371,7 +371,7 @@ export const Dashboard: React.FC = () => {
 
                       {/* Note Content Callout */}
                       <div className="bg-zinc-50 group-hover:bg-brand-50/30 border border-zinc-200/80 group-hover:border-brand-200 rounded-2xl p-4 mb-4 transition-colors">
-                        <div className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider text-brand-600 mb-2">
+                        <div className="flex items-center gap-1.5 text-[11px] font-black uppercase tracking-wider text-brand-600 mb-2">
                           <FileEdit className="w-3 h-3" />
                           Personal Notes
                         </div>
@@ -383,7 +383,7 @@ export const Dashboard: React.FC = () => {
 
                     {/* Footer Action */}
                     <div className="pt-3 border-t border-zinc-100 flex items-center justify-between text-xs">
-                      <div className="flex items-center gap-1.5 text-zinc-400 text-[10px] font-bold">
+                      <div className="flex items-center gap-1.5 text-zinc-400 text-[11px] font-bold">
                         <Clock className="w-3 h-3" />
                         {progress?.updatedAt ? `Saved ${new Date(progress.updatedAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}` : 'Saved Note'}
                       </div>

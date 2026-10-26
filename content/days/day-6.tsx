@@ -11,7 +11,7 @@ export const Day6Content = () => {
     <div className="space-y-4 md:space-y-5 text-left">
       <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
         <div className="flex flex-col gap-1.5">
-          <span className="text-[10px] font-black uppercase tracking-widest text-blue-600">Foundation</span>
+          <span className="text-[11px] font-black uppercase tracking-widest text-blue-600">Foundation</span>
           <p className="text-sm sm:text-base font-medium text-blue-900 leading-relaxed">
             Product managers are professional translators. We translate customer needs into technical requirements, business strategy into product roadmaps, and abstract visions into concrete execution plans. Documentation is the primary medium for this translation work.
           </p>
@@ -196,10 +196,6 @@ export const Day6Content = () => {
       ]}
       />
 
-      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-        <p></p>
-        <p></p>
-      </div>
     </div>
   );
 };

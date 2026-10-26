@@ -13,7 +13,7 @@ export const Day44Content = () => {
     <div className="space-y-4 md:space-y-5 text-left">
       <section className="bg-amber-50 p-4 sm:p-5 rounded-2xl border border-amber-100">
         <div className="flex flex-col gap-1.5">
-          <span className="text-[10px] font-black uppercase tracking-widest text-amber-600">Job ready</span>
+          <span className="text-[11px] font-black uppercase tracking-widest text-amber-600">Job ready</span>
           <p className="text-lg font-black text-amber-900 leading-relaxed italic">
             "Product improvement isn't about making it 'better' in a vacuum—it's about identifying a specific user segment, understanding their unmet needs, and proposing a solution that drives a core business metric."
           </p>
@@ -57,7 +57,7 @@ export const Day44Content = () => {
         </div>
 
         <div className="space-y-2.5">
-           <h3 className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Practice Questions:</h3>
+           <h3 className="text-[11px] font-black uppercase tracking-widest text-zinc-400">Practice Questions:</h3>
            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {[
                 { q: "How would you improve Netflix?", company: "Netflix", icon: MonitorPlay },
@@ -73,7 +73,7 @@ export const Day44Content = () => {
                       <div className="w-10 h-10 rounded-xl bg-zinc-50 flex items-center justify-center text-amber-600 group-hover:bg-amber-600 group-hover:text-white transition-colors shadow-inner">
                         <item.icon className="w-5 h-5" />
                       </div>
-                      <span className="text-[10px] font-black text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-lg border border-indigo-100">{item.company}</span>
+                      <span className="text-[11px] font-black text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-lg border border-indigo-100">{item.company}</span>
                    </div>
                    <p className="text-sm font-bold text-zinc-700 leading-tight">{item.q}</p>
                 </div>
@@ -104,10 +104,6 @@ export const Day44Content = () => {
       ]}
       />
 
-      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-        <p></p>
-        <p></p>
-      </div>
     </div>
   );
 };

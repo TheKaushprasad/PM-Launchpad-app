@@ -109,7 +109,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
                  {!collapsed && (
                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                      <span className="block font-black text-lg text-slate-900 tracking-tight leading-none">The NooB PM</span>
-                     <span className="text-[8px] font-black text-emerald-600 uppercase tracking-wider block mt-0.5">ONE-STOP PM SOLUTION</span>
+                     <span className="text-[11px] font-black text-emerald-600 uppercase tracking-wider block mt-0.5">ONE-STOP PM SOLUTION</span>
                    </motion.div>
                  )}
               </Link>
@@ -159,7 +159,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
                 </div>
 
                 {/* Progress */}
-                <div className="pt-2 border-t border-slate-200/60 flex items-center justify-end text-[10px] font-bold">
+                <div className="pt-2 border-t border-slate-200/60 flex items-center justify-end text-[11px] font-bold">
                   <span className="text-slate-600 bg-white px-2 py-0.5 rounded-full border border-slate-200">
                     {completedCount}/45 Days
                   </span>
@@ -199,7 +199,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
                 to="/dashboard"
                 onClick={() => setMobileOpen(false)}
                 className={`
-                  relative flex items-center ${collapsed ? 'justify-center' : 'gap-4 px-5'} py-3.5 rounded-2xl text-[15px] font-bold transition-all duration-300 group
+                  relative flex items-center ${collapsed ? 'justify-center' : 'gap-3.5 px-4'} py-3.5 rounded-2xl text-[15px] font-bold transition-all duration-300 group
                   ${isDashActive 
                     ? 'text-[#065F46] bg-[#34D399]/10' 
                     : 'text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50'}
@@ -226,7 +226,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
           {!collapsed ? (
             <div className="pt-2 pb-1">
               <div
-                className={`w-full flex items-center justify-between px-5 py-3.5 rounded-2xl text-[15px] font-bold transition-all select-none cursor-pointer ${
+                className={`w-full flex items-center justify-between px-4 py-3.5 rounded-2xl text-[15px] font-bold transition-all select-none cursor-pointer ${
                   isModuleActive 
                     ? 'text-brand-600 bg-brand-50 border border-brand-100 shadow-2xs' 
                     : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
@@ -239,12 +239,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
                   }
                 }}
               >
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-3.5">
                   <Layers className={`w-5 h-5 ${isModuleActive ? 'text-brand-600' : 'text-slate-400'}`} />
                   <span>Modules</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                  <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${
                     isModuleActive 
                       ? 'bg-brand-100 text-brand-700' 
                       : 'bg-slate-200/80 text-slate-700'
@@ -330,7 +330,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
                 to={itemPath || '#'}
                 onClick={() => setMobileOpen(false)}
                 className={`
-                  relative flex items-center ${collapsed ? 'justify-center' : 'gap-4 px-5'} py-3.5 rounded-2xl text-[15px] font-bold transition-all duration-300 group
+                  relative flex items-center ${collapsed ? 'justify-center' : 'gap-3.5 px-4'} py-3.5 rounded-2xl text-[15px] font-bold transition-all duration-300 group
                   ${isActive 
                     ? 'text-[#065F46] bg-[#34D399]/10' 
                     : 'text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50'}
@@ -344,10 +344,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
                 )}
                 <Icon className={`w-[20px] h-[20px] relative z-10 ${isActive ? 'text-[#065F46]' : 'text-zinc-400 group-hover:text-zinc-700'}`} />
                 {!collapsed && (
-                  <div className="flex-1 flex items-center justify-between relative z-10">
-                    <span className="tracking-tight">{item.label}</span>
+                  <div className="flex-1 min-w-0 flex items-center justify-between gap-2 relative z-10">
+                    <span className="tracking-tight truncate">{item.label}</span>
                     {item.badge && (
-                      <span className="px-2 py-0.5 rounded-full bg-linear-to-r from-brand-500 to-brand-500 text-white text-[9px] font-black uppercase tracking-wider shadow-xs">
+                      <span className="px-1.5 py-0.5 shrink-0 rounded-full bg-brand-500 text-white text-[11px] font-black uppercase shadow-xs">
                         {item.badge}
                       </span>
                     )}

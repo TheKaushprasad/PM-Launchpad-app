@@ -20,6 +20,9 @@ interface AuthModalProps {
   initialMode?: 'login' | 'signup' | 'forgot';
   redirectTo?: string;
   onSuccess?: () => void;
+  // What the visitor was trying to do, shown on the first sign-up step so the account has a reason
+  // (for example "Start 'Design a smart alarm clock' with Priya"). Login and later steps keep their own copy.
+  purpose?: { title: string; description: string };
 }
 
 const TARGET_ROLES = [
@@ -50,7 +53,8 @@ export const AuthModal: React.FC<AuthModalProps> = ({
   onClose,
   initialMode = 'signup',
   redirectTo = '/dashboard',
-  onSuccess
+  onSuccess,
+  purpose
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -371,7 +375,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
       <DialogContent
         showCloseButton={false}
         overlayClassName="bg-zinc-950/60 backdrop-blur-xs"
-        className="flex flex-col gap-0 p-0 w-[calc(100%-1.5rem)] max-w-[490px] sm:max-w-[490px] max-h-[90vh] bg-white rounded-2xl sm:rounded-3xl shadow-2xl border-zinc-200/90 overflow-hidden"
+        className="flex flex-col gap-0 p-0 w-[calc(100%-1.5rem)] max-w-[490px] sm:max-w-[490px] max-h-[90dvh] bg-white rounded-2xl sm:rounded-3xl shadow-2xl border-zinc-200/90 overflow-hidden"
       >
           {/* Fixed Header */}
           <div className="relative px-5 sm:px-6 pt-5 pb-4 border-b border-zinc-100 flex items-center justify-between shrink-0 bg-zinc-50/70">
@@ -382,7 +386,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                   {accountCreatedSuccess
                     ? `You're all set, ${firstName}!`
                     : mode === 'signup'
-                      ? (signupStep === 1 ? 'Start your PM journey' : 'Personalize your journey')
+                      ? (signupStep === 1 ? (purpose?.title ?? 'Start your PM journey') : 'Personalize your journey')
                       : mode === 'login'
                         ? 'Welcome Back'
                         : 'Reset Password'}
@@ -392,7 +396,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                     ? 'Your 45-day PM journey starts now.'
                     : mode === 'signup'
                       ? (signupStep === 1 
-                          ? 'Create your account to save your progress and personalize your learning path.'
+                          ? (purpose?.description ?? 'Create your account to save your progress and personalize your learning path.')
                           : 'Tailor your interview prep, case studies, and recommendations.')
                       : mode === 'login'
                         ? 'Sign in to continue your product management prep.'
@@ -426,7 +430,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                 </span>
               </div>
               <div className="flex items-center gap-1.5">
-                <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">
+                <span className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">
                   Step {signupStep} of 2
                 </span>
                 <div className="flex gap-1">
@@ -587,7 +591,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
                       <div className="relative flex items-center justify-center my-3.5">
                         <div className="border-t border-zinc-200 w-full" />
-                        <span className="bg-white px-3 text-[10px] font-bold uppercase tracking-wider text-zinc-400 shrink-0">
+                        <span className="bg-white px-3 text-[11px] font-bold uppercase tracking-wider text-zinc-400 shrink-0">
                           OR
                         </span>
                         <div className="border-t border-zinc-200 w-full" />
@@ -622,7 +626,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                             Email
                           </Label>
                           {showEmailInvalid && (
-                            <span className="text-[10px] font-bold text-rose-600 flex items-center gap-1">
+                            <span className="text-[11px] font-bold text-rose-600 flex items-center gap-1">
                               <AlertCircle className="w-3 h-3 text-rose-500" />
                               Invalid email format
                             </span>
@@ -731,7 +735,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                               : 'border-zinc-200 bg-white hover:border-zinc-300 text-zinc-700 font-medium'
                           }`}
                         >
-                          <span className="text-lg">🎓</span>
+                          <GraduationCap className="w-5 h-5 shrink-0" aria-hidden="true" />
                           <div className="leading-tight">
                             <span className="text-xs block">College Student</span>
                           </div>
@@ -746,7 +750,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                               : 'border-zinc-200 bg-white hover:border-zinc-300 text-zinc-700 font-medium'
                           }`}
                         >
-                          <span className="text-lg">💼</span>
+                          <Briefcase className="w-5 h-5 shrink-0" aria-hidden="true" />
                           <div className="leading-tight">
                             <span className="text-xs block">Working Pro</span>
                           </div>
@@ -856,7 +860,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                               <Label htmlFor="auth-field-10" className="block text-xs leading-4 font-semibold text-zinc-700">
                                 Current company
                               </Label>
-                              <span className="text-[10px] text-zinc-400 font-normal">Optional</span>
+                              <span className="text-[11px] text-zinc-400 font-normal">Optional</span>
                             </div>
                             <div className="relative">
                               <Building2 className="w-4 h-4 text-zinc-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -905,7 +909,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                             <Label htmlFor="auth-field-12" className="block text-xs leading-4 font-semibold text-zinc-700">
                               Target industry
                             </Label>
-                            <span className="text-[10px] text-zinc-400 font-normal">Optional</span>
+                            <span className="text-[11px] text-zinc-400 font-normal">Optional</span>
                           </div>
                           <Select value={industry} onValueChange={(v) => setIndustry(v)}>
                             <SelectTrigger id="auth-field-12" className="w-full px-3 py-2 rounded-xl bg-white border border-zinc-200 text-xs sm:text-sm outline-hidden focus-visible:border-brand-600 font-medium shadow-none h-auto">
@@ -993,7 +997,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
 
                       <div className="relative flex items-center justify-center my-3.5">
                         <div className="border-t border-zinc-200 w-full" />
-                        <span className="bg-white px-3 text-[10px] font-bold uppercase tracking-wider text-zinc-400 shrink-0">
+                        <span className="bg-white px-3 text-[11px] font-bold uppercase tracking-wider text-zinc-400 shrink-0">
                           OR
                         </span>
                         <div className="border-t border-zinc-200 w-full" />
@@ -1007,7 +1011,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
                             Email
                           </Label>
                           {showEmailInvalid && (
-                            <span className="text-[10px] font-bold text-rose-600 flex items-center gap-1">
+                            <span className="text-[11px] font-bold text-rose-600 flex items-center gap-1">
                               <AlertCircle className="w-3 h-3 text-rose-500" />
                               Invalid email format
                             </span>

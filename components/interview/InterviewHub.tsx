@@ -18,7 +18,8 @@ import {
   Calculator,
   Cpu,
   Layers,
-  PenTool
+  PenTool,
+  X
 } from 'lucide-react';
 import { InterviewScenario, InterviewerPersona, InterviewMode, CandidateLevel, InterviewEvaluation } from '../../types/interview';
 import { INTERVIEW_SCENARIOS } from '../../data/interviewScenarios';
@@ -32,6 +33,14 @@ import { AccessRequestModal } from './AccessRequestModal';
 import { InterviewStage } from './InterviewStage';
 import { useAuth } from '../../context/AuthContext';
 import { AuthModal } from '../auth/AuthModal';
+import { ACTIVE_INTERVIEWER } from '../../data/interviewPersonas';
+
+// What a signed-out visitor was trying to do when we asked them to make an account,
+// so the sign-up can name it and the action can carry on once they're in.
+type PendingAction =
+  | { kind: 'case'; scenario: InterviewScenario }
+  | { kind: 'loop' }
+  | { kind: 'scorecards' };
 
 export const InterviewHub: React.FC = () => {
   const [selectedTrack, setSelectedTrack] = useState<string>('all');
@@ -40,7 +49,11 @@ export const InterviewHub: React.FC = () => {
   const [showHistoryModal, setShowHistoryModal] = useState<boolean>(false);
   const [showAccessModal, setShowAccessModal] = useState<boolean>(false);
   const [authModalOpen, setAuthModalOpen] = useState<boolean>(false);
-  const [pendingScenario, setPendingScenario] = useState<InterviewScenario | null>(null);
+  const [pendingAction, setPendingAction] = useState<PendingAction | null>(null);
+  const askToSignUp = (action: PendingAction) => {
+    setPendingAction(action);
+    setAuthModalOpen(true);
+  };
 
   const [bookmarkedIds, setBookmarkedIds] = useState<string[]>(() => {
     try {
@@ -98,7 +111,7 @@ export const InterviewHub: React.FC = () => {
 
   const handleStartLoop = () => {
     if (!user) {
-      setAuthModalOpen(true);
+      askToSignUp({ kind: 'loop' });
       return;
     }
     setShowLoopSetup(true);
@@ -106,12 +119,38 @@ export const InterviewHub: React.FC = () => {
 
   const handleStartInterview = (sc: InterviewScenario) => {
     if (!user) {
-      setPendingScenario(sc);
-      setAuthModalOpen(true);
+      askToSignUp({ kind: 'case', scenario: sc });
       return;
     }
     setSetupScenario(sc);
   };
+
+  const handleOpenScorecards = () => {
+    if (!user) {
+      askToSignUp({ kind: 'scorecards' });
+      return;
+    }
+    setShowHistoryModal(true);
+  };
+
+  // The sign-up names what the visitor asked for and what the free account gives them.
+  const interviewerFirstName = ACTIVE_INTERVIEWER.name.split(' ')[0];
+  const signUpPurpose = !pendingAction
+    ? undefined
+    : pendingAction.kind === 'case'
+      ? {
+          title: `Start “${pendingAction.scenario.title}”`,
+          description: `${interviewerFirstName} interviews you, and your scorecard is saved to your profile.`,
+        }
+      : pendingAction.kind === 'loop'
+        ? {
+            title: 'Start a full interview loop',
+            description: 'Several rounds back to back, one combined verdict, saved to your profile.',
+          }
+        : {
+            title: 'See your past scorecards',
+            description: 'Every interview you finish is scored and kept here.',
+          };
 
   const TRACK_ICONS: Record<string, any> = {
     design: PenTool,
@@ -458,16 +497,16 @@ export const InterviewHub: React.FC = () => {
 
                 {/* Playful Handwritten Script on the Right */}
                 <g transform="translate(305, 26)">
-                  <text x="0" y="16" fill="rgba(255,255,255,0.85)" fontSize="13" fontStyle="italic" fontWeight="600" fontFamily="cursive, Georgia, sans-serif">
+                  <text x="0" y="16" fill="rgba(255,255,255,0.85)" fontSize="16" fontWeight="600" fontFamily="Caveat, cursive">
                     Better
                   </text>
-                  <text x="0" y="32" fill="rgba(255,255,255,0.85)" fontSize="13" fontStyle="italic" fontWeight="600" fontFamily="cursive, Georgia, sans-serif">
+                  <text x="0" y="32" fill="rgba(255,255,255,0.85)" fontSize="16" fontWeight="600" fontFamily="Caveat, cursive">
                     Questions
                   </text>
-                  <text x="4" y="48" fill="rgba(255,255,255,0.85)" fontSize="13" fontStyle="italic" fontWeight="600" fontFamily="cursive, Georgia, sans-serif">
+                  <text x="4" y="48" fill="rgba(255,255,255,0.85)" fontSize="16" fontWeight="600" fontFamily="Caveat, cursive">
                     Brighter
                   </text>
-                  <text x="12" y="64" fill="rgba(255,255,255,0.85)" fontSize="13" fontStyle="italic" fontWeight="600" fontFamily="cursive, Georgia, sans-serif">
+                  <text x="12" y="64" fill="rgba(255,255,255,0.85)" fontSize="16" fontWeight="600" fontFamily="Caveat, cursive">
                     You
                   </text>
 
@@ -593,13 +632,7 @@ export const InterviewHub: React.FC = () => {
 
             {/* Past Scorecards Button */}
             <button
-              onClick={() => {
-                if (!user) {
-                  setAuthModalOpen(true);
-                  return;
-                }
-                setShowHistoryModal(true);
-              }}
+              onClick={handleOpenScorecards}
               className="tap-target inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-brand-200/90 text-brand-600 hover:bg-brand-50/60 font-bold text-xs transition-all shrink-0 cursor-pointer shadow-2xs self-start lg:self-auto"
             >
               <History className="w-3.5 h-3.5 text-brand-600" />
@@ -730,7 +763,7 @@ export const InterviewHub: React.FC = () => {
 
                   {/* What You'll Practice */}
                   <div className="pt-1">
-                    <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block mb-2">
+                    <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400 block mb-2">
                       YOU'LL PRACTICE
                     </span>
                     <div className="flex flex-wrap gap-x-3.5 gap-y-2">
@@ -781,16 +814,18 @@ export const InterviewHub: React.FC = () => {
         isOpen={authModalOpen}
         onClose={() => {
           setAuthModalOpen(false);
-          setPendingScenario(null);
+          setPendingAction(null);
         }}
-        initialMode="login"
+        initialMode="signup"
+        purpose={signUpPurpose}
         redirectTo="/interview-studio"
         onSuccess={() => {
           setAuthModalOpen(false);
-          if (pendingScenario) {
-            setSetupScenario(pendingScenario);
-            setPendingScenario(null);
-          }
+          // Carry on with whatever they asked for before signing in.
+          if (pendingAction?.kind === 'case') setSetupScenario(pendingAction.scenario);
+          else if (pendingAction?.kind === 'loop') setShowLoopSetup(true);
+          else if (pendingAction?.kind === 'scorecards') setShowHistoryModal(true);
+          setPendingAction(null);
         }}
       />
 
@@ -829,7 +864,7 @@ export const InterviewHub: React.FC = () => {
       {/* Past Scorecards History Modal */}
       {showHistoryModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-950/80 backdrop-blur-xs">
-          <div className="bg-white rounded-3xl border border-zinc-200 shadow-2xl w-full max-w-2xl max-h-[85vh] flex flex-col overflow-hidden text-zinc-900">
+          <div className="bg-white rounded-3xl border border-zinc-200 shadow-2xl w-full max-w-2xl max-h-[85dvh] flex flex-col overflow-hidden text-zinc-900">
             <div className="px-6 py-4 border-b border-zinc-100 flex items-center justify-between bg-zinc-50/80">
               <div className="flex items-center gap-2.5">
                 <History className="w-5 h-5 text-brand-600" />
@@ -838,10 +873,11 @@ export const InterviewHub: React.FC = () => {
                 </h3>
               </div>
               <button 
-                onClick={() => setShowHistoryModal(false)} 
-                className="w-8 h-8 rounded-full flex items-center justify-center text-zinc-400 hover:text-zinc-700 hover:bg-zinc-200/60 transition-colors cursor-pointer"
+                onClick={() => setShowHistoryModal(false)}
+                aria-label="Close history"
+                className="tap-target w-8 h-8 rounded-full flex items-center justify-center text-zinc-500 hover:text-zinc-700 hover:bg-zinc-200/60 transition-colors cursor-pointer"
               >
-                ✕
+                <X className="w-4 h-4" />
               </button>
             </div>
 
@@ -864,15 +900,15 @@ export const InterviewHub: React.FC = () => {
                   <div key={i} className="p-4 rounded-xl bg-zinc-50 border border-zinc-200 flex items-center justify-between gap-4">
                     <div>
                       <div className="flex items-center gap-2 mb-0.5">
-                        <span className="text-[10px] font-black uppercase tracking-wider text-brand-600">
+                        <span className="text-[11px] font-black uppercase tracking-wider text-brand-600">
                           {getTrackConfig(h.track).shortLabel} • {h.company}
                         </span>
                         {h.scoringVersion === 'v3' ? (
-                          <span className="text-[9px] font-black uppercase tracking-wider text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded-sm border border-emerald-200" title="Scored with the v3 rubric">
+                          <span className="text-[11px] font-black uppercase tracking-wider text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded-sm border border-emerald-200" title="Scored with the v3 rubric">
                             v3{h.level ? ` • ${h.level === 'spm' ? 'Senior PM' : h.level.toUpperCase()}` : ''}
                           </span>
                         ) : (
-                          <span className="text-[9px] font-black uppercase tracking-wider text-amber-700 bg-amber-50 px-1.5 py-0.2 rounded-sm border border-amber-200" title="Scored with an older rubric">
+                          <span className="text-[11px] font-black uppercase tracking-wider text-amber-700 bg-amber-50 px-1.5 py-0.2 rounded-sm border border-amber-200" title="Scored with an older rubric">
                             {h.scoringVersion === 'v2' ? 'v2' : 'v1 (legacy)'}
                           </span>
                         )}
@@ -883,7 +919,7 @@ export const InterviewHub: React.FC = () => {
 
                     <div className="text-right shrink-0">
                       <span className="text-xl font-black text-brand-600 block">{h.score}/100</span>
-                      <span className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                      <span className="text-[11px] font-extrabold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
                         {normalizeVerdict(h.verdict)}
                       </span>
                     </div>

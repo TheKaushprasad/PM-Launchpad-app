@@ -15,7 +15,7 @@ export const Day31Content = () => {
     <div className="space-y-4 md:space-y-5 text-left">
       <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
         <div className="flex flex-col gap-1.5">
-          <span className="text-[10px] font-black uppercase tracking-widest text-orange-600">AI Module</span>
+          <span className="text-[11px] font-black uppercase tracking-widest text-orange-600">AI Module</span>
           <p className="text-lg font-black text-orange-900 leading-relaxed italic">
             "The natural progression of prompt engineering. The art and science of curating what will go into the limited context window."
           </p>
@@ -130,13 +130,13 @@ export const Day31Content = () => {
 
            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
               <div className="space-y-4">
-                 <h5 className="font-black text-zinc-900 uppercase tracking-widest text-[10px]">Architectural Constraints</h5>
+                 <h5 className="font-black text-zinc-900 uppercase tracking-widest text-[11px]">Architectural Constraints</h5>
                  <p className="text-xs font-medium text-zinc-500 leading-relaxed">
                    LLMs are based on the transformer architecture, which enables every token to attend to every other token. This results in n² pairwise relationships for n tokens. As context length increases, the model's ability to capture these relationships gets stretched thin.
                  </p>
               </div>
               <div className="space-y-4">
-                 <h5 className="font-black text-zinc-900 uppercase tracking-widest text-[10px]">Attention Budget</h5>
+                 <h5 className="font-black text-zinc-900 uppercase tracking-widest text-[11px]">Attention Budget</h5>
                  <p className="text-xs font-medium text-zinc-500 leading-relaxed">
                    Like humans, LLMs have an “attention budget”. Every new token introduced depletes this budget by some amount, increasing the need to carefully curate the tokens available to the LLM.
                  </p>
@@ -280,10 +280,6 @@ export const Day31Content = () => {
         </div>
       </section>
 
-      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-        <p></p>
-        <p></p>
-      </div>
     </div>
   );
 };

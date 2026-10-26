@@ -12,7 +12,7 @@ export const Day5Content = () => {
     <div className="space-y-4 md:space-y-5 text-left">
       <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
         <div className="flex flex-col gap-1.5">
-          <span className="text-[10px] font-black uppercase tracking-widest text-blue-600">Foundation</span>
+          <span className="text-[11px] font-black uppercase tracking-widest text-blue-600">Foundation</span>
           <p className="text-sm sm:text-base font-medium text-blue-900 leading-relaxed">
             Step into their shoes. User empathy is the fundamental driver of human-centered development.
           </p>
@@ -81,15 +81,15 @@ export const Day5Content = () => {
               <h3 className="text-xl font-black text-zinc-900">User Research & Personas</h3>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-xs">
-                   <p className="text-[10px] font-black uppercase tracking-widest text-indigo-500 mb-2">Research Methods</p>
+                   <p className="text-[11px] font-black uppercase tracking-widest text-indigo-500 mb-2">Research Methods</p>
                    <p className="text-sm font-bold text-zinc-700">Interviews, surveys, and usability testing.</p>
                 </div>
                 <div className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-xs">
-                   <p className="text-[10px] font-black uppercase tracking-widest text-emerald-500 mb-2">Personas</p>
+                   <p className="text-[11px] font-black uppercase tracking-widest text-emerald-500 mb-2">Personas</p>
                    <p className="text-sm font-bold text-zinc-700">Visualize different user groups.</p>
                 </div>
                 <div className="p-4 bg-white border border-zinc-100 rounded-3xl shadow-xs">
-                   <p className="text-[10px] font-black uppercase tracking-widest text-amber-500 mb-2">Empathy Maps</p>
+                   <p className="text-[11px] font-black uppercase tracking-widest text-amber-500 mb-2">Empathy Maps</p>
                    <p className="text-sm font-bold text-zinc-700">Map what users think, feel, experience, and do.</p>
                 </div>
               </div>
@@ -173,10 +173,6 @@ export const Day5Content = () => {
       ]}
       />
 
-      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-        <p></p>
-        <p></p>
-      </div>
     </div>
   );
 };

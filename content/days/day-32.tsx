@@ -15,7 +15,7 @@ export const Day32Content = () => {
     <div className="space-y-4 md:space-y-5 text-left">
       <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
         <div className="flex flex-col gap-1.5">
-          <span className="text-[10px] font-black uppercase tracking-widest text-orange-600">AI Module</span>
+          <span className="text-[11px] font-black uppercase tracking-widest text-orange-600">AI Module</span>
           <p className="text-lg font-black text-orange-900 leading-relaxed italic">
             "One of the most powerful applications enabled by LLMs is sophisticated question-answering (Q&A) chatbots. These use a technique known as Retrieval Augmented Generation."
           </p>
@@ -108,21 +108,21 @@ export const Day32Content = () => {
                   <td className="py-4 px-6">Accurate responses via dynamic retrieval</td>
                   <td className="py-4 px-6">Dynamic factual info (Internal policies)</td>
                   <td className="py-4 px-6">Retrieval → Augmentation → Generation</td>
-                  <td className="py-4 px-6 text-[10px]">Employee asking about home office setup policies.</td>
+                  <td className="py-4 px-6 text-[11px]">Employee asking about home office setup policies.</td>
                 </tr>
                 <tr className="border-b border-zinc-50">
                   <td className="py-4 px-6 font-bold text-zinc-900">Fine Tuning</td>
                   <td className="py-4 px-6">Impart stable patterns (style, tone, jargon)</td>
                   <td className="py-4 px-6">Communication style, specific language</td>
                   <td className="py-4 px-6">Retraining model on sample Q&A sets</td>
-                  <td className="py-4 px-6 text-[10px]">Co-pilot with CEO's voice/accent and unique jargon.</td>
+                  <td className="py-4 px-6 text-[11px]">Co-pilot with CEO's voice/accent and unique jargon.</td>
                 </tr>
                 <tr>
                   <td className="py-4 px-6 font-bold text-zinc-900">Prompt Engineering</td>
                   <td className="py-4 px-6">Apply restrictions and security rules</td>
                   <td className="py-4 px-6">Behavioral control, security rule book</td>
                   <td className="py-4 px-6">Strict instructions in system prompt</td>
-                  <td className="py-4 px-6 text-[10px]">Restricting chat about salaries or personal employee info.</td>
+                  <td className="py-4 px-6 text-[11px]">Restricting chat about salaries or personal employee info.</td>
                 </tr>
               </tbody>
             </table>
@@ -148,7 +148,7 @@ export const Day32Content = () => {
            <div className="bg-zinc-50 p-4 sm:p-5 rounded-2xl border border-zinc-200 space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
                  <div className="space-y-4">
-                    <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Mechanism</h4>
+                    <h4 className="text-[11px] font-black uppercase tracking-widest text-zinc-400">Mechanism</h4>
                     <ul className="space-y-3">
                        <li className="text-xs font-bold text-zinc-700 flex gap-2">
                          <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 mt-1.5 shrink-0" />
@@ -165,7 +165,7 @@ export const Day32Content = () => {
                     </ul>
                  </div>
                  <div className="space-y-4">
-                    <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Limitations</h4>
+                    <h4 className="text-[11px] font-black uppercase tracking-widest text-zinc-400">Limitations</h4>
                     <p className="text-xs font-medium text-rose-600 leading-relaxed italic">
                       "Lack of semantic understanding: synonyms cause search to fail (e.g., 'allowance' vs 'reimbursement'). Poor results for contextual phrases."
                     </p>
@@ -186,19 +186,19 @@ export const Day32Content = () => {
            <div className="bg-zinc-900 text-white p-4 sm:p-5 rounded-2xl space-y-8 border-t-8 border-emerald-500">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 md:gap-4">
                  <div className="space-y-3">
-                    <h4 className="text-[10px] font-black uppercase tracking-widest text-emerald-400">Step 1: Embeddings</h4>
+                    <h4 className="text-[11px] font-black uppercase tracking-widest text-emerald-400">Step 1: Embeddings</h4>
                     <p className="text-xs font-medium text-zinc-400 leading-relaxed">
                       Convert query and documents into mathematical vectors (arrays of numbers) representing meaning.
                     </p>
                  </div>
                  <div className="space-y-3">
-                    <h4 className="text-[10px] font-black uppercase tracking-widest text-emerald-400">Step 2: Vector Space</h4>
+                    <h4 className="text-[11px] font-black uppercase tracking-widest text-emerald-400">Step 2: Vector Space</h4>
                     <p className="text-xs font-medium text-zinc-400 leading-relaxed">
                       Vectors act as coordinates in high-dimensional space. Similar meanings cluster together (e.g., "dogs" and "pets").
                     </p>
                  </div>
                  <div className="space-y-3">
-                    <h4 className="text-[10px] font-black uppercase tracking-widest text-emerald-400">Step 3: Dot Product</h4>
+                    <h4 className="text-[11px] font-black uppercase tracking-widest text-emerald-400">Step 3: Dot Product</h4>
                     <p className="text-xs font-medium text-zinc-400 leading-relaxed">
                       "Mathematical ruler" measuring distance. Shorter distance = higher similarity score (0 to 1).
                     </p>
@@ -226,7 +226,7 @@ export const Day32Content = () => {
               <p className="text-xs font-medium text-zinc-500 leading-relaxed">
                 Fundamental components taking text and converting it into meaning-rich numbers (vectors).
               </p>
-              <div className="p-3 bg-zinc-50 rounded-xl border border-zinc-100 font-mono text-[10px] text-zinc-400">
+              <div className="p-3 bg-zinc-50 rounded-xl border border-zinc-100 font-mono text-[11px] text-zinc-400">
                 Example: All Mini LM L6V2 Model
               </div>
            </div>
@@ -241,15 +241,15 @@ export const Day32Content = () => {
               </p>
               <div className="flex gap-4">
                  <div className="flex-1 p-3 bg-zinc-50 rounded-xl border border-zinc-100">
-                    <p className="text-[10px] font-black text-zinc-900">Chroma</p>
-                    <p className="text-[9px] text-zinc-400">Open-source / Local</p>
+                    <p className="text-[11px] font-black text-zinc-900">Chroma</p>
+                    <p className="text-[11px] text-zinc-400">Open-source / Local</p>
                  </div>
                  <div className="flex-1 p-3 bg-zinc-50 rounded-xl border border-zinc-100">
-                    <p className="text-[10px] font-black text-zinc-900">Pinecone</p>
-                    <p className="text-[9px] text-zinc-400">Managed Service / Scalable</p>
+                    <p className="text-[11px] font-black text-zinc-900">Pinecone</p>
+                    <p className="text-[11px] text-zinc-400">Managed Service / Scalable</p>
                  </div>
               </div>
-              <div className="pt-2 text-[9px] font-bold text-indigo-600 uppercase tracking-widest">
+              <div className="pt-2 text-[11px] font-bold text-indigo-600 uppercase tracking-widest">
                  HNSW: Hierarchical Navigable Small World algorithm
               </div>
            </div>
@@ -267,15 +267,15 @@ export const Day32Content = () => {
            </p>
            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-3.5">
               <div className="space-y-2">
-                 <h5 className="text-[10px] font-black uppercase text-zinc-400">Fixed Size</h5>
+                 <h5 className="text-[11px] font-black uppercase text-zinc-400">Fixed Size</h5>
                  <p className="text-xs font-bold text-zinc-700">Split into predetermined sizes (e.g., 500 characters).</p>
               </div>
               <div className="space-y-2">
-                 <h5 className="text-[10px] font-black uppercase text-orange-600">Overlap</h5>
+                 <h5 className="text-[11px] font-black uppercase text-orange-600">Overlap</h5>
                  <p className="text-xs font-bold text-zinc-700">Crucial context preservation between splits (e.g., 50-100 characters).</p>
               </div>
               <div className="space-y-2">
-                 <h5 className="text-[10px] font-black uppercase text-zinc-400">Content-Based</h5>
+                 <h5 className="text-[11px] font-black uppercase text-zinc-400">Content-Based</h5>
                  <p className="text-xs font-bold text-zinc-700">Split by sentence or paragraph boundaries.</p>
               </div>
            </div>
@@ -291,7 +291,7 @@ export const Day32Content = () => {
         {/* Phase 1 */}
         <div className="space-y-2.5">
            <div className="flex items-center gap-4">
-              <div className="px-4 py-1.5 bg-zinc-900 text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg">Phase 1</div>
+              <div className="px-4 py-1.5 bg-zinc-900 text-white rounded-xl text-[11px] font-black uppercase tracking-widest shadow-lg">Phase 1</div>
               <h3 className="text-xl font-black text-zinc-900">The Data Preparation Pipeline (Ingestion)</h3>
            </div>
            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -305,7 +305,7 @@ export const Day32Content = () => {
                       <step.icon className="w-5 h-5" />
                    </div>
                    <h4 className="font-black text-zinc-900 text-sm">{step.title}</h4>
-                   <p className="text-[10px] font-medium text-zinc-500 leading-relaxed">{step.desc}</p>
+                   <p className="text-[11px] font-medium text-zinc-500 leading-relaxed">{step.desc}</p>
                 </div>
               ))}
            </div>
@@ -314,7 +314,7 @@ export const Day32Content = () => {
         {/* Phase 2 */}
         <div className="space-y-2.5">
            <div className="flex items-center gap-4">
-              <div className="px-4 py-1.5 bg-indigo-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg">Phase 2</div>
+              <div className="px-4 py-1.5 bg-indigo-600 text-white rounded-xl text-[11px] font-black uppercase tracking-widest shadow-lg">Phase 2</div>
               <h3 className="text-xl font-black text-zinc-900">The Query-Time Execution Flow (R-A-G)</h3>
            </div>
            <div className="space-y-4">
@@ -357,10 +357,6 @@ export const Day32Content = () => {
       ]}
       />
 
-      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-        <p></p>
-        <p></p>
-      </div>
     </div>
   );
 };

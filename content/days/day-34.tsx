@@ -16,7 +16,7 @@ export const Day34Content = () => {
     <div className="space-y-4 md:space-y-5 text-left">
       <section className="bg-blue-50/70 p-3.5 sm:p-4 rounded-xl border border-blue-100/80">
         <div className="flex flex-col gap-1.5">
-          <span className="text-[10px] font-black uppercase tracking-widest text-orange-600">AI Module</span>
+          <span className="text-[11px] font-black uppercase tracking-widest text-orange-600">AI Module</span>
           <p className="text-sm font-bold text-orange-700">
             Task cover this course <a href="https://www.deeplearning.ai/courses/agentic-ai/" target="_blank" rel="noopener noreferrer" className="underline decoration-orange-300">https://www.deeplearning.ai/courses/agentic-ai/</a>
           </p>
@@ -61,7 +61,7 @@ export const Day34Content = () => {
              Task decomposition is the practice of dissecting complex tasks into atomic steps the AI (or supporting tools/APIs) can execute.
            </p>
            <div className="space-y-4">
-              <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Detailed Steps in Agentic Workflows</h4>
+              <h4 className="text-[11px] font-black uppercase tracking-widest text-zinc-400">Detailed Steps in Agentic Workflows</h4>
               {[
                 "Identify the complex job and break it into specific, sequential subtasks.",
                 "Assign each subtask to an LLM, specialized AI model, or external tool/API suited to the task (e.g., PDF-to-text conversion for invoice extraction).",
@@ -69,7 +69,7 @@ export const Day34Content = () => {
                 "Refine and iterate—decompose further if a step is not easily automatable."
               ].map((step, i) => (
                 <div key={i} className="flex gap-4 items-start bg-white p-4 rounded-2xl border border-zinc-100 shadow-xs">
-                   <div className="w-6 h-6 rounded-full bg-orange-500 flex items-center justify-center text-[10px] font-black text-white shrink-0 mt-0.5">Step {i+1}</div>
+                   <div className="w-6 h-6 rounded-full bg-orange-500 flex items-center justify-center text-[11px] font-black text-white shrink-0 mt-0.5">Step {i+1}</div>
                    <p className="text-xs font-bold text-zinc-700 leading-relaxed">{step}</p>
                 </div>
               ))}
@@ -205,7 +205,7 @@ export const Day34Content = () => {
            </p>
            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 md:gap-4">
               <div className="space-y-4">
-                 <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Metrics and Approaches</h4>
+                 <h4 className="text-[11px] font-black uppercase tracking-widest text-zinc-400">Metrics and Approaches</h4>
                  <ul className="space-y-3">
                     <li className="text-xs font-bold text-zinc-700 flex gap-2"><strong>Objective Evals:</strong> Easily codified checks (e.g., “Does the output mention a competitor’s name?”).</li>
                     <li className="text-xs font-bold text-zinc-700 flex gap-2"><strong>Subjective Evals:</strong> Use a separate judging LLM or human review. Prompt the judge with a quality scoring rubric (e.g., 1-5 scale).</li>
@@ -214,7 +214,7 @@ export const Day34Content = () => {
                  </ul>
               </div>
               <div className="space-y-4">
-                 <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Improvement Loop</h4>
+                 <h4 className="text-[11px] font-black uppercase tracking-widest text-zinc-400">Improvement Loop</h4>
                  <p className="text-xs font-medium text-zinc-500 leading-relaxed">
                    <strong>Error Analysis:</strong> Manually or automatically inspect intermediate traces to spot flaws or improvement areas.
                  </p>
@@ -276,10 +276,6 @@ export const Day34Content = () => {
       ]}
       />
 
-      <div className="pt-3.5 border-t border-zinc-200 flex justify-between text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-        <p></p>
-        <p></p>
-      </div>
     </div>
   );
 };
