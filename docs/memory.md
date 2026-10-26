@@ -11,6 +11,7 @@ Decisions, context and lessons learned that are not obvious from the code. Newes
 
 | Date | Decision | Why |
 |---|---|---|
+| 2026-10-26 | Build the PM Assignment Solver inside thenoobpm.com, not as n8n + Lovable | Reuses Gemini, Langfuse, Firebase sign-in and Vercel at no extra hosting cost; one codebase |
 | 2026-10-24 | Bring back a Text mode for the AI interview beside Voice: candidate types or records, Priya replies in text only (no TTS). Mode is chosen at setup, tagged on Langfuse traces and saved on the scorecard | Cheaper (no Sarvam), faster, works on phones; owner idea: text as the cheaper taste, voice as the real interview |
 | 2026-10-23 | Add Vercel agent skills, Strix skills, the 21st skill and a shared `.mcp.json` (shadcn, Context7, 21st) to the repo; Graphify, Strix CLI and gstack are installed per laptop (see `docs/dev-tools.md`) | Owner asked for these tools; gstack is too large and builds binaries, so it is not copied in |
 | 2026-10-17 | PM → AI PM 90-day course at `/ai-pm`, local only: `isAiPmCourseEnabled` (on in `npm run dev`, or `VITE_AI_PM_COURSE_ENABLED=true`); off in production, where its code is left out of the build and `/ai-pm` redirects to the dashboard. Progress is saved in the browser only (`aipm_progress_v1`) | Owner wants to finish it before launching |
