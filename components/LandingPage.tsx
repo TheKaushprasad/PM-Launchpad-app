@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  ArrowRight, Check, Search, Sparkles, BookOpen, Users, 
+  ArrowRight, Search, Sparkles, BookOpen, Users, 
   Folder, Layers, Zap, Star, ChevronDown, ChevronRight,
   TrendingUp, Compass, MessageSquare, Briefcase, FileText,
   BarChart2, Code, Bot, Smartphone, Mail, X, CheckCircle2,
@@ -125,65 +125,72 @@ export const LandingPage: React.FC = () => {
       title: 'Foundations',
       desc: 'Mindset, PDLC, user problems, PRDs and core PM concepts.',
       icon: BookOpen,
-      iconColor: 'text-amber-600',
-      iconBg: 'bg-amber-50'
+      iconColor: 'text-amber-700',
+      iconBg: 'bg-amber-100'
     },
     {
       id: 'research',
       title: 'User Research',
       desc: 'Customer interviews, JTBD, empathy maps and analysis.',
       icon: Users,
-      iconColor: 'text-brand-600',
-      iconBg: 'bg-brand-50'
+      iconColor: 'text-brand-700',
+      iconBg: 'bg-brand-100'
     },
     {
       id: 'strategy',
       title: 'Product Strategy',
-      desc: 'North star metrics, prioritization, RICE/MoSCoW and roadmaps.',
+      desc: 'North star metrics, prioritisation, RICE/MoSCoW and roadmaps.',
       icon: Target,
-      iconColor: 'text-rose-600',
-      iconBg: 'bg-rose-50'
+      iconColor: 'text-rose-700',
+      iconBg: 'bg-rose-100'
     },
     {
       id: 'data',
       title: 'Data & Analytics',
       desc: 'SQL, retention, funnels, experimentation and A/B tests.',
       icon: BarChart2,
-      iconColor: 'text-emerald-600',
-      iconBg: 'bg-emerald-50'
+      iconColor: 'text-[#3730A3]',
+      iconBg: 'bg-[#E0E7FF]'
     },
     {
       id: 'tech',
       title: 'Tech & Architecture',
       desc: 'APIs, client-server models, databases and system design basics.',
       icon: Code,
-      iconColor: 'text-brand-600',
-      iconBg: 'bg-brand-50'
+      iconColor: 'text-teal-700',
+      iconBg: 'bg-teal-50'
     },
     {
       id: 'ai',
       title: 'AI & GenAI Workflows',
-      desc: 'LLMs, prompt engineering, RAG and building AI-powered PM workflows.',
+      desc: 'LLMs, prompt engineering, RAG and AI-powered PM workflows.',
       icon: Bot,
-      iconColor: 'text-orange-600',
-      iconBg: 'bg-orange-50'
+      iconColor: 'text-orange-700',
+      iconBg: 'bg-orange-100'
     },
     {
       id: 'design',
       title: 'UI/UX & Design',
       desc: 'Heuristics, wireframing, user flows and usability testing.',
       icon: Smartphone,
-      iconColor: 'text-brand-600',
-      iconBg: 'bg-brand-50'
+      iconColor: 'text-[#6D28D9]',
+      iconBg: 'bg-[#EDE9FE]'
     },
     {
       id: 'jobready',
       title: 'Portfolio & Job Hunt',
       desc: 'Case studies, portfolio building, networking and interview prep.',
       icon: Briefcase,
-      iconColor: 'text-pink-600',
-      iconBg: 'bg-pink-50'
+      iconColor: 'text-pink-700',
+      iconBg: 'bg-pink-100'
     }
+  ];
+
+  const howItWorksSteps = [
+    { title: 'Learn', desc: 'Core frameworks and concepts in short daily lessons.', path: '/dashboard' },
+    { title: 'Build', desc: 'Real projects and case studies that go straight into your portfolio.', path: '/projects' },
+    { title: 'Practise', desc: 'AI mock interviews with a score and feedback after every answer.', path: '/interview-studio' },
+    { title: 'Land', desc: 'Polish your profile, apply on the PM Jobs Board, track every application.', path: '/jobs' },
   ];
 
   const searchableItems = [
@@ -1109,196 +1116,102 @@ export const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* 8 PROFESSIONAL PILLARS (COMPLETE SKILL BLUEPRINT) */}
-      <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-
-        {/* Section Heading */}
-        <div data-reveal className="text-center max-w-2xl mx-auto mb-12">
-          <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
-            8 Professional Pillars
-          </h2>
-          <p className="text-sm sm:text-base text-slate-600 mt-2">
-            A comprehensive curriculum calibrated against top hiring standards.
-          </p>
+      {/* THE CURRICULUM: 8 PILLARS */}
+      <section className="py-20 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div data-reveal className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-10 sm:mb-12">
+          <div className="max-w-2xl">
+            <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#047857]">The curriculum</p>
+            <h2 className="mt-3 text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-[-0.035em] leading-[1.05]">
+              8 pillars, mapped to what hiring managers test.
+            </h2>
+          </div>
+          <button
+            type="button"
+            onClick={() => navigate('/dashboard')}
+            className="group inline-flex items-center gap-1.5 text-sm font-bold text-[#047857] hover:text-[#064E3B] transition-colors cursor-pointer shrink-0 sm:pb-2"
+          >
+            <span>See full syllabus</span>
+            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+          </button>
         </div>
 
-        {/* Track list: each row opens that track */}
-        <div data-reveal-stagger className="grid grid-cols-1 md:grid-cols-2 gap-x-12 border-t border-slate-200/80">
-          {pillars.map((pillar) => {
+        {/* Each card opens that track */}
+        <div data-reveal-stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {pillars.map((pillar, i) => {
             const Icon = pillar.icon;
             return (
               <button
                 type="button"
                 key={pillar.id}
                 onClick={() => navigate(`/dashboard/${pillar.id}`)}
-                className="group flex items-start gap-4 py-5 border-b border-slate-200/80 text-left cursor-pointer"
+                className="group flex flex-col text-left bg-white border border-slate-200/80 rounded-2xl p-5 sm:p-6 cursor-pointer transition-all duration-200 hover:border-emerald-300 hover:shadow-[0_8px_24px_-12px_rgba(6,78,59,0.25)] hover:-translate-y-0.5"
               >
-                <div className={`mt-0.5 w-9 h-9 rounded-xl ${pillar.iconBg} ${pillar.iconColor} flex items-center justify-center shrink-0`}>
-                  <Icon className="w-[18px] h-[18px]" />
+                <div className="flex items-center justify-between">
+                  <div className={`w-10 h-10 rounded-xl ${pillar.iconBg} ${pillar.iconColor} flex items-center justify-center`}>
+                    <Icon className="w-[18px] h-[18px]" />
+                  </div>
+                  <span className="text-xs font-semibold text-slate-500 tabular-nums">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
                 </div>
-                <div className="min-w-0 flex-1">
-                  <h3 className="text-base font-bold text-slate-900 group-hover:text-[#047857] transition-colors duration-200">
-                    {pillar.title}
-                  </h3>
-                  <p className="text-sm text-slate-500 mt-1 leading-relaxed">
-                    {pillar.desc}
-                  </p>
-                </div>
-                <ArrowRight className="w-4 h-4 mt-1.5 text-slate-300 group-hover:text-[#047857] group-hover:translate-x-0.5 transition-all duration-200 shrink-0" />
+                <h3 className="mt-5 text-lg font-bold text-slate-900 tracking-tight group-hover:text-[#047857] transition-colors duration-200">
+                  {pillar.title}
+                </h3>
+                <p className="mt-2 text-sm text-slate-600 leading-relaxed">
+                  {pillar.desc}
+                </p>
               </button>
             );
           })}
         </div>
       </section>
 
-      {/* ACTION-ORIENTED LEARNING (DARK FOREST GREEN SECTION) */}
-      <section className="py-20 bg-[#07281E] text-white overflow-hidden relative">
+      {/* HOW IT WORKS (DARK FOREST GREEN SECTION) */}
+      <section className="py-20 sm:py-24 bg-[#06382B] text-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          <div data-reveal-stagger className="grid lg:grid-cols-12 gap-12 items-center">
-            
-            {/* Left Column */}
-            <div className="lg:col-span-5 space-y-6">
-              
-
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight text-white">
-                Built for Action, Not Just Passive Reading.
+          <div data-reveal className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-10 sm:mb-12">
+            <div className="max-w-2xl">
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#7EE2B0]">How it works</p>
+              <h2 className="mt-3 text-4xl sm:text-5xl font-extrabold tracking-[-0.035em] leading-[1.05] text-white">
+                Built for action,<br className="hidden sm:block" /> not passive reading.
               </h2>
-
-              <p className="text-sm sm:text-base text-emerald-100/80 leading-relaxed">
-                Learn by doing with hands-on projects, AI feedback, and real interview practice. Turn knowledge into confidence.
-              </p>
-
-              {/* Checklist */}
-              <div className="space-y-3 pt-2">
-                <div className="flex items-center gap-3 text-sm font-medium text-emerald-100">
-                  <div className="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
-                    <Check className="w-3.5 h-3.5" />
-                  </div>
-                  <span>Hands-on projects and deliverables</span>
-                </div>
-                <div className="flex items-center gap-3 text-sm font-medium text-emerald-100">
-                  <div className="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
-                    <Check className="w-3.5 h-3.5" />
-                  </div>
-                  <span>AI-powered feedback and scoring</span>
-                </div>
-                <div className="flex items-center gap-3 text-sm font-medium text-emerald-100">
-                  <div className="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
-                    <Check className="w-3.5 h-3.5" />
-                  </div>
-                  <span>Real interview practice and improvements</span>
-                </div>
-              </div>
-
-              {/* White Button */}
-              <button
-                onClick={() => navigate('/dashboard')}
-                className="bg-white hover:bg-slate-100 text-[#07281E] px-7 py-3.5 rounded-xl font-bold text-sm inline-flex items-center gap-2 shadow-lg transition-all hover:-translate-y-0.5 cursor-pointer mt-4"
-              >
-                <span>Start learning free</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
             </div>
+            <button
+              type="button"
+              onClick={() => navigate('/dashboard')}
+              className="self-start sm:self-auto bg-[#7EE2B0] hover:bg-[#9BEBC3] text-[#06382B] px-6 py-3.5 rounded-xl font-bold text-sm inline-flex items-center gap-2 transition-all hover:-translate-y-0.5 cursor-pointer shrink-0"
+            >
+              <span>Start learning free</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
 
-            {/* Right Column: 4 Connected Steps Pipeline + Job Ready PM Goal Card */}
-            <div className="lg:col-span-7">
-              
-              {/* Playful Handwritten Script */}
-              <div className="flex justify-end mb-4 pr-6">
-                <span className="font-serif italic text-xs text-emerald-300">
-                  From learning to landing 🚀
-                </span>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
-                
-                {/* 4 Connected Vertical Steps */}
-                <div className="md:col-span-7 space-y-3">
-                  
-                  {/* Step 1 */}
-                  <div className="flex items-center gap-3.5 p-3 rounded-xl bg-emerald-950/60 border border-emerald-800/40">
-                    <div className="w-8 h-8 rounded-lg bg-emerald-600 text-white font-black text-xs flex items-center justify-center shrink-0">
-                      1
-                    </div>
-                    <div>
-                      <h4 className="text-xs font-bold text-white">Learn</h4>
-                      <p className="text-[11px] text-emerald-200/70">Core frameworks & concepts</p>
-                    </div>
-                  </div>
-
-                  {/* Step 2 */}
-                  <div className="flex items-center gap-3.5 p-3 rounded-xl bg-emerald-950/60 border border-emerald-800/40">
-                    <div className="w-8 h-8 rounded-lg bg-emerald-600 text-white font-black text-xs flex items-center justify-center shrink-0">
-                      2
-                    </div>
-                    <div>
-                      <h4 className="text-xs font-bold text-white">Build</h4>
-                      <p className="text-[11px] text-emerald-200/70">Real projects & case studies</p>
-                    </div>
-                  </div>
-
-                  {/* Step 3 */}
-                  <div className="flex items-center gap-3.5 p-3 rounded-xl bg-emerald-950/60 border border-emerald-800/40">
-                    <div className="w-8 h-8 rounded-lg bg-emerald-600 text-white font-black text-xs flex items-center justify-center shrink-0">
-                      3
-                    </div>
-                    <div>
-                      <h4 className="text-xs font-bold text-white">Practice</h4>
-                      <p className="text-[11px] text-emerald-200/70">AI mock interviews & get feedback</p>
-                    </div>
-                  </div>
-
-                  {/* Step 4 */}
-                  <div className="flex items-center gap-3.5 p-3 rounded-xl bg-emerald-950/60 border border-emerald-800/40">
-                    <div className="w-8 h-8 rounded-lg bg-emerald-600 text-white font-black text-xs flex items-center justify-center shrink-0">
-                      4
-                    </div>
-                    <div>
-                      <h4 className="text-xs font-bold text-white">Grow</h4>
-                      <p className="text-[11px] text-emerald-200/70">Track progress & land your dream role</p>
-                    </div>
-                  </div>
-
-                </div>
-
-                {/* Arrow to Goal Card */}
-                <div className="hidden md:flex justify-center text-emerald-500 md:col-span-1">
-                  <ArrowRight className="w-6 h-6" />
-                </div>
-
-                {/* Goal Card: "Job Ready PM" */}
-                <div className="md:col-span-4 bg-[#0A3326] border border-emerald-600/40 p-5 rounded-2xl text-center shadow-xl">
-                  <div className="w-12 h-12 rounded-full bg-emerald-900/80 text-emerald-300 flex items-center justify-center mx-auto mb-3 text-xl">
-                    🎯
-                  </div>
-
-                  <h3 className="text-sm font-black text-white">Job Ready PM</h3>
-
-                  <div className="space-y-1.5 my-4 text-[11px] text-emerald-100/90 text-left">
-                    <div className="flex items-center gap-1.5">
-                      <Check className="w-3 h-3 text-emerald-400 shrink-0" />
-                      <span>Strong Portfolio</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <Check className="w-3 h-3 text-emerald-400 shrink-0" />
-                      <span>Interview Ready</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <Check className="w-3 h-3 text-emerald-400 shrink-0" />
-                      <span>Confident & Skilled</span>
-                    </div>
-                  </div>
-
-                  <div className="w-full bg-[#34D399] text-[#07281E] font-black text-xs py-2 rounded-full select-none text-center shadow-2xs">
-                    You Got This!
-                  </div>
-                </div>
-
-              </div>
-            </div>
-
+          <div data-reveal-stagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {howItWorksSteps.map((step, i) => {
+              const last = i === howItWorksSteps.length - 1;
+              return (
+                <button
+                  type="button"
+                  key={step.title}
+                  onClick={() => navigate(step.path)}
+                  className={`group flex flex-col text-left rounded-2xl p-6 sm:p-7 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${
+                    last
+                      ? 'bg-[#7EE2B0] text-[#06382B] hover:bg-[#8FE7BB]'
+                      : 'border border-white/15 hover:border-[#7EE2B0]/50 hover:bg-white/[0.03]'
+                  }`}
+                >
+                  <span className={`block text-4xl sm:text-5xl font-extrabold tracking-tight tabular-nums ${last ? 'text-[#06382B]' : 'text-[#7EE2B0]'}`}>
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <h3 className={`mt-3 text-xl font-bold ${last ? 'text-[#06382B]' : 'text-white'}`}>
+                    {step.title}
+                  </h3>
+                  <p className={`mt-3 text-sm sm:text-[15px] leading-relaxed ${last ? 'text-[#06382B]/85' : 'text-emerald-50/80'}`}>
+                    {step.desc}
+                  </p>
+                </button>
+              );
+            })}
           </div>
         </div>
       </section>
