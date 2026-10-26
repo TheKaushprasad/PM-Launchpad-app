@@ -1,6 +1,7 @@
 node_modules/
 dist/
 .env
+services/.env
 .env.local
 eval/results/
 
@@ -10,3 +11,10 @@ eval/results/
 # Local outputs of dev tools (see docs/dev-tools.md)
 graphify-out/
 strix_runs/
+
+# Machine-local files from running the app and test scripts
+*.log
+__pycache__/
+.mcp.json.backup
+sarvam-samples/
+.claude/settings.local.json

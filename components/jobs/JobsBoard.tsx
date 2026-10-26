@@ -52,7 +52,7 @@ const Chip: React.FC<{ active: boolean; onClick: () => void; children: React.Rea
   <button
     type="button"
     onClick={onClick}
-    className={`px-3 py-1.5 rounded-full text-xs font-bold border transition-colors ${
+    className={`inline-flex items-center pointer-coarse:min-h-11 px-3 py-1.5 rounded-full text-xs font-bold border transition-colors ${
       active ? 'bg-zinc-900 text-white border-zinc-900' : 'bg-white text-slate-600 border-slate-200 hover:border-slate-300'
     }`}
   >
@@ -189,8 +189,8 @@ export const JobsBoard: React.FC = () => {
 
       {/* Filters */}
       <section className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 mb-5 space-y-4">
-        <div className="flex flex-col md:flex-row gap-3">
-          <label className="relative flex-1">
+        <div className="grid gap-3 sm:grid-cols-3 lg:flex lg:flex-row">
+          <label className="relative sm:col-span-3 lg:flex-1">
             <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               value={query}
@@ -200,7 +200,7 @@ export const JobsBoard: React.FC = () => {
             />
           </label>
           <Select value={prefs.location} onValueChange={(v) => setPrefs((p) => ({ ...p, location: v }))}>
-            <SelectTrigger aria-label="Location" className="w-full md:w-fit px-3 py-2.5 rounded-xl border border-slate-200 text-sm bg-white shadow-none h-auto">
+            <SelectTrigger aria-label="Location" className="w-full lg:w-fit px-3 py-2.5 rounded-xl border border-slate-200 text-sm bg-white shadow-none h-auto">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -212,7 +212,7 @@ export const JobsBoard: React.FC = () => {
             </SelectContent>
           </Select>
           <Select value={prefs.experience} onValueChange={(v) => setPrefs((p) => ({ ...p, experience: v }))}>
-            <SelectTrigger aria-label="Experience" className="w-full md:w-fit px-3 py-2.5 rounded-xl border border-slate-200 text-sm bg-white shadow-none h-auto">
+            <SelectTrigger aria-label="Experience" className="w-full lg:w-fit px-3 py-2.5 rounded-xl border border-slate-200 text-sm bg-white shadow-none h-auto">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -222,7 +222,7 @@ export const JobsBoard: React.FC = () => {
             </SelectContent>
           </Select>
           <Select value={String(postedWithin)} onValueChange={(v) => setPostedWithin(Number(v))}>
-            <SelectTrigger aria-label="Posted within" className="w-full md:w-fit px-3 py-2.5 rounded-xl border border-slate-200 text-sm bg-white shadow-none h-auto">
+            <SelectTrigger aria-label="Posted within" className="w-full lg:w-fit px-3 py-2.5 rounded-xl border border-slate-200 text-sm bg-white shadow-none h-auto">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -269,7 +269,7 @@ export const JobsBoard: React.FC = () => {
           <button
             type="button"
             onClick={savePreferences}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100"
+            className="inline-flex items-center gap-1.5 pointer-coarse:min-h-11 px-3 py-1.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100"
           >
             <Save className="w-3.5 h-3.5" />
             {prefsSavedAt ? 'Saved as my preferences' : 'Save as my preferences'}

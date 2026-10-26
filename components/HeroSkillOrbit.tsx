@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import {
   motion, AnimatePresence, MotionValue,
   useAnimationFrame, useMotionValue, useReducedMotion, useTransform
-} from 'motion/react';
+} from 'framer-motion';
 import {
   Sparkles, Compass, Users, Search, BarChart3, PenTool,
   Puzzle, FlaskConical, Map, Heart

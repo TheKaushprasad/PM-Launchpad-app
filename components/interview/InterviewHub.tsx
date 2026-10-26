@@ -567,7 +567,7 @@ export const InterviewHub: React.FC = () => {
                   <button
                     key={t.id}
                     onClick={() => setSelectedTrack(t.id)}
-                    className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold tracking-wide transition-all cursor-pointer ${
+                    className={`tap-target flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold tracking-wide transition-all cursor-pointer ${
                       isSelected 
                         ? 'bg-[#111827] text-white shadow-xs border border-[#111827]' 
                         : 'bg-white border border-slate-200/90 text-slate-600 hover:text-slate-900 hover:bg-slate-50 hover:border-slate-300'
@@ -584,7 +584,7 @@ export const InterviewHub: React.FC = () => {
             {/* Full Loop Button */}
             <button
               onClick={handleStartLoop}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs transition-all shrink-0 cursor-pointer shadow-2xs"
+              className="tap-target inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs transition-all shrink-0 cursor-pointer shadow-2xs"
               title="Product Design, an analytical round and Behavioral, back to back, with one combined verdict"
             >
               <Layers className="w-3.5 h-3.5" />
@@ -600,7 +600,7 @@ export const InterviewHub: React.FC = () => {
                 }
                 setShowHistoryModal(true);
               }}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-brand-200/90 text-brand-600 hover:bg-brand-50/60 font-bold text-xs transition-all shrink-0 cursor-pointer shadow-2xs self-start lg:self-auto"
+              className="tap-target inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-brand-200/90 text-brand-600 hover:bg-brand-50/60 font-bold text-xs transition-all shrink-0 cursor-pointer shadow-2xs self-start lg:self-auto"
             >
               <History className="w-3.5 h-3.5 text-brand-600" />
               <span>Past Scorecards</span>
@@ -686,19 +686,19 @@ export const InterviewHub: React.FC = () => {
             return (
               <div
                 key={sc.id}
-                className="bg-white rounded-3xl border border-slate-200/90 p-6 flex flex-col justify-between transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:border-slate-300"
+                className="bg-white rounded-3xl border border-slate-200/90 p-5 sm:p-6 flex flex-col justify-between transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:border-slate-300"
               >
                 <div className="space-y-4">
                   {/* Card Top: Company Logo + Company Name (left) & Badges (right) */}
-                  <div className="flex items-center justify-between gap-2">
-                    <div className="flex items-center gap-2.5">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div className="flex min-w-0 items-center gap-2.5">
                       {renderCompanyLogo(sc.company)}
                       <span className="font-extrabold text-lg text-slate-900 tracking-tight">
                         {sc.company}
                       </span>
                     </div>
 
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex flex-wrap items-center gap-1.5">
                       {/* Sub-tag badge */}
                       <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-slate-50 text-slate-700 border border-slate-200/80">
                         <span className={`w-1.5 h-1.5 rounded-full ${subTag.dot}`} />
@@ -751,7 +751,7 @@ export const InterviewHub: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => handleStartInterview(sc)}
-                    className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-50/90 hover:bg-brand-100 text-brand-600 hover:text-brand-700 font-extrabold text-xs transition-colors cursor-pointer"
+                    className="tap-target inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-brand-50/90 hover:bg-brand-100 text-brand-600 hover:text-brand-700 font-extrabold text-xs transition-colors cursor-pointer"
                   >
                     <span>{ctaText}</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -764,7 +764,8 @@ export const InterviewHub: React.FC = () => {
                       toggleBookmark(sc.id);
                     }}
                     title={isBookmarked ? "Remove bookmark" : "Save case"}
-                    className="p-2.5 text-slate-400 hover:text-slate-800 rounded-xl hover:bg-slate-100 transition-colors cursor-pointer"
+                    aria-label={isBookmarked ? "Remove bookmark" : "Save case"}
+                    className="tap-target p-2.5 text-slate-500 hover:text-slate-800 rounded-xl hover:bg-slate-100 transition-colors cursor-pointer"
                   >
                     <Bookmark className={`w-4 h-4 ${isBookmarked ? 'fill-slate-900 text-slate-900' : ''}`} />
                   </button>

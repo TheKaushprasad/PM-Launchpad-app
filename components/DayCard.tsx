@@ -158,7 +158,8 @@ export const DayCard: React.FC<DayCardProps> = ({ lesson, isCurrentLesson = fals
                 type="button"
                 onClick={handleToggleBookmark}
                 title={isLocked ? 'Login to bookmark' : isBookmarked ? 'Remove Bookmark' : 'Bookmark Lesson'}
-                className={`p-1 rounded-md transition-colors cursor-pointer ${
+                aria-label={isBookmarked ? 'Remove bookmark' : 'Bookmark lesson'}
+                className={`tap-target p-1 rounded-md transition-colors cursor-pointer ${
                   isBookmarked 
                     ? 'text-amber-500' 
                     : 'text-slate-400 hover:text-amber-500'
@@ -213,7 +214,7 @@ export const DayCard: React.FC<DayCardProps> = ({ lesson, isCurrentLesson = fals
             <button
               type="button"
               onClick={handleToggleComplete}
-              className="inline-flex items-center gap-2 text-xs font-semibold text-emerald-700 hover:text-emerald-800 transition-colors cursor-pointer group/btn"
+              className="tap-target inline-flex items-center gap-2 text-xs font-semibold text-emerald-700 hover:text-emerald-800 transition-colors cursor-pointer group/btn"
               title="Mark incomplete"
             >
               <CheckCircle2 className="w-4 h-4 text-emerald-600 fill-emerald-100 shrink-0" />
@@ -223,7 +224,7 @@ export const DayCard: React.FC<DayCardProps> = ({ lesson, isCurrentLesson = fals
             <button
               type="button"
               onClick={handleToggleComplete}
-              className="inline-flex items-center gap-2 text-xs font-medium text-slate-500 hover:text-slate-900 transition-colors cursor-pointer group/btn"
+              className="tap-target inline-flex items-center gap-2 text-xs font-medium text-slate-500 hover:text-slate-900 transition-colors cursor-pointer group/btn"
               title="Mark complete"
             >
               <span className="w-4 h-4 rounded-full border border-slate-300 group-hover/btn:border-slate-500 shrink-0" />

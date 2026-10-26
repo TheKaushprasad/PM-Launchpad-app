@@ -263,7 +263,7 @@ export const Dashboard: React.FC = () => {
              <button
                 type="button"
                 onClick={() => setFilterMode('completed')}
-                className={`h-9 px-3.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all duration-150 cursor-pointer ${
+                className={`tap-target h-9 px-3.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all duration-150 cursor-pointer ${
                   filterMode === 'completed' 
                     ? 'bg-[#111827] text-white shadow-2xs' 
                     : 'bg-white hover:bg-slate-50 text-slate-700 border border-slate-200/90'
@@ -275,7 +275,7 @@ export const Dashboard: React.FC = () => {
              <button
                 type="button"
                 onClick={() => setFilterMode('syllabus')}
-                className={`h-9 px-3.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all duration-150 cursor-pointer ${
+                className={`tap-target h-9 px-3.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all duration-150 cursor-pointer ${
                   filterMode === 'syllabus' 
                     ? 'bg-[#111827] text-white shadow-2xs' 
                     : 'bg-white hover:bg-slate-50 text-slate-700 border border-slate-200/90'
@@ -287,7 +287,7 @@ export const Dashboard: React.FC = () => {
              <button
                 type="button"
                 onClick={() => setFilterMode('bookmarked')}
-                className={`h-9 px-3.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all duration-150 cursor-pointer ${
+                className={`tap-target h-9 px-3.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all duration-150 cursor-pointer ${
                   filterMode === 'bookmarked' 
                     ? 'bg-[#111827] text-white shadow-2xs' 
                     : 'bg-white hover:bg-slate-50 text-slate-700 border border-slate-200/90'
@@ -299,7 +299,7 @@ export const Dashboard: React.FC = () => {
              <button
                 type="button"
                 onClick={() => setFilterMode('notes')}
-                className={`h-9 px-3.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all duration-150 cursor-pointer ${
+                className={`tap-target h-9 px-3.5 rounded-xl font-bold text-xs flex items-center gap-1.5 transition-all duration-150 cursor-pointer ${
                   filterMode === 'notes' 
                     ? 'bg-[#111827] text-white shadow-2xs' 
                     : 'bg-white hover:bg-slate-50 text-slate-700 border border-slate-200/90'

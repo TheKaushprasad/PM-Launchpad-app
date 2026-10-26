@@ -1,29 +1,44 @@
 import React, { Component, useState, useEffect, useRef, ReactNode, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, Outlet, useOutletContext, Link } from 'react-router-dom';
 import { SeoMeta } from './components/SeoMeta';
-import { InterviewQuestionsHub, InterviewQuestionsTrack, InterviewQuestionDetail } from './components/questions/InterviewQuestions';
 import { Sidebar } from './components/Sidebar';
-import { Dashboard } from './components/Dashboard';
-import { LessonDetail } from './components/LessonDetail';
-import { About } from './components/About';
 import { LandingPage } from './components/LandingPage';
-import { Resources } from './components/Resources';
-import { ToolsHub } from './components/ToolsHub';
-import { LinkedInOptimiser } from './components/LinkedInOptimiser';
-import { ResumeAuditor } from './components/ResumeAuditor';
-import { InterviewHub } from './components/interview/InterviewHub';
-import { InterviewComingSoon } from './components/interview/InterviewComingSoon';
 import { isAiInterviewEnabled, isAiPmCourseEnabled, isAssignmentSolverEnabled } from './lib/featureFlags';
-
-import { ProjectsHub } from './components/projects/ProjectsHub';
-import { ProjectDetail } from './components/projects/ProjectDetail';
-import { AssignmentDetail } from './components/assignments/AssignmentDetail';
-import { JobsBoard } from './components/jobs/JobsBoard';
-import { Profile } from './components/Profile';
-import { Onboarding } from './components/auth/Onboarding';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
-import { AuthActionPage } from './components/auth/AuthActionPage';
 import { Menu, X, AlertTriangle, Loader2 } from 'lucide-react';
+
+// Every page except the landing page is its own chunk, downloaded the first time someone opens it,
+// so a first visit doesn't carry the interview studio, resume auditor and every lesson.
+const page = <M,>(load: () => Promise<M>, pick: (m: M) => React.ComponentType) =>
+  lazy(() => load().then((m) => ({ default: pick(m) })));
+
+const Dashboard = page(() => import('./components/Dashboard'), (m) => m.Dashboard);
+const LessonDetail = page(() => import('./components/LessonDetail'), (m) => m.LessonDetail);
+const About = page(() => import('./components/About'), (m) => m.About);
+const Resources = page(() => import('./components/Resources'), (m) => m.Resources);
+const ToolsHub = page(() => import('./components/ToolsHub'), (m) => m.ToolsHub);
+const LinkedInOptimiser = page(() => import('./components/LinkedInOptimiser'), (m) => m.LinkedInOptimiser);
+const ResumeAuditor = page(() => import('./components/ResumeAuditor'), (m) => m.ResumeAuditor);
+const InterviewHub = page(() => import('./components/interview/InterviewHub'), (m) => m.InterviewHub);
+const InterviewComingSoon = page(() => import('./components/interview/InterviewComingSoon'), (m) => m.InterviewComingSoon);
+const InterviewQuestionsHub = page(() => import('./components/questions/InterviewQuestions'), (m) => m.InterviewQuestionsHub);
+const InterviewQuestionsTrack = page(() => import('./components/questions/InterviewQuestions'), (m) => m.InterviewQuestionsTrack);
+const InterviewQuestionDetail = page(() => import('./components/questions/InterviewQuestions'), (m) => m.InterviewQuestionDetail);
+const ProjectsHub = page(() => import('./components/projects/ProjectsHub'), (m) => m.ProjectsHub);
+const ProjectDetail = page(() => import('./components/projects/ProjectDetail'), (m) => m.ProjectDetail);
+const AssignmentDetail = page(() => import('./components/assignments/AssignmentDetail'), (m) => m.AssignmentDetail);
+const JobsBoard = page(() => import('./components/jobs/JobsBoard'), (m) => m.JobsBoard);
+const Profile = page(() => import('./components/Profile'), (m) => m.Profile);
+const Onboarding = page(() => import('./components/auth/Onboarding'), (m) => m.Onboarding);
+const AuthActionPage = page(() => import('./components/auth/AuthActionPage'), (m) => m.AuthActionPage);
+
+// Shown while a page's chunk downloads. Inside the app shell the sidebar stays put; only the content area waits.
+const PageLoader: React.FC<{ fullScreen?: boolean }> = ({ fullScreen }) => (
+    <div className={`flex flex-col items-center justify-center gap-3 ${fullScreen ? 'min-h-screen bg-[#FDFDFD]' : 'py-24'}`} role="status">
+        <Loader2 className="w-6 h-6 text-brand-600 animate-spin" />
+        <span className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Loading...</span>
+    </div>
+);
 import { AnimatePresence, MotionConfig } from 'framer-motion';
 import { Logo } from './components/Logo';
 import { Analytics } from '@vercel/analytics/react';
@@ -40,19 +55,11 @@ const interviewStudio = isAiInterviewEnabled ? <InterviewHub /> : <InterviewComi
 // The PM → AI PM course is local-only: its code is only loaded when switched on, and the live
 // site sends /ai-pm to the dashboard (see lib/featureFlags.ts).
 const AiPmCourse = isAiPmCourseEnabled ? lazy(() => import('./components/aipm/AiPmCourse')) : null;
-const aiPmCourse = AiPmCourse ? (
-    <Suspense fallback={<div className="flex justify-center py-24"><Loader2 className="w-6 h-6 animate-spin text-slate-400" /></div>}>
-        <AiPmCourse />
-    </Suspense>
-) : <Navigate to="/dashboard" replace />;
+const aiPmCourse = AiPmCourse ? <AiPmCourse /> : <Navigate to="/dashboard" replace />;
 
 // The PM Assignment Solver is local-only too; the live site sends its URL to the tools hub.
 const AssignmentSolver = isAssignmentSolverEnabled ? lazy(() => import('./components/assignmentSolver/AssignmentSolver')) : null;
-const assignmentSolver = AssignmentSolver ? (
-    <Suspense fallback={<div className="flex justify-center py-24"><Loader2 className="w-6 h-6 animate-spin text-slate-400" /></div>}>
-        <AssignmentSolver />
-    </Suspense>
-) : <Navigate to="/tools" replace />;
+const assignmentSolver = AssignmentSolver ? <AssignmentSolver /> : <Navigate to="/tools" replace />;
 
 // Action Link Redirector to catch Firebase direct action queries (e.g. ?mode=verifyEmail&oobCode=...)
 const AuthActionRedirector = () => {
@@ -175,7 +182,7 @@ const MainShell = () => {
     }
     
     return (
-        <div className="flex h-screen bg-slate-50 text-slate-900 font-sans overflow-hidden">
+        <div className="flex h-dvh bg-slate-50 text-slate-900 font-sans overflow-hidden">
             {!isFocusMode && (
                 <Sidebar 
                     mobileOpen={mobileOpen} 
@@ -186,13 +193,13 @@ const MainShell = () => {
             )}
             <div className="flex-1 flex flex-col min-w-0 h-full relative">
                 {!isFocusMode && (
-                    <header className="md:hidden bg-white/95 backdrop-blur-md border-b border-slate-200/80 px-4 sm:px-6 py-2.5 flex items-center justify-between shrink-0 z-30 sticky top-0">
+                    <header className="lg:hidden bg-white/95 backdrop-blur-md border-b border-slate-200/80 px-4 sm:px-6 py-2.5 flex items-center justify-between shrink-0 z-30 sticky top-0">
                         {/* Left Side: Logo with mobile-only hamburger */}
                         <div className="flex items-center gap-3">
                             <button
                                 type="button"
                                 onClick={() => setMobileOpen(!mobileOpen)}
-                                className="md:hidden p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition-colors border border-slate-200/80 shadow-2xs cursor-pointer flex items-center justify-center shrink-0"
+                                className="tap-target p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition-colors border border-slate-200/80 shadow-2xs cursor-pointer flex items-center justify-center shrink-0"
                                 aria-label="Open menu"
                                 title="Open menu"
                             >
@@ -217,7 +224,9 @@ const MainShell = () => {
                 <main ref={scrollContainerRef} className="flex-1 overflow-y-auto scroll-smooth">
                     <div ref={pageRef} className="w-full min-h-full">
                         <ErrorBoundary>
-                            <Outlet context={{ isCollapsed, isFocusMode, setIsFocusMode }} />
+                            <Suspense fallback={<PageLoader />}>
+                                <Outlet context={{ isCollapsed, isFocusMode, setIsFocusMode }} />
+                            </Suspense>
                         </ErrorBoundary>
                     </div>
                 </main>
@@ -247,6 +256,7 @@ const App: React.FC = () => {
          <GAPageTracker />
          <SeoMeta />
          <AuthActionRedirector />
+          <Suspense fallback={<PageLoader fullScreen />}>
           <Routes>
             <Route path="/" element={<LandingPage />} />
             
@@ -344,6 +354,7 @@ const App: React.FC = () => {
 
             <Route path="*" element={<Navigate to="/" replace />} />
          </Routes>
+          </Suspense>
          <Analytics />
          <SaveDetailsModal />
          <Toaster position="top-right" offset={80} mobileOffset={{ top: 72 }} />

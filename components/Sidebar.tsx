@@ -77,18 +77,18 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-zinc-900/60 z-30 md:hidden backdrop-blur-xs"
+          className="fixed inset-0 bg-zinc-900/60 z-30 lg:hidden backdrop-blur-xs"
           onClick={() => setMobileOpen(false)}
         />
       )}
 
       <aside 
         className={`
-          fixed md:static inset-y-0 left-0 z-40
+          fixed lg:static inset-y-0 left-0 z-40
           bg-white border-r border-zinc-100 
           ${collapsed ? 'w-20' : 'w-72'} h-full flex flex-col
           transition-all duration-500 ease-[cubic-bezier(0.2,0.8,0.2,1)]
-          ${mobileOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+          ${mobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
         `}
       >
         <div className={`p-5 sm:p-6 ${collapsed ? 'px-3 flex flex-col items-center gap-3' : 'flex items-center justify-between'}`}>
@@ -97,7 +97,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
                 <button
                   type="button"
                   onClick={() => setCollapsed(!collapsed)}
-                  className="hidden md:flex p-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition-colors cursor-pointer border border-slate-200/70 shadow-2xs items-center justify-center shrink-0"
+                  className="hidden lg:flex p-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-xl transition-colors cursor-pointer border border-slate-200/70 shadow-2xs items-center justify-center shrink-0"
                   title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
                   aria-label="Toggle sidebar"
                 >
@@ -117,7 +117,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
            <button
              type="button"
              onClick={() => setMobileOpen(false)}
-             className="md:hidden p-1.5 text-slate-500 hover:bg-slate-100 rounded-lg cursor-pointer"
+             className="lg:hidden tap-target p-1.5 text-slate-500 hover:bg-slate-100 rounded-lg cursor-pointer"
              aria-label="Close sidebar"
            >
              <X className="w-5 h-5" />
@@ -151,7 +151,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
                   <button 
                     onClick={logout}
                     title="Sign Out"
-                    className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors shrink-0 cursor-pointer"
+                    className="tap-target p-1.5 rounded-lg text-slate-500 hover:text-rose-600 hover:bg-rose-50 transition-colors shrink-0 cursor-pointer"
+                    aria-label="Sign out"
                   >
                     <LogOut className="w-4 h-4" />
                   </button>
@@ -257,7 +258,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
                       e.stopPropagation();
                       setModulesOpen(prev => !prev);
                     }}
-                    className="p-0.5 rounded-sm hover:bg-black/5 transition-colors"
+                    className="tap-target p-0.5 rounded-sm hover:bg-black/5 transition-colors"
                   >
                     <motion.div
                       animate={{ rotate: modulesOpen ? 180 : 0 }}
@@ -367,7 +368,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, setMobileOpen, col
                 href="https://docs.google.com/forms/u/0/d/1gntWQiHg_RBueOSOqZzVQiJ4UGfMIvyuAYUsiuxbOUc/preview" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 text-[#047857] hover:text-[#043C2C] text-xs font-semibold underline-offset-4 hover:underline"
+                className="tap-target inline-flex items-center gap-1 text-[#047857] hover:text-[#043C2C] text-xs font-semibold underline-offset-4 hover:underline"
               >
                 Request a session <ArrowRight className="w-3.5 h-3.5" />
               </a>

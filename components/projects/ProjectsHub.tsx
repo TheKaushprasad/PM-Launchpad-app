@@ -79,7 +79,7 @@ export const ProjectsHub: React.FC = () => {
             key={c}
             type="button"
             onClick={() => setCategory(c)}
-            className={`px-3.5 py-1.5 rounded-full text-xs font-bold border transition-colors ${
+            className={`inline-flex items-center pointer-coarse:min-h-11 px-3.5 py-1.5 rounded-full text-xs font-bold border transition-colors ${
               category === c
                 ? 'bg-zinc-900 text-white border-zinc-900'
                 : 'bg-white text-slate-600 border-slate-200 hover:border-slate-300'

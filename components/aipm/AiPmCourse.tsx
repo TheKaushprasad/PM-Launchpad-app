@@ -49,7 +49,7 @@ const AiPmCourse: React.FC = () => (
             to={t.to}
             end={t.end}
             className={({ isActive }) =>
-              `h-9 px-3.5 rounded-xl text-xs font-bold flex items-center whitespace-nowrap transition-colors ${
+              `tap-target h-9 px-3.5 rounded-xl text-xs font-bold flex items-center whitespace-nowrap transition-colors ${
                 isActive ? 'bg-[#111827] text-white' : 'text-slate-600 hover:bg-white hover:text-slate-900'
               }`
             }

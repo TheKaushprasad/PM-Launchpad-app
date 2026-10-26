@@ -1,0 +1,14 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "createdAt": "2026-10-26T11:15:58.255Z",
+        "reason": "agent: docs/DESIGN.md section 3 names Inter as the brand typeface for all text"
+      }
+    ]
+  }
+}

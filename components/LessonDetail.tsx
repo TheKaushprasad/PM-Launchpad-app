@@ -1,12 +1,12 @@
 
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState, useCallback, Suspense } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { LESSONS, getCategoryColor, getCategoryIcon } from '../constants';
 import { 
   ArrowLeft, ArrowRight, ExternalLink, BookOpen, Clock, Play, Zap, 
   MonitorPlay, ChevronLeft, ChevronRight, PenTool, List, CheckCircle, 
   Sparkles, CheckCircle2, Bookmark, FileEdit, Cloud, Save, RotateCcw,
-  Compass, Lock, LogIn, Check, X
+  Compass, Lock, LogIn, Check, X, Loader2
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
@@ -18,6 +18,13 @@ const getYoutubeId = (url: string) => {
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
     const match = url.match(regExp);
     return (match && match[2].length === 11) ? match[2] : null;
+};
+
+// Lesson bodies load as separate chunks. This sits inside the Suspense boundary with the body,
+// so its effect only runs once that day's text is on the page and can be scrolled.
+const OnBodyRendered: React.FC<{ onRendered: () => void; children: React.ReactNode }> = ({ onRendered, children }) => {
+  useEffect(() => { onRendered(); }, []);
+  return <>{children}</>;
 };
 
 export const LessonDetail: React.FC = () => {
@@ -139,7 +146,11 @@ export const LessonDetail: React.FC = () => {
   const scrollDebounceTimerRef = useRef<any>(null);
   const lastScrollTopRef = useRef<number>(0);
   const lastScrollPercentRef = useRef<number>(0);
-  const isRestoringScrollRef = useRef<boolean>(false);
+  // Stays true until the lesson body has loaded and the saved position is restored, so the
+  // short loading page never overwrites the reader's saved position.
+  const isRestoringScrollRef = useRef<boolean>(true);
+  const [bodyRenderedDay, setBodyRenderedDay] = useState<number | null>(null);
+  const isBodyRendered = bodyRenderedDay === currentDay;
 
   // Helper to extract saved scroll position from localStorage or AuthContext
   const getSavedPosition = (day: number): { scrollTop: number; scrollPercentage: number } => {
@@ -253,6 +264,7 @@ export const LessonDetail: React.FC = () => {
     setReadingPercentage(saved.scrollPercentage);
 
     isRestoringScrollRef.current = true;
+    if (!isBodyRendered) return;
 
     const restoreScroll = () => {
       const mainEl = document.querySelector('main');
@@ -291,13 +303,14 @@ export const LessonDetail: React.FC = () => {
       clearTimeout(t3);
       flushCurrentScroll(currentDay);
     };
-  }, [currentDay]);
+  }, [currentDay, isBodyRendered]);
 
   // Continuous Scroll Tracking Listener
   useEffect(() => {
     const mainEl = document.querySelector('main');
 
     const handleScroll = () => {
+      if (isRestoringScrollRef.current) return;
       const currentScrollTop = mainEl ? mainEl.scrollTop : window.scrollY;
       const totalScrollHeight = mainEl ? mainEl.scrollHeight : document.documentElement.scrollHeight;
       const viewportHeight = mainEl ? mainEl.clientHeight : window.innerHeight;
@@ -522,7 +535,7 @@ export const LessonDetail: React.FC = () => {
       <div ref={topRef} />
 
       {/* Top Navigation Bar with Progress Indicator */}
-      <div className="sticky top-0 md:top-0 z-20 bg-zinc-50/95 backdrop-blur-md py-2 mb-3.5 flex items-center justify-between border-b border-zinc-200/60 -mx-4 md:mx-0 px-4 md:px-0">
+      <div className="sticky top-0 z-20 bg-zinc-50/95 backdrop-blur-md py-2 mb-3.5 flex items-center justify-between gap-2 border-b border-zinc-200/60 px-3 md:px-0">
         {/* Continuous Reading Progress Bar */}
         <div 
           className="absolute top-0 left-0 h-[2.5px] bg-linear-to-r from-brand-500 via-brand-600 to-emerald-500 transition-all duration-150 ease-out" 
@@ -532,7 +545,8 @@ export const LessonDetail: React.FC = () => {
         <div className="flex items-center gap-2">
           <button 
               onClick={() => navigate('/dashboard')}
-              className="flex items-center text-xs font-bold text-zinc-600 hover:text-brand-600 transition-colors px-2 md:px-2.5 py-1 rounded-lg hover:bg-white/70 tracking-tight"
+              className="tap-target flex items-center text-xs font-bold text-zinc-600 hover:text-brand-600 transition-colors px-2 md:px-2.5 py-1 rounded-lg hover:bg-white/70 tracking-tight"
+              aria-label="Back to dashboard"
           >
               <ArrowLeft className="w-3.5 h-3.5 mr-1.5" /> <span className="hidden sm:inline">Dashboard</span>
           </button>
@@ -545,7 +559,8 @@ export const LessonDetail: React.FC = () => {
               <button 
                 onClick={handleRestartToTop}
                 title="Restart reading from top of day"
-                className="ml-1 text-zinc-400 hover:text-brand-600 transition-colors p-0.5 rounded-sm hover:bg-zinc-100"
+                className="tap-target ml-1 text-zinc-500 hover:text-brand-600 transition-colors p-0.5 rounded-sm hover:bg-zinc-100"
+                aria-label="Restart reading from the top"
               >
                 <RotateCcw className="w-2.5 h-2.5" />
               </button>
@@ -559,7 +574,7 @@ export const LessonDetail: React.FC = () => {
             <button 
               onClick={() => toggleLessonBookmark(currentDay)}
               title="Find all bookmarks under dashboard"
-              className={`flex items-center gap-1 px-2.5 py-1 rounded-lg font-bold text-xs border transition-all ${
+              className={`tap-target flex items-center gap-1 px-2.5 py-1 rounded-lg font-bold text-xs border transition-all ${
                 isBookmarked 
                   ? 'bg-amber-50 border-amber-200 text-amber-800' 
                   : 'bg-white border-zinc-200 text-zinc-600 hover:border-amber-200 hover:text-amber-700'
@@ -577,7 +592,7 @@ export const LessonDetail: React.FC = () => {
           {/* Mark Complete Button */}
           <button 
             onClick={() => toggleLessonComplete(currentDay)}
-            className={`flex items-center gap-1.5 px-3 py-1 rounded-lg font-bold text-xs border transition-all shadow-xs ${
+            className={`tap-target flex items-center gap-1.5 px-3 py-1 rounded-lg font-bold text-xs border transition-all shadow-xs ${
               isCompleted 
                 ? 'bg-emerald-50 border-emerald-300 text-emerald-800' 
                 : 'bg-brand-600 hover:bg-brand-700 border-brand-600 text-white'
@@ -592,7 +607,8 @@ export const LessonDetail: React.FC = () => {
              <button 
                 onClick={() => prevLesson && navigate(`/dashboard/day/${prevLesson.day}`)}
                 disabled={!prevLesson}
-                className={`p-1 rounded-md transition-all ${
+                aria-label="Previous day"
+                className={`tap-target p-1 rounded-md transition-all ${
                     prevLesson 
                     ? 'text-zinc-600 hover:bg-zinc-100 hover:text-brand-600' 
                     : 'text-zinc-300 cursor-not-allowed'
@@ -606,7 +622,8 @@ export const LessonDetail: React.FC = () => {
              <button 
                 onClick={() => nextLesson && navigate(`/dashboard/day/${nextLesson.day}`)}
                 disabled={!nextLesson}
-                className={`p-1 rounded-md transition-all ${
+                aria-label="Next day"
+                className={`tap-target p-1 rounded-md transition-all ${
                     nextLesson 
                     ? 'text-zinc-600 hover:bg-zinc-100 hover:text-brand-600' 
                     : 'text-zinc-300 cursor-not-allowed'
@@ -636,7 +653,7 @@ export const LessonDetail: React.FC = () => {
             </div>
             <button
               onClick={handleRestartToTop}
-              className="ml-3 text-[11px] font-bold text-brand-200 hover:text-white bg-brand-800/80 hover:bg-brand-800 px-2 py-0.5 rounded-sm transition-all flex items-center gap-1 cursor-pointer"
+              className="tap-target ml-3 text-[11px] font-bold text-brand-200 hover:text-white bg-brand-800/80 hover:bg-brand-800 px-2 py-0.5 rounded-sm transition-all flex items-center gap-1 cursor-pointer"
             >
               <RotateCcw className="w-2.5 h-2.5" />
               Restart at top
@@ -754,7 +771,18 @@ export const LessonDetail: React.FC = () => {
 
              <div className="bg-white rounded-2xl p-4 sm:p-5 md:p-6 border border-zinc-200/80 shadow-2xs overflow-hidden overflow-x-auto">
                 <article className="prose prose-zinc prose-sm md:prose-base max-w-none prose-headings:font-black prose-headings:tracking-tight prose-headings:text-zinc-900 prose-p:text-zinc-600 prose-p:leading-relaxed prose-p:mb-2.5 prose-a:text-brand-600 prose-img:rounded-xl">
-                    {lesson.content}
+                    <Suspense
+                        fallback={
+                            <div className="flex min-h-[50vh] flex-col items-center justify-center gap-3" role="status">
+                                <Loader2 className="w-6 h-6 text-brand-600 animate-spin" />
+                                <span className="text-xs font-bold text-zinc-500 uppercase tracking-widest">Loading lesson...</span>
+                            </div>
+                        }
+                    >
+                        <OnBodyRendered key={currentDay} onRendered={() => setBodyRenderedDay(currentDay)}>
+                            {lesson.content}
+                        </OnBodyRendered>
+                    </Suspense>
                 </article>
 
                 <div className="mt-6 pt-4 border-t border-zinc-100 flex flex-col sm:flex-row items-center justify-between gap-3">
@@ -961,7 +989,7 @@ export const LessonDetail: React.FC = () => {
                                 type="button"
                                 onClick={handleSaveNotes}
                                 title="Save note and view under Saved Notes tab on dashboard"
-                                className="px-3 py-1 rounded-md bg-zinc-900 hover:bg-zinc-800 active:scale-95 text-white font-bold text-[10px] flex items-center gap-1 transition-all shadow-2xs cursor-pointer"
+                                className="tap-target px-3 py-1 rounded-md bg-zinc-900 hover:bg-zinc-800 active:scale-95 text-white font-bold text-[10px] flex items-center gap-1 transition-all shadow-2xs cursor-pointer"
                             >
                                 {saveStatus === 'saved' ? (
                                     <>
@@ -996,7 +1024,7 @@ export const LessonDetail: React.FC = () => {
                     </div>
                     <button
                         onClick={() => navigate('/interview-studio')}
-                        className="px-3 py-1.5 rounded-lg bg-brand-600 hover:bg-brand-500 text-white font-bold text-[10px] uppercase tracking-wider shadow-xs transition-all shrink-0 flex items-center gap-1"
+                        className="tap-target px-3 py-1.5 rounded-lg bg-brand-600 hover:bg-brand-500 text-white font-bold text-[10px] uppercase tracking-wider shadow-xs transition-all shrink-0 flex items-center gap-1"
                     >
                         Start Mock <ArrowRight className="w-3 h-3" />
                     </button>

@@ -499,14 +499,14 @@ export const LandingPage: React.FC = () => {
           <div className="flex lg:hidden items-center gap-2">
             <button
               onClick={() => setSearchModalOpen(true)}
-              className="p-2 text-slate-600 hover:bg-slate-100 rounded-lg"
+              className="tap-target p-2 text-slate-600 hover:bg-slate-100 rounded-lg"
               aria-label="Search"
             >
               <Search className="w-5 h-5" />
             </button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 text-slate-700 hover:bg-slate-100 rounded-lg"
+              className="tap-target p-2 text-slate-700 hover:bg-slate-100 rounded-lg"
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Layers className="w-6 h-6" />}
@@ -1197,7 +1197,7 @@ export const LandingPage: React.FC = () => {
                   href="https://www.linkedin.com/company/the-noob-pm/?viewAsMember=true"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-9 h-9 rounded-full border border-white/15 flex items-center justify-center text-slate-300 hover:text-white hover:border-[#7EE2B0] transition-colors"
+                  className="w-9 h-9 pointer-coarse:w-11 pointer-coarse:h-11 rounded-full border border-white/15 flex items-center justify-center text-slate-300 hover:text-white hover:border-[#7EE2B0] transition-colors"
                   aria-label="LinkedIn"
                 >
                   <span className="font-bold text-xs">in</span>
@@ -1206,7 +1206,7 @@ export const LandingPage: React.FC = () => {
                   href="https://www.youtube.com/@THE_NOOB_PM"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-9 h-9 rounded-full border border-white/15 flex items-center justify-center text-slate-300 hover:text-white hover:border-[#7EE2B0] transition-colors"
+                  className="w-9 h-9 pointer-coarse:w-11 pointer-coarse:h-11 rounded-full border border-white/15 flex items-center justify-center text-slate-300 hover:text-white hover:border-[#7EE2B0] transition-colors"
                   aria-label="YouTube"
                 >
                   <span className="font-bold text-xs">▶</span>
@@ -1217,22 +1217,22 @@ export const LandingPage: React.FC = () => {
             {/* Product */}
             <div className="md:col-span-2 space-y-4">
               <h4 className="text-xs font-bold text-white uppercase tracking-[0.12em]">Product</h4>
-              <ul className="space-y-2.5 text-sm">
-                <li><button onClick={() => navigate('/dashboard')} className="hover:text-[#7EE2B0] transition-colors cursor-pointer">Learn</button></li>
-                <li><button onClick={() => navigate('/interview-studio')} className="hover:text-[#7EE2B0] transition-colors cursor-pointer">AI Mock Interview</button></li>
-                <li><button onClick={() => navigate('/tools')} className="hover:text-[#7EE2B0] transition-colors cursor-pointer">Resume Tools</button></li>
-                <li><button onClick={() => navigate('/jobs')} className="hover:text-[#7EE2B0] transition-colors cursor-pointer">PM Jobs</button></li>
-                <li><button onClick={() => navigate('/resources')} className="hover:text-[#7EE2B0] transition-colors cursor-pointer">Resources</button></li>
-                <li><a href="https://chat.whatsapp.com/GhkzK8bDAUwLAKfLw7hfbW" target="_blank" rel="noopener noreferrer" className="hover:text-[#7EE2B0] transition-colors">Community</a></li>
+              <ul className="space-y-2.5 pointer-coarse:space-y-0 pointer-coarse:[&>li]:flex pointer-coarse:[&>li]:min-h-11 pointer-coarse:[&>li]:items-center text-sm">
+                <li><button onClick={() => navigate('/dashboard')} className="pointer-coarse:flex pointer-coarse:items-center pointer-coarse:self-stretch hover:text-[#7EE2B0] transition-colors cursor-pointer">Learn</button></li>
+                <li><button onClick={() => navigate('/interview-studio')} className="pointer-coarse:flex pointer-coarse:items-center pointer-coarse:self-stretch hover:text-[#7EE2B0] transition-colors cursor-pointer">AI Mock Interview</button></li>
+                <li><button onClick={() => navigate('/tools')} className="pointer-coarse:flex pointer-coarse:items-center pointer-coarse:self-stretch hover:text-[#7EE2B0] transition-colors cursor-pointer">Resume Tools</button></li>
+                <li><button onClick={() => navigate('/jobs')} className="pointer-coarse:flex pointer-coarse:items-center pointer-coarse:self-stretch hover:text-[#7EE2B0] transition-colors cursor-pointer">PM Jobs</button></li>
+                <li><button onClick={() => navigate('/resources')} className="pointer-coarse:flex pointer-coarse:items-center pointer-coarse:self-stretch hover:text-[#7EE2B0] transition-colors cursor-pointer">Resources</button></li>
+                <li><a href="https://chat.whatsapp.com/GhkzK8bDAUwLAKfLw7hfbW" target="_blank" rel="noopener noreferrer" className="pointer-coarse:flex pointer-coarse:items-center pointer-coarse:self-stretch hover:text-[#7EE2B0] transition-colors">Community</a></li>
               </ul>
             </div>
 
             {/* Company (legal links have no pages yet, so they stay as plain text) */}
             <div className="md:col-span-2 space-y-4">
               <h4 className="text-xs font-bold text-white uppercase tracking-[0.12em]">Company</h4>
-              <ul className="space-y-2.5 text-sm">
-                <li><button onClick={() => navigate('/dashboard/about')} className="hover:text-[#7EE2B0] transition-colors cursor-pointer">About</button></li>
-                <li><a href="mailto:contact@thenoobpm.com" className="hover:text-[#7EE2B0] transition-colors">Contact</a></li>
+              <ul className="space-y-2.5 pointer-coarse:space-y-0 pointer-coarse:[&>li]:flex pointer-coarse:[&>li]:min-h-11 pointer-coarse:[&>li]:items-center text-sm">
+                <li><button onClick={() => navigate('/dashboard/about')} className="pointer-coarse:flex pointer-coarse:items-center pointer-coarse:self-stretch hover:text-[#7EE2B0] transition-colors cursor-pointer">About</button></li>
+                <li><a href="mailto:contact@thenoobpm.com" className="pointer-coarse:flex pointer-coarse:items-center pointer-coarse:self-stretch hover:text-[#7EE2B0] transition-colors">Contact</a></li>
                 <li><span className="text-slate-500">Blog</span></li>
                 <li><span className="text-slate-500">Careers</span></li>
                 <li><span className="text-slate-500">Privacy Policy</span></li>
