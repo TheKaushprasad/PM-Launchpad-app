@@ -97,6 +97,15 @@ const NotesPad: React.FC<{ day: number; value: string; onSave: (text: string) =>
   );
 };
 
+// Where the reader left each day page, by day number. Kept in this browser only.
+const SCROLL_KEY = 'aipm_scroll_v1';
+const readScrollPositions = (): Record<string, number> => {
+  try { return JSON.parse(localStorage.getItem(SCROLL_KEY) || '{}') || {}; } catch { return {}; }
+};
+const saveScrollPosition = (day: string, top: number) => {
+  try { localStorage.setItem(SCROLL_KEY, JSON.stringify({ ...readScrollPositions(), [day]: Math.max(0, Math.round(top)) })); } catch {}
+};
+
 export const AiPmDayPage: React.FC = () => {
   const { day: dayParam } = useParams();
   const navigate = useNavigate();
@@ -111,9 +120,42 @@ export const AiPmDayPage: React.FC = () => {
   const [topicsOpen, setTopicsOpen] = useState(true);
 
   useEffect(() => {
-    document.querySelector('main')?.scrollTo({ top: 0 });
     setNotesOpen(false);
     setActiveVideoId(null);
+  }, [dayNum]);
+
+  // A day you have not opened before starts at the top; a day you come back to opens where you left it.
+  useEffect(() => {
+    const main = document.querySelector('main');
+    if (!main) return;
+    const key = String(dayNum);
+    const saved = readScrollPositions()[key] ?? 0;
+    let restoreTimer: ReturnType<typeof setTimeout> | undefined;
+    let tries = 0;
+    // The lesson loads lazily, so wait until the page is tall enough to reach the saved spot.
+    const restore = () => {
+      if (saved === 0 || main.scrollHeight - main.clientHeight >= saved || tries++ > 40) {
+        main.scrollTo({ top: saved, behavior: 'instant' as ScrollBehavior });
+        return;
+      }
+      restoreTimer = setTimeout(restore, 50);
+    };
+    restore();
+
+    let last = saved;
+    let saveTimer: ReturnType<typeof setTimeout> | undefined;
+    const onScroll = () => {
+      last = main.scrollTop;
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(() => saveScrollPosition(key, last), 150);
+    };
+    main.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      clearTimeout(restoreTimer);
+      clearTimeout(saveTimer);
+      main.removeEventListener('scroll', onScroll);
+      saveScrollPosition(key, last);
+    };
   }, [dayNum]);
 
   if (!day || !phase) return <Navigate to="/ai-pm/plan" replace />;
@@ -252,17 +294,16 @@ export const AiPmDayPage: React.FC = () => {
             </Card>
           )}
 
-          <Card className="border-brand-100 bg-brand-50/40">
-            <h2 className="font-bold text-zinc-900 flex items-center gap-2 mb-2">
-              <Hammer className="w-4 h-4 text-brand-600" /> Deliverable
-            </h2>
-            <p className="text-sm sm:text-base text-zinc-800 leading-relaxed">{day.do}</p>
-            {day.templates && (
-              <div className="flex flex-wrap gap-2 mt-3">
+          {day.templates && (
+            <Card>
+              <h2 className="font-bold text-zinc-900 flex items-center gap-2 mb-2">
+                <Hammer className="w-4 h-4 text-brand-600" /> Templates for today
+              </h2>
+              <div className="flex flex-wrap gap-2">
                 {day.templates.map((t) => <TemplateChip key={t} id={t} />)}
               </div>
-            )}
-          </Card>
+            </Card>
+          )}
 
           <Card className="bg-zinc-50/70">
             <h2 className="font-bold text-zinc-900 flex items-center gap-2 mb-2">
@@ -299,7 +340,7 @@ export const AiPmDayPage: React.FC = () => {
           {isPhaseEnd && (
             <Card className="bg-zinc-50/70">
               <h2 className="font-bold text-zinc-900 text-sm mb-1">Phase {phase.id} checklist: {phase.checklistTitle}</h2>
-              <p className="text-xs text-zinc-500 mb-2">The deliverable passes only if every check is true.</p>
+              <p className="text-xs text-zinc-500 mb-2">Tick each check once it is true for you.</p>
               <Checklist idPrefix={`phase${phase.id}`} items={phase.checklist} checks={progress.checks} onToggle={toggleCheck} />
             </Card>
           )}

@@ -36,7 +36,7 @@ export const AI_PM_RESOURCES: Record<string, AiPmResource> = {
   batu_akin_roadmap: { title: '5-stage AI PM roadmap', by: 'Batu Akin' },
   product_faculty_skills: { title: 'AI PM skills by category', by: 'Product Faculty' },
   aakash_ai_pm_guide: { title: 'AI PM Guide 2026', by: 'Aakash Gupta', url: 'https://www.news.aakashg.com/p/become-an-ai-pm-no-experience' },
-  six_week_roadmap: { title: 'Six-Week AI PM Roadmap', by: 'the roadmap behind the capstone thread, checklists, napkin math, failure specs and templates' },
+  six_week_roadmap: { title: 'Six-Week AI PM Roadmap', by: 'the roadmap behind the checklists, napkin math, failure specs and templates' },
 
   // Interview prep
   aced_ai_pm_questions: { title: 'AI PM interview questions 2026', by: 'Aced (formerly Exponent)', url: 'https://www.aced.io/blog/ai-product-manager-interview-questions' },
@@ -63,7 +63,7 @@ export const AI_PM_FREE_READING: { key: string; days: string }[] = [
   { key: 'hax_guidelines', days: 'Day 30' },
   { key: 'rules_of_ml', days: 'Day 29' },
   { key: 'openai_agents_guide', days: 'Day 24' },
-  { key: 'voice_ai_primer', days: 'Day 36, for voice capstones' },
+  { key: 'voice_ai_primer', days: 'Day 36, for voice products' },
 ];
 
 export const AI_PM_VIDEOS: { key: string; adds: string; weeks: string }[] = [

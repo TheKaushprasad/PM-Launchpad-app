@@ -3,7 +3,7 @@ import { Routes, Route, NavLink, Navigate, useLocation } from 'react-router-dom'
 import { AiPmOverview, AiPmPlan } from './AiPmHome';
 import { AiPmDayPage } from './AiPmDayPage';
 import {
-  AiPmWhy, AiPmWeeks, AiPmCapstone, AiPmTemplates, AiPmSkills, AiPmPortfolio, AiPmInterviews, AiPmReading,
+  AiPmWhy, AiPmWeeks, AiPmTemplates, AiPmSkills, AiPmPortfolio, AiPmInterviews, AiPmReading,
 } from './AiPmSections';
 
 // The whole PM → AI PM course. App.tsx only loads this file when the course is switched on
@@ -14,7 +14,6 @@ const TABS = [
   { to: '/ai-pm/plan', label: '90-day plan' },
   { to: '/ai-pm/why', label: 'Why this course' },
   { to: '/ai-pm/weeks', label: '12-week summary' },
-  { to: '/ai-pm/capstone', label: 'Capstone' },
   { to: '/ai-pm/templates', label: 'Templates' },
   { to: '/ai-pm/skills', label: 'Skills checklist' },
   { to: '/ai-pm/portfolio', label: 'Portfolio and tools' },
@@ -60,7 +59,6 @@ const AiPmCourse: React.FC = () => (
       <Route path="day/:day" element={<AiPmDayPage />} />
       <Route path="why" element={<AiPmWhy />} />
       <Route path="weeks" element={<AiPmWeeks />} />
-      <Route path="capstone" element={<AiPmCapstone />} />
       <Route path="templates" element={<AiPmTemplates />} />
       <Route path="skills" element={<AiPmSkills />} />
       <Route path="portfolio" element={<AiPmPortfolio />} />

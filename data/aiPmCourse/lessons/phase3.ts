@@ -4,18 +4,18 @@ import type { AiPmLesson } from './types';
 
 export const PHASE3_LESSONS: Record<number, AiPmLesson> = {
   26: {
-    intro: 'Phase 3 starts here. From now on, everything you do builds one real AI product: your capstone.',
+    intro: 'Phase 3 starts here: turning an AI idea into a real product plan.',
     objectives: [
       'Choose a narrow, valuable problem for a specific user.',
       'Write a problem statement that doesn’t assume the solution.',
-      'Set non-goals so the capstone stays small enough to finish.',
+      'Set non-goals so an AI product stays small enough to ship.',
     ],
     parts: [
       {
         id: 'narrow',
         title: 'Narrow beats ambitious',
         paragraphs: [
-          'Strong AI PM portfolios show one narrow product done well, not a broad idea done vaguely. “An AI assistant for HR” is too wide. “Answer new joiners’ questions about leave and payroll in their first 30 days” is a capstone you can build, test and explain.',
+          'Strong AI PM portfolios show one narrow product done well, not a broad idea done vaguely. “An AI assistant for HR” is too wide. “Answer new joiners’ questions about leave and payroll in their first 30 days” is a problem you can build, test and explain.',
         ],
         cards: [
           { title: 'A specific user', text: 'Name who they are and the situation they are in.', example: 'New employees in their first month at a 500-person company.' },
@@ -42,7 +42,7 @@ export const PHASE3_LESSONS: Record<number, AiPmLesson> = {
       },
     ],
     quiz: {
-      title: 'Is this a good capstone problem?',
+      title: 'Is this a good AI product problem?',
       options: ['Good: narrow and specific', 'Too broad', 'Solution, not a problem'],
       questions: [
         { q: '“Build an AI copilot for the whole company.”', answer: 1, why: 'No specific user, job or situation; impossible to evaluate.' },
@@ -51,24 +51,10 @@ export const PHASE3_LESSONS: Record<number, AiPmLesson> = {
         { q: '“Help support agents answer refund questions using the latest policy, cutting average handle time.”', answer: 0, why: 'Clear user, job and measurable impact.' },
       ],
     },
-    exercise: {
-      title: 'Lock your capstone',
-      intro: 'Write the problem statement, target user and non-goals for your capstone. This is the foundation for everything in the next 64 days.',
-      capstone: true,
-      fields: [
-        { key: 'user', label: 'Target user and their situation', rows: 2 },
-        { key: 'statement', label: 'Problem statement (use the template)', rows: 4 },
-        { key: 'whyai', label: 'Why AI might help here (you will test this on Day 29)', rows: 2 },
-        { key: 'nongoals', label: 'Three non-goals', rows: 3 },
-      ],
-      rubric: 'Check that the user is specific, the problem statement covers user, job, situation, pain, impact and evidence without naming a solution, the reason AI might help is plausible (messy inputs or language-heavy answers), and the non-goals meaningfully narrow scope. Flag if the problem is too broad to build in six weeks.',
-      button: 'Review my capstone choice',
-    },
     completion: [
       'I chose a specific user and situation.',
       'I wrote a problem statement without naming a solution.',
       'I completed the four questions.',
-      'I listed three non-goals for my capstone.',
     ],
     takeaway: 'a narrow problem for a specific user beats a broad AI vision. If you can’t measure it, it is too broad.',
   },
@@ -125,24 +111,10 @@ export const PHASE3_LESSONS: Record<number, AiPmLesson> = {
         { q: '“Who did you ask, and how long did it take to get an answer?”', answer: 0, why: 'It uncovers workarounds and cost.' },
       ],
     },
-    exercise: {
-      title: 'Create your interview guide and recruit list',
-      intro: 'Write the guide you will use for capstone discovery, and who you will talk to.',
-      capstone: true,
-      fields: [
-        { key: 'goal', label: 'What you need to learn (2–3 assumptions to test)', rows: 3 },
-        { key: 'questions', label: 'Your five core questions', rows: 5 },
-        { key: 'recruit', label: 'Who you will interview (roles, number, how you will reach them)', rows: 3 },
-        { key: 'evidence', label: 'Other evidence you will collect', rows: 2 },
-      ],
-      rubric: 'Check that assumptions are explicit and testable, questions ask about past behaviour and workarounds rather than opinions or the solution, none are leading, the recruit list has 5–8 relevant people with some variety and includes the other side of the problem, and existing evidence such as tickets or logs is used.',
-      button: 'Review my guide',
-    },
     completion: [
       'I can spot a leading question.',
       'I wrote five questions about past behaviour.',
       'I completed the four questions.',
-      'I have a recruit list and other evidence sources.',
     ],
     takeaway: 'ask what people did last time, not what they would do. Their behaviour is evidence; their politeness is not.',
   },
@@ -194,25 +166,10 @@ export const PHASE3_LESSONS: Record<number, AiPmLesson> = {
         { q: '“I keep a personal note of policy links because search never finds them.”', answer: 0, why: 'A workaround they built: strong evidence of need.' },
       ],
     },
-    exercise: {
-      title: 'Summarise your discovery evidence',
-      intro: 'Summarise what you learned from interviews or, if you couldn’t run them yet, from credible existing research. Be honest about gaps.',
-      capstone: true,
-      fields: [
-        { key: 'sources', label: 'Your evidence (number of interviews, tickets, research)', rows: 2 },
-        { key: 'patterns', label: 'Top three patterns: job, workaround, frequency, pain', rows: 4 },
-        { key: 'quotes', label: 'Two quotes that show real behaviour', rows: 2 },
-        { key: 'against', label: 'Evidence against your idea, or surprises', rows: 2 },
-        { key: 'change', label: 'What changes in your problem statement, if anything', rows: 2 },
-      ],
-      rubric: 'Check that evidence sources are named with numbers, patterns are based on behaviour and recur across sources, quotes describe actions not opinions, contrary evidence is reported honestly, and the problem statement is updated if the evidence warrants.',
-      button: 'Review my synthesis',
-    },
     completion: [
       'I can separate behaviour from opinion.',
       'I found patterns across sources, not single stories.',
       'I completed the four questions.',
-      'I wrote an honest discovery summary.',
     ],
     takeaway: 'workarounds and repeated behaviour are your strongest evidence. Report what surprised you and what argued against your idea.',
   },
@@ -271,24 +228,10 @@ export const PHASE3_LESSONS: Record<number, AiPmLesson> = {
         { q: 'Sales reps need a quick summary of a customer’s last 20 support tickets before a call.', answer: 1, why: 'Summarising unstructured text is a strength of LLMs.' },
       ],
     },
-    exercise: {
-      title: 'Write your AI-vs-non-AI decision',
-      intro: 'Decide whether your capstone truly needs AI, compared with at least two simpler options.',
-      capstone: true,
-      fields: [
-        { key: 'options', label: 'Two non-AI alternatives and what they would solve', rows: 3 },
-        { key: 'gap', label: 'What only AI can solve here, with evidence', rows: 3 },
-        { key: 'decision', label: 'Your decision', choices: ['AI is justified', 'Start with a simpler fix', 'Combine a simpler fix with AI'] },
-        { key: 'assumption', label: 'Your riskiest assumption and how you will test it', rows: 2 },
-      ],
-      rubric: 'Check that the alternatives are genuinely viable, the gap AI fills is backed by discovery evidence, the decision follows from the comparison (combinations are often best), and the riskiest assumption is specific with a cheap test.',
-      button: 'Review my decision',
-    },
     completion: [
       'I compared AI against at least two simpler options.',
       'I backed the AI case with evidence.',
       'I completed the four questions.',
-      'I named and planned a test for my riskiest assumption.',
     ],
     takeaway: 'AI must beat the simpler fix. Write down the assumption that would sink it, and test that first.',
   },
@@ -346,24 +289,10 @@ export const PHASE3_LESSONS: Record<number, AiPmLesson> = {
         { q: 'A user spots a wrong answer but there is no way to report it.', answer: 3, why: 'Feedback lets users fix problems and helps the team improve.' },
       ],
     },
-    exercise: {
-      title: 'Map your user journey and trust moments',
-      intro: 'Map the main journey in your capstone and design for the moments where trust is won or lost.',
-      capstone: true,
-      fields: [
-        { key: 'journey', label: 'Journey steps from first use to task done', rows: 4 },
-        { key: 'moments', label: 'Two trust moments, and what could go wrong at each', rows: 3 },
-        { key: 'design', label: 'Your design response at each moment (using the five principles)', rows: 4 },
-        { key: 'correction', label: 'How users correct or report a wrong answer', rows: 2 },
-      ],
-      rubric: 'Check that the journey is concrete, the trust moments include first use and the first wrong answer, the design responses apply the principles (expectations, sources, control, correction, calibrated uncertainty), and correction is easy and feeds back into improvement.',
-      button: 'Review my journey map',
-    },
     completion: [
       'I can name five human-AI interaction principles.',
       'I can explain over-trust and under-trust.',
       'I completed the four questions.',
-      'I mapped my capstone journey and its trust moments.',
     ],
     takeaway: 'design for the first wrong answer, not just the happy path. Sources, honest uncertainty and easy correction keep trust.',
   },
@@ -373,7 +302,7 @@ export const PHASE3_LESSONS: Record<number, AiPmLesson> = {
     objectives: [
       'Structure an AI PRD using the T1 and T2 templates.',
       'Include the AI-specific sections normal PRDs miss.',
-      'Write PRD v1 for your capstone.',
+      'Write PRD v1 for an AI product.',
     ],
     parts: [
       {
@@ -420,26 +349,10 @@ export const PHASE3_LESSONS: Record<number, AiPmLesson> = {
         { q: '“If fewer than 30% of pilot users return in week 2, we stop and rethink.”', answer: 3, why: 'An explicit stop condition.' },
       ],
     },
-    exercise: {
-      title: 'Write PRD v1 (on a page)',
-      intro: 'Fill in the T1 “PRD on a page” for your capstone. Keep each answer short; you will expand it on Day 38.',
-      capstone: true,
-      fields: [
-        { key: 'problem', label: 'Problem, user and job', rows: 2 },
-        { key: 'whyai', label: 'Why AI', rows: 2 },
-        { key: 'metric', label: 'Success metric and ship rule', rows: 2 },
-        { key: 'worst', label: 'Worst error', rows: 2 },
-        { key: 'cost', label: 'Cost per task and latency budget (rough)', rows: 2 },
-        { key: 'kill', label: 'Launch and kill criteria', rows: 2 },
-      ],
-      rubric: 'Check that each T1 field is filled with specifics from their capstone, the success metric is measurable with a clear ship rule, the worst error is concrete, cost and latency are estimated even if rough, and kill criteria exist. Point out which sections need the most work before v2.',
-      button: 'Review my PRD v1',
-    },
     completion: [
       'I know which sections make an AI PRD different.',
       'I used the T1 template.',
       'I completed the four questions.',
-      'I wrote PRD v1 for my capstone.',
     ],
     takeaway: 'an AI PRD adds why AI, quality targets, failure handling, human review, data, cost, and kill criteria to a normal PRD.',
   },
@@ -494,24 +407,10 @@ export const PHASE3_LESSONS: Record<number, AiPmLesson> = {
         { q: '40% of real HR tickets ask about topics no document covers.', answer: 0, why: 'The data can’t answer many real questions.' },
       ],
     },
-    exercise: {
-      title: 'Build a data-readiness scorecard',
-      intro: 'Score your capstone’s data on the six checks and plan the gaps.',
-      capstone: true,
-      fields: [
-        { key: 'sources', label: 'Your main data sources (update your Day 4 inventory)', rows: 3 },
-        { key: 'scores', label: 'Score 1–3 for coverage, quality, freshness, permissions, ownership, privacy, with a reason each', rows: 6 },
-        { key: 'blockers', label: 'Launch blockers (anything scored 1)', rows: 2 },
-        { key: 'plan', label: 'How you will close or cut each blocker', rows: 3 },
-      ],
-      rubric: 'Check that all six checks are scored with evidence, permissions and privacy are taken seriously, blockers are identified honestly, and each blocker has a concrete plan (cut scope, owner fix, filter, label).',
-      button: 'Review my scorecard',
-    },
     completion: [
       'I can name the six readiness checks.',
       'I scored my data honestly.',
       'I completed the four questions.',
-      'I have a plan for every launch blocker.',
     ],
     takeaway: 'AI quality is capped by data quality. Fix, cut or filter data problems before you tune the model.',
   },
@@ -519,7 +418,7 @@ export const PHASE3_LESSONS: Record<number, AiPmLesson> = {
   33: {
     intro: 'You can’t show AI made things better without knowing how things were before.',
     objectives: [
-      'Set a non-AI baseline for your capstone.',
+      'Set a non-AI baseline for an AI product.',
       'Build a metric tree from business outcome to product metrics.',
       'Choose guardrail metrics and a measurement window.',
     ],
@@ -530,7 +429,7 @@ export const PHASE3_LESSONS: Record<number, AiPmLesson> = {
         paragraphs: [
           'A baseline is how the job performs today, without your AI product. It might be the current process (asking HR), a simple alternative (keyword search), or both.',
         ],
-        callout: { label: 'Example', text: 'Today: employees wait 18 hours on average for an HR answer, and HR handles 200 tickets a month. That is the number your capstone must beat.' },
+        callout: { label: 'Example', text: 'Today: employees wait 18 hours on average for an HR answer, and HR handles 200 tickets a month. That is the number the AI product must beat.' },
       },
       {
         id: 'tree',
@@ -566,24 +465,10 @@ export const PHASE3_LESSONS: Record<number, AiPmLesson> = {
         { q: 'Minutes from asking a question to having a correct answer.', answer: 1, why: 'It measures the user’s experience of the job.' },
       ],
     },
-    exercise: {
-      title: 'Write your metric tree and baseline plan',
-      intro: 'Define how you will prove your capstone works.',
-      capstone: true,
-      fields: [
-        { key: 'baseline', label: 'Your baseline: how the job performs today, and how you will measure it', rows: 3 },
-        { key: 'tree', label: 'Metric tree: business outcome, user outcome, product quality', rows: 4 },
-        { key: 'guardrails', label: 'Two guardrail metrics', rows: 2 },
-        { key: 'window', label: 'Measurement window and success threshold', rows: 2 },
-      ],
-      rubric: 'Check that the baseline is measurable and reflects current behaviour, the tree links business to user to quality metrics logically, guardrails cover safety or trust (such as access violations or wrong-answer rate), and the window and threshold are set in advance.',
-      button: 'Review my metrics',
-    },
     completion: [
       'I set a non-AI baseline.',
       'I built a metric tree with three levels.',
       'I completed the four questions.',
-      'I chose guardrails and a measurement window.',
     ],
     takeaway: 'measure the “before”, link quality to user and business outcomes, and set guardrails and success thresholds before you launch.',
   },
@@ -635,25 +520,10 @@ export const PHASE3_LESSONS: Record<number, AiPmLesson> = {
         { q: 'Asked about leave and payroll, it answers only the leave part.', answer: 2, why: 'Incomplete but not misleading.' },
       ],
     },
-    exercise: {
-      title: 'Write your graded failure spec (T4)',
-      intro: 'For your capstone, define one example per severity level and how the product responds.',
-      capstone: true,
-      fields: [
-        { key: 's0', label: 'S0 example, how you detect or block it, and the fallback', rows: 3 },
-        { key: 's1', label: 'S1 example, detection, fallback, and maximum rate', rows: 3 },
-        { key: 's2', label: 'S2 example and maximum rate', rows: 2 },
-        { key: 'abstain', label: 'When the product abstains, with the exact fallback text', rows: 3 },
-        { key: 'escalate', label: 'What escalates to a human, and the capacity check', rows: 2 },
-      ],
-      rubric: 'Check that severities are realistic for their product with S0 covering privacy or harm, detection methods are concrete, fallback text is specific and user-friendly, tolerated rates scale with severity, and escalation includes a capacity estimate.',
-      button: 'Review my failure spec',
-    },
     completion: [
       'I can grade errors from S0 to S3.',
       'I wrote exact fallback text.',
       'I completed the four questions.',
-      'I checked escalation capacity.',
     ],
     takeaway: 'decide in advance which mistakes are tolerable, how often, and exactly what the product says when it can’t answer.',
   },
@@ -709,25 +579,10 @@ export const PHASE3_LESSONS: Record<number, AiPmLesson> = {
         { q: 'Error state.', options: ['“Error 500.”', '“Something went wrong. Try again, or email hr@company.com.”'], answer: 1, why: 'It explains and offers a next step.' },
       ],
     },
-    exercise: {
-      title: 'Draft your trust copy',
-      intro: 'Write the copy for the five key states of your capstone.',
-      capstone: true,
-      fields: [
-        { key: 'empty', label: 'Empty state (first use)', rows: 2 },
-        { key: 'answer', label: 'Answer with sources (an example)', rows: 2 },
-        { key: 'low', label: 'Low-confidence answer', rows: 2 },
-        { key: 'notfound', label: 'Not found / abstain', rows: 2 },
-        { key: 'error', label: 'Error state', rows: 2 },
-      ],
-      rubric: 'Check that copy sets scope, shows sources with dates, expresses uncertainty honestly without being useless, avoids overclaiming, always gives a next step, and is consistent with the fallback text from Day 34.',
-      button: 'Review my copy',
-    },
     completion: [
       'I can name five key UI states.',
       'I can spot overclaiming copy.',
       'I completed the four questions.',
-      'I wrote trust copy for my capstone.',
     ],
     takeaway: 'honest, specific copy makes AI mistakes forgivable. Promise less, show sources, and always offer a next step.',
   },
@@ -737,7 +592,7 @@ export const PHASE3_LESSONS: Record<number, AiPmLesson> = {
     objectives: [
       'Design turn-taking, clarification and repair in a conversation.',
       'Know the extra challenges of voice interfaces.',
-      'Decide whether voice belongs in your capstone.',
+      'Decide whether voice belongs in an AI product.',
     ],
     parts: [
       {
@@ -766,7 +621,7 @@ export const PHASE3_LESSONS: Record<number, AiPmLesson> = {
       },
       {
         id: 'scope',
-        title: 'Is voice right for your capstone?',
+        title: 'Is voice right for your product?',
         bullets: [
           { term: 'Yes, if', text: 'users’ hands or eyes are busy (driving, field work), or typing is a barrier.' },
           { term: 'No, if', text: 'answers need sources, tables or careful reading, or users are at a desk.' },
@@ -784,23 +639,10 @@ export const PHASE3_LESSONS: Record<number, AiPmLesson> = {
         { q: 'The user’s question is fully answered.', answer: 3, why: 'Close the loop and offer the next step.' },
       ],
     },
-    exercise: {
-      title: 'Design a conversation flow, or scope voice out',
-      intro: 'Write a short conversation flow for your capstone’s main task, and decide whether voice is in scope.',
-      capstone: true,
-      fields: [
-        { key: 'flow', label: 'A sample conversation including one clarification and one repair', rows: 6 },
-        { key: 'voice', label: 'Voice decision', choices: ['Voice is in scope', 'Voice is out of scope'] },
-        { key: 'why', label: 'Why, based on your users and their context', rows: 3 },
-      ],
-      rubric: 'Check that the flow shows a realistic clarification question, a graceful repair, context carried across turns, and a clear ending; and that the voice decision is justified by user context (hands busy, screen needed, sources) rather than novelty.',
-      button: 'Review my flow',
-    },
     completion: [
       'I can design clarification and repair.',
       'I know the extra challenges of voice.',
       'I completed the four questions.',
-      'I made a justified voice decision for my capstone.',
     ],
     takeaway: 'good conversations clarify, repair and remember. Add voice only when your users’ context truly calls for it.',
   },
@@ -861,26 +703,10 @@ export const PHASE3_LESSONS: Record<number, AiPmLesson> = {
         { q: 'Monthly cost is ₹40,000; the feature saves 100 HR hours at ₹600 an hour. Is it viable?', options: ['Yes, value is ₹60,000', 'No, it costs more than it saves'], answer: 0, why: 'Value (₹60,000) exceeds cost (₹40,000), before other benefits.' },
       ],
     },
-    exercise: {
-      title: 'Fill in your cost and latency sheet (T3)',
-      intro: 'Estimate the cost and latency of your capstone with explicit assumptions.',
-      capstone: true,
-      fields: [
-        { key: 'tokens', label: 'Tokens per request: instructions, context, history, output', rows: 2 },
-        { key: 'price', label: 'Model, price per million tokens, source and date', rows: 2 },
-        { key: 'volume', label: 'Low, expected and high monthly volume', rows: 2 },
-        { key: 'cost', label: 'Monthly cost and cost per successful task', rows: 2 },
-        { key: 'latency', label: 'Latency budget per step, and streaming or background', rows: 2 },
-        { key: 'value', label: 'Value created per month, and your verdict', rows: 2 },
-      ],
-      rubric: 'Check that token estimates are plausible (RAG context dominates), price has a source and date, volume has three scenarios, cost per successful task is calculated, latency is broken down by step with streaming considered, and the verdict compares cost to a realistic value estimate.',
-      button: 'Review my estimate',
-    },
     completion: [
       'I can estimate tokens and cost per task.',
       'I set a latency budget per step.',
       'I completed the four questions.',
-      'I filled in the T3 sheet for my capstone.',
     ],
     takeaway: 'estimate cost per successful task and latency per step early, with assumptions written down. Viability is a product requirement.',
   },
@@ -932,23 +758,8 @@ export const PHASE3_LESSONS: Record<number, AiPmLesson> = {
         { q: 'Company A’s documents must never appear for Company B. Which requirement?', options: ['Latency', 'Tenant isolation', 'Streaming'], answer: 1, why: 'Data separation between customers (Day 38).' },
       ],
     },
-    exercise: {
-      title: 'Submit PRD v2 and your review memo',
-      intro: 'Summarise PRD v2 (use the T2 template for the full document) and write a short memo on what is still unresolved.',
-      capstone: true,
-      fields: [
-        { key: 'summary', label: 'PRD v2 summary: problem, evidence, why AI, metrics, ship rule', rows: 5 },
-        { key: 'failure', label: 'Failure handling and human review', rows: 3 },
-        { key: 'enterprise', label: 'Enterprise requirements (permissions, audit, integrations, rollout)', rows: 4 },
-        { key: 'risks', label: 'Review memo: top unresolved risks and how you will address them', rows: 4 },
-      ],
-      rubric: 'This is a gate review against the Phase 3 checklist: discovery evidence, a PRD, a data strategy, baseline and guardrail metrics, failure handling, and enterprise requirements. Check each is present and specific. Say clearly whether they look ready for Phase 4 (evals), and which day to revisit if not.',
-      button: 'Review my PRD v2',
-    },
     completion: [
       'I scored at least 5 of 6 on the self-check, or revisited the days I missed.',
-      'I added enterprise requirements.',
-      'I submitted PRD v2 and a review memo.',
       'I ticked the Phase 3 checklist honestly.',
     ],
     takeaway: 'a strong AI PRD is backed by evidence, measurable, honest about failure, viable on cost, and ready for enterprise scrutiny.',
