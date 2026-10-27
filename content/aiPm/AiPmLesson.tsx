@@ -1,24 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Compass, Target, Scale, Lightbulb, Layers, Sparkles, CheckCircle, XCircle, Loader2, Flag, Info, AlertTriangle, BookOpen,
+  Compass, Target, Scale, Lightbulb, Layers, Sparkles, CheckCircle, XCircle, Flag, Info, AlertTriangle, BookOpen,
 } from 'lucide-react';
-import { useAuth } from '../../context/AuthContext';
-import { AuthModal } from '../../components/auth/AuthModal';
 import type { AiPmLesson, LessonPart } from '../../data/aiPmCourse/lessons/types';
 
-// Draws a written PM → AI PM lesson from data (data/aiPmCourse/lessons): objectives, concept parts, a quiz, an
-// exercise reviewed by AI, a completion checklist and a takeaway. Answers stay in this browser.
+// Draws a written PM → AI PM lesson from data (data/aiPmCourse/lessons): concept parts, a quiz, an exercise,
+// a completion checklist and a takeaway. The objectives show at the top of the day page. Answers stay in this browser.
 
 const PART_ICONS = [Compass, Target, Scale, Layers, Lightbulb, BookOpen];
 const CAPSTONE_LOCK_DAY = 26;
 
-interface Review { summary: string; strengths: string[]; gaps: string[]; nextStep: string }
 interface LessonState {
   picks: (number | null)[];
   checked: boolean;
   answers: Record<string, string>;
   done: boolean[];
-  review?: Review;
 }
 
 const Label: React.FC<{ children: React.ReactNode }> = ({ children }) => (
@@ -39,7 +35,7 @@ const CALLOUT_TONES = {
 };
 
 export const lessonTopics = (lesson: AiPmLesson) => [
-  { id: 'objective', label: 'Today’s learning objectives' },
+  { id: 'objective', label: 'Today’s objective' },
   ...lesson.parts.map((p) => ({ id: p.id, label: p.title })),
   { id: 'quiz', label: lesson.quiz.title },
   { id: 'exercise', label: lesson.exercise.title },
@@ -137,7 +133,6 @@ export const AiPmLessonView: React.FC<{ day: number; lesson: AiPmLesson }> = ({ 
     answers: Object.fromEntries(exercise.fields.map((f) => [f.key, ''])),
     done: lesson.completion.map(() => false),
   });
-  const { user } = useAuth();
   const [state, setState] = useState<LessonState>(() => {
     try {
       const saved = JSON.parse(localStorage.getItem(storageKey) || 'null');
@@ -148,9 +143,6 @@ export const AiPmLessonView: React.FC<{ day: number; lesson: AiPmLesson }> = ({ 
     } catch {}
     return emptyState();
   });
-  const [reviewing, setReviewing] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [authOpen, setAuthOpen] = useState(false);
 
   useEffect(() => {
     try { localStorage.setItem(storageKey, JSON.stringify(state)); } catch {}
@@ -159,7 +151,6 @@ export const AiPmLessonView: React.FC<{ day: number; lesson: AiPmLesson }> = ({ 
   const answered = state.picks.filter((p) => p !== null).length;
   const allPicked = answered === quiz.questions.length;
   const correct = state.picks.filter((p, i) => p === quiz.questions[i].answer).length;
-  const ready = exercise.fields.every((f) => (state.answers[f.key] || '').trim());
   const doneCount = state.done.filter(Boolean).length;
 
   const pick = (i: number, n: number) =>
@@ -167,46 +158,8 @@ export const AiPmLessonView: React.FC<{ day: number; lesson: AiPmLesson }> = ({ 
   const setAnswer = (key: string, value: string) =>
     setState((s) => ({ ...s, answers: { ...s.answers, [key]: value.slice(0, 800) } }));
 
-  const review = async () => {
-    if (!user) { setAuthOpen(true); return; }
-    if (!ready) { setError('Fill in every part of the exercise first.'); return; }
-    setError(null);
-    setReviewing(true);
-    try {
-      const token = await user.getIdToken();
-      const res = await fetch('/api/ai-pm/review-exercise', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ day, answers: state.answers }),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data?.error || 'The review failed. Please try again.');
-      setState((s) => ({ ...s, review: data.review }));
-    } catch (err: any) {
-      setError(err?.message || 'Something went wrong. Please try again.');
-    } finally {
-      setReviewing(false);
-    }
-  };
-
   return (
     <div className="space-y-6 md:space-y-7 text-left">
-      <AuthModal isOpen={authOpen} onClose={() => setAuthOpen(false)} initialMode="login" redirectTo={`/ai-pm/day/${day}`} onSuccess={() => setAuthOpen(false)} />
-
-      <section id="objective" className="scroll-mt-32 bg-brand-50/60 p-4 sm:p-5 rounded-2xl border border-brand-100 space-y-2">
-        <span className="text-[11px] font-bold uppercase tracking-widest text-brand-600">Today’s learning objectives</span>
-        <p className="text-sm font-medium text-brand-800">
-          {lesson.intro ? `${lesson.intro} ` : ''}By the end of this lesson, you should be able to:
-        </p>
-        <ul className="space-y-1.5">
-          {lesson.objectives.map((o) => (
-            <li key={o} className="flex gap-2 text-sm font-bold text-zinc-900 leading-relaxed">
-              <CheckCircle className="w-4 h-4 text-brand-600 shrink-0 mt-0.5" />{o}
-            </li>
-          ))}
-        </ul>
-      </section>
-
       {lesson.parts.map((p, i) => <Part key={p.id} part={p} index={i} />)}
 
       {/* Quiz */}
@@ -325,37 +278,6 @@ export const AiPmLessonView: React.FC<{ day: number; lesson: AiPmLesson }> = ({ 
           <p className="text-xs text-zinc-500 flex gap-1.5"><Info className="w-3.5 h-3.5 shrink-0 mt-px" />Your answers save automatically in this browser.</p>
         </div>
 
-        <div className="space-y-3">
-          <button
-            type="button"
-            onClick={review}
-            disabled={reviewing}
-            className="h-11 px-5 rounded-xl bg-brand-600 hover:bg-brand-700 disabled:opacity-60 text-white font-semibold text-sm flex items-center gap-2"
-          >
-            {reviewing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
-            {reviewing ? 'Reviewing…' : state.review ? 'Review again' : exercise.button ?? 'Review my answers'}
-          </button>
-          {!user && <p className="text-xs font-medium text-zinc-500">You’ll be asked to sign in first.</p>}
-          {error && <p className="text-sm font-bold text-rose-600">{error}</p>}
-          {state.review && (
-            <div className="bg-white border border-zinc-200 rounded-xl p-4 space-y-3">
-              <p className="text-sm font-medium text-zinc-700 leading-relaxed">{state.review.summary}</p>
-              {state.review.strengths.length > 0 && (
-                <div>
-                  <Label>What you did well</Label>
-                  <ul className="space-y-1 text-sm text-zinc-600 list-disc pl-5">{state.review.strengths.map((s) => <li key={s}>{s}</li>)}</ul>
-                </div>
-              )}
-              {state.review.gaps.length > 0 && (
-                <div>
-                  <Label>Sharpen this</Label>
-                  <ul className="space-y-1 text-sm text-zinc-600 list-disc pl-5">{state.review.gaps.map((s) => <li key={s}>{s}</li>)}</ul>
-                </div>
-              )}
-              {state.review.nextStep && <p className="text-xs font-bold text-brand-700">{state.review.nextStep}</p>}
-            </div>
-          )}
-        </div>
       </section>
 
       {/* Completion */}
