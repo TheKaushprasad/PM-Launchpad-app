@@ -215,14 +215,6 @@ export const AiPmDayPage: React.FC = () => {
         {/* Main column */}
         <div className="lg:col-span-8 space-y-4 min-w-0">
           <header className="space-y-2.5">
-            <Link to={`/ai-pm/plan#phase-${phase.id}`} className="inline-flex items-center gap-1 text-sm font-medium text-zinc-600 hover:text-brand-700">
-              <ChevronLeft className="w-4 h-4" /> Back to curriculum
-            </Link>
-            <div>
-              <span className="inline-block text-xs font-semibold px-2.5 py-1 rounded-lg bg-brand-50 text-brand-800 border border-brand-100">
-                Day {day.day} of 90{day.kind === 'weekend' ? ' · Weekend block' : day.kind === 'review' ? ' · Gate day' : ''}
-              </span>
-            </div>
             <h1 className="text-2xl sm:text-3xl md:text-[2rem] font-bold text-zinc-900 leading-tight tracking-tight">{day.topic}</h1>
             {hasLesson && <p className="text-sm sm:text-base text-zinc-600 leading-relaxed max-w-2xl">{day.learn}</p>}
             <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5 pt-1 text-sm text-zinc-600">
