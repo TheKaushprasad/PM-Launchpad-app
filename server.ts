@@ -28,6 +28,7 @@ import { deepgramVoiceFor, isDeepgramConfigured, isGroqConfigured, isSarvamConfi
 import { getProjectById } from "./data/realWorldProjects";
 import { discoverJobBoards, getJobDetail, getJobsList, jobsStoreReady, refreshJobs } from "./server/jobs/store";
 import { registerAssignmentSolverRoutes } from "./server/assignmentSolver/routes";
+import { registerProductBuddyRoutes } from "./server/productBuddy/routes";
 import { requireAiAccess, getVerifiedUser, consumeDailyQuota, clientIp } from "./server/security";
 import { getGeminiKey, getInterviewGeminiKey, hasSeparateInterviewGeminiKey } from "./server/geminiKeys";
 import { initObservability, traceInterviewRequests, traceStep, traceMeta, traceIO, noteGuardrail, geminiUsage, openAiUsage, recordClientEvent, cleanSessionId, cleanTraceId, isLangfuseConfigured } from "./server/observability";
@@ -1502,6 +1503,7 @@ SUBMISSION>>>`;
   // PM Assignment Solver (local only): five agents draft a take-home assignment
   // ==========================================
   registerAssignmentSolverRoutes(app, requireAiAccess);
+  registerProductBuddyRoutes(app);
 
   // ==========================================
   // PM Jobs board

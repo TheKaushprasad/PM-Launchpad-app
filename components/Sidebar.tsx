@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { 
   LayoutDashboard, BookOpen, Search, BarChart2, Smartphone, 
   Bot, Info, ChevronRight, ChevronDown, Sparkles, Zap, ArrowRight, Code, Briefcase,
-  Library, LogIn, LogOut, Layers, User as UserIcon, Menu, X, FolderKanban, MessagesSquare, GraduationCap
+  Library, LogIn, LogOut, Layers, User as UserIcon, Menu, X, FolderKanban, MessagesSquare, GraduationCap, Users
 } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Logo } from './Logo';
 import { useAuth } from '../context/AuthContext';
 import { AuthModal } from './auth/AuthModal';
-import { isAiInterviewEnabled, isAiPmCourseEnabled } from '../lib/featureFlags';
+import { isAiInterviewEnabled, isAiPmCourseEnabled, isProductBuddyEnabled } from '../lib/featureFlags';
 
 interface SidebarProps {
   mobileOpen: boolean;
@@ -33,6 +33,7 @@ const OTHER_NAV_ITEMS = [
   // Local-only course; never listed on the live site.
   ...(isAiPmCourseEnabled ? [{ label: 'PM → AI PM', icon: GraduationCap, path: '/ai-pm', badge: 'Local' }] : []),
   { label: 'AI Mock Interview', icon: Sparkles, path: '/interview-studio', badge: isAiInterviewEnabled ? 'AI' : 'Soon' },
+  ...(isProductBuddyEnabled ? [{ label: 'Product Buddy', icon: Users, path: '/buddy', badge: 'Local' }] : []),
   { label: 'Interview Questions', icon: MessagesSquare, path: '/interview-questions', badge: 'New' },
   { label: 'Real-World Projects', icon: FolderKanban, path: '/projects' },
   { label: 'PM Jobs', icon: Briefcase, path: '/jobs', badge: 'New' },

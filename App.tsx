@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, Outlet, 
 import { SeoMeta } from './components/SeoMeta';
 import { Sidebar } from './components/Sidebar';
 import { LandingPage } from './components/LandingPage';
-import { isAiInterviewEnabled, isAiPmCourseEnabled, isAssignmentSolverEnabled } from './lib/featureFlags';
+import { isAiInterviewEnabled, isAiPmCourseEnabled, isAssignmentSolverEnabled, isProductBuddyEnabled } from './lib/featureFlags';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { Menu, X, AlertTriangle, Loader2 } from 'lucide-react';
 
@@ -60,6 +60,10 @@ const aiPmCourse = AiPmCourse ? <AiPmCourse /> : <Navigate to="/dashboard" repla
 // The PM Assignment Solver is local-only too; the live site sends its URL to the tools hub.
 const AssignmentSolver = isAssignmentSolverEnabled ? lazy(() => import('./components/assignmentSolver/AssignmentSolver')) : null;
 const assignmentSolver = AssignmentSolver ? <AssignmentSolver /> : <Navigate to="/tools" replace />;
+
+// Product Buddy (peer mock interviews) is local-only too; the live site sends /buddy to the dashboard.
+const ProductBuddy = isProductBuddyEnabled ? lazy(() => import('./components/productBuddy/ProductBuddy')) : null;
+const productBuddy = ProductBuddy ? <ProductBuddy /> : <Navigate to="/dashboard" replace />;
 
 // Action Link Redirector to catch Firebase direct action queries (e.g. ?mode=verifyEmail&oobCode=...)
 const AuthActionRedirector = () => {
@@ -314,6 +318,9 @@ const App: React.FC = () => {
                 <Route path="/interview-studio" element={interviewStudio} />
                 <Route path="/practice" element={interviewStudio} />
                 <Route path="/resume-auditor" element={<ResumeAuditor />} />
+
+                {/* Product Buddy: peer mock interviews (local only) */}
+                <Route path="/buddy" element={productBuddy} />
 
                 {/* PM → AI PM course (local only) */}
                 <Route path="/ai-pm/*" element={aiPmCourse} />

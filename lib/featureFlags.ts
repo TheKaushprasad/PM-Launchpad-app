@@ -12,3 +12,7 @@ export const isAiPmCourseEnabled = import.meta.env.DEV || import.meta.env.VITE_A
 // The PM Assignment Solver is local-only for now, like the course above. To launch it, set
 // VITE_ASSIGNMENT_SOLVER_ENABLED=true in Vercel and redeploy.
 export const isAssignmentSolverEnabled = import.meta.env.DEV || import.meta.env.VITE_ASSIGNMENT_SOLVER_ENABLED === 'true';
+
+// Product Buddy (peer mock-interview matching) is local-only too. To launch it, set
+// VITE_PRODUCT_BUDDY_ENABLED=true in Vercel and redeploy; the server reads the same variable.
+export const isProductBuddyEnabled = import.meta.env.DEV || import.meta.env.VITE_PRODUCT_BUDDY_ENABLED === 'true';
