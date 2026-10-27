@@ -102,7 +102,6 @@ export const AiPmOverview: React.FC = () => {
             )),
           )}
         </div>
-        <Prose>{o.artifactsNote}</Prose>
       </Section>
 
       <div className="grid md:grid-cols-2 gap-4">
@@ -126,7 +125,7 @@ export const AiPmPlan: React.FC = () => {
 
   return (
     <div className="space-y-10">
-      <PageTitle eyebrow="90-day plan" title="Seven phases, one capstone">
+      <PageTitle eyebrow="90-day plan" title="Seven phases, 90 days">
         {o.planIntro}
       </PageTitle>
 
@@ -150,9 +149,6 @@ export const AiPmPlan: React.FC = () => {
                   Phase {phase.id} · Days {phase.start}–{phase.end}
                 </p>
                 <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">{phase.title}</h2>
-                <p className="text-sm text-slate-600 mt-1">
-                  <span className="font-bold text-slate-800">Deliverable:</span> {phase.deliverable}
-                </p>
               </div>
               <div className="flex items-center gap-2 flex-wrap">
                 {phase.templates.map((t) => <TemplateChip key={t} id={t} />)}
@@ -192,7 +188,7 @@ export const AiPmPlan: React.FC = () => {
                       </button>
                     </div>
                     <h3 className="font-black text-slate-900 mt-1">{d.topic}</h3>
-                    <p className="text-sm text-slate-600 mt-1 line-clamp-2">{d.do}</p>
+                    <p className="text-sm text-slate-600 mt-1 line-clamp-2">{d.learn}</p>
                   </div>
                 );
               })}
@@ -200,7 +196,7 @@ export const AiPmPlan: React.FC = () => {
 
             <Card className="bg-slate-50/70">
               <h3 className="font-black text-slate-900 text-sm mb-1">Phase {phase.id} checklist: {phase.checklistTitle}</h3>
-              <p className="text-xs text-slate-500 mb-2">The deliverable passes only if every check is true.</p>
+              <p className="text-xs text-slate-500 mb-2">Tick each check once it is true for you.</p>
               <Checklist idPrefix={`phase${phase.id}`} items={phase.checklist} checks={progress.checks} onToggle={toggleCheck} />
             </Card>
           </section>

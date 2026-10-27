@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  AI_PM_WHY, AI_PM_WEEK_PHASES, AI_PM_WEEKS_INTRO, AI_PM_CAPSTONES, AI_PM_TEMPLATES, AI_PM_BACKGROUND_EXAMPLE,
+  AI_PM_WHY, AI_PM_WEEK_PHASES, AI_PM_WEEKS_INTRO, AI_PM_TEMPLATES, AI_PM_BACKGROUND_EXAMPLE,
   AI_PM_SKILLS, AI_PM_SKILL_SCALE, AI_PM_PORTFOLIO, AI_PM_TOOLS, AI_PM_INTERVIEWS,
 } from '../../data/aiPmCourse/content';
 import { DESIGN_CASE_STEPS } from '../../data/aiPmCourse/plan';
@@ -63,17 +63,6 @@ export const AiPmWeeks: React.FC = () => (
         </Card>
       </Section>
     ))}
-  </div>
-);
-
-export const AiPmCapstone: React.FC = () => (
-  <div className="space-y-8">
-    <PageTitle eyebrow="Capstone" title="Pick one problem on day 5">{AI_PM_CAPSTONES.intro}</PageTitle>
-    <DataTable table={AI_PM_CAPSTONES.table} />
-    <Card>
-      <h3 className="font-black text-slate-900 mb-1">How to choose</h3>
-      <Prose>{AI_PM_CAPSTONES.howToChoose}</Prose>
-    </Card>
   </div>
 );
 

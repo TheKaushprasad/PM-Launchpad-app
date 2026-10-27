@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Settings, TrendingUp, Sparkles, Scale, Compass, CheckCircle, Lightbulb, Target, XCircle,
+  Settings, TrendingUp, Sparkles, Scale, Compass, CheckCircle, Target, XCircle,
 } from 'lucide-react';
 
 // PM → AI PM, Day 2: rules vs predictive ML vs generative AI, deterministic vs probabilistic, a decision
-// framework, a 3-scenario quiz and a five-question feature analysis. Answers stay in this browser.
+// framework, and a 3-scenario quiz. Answers stay in this browser.
 
 const STORAGE_KEY = 'aipm_day2_v1';
 
@@ -76,28 +76,10 @@ const SCENARIOS = [
   },
 ];
 
-const FIVE_QUESTIONS = [
-  { key: 'problem', label: 'Problem', hint: 'What user problem does it solve?' },
-  { key: 'approach', label: 'Approach', hint: 'Rules, predictive ML, GenAI, or a combination?' },
-  { key: 'why', label: 'Why', hint: 'Why is that approach better than the alternatives?' },
-  { key: 'failure', label: 'Failure', hint: 'What happens if it makes a mistake?' },
-  { key: 'metric', label: 'Metric', hint: 'What measurable user outcome should improve?' },
-] as const;
-
-const WORKED_EXAMPLE = [
-  { label: 'Feature', text: 'An internal company knowledge assistant.' },
-  { label: 'Problem', text: 'Employees waste time searching through SOPs and project documents.' },
-  { label: 'Approach', text: 'GenAI plus retrieval, with document permissions enforced by the application.' },
-  { label: 'Why', text: 'Employees ask questions in natural language, while answers need to be grounded in existing documents.' },
-  { label: 'Failure', text: 'It cites the wrong document or exposes restricted information.' },
-  { label: 'Metric', text: 'Time to find a correct answer, with access-control violations as a zero-tolerance guardrail.' },
-];
-
 const COMPLETION = [
   'Explain rules vs. predictive ML vs. GenAI.',
   'Explain why AI output can be uncertain.',
   'Complete the three scenario questions.',
-  'Analyze one real product feature using the five questions.',
 ];
 
 export const AI_PM_DAY2_TOPICS = [
@@ -106,37 +88,32 @@ export const AI_PM_DAY2_TOPICS = [
   { id: 'deterministic', label: 'Probabilistic vs. deterministic' },
   { id: 'framework', label: 'A PM decision framework' },
   { id: 'scenarios', label: 'Choose the right approach' },
-  { id: 'apply', label: 'Apply it to a product you know' },
   { id: 'completion', label: 'Completion checklist' },
 ];
 
 // Shown at the top of the day page, above the video.
 export const AI_PM_DAY2_OBJECTIVE = { text: 'Learn when to use traditional software, predictive machine learning, or generative AI, and defend your choice like a Product Manager.', lead: 'By the end of today, you should be able to look at a product problem and answer: Do we actually need AI here?' };
 
-type FeatureKey = 'feature' | (typeof FIVE_QUESTIONS)[number]['key'];
 interface Day2State {
   picks: (number | null)[];
   checked: boolean;
-  feature: Record<FeatureKey, string>;
   done: boolean[];
 }
 
 const emptyState = (): Day2State => ({
   picks: SCENARIOS.map(() => null),
   checked: false,
-  feature: { feature: '', problem: '', approach: '', why: '', failure: '', metric: '' },
   done: COMPLETION.map(() => false),
 });
 
 function loadState(): Day2State {
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
-    if (saved && Array.isArray(saved.picks)) return { ...emptyState(), ...saved, feature: { ...emptyState().feature, ...saved.feature } };
+    if (saved && Array.isArray(saved.picks)) return { ...emptyState(), ...saved };
   } catch {}
   return emptyState();
 }
 
-const fieldClass = 'w-full px-3 py-2 rounded-xl border border-zinc-200 bg-white text-sm font-medium text-zinc-800 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-brand-200';
 const h2Class = 'text-lg md:text-xl font-bold text-zinc-900 flex items-center gap-2.5 tracking-tight';
 
 export const AiPmDay2Content = () => {
@@ -151,14 +128,11 @@ export const AiPmDay2Content = () => {
 
   const pick = (i: number, n: number) =>
     setState((s) => ({ ...s, checked: false, picks: s.picks.map((p, j) => (j === i ? n : p)) }));
-  const setField = (key: FeatureKey, value: string) =>
-    setState((s) => ({ ...s, feature: { ...s.feature, [key]: value.slice(0, 600) } }));
 
   return (
     <div className="space-y-6 md:space-y-7 text-left">
-      {/* Part 1 */}
       <section id="three-ways" className="scroll-mt-32 space-y-3">
-        <h2 className={h2Class}><Compass className="w-5 h-5 text-brand-600" />Part 1 — Three ways to solve a product problem</h2>
+        <h2 className={h2Class}><Compass className="w-5 h-5 text-brand-600" />Three ways to solve a product problem</h2>
         <div className="space-y-3">
           {APPROACHES.map((a) => (
             <div key={a.title} className="bg-white border border-zinc-200/80 p-4 rounded-xl space-y-3">
@@ -186,9 +160,8 @@ export const AiPmDay2Content = () => {
         </div>
       </section>
 
-      {/* Part 2 */}
       <section id="deterministic" className="scroll-mt-32 space-y-3">
-        <h2 className={h2Class}><Scale className="w-5 h-5 text-brand-600" />Part 2 — The critical concept: probabilistic vs. deterministic</h2>
+        <h2 className={h2Class}><Scale className="w-5 h-5 text-brand-600" />The critical concept: probabilistic vs. deterministic</h2>
         <p className="text-zinc-600 font-medium leading-relaxed">
           Traditional software is often deterministic: given the same inputs and state, it should produce the same result.
         </p>
@@ -210,9 +183,8 @@ export const AiPmDay2Content = () => {
         </p>
       </section>
 
-      {/* Part 3 */}
       <section id="framework" className="scroll-mt-32 space-y-3">
-        <h2 className={h2Class}><Target className="w-5 h-5 text-brand-600" />Part 3 — A PM decision framework</h2>
+        <h2 className={h2Class}><Target className="w-5 h-5 text-brand-600" />A PM decision framework</h2>
         <p className="text-zinc-600 font-medium leading-relaxed">Use this checklist before proposing AI. Which approach should you choose?</p>
         <ol className="space-y-2">
           {FRAMEWORK.map((f, i) => (
@@ -230,9 +202,8 @@ export const AiPmDay2Content = () => {
         </p>
       </section>
 
-      {/* Part 4 */}
       <section id="scenarios" className="scroll-mt-32 space-y-3">
-        <h2 className={h2Class}><CheckCircle className="w-5 h-5 text-brand-600" />Part 4 — Your exercise: choose the right approach</h2>
+        <h2 className={h2Class}><CheckCircle className="w-5 h-5 text-brand-600" />Your exercise: choose the right approach</h2>
         <p className="text-zinc-600 font-medium leading-relaxed">
           For each scenario, choose the primary approach you would start with. Assume the problem is as described; you can propose a combination if justified.
         </p>
@@ -284,33 +255,6 @@ export const AiPmDay2Content = () => {
           </button>
           {state.checked && <p className="text-sm font-bold text-zinc-700">{correct} / 3 match the expected starting point</p>}
           {!allPicked && <p className="text-xs text-zinc-500">Answer all three to check.</p>}
-        </div>
-      </section>
-
-      {/* Part 5 */}
-      <section id="apply" className="scroll-mt-32 space-y-3">
-        <h2 className={h2Class}><Lightbulb className="w-5 h-5 text-brand-600" />Part 5 — Apply it to a product you know</h2>
-        <p className="text-zinc-600 font-medium leading-relaxed">Choose a feature from a product you use or build. Here’s a worked example:</p>
-        <div className="bg-zinc-50/70 border border-zinc-200/70 rounded-xl p-4">
-          <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1.5 text-sm">
-            {WORKED_EXAMPLE.map((w) => (
-              <React.Fragment key={w.label}>
-                <dt className="font-bold text-zinc-900">{w.label}</dt>
-                <dd className="text-zinc-600">{w.text}</dd>
-              </React.Fragment>
-            ))}
-          </dl>
-        </div>
-
-        <div className="border border-zinc-200/80 rounded-xl p-4 space-y-3">
-          <p className="font-bold text-zinc-900">Your feature</p>
-          <input className={fieldClass} placeholder="Feature (for example: Swiggy’s restaurant recommendations)" value={state.feature.feature} onChange={(e) => setField('feature', e.target.value)} aria-label="Feature" />
-          {FIVE_QUESTIONS.map((q, i) => (
-            <div key={q.key}>
-              <label className="text-sm font-bold text-zinc-800" htmlFor={`d2-${q.key}`}>{i + 1}. {q.label}</label>
-              <textarea id={`d2-${q.key}`} rows={2} className={`${fieldClass} mt-1 resize-y`} placeholder={q.hint} value={state.feature[q.key]} onChange={(e) => setField(q.key, e.target.value)} />
-            </div>
-          ))}
         </div>
       </section>
 

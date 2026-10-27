@@ -83,7 +83,6 @@ export const AI_PM_OVERVIEW = {
       ],
     },
   ],
-  artifactsNote: 'All 8 artifacts use one capstone, so together they tell one story.',
   goalMet: [
     'All 6 phase checklists pass, with every check true.',
     'Your eval pass rate improves from v0 to v1, and you can explain each regression.',
@@ -97,15 +96,14 @@ export const AI_PM_OVERVIEW = {
     'A job guarantee. The course gives you the skills and the proof; the job search still takes time.',
   ],
   rules: [
-    { title: 'Daily rhythm', text: 'Usually 45–60 minutes a day; gate days take 60–75 minutes. Learn the concept, apply it to the capstone, record a decision or artifact, and note one open question.' },
-    { title: 'One capstone, all 90 days', text: 'Every day creates or improves an artifact for one AI product. Recommended default: a grounded knowledge assistant that answers questions from approved internal documents, with citations, access controls, fallbacks, evals and human escalation. You lock the user and problem on Day 26.' },
+    { title: 'Daily rhythm', text: 'Usually 45–60 minutes a day; gate days take 60–75 minutes. Watch the video, learn the concept, answer the quiz, and note one open question.' },
     { title: 'The notebook', text: 'Keep one doc with a page per phase. End each day with 3 lines: one idea, one number, one question.' },
     { title: 'The data rule', text: 'Do not put real customer, candidate, employer or personal data into an AI tool. Every case that you make is synthetic or anonymised.' },
     { title: 'The evidence rule', text: 'In a teardown, write “I observed” for what you tested and “I assume” for the rest. Do not state how a real company built a product.' },
-    { title: 'Pass/fail checklists', text: 'Each phase ends with a checklist. A deliverable passes only if every check is true.' },
+    { title: 'Pass/fail checklists', text: 'Each phase ends with a checklist. Move on once every check is true.' },
   ],
   planIntro:
-    'A build-first plan for working PMs: about 45–60 minutes a day for 90 days, in seven phases that each end with a gate. The goal is practical AI product judgment and one credible capstone, not mastering every technical discipline. You learn technical concepts deeply enough to make decisions and work with engineers; coding every component is not required.',
+    'A build-first plan for working PMs: about 45–60 minutes a day for 90 days, in seven phases that each end with a gate. The goal is practical AI product judgment, not mastering every technical discipline. You learn technical concepts deeply enough to make decisions and work with engineers; coding every component is not required.',
 };
 
 export const AI_PM_WHY = {
@@ -224,24 +222,6 @@ export const AI_PM_WEEK_PHASES: { title: string; weeks: AiPmWeek[]; gate: string
 export const AI_PM_WEEKS_INTRO =
   'Plan on 10–12 hours a week. Each week has one concept block and one build; the build is what goes in the portfolio. Phases end with a gate: don’t move on until you can pass it. This is the summary view; the 90-day plan is the day-by-day version you work through.';
 
-export const AI_PM_CAPSTONES = {
-  intro: 'Pick the one closest to your domain and target roles. All are synthetic problems; the numbers are illustrative.',
-  table: {
-    headers: ['Option', 'Problem', 'Hard part', 'Worst error', 'Fits roles in'],
-    rows: [
-      ['A', 'Insurance claim-packet checker: is the packet complete, which fields conflict', 'Phone photos, handwriting, name variants', 'Approving an incomplete claim', 'Fintech, insurtech'],
-      ['B', 'Hinglish support-ticket triage and reply drafter', 'Roman-script Hindi, sarcasm, prompt injection', 'Promising a refund the policy does not allow', 'Consumer apps'],
-      ['C', 'GST invoice extractor for a CA practice', 'Many layouts, faded bills', 'A confident wrong number in a filing', 'Fintech, B2B SaaS'],
-      ['D', 'Resume shortlister against must-haves, with evidence lines', 'Mixed formats, career gaps, hidden injection', 'Rejecting qualified people', 'HR-tech'],
-      ['E', 'Property-listing normaliser and duplicate detector', 'Local shorthand, lakh and crore', 'An invented feature or wrong price', 'Marketplaces'],
-      ['F', 'Voice receptionist for clinic appointments', 'Fast replies, noise, interruptions', 'Missing an emergency phrase', 'Voice AI, health-tech'],
-      ['G', 'An AI feature for your own product', 'You know the users and data', 'You define it', 'Your current company'],
-    ],
-  } as AiPmTable,
-  howToChoose:
-    'Score each option 1–5 on 4 questions. (1) Do you know this workflow? (2) Can you write 50 realistic cases without real data? (3) Can you say which error hurts most? (4) Does it match your target roles? Pick the highest total. These options are adapted from the Six-Week AI PM Roadmap.',
-};
-
 export const AI_PM_TEMPLATES: { id: string; name: string; fields: string[] }[] = [
   { id: 'T1', name: 'PRD on a page', fields: ['Problem, user, job', 'Why AI', 'Success metric and ship rule', 'Worst error', 'Cost per task', 'Latency budget', 'Launch and kill criteria'] },
   { id: 'T2', name: 'AI PRD (4 pages max)', fields: ['Problem and evidence', 'Metrics at 3 levels + guardrail', 'Ship rule', 'Precision and recall targets', 'Failure spec (T4)', 'Human-in-the-loop triggers and capacity math', 'Architecture choice', 'Cost and latency (T3)', 'Data and privacy', 'Launch plan'] },
@@ -251,14 +231,14 @@ export const AI_PM_TEMPLATES: { id: string; name: string; fields: string[] }[] =
   { id: 'T6', name: 'Error-analysis memo (1 page)', fields: ['Pass rate v0', 'Failure categories with counts', 'Top category and cause', 'Fix made', 'Pass rate v1', 'Regressions', 'Ship decision vs ship rule'] },
   { id: 'T7', name: 'Run log', fields: ['Run ID', 'Date', 'Input case', 'Prompt version', 'Model', 'Latency (ms)', 'Tokens or cost', 'Output OK?', 'Failure category', 'User feedback'] },
   { id: 'T8', name: 'AI product teardown or critique', fields: ['User and job', 'The AI moment', 'Architecture from behaviour (I observed / I assume)', 'Unit economics', 'Failure handling observed', 'One trade-off and why', 'One change and the metric to prove it'] },
-  { id: 'T9', name: '90-second background story', fields: ['Your PM work in one line, with a number', 'The AI PM skill it trained', 'The capstone exhibit that proves it', 'One number from the capstone', 'What you want to do next'] },
+  { id: 'T9', name: '90-second background story', fields: ['Your PM work in one line, with a number', 'The AI PM skill it trained', 'The project that proves it', 'One number from that project', 'What you want to do next'] },
   { id: 'T10', name: '35-minute design case', fields: ['Goal and constraint', 'Segment', 'Problem', 'Options (one without AI)', 'AI design', 'Metrics and evals', 'Risks and rollout', '4-sentence trade-off', 'Score 1–5 per step'] },
 ];
 
 export const AI_PM_BACKGROUND_EXAMPLE = {
   before: '“I managed the checkout roadmap.”',
   after:
-    '“I ran discovery with 40 merchants and shipped one-tap checkout, which moved conversion by 6%. For AI I add measurable quality targets, failure specs and escalation rules. My capstone eval set went from 72% to 88%.” Use your own numbers.',
+    '“I ran discovery with 40 merchants and shipped one-tap checkout, which moved conversion by 6%. For AI I add measurable quality targets, failure specs and escalation rules. My eval set went from 72% to 88%.” Use your own numbers.',
 };
 
 export const AI_PM_SKILLS: { group: string; items: string[] }[] = [

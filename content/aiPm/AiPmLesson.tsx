@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Compass, Target, Scale, Lightbulb, Layers, Sparkles, CheckCircle, XCircle, Flag, Info, AlertTriangle, BookOpen,
+  Compass, Target, Scale, Lightbulb, Layers, Sparkles, CheckCircle, XCircle, Info, AlertTriangle, BookOpen,
 } from 'lucide-react';
 import type { AiPmLesson, LessonPart } from '../../data/aiPmCourse/lessons/types';
 
-// Draws a written PM → AI PM lesson from data (data/aiPmCourse/lessons): concept parts, a quiz, an exercise,
+// Draws a written PM → AI PM lesson from data (data/aiPmCourse/lessons): concept parts, a quiz,
 // a completion checklist and a takeaway. The objectives show at the top of the day page. Answers stay in this browser.
 
 const PART_ICONS = [Compass, Target, Scale, Layers, Lightbulb, BookOpen];
-const CAPSTONE_LOCK_DAY = 26;
 
 interface LessonState {
   picks: (number | null)[];
   checked: boolean;
-  answers: Record<string, string>;
   done: boolean[];
 }
 
@@ -21,7 +19,6 @@ const Label: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <h4 className="text-[11px] font-bold uppercase tracking-widest text-zinc-400 mb-1.5">{children}</h4>
 );
 
-const fieldClass = 'w-full px-3 py-2 rounded-xl border border-zinc-200 bg-white text-sm font-medium text-zinc-800 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-brand-200';
 const h2Class = 'text-lg md:text-xl font-bold text-zinc-900 flex items-center gap-2.5 tracking-tight';
 const chipClass = (selected: boolean) =>
   `px-3 py-2 rounded-lg border text-xs font-semibold transition-colors ${
@@ -38,7 +35,6 @@ export const lessonTopics = (lesson: AiPmLesson) => [
   { id: 'objective', label: 'Today’s objective' },
   ...lesson.parts.map((p) => ({ id: p.id, label: p.title })),
   { id: 'quiz', label: lesson.quiz.title },
-  { id: 'exercise', label: lesson.exercise.title },
   { id: 'completion', label: 'Completion checklist' },
 ];
 
@@ -47,7 +43,7 @@ const Part: React.FC<{ part: LessonPart; index: number }> = ({ part, index }) =>
   const cols = part.cardCols ?? (part.cards && part.cards.length === 4 ? 2 : 1);
   return (
     <section id={part.id} className="scroll-mt-32 space-y-3">
-      <h2 className={h2Class}><Icon className="w-5 h-5 text-brand-600" />Part {index + 1} — {part.title}</h2>
+      <h2 className={h2Class}><Icon className="w-5 h-5 text-brand-600" />{part.title}</h2>
       {part.paragraphs?.map((p) => <p key={p} className="text-zinc-600 font-medium leading-relaxed">{p}</p>)}
       {part.bullets && (
         <ul className="space-y-1.5 text-sm text-zinc-700 leading-relaxed">
@@ -126,19 +122,18 @@ const Part: React.FC<{ part: LessonPart; index: number }> = ({ part, index }) =>
 
 export const AiPmLessonView: React.FC<{ day: number; lesson: AiPmLesson }> = ({ day, lesson }) => {
   const storageKey = `aipm_day${day}_v1`;
-  const { quiz, exercise } = lesson;
+  const { quiz } = lesson;
   const emptyState = (): LessonState => ({
     picks: quiz.questions.map(() => null),
     checked: false,
-    answers: Object.fromEntries(exercise.fields.map((f) => [f.key, ''])),
     done: lesson.completion.map(() => false),
   });
   const [state, setState] = useState<LessonState>(() => {
     try {
       const saved = JSON.parse(localStorage.getItem(storageKey) || 'null');
-      if (saved && Array.isArray(saved.picks) && saved.answers) {
+      if (saved && Array.isArray(saved.picks) && saved.picks.length === quiz.questions.length) {
         const base = emptyState();
-        return { ...base, ...saved, answers: { ...base.answers, ...saved.answers } };
+        return { ...base, picks: saved.picks, checked: !!saved.checked, done: base.done.map((_, i) => !!saved.done?.[i]) };
       }
     } catch {}
     return emptyState();
@@ -155,8 +150,6 @@ export const AiPmLessonView: React.FC<{ day: number; lesson: AiPmLesson }> = ({ 
 
   const pick = (i: number, n: number) =>
     setState((s) => ({ ...s, checked: false, picks: s.picks.map((p, j) => (j === i ? n : p)) }));
-  const setAnswer = (key: string, value: string) =>
-    setState((s) => ({ ...s, answers: { ...s.answers, [key]: value.slice(0, 800) } }));
 
   return (
     <div className="space-y-6 md:space-y-7 text-left">
@@ -165,7 +158,7 @@ export const AiPmLessonView: React.FC<{ day: number; lesson: AiPmLesson }> = ({ 
       {/* Quiz */}
       <section id="quiz" className="scroll-mt-32 space-y-3">
         <div className="flex items-center justify-between gap-3 flex-wrap">
-          <h2 className={h2Class}><CheckCircle className="w-5 h-5 text-brand-600" />Part {lesson.parts.length + 1} — {quiz.title}</h2>
+          <h2 className={h2Class}><CheckCircle className="w-5 h-5 text-brand-600" />{quiz.title}</h2>
           <span className="text-xs font-bold text-zinc-500">{answered}/{quiz.questions.length} answered</span>
         </div>
         <div className="space-y-3">
@@ -216,68 +209,6 @@ export const AiPmLessonView: React.FC<{ day: number; lesson: AiPmLesson }> = ({ 
           {state.checked && <p className="text-sm font-bold text-zinc-700">{correct} / {quiz.questions.length} correct</p>}
           {!allPicked && <p className="text-xs text-zinc-500">Answer every question to check.</p>}
         </div>
-      </section>
-
-      {/* Exercise */}
-      <section id="exercise" className="scroll-mt-32 space-y-3">
-        <h2 className={h2Class}><Flag className="w-5 h-5 text-brand-600" />Part {lesson.parts.length + 2} — {exercise.title}</h2>
-        {exercise.capstone && (
-          <div className="flex gap-3 p-4 bg-brand-50/60 border border-brand-100 rounded-xl">
-            <Info className="w-5 h-5 text-brand-600 shrink-0 mt-0.5" />
-            <p className="text-sm text-zinc-700 leading-relaxed">
-              {day < CAPSTONE_LOCK_DAY ? (
-                <>Use the <span className="font-bold text-zinc-900">internal knowledge assistant</span> as your capstone for now: an assistant that answers employees’ questions from company documents. You can switch to a different project on Day {CAPSTONE_LOCK_DAY}.</>
-              ) : day === CAPSTONE_LOCK_DAY ? (
-                <>Today you lock your capstone. Keep the <span className="font-bold text-zinc-900">internal knowledge assistant</span> you have used so far, or switch to another AI product you can realistically build in the next six weeks.</>
-              ) : (
-                <>Apply this to <span className="font-bold text-zinc-900">your capstone</span>, the AI product you locked on Day {CAPSTONE_LOCK_DAY}.</>
-              )}
-            </p>
-          </div>
-        )}
-        <p className="text-zinc-600 font-medium leading-relaxed">{exercise.intro}</p>
-        {exercise.example && (
-          <div className="bg-zinc-50/70 border border-zinc-200/70 rounded-xl p-4 space-y-2">
-            <Label>Worked example</Label>
-            <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1.5 text-sm">
-              {exercise.example.map((w) => (
-                <React.Fragment key={w.label}>
-                  <dt className="font-bold text-zinc-900">{w.label}</dt>
-                  <dd className="text-zinc-600">{w.text}</dd>
-                </React.Fragment>
-              ))}
-            </dl>
-          </div>
-        )}
-        <div className="border border-zinc-200/80 rounded-xl p-4 space-y-3">
-          {exercise.fields.map((f) => (
-            <div key={f.key}>
-              {f.choices ? (
-                <>
-                  <p className="text-sm font-bold text-zinc-800">{f.label}</p>
-                  <div className="flex flex-wrap gap-1.5 mt-1.5" role="radiogroup" aria-label={f.label}>
-                    {f.choices.map((c) => (
-                      <button key={c} type="button" role="radio" aria-checked={state.answers[f.key] === c} onClick={() => setAnswer(f.key, c)} className={chipClass(state.answers[f.key] === c)}>
-                        {c}
-                      </button>
-                    ))}
-                  </div>
-                </>
-              ) : (
-                <>
-                  <label className="text-sm font-bold text-zinc-800" htmlFor={`d${day}-${f.key}`}>{f.label}</label>
-                  {f.rows === 1 ? (
-                    <input id={`d${day}-${f.key}`} className={`${fieldClass} mt-1`} placeholder={f.placeholder} value={state.answers[f.key] || ''} onChange={(e) => setAnswer(f.key, e.target.value)} />
-                  ) : (
-                    <textarea id={`d${day}-${f.key}`} rows={f.rows ?? 2} className={`${fieldClass} mt-1 resize-y`} placeholder={f.placeholder} value={state.answers[f.key] || ''} onChange={(e) => setAnswer(f.key, e.target.value)} />
-                  )}
-                </>
-              )}
-            </div>
-          ))}
-          <p className="text-xs text-zinc-500 flex gap-1.5"><Info className="w-3.5 h-3.5 shrink-0 mt-px" />Your answers save automatically in this browser.</p>
-        </div>
-
       </section>
 
       {/* Completion */}
