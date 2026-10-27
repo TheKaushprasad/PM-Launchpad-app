@@ -18,7 +18,7 @@ export interface AiPmDay {
   level?: string; // e.g. Beginner
   skill?: string; // shown in the day header in place of the phase name
   objective?: string; // shown above the video
-  moreVideos?: { id: string; title: string }[]; // videos embedded inside the lesson, listed in Course material
+  moreVideos?: { id: string; title: string }[]; // extra videos; picked from Course material to play in the top player
 }
 
 export interface AiPmPhase {

@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Bot, Brain, Cpu, Sparkles, Layers, PlayCircle, CheckCircle, XCircle, Lightbulb } from 'lucide-react';
+import { Bot, Brain, Cpu, Sparkles, Layers, CheckCircle, XCircle, Lightbulb } from 'lucide-react';
 
-// PM → AI PM, Day 1 (objective and first video come from plan.ts): the AI umbrella (AI, ML, deep learning, GenAI), four definitions with product examples,
-// two videos and a 3-question quiz. Quiz picks are kept in this browser only.
+// PM → AI PM, Day 1 (objective and both videos come from plan.ts): the AI umbrella (AI, ML, deep learning, GenAI), four definitions with product examples,
+// and a 3-question quiz. Quiz picks are kept in this browser only.
 
 const STORAGE_KEY = 'aipm_day1_v1';
-const SECOND_VIDEO = { id: 'mUw27wG7uFA', title: '6 Concepts You Need to Know About Modern AI' }; // also listed in plan.ts moreVideos
 
 const Label: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <h4 className="text-[11px] font-bold uppercase tracking-widest text-zinc-400 mb-2">{children}</h4>
@@ -106,7 +105,6 @@ const h2Class = 'text-lg md:text-xl font-bold text-zinc-900 flex items-center ga
 // Sections for the "Topics to cover" list on the day page; ids match the <section> ids below.
 export const AI_PM_DAY1_TOPICS = [
   { id: 'objective', label: 'Today’s objective' },
-  { id: 'second-video', label: 'Watch: 6 concepts of modern AI' },
   { id: 'concepts', label: 'AI as an umbrella' },
   { id: 'definitions', label: 'Some helpful definitions' },
   { id: 'quiz', label: 'Quiz' },
@@ -127,21 +125,6 @@ export const AiPmDay1Content = () => {
 
   return (
     <div className="space-y-6 md:space-y-7 text-left">
-      {/* Second video (the first is embedded at the top of the day page) */}
-      <section id="second-video" className="scroll-mt-32 space-y-3">
-        <h2 className={h2Class}><PlayCircle className="w-5 h-5 text-brand-600" />Watch next: {SECOND_VIDEO.title}</h2>
-        <div className="relative w-full overflow-hidden rounded-2xl border border-zinc-200/80 bg-zinc-100" style={{ aspectRatio: '16 / 9' }}>
-          <iframe
-            className="absolute inset-0 w-full h-full"
-            src={`https://www.youtube.com/embed/${SECOND_VIDEO.id}`}
-            title={SECOND_VIDEO.title}
-            loading="lazy"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
-        </div>
-      </section>
-
       {/* Umbrella */}
       <section id="concepts" className="scroll-mt-32 space-y-3">
         <h2 className={h2Class}><Layers className="w-5 h-5 text-brand-600" />AI as an umbrella</h2>
