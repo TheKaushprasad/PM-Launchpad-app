@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Bot, Brain, Cpu, Sparkles, Layers, PlayCircle, CheckCircle, XCircle, Lightbulb } from 'lucide-react';
 
-// PM → AI PM, Day 1: the AI umbrella (AI, ML, deep learning, GenAI), four definitions with product examples,
+// PM → AI PM, Day 1 (objective and first video come from plan.ts): the AI umbrella (AI, ML, deep learning, GenAI), four definitions with product examples,
 // two videos and a 3-question quiz. Quiz picks are kept in this browser only.
 
 const STORAGE_KEY = 'aipm_day1_v1';
-const SECOND_VIDEO = { id: 'mUw27wG7uFA', title: '6 Concepts You Need to Know About Modern AI' };
+const SECOND_VIDEO = { id: 'mUw27wG7uFA', title: '6 Concepts You Need to Know About Modern AI' }; // also listed in plan.ts moreVideos
 
 const Label: React.FC<{ children: React.ReactNode }> = ({ children }) => (
   <h4 className="text-[11px] font-bold uppercase tracking-widest text-zinc-400 mb-2">{children}</h4>
@@ -86,8 +86,7 @@ const QUIZ = [
 ];
 
 const COMPLETION = [
-  'Explain the four concepts in your own words.',
-  'Answer all three quiz questions.',
+  'Explain all concepts in your own words.',
 ];
 
 interface Day1State { picks: (number | null)[]; done: boolean[] }
@@ -128,14 +127,6 @@ export const AiPmDay1Content = () => {
 
   return (
     <div className="space-y-6 md:space-y-7 text-left">
-      {/* Objective */}
-      <section id="objective" className="scroll-mt-32 bg-brand-50/60 p-4 sm:p-5 rounded-2xl border border-brand-100 space-y-2">
-        <span className="text-[11px] font-bold uppercase tracking-widest text-brand-600">Today’s objective</span>
-        <p className="text-base font-bold text-zinc-900 leading-relaxed">
-          Understand AI, ML, deep learning, and generative AI well enough to explain the differences and identify where each is useful in a real product.
-        </p>
-      </section>
-
       {/* Second video (the first is embedded at the top of the day page) */}
       <section id="second-video" className="scroll-mt-32 space-y-3">
         <h2 className={h2Class}><PlayCircle className="w-5 h-5 text-brand-600" />Watch next: {SECOND_VIDEO.title}</h2>

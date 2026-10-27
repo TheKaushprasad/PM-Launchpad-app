@@ -17,6 +17,8 @@ export interface AiPmDay {
   videoTitle?: string;
   level?: string; // e.g. Beginner
   skill?: string; // shown in the day header in place of the phase name
+  objective?: string; // shown above the video
+  moreVideos?: { id: string; title: string }[]; // videos embedded inside the lesson, listed in Course material
 }
 
 export interface AiPmPhase {
@@ -180,7 +182,7 @@ export const AI_PM_PHASES: AiPmPhase[] = [
 ];
 
 export const AI_PM_DAYS: AiPmDay[] = [
-  { day: 1, topic: 'What is AI? The AI umbrella', learn: 'AI, machine learning, deep learning and generative AI, with a product example for each', do: 'Watch two short videos, then answer a 3-question quiz', time: '45–60 minutes', level: 'Beginner', video: 'ZHCB09O6zUk', videoTitle: 'A Brief History of AI: From Machine Learning to Gen AI to Agentic AI' },
+  { day: 1, topic: 'What is AI? The AI umbrella', learn: 'AI, machine learning, deep learning and generative AI, with a product example for each', do: 'Watch two short videos, then answer a 3-question quiz', time: '45–60 minutes', level: 'Beginner', video: 'dx_Ruw8vufI', videoTitle: 'What is AI?', objective: 'Understand AI, it’s history and its related concept', moreVideos: [{ id: 'mUw27wG7uFA', title: '6 Concepts You Need to Know About Modern AI' }] },
   { day: 2, topic: 'AI vs. Traditional Software', learn: 'Learn when to use traditional software, predictive machine learning, or generative AI, and defend your choice like a Product Manager.', do: 'Choose the right approach for 3 scenarios, then analyse one real product feature with the five questions and get an AI review', time: '45–60 minutes', skill: 'Product judgment', level: 'Beginner', video: 'u8sQOpgkR5A', videoTitle: 'AI vs Traditional Software: What’s the Difference? (Explained Simply)' },
   { day: 3, topic: 'Types of Machine Learning', learn: 'Learn the three major types of machine learning, understand when each is useful, and practise choosing the right approach for a product problem.', do: 'Answer four scenario questions, then write a mini product brief for one real feature and get an AI review', time: '45–60 minutes', skill: 'Product judgment', level: 'Beginner', video: '1FZ0A1QCMWc', videoTitle: 'Supervised vs Unsupervised vs Reinforcement Learning' },
   { day: 4, topic: 'Training Data and Labels', learn: 'Learn what examples, features and labels are, how to judge whether data is good enough, where labels come from, and how leakage fools a model.', do: 'Spot the problem in four datasets, then write a data inventory and a starter question set for your capstone and get an AI review', time: '45–60 minutes', skill: 'Data judgment', level: 'Beginner', video: 'GQXn_1HONBY', videoTitle: 'Machine Learning: Features and Labels (ByteMonk)' },
