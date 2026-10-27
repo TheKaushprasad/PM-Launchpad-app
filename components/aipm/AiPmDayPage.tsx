@@ -126,7 +126,8 @@ export const AiPmDayPage: React.FC = () => {
   const hasLesson = day.day in AI_PM_LESSONS;
   const topics = AI_PM_LESSON_TOPICS[day.day] ?? [];
   const resources = (day.resources ?? []).map((id) => ({ id, ...AI_PM_RESOURCES[id] })).filter((r) => r.title);
-  const materialCount = resources.length + (day.video ? 1 : 0);
+  const moreVideos = day.moreVideos ?? [];
+  const materialCount = resources.length + (day.video ? 1 : 0) + moreVideos.length;
   const coursePercent = Math.round((progress.done.length / AI_PM_DAYS.length) * 100);
   const timeLine = day.time ?? (day.kind === 'weekend' ? '3-hour block' : '45–60 minutes');
   const otherBookmarks = progress.bookmarks.filter((d) => d !== day.day);
@@ -178,6 +179,13 @@ export const AiPmDayPage: React.FC = () => {
               {day.level && <span className="inline-flex items-center gap-1.5"><BarChart3 className="w-4 h-4 text-zinc-500" />{day.level}</span>}
             </div>
           </header>
+
+          {day.objective && (
+            <section id="objective" className="scroll-mt-32 bg-brand-50/60 p-4 sm:p-5 rounded-2xl border border-brand-100 space-y-2">
+              <span className="text-[11px] font-bold uppercase tracking-widest text-brand-600">Today’s objective</span>
+              <p className="text-base font-bold text-zinc-900 leading-relaxed">{day.objective}</p>
+            </section>
+          )}
 
           {day.video && (
             <div className="space-y-2.5">
@@ -343,6 +351,15 @@ export const AiPmDayPage: React.FC = () => {
                   </span>
                 </a>
               )}
+              {moreVideos.map((v) => (
+                <a key={v.id} href={`https://www.youtube.com/watch?v=${v.id}`} target="_blank" rel="noopener noreferrer" className="group flex items-start gap-3 rounded-xl border border-zinc-200/80 p-3 hover:border-brand-200 hover:bg-brand-50/30">
+                  <span className="w-9 h-9 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center shrink-0"><PlayCircle className="w-4 h-4" /></span>
+                  <span className="min-w-0">
+                    <span className="block text-sm font-semibold text-zinc-900 leading-snug group-hover:text-brand-800">{v.title}</span>
+                    <span className="block text-xs text-zinc-500 mt-0.5">Video · in the lesson below</span>
+                  </span>
+                </a>
+              ))}
               {resources.map((r) => (
                 <a key={r.id} href={r.url} target="_blank" rel="noopener noreferrer" className="group flex items-start gap-3 rounded-xl border border-zinc-200/80 p-3 hover:border-brand-200 hover:bg-brand-50/30">
                   <span className="w-9 h-9 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center shrink-0"><FileText className="w-4 h-4" /></span>
