@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Settings, TrendingUp, Sparkles, Scale, Compass, CheckCircle, Lightbulb, Target, Loader2, XCircle,
+  Settings, TrendingUp, Sparkles, Scale, Compass, CheckCircle, Lightbulb, Target, XCircle,
 } from 'lucide-react';
-import { useAuth } from '../../context/AuthContext';
-import { AuthModal } from '../../components/auth/AuthModal';
 
 // PM → AI PM, Day 2: rules vs predictive ML vs generative AI, deterministic vs probabilistic, a decision
-// framework, a 3-scenario quiz and a five-question feature analysis reviewed by AI. Answers stay in this browser.
+// framework, a 3-scenario quiz and a five-question feature analysis. Answers stay in this browser.
 
 const STORAGE_KEY = 'aipm_day2_v1';
 
@@ -112,19 +110,15 @@ export const AI_PM_DAY2_TOPICS = [
   { id: 'completion', label: 'Completion checklist' },
 ];
 
+// Shown at the top of the day page, above the video.
+export const AI_PM_DAY2_OBJECTIVE = { text: 'Learn when to use traditional software, predictive machine learning, or generative AI, and defend your choice like a Product Manager.', lead: 'By the end of today, you should be able to look at a product problem and answer: Do we actually need AI here?' };
+
 type FeatureKey = 'feature' | (typeof FIVE_QUESTIONS)[number]['key'];
-interface Review {
-  summary: string;
-  strengths: string[];
-  gaps: string[];
-  nextStep: string;
-}
 interface Day2State {
   picks: (number | null)[];
   checked: boolean;
   feature: Record<FeatureKey, string>;
   done: boolean[];
-  review?: Review;
 }
 
 const emptyState = (): Day2State => ({
@@ -146,11 +140,7 @@ const fieldClass = 'w-full px-3 py-2 rounded-xl border border-zinc-200 bg-white 
 const h2Class = 'text-lg md:text-xl font-bold text-zinc-900 flex items-center gap-2.5 tracking-tight';
 
 export const AiPmDay2Content = () => {
-  const { user } = useAuth();
   const [state, setState] = useState<Day2State>(loadState);
-  const [reviewing, setReviewing] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [authOpen, setAuthOpen] = useState(false);
 
   useEffect(() => {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch {}
@@ -158,52 +148,14 @@ export const AiPmDay2Content = () => {
 
   const allPicked = state.picks.every((p) => p !== null);
   const correct = state.picks.filter((p, i) => p === SCENARIOS[i].answer).length;
-  const featureReady = Object.values(state.feature).every((v) => v.trim().length > 0);
 
   const pick = (i: number, n: number) =>
     setState((s) => ({ ...s, checked: false, picks: s.picks.map((p, j) => (j === i ? n : p)) }));
   const setField = (key: FeatureKey, value: string) =>
     setState((s) => ({ ...s, feature: { ...s.feature, [key]: value.slice(0, 600) } }));
 
-  const reviewAnswers = async () => {
-    if (!user) { setAuthOpen(true); return; }
-    if (!allPicked || !featureReady) { setError('Answer the three scenarios and fill in all five questions for your feature first.'); return; }
-    setError(null);
-    setReviewing(true);
-    try {
-      const token = await user.getIdToken();
-      const res = await fetch('/api/ai-pm/review-feature', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({
-          scenarios: SCENARIOS.map((s, i) => ({ scenario: s.q, choice: s.options[state.picks[i] as number], expected: s.options[s.answer] })),
-          feature: state.feature,
-        }),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data?.error || 'The review failed. Please try again.');
-      setState((s) => ({ ...s, review: data.review }));
-    } catch (err: any) {
-      setError(err?.message || 'Something went wrong. Please try again.');
-    } finally {
-      setReviewing(false);
-    }
-  };
-
   return (
     <div className="space-y-6 md:space-y-7 text-left">
-      <AuthModal isOpen={authOpen} onClose={() => setAuthOpen(false)} initialMode="login" redirectTo="/ai-pm/day/2" onSuccess={() => setAuthOpen(false)} />
-
-      <section id="objective" className="scroll-mt-32 bg-brand-50/60 p-4 sm:p-5 rounded-2xl border border-brand-100 space-y-2">
-        <span className="text-[11px] font-bold uppercase tracking-widest text-brand-600">Today’s objective</span>
-        <p className="text-base font-bold text-zinc-900 leading-relaxed">
-          Learn when to use traditional software, predictive machine learning, or generative AI, and defend your choice like a Product Manager.
-        </p>
-        <p className="text-sm font-medium text-brand-800">
-          By the end of today, you should be able to look at a product problem and answer: <span className="font-bold">Do we actually need AI here?</span>
-        </p>
-      </section>
-
       {/* Part 1 */}
       <section id="three-ways" className="scroll-mt-32 space-y-3">
         <h2 className={h2Class}><Compass className="w-5 h-5 text-brand-600" />Part 1 — Three ways to solve a product problem</h2>
@@ -380,42 +332,6 @@ export const AiPmDay2Content = () => {
         </div>
       </section>
 
-      {/* Review */}
-      <section className="bg-brand-50/60 p-4 sm:p-5 rounded-xl border border-brand-100 space-y-3">
-        <p className="text-sm font-bold text-zinc-800 leading-relaxed">
-          Your next step: complete the exercise and click <span className="text-brand-700">Review my answers</span>. AI will assess your reasoning, not just whether you picked the expected technology.
-        </p>
-        <button
-          type="button"
-          onClick={reviewAnswers}
-          disabled={reviewing}
-          className="h-11 px-5 rounded-xl bg-brand-600 hover:bg-brand-700 disabled:opacity-60 text-white font-semibold text-sm flex items-center gap-2"
-        >
-          {reviewing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
-          {reviewing ? 'Reviewing…' : state.review ? 'Review again' : 'Review my answers'}
-        </button>
-        {!user && <p className="text-xs font-medium text-zinc-500">You’ll be asked to sign in first.</p>}
-        {error && <p className="text-sm font-bold text-rose-600">{error}</p>}
-
-        {state.review && (
-          <div className="bg-white border border-zinc-200 rounded-xl p-4 space-y-3">
-            <p className="text-sm font-medium text-zinc-700 leading-relaxed">{state.review.summary}</p>
-            {state.review.strengths.length > 0 && (
-              <div>
-                <Label>What you did well</Label>
-                <ul className="space-y-1 text-sm text-zinc-600 list-disc pl-5">{state.review.strengths.map((s) => <li key={s}>{s}</li>)}</ul>
-              </div>
-            )}
-            {state.review.gaps.length > 0 && (
-              <div>
-                <Label>Sharpen this</Label>
-                <ul className="space-y-1 text-sm text-zinc-600 list-disc pl-5">{state.review.gaps.map((s) => <li key={s}>{s}</li>)}</ul>
-              </div>
-            )}
-            {state.review.nextStep && <p className="text-xs font-bold text-brand-700">{state.review.nextStep}</p>}
-          </div>
-        )}
-      </section>
     </div>
   );
 };

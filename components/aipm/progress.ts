@@ -10,10 +10,11 @@ export interface AiPmProgress {
   skills: Record<string, number>;
   notes: Record<string, string>; // day number -> personal notes
   bookmarks: number[];
-  videosDone: number[];
+  videosDone: number[]; // days whose main video is watched
+  extraVideosDone: string[]; // "day:videoId" for each day's moreVideos
 }
 
-const empty: AiPmProgress = { done: [], checks: {}, skills: {}, notes: {}, bookmarks: [], videosDone: [] };
+const empty: AiPmProgress = { done: [], checks: {}, skills: {}, notes: {}, bookmarks: [], videosDone: [], extraVideosDone: [] };
 
 const load = (): AiPmProgress => {
   try {
@@ -60,12 +61,23 @@ export const useAiPmProgress = () => {
         ...state,
         bookmarks: state.bookmarks.includes(day) ? state.bookmarks.filter((d) => d !== day) : [...state.bookmarks, day].sort((a, b) => a - b),
       }),
-    isVideoDone: (day: number) => progress.videosDone.includes(day),
-    toggleVideoDone: (day: number) =>
+    // Without a videoId these track the day's main video; with one, an extra video from moreVideos.
+    isVideoDone: (day: number, videoId?: string) =>
+      videoId ? progress.extraVideosDone.includes(`${day}:${videoId}`) : progress.videosDone.includes(day),
+    toggleVideoDone: (day: number, videoId?: string) => {
+      if (!videoId) {
+        save({
+          ...state,
+          videosDone: state.videosDone.includes(day) ? state.videosDone.filter((d) => d !== day) : [...state.videosDone, day],
+        });
+        return;
+      }
+      const key = `${day}:${videoId}`;
       save({
         ...state,
-        videosDone: state.videosDone.includes(day) ? state.videosDone.filter((d) => d !== day) : [...state.videosDone, day],
-      }),
+        extraVideosDone: state.extraVideosDone.includes(key) ? state.extraVideosDone.filter((k) => k !== key) : [...state.extraVideosDone, key],
+      });
+    },
     setNote: (day: number, text: string) => save({ ...state, notes: { ...state.notes, [day]: text.slice(0, 5000) } }),
   };
 };

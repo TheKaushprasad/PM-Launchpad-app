@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Table, ShieldCheck, Tags, AlertTriangle, CheckCircle, Flag, Loader2, XCircle, Sparkles, Plus, Trash2, Info,
+  Table, ShieldCheck, Tags, AlertTriangle, CheckCircle, Flag, XCircle, Sparkles, Plus, Trash2, Info,
   Database, Users, Clock, UserCheck, Hand, MousePointerClick, Server,
 } from 'lucide-react';
-import { useAuth } from '../../context/AuthContext';
-import { AuthModal } from '../../components/auth/AuthModal';
 
 // PM → AI PM, Day 4: examples, features and labels; four data-quality checks; where labels come from; leakage;
-// a "what's wrong with this data?" quiz; and a capstone data inventory plus starter question set reviewed by AI.
+// a "what's wrong with this data?" quiz; and a capstone data inventory plus starter question set.
 // Answers stay in this browser.
 
 const STORAGE_KEY = 'aipm_day4_v1';
@@ -78,7 +76,7 @@ const COMPLETION = [
 ];
 
 export const AI_PM_DAY4_TOPICS = [
-  { id: 'objective', label: 'Today’s learning objectives' },
+  { id: 'objective', label: 'Today’s objective' },
   { id: 'vocabulary', label: 'Examples, features, and labels' },
   { id: 'quality', label: 'Four checks for good data' },
   { id: 'labels', label: 'Where labels come from' },
@@ -88,16 +86,17 @@ export const AI_PM_DAY4_TOPICS = [
   { id: 'completion', label: 'Completion checklist' },
 ];
 
+// Shown at the top of the day page, above the video.
+export const AI_PM_DAY4_OBJECTIVE = { lead: 'Yesterday you learned that the right approach depends on the data and feedback you have. Today you learn to judge whether that data is good enough. By the end of this lesson, you should be able to:', items: OBJECTIVES };
+
 interface Source { source: string; owner: string; freshness: string; access: string }
 interface QA { q: string; a: string }
-interface Review { summary: string; strengths: string[]; gaps: string[]; nextStep: string }
 interface Day4State {
   picks: (number | null)[];
   checked: boolean;
   sources: Source[];
   questions: QA[];
   done: boolean[];
-  review?: Review;
 }
 
 const emptySource = (): Source => ({ source: '', owner: '', freshness: '', access: '' });
@@ -121,11 +120,7 @@ const fieldClass = 'w-full px-3 py-2 rounded-xl border border-zinc-200 bg-white 
 const h2Class = 'text-lg md:text-xl font-bold text-zinc-900 flex items-center gap-2.5 tracking-tight';
 
 export const AiPmDay4Content = () => {
-  const { user } = useAuth();
   const [state, setState] = useState<Day4State>(loadState);
-  const [reviewing, setReviewing] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [authOpen, setAuthOpen] = useState(false);
 
   useEffect(() => {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch {}
@@ -134,7 +129,6 @@ export const AiPmDay4Content = () => {
   const answered = state.picks.filter((p) => p !== null).length;
   const allPicked = answered === QUIZ.length;
   const correct = state.picks.filter((p, i) => p === QUIZ[i].answer).length;
-  const filledSources = state.sources.filter((s) => s.source.trim());
   const filledQuestions = state.questions.filter((x) => x.q.trim() && x.a.trim());
   const doneCount = state.done.filter(Boolean).length;
 
@@ -145,49 +139,8 @@ export const AiPmDay4Content = () => {
   const setQuestion = (i: number, key: keyof QA, value: string) =>
     setState((s) => ({ ...s, questions: s.questions.map((r, j) => (j === i ? { ...r, [key]: value.slice(0, 400) } : r)) }));
 
-  const reviewCapstone = async () => {
-    if (!user) { setAuthOpen(true); return; }
-    if (filledSources.length === 0 || filledQuestions.length < MIN_QUESTIONS) {
-      setError(`Add at least one data source and ${MIN_QUESTIONS} questions with answers first.`);
-      return;
-    }
-    setError(null);
-    setReviewing(true);
-    try {
-      const token = await user.getIdToken();
-      const res = await fetch('/api/ai-pm/review-data', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify({ sources: filledSources, questions: filledQuestions }),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data?.error || 'The review failed. Please try again.');
-      setState((s) => ({ ...s, review: data.review }));
-    } catch (err: any) {
-      setError(err?.message || 'Something went wrong. Please try again.');
-    } finally {
-      setReviewing(false);
-    }
-  };
-
   return (
     <div className="space-y-6 md:space-y-7 text-left">
-      <AuthModal isOpen={authOpen} onClose={() => setAuthOpen(false)} initialMode="login" redirectTo="/ai-pm/day/4" onSuccess={() => setAuthOpen(false)} />
-
-      <section id="objective" className="scroll-mt-32 bg-brand-50/60 p-4 sm:p-5 rounded-2xl border border-brand-100 space-y-2">
-        <span className="text-[11px] font-bold uppercase tracking-widest text-brand-600">Today’s learning objectives</span>
-        <p className="text-sm font-medium text-brand-800">
-          Yesterday you learned that the right approach depends on the data and feedback you have. Today you learn to judge whether that data is good enough. By the end of this lesson, you should be able to:
-        </p>
-        <ul className="space-y-1.5">
-          {OBJECTIVES.map((o) => (
-            <li key={o} className="flex gap-2 text-sm font-bold text-zinc-900 leading-relaxed">
-              <CheckCircle className="w-4 h-4 text-brand-600 shrink-0 mt-0.5" />{o}
-            </li>
-          ))}
-        </ul>
-      </section>
-
       {/* Part 1 */}
       <section id="vocabulary" className="scroll-mt-32 space-y-3">
         <h2 className={h2Class}><Table className="w-5 h-5 text-brand-600" />Part 1 — Examples, features, and labels</h2>
@@ -387,7 +340,7 @@ export const AiPmDay4Content = () => {
           <div>
             <p className="font-bold text-zinc-900">B. Starter question set</p>
             <p className="text-sm text-zinc-500">
-              Write real questions an employee would ask, with the correct answer. Aim for {MAX_QUESTIONS}; at least {MIN_QUESTIONS} to get a review. These are your labels: on Day 39 this set becomes your first evaluation set.
+              Write real questions an employee would ask, with the correct answer. Aim for {MAX_QUESTIONS}; at least {MIN_QUESTIONS}. These are your labels: on Day 39 this set becomes your first evaluation set.
             </p>
           </div>
           {state.questions.map((x, i) => (
@@ -416,38 +369,6 @@ export const AiPmDay4Content = () => {
           <p className="text-xs text-zinc-500 flex gap-1.5"><Info className="w-3.5 h-3.5 shrink-0 mt-px" />Your inventory and questions save automatically in this browser.</p>
         </div>
 
-        <div className="space-y-3">
-          <button
-            type="button"
-            onClick={reviewCapstone}
-            disabled={reviewing}
-            className="h-11 px-5 rounded-xl bg-brand-600 hover:bg-brand-700 disabled:opacity-60 text-white font-semibold text-sm flex items-center gap-2"
-          >
-            {reviewing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
-            {reviewing ? 'Reviewing…' : state.review ? 'Review again' : 'Review my data plan'}
-          </button>
-          {!user && <p className="text-xs font-medium text-zinc-500">You’ll be asked to sign in first.</p>}
-          {error && <p className="text-sm font-bold text-rose-600">{error}</p>}
-
-          {state.review && (
-            <div className="bg-white border border-zinc-200 rounded-xl p-4 space-y-3">
-              <p className="text-sm font-medium text-zinc-700 leading-relaxed">{state.review.summary}</p>
-              {state.review.strengths.length > 0 && (
-                <div>
-                  <Label>What you did well</Label>
-                  <ul className="space-y-1 text-sm text-zinc-600 list-disc pl-5">{state.review.strengths.map((s) => <li key={s}>{s}</li>)}</ul>
-                </div>
-              )}
-              {state.review.gaps.length > 0 && (
-                <div>
-                  <Label>Sharpen this</Label>
-                  <ul className="space-y-1 text-sm text-zinc-600 list-disc pl-5">{state.review.gaps.map((s) => <li key={s}>{s}</li>)}</ul>
-                </div>
-              )}
-              {state.review.nextStep && <p className="text-xs font-bold text-brand-700">{state.review.nextStep}</p>}
-            </div>
-          )}
-        </div>
       </section>
 
       {/* Completion */}

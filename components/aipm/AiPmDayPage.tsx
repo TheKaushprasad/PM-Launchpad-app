@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import {
-  BookOpen, Hammer, CheckCircle2, Calculator, Lightbulb, Bookmark, ChevronLeft, ChevronRight,
+  BookOpen, Hammer, CheckCircle2, Calculator, Lightbulb, Bookmark, ChevronLeft, ChevronRight, ChevronDown,
   FileEdit, Clock, Save, X, GraduationCap, BarChart3, List, FileText, ExternalLink, MonitorPlay, Play,
 } from 'lucide-react';
 import { AI_PM_DAYS, AI_PM_PHASES, phaseForDay, DESIGN_CASE_STEPS, AI_PM_REFLECTION } from '../../data/aiPmCourse/plan';
 import { AI_PM_BACKGROUND_EXAMPLE } from '../../data/aiPmCourse/content';
 import { useAiPmProgress } from './progress';
-import { AI_PM_LESSONS, AI_PM_LESSON_TOPICS } from './lessons';
+import { AI_PM_LESSONS, AI_PM_LESSON_TOPICS, AI_PM_LESSON_OBJECTIVES } from './lessons';
 import { AI_PM_RESOURCES } from '../../data/aiPmCourse/resources';
 import { Card, TemplateChip, Checklist } from './ui';
 
@@ -108,6 +108,7 @@ export const AiPmDayPage: React.FC = () => {
   } = useAiPmProgress();
   const [notesOpen, setNotesOpen] = useState(false);
   const [activeVideoId, setActiveVideoId] = useState<string | null>(null);
+  const [topicsOpen, setTopicsOpen] = useState(true);
 
   useEffect(() => {
     document.querySelector('main')?.scrollTo({ top: 0 });
@@ -119,7 +120,6 @@ export const AiPmDayPage: React.FC = () => {
 
   const done = isDone(day.day);
   const bookmarked = isBookmarked(day.day);
-  const videoDone = isVideoDone(day.day);
   const prev = AI_PM_DAYS.find((d) => d.day === day.day - 1);
   const next = AI_PM_DAYS.find((d) => d.day === day.day + 1);
   const isPhaseEnd = day.day === phase.end;
@@ -127,11 +127,15 @@ export const AiPmDayPage: React.FC = () => {
   const Lesson = AI_PM_LESSONS[day.day] as React.FC | undefined;
   const hasLesson = day.day in AI_PM_LESSONS;
   const topics = AI_PM_LESSON_TOPICS[day.day] ?? [];
+  const objective = day.objective ? { text: day.objective } : AI_PM_LESSON_OBJECTIVES[day.day] ?? { text: day.learn };
   const resources = (day.resources ?? []).map((id) => ({ id, ...AI_PM_RESOURCES[id] })).filter((r) => r.title);
   const videos = [
-    ...(day.video ? [{ id: day.video, title: day.videoTitle ?? `Day ${day.day} video` }] : []),
-    ...(day.moreVideos ?? []),
+    ...(day.video ? [{ id: day.video, title: day.videoTitle ?? `Day ${day.day} video`, main: true }] : []),
+    ...(day.moreVideos ?? []).map((v) => ({ ...v, main: false })),
   ];
+  // The main video keeps its old per-day key so earlier progress still counts.
+  const videoDone = (v: { id: string; main: boolean }) => (v.main ? isVideoDone(day.day) : isVideoDone(day.day, v.id));
+  const toggleVideo = (v: { id: string; main: boolean }) => (v.main ? toggleVideoDone(day.day) : toggleVideoDone(day.day, v.id));
   const activeVideo = videos.find((v) => v.id === activeVideoId) ?? videos[0];
   const materialCount = resources.length + videos.length;
   const coursePercent = Math.round((progress.done.length / AI_PM_DAYS.length) * 100);
@@ -186,12 +190,20 @@ export const AiPmDayPage: React.FC = () => {
             </div>
           </header>
 
-          {day.objective && (
-            <section id="objective" className="scroll-mt-32 bg-brand-50/60 p-4 sm:p-5 rounded-2xl border border-brand-100 space-y-2">
-              <span className="text-[11px] font-bold uppercase tracking-widest text-brand-600">Today’s objective</span>
-              <p className="text-base font-bold text-zinc-900 leading-relaxed">{day.objective}</p>
-            </section>
-          )}
+          <section id="objective" className="scroll-mt-32 bg-brand-50/60 p-4 sm:p-5 rounded-2xl border border-brand-100 space-y-2">
+            <span className="text-[11px] font-bold uppercase tracking-widest text-brand-600">Today’s objective</span>
+            {objective.text && <p className="text-base font-bold text-zinc-900 leading-relaxed">{objective.text}</p>}
+            {objective.lead && <p className="text-sm font-medium text-brand-800">{objective.lead}</p>}
+            {objective.items && (
+              <ul className="space-y-1.5">
+                {objective.items.map((o) => (
+                  <li key={o} className="flex gap-2 text-sm font-bold text-zinc-900 leading-relaxed">
+                    <CheckCircle2 className="w-4 h-4 text-brand-600 shrink-0 mt-0.5" />{o}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </section>
 
           {activeVideo && (
             <div className="bg-zinc-900 rounded-2xl overflow-hidden shadow-lg border border-zinc-800">
@@ -203,13 +215,13 @@ export const AiPmDayPage: React.FC = () => {
                 <div className="flex items-center gap-2 shrink-0">
                   <button
                     type="button"
-                    onClick={() => toggleVideoDone(day.day)}
+                    onClick={() => toggleVideo(activeVideo)}
                     className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${
-                      videoDone ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700'
+                      videoDone(activeVideo) ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700'
                     }`}
                   >
                     <CheckCircle2 className="w-3.5 h-3.5" />
-                    <span>{videoDone ? 'Video completed' : 'Mark video complete'}</span>
+                    <span>{videoDone(activeVideo) ? 'Video completed' : 'Mark video complete'}</span>
                   </button>
                   <MonitorPlay className="w-3.5 h-3.5 text-brand-400" />
                 </div>
@@ -351,6 +363,33 @@ export const AiPmDayPage: React.FC = () => {
             </div>
           )}
 
+          {topics.length > 0 && (
+            <div className="bg-white rounded-2xl p-4 border border-zinc-200/80">
+              <button
+                type="button"
+                onClick={() => setTopicsOpen((o) => !o)}
+                aria-expanded={topicsOpen}
+                className="w-full flex items-center justify-between gap-2 text-left"
+              >
+                <h3 className="font-bold text-zinc-900 flex items-center gap-2"><List className="w-4 h-4 text-brand-600" /> Topics to cover</h3>
+                <ChevronDown className={`w-4 h-4 text-zinc-500 transition-transform ${topicsOpen ? 'rotate-180' : ''}`} />
+              </button>
+              {topicsOpen && (
+                <ul className="divide-y divide-zinc-100 mt-2">
+                  {topics.map((t, i) => (
+                    <li key={t.id}>
+                      <button type="button" onClick={() => goToSection(t.id)} className="w-full flex items-center gap-3 py-2 text-left group">
+                        <span className="text-xs font-semibold text-brand-800 bg-brand-50 rounded-md w-8 py-1 text-center shrink-0">{String(i + 1).padStart(2, '0')}</span>
+                        <span className="flex-1 text-sm text-zinc-700 group-hover:text-zinc-900">{t.label}</span>
+                        <ChevronRight className="w-4 h-4 text-zinc-400 group-hover:text-zinc-600" />
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
+
           {materialCount > 0 && (
             <div className="bg-white rounded-2xl p-4 border border-zinc-200/80 space-y-3">
               <div className="flex items-center justify-between">
@@ -359,12 +398,17 @@ export const AiPmDayPage: React.FC = () => {
               </div>
               {videos.map((v) => {
                 const isActive = v.id === activeVideo?.id;
+                const watched = videoDone(v);
                 return (
-                  <button
+                  <div
                     key={v.id}
-                    type="button"
+                    role="button"
+                    tabIndex={0}
                     onClick={() => setActiveVideoId(v.id)}
-                    className={`group w-full flex flex-col gap-2 p-2 rounded-xl border text-left transition-all ${isActive ? 'bg-brand-50 border-brand-200 ring-2 ring-brand-100' : 'bg-zinc-50 border-zinc-100 hover:bg-white hover:border-brand-100'}`}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setActiveVideoId(v.id); }
+                    }}
+                    className={`group w-full flex flex-col gap-2 p-2 rounded-xl border text-left cursor-pointer select-none transition-all ${isActive ? 'bg-brand-50 border-brand-200 ring-2 ring-brand-100' : 'bg-zinc-50 border-zinc-100 hover:bg-white hover:border-brand-100'}`}
                   >
                     <span className="relative block aspect-video rounded-lg overflow-hidden bg-zinc-800">
                       <img src={`https://img.youtube.com/vi/${v.id}/mqdefault.jpg`} alt="" className={`w-full h-full object-cover ${isActive ? 'opacity-80' : 'opacity-60'}`} />
@@ -376,9 +420,21 @@ export const AiPmDayPage: React.FC = () => {
                     </span>
                     <span className="px-0.5">
                       <span className={`block text-xs font-bold leading-tight line-clamp-2 ${isActive ? 'text-brand-900' : 'text-zinc-700'}`}>{v.title}</span>
-                      <span className="block text-[11px] font-bold text-zinc-400 uppercase tracking-widest mt-1">{isActive ? 'Now playing' : 'Video lesson'}</span>
+                      <span className="flex items-center justify-between gap-2 mt-1">
+                        <span className="text-[11px] font-bold text-zinc-400 uppercase tracking-widest">{isActive ? 'Now playing' : 'Video lesson'}</span>
+                        <button
+                          type="button"
+                          onClick={(e) => { e.stopPropagation(); toggleVideo(v); }}
+                          className={`text-[11px] font-bold px-1.5 py-0.5 rounded flex items-center gap-1 transition-all ${
+                            watched ? 'text-emerald-700 bg-emerald-50 border border-emerald-200' : 'text-zinc-500 hover:text-brand-600 bg-white border border-zinc-200'
+                          }`}
+                        >
+                          <CheckCircle2 className="w-2.5 h-2.5" />
+                          <span>{watched ? 'Completed' : 'Mark complete'}</span>
+                        </button>
+                      </span>
                     </span>
-                  </button>
+                  </div>
                 );
               })}
               {resources.map((r) => (
@@ -394,22 +450,6 @@ export const AiPmDayPage: React.FC = () => {
             </div>
           )}
 
-          {topics.length > 0 && (
-            <div className="bg-white rounded-2xl p-4 border border-zinc-200/80 space-y-2">
-              <h3 className="font-bold text-zinc-900 flex items-center gap-2"><List className="w-4 h-4 text-brand-600" /> Topics to cover</h3>
-              <ul className="divide-y divide-zinc-100">
-                {topics.map((t, i) => (
-                  <li key={t.id}>
-                    <button type="button" onClick={() => goToSection(t.id)} className="w-full flex items-center gap-3 py-2 text-left group">
-                      <span className="text-xs font-semibold text-brand-800 bg-brand-50 rounded-md w-8 py-1 text-center shrink-0">{String(i + 1).padStart(2, '0')}</span>
-                      <span className="flex-1 text-sm text-zinc-700 group-hover:text-zinc-900">{t.label}</span>
-                      <ChevronRight className="w-4 h-4 text-zinc-400 group-hover:text-zinc-600" />
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
 
 
           {otherBookmarks.length > 0 && (
