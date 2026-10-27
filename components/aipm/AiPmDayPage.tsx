@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import {
   BookOpen, Hammer, CheckCircle2, Calculator, Lightbulb, Bookmark, ChevronLeft, ChevronRight,
-  FileEdit, Clock, Save, X, GraduationCap, BarChart3, PlayCircle, List, FileText, ExternalLink,
+  FileEdit, Clock, Save, X, GraduationCap, BarChart3, List, FileText, ExternalLink, MonitorPlay, Play,
 } from 'lucide-react';
 import { AI_PM_DAYS, AI_PM_PHASES, phaseForDay, DESIGN_CASE_STEPS, AI_PM_REFLECTION } from '../../data/aiPmCourse/plan';
 import { AI_PM_BACKGROUND_EXAMPLE } from '../../data/aiPmCourse/content';
@@ -107,10 +107,12 @@ export const AiPmDayPage: React.FC = () => {
     progress, isDone, toggleDay, toggleCheck, isBookmarked, toggleBookmark, setNote, isVideoDone, toggleVideoDone,
   } = useAiPmProgress();
   const [notesOpen, setNotesOpen] = useState(false);
+  const [activeVideoId, setActiveVideoId] = useState<string | null>(null);
 
   useEffect(() => {
     document.querySelector('main')?.scrollTo({ top: 0 });
     setNotesOpen(false);
+    setActiveVideoId(null);
   }, [dayNum]);
 
   if (!day || !phase) return <Navigate to="/ai-pm/plan" replace />;
@@ -126,8 +128,12 @@ export const AiPmDayPage: React.FC = () => {
   const hasLesson = day.day in AI_PM_LESSONS;
   const topics = AI_PM_LESSON_TOPICS[day.day] ?? [];
   const resources = (day.resources ?? []).map((id) => ({ id, ...AI_PM_RESOURCES[id] })).filter((r) => r.title);
-  const moreVideos = day.moreVideos ?? [];
-  const materialCount = resources.length + (day.video ? 1 : 0) + moreVideos.length;
+  const videos = [
+    ...(day.video ? [{ id: day.video, title: day.videoTitle ?? `Day ${day.day} video` }] : []),
+    ...(day.moreVideos ?? []),
+  ];
+  const activeVideo = videos.find((v) => v.id === activeVideoId) ?? videos[0];
+  const materialCount = resources.length + videos.length;
   const coursePercent = Math.round((progress.done.length / AI_PM_DAYS.length) * 100);
   const timeLine = day.time ?? (day.kind === 'weekend' ? '3-hour block' : '45–60 minutes');
   const otherBookmarks = progress.bookmarks.filter((d) => d !== day.day);
@@ -187,27 +193,36 @@ export const AiPmDayPage: React.FC = () => {
             </section>
           )}
 
-          {day.video && (
-            <div className="space-y-2.5">
-              <div className="rounded-2xl overflow-hidden bg-zinc-900 aspect-video shadow-sm">
+          {activeVideo && (
+            <div className="bg-zinc-900 rounded-2xl overflow-hidden shadow-lg border border-zinc-800">
+              <div className="bg-zinc-800/50 px-3 py-2 flex items-center justify-between gap-2 border-b border-zinc-700/50">
+                <div className="flex items-center gap-1.5 min-w-0">
+                  <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse shrink-0" />
+                  <span className="text-[11px] font-bold text-zinc-400 uppercase tracking-widest truncate">{activeVideo.title}</span>
+                </div>
+                <div className="flex items-center gap-2 shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => toggleVideoDone(day.day)}
+                    className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${
+                      videoDone ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700'
+                    }`}
+                  >
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    <span>{videoDone ? 'Video completed' : 'Mark video complete'}</span>
+                  </button>
+                  <MonitorPlay className="w-3.5 h-3.5 text-brand-400" />
+                </div>
+              </div>
+              <div className="aspect-video w-full">
                 <iframe
-                  src={`https://www.youtube.com/embed/${day.video}`}
+                  key={activeVideo.id}
+                  src={`https://www.youtube.com/embed/${activeVideo.id}`}
                   className="w-full h-full"
-                  title={day.videoTitle ?? `Day ${day.day} video`}
+                  title={activeVideo.title}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                 />
-              </div>
-              <div className="flex items-center rounded-xl border border-brand-100 bg-brand-50/50 p-1.5">
-                <button
-                  type="button"
-                  onClick={() => toggleVideoDone(day.day)}
-                  className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-lg text-sm font-semibold transition-colors ${
-                    videoDone ? 'bg-brand-600 text-white' : 'bg-white border border-brand-100 text-brand-800 hover:bg-brand-50'
-                  }`}
-                >
-                  <CheckCircle2 className="w-4 h-4" /> {videoDone ? 'Video completed' : 'Mark video complete'}
-                </button>
               </div>
             </div>
           )}
@@ -342,24 +357,30 @@ export const AiPmDayPage: React.FC = () => {
                 <h3 className="font-bold text-zinc-900 flex items-center gap-2"><BookOpen className="w-4 h-4 text-brand-600" /> Course material</h3>
                 <span className="text-[11px] font-semibold uppercase tracking-wide text-zinc-500 bg-zinc-100 px-2 py-0.5 rounded-md">{materialCount} {materialCount === 1 ? 'item' : 'items'}</span>
               </div>
-              {day.video && (
-                <a href={`https://www.youtube.com/watch?v=${day.video}`} target="_blank" rel="noopener noreferrer" className="group flex items-start gap-3 rounded-xl border border-zinc-200/80 p-3 hover:border-brand-200 hover:bg-brand-50/30">
-                  <span className="w-9 h-9 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center shrink-0"><PlayCircle className="w-4 h-4" /></span>
-                  <span className="min-w-0">
-                    <span className="block text-sm font-semibold text-zinc-900 leading-snug group-hover:text-brand-800">{day.videoTitle ?? 'Video for today'}</span>
-                    <span className="block text-xs text-zinc-500 mt-0.5">Video · plays above</span>
-                  </span>
-                </a>
-              )}
-              {moreVideos.map((v) => (
-                <a key={v.id} href={`https://www.youtube.com/watch?v=${v.id}`} target="_blank" rel="noopener noreferrer" className="group flex items-start gap-3 rounded-xl border border-zinc-200/80 p-3 hover:border-brand-200 hover:bg-brand-50/30">
-                  <span className="w-9 h-9 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center shrink-0"><PlayCircle className="w-4 h-4" /></span>
-                  <span className="min-w-0">
-                    <span className="block text-sm font-semibold text-zinc-900 leading-snug group-hover:text-brand-800">{v.title}</span>
-                    <span className="block text-xs text-zinc-500 mt-0.5">Video · in the lesson below</span>
-                  </span>
-                </a>
-              ))}
+              {videos.map((v) => {
+                const isActive = v.id === activeVideo?.id;
+                return (
+                  <button
+                    key={v.id}
+                    type="button"
+                    onClick={() => setActiveVideoId(v.id)}
+                    className={`group w-full flex flex-col gap-2 p-2 rounded-xl border text-left transition-all ${isActive ? 'bg-brand-50 border-brand-200 ring-2 ring-brand-100' : 'bg-zinc-50 border-zinc-100 hover:bg-white hover:border-brand-100'}`}
+                  >
+                    <span className="relative block aspect-video rounded-lg overflow-hidden bg-zinc-800">
+                      <img src={`https://img.youtube.com/vi/${v.id}/mqdefault.jpg`} alt="" className={`w-full h-full object-cover ${isActive ? 'opacity-80' : 'opacity-60'}`} />
+                      <span className="absolute inset-0 flex items-center justify-center">
+                        <span className={`w-8 h-8 rounded-full flex items-center justify-center text-white shadow-md transition-all ${isActive ? 'bg-brand-600 scale-105' : 'bg-black/40 group-hover:bg-brand-600 group-hover:scale-105'}`}>
+                          <Play className="w-3.5 h-3.5 fill-current" />
+                        </span>
+                      </span>
+                    </span>
+                    <span className="px-0.5">
+                      <span className={`block text-xs font-bold leading-tight line-clamp-2 ${isActive ? 'text-brand-900' : 'text-zinc-700'}`}>{v.title}</span>
+                      <span className="block text-[11px] font-bold text-zinc-400 uppercase tracking-widest mt-1">{isActive ? 'Now playing' : 'Video lesson'}</span>
+                    </span>
+                  </button>
+                );
+              })}
               {resources.map((r) => (
                 <a key={r.id} href={r.url} target="_blank" rel="noopener noreferrer" className="group flex items-start gap-3 rounded-xl border border-zinc-200/80 p-3 hover:border-brand-200 hover:bg-brand-50/30">
                   <span className="w-9 h-9 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center shrink-0"><FileText className="w-4 h-4" /></span>
