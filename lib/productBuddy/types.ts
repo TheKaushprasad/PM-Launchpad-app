@@ -141,6 +141,10 @@ export interface BuddySession {
   cancelledBy?: string;
   cancelReason?: string;
   outcomes: Record<string, 'happened' | 'no_show'>;
+  /** Interviewer uid -> the question bank scenario id they ask. Never sent to the person being asked. */
+  kit?: Record<string, string>;
+  /** Giver uid -> their feedback on the partner. */
+  feedback?: Record<string, BuddyFeedback>;
   createdAt: string;
   updatedAt: string;
 }
@@ -159,3 +163,42 @@ export function roleFor(kind: SessionKind, isRequester: boolean): string {
   const requesterIsCandidate = kind === 'be_interviewed';
   return requesterIsCandidate === isRequester ? 'Candidate' : 'Interviewer';
 }
+
+/** The interviewer's sheet for one question; built on the server from the question bank. */
+export interface SessionKitView {
+  scenarioId: string;
+  title: string;
+  company: string;
+  difficulty: string;
+  readOut: string; // the question as the interviewer says it
+  context: string;
+  handOutIfAsked: string[]; // facts to give only when the candidate asks
+  curveball?: string;
+  followUps: string[];
+  strongAnswerCovers: string[];
+  rubric: string[]; // score each 1-4
+}
+
+export const READINESS = ['Not yet', 'Getting there', 'Interview ready', 'Strong'] as const;
+export const HELPFULNESS = ['Not useful', 'A little', 'Useful', 'Very useful'] as const;
+
+/** Question 1 of the feedback form. A candidate in a one-way session rates the interviewing instead of readiness. */
+export function feedbackScale(giverRole: string) {
+  return giverRole === 'Candidate'
+    ? { question: 'How useful was their interviewing?', label: 'Usefulness', options: HELPFULNESS }
+    : { question: 'How ready are they for a real interview?', label: 'Readiness', options: READINESS };
+}
+
+export interface BuddyFeedback {
+  readiness: number; // 1-4, see feedbackScale
+  didWell: string;
+  toImprove: string;
+  createdAt: string;
+}
+
+/** A session as the server returns it to one participant: only their own kit, and the partner's feedback once they've given theirs. */
+export type BuddySessionView = Omit<BuddySession, 'kit' | 'feedback'> & {
+  myKit?: SessionKitView;
+  myFeedback?: BuddyFeedback;
+  feedbackForMe?: BuddyFeedback | 'locked';
+};

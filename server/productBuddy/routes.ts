@@ -6,10 +6,11 @@ import { consumeDailyQuota, getVerifiedUser, type VerifiedUser } from '../securi
 import { fitsAvailability, isValidTimezone } from '../../lib/productBuddy/time';
 import {
   DAYS, DOMAINS, DURATIONS, INTERVIEW_TYPES, MAX_RECIPIENTS, PROFESSIONS, roleFor,
-  type AvailabilityWindow, type BuddyMatch, type BuddyProfile, type BuddyRequest, type BuddySession,
+  type AvailabilityWindow, type BuddyFeedback, type BuddyMatch, type BuddyProfile, type BuddyRequest, type BuddySession, type BuddySessionView,
   type FindBuddyInput, type ParticipationMode, type PublicBuddyProfile, type SessionKind,
 } from '../../lib/productBuddy/types';
-import { emailAllDeclined, emailNewRequest, emailSessionCancelled, emailSessionConfirmed, emailSlotFilled } from './emails';
+import { emailAllDeclined, emailFeedbackReceived, emailNewRequest, emailSessionCancelled, emailSessionConfirmed, emailSlotFilled } from './emails';
+import { interviewersFor, kitView, pickKit, swapQuestion } from './kit';
 
 // Product Buddy: peer mock-interview matching. Server-only Firestore (Admin SDK; the default-deny
 // rule keeps browsers out), so every status change is checked here, never in the browser.
@@ -49,6 +50,23 @@ const overlaps = (aStart: string, aEnd: string, bStart: string, bEnd: string) =>
 function appUrl(req: express.Request): string {
   const origin = (req.headers.origin as string) || (req.headers.referer ? new URL(req.headers.referer as string).origin : '') || process.env.APP_URL || 'https://www.thenoobpm.com';
   return origin.replace(/\/+$/, '');
+}
+
+/**
+ * What one participant may see of a session: their own interviewer kit only (the other kit is the
+ * question they'll be asked), and the partner's feedback only once they've given their own.
+ */
+function viewFor(session: BuddySession, uid: string): BuddySessionView {
+  const { kit, feedback, ...rest } = session;
+  const partnerId = session.participantIds.find((id) => id !== uid) || '';
+  const mine = feedback?.[uid];
+  const theirs = feedback?.[partnerId];
+  return {
+    ...rest,
+    myKit: kit?.[uid] ? kitView(kit[uid]) : undefined,
+    myFeedback: mine,
+    feedbackForMe: theirs ? (mine ? theirs : 'locked') : undefined,
+  };
 }
 
 function publicProfile(p: BuddyProfile): PublicBuddyProfile {
@@ -237,7 +255,8 @@ async function acceptRequest(requestId: string, uid: string): Promise<{ request:
     if (!requesterSnap.exists || !meSnap.exists) throw new BuddyError('One of the profiles was deleted.', 409);
     const requester = requesterSnap.data() as BuddyProfile;
     const me = meSnap.data() as BuddyProfile;
-    const busy = busyIn(sessionsSnap.docs.map((d) => d.data() as BuddySession), [request.requesterId, uid], request.startAt, endAt);
+    const pastSessions = sessionsSnap.docs.map((d) => d.data() as BuddySession);
+    const busy = busyIn(pastSessions, [request.requesterId, uid], request.startAt, endAt);
     if (busy.includes(uid)) throw new BuddyError('You already have a session at this time.', 409);
     if (busy.includes(request.requesterId)) throw new BuddyError(`${requester.name} is already booked at this time.`, 409);
 
@@ -262,6 +281,9 @@ async function acceptRequest(requestId: string, uid: string): Promise<{ request:
       status: 'confirmed',
       icsSequence: 0,
       outcomes: {},
+      // Fresh questions for both people where the bank allows it.
+      kit: pickKit(request.interviewType, interviewersFor(request.kind, request.requesterId, uid), new Set(pastSessions.flatMap((s) => Object.values(s.kit || {})))),
+      feedback: {},
       createdAt: now,
       updatedAt: now,
     };
@@ -402,7 +424,7 @@ export function registerProductBuddyRoutes(app: express.Express) {
   route('post', '/requests/:id/accept', async (req, user) => {
     const { request, session } = await acceptRequest(String(req.params.id), user.uid);
     await notifyAccepted(request, session, appUrl(req));
-    return { request, session };
+    return { request, session: viewFor(session, user.uid) };
   });
 
   route('post', '/requests/:id/decline', async (req, user) => {
@@ -443,7 +465,7 @@ export function registerProductBuddyRoutes(app: express.Express) {
   route('get', '/sessions', async (_req, user) => {
     const snap = await db().collection(SESSIONS).where('participantIds', 'array-contains', user.uid).get();
     const sessions = snap.docs.map((d) => d.data() as BuddySession).sort((a, b) => b.startAt.localeCompare(a.startAt));
-    return { sessions: sessions.slice(0, 100) };
+    return { sessions: sessions.slice(0, 100).map((s) => viewFor(s, user.uid)) };
   });
 
   const updateSession = (req: express.Request, user: VerifiedUser, change: (s: BuddySession) => Partial<BuddySession>) => {
@@ -467,7 +489,7 @@ export function registerProductBuddyRoutes(app: express.Express) {
     const partnerId = session.participantIds.find((id) => id !== user.uid)!;
     const partner = await getProfile(partnerId);
     if (partner) await emailSessionCancelled(session, partner, session.participants[user.uid].name, appUrl(req));
-    return { session };
+    return { session: viewFor(session, user.uid) };
   });
 
   route('post', '/sessions/:id/outcome', async (req, user) => {
@@ -478,7 +500,40 @@ export function registerProductBuddyRoutes(app: express.Express) {
       if (Date.parse(s.startAt) > Date.now()) throw new BuddyError('You can mark this after the session starts.', 409);
       return { status: 'completed', outcomes: { ...s.outcomes, [user.uid]: outcome } };
     });
-    return { session };
+    return { session: viewFor(session, user.uid) };
+  });
+
+  // The 3-question feedback form. Giving it also marks the session as having happened.
+  route('post', '/sessions/:id/feedback', async (req, user) => {
+    const readiness = Math.round(Number(req.body?.readiness));
+    const didWell = str(req.body?.didWell, 600);
+    const toImprove = str(req.body?.toImprove, 600);
+    if (!(readiness >= 1 && readiness <= 4)) throw new BuddyError('Pick how ready they are.');
+    if (!didWell || !toImprove) throw new BuddyError('Fill in one thing they did well and one thing to work on.');
+    const entry: BuddyFeedback = { readiness, didWell, toImprove, createdAt: nowIso() };
+    let firstTime = false;
+    const session = await updateSession(req, user, (s) => {
+      if (s.status === 'cancelled') throw new BuddyError('This session was cancelled.', 409);
+      if (Date.parse(s.startAt) > Date.now()) throw new BuddyError('You can give feedback once the session has started.', 409);
+      firstTime = !s.feedback?.[user.uid];
+      return { status: 'completed', outcomes: { ...s.outcomes, [user.uid]: 'happened' }, feedback: { ...(s.feedback || {}), [user.uid]: entry } };
+    });
+    const partnerId = session.participantIds.find((id) => id !== user.uid)!;
+    const partner = firstTime ? await getProfile(partnerId) : null;
+    if (partner) await emailFeedbackReceived(session, partner, session.participants[user.uid].name, !!session.feedback?.[partnerId], appUrl(req));
+    return { session: viewFor(session, user.uid) };
+  });
+
+  // An interviewer who already knows their question (or dislikes it) can draw another before the call.
+  route('post', '/sessions/:id/swap-question', async (req, user) => {
+    const session = await updateSession(req, user, (s) => {
+      if (!s.kit?.[user.uid]) throw new BuddyError("You don't ask the questions in this session.", 409);
+      if (s.status !== 'confirmed' || Date.parse(s.startAt) < Date.now()) throw new BuddyError('You can only change the question before the session starts.', 409);
+      const next = swapQuestion(s.interviewType, s.kit);
+      if (!next) throw new BuddyError('There are no other questions of this type.', 409);
+      return { kit: { ...s.kit, [user.uid]: next } };
+    });
+    return { session: viewFor(session, user.uid) };
   });
 
   route('post', '/sessions/:id/meeting-link', async (req, user) => {
@@ -488,7 +543,7 @@ export function registerProductBuddyRoutes(app: express.Express) {
       if (s.status !== 'confirmed') throw new BuddyError(`This session is ${s.status}.`, 409);
       return { meetingUrl: url, icsSequence: s.icsSequence + 1 };
     });
-    return { session };
+    return { session: viewFor(session, user.uid) };
   });
 
   route('post', '/block', async (req, user) => {
@@ -531,6 +586,6 @@ export function registerProductBuddyRoutes(app: express.Express) {
     if (!sampleId) throw new BuddyError('None of the sample buddies on this request can accept it.', 409);
     const result = await acceptRequest(request.id, sampleId);
     await notifyAccepted(result.request, result.session, appUrl(req));
-    return result;
+    return { request: result.request, session: viewFor(result.session, user.uid) };
   });
 }

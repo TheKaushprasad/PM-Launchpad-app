@@ -130,6 +130,10 @@ export async function emailSessionConfirmed(session: BuddySession, uid: string, 
       ...(session.notes ? [`Notes: ${session.notes}`] : []),
       `Call link: ${session.meetingUrl}`,
       `The calendar invite is attached. If it doesn't show, use the Google Calendar button.`,
+      session.kit?.[uid]
+        ? `Your interviewer kit (the question you'll ask, follow-ups and a rubric) is on the session page. Keep it to yourself until the call.`
+        : `${first(partner.name)} gets a question and rubric for you, so come ready to answer cold.`,
+      `After the call, leave ${first(partner.name)} 3 quick lines of feedback on the session page.`,
       `Can't make it? Cancel on the site so ${first(partner.name)} isn't left waiting.`,
     ],
     button: { label: 'Join the call', url: session.meetingUrl },
@@ -155,5 +159,19 @@ export async function emailSessionCancelled(session: BuddySession, to: { name: s
     ],
     button: { label: 'Find another buddy', url: `${appUrl}/buddy` },
     ics: { content: ics, method: 'CANCEL' },
+  });
+}
+
+export async function emailFeedbackReceived(session: BuddySession, to: { name: string; email: string }, fromName: string, alreadyGaveTheirs: boolean, appUrl: string) {
+  await send({
+    to: to.email,
+    subject: `${first(fromName)} left you feedback on your ${session.interviewType} mock`,
+    lines: [
+      `Hi ${first(to.name)},`,
+      alreadyGaveTheirs
+        ? `${fromName} shared feedback on your mock interview. Read it on the session page.`
+        : `${fromName} shared feedback on your mock interview. Leave yours for them (3 quick lines) and you'll both see what the other wrote.`,
+    ],
+    button: { label: alreadyGaveTheirs ? 'Read feedback' : 'Give feedback to read theirs', url: `${appUrl}/buddy?tab=sessions` },
   });
 }
