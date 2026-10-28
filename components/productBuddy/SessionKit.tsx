@@ -65,6 +65,7 @@ export const KitPanel: React.FC<{ kit: SessionKitView; canSwap: boolean; session
           <Section title="Follow-up questions" items={kit.followUps} />
           <Section title="A strong answer covers" items={kit.strongAnswerCovers} ordered />
           <Section title="Score each 1 to 4" items={kit.rubric} />
+          <p className="text-xs text-slate-600">This question is a suggestion from our question bank. You're free to ask your own question instead; the follow-ups and rubric still help.</p>
           {canSwap && (
             <Button variant="outline" size="sm" onClick={swap} disabled={busy}>
               {busy ? <Loader2 className="size-4 animate-spin" /> : <Shuffle className="size-4" />} Draw a different question
