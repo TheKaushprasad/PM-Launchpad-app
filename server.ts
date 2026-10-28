@@ -30,7 +30,7 @@ import { discoverJobBoards, getJobDetail, getJobsList, jobsStoreReady, refreshJo
 import { registerAssignmentSolverRoutes } from "./server/assignmentSolver/routes";
 import { registerProductBuddyRoutes } from "./server/productBuddy/routes";
 import { registerEvalDashboardRoutes } from "./server/evalDashboard";
-import { interviewAccessGate, registerInterviewAccessRoutes, saveTesterInterview, attachTesterEvaluation } from "./server/interviewTesters";
+import { interviewAccessGate, registerInterviewAccessRoutes, saveTesterInterview, attachTesterEvaluation, isInterviewTester } from "./server/interviewTesters";
 import { requireAiAccess, getVerifiedUser, consumeDailyQuota, clientIp } from "./server/security";
 import { getGeminiKey, getInterviewGeminiKey, hasSeparateInterviewGeminiKey } from "./server/geminiKeys";
 import { initObservability, traceInterviewRequests, traceStep, traceMeta, traceIO, noteGuardrail, geminiUsage, openAiUsage, recordClientEvent, cleanSessionId, cleanTraceId, isLangfuseConfigured } from "./server/observability";
@@ -1389,6 +1389,9 @@ Plain text, 1-2 sentences. No markdown.
             sessionId,
           })
         : null;
+      if (req.body?.evalConsent !== true && verified && (await isInterviewTester(verified.email))) {
+        console.log("[Testers] Not saved: this tester hasn't ticked the consent box on the interview page.");
+      }
 
       // Pipeline execution: validate -> groundAndCapPillars -> compute scores -> persist
       const result = await runEvaluationEngine({

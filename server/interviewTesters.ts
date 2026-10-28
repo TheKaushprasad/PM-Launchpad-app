@@ -104,6 +104,7 @@ export async function saveTesterInterview(input: {
       consentAt: now,
       createdAt: now,
     });
+    console.log(`[Testers] Saved interview ${ref.id} for review (${input.scenario.id})`);
     return ref.id;
   } catch (err: any) {
     console.warn('[Testers] Could not save the interview:', err?.message);

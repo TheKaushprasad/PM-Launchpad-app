@@ -14,7 +14,8 @@ export const InterviewGate: React.FC = () => {
   const [agreed, setAgreed] = useState(() => hasEvalConsent(user?.uid));
   const [ticked, setTicked] = useState(false);
 
-  if (access.loading && !access.enabled) {
+  // Wait for the tester check even when the interview is on, so a tester never starts before the consent step.
+  if (access.loading) {
     return (
       <div className="flex items-center justify-center py-24" role="status">
         <Loader2 className="size-6 animate-spin text-brand-600" />
