@@ -17,7 +17,16 @@ live site (the page, the sidebar link and the API all stay off).
    Outlook show Yes / No / Maybe), and an "Add to Google Calendar" button. No Google sign-in or app review needed.
    Either person can swap in their own Meet/Zoom link, or cancel (the other person gets a cancel file that removes
    the event).
-5. **After the call**: "Did it happen?" records a done or a no-show.
+5. **Session kit**: each interviewer gets one question from the question bank (`data/interviewScenarios.ts`,
+   matched to the interview type) on the session card: what to read out, context, facts to hand out only if
+   asked, a curveball, 3 follow-ups, what a strong answer covers and a short rubric (score each 1 to 4). In a swap
+   both people get a different question; the candidate never sees theirs. Past questions are avoided, and the
+   interviewer can draw a different one before the call.
+6. **After the call**: a 3-question feedback form on the session card (readiness, or usefulness of the
+   interviewing when a candidate rates their interviewer; one thing done well; one thing to work on). Sending it
+   marks the session done and emails the partner. Your partner's feedback stays locked until you give yours.
+   "Didn't show" records a no-show. There's no automatic post-call email (no scheduler); the confirmation email
+   says to leave feedback afterwards.
 
 Also: decline with a note ("Sat 11 am works"), withdraw a sent request, block someone, and a 10 requests/day cap.
 
@@ -28,6 +37,7 @@ Also: decline with a note ("Sat 11 am works"), withdraw a sent request, block so
 - Booking runs in a Firestore transaction that also writes both people's profiles, so two accepts can't
   double-book anyone.
 - `server/productBuddy/emails.ts`: emails through Resend. Skipped (logged) when `RESEND_API_KEY` is missing.
+- `server/productBuddy/kit.ts`: picks kit questions and builds the interviewer's sheet.
 - `lib/productBuddy/`: shared types, calendar (`.ics` + Google Calendar link) and timezone helpers.
 - `components/productBuddy/`: the `/buddy` page.
 

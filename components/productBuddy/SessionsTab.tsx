@@ -7,9 +7,10 @@ import { Panel, StatusPill } from './ui';
 import { buddyApi } from './api';
 import { buildIcs, googleCalendarLink, sessionCalendarEvent } from '../../lib/productBuddy/calendar';
 import { formatSlot } from '../../lib/productBuddy/time';
-import { type BuddyProfile, type BuddySession } from '../../lib/productBuddy/types';
+import { KitPanel, FeedbackPanel } from './SessionKit';
+import { type BuddyProfile, type BuddySessionView } from '../../lib/productBuddy/types';
 
-const downloadIcs = (session: BuddySession) => {
+const downloadIcs = (session: BuddySessionView) => {
   const blob = new Blob([buildIcs(sessionCalendarEvent(session, window.location.origin), 'PUBLISH')], { type: 'text/calendar' });
   const url = URL.createObjectURL(blob);
   const a = Object.assign(document.createElement('a'), { href: url, download: `product-buddy-${session.startAt.slice(0, 10)}.ics` });
@@ -17,7 +18,7 @@ const downloadIcs = (session: BuddySession) => {
   URL.revokeObjectURL(url);
 };
 
-const SessionCard: React.FC<{ session: BuddySession; me: BuddyProfile; onChange: (s: BuddySession) => void }> = ({ session, me, onChange }) => {
+const SessionCard: React.FC<{ session: BuddySessionView; me: BuddyProfile; onChange: (s: BuddySessionView) => void }> = ({ session, me, onChange }) => {
   const [busy, setBusy] = useState(false);
   const [panel, setPanel] = useState<'' | 'cancel' | 'link'>('');
   const [text, setText] = useState('');
@@ -26,11 +27,12 @@ const SessionCard: React.FC<{ session: BuddySession; me: BuddyProfile; onChange:
   const mine = session.participants[me.uid];
   const started = Date.parse(session.startAt) <= Date.now();
   const upcoming = session.status === 'confirmed' && !started;
-  const needsOutcome = session.status !== 'cancelled' && started && !session.outcomes[me.uid];
+  const afterCall = session.status !== 'cancelled' && started;
+  const partnerFirst = partner.name.split(' ')[0];
   const minutes = Math.round((Date.parse(session.endAt) - Date.parse(session.startAt)) / 60000);
   const event = sessionCalendarEvent(session, window.location.origin);
 
-  const run = async (fn: () => Promise<{ session: BuddySession }>, done: string) => {
+  const run = async (fn: () => Promise<{ session: BuddySessionView }>, done: string) => {
     setBusy(true);
     try {
       const { session: updated } = await fn();
@@ -92,26 +94,30 @@ const SessionCard: React.FC<{ session: BuddySession; me: BuddyProfile; onChange:
         </>
       )}
 
-      {needsOutcome && (
-        <div className="flex flex-wrap items-center gap-2 rounded-xl bg-slate-50 p-3">
-          <span className="text-sm font-semibold text-slate-800 mr-1">Did it happen?</span>
-          <Button size="sm" variant="outline" disabled={busy} onClick={() => run(() => buddyApi.markOutcome(session.id, 'happened'), 'Nice work! Book the next one while it is fresh.')}>Yes, we practised</Button>
-          <Button size="sm" variant="ghost" disabled={busy} onClick={() => run(() => buddyApi.markOutcome(session.id, 'no_show'), 'Sorry about that. Thanks for telling us.')}>{partner.name.split(' ')[0]} didn't show</Button>
-        </div>
+      {session.myKit && session.status !== 'cancelled' && (
+        <KitPanel kit={session.myKit} sessionId={session.id} canSwap={upcoming} onChange={onChange} />
       )}
-      {session.outcomes[me.uid] && <p className="text-xs text-slate-500">You marked this as {session.outcomes[me.uid] === 'happened' ? 'done' : 'a no-show'}.</p>}
+      {!session.myKit && upcoming && (
+        <p className="text-xs text-slate-500">{partnerFirst} has a question from our bank and a short rubric for you, so come ready to answer cold.</p>
+      )}
+
+      {afterCall && session.outcomes[me.uid] !== 'no_show' && (
+        <FeedbackPanel session={session} me={me.uid} partnerFirstName={partnerFirst} canMarkNoShow={!session.outcomes[me.uid] && !session.feedbackForMe} onChange={onChange}
+          onNoShow={() => run(() => buddyApi.markOutcome(session.id, 'no_show'), 'Sorry about that. Thanks for telling us.')} />
+      )}
+      {session.outcomes[me.uid] === 'no_show' && <p className="text-xs text-slate-500">You marked this as a no-show.</p>}
     </li>
   );
 };
 
 export const SessionsTab: React.FC<{ me: BuddyProfile }> = ({ me }) => {
-  const [sessions, setSessions] = useState<BuddySession[] | null>(null);
+  const [sessions, setSessions] = useState<BuddySessionView[] | null>(null);
   useEffect(() => {
     buddyApi.listSessions().then((d) => setSessions(d.sessions)).catch((err) => toast.error(err.message));
   }, []);
   if (!sessions) return <div className="py-10 text-center"><Loader2 className="size-6 animate-spin mx-auto text-brand-600" /></div>;
 
-  const replace = (s: BuddySession) => setSessions((all) => all!.map((x) => (x.id === s.id ? s : x)));
+  const replace = (s: BuddySessionView) => setSessions((all) => all!.map((x) => (x.id === s.id ? s : x)));
   const now = Date.now();
   const upcoming = sessions.filter((s) => s.status === 'confirmed' && Date.parse(s.startAt) > now).reverse();
   const past = sessions.filter((s) => !upcoming.includes(s));
