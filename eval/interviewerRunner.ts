@@ -5,6 +5,8 @@
  *   npm run eval:interviewer                 calls Gemini once per case (10 calls) and checks each reply
  *   npm run eval:interviewer -- --case a,b   only these cases
  *   npm run eval:interviewer -- --delay 15   wait between cases (default 15s; the free tier allows 5 calls a minute)
+ *   npm run eval:interviewer -- --real       only cases made from real tester interviews (eval/real/), each
+ *                                            reply compared with your rewrite by a judge model (2 calls per case)
  *
  * Uses the same prompt builder as /api/interview/chat. Run it on the eval-only key,
  * like the evaluator benchmark. Exits 1 when any check fails.
@@ -23,6 +25,7 @@ import {
   getInterviewPhase
 } from '../server/interview/interviewerPrompt';
 import { normalizeLevel } from '../data/interviewTracks';
+import { callJudgeModel } from './judge';
 
 dotenv.config();
 // Keys usually live in services/.env (same place the main eval reads them from).
@@ -44,14 +47,22 @@ const CaseSchema = z.object({
     noPraise: z.boolean().optional(),
     mustNotContain: z.array(z.string()).optional(),
     mustContainAny: z.array(z.string()).optional()
-  }).strict()
+  }).strict(),
+  /** Real-interview cases: what Priya should have said (your rewrite in the eval dashboard) and what she said. */
+  referenceReply: z.string().min(1).optional(),
+  originalReply: z.string().optional()
 }).strict();
 type InterviewerCase = z.infer<typeof CaseSchema>;
 
 const PRAISE = /\b(great|excellent|awesome|fantastic|brilliant|good (?:intuition|insight|answer|point|job)|nice (?:work|job)|love (?:that|it)|well done|impressive)\b/i;
 
-function loadCases(): InterviewerCase[] {
-  const raw = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'eval', 'interviewer', 'cases.json'), 'utf-8'));
+const GOLDEN_FILE = path.join(process.cwd(), 'eval', 'interviewer', 'cases.json');
+// Made from real tester interviews in the eval dashboard; git-ignored so real conversations stay on this computer.
+const REAL_FILE = path.join(process.cwd(), 'eval', 'real', 'interviewer-cases.json');
+
+function loadCases(file = GOLDEN_FILE): InterviewerCase[] {
+  if (file === REAL_FILE && !fs.existsSync(file)) throw new Error('No real-interview cases yet. Make some in the eval dashboard (Real interviews tab).');
+  const raw = JSON.parse(fs.readFileSync(file, 'utf-8'));
   const cases = z.array(CaseSchema).parse(raw);
   for (const c of cases) {
     if (!getScenarioById(c.scenarioId)) throw new Error(`${c.id}: unknown scenarioId ${c.scenarioId}`);
@@ -131,6 +142,20 @@ function checkReply(c: InterviewerCase, reply: string): string[] {
   return failures;
 }
 
+const REFERENCE_JUDGE = `You check an AI playing a product management interviewer.
+You get the interview so far, the reply the AI gave, and a REFERENCE reply written by an experienced PM interviewer for the same moment.
+PASS when the AI reply does the same job as the reference: it moves the interview in the same direction (same kind of question, probe, data or push-back), and does not give away more than the reference does. Wording, length and politeness may differ.
+FAIL when it goes somewhere the reference deliberately does not (for example praises, hints at the answer, changes topic, or asks something the reference avoids), or misses the reference's point.
+Return JSON: {"pass": boolean, "reason": "one sentence"}`;
+
+/** Real-interview cases: does the reply do what the reference (the owner's rewrite) does? */
+async function judgeAgainstReference(c: InterviewerCase, reply: string): Promise<string | null> {
+  const transcript = c.messages.map((m) => `${m.role === 'candidate' ? 'CANDIDATE' : 'INTERVIEWER'}: ${m.text}`).join('\n');
+  const { text } = await callJudgeModel(REFERENCE_JUDGE, `INTERVIEW SO FAR:\n${transcript}\n\nAI REPLY:\n${reply}\n\nREFERENCE REPLY:\n${c.referenceReply}`);
+  const verdict = z.object({ pass: z.boolean(), reason: z.string() }).parse(JSON.parse(text));
+  return verdict.pass ? null : `differs from your rewrite: ${verdict.reason}`;
+}
+
 async function callInterviewer(c: InterviewerCase, model: string): Promise<string> {
   const key = getInterviewGeminiKey();
   if (!key) throw new Error('GEMINI_INTERVIEW_API_KEY (or GEMINI_API_KEY) is not set (use the eval-only key)');
@@ -165,7 +190,8 @@ async function main() {
   const modelIdx = argv.indexOf('--model');
   const model = modelIdx >= 0 ? argv[modelIdx + 1] : 'gemini-3.8-flash';
 
-  const cases = loadCases().filter((c) => only.length === 0 || only.includes(c.id));
+  const real = argv.includes('--real');
+  const cases = loadCases(real ? REAL_FILE : GOLDEN_FILE).filter((c) => only.length === 0 || only.includes(c.id));
   const leakProblems = validateNoLeaks();
   console.log(`Interviewer prompt leak check across ${INTERVIEW_SCENARIOS.length} scenarios: ${leakProblems.length === 0 ? 'PASSED' : 'FAILED'}`);
   leakProblems.forEach((p) => console.log(`  - ${p}`));
@@ -177,17 +203,25 @@ async function main() {
 
   let failed = leakProblems.length > 0 ? 1 : 0;
   const startedAt = new Date().toISOString();
-  const results: Array<{ caseId: string; name: string; status: 'pass' | 'fail' | 'error'; reply?: string; failures: string[]; error?: string }> = [];
+  const results: Array<{ caseId: string; name: string; status: 'pass' | 'fail' | 'error'; reply?: string; failures: string[]; error?: string; referenceReply?: string; originalReply?: string }> = [];
   for (let i = 0; i < cases.length; i++) {
     const c = cases[i];
     if (i > 0) await new Promise((r) => setTimeout(r, delaySeconds * 1000));
     try {
       const reply = await callInterviewer(c, model);
       const failures = checkReply(c, reply);
+      if (c.referenceReply) {
+        try {
+          const differs = await judgeAgainstReference(c, reply);
+          if (differs) failures.push(differs);
+        } catch (err: any) {
+          failures.push(`judge error: ${err?.message || err}`);
+        }
+      }
       console.log(`\n${failures.length === 0 ? 'PASS' : 'FAIL'}  ${c.id}: ${c.name}\n  reply: ${reply}`);
       failures.forEach((f) => console.log(`  - ${f}`));
       if (failures.length) failed++;
-      results.push({ caseId: c.id, name: c.name, status: failures.length ? 'fail' : 'pass', reply, failures });
+      results.push({ caseId: c.id, name: c.name, status: failures.length ? 'fail' : 'pass', reply, failures, referenceReply: c.referenceReply, originalReply: c.originalReply });
     } catch (err: any) {
       console.log(`\nERROR ${c.id}: ${err?.message || err}`);
       failed++;
@@ -202,7 +236,7 @@ async function main() {
   const outFile = path.join(outDir, `interviewer-${startedAt.replace(/[:.]/g, '-')}.json`);
   fs.writeFileSync(
     outFile,
-    JSON.stringify({ kind: 'interviewer', startedAt, finishedAt: new Date().toISOString(), model, leakProblems, results }, null, 2)
+    JSON.stringify({ kind: 'interviewer', real, startedAt, finishedAt: new Date().toISOString(), model, leakProblems, results }, null, 2)
   );
   console.log(`Full report: ${path.relative(process.cwd(), outFile)}`);
   process.exit(failed === 0 ? 0 : 1);

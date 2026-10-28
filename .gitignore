@@ -18,3 +18,6 @@ __pycache__/
 .mcp.json.backup
 sarvam-samples/
 .claude/settings.local.json
+
+# Eval cases made from real tester interviews (eval dashboard); real conversations stay on this computer
+eval/real/
