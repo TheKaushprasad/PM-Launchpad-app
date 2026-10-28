@@ -1,7 +1,9 @@
 import fs from 'fs';
 import path from 'path';
-import type { Express } from 'express';
+import type { Express, Request, Response, NextFunction } from 'express';
 import { casePassed } from '../eval/casePassed';
+import { isFirebaseAdminConfigured } from '../services/firebaseAdmin';
+import { getTesterEmails, setTesterEmails } from './interviewTesters';
 
 /**
  * Local eval dashboard (/admin/evals). Reads the report files that `npm run eval` and
@@ -175,18 +177,45 @@ export function loadEvalRuns(): { resultsDir: string; runs: Array<ScoringRunSumm
   return { resultsDir: RESULTS_DIR, runs, unreadable };
 }
 
+/** The dev server listens on every network interface; only the laptop itself may use the dashboard. */
+function localOnly(req: Request, res: Response, next: NextFunction) {
+  const ip = req.socket.remoteAddress || '';
+  if (['127.0.0.1', '::1', '::ffff:127.0.0.1'].includes(ip)) return next();
+  res.status(403).json({ error: 'The eval dashboard only opens on this computer (localhost).' });
+}
+
+const NEEDS_FIREBASE =
+  'Firebase Admin is not set up on this computer. Add FIREBASE_SERVICE_ACCOUNT_KEY to services/.env (see eval/README.md) and restart npm run dev.';
+
 export function registerEvalDashboardRoutes(app: Express) {
   if (process.env.NODE_ENV === 'production') return;
-  app.get('/api/admin/evals', (req, res) => {
-    // The dev server listens on every network interface; only the laptop itself may read the reports.
-    const ip = req.socket.remoteAddress || '';
-    if (!['127.0.0.1', '::1', '::ffff:127.0.0.1'].includes(ip)) {
-      return res.status(403).json({ error: 'The eval dashboard only opens on this computer (localhost).' });
-    }
+
+  app.get('/api/admin/evals', localOnly, (_req, res) => {
     try {
       res.json(loadEvalRuns());
     } catch (e: any) {
       res.status(500).json({ error: e?.message || 'Could not read eval/results' });
+    }
+  });
+
+  // Interview testers: who can use the AI interview on the live site before launch.
+  app.get('/api/admin/testers', localOnly, async (_req, res) => {
+    if (!isFirebaseAdminConfigured()) return res.status(503).json({ error: NEEDS_FIREBASE });
+    try {
+      res.json({ emails: [...(await getTesterEmails(true))].sort() });
+    } catch (e: any) {
+      res.status(500).json({ error: e?.message || 'Could not read the tester list' });
+    }
+  });
+
+  app.put('/api/admin/testers', localOnly, async (req, res) => {
+    if (!isFirebaseAdminConfigured()) return res.status(503).json({ error: NEEDS_FIREBASE });
+    const emails = Array.isArray(req.body?.emails) ? req.body.emails.filter((e: unknown) => typeof e === 'string') : null;
+    if (!emails) return res.status(400).json({ error: 'Send { emails: string[] }' });
+    try {
+      res.json({ emails: await setTesterEmails(emails) });
+    } catch (e: any) {
+      res.status(500).json({ error: e?.message || 'Could not save the tester list' });
     }
   });
 }

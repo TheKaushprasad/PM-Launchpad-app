@@ -16,6 +16,7 @@ export const InterviewComingSoon: React.FC = () => {
         We're polishing a voice interview with Priya, your AI interviewer, so you can practise real PM
         interview questions and get honest, structured feedback. It will be back here very soon.
       </p>
+      <p className="mt-3 text-sm text-slate-500">Invited to test it early? Sign in with the email address you were invited with.</p>
       <button
         onClick={() => navigate('/')}
         className="mt-8 inline-flex items-center rounded-lg bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white hover:bg-slate-800 transition-colors"

@@ -30,6 +30,7 @@ import { discoverJobBoards, getJobDetail, getJobsList, jobsStoreReady, refreshJo
 import { registerAssignmentSolverRoutes } from "./server/assignmentSolver/routes";
 import { registerProductBuddyRoutes } from "./server/productBuddy/routes";
 import { registerEvalDashboardRoutes } from "./server/evalDashboard";
+import { interviewAccessGate, registerInterviewAccessRoutes, saveTesterInterview, attachTesterEvaluation } from "./server/interviewTesters";
 import { requireAiAccess, getVerifiedUser, consumeDailyQuota, clientIp } from "./server/security";
 import { getGeminiKey, getInterviewGeminiKey, hasSeparateInterviewGeminiKey } from "./server/geminiKeys";
 import { initObservability, traceInterviewRequests, traceStep, traceMeta, traceIO, noteGuardrail, geminiUsage, openAiUsage, recordClientEvent, cleanSessionId, cleanTraceId, isLangfuseConfigured } from "./server/observability";
@@ -988,10 +989,9 @@ Return only the JSON object. No preamble, no markdown code fences, no explanatio
   // The AI interview is hidden on the live site until it is ready (see lib/featureFlags.ts), so its
   // endpoints refuse there too. Local dev always allows it; VITE_AI_INTERVIEW_ENABLED=true turns it on live.
   const aiInterviewEnabled = process.env.NODE_ENV !== "production" || process.env.VITE_AI_INTERVIEW_ENABLED === "true";
-  app.use("/api/interview", (req, res, next) => {
-    if (aiInterviewEnabled) return next();
-    res.status(503).json({ error: "The AI interview is coming soon." });
-  });
+  // Invited testers (list edited in the local eval dashboard) can use it before launch.
+  app.use("/api/interview", interviewAccessGate(aiInterviewEnabled));
+  registerInterviewAccessRoutes(app, aiInterviewEnabled);
   // One trace per interview request: timings, providers, cost and guardrails (server/observability.ts).
   app.use("/api/interview", traceInterviewRequests);
 
@@ -1372,6 +1372,24 @@ Plain text, 1-2 sentences. No markdown.
         }
       }
 
+      // Testers who agreed to share: keep the full conversation for review in the eval dashboard,
+      // saved before scoring so it survives a scoring failure.
+      const verified = res.locals.user as { uid: string; email: string } | undefined;
+      const testerInterviewId = req.body?.evalConsent === true && verified
+        ? await saveTesterInterview({
+            uid: userId,
+            email: verified.email,
+            scenario,
+            personaId: persona?.id,
+            level: normalizeLevel(level),
+            mode: mode === 'text' ? 'text' : 'voice',
+            messages,
+            elapsedSeconds: Number.isFinite(elapsedSeconds) && elapsedSeconds > 0 ? Math.min(Math.floor(elapsedSeconds), 4 * 3600) : 0,
+            scratchpadNotes: typeof scratchpadNotes === 'string' ? scratchpadNotes.slice(0, 10000) : '',
+            sessionId,
+          })
+        : null;
+
       // Pipeline execution: validate -> groundAndCapPillars -> compute scores -> persist
       const result = await runEvaluationEngine({
         scenario,
@@ -1384,6 +1402,7 @@ Plain text, 1-2 sentences. No markdown.
         level: normalizeLevel(level),
         mode: mode === 'text' ? 'text' : 'voice'
       });
+      if (testerInterviewId) await attachTesterEvaluation(testerInterviewId, result);
 
       res.json(result);
     } catch (error: any) {

@@ -22,6 +22,12 @@ It prints a threshold table and a per-track summary (cases passed, mean score fo
 
 Every `npm run eval` and `npm run eval:interviewer` run saves a report in `eval/results/`. To browse them, run `npm run dev` and open http://localhost:3000/admin/evals on the same computer. It shows cases passed per run over time (with eval-version changes marked), every run with its checks, and per-case score, verdict, change since the last run and why a case failed. It only reads the saved files, so it never calls a model. The page and its data route exist only in `npm run dev` and answer only on localhost; the live site has neither.
 
+## Real interviews from testers
+
+The AI interview is hidden on the live site, but people on the tester list can use it. Manage the list in the dashboard's **Testers** tab. A tester signs in with that email and ticks a consent box once. After that, every interview they finish is saved to Firestore (`eval_interviews`, server-only) with the full conversation and Priya's scorecard, so it can be reviewed and turned into eval cases. Nobody else's interviews are saved.
+
+The Testers tab (and the review screens that read `eval_interviews`) need Firebase Admin on your laptop: put the service account JSON on one line as `FIREBASE_SERVICE_ACCOUNT_KEY='{...}'` in `services/.env`, then restart `npm run dev`.
+
 ## Dataset
 
 54 cases: 10 each for rca, guesstimate, strategy and metrics, and 14 for design (including a Senior PM and an APM case that check level calibration). Each type mixes strong, average and weak candidates with trap cases (prompt injection, quitting early, an interviewer who does the work or leaks the answer, garbled speech-to-text). Expected bands:
