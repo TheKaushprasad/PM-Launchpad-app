@@ -4,6 +4,7 @@ import type { Express, Request, Response, NextFunction } from 'express';
 import { casePassed } from '../eval/casePassed';
 import { isFirebaseAdminConfigured } from '../services/firebaseAdmin';
 import { getTesterEmails, setTesterEmails } from './interviewTesters';
+import { cleanReview, exportInterview, getTesterInterview, listTesterInterviews, REAL_DATASET_DIR, saveReview } from './evalReview';
 
 /**
  * Local eval dashboard (/admin/evals). Reads the report files that `npm run eval` and
@@ -54,7 +55,8 @@ export interface InterviewerRunSummary {
   cases: number;
   passed: number;
   leakProblems: string[];
-  rows: Array<{ caseId: string; name: string; status: string; reply?: string; failures: string[]; error?: string }>;
+  real: boolean;
+  rows: Array<{ caseId: string; name: string; status: string; reply?: string; failures: string[]; error?: string; referenceReply?: string; originalReply?: string }>;
 }
 
 /** run-2026-10-20T15-41-02-123Z.json -> 2026-10-20T15:41:02.123Z (old files have no startedAt). */
@@ -66,18 +68,17 @@ function timeFromFileName(file: string): string {
 /** caseId -> track, read from the dataset so runs saved before results carried a track still group by track. */
 function loadCaseTracks(): Record<string, string> {
   const tracks: Record<string, string> = {};
-  try {
-    for (const f of fs.readdirSync(DATASET_DIR)) {
+  for (const dir of [DATASET_DIR, REAL_DATASET_DIR]) {
+    if (!fs.existsSync(dir)) continue;
+    for (const f of fs.readdirSync(dir)) {
       if (!f.endsWith('.json')) continue;
       try {
-        const c = JSON.parse(fs.readFileSync(path.join(DATASET_DIR, f), 'utf-8'));
+        const c = JSON.parse(fs.readFileSync(path.join(dir, f), 'utf-8'));
         if (c?.id && c?.track) tracks[c.id] = c.track;
       } catch {
         // A broken case file is reported by `npm run eval -- --validate`, not here.
       }
     }
-  } catch {
-    // No dataset folder: tracks fall back to "unknown".
   }
   return tracks;
 }
@@ -111,11 +112,12 @@ function summarizeScoring(file: string, report: any, caseTracks: Record<string, 
 
   const flags = report.flags || {};
   const tracks = [...new Set(rows.map((r) => r.track))].sort();
-  const label = flags.caseIds?.length
+  const base = flags.caseIds?.length
     ? `cases: ${flags.caseIds.join(', ')}`
     : flags.tier === 'smoke'
       ? 'smoke'
       : tracks.length === 1 ? tracks[0] : `${tracks.length} tracks`;
+  const label = report.real ? `real interviews · ${base}` : base;
 
   const cr = report.consistencyReport;
   return {
@@ -151,6 +153,7 @@ function summarizeInterviewer(file: string, report: any): InterviewerRunSummary 
     file,
     startedAt: report.startedAt || timeFromFileName(file),
     model: report.model || 'unknown',
+    real: !!report.real,
     cases: rows.length,
     passed: rows.filter((r: any) => r.status === 'pass').length,
     leakProblems: report.leakProblems || [],
@@ -218,4 +221,37 @@ export function registerEvalDashboardRoutes(app: Express) {
       res.status(500).json({ error: e?.message || 'Could not save the tester list' });
     }
   });
+
+  // Real tester interviews: list, read, review, and turn into eval cases (server/evalReview.ts).
+  const withFirebase = (handler: (req: Request, res: Response) => Promise<unknown>) => async (req: Request, res: Response) => {
+    if (!isFirebaseAdminConfigured()) return res.status(503).json({ error: NEEDS_FIREBASE });
+    try {
+      await handler(req, res);
+    } catch (e: any) {
+      res.status(500).json({ error: e?.message || 'Something went wrong' });
+    }
+  };
+  const docId = (req: Request) => String(req.params.id || '').replace(/[^a-zA-Z0-9_-]/g, '').slice(0, 100);
+
+  app.get('/api/admin/interviews', localOnly, withFirebase(async (_req, res) => {
+    res.json({ interviews: await listTesterInterviews() });
+  }));
+
+  app.get('/api/admin/interviews/:id', localOnly, withFirebase(async (req, res) => {
+    const doc = await getTesterInterview(docId(req));
+    if (!doc) return res.status(404).json({ error: 'Interview not found' });
+    res.json({ interview: doc });
+  }));
+
+  app.put('/api/admin/interviews/:id/review', localOnly, withFirebase(async (req, res) => {
+    const doc: any = await getTesterInterview(docId(req));
+    if (!doc) return res.status(404).json({ error: 'Interview not found' });
+    const review = cleanReview(req.body, Array.isArray(doc.messages) ? doc.messages.length : 0);
+    await saveReview(docId(req), review);
+    res.json({ review });
+  }));
+
+  app.post('/api/admin/interviews/:id/export', localOnly, withFirebase(async (req, res) => {
+    res.json(await exportInterview(docId(req)));
+  }));
 }

@@ -28,6 +28,22 @@ The AI interview is hidden on the live site, but people on the tester list can u
 
 The Testers tab (and the review screens that read `eval_interviews`) need Firebase Admin on your laptop: put the service account JSON on one line as `FIREBASE_SERVICE_ACCOUNT_KEY='{...}'` in `services/.env`, then restart `npm run dev`.
 
+### Review them and turn them into eval cases
+
+In the dashboard's **Real interviews** tab, open an interview, mark each of Priya's replies **Looks right** or **Rewrite** (type what a real interviewer would have said, and why), add your own score and verdict, then **Mark review done** and **Make eval cases**. That writes, in `eval/real/` (git-ignored, so real conversations never reach GitHub; names, emails and phone numbers are stripped):
+
+- `eval/real/dataset/real-<track>-<id>.json`: a scoring case. Passes when Priya's score is within 15 points of yours and her verdict is yours or the one next to it. Your score is saved as a human label, so the Human calibration check switches on once 10 cases have one.
+- `eval/real/interviewer-cases.json`: one case per reply you rewrote. Priya gets the conversation up to that point; a judge model checks her new reply does the same job as your rewrite.
+
+Run them (they cost API calls, so they never run in a normal `npm run eval`):
+
+```
+npm run eval -- --real --delay 15        # about ₹3 per interview
+npm run eval:interviewer -- --real       # about ₹2-3 per rewritten reply (Priya + judge)
+```
+
+Interviews from tracks the eval set doesn't cover yet (behavioral, AI product) only make interviewer cases.
+
 ## Dataset
 
 54 cases: 10 each for rca, guesstimate, strategy and metrics, and 14 for design (including a Senior PM and an APM case that check level calibration). Each type mixes strong, average and weak candidates with trap cases (prompt injection, quitting early, an interviewer who does the work or leaks the answer, garbled speech-to-text). Expected bands:

@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { AlertTriangle, CheckCircle2, FolderOpen, Loader2, RefreshCw, Trash2, XCircle } from 'lucide-react';
 import { Input } from '../ui/input';
+import { RealInterviews } from './RealInterviews';
 import { Button } from '../ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
@@ -270,7 +271,7 @@ function InterviewerView({ runs }: { runs: InterviewerRunSummary[] }) {
             {runs.map((r) => (
               <tr key={r.file} onClick={() => setSelectedFile(r.file)} className={`cursor-pointer hover:bg-slate-50 ${r.file === selected.file ? 'bg-emerald-50' : ''}`}>
                 <td className="px-3 py-2 whitespace-nowrap text-slate-800">{fmtDate(r.startedAt)}</td>
-                <td className="px-3 py-2 text-slate-700">{r.model}</td>
+                <td className="px-3 py-2 text-slate-700">{r.model}{r.real ? <span className="ml-2 text-xs text-emerald-700">real interviews</span> : null}</td>
                 <td className="px-3 py-2 tabular-nums text-slate-900">{r.passed}/{r.cases}</td>
                 <td className="px-3 py-2"><PassMark passed={r.leakProblems.length === 0} /></td>
               </tr>
@@ -292,7 +293,9 @@ function InterviewerView({ runs }: { runs: InterviewerRunSummary[] }) {
               <div className="font-medium text-slate-900">{r.name} <span className="font-mono text-xs text-slate-400">{r.caseId}</span></div>
               {r.status === 'error' ? <PassMark passed={false} label="Error" /> : <PassMark passed={r.status === 'pass'} />}
             </div>
-            {r.reply && <p className="mt-2 text-sm text-slate-700">Priya: “{r.reply}”</p>}
+            {r.originalReply && <p className="mt-2 text-sm text-slate-500">Priya said in the real interview: “{r.originalReply}”</p>}
+            {r.referenceReply && <p className="mt-2 text-sm text-emerald-800">Your rewrite: “{r.referenceReply}”</p>}
+            {r.reply && <p className="mt-2 text-sm text-slate-700">Priya{r.referenceReply ? ' now' : ''}: “{r.reply}”</p>}
             {r.error && <p className="mt-2 text-sm text-amber-700">{r.error}</p>}
             {r.failures.length > 0 && <ul className="mt-2 list-disc pl-5 text-sm text-rose-700">{r.failures.map((f) => <li key={f}>{f}</li>)}</ul>}
           </div>
@@ -454,10 +457,12 @@ export default function EvalDashboard() {
           <TabsList>
             <TabsTrigger value="scoring">Scoring ({scoring.length})</TabsTrigger>
             <TabsTrigger value="interviewer">Interviewer ({interviewer.length})</TabsTrigger>
+            <TabsTrigger value="real">Real interviews</TabsTrigger>
             <TabsTrigger value="testers">Testers</TabsTrigger>
           </TabsList>
           <TabsContent value="scoring" className="pt-4">{data && data.runs.length > 0 && <ScoringView runs={scoring} />}</TabsContent>
           <TabsContent value="interviewer" className="pt-4">{data && data.runs.length > 0 && <InterviewerView runs={interviewer} />}</TabsContent>
+          <TabsContent value="real" className="pt-4"><RealInterviews /></TabsContent>
           <TabsContent value="testers" className="pt-4"><TestersView /></TabsContent>
         </Tabs>
       </div>

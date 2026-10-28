@@ -5,6 +5,8 @@ import { INTERVIEWER_PERSONAS } from '../data/interviewPersonas';
 import { BenchmarkCase, CaseFileSchema } from './types';
 
 export const DATASET_DIR = path.join(process.cwd(), 'eval', 'dataset');
+/** Cases made from real tester interviews in the eval dashboard. Git-ignored: real conversations stay on this computer. */
+export const REAL_DATASET_DIR = path.join(process.cwd(), 'eval', 'real', 'dataset');
 
 /**
  * Loads every case file, validates it, and resolves scenarioId / personaId

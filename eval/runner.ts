@@ -6,6 +6,7 @@
  *   npm run eval -- --tier smoke       representative subset plus every trap case
  *   npm run eval -- --case a,b         only these case ids
  *   npm run eval -- --track rca        only these tracks (comma-separated), with a per-track summary
+ *   npm run eval -- --real             only the cases made from real tester interviews (eval/real/)
  *   npm run eval -- --delay 10         wait 10s between cases (default 5) to stay under rate limits
  *   npm run eval -- --consistency 3    also run each case 3 times and check stability
  *   npm run eval -- --model gemini-3.8-flash   force one model, no failover
@@ -16,7 +17,7 @@
 import fs from 'fs';
 import path from 'path';
 import { loadAppEnv } from '../services/env';
-import { loadCases } from './dataset';
+import { loadCases, REAL_DATASET_DIR } from './dataset';
 import { callEngine, EngineCallOptions } from './engineCall';
 import { checkExpectations } from './checks/expectations';
 import { runConsistencyCheck } from './checks/consistency';
@@ -32,6 +33,7 @@ loadAppEnv();
 
 interface Flags {
   validate: boolean;
+  real: boolean;
   tier: 'smoke' | 'full';
   caseIds: string[];
   tracks: Track[];
@@ -42,7 +44,7 @@ interface Flags {
 }
 
 function parseFlags(argv: string[]): Flags {
-  const flags: Flags = { validate: false, tier: 'full', caseIds: [], tracks: [], consistency: 0, delaySeconds: 5 };
+  const flags: Flags = { validate: false, real: false, tier: 'full', caseIds: [], tracks: [], consistency: 0, delaySeconds: 5 };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     const next = () => {
@@ -51,6 +53,7 @@ function parseFlags(argv: string[]): Flags {
       return v;
     };
     if (a === '--validate') flags.validate = true;
+    else if (a === '--real') flags.real = true;
     else if (a === '--tier') {
       const t = next();
       if (t !== 'smoke' && t !== 'full') throw new Error('--tier must be smoke or full');
@@ -199,7 +202,10 @@ async function validate(cases: BenchmarkCase[]): Promise<boolean> {
 
 async function main() {
   const flags = parseFlags(process.argv.slice(2));
-  let cases = loadCases();
+  // Real-interview cases cost API calls too, so they only run with --real (or when named with --case).
+  const realCases = fs.existsSync(REAL_DATASET_DIR) ? loadCases(REAL_DATASET_DIR) : [];
+  if (flags.real && !realCases.length) throw new Error('No real-interview cases yet. Make some in the eval dashboard (Real interviews tab).');
+  let cases = flags.real ? realCases : flags.caseIds.length ? [...loadCases(), ...realCases] : loadCases();
 
   if (flags.tracks.length) {
     cases = cases.filter((c) => flags.tracks.includes(c.track as Track));
@@ -320,7 +326,7 @@ async function main() {
   fs.writeFileSync(
     outFile,
     // kind / promptVersion / startedAt feed the local eval dashboard (/admin/evals).
-    JSON.stringify({ kind: 'scoring', promptVersion: PROMPT_VERSION, startedAt, finishedAt: new Date().toISOString(), flags, results, thresholds, trackSummary, consistencyReport, humanAgreementReport, outputs }, null, 2)
+    JSON.stringify({ kind: 'scoring', real: flags.real, promptVersion: PROMPT_VERSION, startedAt, finishedAt: new Date().toISOString(), flags, results, thresholds, trackSummary, consistencyReport, humanAgreementReport, outputs }, null, 2)
   );
   console.log(`Full report: ${path.relative(process.cwd(), outFile)}`);
 

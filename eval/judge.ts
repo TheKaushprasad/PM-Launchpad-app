@@ -51,6 +51,63 @@ async function withBusyRetry<T>(fn: () => Promise<T>): Promise<T> {
   }
 }
 
+/**
+ * Sends one JSON-answer prompt to the judge: gpt-4o when OPENAI_API_KEY is set (and EVAL_JUDGE_MODEL
+ * is not), else Gemini with busy retries and fallbacks. Throws when every model fails.
+ */
+export async function callJudgeModel(system: string, prompt: string): Promise<{ text: string; judgeModel: string }> {
+  const geminiKey = getInterviewGeminiKey();
+  const openAiKey = process.env.OPENAI_API_KEY?.trim();
+  const errors: string[] = [];
+  let text = '';
+  let judgeModel = '';
+
+  if (openAiKey && !process.env.EVAL_JUDGE_MODEL) {
+    const model = 'gpt-4o';
+    try {
+      const openai = new OpenAI({ apiKey: openAiKey });
+      const res = await openai.chat.completions.create({
+        model,
+        temperature: 0,
+        response_format: { type: 'json_object' },
+        messages: [
+          { role: 'system', content: system },
+          { role: 'user', content: prompt },
+        ],
+      });
+      text = res.choices[0]?.message?.content ?? '';
+      judgeModel = model;
+    } catch (e: any) {
+      errors.push(`${model}: ${e?.message ?? e}`);
+    }
+  }
+  if (!text && geminiKey) {
+    // EVAL_JUDGE_MODEL pins one model; otherwise busy models fall through the chain
+    const models = process.env.EVAL_JUDGE_MODEL ? [process.env.EVAL_JUDGE_MODEL] : GEMINI_JUDGE_MODELS;
+    const ai = new GoogleGenAI({ apiKey: geminiKey });
+    for (const model of models) {
+      try {
+        const res = await withBusyRetry(() =>
+          ai.models.generateContent({
+            model,
+            contents: prompt,
+            config: { systemInstruction: system, temperature: 0, responseMimeType: 'application/json' },
+          })
+        );
+        text = res?.text ?? '';
+        judgeModel = model;
+        break;
+      } catch (e: any) {
+        errors.push(`${model}: ${e?.message ?? e}`);
+      }
+    }
+  }
+  if (!geminiKey && !openAiKey) throw new Error('Judge needs GEMINI_INTERVIEW_API_KEY, GEMINI_API_KEY or OPENAI_API_KEY');
+  if (!text) throw new Error(`Judge failed on every model. ${errors.join(' | ')}`);
+
+  return { text, judgeModel };
+}
+
 /** Strips fields the judge doesn't need so it reads what a user would see. */
 function evaluationView(output: any) {
   const pillars = Object.fromEntries(
@@ -100,54 +157,7 @@ export async function runJudge(bCase: BenchmarkCase, output: any): Promise<Judge
     .map((c, i) => `${i}. ${c.type === 'mustNotCredit' ? 'MUST_NOT_CREDIT' : 'MUST_MENTION'}: ${c.criterion}`)
     .join('\n')}`;
 
-  const geminiKey = getInterviewGeminiKey();
-  const openAiKey = process.env.OPENAI_API_KEY?.trim();
-  const errors: string[] = [];
-  let text = '';
-  let judgeModel = '';
-
-  if (openAiKey && !process.env.EVAL_JUDGE_MODEL) {
-    const model = 'gpt-4o';
-    try {
-      const openai = new OpenAI({ apiKey: openAiKey });
-      const res = await openai.chat.completions.create({
-        model,
-        temperature: 0,
-        response_format: { type: 'json_object' },
-        messages: [
-          { role: 'system', content: SYSTEM },
-          { role: 'user', content: prompt },
-        ],
-      });
-      text = res.choices[0]?.message?.content ?? '';
-      judgeModel = model;
-    } catch (e: any) {
-      errors.push(`${model}: ${e?.message ?? e}`);
-    }
-  }
-  if (!text && geminiKey) {
-    // EVAL_JUDGE_MODEL pins one model; otherwise busy models fall through the chain
-    const models = process.env.EVAL_JUDGE_MODEL ? [process.env.EVAL_JUDGE_MODEL] : GEMINI_JUDGE_MODELS;
-    const ai = new GoogleGenAI({ apiKey: geminiKey });
-    for (const model of models) {
-      try {
-        const res = await withBusyRetry(() =>
-          ai.models.generateContent({
-            model,
-            contents: prompt,
-            config: { systemInstruction: SYSTEM, temperature: 0, responseMimeType: 'application/json' },
-          })
-        );
-        text = res?.text ?? '';
-        judgeModel = model;
-        break;
-      } catch (e: any) {
-        errors.push(`${model}: ${e?.message ?? e}`);
-      }
-    }
-  }
-  if (!geminiKey && !openAiKey) throw new Error('Judge needs GEMINI_INTERVIEW_API_KEY, GEMINI_API_KEY or OPENAI_API_KEY');
-  if (!text) throw new Error(`Judge failed on every model. ${errors.join(' | ')}`);
+  const { text, judgeModel } = await callJudgeModel(SYSTEM, prompt);
 
   const parsed = JudgeOutputSchema.safeParse(JSON.parse(text));
   if (!parsed.success) throw new Error(`Judge returned invalid JSON: ${parsed.error.message}`);
