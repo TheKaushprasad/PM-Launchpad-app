@@ -45,6 +45,7 @@ import { AvatarVisualizer } from './AvatarVisualizer';
 import { ScratchpadModal, PmToolTab } from './ScratchpadModal';
 import { InterviewEvaluationView } from './InterviewEvaluationView';
 import { useAuth } from '../../context/AuthContext';
+import { hasEvalConsent } from '../../lib/interviewAccess';
 import { authJsonHeaders } from '../../lib/apiClient';
 import { AnswerRecorder } from '../../lib/answerRecorder';
 import { startInterviewTelemetry, nextInterviewTurn, currentInterviewTurn, interviewTraceHeaders, trackInterviewEvent, rememberTurnTrace } from '../../lib/interviewTelemetry';
@@ -1120,7 +1121,9 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
           mode,
           messages: messages.map(({ role, text }) => ({ role, text })),
           elapsedSeconds,
-          scratchpadNotes: scratchpadNotes || ''
+          scratchpadNotes: scratchpadNotes || '',
+          // Invited testers who agreed get the full conversation saved for review (server/interviewTesters.ts).
+          evalConsent: hasEvalConsent(user?.uid)
         })
       });
 

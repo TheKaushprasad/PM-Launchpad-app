@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, Outlet, 
 import { SeoMeta } from './components/SeoMeta';
 import { Sidebar } from './components/Sidebar';
 import { LandingPage } from './components/LandingPage';
-import { isAiInterviewEnabled, isAiPmCourseEnabled, isAssignmentSolverEnabled, isProductBuddyEnabled } from './lib/featureFlags';
+import { isAiPmCourseEnabled, isAssignmentSolverEnabled, isProductBuddyEnabled } from './lib/featureFlags';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { Menu, X, AlertTriangle, Loader2 } from 'lucide-react';
 
@@ -19,8 +19,8 @@ const Resources = page(() => import('./components/Resources'), (m) => m.Resource
 const ToolsHub = page(() => import('./components/ToolsHub'), (m) => m.ToolsHub);
 const LinkedInOptimiser = page(() => import('./components/LinkedInOptimiser'), (m) => m.LinkedInOptimiser);
 const ResumeAuditor = page(() => import('./components/ResumeAuditor'), (m) => m.ResumeAuditor);
-const InterviewHub = page(() => import('./components/interview/InterviewHub'), (m) => m.InterviewHub);
-const InterviewComingSoon = page(() => import('./components/interview/InterviewComingSoon'), (m) => m.InterviewComingSoon);
+// Shows the studio, Coming soon, or the tester consent step (components/interview/InterviewGate.tsx).
+const InterviewGate = page(() => import('./components/interview/InterviewGate'), (m) => m.InterviewGate);
 const InterviewQuestionsHub = page(() => import('./components/questions/InterviewQuestions'), (m) => m.InterviewQuestionsHub);
 const InterviewQuestionsTrack = page(() => import('./components/questions/InterviewQuestions'), (m) => m.InterviewQuestionsTrack);
 const InterviewQuestionDetail = page(() => import('./components/questions/InterviewQuestions'), (m) => m.InterviewQuestionDetail);
@@ -49,8 +49,9 @@ import { Toaster } from './components/ui/sonner';
 import { useScrollReveal } from './components/motion/useScrollReveal';
 import { VerifyEmailGate } from './components/auth/VerifyEmailGate';
 
-// The live site shows a Coming soon page until the AI interview is switched on (see lib/featureFlags.ts).
-const interviewStudio = isAiInterviewEnabled ? <InterviewHub /> : <InterviewComingSoon />;
+// The live site shows a Coming soon page until the AI interview is switched on (see lib/featureFlags.ts),
+// except to invited testers.
+const interviewStudio = <InterviewGate />;
 
 // The PM → AI PM course is local-only: its code is only loaded when switched on, and the live
 // site sends /ai-pm to the dashboard (see lib/featureFlags.ts).

@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { AlertTriangle, CheckCircle2, FolderOpen, Loader2, RefreshCw, XCircle } from 'lucide-react';
+import { AlertTriangle, CheckCircle2, FolderOpen, Loader2, RefreshCw, Trash2, XCircle } from 'lucide-react';
+import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
@@ -301,6 +302,98 @@ function InterviewerView({ runs }: { runs: InterviewerRunSummary[] }) {
   );
 }
 
+/** Invite list for the AI interview: these people can use it on the live site before launch. */
+function TestersView() {
+  const [emails, setEmails] = useState<string[] | null>(null);
+  const [draft, setDraft] = useState('');
+  const [error, setError] = useState('');
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState('');
+
+  useEffect(() => {
+    fetch('/api/admin/testers')
+      .then(async (r) => {
+        const j = await r.json();
+        if (!r.ok) throw new Error(j.error || `HTTP ${r.status}`);
+        setEmails(j.emails);
+      })
+      .catch((e) => setError(e.message));
+  }, []);
+
+  const save = async (next: string[]) => {
+    setSaving(true);
+    setError('');
+    setSaved('');
+    try {
+      const r = await fetch('/api/admin/testers', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ emails: next }) });
+      const j = await r.json();
+      if (!r.ok) throw new Error(j.error || `HTTP ${r.status}`);
+      setEmails(j.emails);
+      setSaved('Saved. The live site picks up changes within a minute.');
+    } catch (e: any) {
+      setError(e.message);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const add = () => {
+    // Accepts one address or several separated by commas, spaces or new lines.
+    const added = draft.split(/[\s,;]+/).map((e) => e.trim().toLowerCase()).filter(Boolean);
+    if (!added.length || !emails) return;
+    setDraft('');
+    save([...emails, ...added]);
+  };
+
+  return (
+    <div className="space-y-4">
+      <div className="rounded-xl border border-slate-200 bg-white p-4 text-sm text-slate-700">
+        People on this list can use the AI interview on thenoobpm.com while it shows "Coming soon" to everyone else. They sign in with this
+        email, tick a consent box once, and every interview they finish (the full conversation and Priya's scorecard) is saved for you to review.
+        Each interview costs about ₹50–60 in AI and voice credits.
+      </div>
+      {error && (
+        <div className="flex items-start gap-2 rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">
+          <AlertTriangle className="mt-0.5 size-4 shrink-0" />
+          <span>{error}</span>
+        </div>
+      )}
+      {emails && (
+        <>
+          <div className="flex flex-wrap gap-2">
+            <Input
+              value={draft}
+              onChange={(e) => setDraft(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && add()}
+              placeholder="name@example.com (or paste several)"
+              className="max-w-md bg-white"
+            />
+            <Button variant="brand" onClick={add} disabled={saving || !draft.trim()}>
+              {saving ? <Loader2 className="size-4 animate-spin" /> : null} Add
+            </Button>
+          </div>
+          {saved && <p className="text-xs text-emerald-700">{saved}</p>}
+          <div className="rounded-xl border border-slate-200 bg-white">
+            <div className="border-b border-slate-100 px-4 py-2 text-xs font-medium uppercase tracking-wide text-slate-500">{emails.length} tester{emails.length === 1 ? '' : 's'}</div>
+            {emails.length === 0 && <p className="px-4 py-3 text-sm text-slate-500">No testers yet.</p>}
+            <ul className="divide-y divide-slate-100">
+              {emails.map((e) => (
+                <li key={e} className="flex items-center justify-between px-4 py-2 text-sm text-slate-800">
+                  {e}
+                  <Button variant="ghost" size="sm" disabled={saving} onClick={() => save(emails.filter((x) => x !== e))} aria-label={`Remove ${e}`}>
+                    <Trash2 className="size-4" /> Remove
+                  </Button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </>
+      )}
+      {!emails && !error && <Loader2 className="size-5 animate-spin text-slate-400" />}
+    </div>
+  );
+}
+
 export default function EvalDashboard() {
   const [data, setData] = useState<EvalData | null>(null);
   const [error, setError] = useState('');
@@ -357,16 +450,16 @@ export default function EvalDashboard() {
           </div>
         )}
 
-        {data && data.runs.length > 0 && (
-          <Tabs defaultValue="scoring">
-            <TabsList>
-              <TabsTrigger value="scoring">Scoring ({scoring.length})</TabsTrigger>
-              <TabsTrigger value="interviewer">Interviewer ({interviewer.length})</TabsTrigger>
-            </TabsList>
-            <TabsContent value="scoring" className="pt-4"><ScoringView runs={scoring} /></TabsContent>
-            <TabsContent value="interviewer" className="pt-4"><InterviewerView runs={interviewer} /></TabsContent>
-          </Tabs>
-        )}
+        <Tabs defaultValue="scoring">
+          <TabsList>
+            <TabsTrigger value="scoring">Scoring ({scoring.length})</TabsTrigger>
+            <TabsTrigger value="interviewer">Interviewer ({interviewer.length})</TabsTrigger>
+            <TabsTrigger value="testers">Testers</TabsTrigger>
+          </TabsList>
+          <TabsContent value="scoring" className="pt-4">{data && data.runs.length > 0 && <ScoringView runs={scoring} />}</TabsContent>
+          <TabsContent value="interviewer" className="pt-4">{data && data.runs.length > 0 && <InterviewerView runs={interviewer} />}</TabsContent>
+          <TabsContent value="testers" className="pt-4"><TestersView /></TabsContent>
+        </Tabs>
       </div>
     </div>
   );
