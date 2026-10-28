@@ -65,6 +65,10 @@ const assignmentSolver = AssignmentSolver ? <AssignmentSolver /> : <Navigate to=
 const ProductBuddy = isProductBuddyEnabled ? lazy(() => import('./components/productBuddy/ProductBuddy')) : null;
 const productBuddy = ProductBuddy ? <ProductBuddy /> : <Navigate to="/dashboard" replace />;
 
+// Eval results dashboard: only in `npm run dev`, never in the live build (its data route is dev-only too).
+const EvalDashboard = import.meta.env.DEV ? lazy(() => import('./components/admin/EvalDashboard')) : null;
+const evalDashboard = EvalDashboard ? <EvalDashboard /> : <Navigate to="/dashboard" replace />;
+
 // Action Link Redirector to catch Firebase direct action queries (e.g. ?mode=verifyEmail&oobCode=...)
 const AuthActionRedirector = () => {
   const navigate = useNavigate();
@@ -321,6 +325,9 @@ const App: React.FC = () => {
 
                 {/* Product Buddy: peer mock interviews (local only) */}
                 <Route path="/buddy" element={productBuddy} />
+
+                {/* Eval results dashboard (local only, admin) */}
+                <Route path="/admin/evals" element={evalDashboard} />
 
                 {/* PM → AI PM course (local only) */}
                 <Route path="/ai-pm/*" element={aiPmCourse} />
