@@ -18,6 +18,10 @@ npm run eval -- --provider openai          # pin a provider, failover off
 
 It prints a threshold table and a per-track summary (cases passed, mean score for strong / average / weak / edge candidates, and which cases failed), and exits 1 if any active check fails. The full report, including every evaluator output, is written to `eval/results/` (git-ignored). Eval runs never write to Firestore, because no user or session id is sent to the engine.
 
+## See results in the dashboard
+
+Every `npm run eval` and `npm run eval:interviewer` run saves a report in `eval/results/`. To browse them, run `npm run dev` and open http://localhost:3000/admin/evals on the same computer. It shows cases passed per run over time (with eval-version changes marked), every run with its checks, and per-case score, verdict, change since the last run and why a case failed. It only reads the saved files, so it never calls a model. The page and its data route exist only in `npm run dev` and answer only on localhost; the live site has neither.
+
 ## Dataset
 
 54 cases: 10 each for rca, guesstimate, strategy and metrics, and 14 for design (including a Senior PM and an APM case that check level calibration). Each type mixes strong, average and weak candidates with trap cases (prompt injection, quitting early, an interviewer who does the work or leaks the answer, garbled speech-to-text). Expected bands:

@@ -25,6 +25,8 @@ import { runJudge } from './judge';
 import { evaluateThresholds, formatThresholdsTable, ThresholdCaseResult } from './thresholds';
 import { BenchmarkCase, TRACKS, Track } from './types';
 import { getInterviewGeminiKey } from '../server/geminiKeys';
+import { PROMPT_VERSION } from '../server/prompts/version';
+import { casePassed } from './casePassed';
 
 loadAppEnv();
 
@@ -91,15 +93,8 @@ function smokeSubset(cases: BenchmarkCase[]): BenchmarkCase[] {
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-type CaseRow = ThresholdCaseResult & { overallScore?: number; modelId?: string; error?: string };
+type CaseRow = ThresholdCaseResult & { track?: string; overallScore?: number; modelId?: string; error?: string };
 
-/** A case passes when it ran and every expectation and judge criterion held. */
-function casePassed(r: CaseRow): boolean {
-  if (r.status === 'error' || r.judgeError) return false;
-  if (r.judgeRequired && !r.judge) return false;
-  if (r.expectation?.failures.length) return false;
-  return !(r.judge?.criteriaResults.some((cr) => !cr.pass) ?? false);
-}
 
 interface TrackSummary {
   track: string;
@@ -227,6 +222,7 @@ async function main() {
   }
 
   const engineOpts: EngineCallOptions = { model: flags.model, provider: flags.provider };
+  const startedAt = new Date().toISOString();
   const results: CaseRow[] = [];
   const outputs: Record<string, any> = {};
   let quotesTotal = 0;
@@ -261,6 +257,7 @@ async function main() {
 
       results.push({
         caseId: c.id,
+        track: c.track,
         category: c.category,
         edgeType: c.edgeType,
         status,
@@ -280,7 +277,7 @@ async function main() {
           : `insufficient${failed ? `  ${failed} check(s) failed` : ''}`
       );
     } catch (e: any) {
-      results.push({ caseId: c.id, category: c.category, edgeType: c.edgeType, status: 'error', judgeRequired, error: e.message });
+      results.push({ caseId: c.id, track: c.track, category: c.category, edgeType: c.edgeType, status: 'error', judgeRequired, error: e.message });
       console.log(`ERROR ${e.message}`);
     }
   }
@@ -322,7 +319,8 @@ async function main() {
   const outFile = path.join(outDir, `run-${new Date().toISOString().replace(/[:.]/g, '-')}.json`);
   fs.writeFileSync(
     outFile,
-    JSON.stringify({ flags, results, thresholds, trackSummary, consistencyReport, humanAgreementReport, outputs }, null, 2)
+    // kind / promptVersion / startedAt feed the local eval dashboard (/admin/evals).
+    JSON.stringify({ kind: 'scoring', promptVersion: PROMPT_VERSION, startedAt, finishedAt: new Date().toISOString(), flags, results, thresholds, trackSummary, consistencyReport, humanAgreementReport, outputs }, null, 2)
   );
   console.log(`Full report: ${path.relative(process.cwd(), outFile)}`);
 

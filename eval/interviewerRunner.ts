@@ -176,6 +176,8 @@ async function main() {
   }
 
   let failed = leakProblems.length > 0 ? 1 : 0;
+  const startedAt = new Date().toISOString();
+  const results: Array<{ caseId: string; name: string; status: 'pass' | 'fail' | 'error'; reply?: string; failures: string[]; error?: string }> = [];
   for (let i = 0; i < cases.length; i++) {
     const c = cases[i];
     if (i > 0) await new Promise((r) => setTimeout(r, delaySeconds * 1000));
@@ -185,12 +187,24 @@ async function main() {
       console.log(`\n${failures.length === 0 ? 'PASS' : 'FAIL'}  ${c.id}: ${c.name}\n  reply: ${reply}`);
       failures.forEach((f) => console.log(`  - ${f}`));
       if (failures.length) failed++;
+      results.push({ caseId: c.id, name: c.name, status: failures.length ? 'fail' : 'pass', reply, failures });
     } catch (err: any) {
       console.log(`\nERROR ${c.id}: ${err?.message || err}`);
       failed++;
+      results.push({ caseId: c.id, name: c.name, status: 'error', failures: [], error: String(err?.message || err) });
     }
   }
   console.log(`\n${cases.length - failed} of ${cases.length} cases passed.`);
+
+  // Saved for the local eval dashboard (/admin/evals), next to the scoring runs.
+  const outDir = path.join(process.cwd(), 'eval', 'results');
+  fs.mkdirSync(outDir, { recursive: true });
+  const outFile = path.join(outDir, `interviewer-${startedAt.replace(/[:.]/g, '-')}.json`);
+  fs.writeFileSync(
+    outFile,
+    JSON.stringify({ kind: 'interviewer', startedAt, finishedAt: new Date().toISOString(), model, leakProblems, results }, null, 2)
+  );
+  console.log(`Full report: ${path.relative(process.cwd(), outFile)}`);
   process.exit(failed === 0 ? 0 : 1);
 }
 

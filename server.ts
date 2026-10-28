@@ -29,6 +29,7 @@ import { getProjectById } from "./data/realWorldProjects";
 import { discoverJobBoards, getJobDetail, getJobsList, jobsStoreReady, refreshJobs } from "./server/jobs/store";
 import { registerAssignmentSolverRoutes } from "./server/assignmentSolver/routes";
 import { registerProductBuddyRoutes } from "./server/productBuddy/routes";
+import { registerEvalDashboardRoutes } from "./server/evalDashboard";
 import { requireAiAccess, getVerifiedUser, consumeDailyQuota, clientIp } from "./server/security";
 import { getGeminiKey, getInterviewGeminiKey, hasSeparateInterviewGeminiKey } from "./server/geminiKeys";
 import { initObservability, traceInterviewRequests, traceStep, traceMeta, traceIO, noteGuardrail, geminiUsage, openAiUsage, recordClientEvent, cleanSessionId, cleanTraceId, isLangfuseConfigured } from "./server/observability";
@@ -1504,6 +1505,8 @@ SUBMISSION>>>`;
   // ==========================================
   registerAssignmentSolverRoutes(app, requireAiAccess);
   registerProductBuddyRoutes(app);
+  // Local eval dashboard data (dev only, reads eval/results/)
+  registerEvalDashboardRoutes(app);
 
   // ==========================================
   // PM Jobs board
