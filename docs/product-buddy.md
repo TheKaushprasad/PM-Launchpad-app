@@ -21,7 +21,8 @@ live site (the page, the sidebar link and the API all stay off).
    matched to the interview type) on the session card: what to read out, context, facts to hand out only if
    asked, a curveball, 3 follow-ups, what a strong answer covers and a short rubric (score each 1 to 4). In a swap
    both people get a different question; the candidate never sees theirs. Past questions are avoided, and the
-   interviewer can draw a different one before the call.
+   interviewer can draw a different one before the call. The card and the confirmation email
+   tell interviewers they're free to ask their own question instead.
 6. **After the call**: a 3-question feedback form on the session card (readiness, or usefulness of the
    interviewing when a candidate rates their interviewer; one thing done well; one thing to work on). Sending it
    marks the session done and emails the partner. Your partner's feedback stays locked until you give yours.

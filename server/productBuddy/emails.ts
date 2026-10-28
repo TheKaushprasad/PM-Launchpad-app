@@ -131,7 +131,7 @@ export async function emailSessionConfirmed(session: BuddySession, uid: string, 
       `Call link: ${session.meetingUrl}`,
       `The calendar invite is attached. If it doesn't show, use the Google Calendar button.`,
       session.kit?.[uid]
-        ? `Your interviewer kit (the question you'll ask, follow-ups and a rubric) is on the session page. Keep it to yourself until the call.`
+        ? `Your interviewer kit (the question you'll ask, follow-ups and a rubric) is on the session page. Keep it to yourself until the call. It's a suggestion from our question bank; you're free to ask your own question instead.`
         : `${first(partner.name)} gets a question and rubric for you, so come ready to answer cold.`,
       `After the call, leave ${first(partner.name)} 3 quick lines of feedback on the session page.`,
       `Can't make it? Cancel on the site so ${first(partner.name)} isn't left waiting.`,
