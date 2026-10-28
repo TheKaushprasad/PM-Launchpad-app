@@ -1,22 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { CalendarPlus, CalendarX, Download, Link2, Loader2, Video } from 'lucide-react';
+import { CalendarPlus, CalendarX, Link2, Loader2, Video } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Panel, StatusPill } from './ui';
 import { buddyApi } from './api';
-import { buildIcs, googleCalendarLink, sessionCalendarEvent } from '../../lib/productBuddy/calendar';
+import { googleCalendarLink, sessionCalendarEvent } from '../../lib/productBuddy/calendar';
 import { formatSlot } from '../../lib/productBuddy/time';
 import { KitPanel, FeedbackPanel } from './SessionKit';
 import { type BuddyProfile, type BuddySessionView } from '../../lib/productBuddy/types';
-
-const downloadIcs = (session: BuddySessionView) => {
-  const blob = new Blob([buildIcs(sessionCalendarEvent(session, window.location.origin), 'PUBLISH')], { type: 'text/calendar' });
-  const url = URL.createObjectURL(blob);
-  const a = Object.assign(document.createElement('a'), { href: url, download: `product-buddy-${session.startAt.slice(0, 10)}.ics` });
-  a.click();
-  URL.revokeObjectURL(url);
-};
 
 const SessionCard: React.FC<{ session: BuddySessionView; me: BuddyProfile; onChange: (s: BuddySessionView) => void }> = ({ session, me, onChange }) => {
   const [busy, setBusy] = useState(false);
@@ -72,7 +64,6 @@ const SessionCard: React.FC<{ session: BuddySessionView; me: BuddyProfile; onCha
           <div className="flex flex-wrap gap-2">
             <Button variant="brand" size="sm" asChild><a href={session.meetingUrl} target="_blank" rel="noreferrer"><Video className="size-4" /> Join call</a></Button>
             <Button variant="outline" size="sm" asChild><a href={googleCalendarLink(event)} target="_blank" rel="noreferrer"><CalendarPlus className="size-4" /> Add to Google Calendar</a></Button>
-            <Button variant="outline" size="sm" onClick={() => downloadIcs(session)}><Download className="size-4" /> Calendar file (.ics)</Button>
             <Button variant="ghost" size="sm" onClick={() => setPanel(panel === 'link' ? '' : 'link')}><Link2 className="size-4" /> Use my own link</Button>
             <Button variant="ghost" size="sm" className="text-rose-700 hover:text-rose-800" onClick={() => setPanel(panel === 'cancel' ? '' : 'cancel')}><CalendarX className="size-4" /> Cancel</Button>
           </div>
