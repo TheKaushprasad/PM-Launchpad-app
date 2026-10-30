@@ -153,6 +153,8 @@ export interface InterviewSessionHistory {
   /** Raw 1-5 pillar scores, for the progress view. Missing on sessions saved before scoring v3. */
   pillarScores?: Partial<Record<PillarKey, number>>;
   createdAt?: string;
+  /** 'unscored' when the candidate left, it was too short, or scoring failed. Missing on scored ones. */
+  status?: 'complete' | 'unscored';
 }
 
 export type PillarKey = 'clarification' | 'framework' | 'analyticalRigor' | 'communication' | 'synthesis';

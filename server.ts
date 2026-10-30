@@ -23,7 +23,8 @@ import { getScenarioById, getPersonaById, sanitizeMessages } from "./server/inte
 import { buildInterviewerSystemPrompt, buildInterviewerTranscript, cleanInterviewerReply } from "./server/interview/interviewerPrompt";
 import { getTrackConfig, normalizeLevel } from "./data/interviewTracks";
 import { runEvaluationEngine } from "./server/evaluatorEngine";
-import { saveInterviewEvaluationServerSide } from "./server/persistence";
+import { saveInterviewEvaluationServerSide, saveUnscoredInterviewServerSide } from "./server/persistence";
+import { cleanFeedback, saveInterviewFeedback } from "./server/interviewFeedback";
 import { deepgramVoiceFor, isDeepgramConfigured, isGroqConfigured, isSarvamConfigured, synthesizeWithDeepgram, synthesizeWithSarvam, transcribeWithGroq } from "./server/voice";
 import { getProjectById } from "./data/realWorldProjects";
 import { discoverJobBoards, getJobDetail, getJobsList, jobsStoreReady, refreshJobs } from "./server/jobs/store";
@@ -1329,6 +1330,8 @@ Plain text, 1-2 sentences. No markdown.
 
   // API Route for Comprehensive Evaluation & Scorecard
   app.post(["/api/interview/evaluate", "/api/interview/evaluate/"], requireAiAccess, async (req, res) => {
+    // Kept outside the try so a failed scoring can still save the conversation as "Not scored"
+    let unscoredContext: Parameters<typeof saveUnscoredInterviewServerSide>[0] | null = null;
     try {
       // Step 7: Auth verification - userId comes ONLY from the verified Firebase ID token
       const authHeader = req.headers.authorization;
@@ -1393,6 +1396,14 @@ Plain text, 1-2 sentences. No markdown.
         console.log("[Testers] Not saved: this tester hasn't ticked the consent box on the interview page.");
       }
 
+      const safeElapsed = Number.isFinite(elapsedSeconds) && elapsedSeconds > 0 ? Math.min(Math.floor(elapsedSeconds), 4 * 3600) : 0;
+      if (typeof sessionId === 'string' && sessionId) {
+        unscoredContext = {
+          userId, sessionId, scenario, messages, elapsedSeconds: safeElapsed,
+          level: normalizeLevel(level), mode: mode === 'text' ? 'text' : 'voice', reason: 'scoring_failed'
+        };
+      }
+
       // Pipeline execution: validate -> groundAndCapPillars -> compute scores -> persist
       const result = await runEvaluationEngine({
         scenario,
@@ -1407,11 +1418,80 @@ Plain text, 1-2 sentences. No markdown.
       });
       if (testerInterviewId) await attachTesterEvaluation(testerInterviewId, result);
 
+      // Too short to score: still keep it in Past Scorecards as "Not scored"
+      if ((result as any)?.status === 'insufficient' && unscoredContext) {
+        await saveUnscoredInterviewServerSide({ ...unscoredContext, reason: 'too_short' })
+          .catch((e) => console.warn('[Persistence] Could not save unscored interview:', e?.message));
+      }
+
       res.json(result);
     } catch (error: any) {
       console.error("[Interview Evaluation Error]:", error);
+      if (unscoredContext) {
+        await saveUnscoredInterviewServerSide(unscoredContext)
+          .catch((e) => console.warn('[Persistence] Could not save unscored interview:', e?.message));
+      }
       // The browser shows a retry screen; it never invents a score.
       res.status(503).json({ error: "We couldn't score this interview right now. Your transcript is safe, please try again.", retryable: true });
+    }
+  });
+
+  // Saves an interview the candidate left before scoring, so it shows in Past Scorecards as "Not scored"
+  app.post(["/api/interview/save-unscored", "/api/interview/save-unscored/"], async (req, res) => {
+    const verified = await getVerifiedUser(req);
+    if (!verified) return res.status(401).json({ error: "Please sign in to save this interview." });
+
+    const { scenarioId, level, elapsedSeconds, sessionId, mode } = req.body || {};
+    const scenario = getScenarioById(scenarioId);
+    const messages = sanitizeMessages(req.body?.messages);
+    if (!scenario || !messages || typeof sessionId !== 'string' || !sessionId) {
+      return res.status(400).json({ error: "Missing interview details" });
+    }
+    if (!messages.some((m) => m.role === 'candidate')) return res.json({ saved: false });
+
+    try {
+      const result = await saveUnscoredInterviewServerSide({
+        userId: verified.uid,
+        sessionId,
+        scenario,
+        messages,
+        elapsedSeconds: Number.isFinite(elapsedSeconds) && elapsedSeconds > 0 ? Math.min(Math.floor(elapsedSeconds), 4 * 3600) : 0,
+        level: normalizeLevel(level),
+        mode: mode === 'text' ? 'text' : 'voice',
+        reason: 'exited'
+      });
+      res.json({ saved: result.saved });
+    } catch (e: any) {
+      console.warn('[Persistence] Could not save exited interview:', e?.message);
+      res.status(500).json({ error: "Couldn't save this interview." });
+    }
+  });
+
+  // Stars + liked / didn't go well, given while the scorecard is being prepared (server/interviewFeedback.ts)
+  app.post(["/api/interview/feedback", "/api/interview/feedback/"], async (req, res) => {
+    const verified = await getVerifiedUser(req);
+    if (!verified) return res.status(401).json({ error: "Please sign in to send feedback." });
+
+    const { scenarioId, level, sessionId, mode } = req.body || {};
+    const scenario = getScenarioById(scenarioId);
+    const feedback = cleanFeedback(req.body);
+    if (!scenario || typeof sessionId !== 'string' || !sessionId) return res.status(400).json({ error: "Missing interview details" });
+    if (!feedback) return res.status(400).json({ error: "Pick a rating or an option first." });
+
+    try {
+      await saveInterviewFeedback({
+        uid: verified.uid,
+        email: verified.email,
+        sessionId,
+        scenario: { id: scenario.id, title: scenario.title, company: scenario.company, track: scenario.track },
+        level: normalizeLevel(level),
+        mode: mode === 'text' ? 'text' : 'voice',
+        feedback
+      });
+      res.json({ saved: true });
+    } catch (e: any) {
+      console.warn('[Feedback] Could not save interview feedback:', e?.message);
+      res.status(500).json({ error: "Couldn't save your feedback." });
     }
   });
 

@@ -7,7 +7,27 @@ export interface PersistSessionOptions {
   evaluation: InterviewEvaluation;
   scenario: any;
   elapsedSeconds: number;
+  /** The full conversation, shown again from Past Scorecards */
+  messages?: Array<{ role: string; text: string }>;
 }
+
+export type UnscoredReason = 'exited' | 'too_short' | 'scoring_failed';
+
+const MAX_SAVED_MESSAGES = 400;
+const MAX_SAVED_MESSAGE_CHARS = 4000;
+
+/** The conversation as saved on the session document (well under Firestore's 1 MB document limit). */
+export function cleanTranscript(messages?: Array<{ role: string; text: string }>) {
+  return (messages || [])
+    .slice(-MAX_SAVED_MESSAGES)
+    .filter((m) => m && typeof m.text === 'string' && m.text.trim())
+    .map((m) => ({ role: String(m.role || 'interviewer'), text: m.text.trim().slice(0, MAX_SAVED_MESSAGE_CHARS) }));
+}
+
+const sessionRef = (userId: string, sessionId: string) => {
+  const docId = sessionId.replace(/[^a-zA-Z0-9_\-]/g, '_');
+  return { docId, docRef: getAppFirestore().collection('users').doc(userId).collection('interview_sessions').doc(docId) };
+};
 
 /**
  * Saves interview evaluation scorecard and all audit/drift-tracking fields
@@ -19,16 +39,13 @@ export interface PersistSessionOptions {
 export async function saveInterviewEvaluationServerSide(
   options: PersistSessionOptions
 ): Promise<{ saved: boolean; docPath: string }> {
-  const { userId, evaluation, scenario, elapsedSeconds, sessionId } = options;
+  const { userId, evaluation, scenario, elapsedSeconds, sessionId, messages } = options;
 
   if (!userId || typeof userId !== 'string' || !userId.trim()) {
     throw new Error('Persistence requires a verified user ID from Firebase Auth token.');
   }
 
-  const db = getAppFirestore();
-
-  const docId = (sessionId || evaluation.id || `eval_${Date.now()}`).replace(/[^a-zA-Z0-9_\-]/g, '_');
-  const docRef = db.collection('users').doc(userId).collection('interview_sessions').doc(docId);
+  const { docId, docRef } = sessionRef(userId, sessionId || evaluation.id || `eval_${Date.now()}`);
 
   // Verify that sessionId, if provided, belongs to that user before writing
   if (sessionId) {
@@ -67,6 +84,8 @@ export async function saveInterviewEvaluationServerSide(
     exemplarAnswer: evaluation.exemplarAnswer || null,
     createdAt: now,
     status: 'complete',
+    unscoredReason: null,
+    ...(messages ? { transcript: cleanTranscript(messages) } : {}),
 
     // Versioning & Audit Drift-Tracking Fields
     scoringVersion: evaluation.scoringVersion || 'v3',
@@ -89,4 +108,55 @@ export async function saveInterviewEvaluationServerSide(
   console.log(`[Persistence] Successfully saved evaluation to Firestore via Admin SDK: ${docPath}`);
 
   return { saved: true, docPath };
+}
+
+/**
+ * Saves an interview that has no score (the candidate left, it was too short, or scoring failed)
+ * so it still shows in Past Scorecards as "Not scored" with its conversation.
+ * A later successful score for the same session overwrites it.
+ */
+export async function saveUnscoredInterviewServerSide(options: {
+  userId: string;
+  sessionId: string;
+  scenario: any;
+  messages: Array<{ role: string; text: string }>;
+  elapsedSeconds: number;
+  level: string;
+  mode: string;
+  reason: UnscoredReason;
+}): Promise<{ saved: boolean; docPath: string }> {
+  const { userId, sessionId, scenario, messages, elapsedSeconds, level, mode, reason } = options;
+  if (!userId) throw new Error('Persistence requires a verified user ID from Firebase Auth token.');
+  const { docId, docRef } = sessionRef(userId, sessionId);
+
+  const existing = await docRef.get();
+  if (existing.exists) {
+    const data = existing.data();
+    if (data?.userId && data.userId !== userId) {
+      throw new Error(`Unauthorized: Session ${sessionId} does not belong to user ${userId}`);
+    }
+    // Never replace a real scorecard with an unscored copy
+    if (data?.status === 'complete') return { saved: false, docPath: docRef.path };
+  }
+
+  await docRef.set({
+    id: docId,
+    sessionId: docId,
+    userId,
+    scenarioId: scenario?.id || 'unknown_scenario',
+    scenarioTitle: (scenario?.title || '').slice(0, 200),
+    company: (scenario?.company || 'Tech Company').slice(0, 100),
+    track: scenario?.track || 'general',
+    durationMinutes: Math.ceil((elapsedSeconds || 0) / 60),
+    durationSeconds: elapsedSeconds || 0,
+    candidateTurnCount: messages.filter((m) => m.role === 'candidate').length,
+    level,
+    mode,
+    status: 'unscored',
+    unscoredReason: reason,
+    transcript: cleanTranscript(messages),
+    createdAt: existing.exists && existing.data()?.createdAt ? existing.data()!.createdAt : new Date().toISOString()
+  }, { merge: true });
+
+  return { saved: true, docPath: docRef.path };
 }

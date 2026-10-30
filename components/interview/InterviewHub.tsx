@@ -21,7 +21,7 @@ import {
   PenTool,
   X
 } from 'lucide-react';
-import { InterviewScenario, InterviewerPersona, InterviewMode, CandidateLevel, InterviewEvaluation } from '../../types/interview';
+import { InterviewScenario, InterviewerPersona, InterviewMode, CandidateLevel, InterviewEvaluation, InterviewSessionHistory } from '../../types/interview';
 import { INTERVIEW_SCENARIOS } from '../../data/interviewScenarios';
 import { TRACK_ORDER, TRACK_CONFIGS, getTrackConfig, normalizeLevel, normalizeVerdict } from '../../data/interviewTracks';
 import { planFullLoop, LoopRoundPlan } from '../../lib/interviewLoop';
@@ -31,6 +31,7 @@ import { LoopSummary } from './LoopSummary';
 import { SkillProgress } from './SkillProgress';
 import { AccessRequestModal } from './AccessRequestModal';
 import { InterviewStage } from './InterviewStage';
+import { PastScorecardView } from './PastScorecardView';
 import { useAuth } from '../../context/AuthContext';
 import { AuthModal } from '../auth/AuthModal';
 import { ACTIVE_INTERVIEWER } from '../../data/interviewPersonas';
@@ -47,6 +48,8 @@ export const InterviewHub: React.FC = () => {
   const [selectedDifficulty, setSelectedDifficulty] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [showHistoryModal, setShowHistoryModal] = useState<boolean>(false);
+  // A past interview opened from Past Scorecards
+  const [openPastSession, setOpenPastSession] = useState<InterviewSessionHistory | null>(null);
   const [showAccessModal, setShowAccessModal] = useState<boolean>(false);
   const [authModalOpen, setAuthModalOpen] = useState<boolean>(false);
   const [pendingAction, setPendingAction] = useState<PendingAction | null>(null);
@@ -356,6 +359,22 @@ export const InterviewHub: React.FC = () => {
     );
   }
 
+  if (openPastSession) {
+    return (
+      <PastScorecardView
+        session={openPastSession}
+        onBack={() => {
+          setOpenPastSession(null);
+          setShowHistoryModal(true);
+        }}
+        onRetake={(sc) => {
+          setOpenPastSession(null);
+          handleStartInterview(sc);
+        }}
+      />
+    );
+  }
+
   // If in active session, render the studio stage directly
   if (activeSession) {
     return (
@@ -552,7 +571,7 @@ export const InterviewHub: React.FC = () => {
               </div>
               <div>
                 <div className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-                  {history.length}
+                  {history.filter((h) => h.status !== 'unscored').length}
                 </div>
                 <div className="text-xs font-medium text-slate-400 mt-0.5">Sessions Completed</div>
               </div>
@@ -897,13 +916,22 @@ export const InterviewHub: React.FC = () => {
                 </div>
               ) : (
                 history.map((h, i) => (
-                  <div key={i} className="p-4 rounded-xl bg-zinc-50 border border-zinc-200 flex items-center justify-between gap-4">
+                  <button
+                    key={h.id || i}
+                    type="button"
+                    onClick={() => {
+                      setShowHistoryModal(false);
+                      setOpenPastSession(h);
+                    }}
+                    className="w-full text-left p-4 rounded-xl bg-zinc-50 hover:bg-white hover:border-brand-300 hover:shadow-xs border border-zinc-200 flex items-center justify-between gap-4 transition-colors cursor-pointer"
+                    aria-label={`Open ${h.scenarioTitle}`}
+                  >
                     <div>
                       <div className="flex items-center gap-2 mb-0.5">
                         <span className="text-[11px] font-black uppercase tracking-wider text-brand-600">
                           {getTrackConfig(h.track).shortLabel} • {h.company}
                         </span>
-                        {h.scoringVersion === 'v3' ? (
+                        {h.status === 'unscored' ? null : h.scoringVersion === 'v3' ? (
                           <span className="text-[11px] font-black uppercase tracking-wider text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded-sm border border-emerald-200" title="Scored with the v3 rubric">
                             v3{h.level ? ` • ${h.level === 'spm' ? 'Senior PM' : h.level.toUpperCase()}` : ''}
                           </span>
@@ -918,12 +946,23 @@ export const InterviewHub: React.FC = () => {
                     </div>
 
                     <div className="text-right shrink-0">
-                      <span className="text-xl font-black text-brand-600 block">{h.score}/100</span>
-                      <span className="text-[11px] font-extrabold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-                        {normalizeVerdict(h.verdict)}
+                      {h.status === 'unscored' ? (
+                        <span className="text-[11px] font-extrabold uppercase tracking-wider text-zinc-600 bg-zinc-100 px-2 py-0.5 rounded-full border border-zinc-200">
+                          Not scored
+                        </span>
+                      ) : (
+                        <>
+                          <span className="text-xl font-black text-brand-600 block">{h.score}/100</span>
+                          <span className="text-[11px] font-extrabold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                            {normalizeVerdict(h.verdict)}
+                          </span>
+                        </>
+                      )}
+                      <span className="mt-1.5 flex items-center justify-end gap-1 text-[11px] font-bold text-brand-700">
+                        View <ArrowRight className="w-3 h-3" />
                       </span>
                     </div>
-                  </div>
+                  </button>
                 ))
               )}
             </div>

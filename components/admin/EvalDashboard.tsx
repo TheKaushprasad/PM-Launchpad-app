@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { AlertTriangle, CheckCircle2, FolderOpen, Loader2, RefreshCw, Trash2, XCircle } from 'lucide-react';
 import { Input } from '../ui/input';
+import { InterviewFeedbackView } from './InterviewFeedbackView';
 import { RealInterviews } from './RealInterviews';
 import { Button } from '../ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
@@ -459,11 +460,13 @@ export default function EvalDashboard() {
             <TabsTrigger value="interviewer">Interviewer ({interviewer.length})</TabsTrigger>
             <TabsTrigger value="real">Real interviews</TabsTrigger>
             <TabsTrigger value="testers">Testers</TabsTrigger>
+            <TabsTrigger value="feedback">Feedback</TabsTrigger>
           </TabsList>
           <TabsContent value="scoring" className="pt-4">{data && data.runs.length > 0 && <ScoringView runs={scoring} />}</TabsContent>
           <TabsContent value="interviewer" className="pt-4">{data && data.runs.length > 0 && <InterviewerView runs={interviewer} />}</TabsContent>
           <TabsContent value="real" className="pt-4"><RealInterviews /></TabsContent>
           <TabsContent value="testers" className="pt-4"><TestersView /></TabsContent>
+          <TabsContent value="feedback" className="pt-4"><InterviewFeedbackView /></TabsContent>
         </Tabs>
       </div>
     </div>
