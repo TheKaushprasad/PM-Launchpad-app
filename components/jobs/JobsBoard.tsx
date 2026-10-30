@@ -3,7 +3,8 @@ import { motion } from 'framer-motion';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { toast } from 'sonner';
 import {
-  Bookmark, BookmarkCheck, Briefcase, Clock, ExternalLink, Loader2, MapPin, RotateCcw, Save, Search, X,
+  ArrowRight, Bookmark, BookmarkCheck, Briefcase, CalendarDays, Clock, ExternalLink, Globe, Loader2, MapPin, RotateCcw, Save,
+  Search, UserRound, X,
 } from 'lucide-react';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { db } from '../../firebase';
@@ -57,12 +58,77 @@ const Chip: React.FC<{ active: boolean; onClick: () => void; children: React.Rea
     type="button"
     onClick={onClick}
     aria-pressed={active}
-    className={`inline-flex items-center pointer-coarse:min-h-11 px-3 py-1.5 rounded-full text-xs font-bold border transition-colors ${
-      active ? 'bg-zinc-900 text-white border-zinc-900' : 'bg-white text-slate-600 border-slate-200 hover:border-slate-300'
+    className={`inline-flex items-center pointer-coarse:min-h-11 px-3.5 py-1.5 rounded-full text-xs font-semibold border transition-colors ${
+      active ? 'bg-amber-200 text-zinc-900 border-amber-300' : 'bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50'
     }`}
   >
     {children}
   </button>
+);
+
+const TRIGGER_CLASS =
+  'w-full lg:w-fit justify-start [&>svg:last-child]:ml-auto gap-2 px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm font-medium text-zinc-800 bg-white shadow-none h-auto';
+
+const SORT_OPTIONS = [
+  { value: 'recent', label: 'Most recent' },
+  { value: 'company', label: 'Company A to Z' },
+] as const;
+type SortKey = (typeof SORT_OPTIONS)[number]['value'];
+
+// Each level gets its own tag colour so cards are quicker to scan. Blue/indigo/violet are remapped to
+// the brand green in index.css, so the palette sticks to colours that stay distinct.
+const LEVEL_TAG: Partial<Record<JobLevel, string>> = {
+  Intern: 'bg-amber-100 text-amber-800',
+  APM: 'bg-lime-100 text-lime-800',
+  'Product Associate': 'bg-lime-100 text-lime-800',
+  'Product Manager': 'bg-teal-100 text-teal-800',
+  'Senior PM': 'bg-emerald-100 text-emerald-800',
+  'Lead / Principal PM': 'bg-emerald-100 text-emerald-800',
+  'Group PM': 'bg-orange-100 text-orange-800',
+  Director: 'bg-rose-100 text-rose-800',
+  'VP / Head of Product': 'bg-rose-100 text-rose-800',
+  CPO: 'bg-rose-100 text-rose-800',
+  'Product Owner': 'bg-stone-200 text-stone-800',
+};
+
+const AVATAR_COLOURS = ['bg-emerald-700', 'bg-teal-700', 'bg-amber-600', 'bg-rose-600', 'bg-zinc-800', 'bg-orange-600', 'bg-lime-700'];
+
+// A coloured initial in place of a logo (the feeds don't carry company logos).
+const CompanyMark: React.FC<{ name: string }> = ({ name }) => {
+  const letter = name.trim().charAt(0).toUpperCase() || '?';
+  let hash = 0;
+  for (const ch of name) hash = (hash * 31 + ch.charCodeAt(0)) >>> 0;
+  return (
+    <span
+      aria-hidden="true"
+      className={`inline-flex items-center justify-center size-6 rounded-md text-xs font-extrabold text-white shrink-0 ${AVATAR_COLOURS[hash % AVATAR_COLOURS.length]}`}
+    >
+      {letter}
+    </span>
+  );
+};
+
+// Decorative: a plant and a laptop with a sticky note, drawn in CSS/SVG so nothing extra is downloaded.
+const HeroIllustration: React.FC = () => (
+  <div aria-hidden="true" className="hidden md:block absolute right-8 lg:right-12 bottom-0 w-[260px] lg:w-[300px] h-[190px] pointer-events-none select-none">
+    <svg viewBox="0 0 300 190" className="absolute inset-0 w-full h-full">
+      {/* laptop */}
+      <rect x="110" y="40" width="170" height="112" rx="10" fill="#fff" stroke="#1f2937" strokeWidth="3" />
+      <rect x="120" y="50" width="150" height="92" rx="5" fill="#D1FAE5" />
+      <path d="M92 152h206l-12 18H104z" fill="#fff" stroke="#1f2937" strokeWidth="3" strokeLinejoin="round" />
+      {/* plant */}
+      <path d="M58 170h44l-6-44H64z" fill="#FCD34D" stroke="#1f2937" strokeWidth="3" strokeLinejoin="round" />
+      <path d="M80 126c0-24 2-44 2-66" stroke="#065F46" strokeWidth="3" fill="none" strokeLinecap="round" />
+      <path d="M81 102c-18-4-30-18-30-34 16 2 28 14 30 34z" fill="#34D399" stroke="#065F46" strokeWidth="2.5" />
+      <path d="M81 88c16-6 26-20 24-36-15 4-24 16-24 36z" fill="#059669" stroke="#065F46" strokeWidth="2.5" />
+      <path d="M81 118c-14 0-26-10-28-22 13 0 25 8 28 22z" fill="#6EE7B7" stroke="#065F46" strokeWidth="2.5" />
+      {/* sparkle */}
+      <path d="M262 18l6-10M276 26l10-4M270 34l10 4" stroke="#F59E0B" strokeWidth="3" strokeLinecap="round" />
+    </svg>
+    <div className="absolute left-[150px] lg:left-[172px] top-[22px] w-[104px] rotate-[4deg] bg-[#FFF9DB] border-2 border-zinc-800 rounded-sm shadow-md px-2.5 py-2 text-center text-[12px] leading-[1.25] font-semibold text-zinc-800">
+      Good PMs build products, not just features.
+    </div>
+  </div>
 );
 
 export const JobsBoard: React.FC = () => {
@@ -74,6 +140,7 @@ export const JobsBoard: React.FC = () => {
   const [prefs, setPrefs] = useState<JobPreferences>(DEFAULT_PREFS);
   const [postedWithin, setPostedWithin] = useState(0);
   const [savedOnly, setSavedOnly] = useState(false);
+  const [sortBy, setSortBy] = useState<SortKey>('recent');
   const [visible, setVisible] = useState(PAGE_SIZE);
 
   const [savedIds, setSavedIds] = useState<string[]>([]);
@@ -162,7 +229,7 @@ export const JobsBoard: React.FC = () => {
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     const cutoff = postedWithin ? Date.now() - postedWithin * 86400000 : 0;
-    return jobs.filter((j) => {
+    const list = jobs.filter((j) => {
       if (savedOnly && !savedIds.includes(j.id)) return false;
       if (q && !`${j.title} ${j.company}`.toLowerCase().includes(q)) return false;
       if (prefs.levels.length && !prefs.levels.includes(j.level)) return false;
@@ -173,7 +240,9 @@ export const JobsBoard: React.FC = () => {
       if (cutoff && new Date(j.postedAt).getTime() < cutoff) return false;
       return true;
     });
-  }, [jobs, query, prefs, postedWithin, savedOnly, savedIds]);
+    // The server already sends newest first, so only the company order needs a re-sort.
+    return sortBy === 'company' ? [...list].sort((a, b) => a.company.localeCompare(b.company)) : list;
+  }, [jobs, query, prefs, postedWithin, savedOnly, savedIds, sortBy]);
 
   const toggleLevel = (level: JobLevel) =>
     setPrefs((p) => ({ ...p, levels: p.levels.includes(level) ? p.levels.filter((l) => l !== level) : [...p.levels, level] }));
@@ -273,38 +342,44 @@ export const JobsBoard: React.FC = () => {
         onSuccess={() => setAuthOpen(false)}
       />
 
-      <header className="relative w-full bg-linear-to-r from-[#032A1F] via-[#043C2C] to-[#064E3B] rounded-3xl p-7 sm:p-9 text-white overflow-hidden shadow-2xl border border-[#065F46]/60 mb-6">
-        <div className="absolute top-0 right-0 w-[420px] h-[420px] bg-linear-to-bl from-brand-600/25 via-brand-600/15 to-transparent rounded-full blur-[100px] pointer-events-none -translate-y-1/4 translate-x-1/4" aria-hidden="true" />
-        <div className="relative z-10 max-w-3xl">
-          <h1 className="text-3xl sm:text-4xl md:text-[44px] font-extrabold mb-3 tracking-tight leading-[1.08]">
+      <header className="relative w-full bg-linear-to-br from-[#FEF6D8] via-[#FDF0C4] to-[#FBE7A6] rounded-3xl px-6 py-7 sm:px-10 sm:py-9 overflow-hidden border border-amber-200/70 mb-6">
+        <div className="relative z-10 max-w-2xl">
+          <p className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.18em] text-zinc-600 mb-3">PM jobs board</p>
+          <h1 className="text-3xl sm:text-4xl md:text-[44px] font-extrabold mb-3 tracking-tight leading-[1.08] text-[#0B2A22]">
             PM jobs in India <br />
-            <span className="text-[#6EE7B7]">and remote roles open to you.</span>
+            <span className="text-brand-600">and remote roles open to you.</span>
           </h1>
-          <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
+          <p className="text-zinc-700 text-sm sm:text-base leading-relaxed">
             Intern to CPO roles collected every morning from company job boards. Filter by level, city and experience, and save the ones you like.
           </p>
           {data?.refreshedAt && (
-            <p className="text-xs text-slate-400 mt-3">
-              {jobs.length} open roles · updated {timeAgo(data.refreshedAt).toLowerCase()}
+            <p className="inline-flex items-center gap-2 text-xs sm:text-sm text-zinc-600 mt-4">
+              <CalendarDays className="size-4 text-zinc-500" />
+              {jobs.length} open roles
+              <span aria-hidden="true">·</span>
+              Updated {timeAgo(data.refreshedAt).toLowerCase()}
             </p>
           )}
         </div>
+        <HeroIllustration />
       </header>
 
       {/* Filters */}
-      <section className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 mb-5 space-y-4">
+      <section className="bg-white rounded-2xl border border-slate-200 shadow-xs p-4 sm:p-5 mb-6 space-y-4">
         <div className="grid gap-3 sm:grid-cols-3 lg:flex lg:flex-row">
           <label className="relative sm:col-span-3 lg:flex-1">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search title or company"
-              className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-hidden focus:border-emerald-400"
+              placeholder="Search title, company or role…"
+              aria-label="Search jobs"
+              className="w-full pl-10 pr-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50/70 text-sm focus:outline-hidden focus:border-emerald-400 focus:bg-white"
             />
           </label>
           <Select value={prefs.location} onValueChange={(v) => setPrefs((p) => ({ ...p, location: v }))}>
-            <SelectTrigger aria-label="Location" className="w-full lg:w-fit px-3 py-2.5 rounded-xl border border-slate-200 text-sm bg-white shadow-none h-auto">
+            <SelectTrigger aria-label="Location" className={TRIGGER_CLASS}>
+              <MapPin className="size-4 text-slate-500" />
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -316,7 +391,8 @@ export const JobsBoard: React.FC = () => {
             </SelectContent>
           </Select>
           <Select value={prefs.experience} onValueChange={(v) => setPrefs((p) => ({ ...p, experience: v }))}>
-            <SelectTrigger aria-label="Experience" className="w-full lg:w-fit px-3 py-2.5 rounded-xl border border-slate-200 text-sm bg-white shadow-none h-auto">
+            <SelectTrigger aria-label="Experience" className={TRIGGER_CLASS}>
+              <UserRound className="size-4 text-slate-500" />
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -326,7 +402,8 @@ export const JobsBoard: React.FC = () => {
             </SelectContent>
           </Select>
           <Select value={String(postedWithin)} onValueChange={(v) => setPostedWithin(Number(v))}>
-            <SelectTrigger aria-label="Posted within" className="w-full lg:w-fit px-3 py-2.5 rounded-xl border border-slate-200 text-sm bg-white shadow-none h-auto">
+            <SelectTrigger aria-label="Posted within" className={TRIGGER_CLASS}>
+              <CalendarDays className="size-4 text-slate-500" />
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -338,6 +415,9 @@ export const JobsBoard: React.FC = () => {
         </div>
 
         <div className="flex flex-wrap gap-2">
+          <Chip active={prefs.levels.length === 0} onClick={() => setPrefs((p) => ({ ...p, levels: [] }))}>
+            All roles
+          </Chip>
           {levelOptions.map((level) => (
             <Chip key={level} active={prefs.levels.includes(level)} onClick={() => toggleLevel(level)}>
               {level}
@@ -352,8 +432,8 @@ export const JobsBoard: React.FC = () => {
               {mode}
             </Chip>
           ))}
-          <span className="w-px h-5 bg-slate-200 mx-1" />
           <Chip active={savedOnly} onClick={() => (user ? setSavedOnly((v) => !v) : setAuthOpen(true))}>
+            <Bookmark className="size-3.5 mr-1.5" />
             Saved jobs{savedIds.length ? ` (${savedIds.length})` : ''}
           </Chip>
           <div className="flex-1" />
@@ -361,16 +441,16 @@ export const JobsBoard: React.FC = () => {
             <button
               type="button"
               onClick={clearFilters}
-              className="tap-target inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-slate-800"
+              className="tap-target inline-flex items-center gap-1.5 px-2 text-xs font-semibold text-slate-500 hover:text-slate-800"
             >
-              <RotateCcw className="w-3.5 h-3.5" /> Clear
+              <RotateCcw className="w-3.5 h-3.5" /> Clear all
             </button>
           ) : null}
           <button
             type="button"
             onClick={savePreferences}
             disabled={savingPrefs}
-            className="inline-flex items-center gap-1.5 pointer-coarse:min-h-11 px-3 py-1.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 disabled:opacity-60"
+            className="inline-flex items-center gap-1.5 pointer-coarse:min-h-11 px-4 py-2 rounded-full text-xs font-bold bg-amber-300 text-zinc-900 border border-amber-400/70 hover:bg-amber-400 disabled:opacity-60"
           >
             {savingPrefs ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
             {prefsAreSaved ? 'Saved as my preferences' : 'Save as my preferences'}
@@ -402,9 +482,22 @@ export const JobsBoard: React.FC = () => {
       )}
       {data && jobs.length > 0 && (
         <>
-          <p className="text-xs font-semibold text-slate-500 mb-3" aria-live="polite">
-            {filtered.length} {filtered.length === 1 ? 'role' : 'roles'} match
-          </p>
+          <div className="flex items-center justify-between gap-3 mb-3">
+            <p className="text-sm font-semibold text-zinc-700" aria-live="polite">
+              {filtered.length} {filtered.length === 1 ? 'role' : 'roles'} match
+            </p>
+            <Select value={sortBy} onValueChange={(v) => setSortBy(v as SortKey)}>
+              <SelectTrigger aria-label="Sort by" className="w-fit gap-1 px-2 py-1 border-0 text-sm text-zinc-600 bg-transparent shadow-none h-auto">
+                <span className="text-zinc-500">Sort by:</span>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent position="popper" align="end">
+                {SORT_OPTIONS.map((o) => (
+                  <SelectItem key={o.value} value={o.value}>{o.label}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
           {filtered.length === 0 ? (
             <div className="flex flex-col items-center gap-3 py-16 text-center">
               <p className="text-sm text-slate-600">
@@ -486,14 +579,21 @@ export const JobsBoard: React.FC = () => {
 const JobMeta: React.FC<{ job: JobSummary }> = ({ job }) => {
   const exp = experienceLabel(job);
   return (
-    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-500">
-      <span className="inline-flex items-center gap-1">
+    <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-slate-500">
+      <span className="inline-flex items-center gap-1.5">
         <MapPin className="w-3.5 h-3.5" />
         {job.cities.length ? job.cities.join(', ') : job.locationText}
+        <span aria-hidden="true">·</span>
+        {job.workMode === 'Remote' && <Globe className="w-3.5 h-3.5" />}
+        {job.workMode}
       </span>
-      <span>{job.workMode}</span>
-      {exp && <span>{exp}</span>}
-      <span className="inline-flex items-center gap-1">
+      {exp && (
+        <span className="inline-flex items-center gap-1.5">
+          <Briefcase className="w-3.5 h-3.5" />
+          {exp}
+        </span>
+      )}
+      <span className="inline-flex items-center gap-1.5">
         <Clock className="w-3.5 h-3.5" />
         {timeAgo(job.postedAt)}
       </span>
@@ -501,44 +601,69 @@ const JobMeta: React.FC<{ job: JobSummary }> = ({ job }) => {
   );
 };
 
+const isNew = (job: JobSummary) => Date.now() - new Date(job.postedAt).getTime() < 86400000;
+
 const JobCard: React.FC<{ job: JobSummary; saved: boolean; onToggleSaved: () => void; onOpen: () => void }> = ({
   job, saved, onToggleSaved, onOpen,
-}) => (
-  <div className="group bg-white rounded-2xl border border-slate-200 p-5 flex flex-col hover:shadow-lg hover:border-emerald-200 transition-all">
-    <div className="flex items-start justify-between gap-3 mb-2">
-      <span className="text-[11px] font-black uppercase tracking-wider text-emerald-700">{job.level}</span>
-      <button
-        type="button"
-        onClick={onToggleSaved}
-        aria-label={saved ? 'Remove from saved jobs' : 'Save job'}
-        className="tap-target text-slate-400 hover:text-emerald-600 -mt-1"
-      >
-        {saved ? <BookmarkCheck className="w-5 h-5 text-emerald-600" /> : <Bookmark className="w-5 h-5" />}
-      </button>
-    </div>
-    <button type="button" onClick={onOpen} className="text-left">
-      <h3 className="text-base font-extrabold text-slate-900 tracking-tight mb-1 group-hover:text-emerald-800">{job.title}</h3>
-      <div className="flex items-center gap-1.5 text-sm text-slate-600 mb-3">
-        <Briefcase className="w-3.5 h-3.5" />
-        {job.company}
+}) => {
+  const fresh = isNew(job);
+  return (
+    <div
+      className={`group relative bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 flex flex-col shadow-xs hover:shadow-lg hover:border-emerald-200 transition-all overflow-hidden ${
+        fresh ? 'before:absolute before:inset-y-0 before:left-0 before:w-1 before:bg-emerald-500' : ''
+      }`}
+    >
+      <div className="flex items-start justify-between gap-3 mb-3">
+        <span className={`inline-flex px-2 py-0.5 rounded-md text-[10.5px] font-extrabold uppercase tracking-wider ${LEVEL_TAG[job.level] || 'bg-slate-100 text-slate-700'}`}>
+          {job.level}
+        </span>
+        <div className="flex items-center gap-2 -mt-1">
+          {fresh && (
+            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+              New today
+            </span>
+          )}
+          <button
+            type="button"
+            onClick={onToggleSaved}
+            aria-label={saved ? 'Remove from saved jobs' : 'Save job'}
+            className="tap-target text-slate-400 hover:text-emerald-600"
+          >
+            {saved ? <BookmarkCheck className="w-5 h-5 text-emerald-600" /> : <Bookmark className="w-5 h-5" />}
+          </button>
+        </div>
       </div>
-    </button>
-    <JobMeta job={job} />
-    <div className="flex items-center justify-between mt-4 pt-3 border-t border-slate-100">
-      <button type="button" onClick={onOpen} className="tap-target text-sm font-semibold text-zinc-900 hover:text-emerald-700">
-        View details
+      <button type="button" onClick={onOpen} className="text-left">
+        <h3 className="text-[17px] leading-snug font-bold text-zinc-900 tracking-tight mb-2 group-hover:text-emerald-800">{job.title}</h3>
+        <div className="flex items-center gap-2 text-sm font-medium text-zinc-700 mb-3">
+          <CompanyMark name={job.company} />
+          {job.company}
+        </div>
       </button>
-      <a
-        href={job.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="tap-target inline-flex items-center gap-1 text-sm font-semibold text-emerald-700 hover:text-emerald-900"
-      >
-        Apply <ExternalLink className="w-3.5 h-3.5" />
-      </a>
+      <JobMeta job={job} />
+      <div className="flex items-center justify-between gap-3 mt-auto pt-5">
+        <a
+          href={job.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="tap-target inline-flex items-center gap-1 text-xs font-semibold text-slate-500 hover:text-emerald-700 min-w-0"
+        >
+          <span className="truncate">
+            Apply{JOB_BOARD_SOURCES.has(job.source) ? ` via ${job.sourceLabel}` : ''}
+          </span>
+          <ExternalLink className="w-3.5 h-3.5 shrink-0" />
+        </a>
+        <button
+          type="button"
+          onClick={onOpen}
+          className="inline-flex items-center gap-1.5 pointer-coarse:min-h-11 px-4 py-2 rounded-full text-xs font-bold bg-amber-300 text-zinc-900 hover:bg-amber-400 shrink-0"
+        >
+          View details <ArrowRight className="size-3.5" />
+        </button>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 // The job details panel: a side sheet built on the shared Dialog, so focus moves into it, Tab stays
 // inside, the page behind doesn't scroll, Escape closes it and focus goes back to the card that opened it.
