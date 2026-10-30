@@ -1,6 +1,7 @@
 import { CompanyBoard } from './companies';
 
-// Weekly discovery: Firecrawl web search finds PM job pages on Ashby, Lever, Greenhouse and Workable.
+// Weekly discovery: Firecrawl web search finds PM job pages on Ashby, Lever, Greenhouse, Workable,
+// SmartRecruiters, Recruitee and Breezy.
 // We keep only the company board each result belongs to; the daily refresh then reads that board's
 // free public feed. So Firecrawl credits are spent on finding companies, not on every job page.
 
@@ -18,9 +19,13 @@ export const DISCOVERY_QUERIES = [
   // Y Combinator startups mostly hire through Ashby and Lever, and say so in the posting.
   'site:jobs.ashbyhq.com ("Y Combinator" OR "YC-backed") "Product Manager"',
   'site:jobs.lever.co ("Y Combinator" OR "YC-backed") "Product Manager"',
+  // Smaller ATSs added 2026-10-30. Their feeds are free too; only the search costs credits.
+  'site:jobs.smartrecruiters.com ("Product Manager" OR "Associate Product Manager")',
+  'site:recruitee.com ("Product Manager" OR "Associate Product Manager")',
+  'site:breezy.hr ("Product Manager" OR "Associate Product Manager")',
 ];
 
-// 10 searches, each also with "India": about 120 Firecrawl credits a week.
+// 13 searches, each also with "India": about 160 Firecrawl credits a week.
 const RESULTS_PER_QUERY = 30;
 /** Boards we stop reading after this many failed refreshes in a row. */
 export const MAX_BOARD_FAILURES = 3;
@@ -62,6 +67,15 @@ export function parseBoardUrl(rawUrl: string): Pick<DiscoveredBoard, 'ats' | 'to
     ats = 'ashby';
   } else if (host === 'apply.workable.com') {
     ats = 'workable';
+  } else if (host === 'jobs.smartrecruiters.com') {
+    ats = 'smartrecruiters';
+  } else if (/^[a-z0-9-]+\.recruitee\.com$/.test(host) && !/^(www|app|api|blog|support)\./.test(host)) {
+    // Recruitee and Breezy put the company in the subdomain: acme.recruitee.com/o/product-manager
+    ats = 'recruitee';
+    token = host.split('.')[0];
+  } else if (/^[a-z0-9-]+\.breezy\.hr$/.test(host) && !/^(www|app|api|marketplace)\./.test(host)) {
+    ats = 'breezy';
+    token = host.split('.')[0];
   }
   if (!ats || !token) return null;
   token = decodeURIComponent(token).toLowerCase();

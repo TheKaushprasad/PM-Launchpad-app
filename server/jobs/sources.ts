@@ -1,5 +1,6 @@
 import { JobDetail, JobSourceStatus, JobSourceType } from '../../types/jobs';
 import { COMPANY_BOARDS, CompanyBoard } from './companies';
+import { fetchSearchSite, SEARCH_SITES } from './searchSites';
 import {
   classifyLevel,
   detectCities,
@@ -15,11 +16,13 @@ import {
 } from './normalize';
 
 const MAX_DESCRIPTION_CHARS = 15000;
+/** SmartRecruiters needs one request per job for its description. */
+const MAX_DETAIL_FETCHES = 10;
 const FETCH_TIMEOUT_MS = 12000;
 const USER_AGENT = 'TheNoobPM-JobsBot/1.0 (+https://thenoobpm.com)';
 
 /** One raw job before the India / PM filters run. */
-interface RawJob {
+export interface RawJob {
   source: JobSourceType;
   sourceLabel: string;
   sourceId: string;
@@ -177,7 +180,91 @@ async function fetchWorkable(c: CompanyBoard): Promise<RawJob[]> {
   });
 }
 
-// ---------- Remote job APIs (both ask for a credited link back, shown on the Jobs page) ----------
+async function fetchSmartRecruiters(c: CompanyBoard): Promise<RawJob[]> {
+  const base = `https://api.smartrecruiters.com/v1/companies/${encodeURIComponent(c.token)}/postings`;
+  // The list has no descriptions; the "product" search keeps it short, and isPmTitle does the real filtering.
+  const data = await fetchJson(`${base}?q=product&limit=100`);
+  const postings: any[] = (Array.isArray(data?.content) ? data.content : []).filter((j: any) => isPmTitle(String(j?.name || '')));
+  const company = c.discovered && postings[0]?.company?.name ? String(postings[0].company.name) : c.name;
+  // One extra request per PM posting for its description, capped so a big employer can't stall the refresh.
+  return mapWithConcurrency(postings.slice(0, MAX_DETAIL_FETCHES), 4, async (j) => {
+    let descriptionHtml = '';
+    let url = `https://jobs.smartrecruiters.com/${encodeURIComponent(j.company?.identifier || c.token)}/${j.id}`;
+    try {
+      const detail = await fetchJson(`${base}/${encodeURIComponent(j.id)}`);
+      const sections = detail?.jobAd?.sections || {};
+      descriptionHtml = ['companyDescription', 'jobDescription', 'qualifications', 'additionalInformation']
+        .map((k) => sections[k]?.text || '')
+        .join('');
+      if (detail?.postingUrl) url = String(detail.postingUrl);
+    } catch {
+      // Keep the posting without a description.
+    }
+    const loc = j.location || {};
+    return {
+      source: 'smartrecruiters',
+      sourceLabel: company,
+      sourceId: `${c.token.toLowerCase()}-${j.id}`,
+      company,
+      title: String(j.name || ''),
+      locationText: String(loc.fullLocation || [loc.city, loc.country === 'in' ? 'India' : loc.country].filter(Boolean).join(', ')),
+      workModeHint: loc.remote ? 'remote' : loc.hybrid ? 'hybrid' : '',
+      postedAt: toIsoDate(j.releasedDate),
+      url,
+      descriptionHtml,
+      assumeIndia: !c.global,
+    } as RawJob;
+  });
+}
+
+async function fetchRecruitee(c: CompanyBoard): Promise<RawJob[]> {
+  const data = await fetchJson(`https://${encodeURIComponent(c.token)}.recruitee.com/api/offers/`);
+  const jobs: any[] = Array.isArray(data?.offers) ? data.offers.filter((j: any) => !j.status || j.status === 'published') : [];
+  return jobs.map((j) => {
+    const company = c.discovered && j.company_name ? String(j.company_name) : c.name;
+    const places = Array.isArray(j.locations) && j.locations.length
+      ? j.locations.map((l: any) => [l.city, l.country].filter(Boolean).join(', ') || l.name)
+      : [[j.city, j.country].filter(Boolean).join(', ')];
+    return {
+      source: 'recruitee',
+      sourceLabel: company,
+      sourceId: `${c.token}-${j.id}`,
+      company,
+      title: String(j.title || ''),
+      locationText: places.filter(Boolean).join('; '),
+      workModeHint: j.remote ? 'remote' : j.hybrid ? 'hybrid' : '',
+      postedAt: toIsoDate(String(j.published_at || j.created_at || '').replace(' UTC', 'Z').replace(' ', 'T')),
+      url: String(j.careers_url || `https://${c.token}.recruitee.com/o/${j.slug}`),
+      descriptionHtml: `${j.description || ''}${j.requirements || ''}`,
+      assumeIndia: !c.global,
+    } as RawJob;
+  });
+}
+
+async function fetchBreezy(c: CompanyBoard): Promise<RawJob[]> {
+  // Breezy's public feed has no descriptions, so these jobs show title, place and link only.
+  const data = await fetchJson(`https://${encodeURIComponent(c.token)}.breezy.hr/json`);
+  const jobs: any[] = Array.isArray(data) ? data : [];
+  return jobs.map((j) => {
+    const company = c.discovered && j.company?.name ? String(j.company.name) : c.name;
+    const places: any[] = Array.isArray(j.locations) && j.locations.length ? j.locations : [j.location].filter(Boolean);
+    return {
+      source: 'breezy',
+      sourceLabel: company,
+      sourceId: `${c.token}-${j.id}`,
+      company,
+      title: String(j.name || ''),
+      locationText: places.map((l) => [l.name, l.country?.name].filter(Boolean).join(', ')).join('; '),
+      workModeHint: places.some((l) => l.is_remote) ? 'remote' : '',
+      postedAt: toIsoDate(j.published_date),
+      url: String(j.url || ''),
+      descriptionText: '',
+      assumeIndia: !c.global,
+    } as RawJob;
+  });
+}
+
+// ---------- Remote job APIs and feeds (each asks for a credited link back, shown on the Jobs page) ----------
 
 async function fetchRemotive(): Promise<RawJob[]> {
   // Remotive asks callers to fetch at most a few times a day; we fetch once.
@@ -211,6 +298,94 @@ async function fetchRemoteOk(): Promise<RawJob[]> {
     workModeHint: 'remote',
     postedAt: toIsoDate(j.date || j.epoch),
     url: String(j.url || j.apply_url || ''),
+    descriptionHtml: String(j.description || ''),
+  }));
+}
+
+/** Pulls <tag>text</tag> out of one RSS item, unwrapping CDATA. */
+function rssTag(item: string, tag: string): string {
+  const m = item.match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`, 'i'));
+  return (m?.[1] || '').replace(/^\s*<!\[CDATA\[([\s\S]*?)\]\]>\s*$/, '$1').trim();
+}
+
+/** We Work Remotely's product category RSS. Item titles read "Company: Role". */
+export function parseWeWorkRemotelyRss(xml: string): RawJob[] {
+  const items = xml.match(/<item>[\s\S]*?<\/item>/gi) || [];
+  return items.map((item) => {
+    const full = htmlToText(rssTag(item, 'title'));
+    const cut = full.indexOf(': ');
+    const link = htmlToText(rssTag(item, 'link'));
+    // <region> is often "Anywhere in the World" even when <country> narrows it, so country wins.
+    const country = htmlToText(rssTag(item, 'country')).replace(/[\u{1F1E6}-\u{1F1FF}]/gu, '').replace(/\s+/g, ' ').trim();
+    const region = htmlToText(rssTag(item, 'region'));
+    return {
+      source: 'weworkremotely',
+      sourceLabel: 'We Work Remotely',
+      sourceId: shortHash(link),
+      company: cut > 0 ? full.slice(0, cut) : '',
+      title: cut > 0 ? full.slice(cut + 2) : full,
+      locationText: `Remote${country || region ? `, ${country || region}` : ''}`,
+      workModeHint: 'remote',
+      postedAt: toIsoDate(rssTag(item, 'pubDate')),
+      url: link,
+      descriptionHtml: rssTag(item, 'description'),
+    } as RawJob;
+  }).filter((j) => j.url);
+}
+
+async function fetchWeWorkRemotely(): Promise<RawJob[]> {
+  return parseWeWorkRemotelyRss(await fetchText('https://weworkremotely.com/categories/remote-product-jobs.rss', 'application/rss+xml'));
+}
+
+// Himalayas API terms: link Apply to applicationLink unchanged, credit Himalayas, drop expired jobs,
+// and never pass the jobs on (no JobPosting structured data for them).
+const HIMALAYAS_PAGES = 3;
+
+export function parseHimalayasJobs(data: any, nowMs = Date.now()): RawJob[] {
+  const jobs: any[] = Array.isArray(data?.jobs) ? data.jobs : [];
+  return jobs
+    .filter((j) => !j.expiryDate || Number(j.expiryDate) * 1000 > nowMs)
+    .map((j) => {
+      const places: string[] = Array.isArray(j.locationRestrictions) ? j.locationRestrictions.map(String) : [];
+      return {
+        source: 'himalayas',
+        sourceLabel: 'Himalayas',
+        sourceId: shortHash(String(j.guid || j.applicationLink || '')),
+        company: String(j.companyName || ''),
+        title: String(j.title || ''),
+        // No restriction means open worldwide.
+        locationText: `Remote${places.length ? `, ${places.join('; ')}` : ''}`,
+        workModeHint: 'remote',
+        postedAt: toIsoDate(Number(j.pubDate) || j.pubDate),
+        url: String(j.applicationLink || j.guid || ''),
+        descriptionText: String(j.description || j.excerpt || ''),
+      } as RawJob;
+    });
+}
+
+async function fetchHimalayas(): Promise<RawJob[]> {
+  // country=India also returns worldwide roles, which is what someone in India can apply to.
+  const pages = await Promise.all(
+    Array.from({ length: HIMALAYAS_PAGES }, (_, i) =>
+      fetchJson(`https://himalayas.app/jobs/api/search?q=${encodeURIComponent('product manager')}&country=India&sort=recent&page=${i + 1}`)
+    )
+  );
+  return pages.flatMap((p) => parseHimalayasJobs(p));
+}
+
+async function fetchWorkingNomads(): Promise<RawJob[]> {
+  const data = await fetchJson('https://www.workingnomads.com/api/exposed_jobs/');
+  const jobs: any[] = Array.isArray(data) ? data : [];
+  return jobs.map((j) => ({
+    source: 'workingnomads',
+    sourceLabel: 'Working Nomads',
+    sourceId: shortHash(String(j.url || '')),
+    company: String(j.company_name || ''),
+    title: String(j.title || ''),
+    locationText: `Remote${j.location ? `, ${j.location}` : ''}`,
+    workModeHint: 'remote',
+    postedAt: toIsoDate(j.pub_date),
+    url: String(j.url || ''),
     descriptionHtml: String(j.description || ''),
   }));
 }
@@ -366,7 +541,15 @@ export function boardKey(c: Pick<CompanyBoard, 'ats' | 'token'>): string {
 
 /** The fixed company list, plus boards found by the weekly Firecrawl discovery (see discovery.ts). */
 export function getJobSources(discovered: CompanyBoard[] = []): JobSource[] {
-  const fetchers = { greenhouse: fetchGreenhouse, lever: fetchLever, ashby: fetchAshby, workable: fetchWorkable };
+  const fetchers = {
+    greenhouse: fetchGreenhouse,
+    lever: fetchLever,
+    ashby: fetchAshby,
+    workable: fetchWorkable,
+    smartrecruiters: fetchSmartRecruiters,
+    recruitee: fetchRecruitee,
+    breezy: fetchBreezy,
+  };
   const known = new Set(COMPANY_BOARDS.map(boardKey));
   const boards = [...COMPANY_BOARDS, ...discovered.filter((d) => !known.has(boardKey(d)))];
   return [
@@ -377,8 +560,16 @@ export function getJobSources(discovered: CompanyBoard[] = []): JobSource[] {
     })),
     { key: 'remotive', label: 'Remotive', run: fetchRemotive },
     { key: 'remoteok', label: 'Remote OK', run: fetchRemoteOk },
+    { key: 'weworkremotely', label: 'We Work Remotely', run: fetchWeWorkRemotely },
+    { key: 'himalayas', label: 'Himalayas', run: fetchHimalayas },
+    { key: 'workingnomads', label: 'Working Nomads', run: fetchWorkingNomads },
     ...(process.env.JOBS_SHEET_URL?.trim() ? [{ key: 'sheet', label: 'Google Sheet', run: fetchSheet }] : []),
-    ...(process.env.FIRECRAWL_API_KEY?.trim() ? [{ key: 'internshala', label: 'Internshala', run: fetchInternshala }] : []),
+    ...(process.env.FIRECRAWL_API_KEY?.trim()
+      ? [
+          { key: 'internshala', label: 'Internshala', run: fetchInternshala },
+          ...SEARCH_SITES.map((site) => ({ key: site.key, label: site.label, run: () => fetchSearchSite(site) })),
+        ]
+      : []),
   ];
 }
 

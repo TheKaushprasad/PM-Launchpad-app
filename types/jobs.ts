@@ -18,7 +18,39 @@ export type JobLevel = (typeof JOB_LEVELS)[number];
 
 export type WorkMode = 'Remote' | 'Hybrid' | 'On-site';
 
-export type JobSourceType = 'greenhouse' | 'lever' | 'ashby' | 'workable' | 'remotive' | 'remoteok' | 'sheet' | 'internshala';
+export type JobSourceType =
+  | 'greenhouse'
+  | 'lever'
+  | 'ashby'
+  | 'workable'
+  | 'smartrecruiters'
+  | 'recruitee'
+  | 'breezy'
+  | 'remotive'
+  | 'remoteok'
+  | 'weworkremotely'
+  | 'himalayas'
+  | 'workingnomads'
+  | 'sheet'
+  | 'internshala'
+  | 'hirist'
+  | 'iimjobs'
+  | 'foundit'
+  | 'cutshort';
+
+/** Jobs from these come via a job board or aggregator, so Apply names the board, not the employer. */
+export const JOB_BOARD_SOURCES: ReadonlySet<JobSourceType> = new Set<JobSourceType>([
+  'remotive',
+  'remoteok',
+  'weworkremotely',
+  'himalayas',
+  'workingnomads',
+  'internshala',
+  'hirist',
+  'iimjobs',
+  'foundit',
+  'cutshort',
+]);
 
 /** Light record used for the list and filters. */
 export interface JobSummary {
