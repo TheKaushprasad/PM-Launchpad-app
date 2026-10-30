@@ -10,7 +10,9 @@ import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle } fr
 import { db } from '../../firebase';
 import { useAuth } from '../../context/AuthContext';
 import { AuthModal } from '../auth/AuthModal';
-import { JOB_BOARD_SOURCES, JOB_LEVELS, JobDetail, JobLevel, JobPreferences, JobSummary, JobsListResponse, WorkMode } from '../../types/jobs';
+import {
+  JOB_BOARD_SOURCES, JOB_LEVELS, JobDetail, JobLevel, JobPreferences, JobSummary, JobsListResponse, WorkMode, tidyCompanyName, tidyLocation,
+} from '../../types/jobs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const WORK_MODES: WorkMode[] = ['Remote', 'Hybrid', 'On-site'];
@@ -81,17 +83,25 @@ const LEVEL_TAG: Partial<Record<JobLevel, string>> = {
   Intern: 'bg-amber-100 text-amber-800',
   APM: 'bg-lime-100 text-lime-800',
   'Product Associate': 'bg-lime-100 text-lime-800',
-  'Product Manager': 'bg-teal-100 text-teal-800',
+  'Product Manager': 'bg-cyan-100 text-cyan-800',
   'Senior PM': 'bg-emerald-100 text-emerald-800',
-  'Lead / Principal PM': 'bg-emerald-100 text-emerald-800',
+  'Lead / Principal PM': 'bg-fuchsia-100 text-fuchsia-800',
   'Group PM': 'bg-orange-100 text-orange-800',
   Director: 'bg-rose-100 text-rose-800',
-  'VP / Head of Product': 'bg-rose-100 text-rose-800',
-  CPO: 'bg-rose-100 text-rose-800',
+  'VP / Head of Product': 'bg-red-100 text-red-800',
+  CPO: 'bg-red-100 text-red-800',
   'Product Owner': 'bg-stone-200 text-stone-800',
 };
 
 const AVATAR_COLOURS = ['bg-emerald-700', 'bg-teal-700', 'bg-amber-600', 'bg-rose-600', 'bg-zinc-800', 'bg-orange-600', 'bg-lime-700'];
+
+// Older stored jobs can still carry "India; India; India" or "Kraken Com", so tidy them on arrival too.
+function tidyJob<T extends JobSummary>(job: T): T {
+  return { ...job, company: tidyCompanyName(job.company), locationText: tidyLocation(job.locationText) };
+}
+
+// A company shows at most this many roles until "more roles at …" is opened, so one employer doesn't fill the board.
+const ROLES_PER_COMPANY = 2;
 
 // A coloured initial in place of a logo (the feeds don't carry company logos).
 const CompanyMark: React.FC<{ name: string }> = ({ name }) => {
@@ -141,6 +151,7 @@ export const JobsBoard: React.FC = () => {
   const [postedWithin, setPostedWithin] = useState(0);
   const [savedOnly, setSavedOnly] = useState(false);
   const [sortBy, setSortBy] = useState<SortKey>('recent');
+  const [expandedCompanies, setExpandedCompanies] = useState<string[]>([]);
   const [visible, setVisible] = useState(PAGE_SIZE);
 
   const [savedIds, setSavedIds] = useState<string[]>([]);
@@ -169,7 +180,7 @@ export const JobsBoard: React.FC = () => {
         if (!res.ok) throw new Error((await res.json().catch(() => ({})))?.error || 'Could not load jobs.');
         return res.json();
       })
-      .then((json: JobsListResponse) => !cancelled && setData(json))
+      .then((json: JobsListResponse) => !cancelled && setData({ ...json, jobs: json.jobs.map(tidyJob) }))
       .catch((err) => !cancelled && setLoadError(err.message || 'Could not load jobs.'));
     return () => {
       cancelled = true;
@@ -243,6 +254,28 @@ export const JobsBoard: React.FC = () => {
     // The server already sends newest first, so only the company order needs a re-sort.
     return sortBy === 'company' ? [...list].sort((a, b) => a.company.localeCompare(b.company)) : list;
   }, [jobs, query, prefs, postedWithin, savedOnly, savedIds, sortBy]);
+
+  // Folds a company's extra roles behind a "more roles" link. A search shows every match.
+  const { shown, moreFor } = useMemo(() => {
+    if (query.trim()) return { shown: filtered, moreFor: new Map<string, number>() };
+    const seen = new Map<string, number>();
+    const hidden = new Map<string, number>();
+    const lastShown = new Map<string, string>();
+    const list = filtered.filter((j) => {
+      const n = (seen.get(j.company) || 0) + 1;
+      seen.set(j.company, n);
+      if (n <= ROLES_PER_COMPANY || expandedCompanies.includes(j.company)) {
+        lastShown.set(j.company, j.id);
+        return true;
+      }
+      hidden.set(j.company, (hidden.get(j.company) || 0) + 1);
+      return false;
+    });
+    // The link sits on the company's last visible card.
+    const more = new Map<string, number>();
+    hidden.forEach((count, company) => more.set(lastShown.get(company)!, count));
+    return { shown: list, moreFor: more };
+  }, [filtered, query, expandedCompanies]);
 
   const toggleLevel = (level: JobLevel) =>
     setPrefs((p) => ({ ...p, levels: p.levels.includes(level) ? p.levels.filter((l) => l !== level) : [...p.levels, level] }));
@@ -515,18 +548,20 @@ export const JobsBoard: React.FC = () => {
             </div>
           ) : (
             <div data-reveal-stagger className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {filtered.slice(0, visible).map((job) => (
+              {shown.slice(0, visible).map((job) => (
                 <JobCard
                   key={job.id}
                   job={job}
                   saved={savedIds.includes(job.id)}
                   onToggleSaved={() => toggleSaved(job.id)}
                   onOpen={() => openJob(job.id)}
+                  moreRoles={moreFor.get(job.id)}
+                  onShowMore={() => setExpandedCompanies((c) => [...c, job.company])}
                 />
               ))}
             </div>
           )}
-          {filtered.length > visible && (
+          {shown.length > visible && (
             <div className="flex justify-center mt-6">
               <button
                 type="button"
@@ -540,20 +575,7 @@ export const JobsBoard: React.FC = () => {
         </>
       )}
 
-      <p className="text-[11px] text-slate-400 mt-10 text-center leading-relaxed">
-        Listings come from public company job boards. Remote listings include jobs from{' '}
-        <a href="https://remotive.com" target="_blank" rel="noopener" className="underline">Remotive</a>,{' '}
-        <a href="https://remoteok.com" target="_blank" rel="noopener" className="underline">Remote OK</a>,{' '}
-        <a href="https://weworkremotely.com" target="_blank" rel="noopener" className="underline">We Work Remotely</a>,{' '}
-        <a href="https://himalayas.app" target="_blank" rel="noopener" className="underline">Himalayas</a> and{' '}
-        <a href="https://www.workingnomads.com" target="_blank" rel="noopener" className="underline">Working Nomads</a>. Some roles link to{' '}
-        <a href="https://internshala.com" target="_blank" rel="noopener" className="underline">Internshala</a>,{' '}
-        <a href="https://www.hirist.tech" target="_blank" rel="noopener" className="underline">Hirist</a>,{' '}
-        <a href="https://www.iimjobs.com" target="_blank" rel="noopener" className="underline">iimjobs</a>,{' '}
-        <a href="https://www.foundit.in" target="_blank" rel="noopener" className="underline">Foundit</a> and{' '}
-        <a href="https://cutshort.io" target="_blank" rel="noopener" className="underline">Cutshort</a>.
-        Always apply on the employer's own page.
-      </p>
+
 
       <Dialog open={!!openJobId} onOpenChange={(open) => !open && setOpenJobId(null)}>
         {drawerJobId && (
@@ -576,36 +598,58 @@ export const JobsBoard: React.FC = () => {
   );
 };
 
-const JobMeta: React.FC<{ job: JobSummary }> = ({ job }) => {
+const isNew = (job: JobSummary) => Date.now() - new Date(job.postedAt).getTime() < 86400000;
+
+const JobMeta: React.FC<{ job: JobSummary; inCard?: boolean }> = ({ job, inCard }) => {
   const exp = experienceLabel(job);
+  const remote = job.workMode === 'Remote';
+  // "Remote" is already shown as the work mode, so it's dropped from the place.
+  const place = job.cities.length
+    ? job.cities.join(', ')
+    : job.locationText.split(', ').filter((p) => !/^remote$/i.test(p)).join(', ');
+  // Remote roles only reach the board when they're open to India, so say so when the place alone doesn't.
+  const openToIndia = remote && !/\bindia\b/i.test(place) && !job.cities.length;
   return (
-    <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-slate-500">
+    <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-slate-600">
       <span className="inline-flex items-center gap-1.5">
-        <MapPin className="w-3.5 h-3.5" />
-        {job.cities.length ? job.cities.join(', ') : job.locationText}
-        <span aria-hidden="true">·</span>
-        {job.workMode === 'Remote' && <Globe className="w-3.5 h-3.5" />}
+        <MapPin className="w-3.5 h-3.5 text-slate-500" />
+        {place && (
+          <>
+            {place}
+            <span aria-hidden="true">·</span>
+          </>
+        )}
+        {remote && <Globe className="w-3.5 h-3.5 text-slate-500" />}
         {job.workMode}
+        {openToIndia && (
+          <span className="ml-1 px-1.5 py-px rounded-sm bg-emerald-50 text-emerald-700 text-[11px] font-semibold">Open to India</span>
+        )}
       </span>
       {exp && (
         <span className="inline-flex items-center gap-1.5">
-          <Briefcase className="w-3.5 h-3.5" />
+          <Briefcase className="w-3.5 h-3.5 text-slate-500" />
           {exp}
         </span>
       )}
-      <span className="inline-flex items-center gap-1.5">
-        <Clock className="w-3.5 h-3.5" />
-        {timeAgo(job.postedAt)}
-      </span>
+      {/* A "New today" badge already says when it was posted. */}
+      {!(inCard && isNew(job)) && (
+        <span className="inline-flex items-center gap-1.5">
+          <Clock className="w-3.5 h-3.5 text-slate-500" />
+          {timeAgo(job.postedAt)}
+        </span>
+      )}
     </div>
   );
 };
 
-const isNew = (job: JobSummary) => Date.now() - new Date(job.postedAt).getTime() < 86400000;
-
-const JobCard: React.FC<{ job: JobSummary; saved: boolean; onToggleSaved: () => void; onOpen: () => void }> = ({
-  job, saved, onToggleSaved, onOpen,
-}) => {
+const JobCard: React.FC<{
+  job: JobSummary;
+  saved: boolean;
+  onToggleSaved: () => void;
+  onOpen: () => void;
+  moreRoles?: number;
+  onShowMore: () => void;
+}> = ({ job, saved, onToggleSaved, onOpen, moreRoles, onShowMore }) => {
   const fresh = isNew(job);
   return (
     <div
@@ -640,26 +684,33 @@ const JobCard: React.FC<{ job: JobSummary; saved: boolean; onToggleSaved: () => 
           {job.company}
         </div>
       </button>
-      <JobMeta job={job} />
+      <JobMeta job={job} inCard />
+      {moreRoles ? (
+        <button
+          type="button"
+          onClick={onShowMore}
+          className="self-start mt-3 text-xs font-semibold text-emerald-700 hover:text-emerald-900 hover:underline"
+        >
+          +{moreRoles} more {moreRoles === 1 ? 'role' : 'roles'} at {job.company}
+        </button>
+      ) : null}
       <div className="flex items-center justify-between gap-3 mt-auto pt-5">
+        <button
+          type="button"
+          onClick={onOpen}
+          className="tap-target inline-flex items-center gap-1 text-sm font-semibold text-zinc-800 hover:text-emerald-700 hover:underline underline-offset-4"
+        >
+          View details <ArrowRight className="size-3.5" />
+        </button>
         <a
           href={job.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="tap-target inline-flex items-center gap-1 text-xs font-semibold text-slate-500 hover:text-emerald-700 min-w-0"
+          className="inline-flex items-center gap-1.5 pointer-coarse:min-h-11 px-4 py-2 rounded-full text-xs font-bold bg-brand-800 text-white hover:bg-brand-900 min-w-0"
         >
-          <span className="truncate">
-            Apply{JOB_BOARD_SOURCES.has(job.source) ? ` via ${job.sourceLabel}` : ''}
-          </span>
+          <span className="truncate">Apply{JOB_BOARD_SOURCES.has(job.source) ? ` via ${job.sourceLabel}` : ''}</span>
           <ExternalLink className="w-3.5 h-3.5 shrink-0" />
         </a>
-        <button
-          type="button"
-          onClick={onOpen}
-          className="inline-flex items-center gap-1.5 pointer-coarse:min-h-11 px-4 py-2 rounded-full text-xs font-bold bg-amber-300 text-zinc-900 hover:bg-amber-400 shrink-0"
-        >
-          View details <ArrowRight className="size-3.5" />
-        </button>
       </div>
     </div>
   );
@@ -687,7 +738,7 @@ const JobDrawer: React.FC<{
         if (!res.ok) throw new Error(json?.error || 'Could not load this job.');
         return json;
       })
-      .then((json) => !cancelled && setDetail(json))
+      .then((json) => !cancelled && setDetail(tidyJob(json)))
       .catch((err) => !cancelled && setError(err.message));
     return () => {
       cancelled = true;

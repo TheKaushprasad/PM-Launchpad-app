@@ -101,3 +101,26 @@ export interface JobPreferences {
   workModes: WorkMode[];
   experience: string; // 'any' | '0-2' | '2-5' | '5-8' | '8+'
 }
+
+/**
+ * Company names made from a board's web address read like "Kraken Com" or "Acme Careers".
+ * Drops those trailing words; real names such as "Weekday AI" are left alone.
+ */
+export function tidyCompanyName(name: string): string {
+  const tidy = name.replace(/\s+/g, ' ').trim().replace(/(\s+(com|io|hq|careers|jobs))+$/i, '').trim();
+  return tidy || name.trim();
+}
+
+/** Feeds often repeat a place ("India; India; India"). Keeps each place once, comma separated. */
+export function tidyLocation(text: string): string {
+  const seen = new Set<string>();
+  const parts: string[] = [];
+  for (const raw of text.split(/[;,|]/)) {
+    const part = raw.replace(/\s+/g, ' ').trim();
+    if (part && !seen.has(part.toLowerCase())) {
+      seen.add(part.toLowerCase());
+      parts.push(part);
+    }
+  }
+  return parts.join(', ');
+}

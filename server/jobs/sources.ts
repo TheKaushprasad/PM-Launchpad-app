@@ -1,4 +1,4 @@
-import { JobDetail, JobSourceStatus, JobSourceType } from '../../types/jobs';
+import { JobDetail, JobSourceStatus, JobSourceType, tidyCompanyName, tidyLocation } from '../../types/jobs';
 import { COMPANY_BOARDS, CompanyBoard } from './companies';
 import { fetchSearchSite, SEARCH_SITES } from './searchSites';
 import {
@@ -595,10 +595,10 @@ export function normalizeRawJob(raw: RawJob, nowIso: string): JobDetail | null {
   const job: JobDetail = {
     id: safeDocId(`${raw.source}-${raw.sourceId}`),
     title,
-    company: raw.company.trim() || 'Unknown company',
+    company: tidyCompanyName(raw.company) || 'Unknown company',
     level: classifyLevel(title),
     cities,
-    locationText: raw.locationText.trim() || (raw.assumeIndia ? 'India' : 'Remote'),
+    locationText: tidyLocation(raw.locationText) || (raw.assumeIndia ? 'India' : 'Remote'),
     workMode,
     postedAt: raw.postedAt || nowIso,
     firstSeenAt: nowIso,

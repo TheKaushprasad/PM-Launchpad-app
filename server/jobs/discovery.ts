@@ -106,7 +106,7 @@ export function companyFromTitle(ats: CompanyBoard['ats'], title?: string): stri
 export function humanizeToken(token: string): string {
   return token
     .replace(/[-_.]+/g, ' ')
-    .replace(/\b(inc|llc|ltd|pvt|private|limited|\d+)\b/gi, '')
+    .replace(/\b(inc|llc|ltd|pvt|private|limited|com|io|hq|careers|jobs|\d+)\b/gi, '')
     .trim()
     .replace(/\s+/g, ' ')
     .replace(/\b\w/g, (c) => c.toUpperCase()) || token;
