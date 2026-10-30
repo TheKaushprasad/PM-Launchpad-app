@@ -333,7 +333,8 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
 
   // The X: leave straight away before any answer, otherwise confirm first
   const requestExit = () => {
-    if (hasAnswered && !evaluationResult) {
+    // The briefing screen has nothing to lose; once the interview has started, always confirm
+    if (!isSessionPreparing && !evaluationResult) {
       setIsExitModalOpen(true);
       return;
     }
@@ -2022,8 +2023,14 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
                 Are you sure you want to exit?
               </h3>
               <p className="text-xs text-zinc-600 leading-relaxed mb-6">
-                You've practiced for <span className="font-bold text-zinc-900">{formatTime(elapsedSeconds)}</span>. If you exit now,
-                this interview won't be scored. Your conversation is kept in Past Scorecards as <span className="font-bold text-zinc-900">Not scored</span>.
+                {hasAnswered ? (
+                  <>
+                    You've practiced for <span className="font-bold text-zinc-900">{formatTime(elapsedSeconds)}</span>. If you exit now,
+                    this interview won't be scored. Your conversation is kept in Past Scorecards as <span className="font-bold text-zinc-900">Not scored</span>.
+                  </>
+                ) : (
+                  <>You haven't answered yet, so nothing will be saved. You can start this case again any time.</>
+                )}
               </p>
 
               <div className="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-end gap-2.5">
@@ -2032,16 +2039,18 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
                   onClick={() => { setIsExitModalOpen(false); onExit(); }}
                   className="px-4 py-2.5 rounded-xl text-rose-600 hover:bg-rose-50 text-xs font-bold transition-colors"
                 >
-                  Exit without score
+                  {hasAnswered ? 'Exit without score' : 'Exit'}
                 </button>
-                <button
-                  type="button"
-                  onClick={executeEndInterview}
-                  disabled={isEvaluating}
-                  className="px-4 py-2.5 rounded-xl border border-zinc-200 hover:bg-zinc-100 text-zinc-700 text-xs font-bold transition-colors disabled:opacity-50"
-                >
-                  End & get my score
-                </button>
+                {hasAnswered && (
+                  <button
+                    type="button"
+                    onClick={executeEndInterview}
+                    disabled={isEvaluating}
+                    className="px-4 py-2.5 rounded-xl border border-zinc-200 hover:bg-zinc-100 text-zinc-700 text-xs font-bold transition-colors disabled:opacity-50"
+                  >
+                    End & get my score
+                  </button>
+                )}
                 <button
                   type="button"
                   autoFocus
