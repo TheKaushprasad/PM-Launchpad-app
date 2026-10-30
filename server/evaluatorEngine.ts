@@ -378,7 +378,8 @@ export async function runEvaluationEngine(
         sessionId: targetSessionId,
         evaluation: finalEvaluation as any,
         scenario,
-        elapsedSeconds
+        elapsedSeconds,
+        messages
       });
       saved = true;
     } catch (primaryErr: any) {
@@ -390,7 +391,8 @@ export async function runEvaluationEngine(
           sessionId: targetSessionId,
           evaluation: finalEvaluation as any,
           scenario,
-          elapsedSeconds
+          elapsedSeconds,
+          messages
         });
         saved = true;
       } catch (retryErr: any) {

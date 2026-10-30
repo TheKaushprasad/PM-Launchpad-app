@@ -4,6 +4,7 @@ import type { Express, Request, Response, NextFunction } from 'express';
 import { casePassed } from '../eval/casePassed';
 import { isFirebaseAdminConfigured } from '../services/firebaseAdmin';
 import { getTesterEmails, setTesterEmails } from './interviewTesters';
+import { listInterviewFeedback } from './interviewFeedback';
 import { cleanReview, exportInterview, getTesterInterview, listTesterInterviews, REAL_DATASET_DIR, saveReview } from './evalReview';
 
 /**
@@ -253,5 +254,10 @@ export function registerEvalDashboardRoutes(app: Express) {
 
   app.post('/api/admin/interviews/:id/export', localOnly, withFirebase(async (req, res) => {
     res.json(await exportInterview(docId(req)));
+  }));
+
+  // Candidate feedback from the card shown while a scorecard loads (server/interviewFeedback.ts)
+  app.get('/api/admin/feedback', localOnly, withFirebase(async (_req, res) => {
+    res.json({ feedback: await listInterviewFeedback() });
   }));
 }

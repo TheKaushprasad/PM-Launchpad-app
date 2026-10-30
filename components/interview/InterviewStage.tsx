@@ -30,8 +30,10 @@ import {
   Shield,
   Play,
   ChevronDown,
-  BookOpen
+  BookOpen,
+  LogOut
 } from 'lucide-react';
+import { toast } from 'sonner';
 import { 
   InterviewScenario, 
   InterviewerPersona, 
@@ -44,6 +46,8 @@ import { getLevelConfig, getTrackConfig, MAX_HINTS_PER_INTERVIEW } from '../../d
 import { AvatarVisualizer } from './AvatarVisualizer';
 import { ScratchpadModal, PmToolTab } from './ScratchpadModal';
 import { InterviewEvaluationView } from './InterviewEvaluationView';
+import { InterviewFeedbackCard } from './InterviewFeedbackCard';
+import type { InterviewFeedbackInput } from '../../data/interviewFeedback';
 import { useAuth } from '../../context/AuthContext';
 import { hasEvalConsent } from '../../lib/interviewAccess';
 import { authJsonHeaders } from '../../lib/apiClient';
@@ -237,6 +241,21 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
   
   // Custom Confirmation Dialog for End & Evaluate
   const [isEndModalOpen, setIsEndModalOpen] = useState<boolean>(false);
+  // "Leave this interview?" shown by the X once the candidate has answered something
+  const [isExitModalOpen, setIsExitModalOpen] = useState<boolean>(false);
+  // Feedback card shown while scoring: 'touched' holds the scorecard back until they send or skip
+  const [feedbackStatus, setFeedbackStatus] = useState<'idle' | 'touched' | 'done'>('idle');
+
+  // One id per attempt: scoring retries, feedback and the "Not scored" save all write to the same session
+  const sessionIdRef = useRef<string>('eval_' + Date.now());
+  // Once scoring is requested the server saves the interview (scored, or "Not scored" if scoring fails)
+  const evaluationRequestedRef = useRef<boolean>(false);
+  // Cached sign-in token, so an interview closed with the tab can still be saved without waiting
+  const idTokenRef = useRef<string | null>(null);
+  useEffect(() => {
+    if (!user) return;
+    user.getIdToken().then((t) => { idTokenRef.current = t; }).catch(() => {});
+  }, [user, messages.length]);
 
   const transcriptEndRef = useRef<HTMLDivElement>(null);
 
@@ -266,6 +285,27 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
       elapsed_seconds: elapsedSecondsRef.current,
       candidate_turns: messagesRef.current.filter((m) => m.role === 'candidate').length
     }, { scenarioId: scenario.id }, true);
+    saveExitedInterview();
+  };
+  // Keeps an interview the candidate left in Past Scorecards as "Not scored", with the conversation.
+  // keepalive lets the request finish even when the tab is closing.
+  const saveExitedInterview = () => {
+    const token = idTokenRef.current;
+    const answered = messagesRef.current.some((m) => m.role === 'candidate');
+    if (!token || !answered || evaluationRequestedRef.current) return;
+    fetch('/api/interview/save-unscored', {
+      method: 'POST',
+      keepalive: true,
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify({
+        sessionId: sessionIdRef.current,
+        scenarioId: scenario.id,
+        level,
+        mode,
+        messages: messagesRef.current.map(({ role, text }) => ({ role, text })),
+        elapsedSeconds: elapsedSecondsRef.current
+      })
+    }).catch(() => {});
   };
   const reportAbandonedRef = useRef(reportAbandoned);
   reportAbandonedRef.current = reportAbandoned;
@@ -277,6 +317,28 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
       reportAbandonedRef.current();
     };
   }, []);
+
+  // Closing or reloading the tab mid-interview asks first (the browser shows its own wording)
+  const hasAnswered = messages.some((m) => m.role === 'candidate');
+  useEffect(() => {
+    if (!hasAnswered || evaluationResult) return;
+    const warn = (e: BeforeUnloadEvent) => {
+      if (evaluationRequestedRef.current && !evaluationError) return;
+      e.preventDefault();
+      e.returnValue = '';
+    };
+    window.addEventListener('beforeunload', warn);
+    return () => window.removeEventListener('beforeunload', warn);
+  }, [hasAnswered, evaluationResult, evaluationError]);
+
+  // The X: leave straight away before any answer, otherwise confirm first
+  const requestExit = () => {
+    if (hasAnswered && !evaluationResult) {
+      setIsExitModalOpen(true);
+      return;
+    }
+    onExit();
+  };
 
   // Cleanup all audio on unmount
   useEffect(() => {
@@ -1097,6 +1159,8 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
   // Execute End Interview and Generate Rubric Scorecard
   const executeEndInterview = async () => {
     setIsEndModalOpen(false);
+    setIsExitModalOpen(false);
+    evaluationRequestedRef.current = true;
     setIsEvaluating(true);
     setEvaluationError(null);
     setIsTimerRunning(false);
@@ -1104,7 +1168,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
 
     try {
       const token = user ? await user.getIdToken().catch(() => null) : null;
-      const sessionId = 'eval_' + Date.now();
+      const sessionId = sessionIdRef.current;
 
       const res = await fetch('/api/interview/evaluate', {
         method: 'POST',
@@ -1176,6 +1240,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
 
   // Back to the same interview after a failed scoring attempt
   const resumeAfterEvaluationError = () => {
+    evaluationRequestedRef.current = false;
     setEvaluationError(null);
     setIsTimerRunning(true);
   };
@@ -1183,6 +1248,9 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
   // Starts the same case again from the scripted opener
   const restartInterview = () => {
     cleanupSpeech();
+    sessionIdRef.current = 'eval_' + Date.now();
+    evaluationRequestedRef.current = false;
+    setFeedbackStatus('idle');
     setEvaluationResult(null);
     setEvaluationError(null);
     setChatError(null);
@@ -1289,7 +1357,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
               </span>
             </div>
             <button
-              onClick={onExit}
+              onClick={requestExit}
               className="p-1.5 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-500 transition-colors"
               title="Cancel"
             >
@@ -1384,6 +1452,34 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
     );
   }
 
+  const sendFeedback = async (feedback: InterviewFeedbackInput) => {
+    const res = await fetch('/api/interview/feedback', {
+      method: 'POST',
+      headers: await authJsonHeaders(),
+      body: JSON.stringify({ ...feedback, sessionId: sessionIdRef.current, scenarioId: scenario.id, level, mode })
+    });
+    if (!res.ok) {
+      const j = await res.json().catch(() => null);
+      throw new Error(j?.error || "Couldn't send your feedback. Please try again.");
+    }
+    setFeedbackStatus('done');
+    toast.success('Thanks for the feedback');
+  };
+
+  // While scoring runs (and after, if they're midway through it), ask how the interview went
+  const showFeedbackCard = !evaluationError && feedbackStatus !== 'done' &&
+    ((isEvaluating && !evaluationResult) || (evaluationResult && feedbackStatus === 'touched'));
+  if (showFeedbackCard) {
+    return (
+      <InterviewFeedbackCard
+        scorecardReady={!!evaluationResult}
+        onStarted={() => setFeedbackStatus((s) => (s === 'idle' ? 'touched' : s))}
+        onSubmit={sendFeedback}
+        onDone={() => setFeedbackStatus('done')}
+      />
+    );
+  }
+
   // If evaluation is ready, show scorecard view
   if (evaluationResult) {
     return (
@@ -1409,7 +1505,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
           <div className="space-y-2">
             <h2 className="text-xl font-black text-zinc-900">We couldn't score this interview yet</h2>
             <p className="text-sm text-zinc-600 leading-relaxed">
-              {evaluationError} Your answers are still here: {messages.filter((m) => m.role === 'candidate').length} of them, over {formatTime(elapsedSeconds)}. Nothing was saved to your history.
+              {evaluationError} Your answers are still here: {messages.filter((m) => m.role === 'candidate').length} of them, over {formatTime(elapsedSeconds)}. Until scoring works, the interview is saved in Past Scorecards as Not scored.
             </p>
           </div>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -1443,7 +1539,7 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
         {/* Left: Scenario Info */}
         <div className="flex items-center gap-3">
           <button
-            onClick={onExit}
+            onClick={requestExit}
             className="tap-target p-1.5 rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-600 transition-colors"
             aria-label="Exit session"
             title="Exit Session"
@@ -1894,6 +1990,65 @@ export const InterviewStage: React.FC<InterviewStageProps> = ({
                 >
                   {isEvaluating ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle2 className="w-4 h-4" />}
                   Generate Scorecard
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* Leave Interview Confirmation Modal (the X) */}
+      <AnimatePresence>
+        {isExitModalOpen && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs"
+            onClick={() => setIsExitModalOpen(false)}
+          >
+            <motion.div
+              role="alertdialog"
+              aria-modal="true"
+              aria-labelledby="exit-interview-title"
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white rounded-3xl border border-zinc-200 shadow-2xl max-w-md w-full p-6 text-zinc-900 overflow-hidden"
+            >
+              <div className="w-12 h-12 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-center mb-4 text-amber-600">
+                <LogOut className="w-6 h-6" />
+              </div>
+
+              <h3 id="exit-interview-title" className="text-lg font-black text-zinc-900 mb-2">
+                Are you sure you want to exit?
+              </h3>
+              <p className="text-xs text-zinc-600 leading-relaxed mb-6">
+                You've practiced for <span className="font-bold text-zinc-900">{formatTime(elapsedSeconds)}</span>. If you exit now,
+                this interview won't be scored. Your conversation is kept in Past Scorecards as <span className="font-bold text-zinc-900">Not scored</span>.
+              </p>
+
+              <div className="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-end gap-2.5">
+                <button
+                  type="button"
+                  onClick={() => { setIsExitModalOpen(false); onExit(); }}
+                  className="px-4 py-2.5 rounded-xl text-rose-600 hover:bg-rose-50 text-xs font-bold transition-colors"
+                >
+                  Exit without score
+                </button>
+                <button
+                  type="button"
+                  onClick={executeEndInterview}
+                  disabled={isEvaluating}
+                  className="px-4 py-2.5 rounded-xl border border-zinc-200 hover:bg-zinc-100 text-zinc-700 text-xs font-bold transition-colors disabled:opacity-50"
+                >
+                  End & get my score
+                </button>
+                <button
+                  type="button"
+                  autoFocus
+                  onClick={() => setIsExitModalOpen(false)}
+                  className="px-5 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-black shadow-md shadow-brand-600/20 transition-all"
+                >
+                  Keep going
                 </button>
               </div>
             </motion.div>
