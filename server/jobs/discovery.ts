@@ -25,8 +25,17 @@ export const DISCOVERY_QUERIES = [
   'site:breezy.hr ("Product Manager" OR "Associate Product Manager")',
 ];
 
-// 13 searches, each also with "India": about 160 Firecrawl credits a week.
+// 13 searches, each also with "India", is 26; each run does MAX_SEARCHES_PER_RUN of them (about 120 credits a week).
 const RESULTS_PER_QUERY = 30;
+/** Firecrawl's plan allows about 20 searches a minute and all searches run at once, so stay at 20. */
+export const MAX_SEARCHES_PER_RUN = 20;
+
+/** Takes the next MAX_SEARCHES_PER_RUN searches, starting where last week's run stopped, so every search still runs regularly. */
+export function searchesForRun(all: string[], weekIndex: number): string[] {
+  if (all.length <= MAX_SEARCHES_PER_RUN) return all;
+  const start = (weekIndex * MAX_SEARCHES_PER_RUN) % all.length;
+  return Array.from({ length: MAX_SEARCHES_PER_RUN }, (_, i) => all[(start + i) % all.length]);
+}
 /** Boards we stop reading after this many failed refreshes in a row. */
 export const MAX_BOARD_FAILURES = 3;
 /** Keeps the daily refresh inside the function time limit. */
@@ -120,7 +129,8 @@ export interface DiscoveryRun {
 export async function searchForBoards(apiKey: string): Promise<DiscoveryRun> {
   const Firecrawl = (await import('@mendable/firecrawl-js')).default;
   const firecrawl = new Firecrawl({ apiKey });
-  const queries = DISCOVERY_QUERIES.flatMap((q) => [q, `${q} India`]);
+  const weekIndex = Math.floor(Date.now() / (7 * 86400000));
+  const queries = searchesForRun(DISCOVERY_QUERIES.flatMap((q) => [q, `${q} India`]), weekIndex);
 
   const results = await Promise.all(
     queries.map(async (query) => {
