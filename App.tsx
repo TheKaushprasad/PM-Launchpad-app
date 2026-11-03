@@ -58,7 +58,7 @@ const interviewStudio = <InterviewGate />;
 const AiPmCourse = isAiPmCourseEnabled ? lazy(() => import('./components/aipm/AiPmCourse')) : null;
 const aiPmCourse = AiPmCourse ? <AiPmCourse /> : <Navigate to="/dashboard" replace />;
 
-// The PM Assignment Solver is local-only too; the live site sends its URL to the tools hub.
+// The PM Assignment Solver is live; when switched off, its URL goes to the tools hub.
 const AssignmentSolver = isAssignmentSolverEnabled ? lazy(() => import('./components/assignmentSolver/AssignmentSolver')) : null;
 const assignmentSolver = AssignmentSolver ? <AssignmentSolver /> : <Navigate to="/tools" replace />;
 

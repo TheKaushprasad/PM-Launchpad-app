@@ -50,7 +50,7 @@ async function inBatches<T, R>(items: T[], limit: number, fn: (item: T) => Promi
 }
 
 // Errors that a retry can't fix: bad input, signed out, over the cost cap or daily limit.
-const NO_RETRY = new Set([400, 401, 402, 403, 404, 422]);
+const NO_RETRY = new Set([400, 401, 402, 403, 404, 422, 429]);
 
 async function callAgent<T>(run: Run, agent: AgentName, body: Record<string, unknown>, itemId?: string): Promise<T & { usage: StepUsage }> {
   let lastError = '';

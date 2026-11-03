@@ -1,14 +1,22 @@
 import express from "express";
 import { DEFAULT_COST_LIMIT_USD } from "../../lib/assignmentSolver/types";
 import { traceAssignmentSolverRequests, traceIO } from "../observability";
+import { consumeDailyQuota } from "../security";
 import { cleanBrief, cleanFacts, cleanStrategy, runCritic, runParser, runResearcher, runStrategist, runWriter } from "./agents";
 import { SolverError } from "./gemini";
 
 // HTTP endpoints for the PM Assignment Solver, one per agent step. Each step is its own request so
 // no request runs near Vercel's 60s limit, and the browser can pause for the user after the Parser.
-// Local-only for now: on in `npm run dev`, off on the live site unless VITE_ASSIGNMENT_SOLVER_ENABLED=true.
+// Live; VITE_ASSIGNMENT_SOLVER_ENABLED=false switches it off.
 
-const enabled = () => process.env.NODE_ENV !== "production" || process.env.VITE_ASSIGNMENT_SOLVER_ENABLED === "true";
+const enabled = () => process.env.VITE_ASSIGNMENT_SOLVER_ENABLED !== "false";
+
+// Each run spends real money (about $0.20 to $0.50), so a signed-in user can start only this many
+// runs a day. Regenerating or re-scoring a section doesn't count as a new run.
+const runsPerDay = () => {
+  const n = Number(process.env.ASSIGNMENT_SOLVER_RUNS_PER_DAY);
+  return Number.isFinite(n) && n > 0 ? Math.floor(n) : 3;
+};
 
 const str = (v: unknown, max: number) => String(v ?? "").trim().slice(0, max);
 
@@ -23,10 +31,10 @@ export function registerAssignmentSolverRoutes(app: express.Express, requireAiAc
     next();
   };
 
-  const route = (agent: string, handler: (body: any) => Promise<Record<string, unknown>>) => {
+  const route = (agent: string, handler: (body: any, res: express.Response) => Promise<Record<string, unknown>>) => {
     app.post([`/api/assignment-solver/${agent}`, `/api/assignment-solver/${agent}/`], requireAiAccess, costCap, async (req, res) => {
       try {
-        const result = await handler(req.body || {});
+        const result = await handler(req.body || {}, res);
         traceIO({ output: result });
         res.json(result);
       } catch (error: any) {
@@ -38,9 +46,13 @@ export function registerAssignmentSolverRoutes(app: express.Express, requireAiAc
 
   app.use("/api/assignment-solver", gate, traceAssignmentSolverRequests);
 
-  route("parse", async (body) => {
+  route("parse", async (body, res) => {
     const assignment = str(body.assignment, 30000);
     if (assignment.length < 40) throw new SolverError("Paste the assignment text (at least a few sentences) or upload a PDF.", 400);
+    const uid = (res.locals.user as { uid?: string } | undefined)?.uid;
+    if (uid && !(await consumeDailyQuota(`solver_runs_${uid}`, runsPerDay()))) {
+      throw new SolverError(`You've used today's ${runsPerDay()} free assignment drafts. Please come back tomorrow.`, 429);
+    }
     return runParser({ assignment, company: str(body.company, 120), jobDescription: str(body.jobDescription, 8000), deadline: str(body.deadline, 60) });
   });
 

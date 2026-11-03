@@ -80,6 +80,11 @@ const STATIC: Record<string, Omit<RouteMeta, 'canonicalPath'>> = {
     title: withBrand('Free AI LinkedIn Profile Optimiser for Product Managers'),
     description: 'Rewrite your LinkedIn headline, about section and experience for product manager roles with AI suggestions.',
   },
+  '/tools/assignment-solver': {
+    title: withBrand('AI PM Assignment Helper: Draft Your Take-Home Assignment'),
+    description:
+      'Paste a product manager take-home assignment and get a structured first draft with sourced company research, frameworks, metrics and a score for each section. You edit and decide.',
+  },
   '/tools/interview-studio': {
     title: withBrand('AI Mock Interview for Product Managers'),
     description: 'Practise product manager interviews out loud with an AI interviewer and get scored feedback.',
@@ -196,5 +201,6 @@ export function indexablePaths(): string[] {
     '/tools',
     '/tools/resume-auditor',
     '/tools/linkedin-optimiser',
+    '/tools/assignment-solver',
   ];
 }

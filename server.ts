@@ -1603,7 +1603,7 @@ SUBMISSION>>>`;
   });
 
   // ==========================================
-  // PM Assignment Solver (local only): five agents draft a take-home assignment
+  // PM Assignment Solver: five agents draft a take-home assignment
   // ==========================================
   registerAssignmentSolverRoutes(app, requireAiAccess);
   registerProductBuddyRoutes(app);

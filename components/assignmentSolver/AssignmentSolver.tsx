@@ -17,7 +17,7 @@ import { DraftReview } from './DraftReview';
 
 // PM Assignment Solver: the user pastes a take-home assignment, approves what the Parser found,
 // and five agents produce a first draft that the user reviews and edits. "AI drafts, the PM decides."
-// Local-only for now (lib/featureFlags.ts).
+// Live; can be switched off with VITE_ASSIGNMENT_SOLVER_ENABLED=false (lib/featureFlags.ts).
 
 const AgentPipeline: React.FC<{ run: Run }> = ({ run }) => (
   <ol className="grid grid-cols-5 gap-2">
@@ -80,7 +80,7 @@ const InputForm: React.FC<{ onStart: (input: SolverInput) => void; busy: boolean
     <div className="bg-white border border-slate-200/80 rounded-2xl p-4 sm:p-6 space-y-5">
       <div className="flex items-start gap-3 rounded-xl bg-amber-50 border border-amber-200 p-3 text-xs sm:text-sm text-amber-900">
         <ShieldAlert className="size-4 mt-0.5 shrink-0" />
-        <p>Check the assignment isn't under an NDA before you paste it. The text is sent to Google's Gemini to draft the answer. Runs are saved only in this browser for 30 days, and you can delete them any time.</p>
+        <p>Check the assignment isn't under an NDA before you paste it. The text is sent to Google's Gemini to draft the answer. Runs are saved only in this browser for 30 days, and you can delete them any time. You can start 3 drafts a day.</p>
       </div>
 
       <div className="space-y-2">
@@ -234,7 +234,7 @@ export const AssignmentSolver: React.FC = () => {
       <AuthModal isOpen={authOpen} onClose={() => setAuthOpen(false)} initialMode="login" redirectTo="/tools/assignment-solver" onSuccess={() => setAuthOpen(false)} />
 
       <header className="space-y-2">
-        <p className="text-[11px] font-black uppercase tracking-widest text-brand-600">Career tool · local preview</p>
+        <p className="text-[11px] font-black uppercase tracking-widest text-brand-600">Career tool · beta</p>
         <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">PM Assignment Solver</h1>
         <p className="text-sm sm:text-base text-slate-600 leading-relaxed max-w-3xl">
           Five AI agents read your take-home assignment, research the company, pick a framework, write a first draft and grade it.
