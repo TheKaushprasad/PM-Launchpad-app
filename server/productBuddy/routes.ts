@@ -18,10 +18,10 @@ import { interviewersFor, kitView, pickKit, swapQuestion } from './kit';
 // One request can go to up to 3 people; the first to accept gets the session, and the others are
 // told the slot is filled. Booking runs in a Firestore transaction that also writes both people's
 // profiles, so two accepts touching the same person are serialised and can't double-book them.
-// Local-only for now: on in `npm run dev`, off on the live site unless VITE_PRODUCT_BUDDY_ENABLED=true.
+// Live; VITE_PRODUCT_BUDDY_ENABLED=false switches it off. Sample profiles and the dev routes stay local-only.
 
 const devMode = () => process.env.NODE_ENV !== 'production';
-const enabled = () => devMode() || process.env.VITE_PRODUCT_BUDDY_ENABLED === 'true';
+const enabled = () => process.env.VITE_PRODUCT_BUDDY_ENABLED !== 'false';
 
 const PROFILES = 'buddy_profiles';
 const REQUESTS = 'buddy_requests';

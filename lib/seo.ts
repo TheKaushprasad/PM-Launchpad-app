@@ -63,6 +63,11 @@ const STATIC: Record<string, Omit<RouteMeta, 'canonicalPath'>> = {
     description:
       'Free PM interview questions with sample answers: guesstimates, root cause analysis, product design, metrics, strategy, behavioral and AI product questions.',
   },
+  '/buddy': {
+    title: withBrand('Product Buddy: Free Peer Mock Interviews for Product Managers'),
+    description:
+      'Find another aspiring PM to practise mock interviews with. Swap turns, get a question and rubric for the interviewer, and share quick feedback after the call. Free.',
+  },
   '/tools': {
     title: withBrand('Free AI Career Tools for Aspiring Product Managers'),
     description: 'Free AI tools for PM job seekers: resume checker for product manager roles and LinkedIn profile optimiser.',
@@ -185,6 +190,7 @@ export function indexablePaths(): string[] {
     ...REAL_WORLD_PROJECTS.map((p) => `/projects/${p.id}`),
     ...allQuestionPaths(),
     '/jobs',
+    '/buddy',
     '/resources',
     ...ON_SITE_ASSIGNMENTS.map(assignmentPath),
     '/tools',

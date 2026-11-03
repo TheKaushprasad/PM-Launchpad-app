@@ -62,7 +62,7 @@ const aiPmCourse = AiPmCourse ? <AiPmCourse /> : <Navigate to="/dashboard" repla
 const AssignmentSolver = isAssignmentSolverEnabled ? lazy(() => import('./components/assignmentSolver/AssignmentSolver')) : null;
 const assignmentSolver = AssignmentSolver ? <AssignmentSolver /> : <Navigate to="/tools" replace />;
 
-// Product Buddy (peer mock interviews) is local-only too; the live site sends /buddy to the dashboard.
+// Product Buddy (peer mock interviews) is live; if switched off, /buddy goes to the dashboard.
 const ProductBuddy = isProductBuddyEnabled ? lazy(() => import('./components/productBuddy/ProductBuddy')) : null;
 const productBuddy = ProductBuddy ? <ProductBuddy /> : <Navigate to="/dashboard" replace />;
 

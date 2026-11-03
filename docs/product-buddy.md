@@ -1,7 +1,7 @@
 # Product Buddy (peer mock interviews)
 
-Find another PM candidate for a mock interview. Local-only for now: on in `npm run dev`, hidden on the
-live site (the page, the sidebar link and the API all stay off).
+Find another PM candidate for a mock interview. Live on thenoobpm.com/buddy (and in the sitemap). Sample
+profiles and the test buttons below stay local-only; on the live site sample profiles never show in matches.
 
 ## How it works
 
@@ -50,7 +50,10 @@ Needs `FIREBASE_SERVICE_ACCOUNT_KEY` in your local `.env` (same as other server 
 confirmed session. Both buttons only work locally. Sample profiles are written to the real (named) Firestore
 database, so delete the `sample_*` docs in `buddy_profiles` when done.
 
-## Launching
+## On the live site
 
-Set `VITE_PRODUCT_BUDDY_ENABLED=true` in Vercel (Production and Preview) and redeploy. Before launch: decide on
-WhatsApp (not built; email only for now), and seed enough profiles that searches aren't empty.
+Uses keys production already has: `FIREBASE_SERVICE_ACCOUNT_KEY` (Firestore) and `RESEND_API_KEY` (emails from
+no-reply@thenoobpm.com). No Firestore rules or indexes to add: every query uses one field, which Firestore indexes
+on its own, and browsers can't read the buddy collections (default deny). To switch the feature off, set
+`VITE_PRODUCT_BUDDY_ENABLED=false` in Vercel and redeploy. Not built yet: WhatsApp (email only). Matching needs
+enough profiles, so seed a few real ones early.

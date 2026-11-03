@@ -31,9 +31,9 @@ const MODULE_ITEMS = [
 
 const OTHER_NAV_ITEMS = [
   // Local-only course; never listed on the live site.
-  ...(isAiPmCourseEnabled ? [{ label: 'PM → AI PM', icon: GraduationCap, path: '/ai-pm', badge: 'Local' }] : []),
+  ...(isAiPmCourseEnabled ? [{ label: 'PM → AI PM', icon: GraduationCap, path: '/ai-pm' }] : []),
   { label: 'AI Mock Interview', icon: Sparkles, path: '/interview-studio', badge: isAiInterviewEnabled ? 'AI' : 'Soon' },
-  ...(isProductBuddyEnabled ? [{ label: 'Product Buddy', icon: Users, path: '/buddy', badge: 'Local' }] : []),
+  ...(isProductBuddyEnabled ? [{ label: 'Product Buddy', icon: Users, path: '/buddy', badge: 'New' }] : []),
   { label: 'Interview Questions', icon: MessagesSquare, path: '/interview-questions', badge: 'New' },
   { label: 'Real-World Projects', icon: FolderKanban, path: '/projects' },
   { label: 'PM Jobs', icon: Briefcase, path: '/jobs', badge: 'New' },

@@ -13,6 +13,6 @@ export const isAiPmCourseEnabled = import.meta.env.DEV || import.meta.env.VITE_A
 // VITE_ASSIGNMENT_SOLVER_ENABLED=true in Vercel and redeploy.
 export const isAssignmentSolverEnabled = import.meta.env.DEV || import.meta.env.VITE_ASSIGNMENT_SOLVER_ENABLED === 'true';
 
-// Product Buddy (peer mock-interview matching) is local-only too. To launch it, set
-// VITE_PRODUCT_BUDDY_ENABLED=true in Vercel and redeploy; the server reads the same variable.
-export const isProductBuddyEnabled = import.meta.env.DEV || import.meta.env.VITE_PRODUCT_BUDDY_ENABLED === 'true';
+// Product Buddy (peer mock-interview matching) is live. To switch it off, set
+// VITE_PRODUCT_BUDDY_ENABLED=false in Vercel and redeploy; the server reads the same variable.
+export const isProductBuddyEnabled = import.meta.env.VITE_PRODUCT_BUDDY_ENABLED !== 'false';

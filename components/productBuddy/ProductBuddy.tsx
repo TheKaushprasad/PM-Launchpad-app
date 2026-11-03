@@ -14,8 +14,7 @@ import { SessionsTab } from './SessionsTab';
 import type { BuddyProfile } from '../../lib/productBuddy/types';
 
 // Product Buddy: find a peer for a PM mock interview, send one request to up to 3 people, and the
-// first to accept gets the session (call link + calendar invite by email). Local-only for now
-// (lib/featureFlags.ts); the server owns every status change (server/productBuddy/routes.ts).
+// first to accept gets the session (call link + calendar invite by email). The server owns every status change (server/productBuddy/routes.ts).
 
 const TABS = ['find', 'requests', 'sessions', 'profile'] as const;
 type Tab = (typeof TABS)[number];
@@ -28,7 +27,7 @@ const STEPS = [
 
 const Header = () => (
   <header className="space-y-2">
-    <p className="text-[11px] font-black uppercase tracking-widest text-brand-600">Mock interviews · local preview</p>
+    <p className="text-[11px] font-black uppercase tracking-widest text-brand-600">Peer mock interviews</p>
     <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight flex items-center gap-2"><Users className="size-7 text-brand-600" /> Product Buddy</h1>
     <p className="text-sm sm:text-base text-slate-600 leading-relaxed max-w-3xl">
       Find another PM candidate to practise mock interviews with. Swap turns, give each other honest feedback, and keep a steady weekly rhythm.
