@@ -38,6 +38,36 @@ export const MAX_CRITIC_LOOPS = 2;
 /** A run stops once its estimated spend passes this (FR-OR-07). */
 export const DEFAULT_COST_LIMIT_USD = 1;
 
+// Feedback the user gives once a draft is ready: a 1-5 star rating plus quick picks.
+export const FEEDBACK_GOOD = [
+  'Saved me time',
+  'Clear structure',
+  'Useful research',
+  'Sources I could check',
+  'Right framework',
+  'Strong metrics',
+  'Good trade-offs',
+  'Easy to edit',
+] as const;
+export const FEEDBACK_BAD = [
+  'Too generic',
+  'Wrong or outdated facts',
+  'Misread the question',
+  'Weak metrics',
+  'Too long',
+  'Too short',
+  'Too slow',
+  'Something broke',
+] as const;
+
+export interface RunFeedback {
+  rating: number;
+  good: string[];
+  bad: string[];
+  comment: string;
+  sentAt: string;
+}
+
 export interface SolverInput {
   assignment: string;
   company: string;
@@ -169,4 +199,5 @@ export interface Run {
   loopCount: number;
   logs: StepLog[];
   costLimitUsd: number;
+  feedback?: RunFeedback;
 }

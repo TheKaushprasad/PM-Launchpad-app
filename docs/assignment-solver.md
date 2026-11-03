@@ -32,7 +32,7 @@ Design choices:
 - **The orchestrator runs in the browser** (`lib/assignmentSolver/orchestrator.ts`). Each agent step is its own request, so no request gets near Vercel's 60-second limit, and the pause for brief approval needs no server state. It retries a failed call once, then stops with a reason; sections averaging under 3.5 go back to the Writer with the Critic's feedback, at most twice; the run stops improving sections once its estimated cost passes the limit (USD 1 by default, also checked on the server).
 - **The Critic is not the Writer.** It uses a different prompt (a strict hiring manager who did not write the section), temperature 0, and a deterministic check that every [S#] citation exists.
 - **The UI shows what came from AI.** Each section is labelled AI draft, Edited by you, or Regenerated. The edit ratio (share of words the candidate changed) is shown: under 20% means "add more of you", over 50% means the draft was weak.
-- **Privacy.** Runs are kept only in the user's browser (localStorage), for 30 days, and can be deleted. The server stores nothing. Prompts and replies are traced in Langfuse when it is configured. Users see an NDA warning before they paste.
+- **Privacy.** Runs are kept only in the user's browser (localStorage), for 30 days, and can be deleted. The server stores only the optional feedback (star rating, picks, comment and a short run summary such as company, Critic average, edit ratio and cost) in the Firestore collection `assignmentSolverFeedback`, and the rating is also sent to the run's Langfuse session as `user_rating`. Prompts and replies are traced in Langfuse when it is configured. Users see an NDA warning before they paste.
 
 ## Code map
 

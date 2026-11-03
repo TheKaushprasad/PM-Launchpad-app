@@ -5,6 +5,7 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 import { BriefMarkdown } from '../assignments/BriefMarkdown';
+import { FeedbackCard } from './FeedbackCard';
 import { PASS_SCORE, RUBRIC, type Run, type Section, type SectionReview } from '../../lib/assignmentSolver/types';
 import { regenerateSection, rescoreSection, runCost, runTimeMs } from '../../lib/assignmentSolver/orchestrator';
 import { countInsightTags, draftMarkdown, formatSeconds, formatUsd, highlightInsightTags, linkCitations, runEditRatio } from '../../lib/assignmentSolver/draft';
@@ -236,6 +237,8 @@ export const DraftReview: React.FC<{ run: Run; onChange: (run: Run) => void; onN
         </div>
         <SourcesPanel run={run} />
       </div>
+
+      <FeedbackCard run={run} criticAverage={average} editRatio={runEditRatio(run)} onChange={onChange} />
 
       <details className="text-xs text-slate-500">
         <summary className="cursor-pointer font-bold">Run log ({run.logs.length} steps)</summary>
