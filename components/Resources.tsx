@@ -73,9 +73,16 @@ const certificationData = [
         provider: "Hugging Face",
         description: "Hands-on introduction to building AI agents, tool use, planning, and reasoning.", 
         url: "https://huggingface.co/learn/agents-course/en/unit0/introduction", 
-        icon: Zap 
+        icon: Zap
       },
-      { 
+      {
+        title: "AI Evals for Everyone",
+        provider: "Aishwarya Naresh Reganti & Kiriti Badam",
+        description: "Beginner-friendly 10-chapter course on evaluating AI products: reference datasets, metrics, LLM judges, and production monitoring. Certificate after the final quiz.",
+        url: "https://github.com/aishwaryanr/awesome-generative-ai-guide/blob/main/free_courses/ai_evals_for_everyone/README.md",
+        icon: Activity
+      },
+      {
         title: "Postman API Fundamentals – Student Expert", 
         provider: "Postman",
         description: "Demonstrates strong fundamentals in APIs, requests, collections, testing, and documentation.", 
