@@ -526,13 +526,45 @@ export const LandingPage: React.FC = () => {
               </AnimatePresence>
             </div>
 
-            {/* AI Mock Interview Link */}
-            <button 
-              onClick={() => navigate('/interview-studio')}
-              className="hover:text-emerald-700 transition-colors cursor-pointer"
+            {/* Interview Dropdown */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setActiveDropdown('interview')}
+              onMouseLeave={() => setActiveDropdown(null)}
             >
-              AI Mock Interview
-            </button>
+              <button 
+                onClick={() => setActiveDropdown(activeDropdown === 'interview' ? null : 'interview')}
+                aria-expanded={activeDropdown === 'interview'}
+                className="flex items-center gap-1 hover:text-emerald-700 transition-colors cursor-pointer py-2"
+              >
+                <span>Interview</span>
+                <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+              </button>
+
+              <AnimatePresence>
+                {activeDropdown === 'interview' && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 8 }}
+                    className="absolute top-full left-0 w-64 bg-white rounded-2xl shadow-xl border border-slate-100 p-2 z-50"
+                  >
+                    <button 
+                      onClick={() => navigate('/buddy')} 
+                      className="w-full text-left px-3 py-2 rounded-xl hover:bg-emerald-50 text-xs font-bold text-slate-800 hover:text-emerald-800 transition-colors block cursor-pointer"
+                    >
+                      🤝 Product Buddy
+                    </button>
+                    <button 
+                      onClick={() => navigate('/interview-studio')} 
+                      className="w-full text-left px-3 py-2 rounded-xl hover:bg-emerald-50 text-xs font-semibold text-slate-700 hover:text-emerald-800 transition-colors block cursor-pointer"
+                    >
+                      🎙️ AI Interviewer
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
 
             {/* PM Jobs Link */}
             <button 
@@ -701,12 +733,13 @@ export const LandingPage: React.FC = () => {
                   <button onClick={() => { setMobileMenuOpen(false); navigate('/resume-auditor'); }} className="block py-1 hover:text-emerald-700 font-medium">📄 AI Resume Auditor & ATS</button>
                 </div>
               </div>
-              <button 
-                onClick={() => { setMobileMenuOpen(false); navigate('/interview-studio'); }} 
-                className="w-full text-left py-2 font-semibold text-slate-800"
-              >
-                AI Mock Interview
-              </button>
+              <div className="py-1">
+                <p className="w-full text-left py-1.5 font-semibold text-slate-800">Interview</p>
+                <div className="pl-3 py-1 space-y-1.5 text-xs text-slate-600 border-l-2 border-emerald-100 ml-1">
+                  <button onClick={() => { setMobileMenuOpen(false); navigate('/buddy'); }} className="block py-1 hover:text-emerald-700 font-medium">🤝 Product Buddy</button>
+                  <button onClick={() => { setMobileMenuOpen(false); navigate('/interview-studio'); }} className="block py-1 hover:text-emerald-700 font-medium">🎙️ AI Interviewer</button>
+                </div>
+              </div>
               <button 
                 onClick={() => { setMobileMenuOpen(false); navigate('/jobs'); }} 
                 className="w-full text-left py-2 font-semibold text-slate-800"
