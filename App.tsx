@@ -172,17 +172,9 @@ const MainShell = () => {
         setMobileOpen(false);
     }, [location.pathname]);
 
+    // Same loader as the page chunks and the prerendered HTML, so one spinner shows from refresh to page.
     if (loading) {
-        return (
-            <div className="min-h-dvh bg-[#FDFDFD] flex items-center justify-center">
-                <div className="flex flex-col items-center gap-3">
-                    <Loader2 className="w-8 h-8 text-brand-600 animate-spin" />
-                    <span className="text-xs font-bold text-zinc-400 uppercase tracking-widest">
-                        Loading session...
-                    </span>
-                </div>
-            </div>
-        );
+        return <PageLoader fullScreen />;
     }
 
     // Strict Gate: If a user is signed in but has not verified their email, enforce VerifyEmailGate across the app

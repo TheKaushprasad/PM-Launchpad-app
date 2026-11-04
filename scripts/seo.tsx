@@ -49,8 +49,16 @@ function writeOutlines() {
   console.log(`[seo] wrote ${path.relative(ROOT, file)} (${sortedLessons.length} lessons)`);
 }
 
+// Visitors see the same spinner the app shows while it loads (styles in index.html). The page text stays in
+// the HTML for search engines and screen readers but is visually hidden; with JavaScript off it shows instead.
+const BOOT_LOADER =
+  `<div class="boot-loader" role="status" aria-hidden="true">` +
+  `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#047857" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>` +
+  `<span>Loading...</span></div>`;
+
 const shell = (inner: string) =>
-  `<main style="max-width:760px;margin:0 auto;padding:32px 16px;font-family:Inter,system-ui,sans-serif;color:#18181b;line-height:1.6">${inner}</main>`;
+  BOOT_LOADER +
+  `<main class="seo-text" style="max-width:760px;margin:0 auto;padding:32px 16px;font-family:Inter,system-ui,sans-serif;color:#18181b;line-height:1.6">${inner}</main>`;
 
 const link = (href: string, text: string) => `<a href="${href}">${esc(text)}</a>`;
 
@@ -59,7 +67,7 @@ const courseList = () =>
     .map((l) => `<li>${link(`/dashboard/day/${l.day}`, `Day ${l.day}: ${lessonTopic(l.title)}`)}</li>`)
     .join('')}</ol>`;
 
-// Visible text placed inside <div id="root">. React replaces it as soon as the app loads.
+// Text placed inside <div id="root"> (hidden behind the loader). React replaces it as soon as the app loads.
 function bodyFor(p: string): string {
   // The landing page is designed to animate in, so it gets the head tags only.
   if (p === '/') return '';
