@@ -55,13 +55,18 @@ function experienceLabel(job: JobSummary): string | null {
   return job.expMax !== undefined ? `${job.expMin}-${job.expMax} yrs` : `${job.expMin}+ yrs`;
 }
 
-const Chip: React.FC<{ active: boolean; onClick: () => void; children: React.ReactNode }> = ({ active, onClick, children }) => (
+const Chip: React.FC<{ active: boolean; onClick: () => void; disabled?: boolean; children: React.ReactNode }> = ({ active, onClick, disabled, children }) => (
   <button
     type="button"
     onClick={onClick}
+    disabled={disabled}
     aria-pressed={active}
     className={`inline-flex items-center pointer-coarse:min-h-11 px-3.5 py-1.5 rounded-full text-xs font-semibold border transition-colors ${
-      active ? 'bg-amber-200 text-zinc-900 border-amber-300' : 'bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+      active
+        ? 'bg-amber-200 text-zinc-900 border-amber-300'
+        : disabled
+          ? 'bg-slate-50 text-slate-400 border-slate-100 cursor-not-allowed'
+          : 'bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50'
     }`}
   >
     {children}
@@ -223,37 +228,53 @@ export const JobsBoard: React.FC = () => {
   useEffect(() => setVisible(PAGE_SIZE), [query, prefs, postedWithin, savedOnly]);
 
   const jobs = data?.jobs || [];
-  // Only offer levels that have open roles right now (with a count), plus any the visitor already
-  // picked, so a chip never leads to an empty board and a saved choice can still be turned off.
-  const levelCounts = useMemo(() => {
-    const counts = new Map<JobLevel, number>();
-    jobs.forEach((j) => counts.set(j.level, (counts.get(j.level) || 0) + 1));
-    return counts;
-  }, [jobs]);
-  const levelOptions = JOB_LEVELS.filter((l) => (levelCounts.get(l) || 0) > 0 || prefs.levels.includes(l));
   const cityOptions = useMemo(() => {
     const counts = new Map<string, number>();
     jobs.forEach((j) => j.cities.forEach((c) => counts.set(c, (counts.get(c) || 0) + 1)));
     return Array.from(counts.entries()).sort((a, b) => b[1] - a[1]).map(([c]) => c);
   }, [jobs]);
 
-  const filtered = useMemo(() => {
+  // Every filter except the role chips. The list adds the role check on top; the role chips count
+  // with this alone, so each chip says how many roles it would show with the other filters as they are.
+  const matchesOtherFilters = useMemo(() => {
     const q = query.trim().toLowerCase();
     const cutoff = postedWithin ? Date.now() - postedWithin * 86400000 : 0;
-    const list = jobs.filter((j) => {
+    return (j: JobSummary) => {
       if (savedOnly && !savedIds.includes(j.id)) return false;
       if (q && !`${j.title} ${j.company}`.toLowerCase().includes(q)) return false;
-      if (prefs.levels.length && !prefs.levels.includes(j.level)) return false;
       if (prefs.workModes.length && !prefs.workModes.includes(j.workMode)) return false;
       if (prefs.location === 'remote' && j.workMode !== 'Remote') return false;
       if (prefs.location !== 'all' && prefs.location !== 'remote' && !j.cities.includes(prefs.location)) return false;
       if (!matchesExperience(j, prefs.experience)) return false;
       if (cutoff && new Date(j.postedAt).getTime() < cutoff) return false;
       return true;
+    };
+  }, [query, prefs.workModes, prefs.location, prefs.experience, postedWithin, savedOnly, savedIds]);
+
+  // Role chips: offer every level that has any open role on the board (plus any already picked), so
+  // chips stay in place as filters change. The count follows the other filters; a 0 chip is greyed out.
+  const { levelCounts, otherFiltersTotal } = useMemo(() => {
+    const counts = new Map<JobLevel, number>();
+    let total = 0;
+    jobs.forEach((j) => {
+      if (!matchesOtherFilters(j)) return;
+      total += 1;
+      counts.set(j.level, (counts.get(j.level) || 0) + 1);
     });
+    return { levelCounts: counts, otherFiltersTotal: total };
+  }, [jobs, matchesOtherFilters]);
+  const levelOptions = useMemo(() => {
+    const onBoard = new Set(jobs.map((j) => j.level));
+    return JOB_LEVELS.filter((l) => onBoard.has(l) || prefs.levels.includes(l));
+  }, [jobs, prefs.levels]);
+
+  const filtered = useMemo(() => {
+    const list = jobs.filter(
+      (j) => matchesOtherFilters(j) && (!prefs.levels.length || prefs.levels.includes(j.level)),
+    );
     // The server already sends newest first, so only the company order needs a re-sort.
     return sortBy === 'company' ? [...list].sort((a, b) => a.company.localeCompare(b.company)) : list;
-  }, [jobs, query, prefs, postedWithin, savedOnly, savedIds, sortBy]);
+  }, [jobs, matchesOtherFilters, prefs.levels, sortBy]);
 
   // Folds a company's extra roles behind a "more roles" link. A search shows every match.
   const { shown, moreFor } = useMemo(() => {
@@ -450,13 +471,19 @@ export const JobsBoard: React.FC = () => {
         <div className="flex flex-wrap gap-2">
           <Chip active={prefs.levels.length === 0} onClick={() => setPrefs((p) => ({ ...p, levels: [] }))}>
             All roles
+            <span className="ml-1.5 tabular-nums opacity-70">{otherFiltersTotal}</span>
           </Chip>
-          {levelOptions.map((level) => (
-            <Chip key={level} active={prefs.levels.includes(level)} onClick={() => toggleLevel(level)}>
-              {level}
-              <span className="ml-1.5 tabular-nums opacity-70">{levelCounts.get(level) || 0}</span>
-            </Chip>
-          ))}
+          {levelOptions.map((level) => {
+            const count = levelCounts.get(level) || 0;
+            const active = prefs.levels.includes(level);
+            return (
+              // A picked chip stays clickable at 0 so it can still be turned off.
+              <Chip key={level} active={active} disabled={!active && count === 0} onClick={() => toggleLevel(level)}>
+                {level}
+                <span className="ml-1.5 tabular-nums opacity-70">{count}</span>
+              </Chip>
+            );
+          })}
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
