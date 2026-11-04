@@ -83,6 +83,13 @@ const certificationData = [
         icon: Activity
       },
       {
+        title: "AI-Assisted Prototyping",
+        provider: "pmcurve (Deepak Singh)",
+        description: "Free, self-paced program for PMs and founders: build and deploy four working prototypes with AI tools, no coding needed. Certificate on completion.",
+        url: "https://www.pmcurve.com/program/ai-assisted-prototyping",
+        icon: Sparkles
+      },
+      {
         title: "Postman API Fundamentals – Student Expert", 
         provider: "Postman",
         description: "Demonstrates strong fundamentals in APIs, requests, collections, testing, and documentation.", 
@@ -111,6 +118,20 @@ const certificationData = [
         description: "Focuses on defining a strong product vision, strategy, and long-term roadmap.", 
         url: "https://www.productledcertified.com/radical-product-thinking-vision-setting", 
         icon: Target 
+      },
+      {
+        title: "Product-Led Fundamentals",
+        provider: "ProductLed",
+        description: "Short course on moving from a sales-led to a product-led growth model, with a certificate at the end.",
+        url: "https://productled.com/plg-fundamentals",
+        icon: TrendingUp
+      },
+      {
+        title: "Design Thinking for Beginners",
+        provider: "Great Learning",
+        description: "Covers user needs, problem framing, ideation, prototyping, and testing, with Airbnb and Uber Eats case studies. Free certificate.",
+        url: "https://www.mygreatlearning.com/academy/learn-for-free/courses/introduction-to-design-thinking",
+        icon: Eye
       }
     ]
   },
@@ -148,6 +169,13 @@ const certificationData = [
         description: "Teaches data-driven decision-making using metrics, funnels, and experimentation.", 
         url: "https://productschool.teachable.com/p/productanalytics", 
         icon: BarChart2 
+      },
+      {
+        title: "Product Analytics Certification",
+        provider: "Pendo x Mind the Product",
+        description: "Free certification on using product analytics to understand user behaviour and guide product decisions. Needs a free sign-in.",
+        url: "https://www.productledcertified.com/product-analytics",
+        icon: PieChart
       }
     ]
   },
