@@ -8,6 +8,7 @@ import {
   Sparkles, Compass
 } from 'lucide-react';
 import { useAuth, UserType, getFriendlyAuthErrorMessage } from '../context/AuthContext';
+import { toast } from 'sonner';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const TARGET_ROLES = [
@@ -135,6 +136,8 @@ export const Profile: React.FC = () => {
 
   // Password reset message
   const [resetSent, setResetSent] = useState(false);
+  const [resetSending, setResetSending] = useState(false);
+  const [resetError, setResetError] = useState<string | null>(null);
 
   // Delete modal
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -212,13 +215,21 @@ export const Profile: React.FC = () => {
   };
 
   const handleSendPasswordReset = async () => {
-    if (!user?.email) return;
+    if (!user?.email || resetSending) return;
+    setResetSending(true);
+    setResetError(null);
     try {
       await resetPassword(user.email);
       setResetSent(true);
-      setTimeout(() => setResetSent(false), 4500);
+      toast.success('We have sent an email to reset your password', {
+        description: `Check your inbox at ${user.email} (and the spam folder).`,
+      });
     } catch (err: any) {
-      setSaveError(getFriendlyAuthErrorMessage(err));
+      const message = getFriendlyAuthErrorMessage(err);
+      setResetError(message);
+      toast.error(message);
+    } finally {
+      setResetSending(false);
     }
   };
 
@@ -362,17 +373,6 @@ export const Profile: React.FC = () => {
             </motion.div>
           )}
 
-          {resetSent && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              className="p-4 rounded-2xl bg-brand-50 border border-brand-200 text-brand-800 text-sm font-semibold flex items-center gap-3 shadow-2xs"
-            >
-              <CheckCircle2 className="w-5 h-5 text-brand-600 shrink-0" />
-              <span>Password reset email dispatched to {user?.email}! Check your inbox.</span>
-            </motion.div>
-          )}
         </AnimatePresence>
 
         {/* Profile Edit Form */}
@@ -720,12 +720,37 @@ export const Profile: React.FC = () => {
             <button
               type="button"
               onClick={handleSendPasswordReset}
-              className="bg-white border border-[#CBD5E1] hover:bg-slate-50 text-slate-700 text-xs font-semibold px-4 py-2.5 rounded-xl transition-colors flex items-center justify-center gap-2 shadow-2xs shrink-0 cursor-pointer"
+              disabled={resetSending}
+              className="bg-white border border-[#CBD5E1] hover:bg-slate-50 disabled:opacity-60 disabled:cursor-wait text-slate-700 text-xs font-semibold px-4 py-2.5 rounded-xl transition-colors flex items-center justify-center gap-2 shadow-2xs shrink-0 cursor-pointer"
             >
-              <KeyRound className="w-3.5 h-3.5 text-slate-500" />
-              <span>Send Reset Email</span>
+              {resetSending ? (
+                <Loader2 className="w-3.5 h-3.5 text-slate-500 animate-spin" />
+              ) : (
+                <KeyRound className="w-3.5 h-3.5 text-slate-500" />
+              )}
+              <span>{resetSending ? 'Sending...' : resetSent ? 'Resend Email' : 'Send Reset Email'}</span>
             </button>
           </div>
+          {resetSent && !resetError && (
+            <div
+              role="status"
+              className="-mt-2 p-4 rounded-2xl bg-brand-50 border border-brand-200 text-brand-800 text-sm font-semibold flex items-start gap-3"
+            >
+              <CheckCircle2 className="w-5 h-5 text-brand-600 shrink-0 mt-0.5" />
+              <span>
+                We have sent an email to reset your password to <span className="font-bold">{user?.email}</span>. Check your inbox (and the spam folder) and follow the link.
+              </span>
+            </div>
+          )}
+          {resetError && (
+            <div
+              role="alert"
+              className="-mt-2 p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-sm font-semibold flex items-start gap-3"
+            >
+              <AlertTriangle className="w-5 h-5 text-rose-600 shrink-0 mt-0.5" />
+              <span>{resetError}</span>
+            </div>
+          )}
 
           {/* Row 2: Delete Account & Data */}
           <div className="rounded-2xl bg-[#FFF1F2] border border-[#FECDD3] p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
