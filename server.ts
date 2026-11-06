@@ -30,6 +30,8 @@ import { getProjectById } from "./data/realWorldProjects";
 import { discoverJobBoards, getJobDetail, getJobsList, jobsStoreReady, refreshJobs } from "./server/jobs/store";
 import { registerAssignmentSolverRoutes } from "./server/assignmentSolver/routes";
 import { registerProductBuddyRoutes } from "./server/productBuddy/routes";
+import { registerPaymentRoutes, PAYMENTS_WEBHOOK_PATH, paymentsEnabled } from "./server/payments/routes";
+import { dodoMode, isDodoConfigured, isDodoWebhookConfigured } from "./server/payments/dodo";
 import { registerEvalDashboardRoutes } from "./server/evalDashboard";
 import { interviewAccessGate, registerInterviewAccessRoutes, saveTesterInterview, attachTesterEvaluation, isInterviewTester } from "./server/interviewTesters";
 import { requireAiAccess, getVerifiedUser, consumeDailyQuota, clientIp } from "./server/security";
@@ -59,7 +61,13 @@ export async function createExpressApp() {
   const UPLOAD_ROUTES = new Set(["/api/parse-resume-file", "/api/interview/transcribe"]);
   const uploadJson = express.json({ limit: '10mb' });
   const defaultJson = express.json({ limit: '1mb' });
-  app.use((req, res, next) => (UPLOAD_ROUTES.has(req.path.replace(/\/+$/, '')) ? uploadJson : defaultJson)(req, res, next));
+  // The Dodo Payments webhook is verified against the exact bytes that were signed, so it gets the raw body.
+  const rawWebhook = express.raw({ type: '*/*', limit: '1mb' });
+  app.use((req, res, next) => {
+    const route = req.path.replace(/\/+$/, '');
+    if (route === PAYMENTS_WEBHOOK_PATH) return rawWebhook(req, res, next);
+    return (UPLOAD_ROUTES.has(route) ? uploadJson : defaultJson)(req, res, next);
+  });
 
   // Health Check
   app.get("/api/health", (req, res) => {
@@ -80,6 +88,10 @@ export async function createExpressApp() {
       hasDeepgramKey: isDeepgramConfigured(),
       hasGroqKey: isGroqConfigured(),
       hasLangfuseKeys: isLangfuseConfigured(),
+      paymentsEnabled: paymentsEnabled(),
+      paymentsMode: dodoMode(),
+      hasDodoKeyAndProduct: isDodoConfigured(),
+      hasDodoWebhookKey: isDodoWebhookConfigured(),
       port: 3000
     });
   });
@@ -1607,6 +1619,8 @@ SUBMISSION>>>`;
   // ==========================================
   registerAssignmentSolverRoutes(app, requireAiAccess);
   registerProductBuddyRoutes(app);
+  // Payments via Dodo Payments (test mode; off on the live site unless VITE_PAYMENTS_ENABLED=true)
+  registerPaymentRoutes(app);
   // Local eval dashboard data (dev only, reads eval/results/)
   registerEvalDashboardRoutes(app);
 

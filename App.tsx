@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, Outlet, 
 import { SeoMeta } from './components/SeoMeta';
 import { Sidebar } from './components/Sidebar';
 import { LandingPage } from './components/LandingPage';
-import { isAiPmCourseEnabled, isAssignmentSolverEnabled, isProductBuddyEnabled } from './lib/featureFlags';
+import { isAiPmCourseEnabled, isAssignmentSolverEnabled, isPaymentsEnabled, isProductBuddyEnabled } from './lib/featureFlags';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { Menu, X, AlertTriangle, Loader2 } from 'lucide-react';
 
@@ -65,6 +65,12 @@ const assignmentSolver = AssignmentSolver ? <AssignmentSolver /> : <Navigate to=
 // Product Buddy (peer mock interviews) is live; if switched off, /buddy goes to the dashboard.
 const ProductBuddy = isProductBuddyEnabled ? lazy(() => import('./components/productBuddy/ProductBuddy')) : null;
 const productBuddy = ProductBuddy ? <ProductBuddy /> : <Navigate to="/dashboard" replace />;
+
+// Pricing + checkout (Dodo Payments, test mode) are local-only; the live site sends these URLs home.
+const PricingPage = isPaymentsEnabled ? lazy(() => import('./components/payments/PricingPage')) : null;
+const pricingPage = PricingPage ? <PricingPage /> : <Navigate to="/" replace />;
+const PaymentThanks = isPaymentsEnabled ? lazy(() => import('./components/payments/PaymentThanks')) : null;
+const paymentThanks = PaymentThanks ? <PaymentThanks /> : <Navigate to="/" replace />;
 
 // Eval results dashboard: only in `npm run dev`, never in the live build (its data route is dev-only too).
 const EvalDashboard = import.meta.env.DEV ? lazy(() => import('./components/admin/EvalDashboard')) : null;
@@ -318,6 +324,10 @@ const App: React.FC = () => {
 
                 {/* Product Buddy: peer mock interviews (local only) */}
                 <Route path="/buddy" element={productBuddy} />
+
+                {/* Pricing and checkout (local only, Dodo Payments test mode) */}
+                <Route path="/pricing" element={pricingPage} />
+                <Route path="/pricing/thanks" element={paymentThanks} />
 
                 {/* Eval results dashboard (local only, admin) */}
                 <Route path="/admin/evals" element={evalDashboard} />
