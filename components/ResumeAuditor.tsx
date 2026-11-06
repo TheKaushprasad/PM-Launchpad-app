@@ -15,6 +15,8 @@ import { ResumeAuditResult, StoredResumeDocument } from '../types/resumeAuditor'
 import { evaluateResumeAlgorithmically } from '../lib/resumeAuditEngine';
 import { authJsonHeaders } from '../lib/apiClient';
 import { AuthModal } from './auth/AuthModal';
+import { ToolPaywall, ToolRunsBadge, useToolCredits } from './payments/ToolPaywall';
+import { isPaywallResponse } from './payments/api';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const INITIAL_ROLES = [
@@ -108,6 +110,9 @@ export const ResumeAuditor: React.FC = () => {
   const [isAuditing, setIsAuditing] = useState<boolean>(false);
   const [loadingPhase, setLoadingPhase] = useState<string>('Parsing resume structure...');
   const [error, setError] = useState<string | null>(null);
+  // Paid runs (only when payments are on): the server answers 402 once the free audit is used.
+  const [paywallMessage, setPaywallMessage] = useState<string | null>(null);
+  const { credits, refresh: refreshCredits } = useToolCredits();
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
   const [allCopied, setAllCopied] = useState<boolean>(false);
 
@@ -319,6 +324,7 @@ export const ResumeAuditor: React.FC = () => {
     }
 
     setError(null);
+    setPaywallMessage(null);
     setIsAuditing(true);
     setLoadingPhase('Senior PM Hiring Manager reviewing resume signals...');
 
@@ -344,12 +350,22 @@ export const ResumeAuditor: React.FC = () => {
           })
         });
 
+        if (response.status === 402) {
+          const data = await response.json().catch(() => ({}));
+          if (isPaywallResponse(response.status, data)) {
+            phaseTimers.forEach(clearTimeout);
+            setPaywallMessage(data.error);
+            refreshCredits();
+            return;
+          }
+        }
         if (response.ok) {
           const data = await response.json();
           if (data.success && data.audit) {
             finalAudit = data.audit;
           }
         }
+        refreshCredits();
       } catch (fetchErr) {
         console.warn('Backend audit endpoint unreachable, running browser PM heuristic auditor:', fetchErr);
       }
@@ -907,8 +923,11 @@ export const ResumeAuditor: React.FC = () => {
                 </div>
               )}
 
+              {paywallMessage && <ToolPaywall tool="resume" message={paywallMessage} onClose={() => setPaywallMessage(null)} />}
+
               {/* Action Button */}
-              <div>
+              <div className="space-y-2">
+                <ToolRunsBadge tool="resume" credits={credits} />
                 <button
                   type="button"
                   disabled={isAuditing}

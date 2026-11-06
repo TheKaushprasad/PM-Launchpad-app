@@ -1,4 +1,5 @@
 import { createHmac, timingSafeEqual } from 'node:crypto';
+import { configuredOffers } from './catalog';
 
 // Thin Dodo Payments client: plain fetch against the REST API plus Standard Webhooks signature
 // checks, so the app needs no extra packages. Docs: https://docs.dodopayments.com
@@ -12,9 +13,9 @@ export const dodoMode = (): DodoMode => (process.env.DODO_PAYMENTS_ENVIRONMENT?.
 const baseUrl = () => (dodoMode() === 'live_mode' ? 'https://live.dodopayments.com' : 'https://test.dodopayments.com');
 const apiKey = () => process.env.DODO_PAYMENTS_API_KEY?.trim() || '';
 const webhookKey = () => process.env.DODO_PAYMENTS_WEBHOOK_KEY?.trim() || '';
-export const sprintProductId = () => process.env.DODO_SPRINT_PRODUCT_ID?.trim() || '';
-
-export const isDodoConfigured = () => Boolean(apiKey() && sprintProductId());
+export const isDodoKeyConfigured = () => Boolean(apiKey());
+/** An API key and at least one product id (see catalog.ts). */
+export const isDodoConfigured = () => Boolean(apiKey() && configuredOffers().length);
 export const isDodoWebhookConfigured = () => Boolean(webhookKey());
 
 export class DodoError extends Error {
@@ -72,14 +73,14 @@ export interface DodoProduct {
   price: { type: string; price?: number; fixed_price?: number; currency: string };
 }
 
-let productCache: { id: string; at: number; product: DodoProduct } | null = null;
+const productCache = new Map<string, { at: number; product: DodoProduct }>();
 
-/** The sprint product as set up in the Dodo dashboard (name and price), cached for 10 minutes. */
-export async function getSprintProduct(): Promise<DodoProduct> {
-  const id = sprintProductId();
-  if (productCache && productCache.id === id && Date.now() - productCache.at < 10 * 60 * 1000) return productCache.product;
+/** A product as set up in the Dodo dashboard (name and price), cached for 10 minutes. */
+export async function getProduct(id: string): Promise<DodoProduct> {
+  const hit = productCache.get(id);
+  if (hit && Date.now() - hit.at < 10 * 60 * 1000) return hit.product;
   const product = await dodoFetch<DodoProduct>('GET', `/products/${encodeURIComponent(id)}`);
-  productCache = { id, at: Date.now(), product };
+  productCache.set(id, { at: Date.now(), product });
   return product;
 }
 

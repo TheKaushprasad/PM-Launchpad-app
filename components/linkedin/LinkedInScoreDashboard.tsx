@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   LinkedInAnalysisResult, 
@@ -124,6 +125,8 @@ export const LinkedInScoreDashboard: React.FC<LinkedInScoreDashboardProps> = ({
       const data = await res.json();
       if (data.success) {
         setCustomRewriteResult(data);
+      } else if (res.status === 402 && data.error) {
+        toast.error(data.error);
       }
     } catch (e) {
       console.error(e);

@@ -1,9 +1,40 @@
 # Payments (Dodo Payments, test mode)
 
-The site sells one product for now, the **AI interview sprint**, through [Dodo Payments](https://docs.dodopayments.com).
+The site sells the **AI interview sprint** and **paid runs** of three career tools through [Dodo Payments](https://docs.dodopayments.com).
 Dodo is the Merchant of Record: it runs the checkout page, takes cards and UPI, handles GST/tax and emails the receipt.
 
 Everything is in **test mode**: no real money moves. Payments are **off on the live site**.
+
+## What is sold
+
+| Offer key | Env var with the Dodo product id | Suggested price | Gives |
+| - | - | - | - |
+| `interview_sprint` | `DODO_SPRINT_PRODUCT_ID` | ₹300 | 1 interview sprint (counted only, not used yet) |
+| `resume_1` | `DODO_RESUME_PRODUCT_ID` | ₹49 | 1 Resume Auditor run |
+| `resume_3` | `DODO_RESUME_PACK_PRODUCT_ID` | ₹99 | 3 Resume Auditor runs |
+| `linkedin_1` | `DODO_LINKEDIN_PRODUCT_ID` | ₹79 | 1 LinkedIn Optimiser audit |
+| `linkedin_3` | `DODO_LINKEDIN_PACK_PRODUCT_ID` | ₹149 | 3 LinkedIn Optimiser audits |
+| `solver_1` | `DODO_SOLVER_PRODUCT_ID` | ₹149 | 1 Assignment Solver run |
+| `job_pack` | `DODO_JOB_PACK_PRODUCT_ID` | ₹299 | 3 resume + 3 LinkedIn + 2 Solver runs |
+
+The list lives in `server/payments/catalog.ts`. The price you set in Dodo is the price shown and charged; the
+"suggested" column is only a starting point. A product whose env var is empty is simply not shown.
+
+### Free runs and paid runs (only while payments are on)
+
+- **Resume Auditor** and **LinkedIn Optimiser**: the first run on each account is free, then each run uses one
+  paid credit. The LinkedIn sample preview is always free. LinkedIn rewrites are included for 24 hours after an
+  audit.
+- **Assignment Solver**: no free run. One credit is spent at the first (Parser) step; the later steps only work
+  for that paid run. The 3-runs-a-day limit is skipped while payments are on, since each run is paid.
+- If a run fails (server error, blocked LinkedIn profile), the run is given back.
+- Out of runs, the server answers `402` with `paywall: "<tool>"` and the tool shows buy buttons.
+
+On the **live site (payments off) none of this applies**: the tools stay free exactly as before.
+
+Stored in `user_entitlements/{uid}` (per mode): `credits.<mode>.<tool>`, `freeUsed.<mode>.<tool>`,
+`lastRun.<mode>.<tool>`, `solverRuns.<mode>.<runId>`. Code: `server/payments/credits.ts`,
+`components/payments/ToolPaywall.tsx`. `GET /api/payments/credits` returns the signed-in user's runs.
 
 ## How it works
 
@@ -12,7 +43,8 @@ Everything is in **test mode**: no real money moves. Payments are **off on the l
    session with the user's id in `metadata.uid` and sends the browser to Dodo's hosted checkout.
 3. After paying, Dodo sends the buyer to `/pricing/thanks?payment_id=…&status=…`.
 4. Dodo also calls `POST /api/payments/webhook`, signed (Standard Webhooks). The server checks the signature and, on
-   `payment.succeeded`, adds one sprint to `user_entitlements/{uid}.interviewSprints.test_mode`, once per payment.
+   `payment.succeeded`, adds what that offer gives (a sprint, or tool credits) to `user_entitlements/{uid}`, once per
+   payment.
 5. The thanks page polls `GET /api/payments/status` until the webhook has landed.
 
 Access is granted only from the webhook, never from the return URL (anyone could type `?status=succeeded`).
@@ -23,7 +55,7 @@ Firestore collections (server-only, the default-deny rule already keeps browsers
 Code: `server/payments/dodo.ts` (REST calls + signature check), `server/payments/routes.ts`,
 `components/payments/`. No extra npm packages.
 
-A sprint is only counted for now. Nothing in the AI interview checks or uses it yet; that is the next step once
+A sprint is only counted for now (tool credits are used, see above). Nothing in the AI interview checks or uses it yet; that is the next step once
 the sprint's contents (how many interviews, how long) are decided.
 
 ## Environment variables
@@ -34,9 +66,11 @@ the sprint's contents (how many interviews, how long) are decided.
 | `DODO_PAYMENTS_WEBHOOK_KEY` | Webhook signing secret (`whsec_…`) | services/.env, Vercel (Preview) |
 | `DODO_PAYMENTS_ENVIRONMENT` | `test_mode` (default). Only `live_mode` switches to real money | services/.env, Vercel |
 | `DODO_SPRINT_PRODUCT_ID` | `pdt_…` id of the sprint product | services/.env, Vercel (Preview) |
+| `DODO_RESUME_PRODUCT_ID`, `DODO_RESUME_PACK_PRODUCT_ID`, `DODO_LINKEDIN_PRODUCT_ID`, `DODO_LINKEDIN_PACK_PRODUCT_ID`, `DODO_SOLVER_PRODUCT_ID`, `DODO_JOB_PACK_PRODUCT_ID` | `pdt_…` ids of the tool products (table above) | services/.env, Vercel (Preview) |
 | `VITE_PAYMENTS_ENABLED` | `true` shows `/pricing` on a Vercel build. Not needed locally | Vercel **Preview only** |
 
-`/api/health` shows `paymentsEnabled`, `paymentsMode`, `hasDodoKeyAndProduct`, `hasDodoWebhookKey`.
+`/api/health` shows `paymentsEnabled`, `paymentsMode`, `hasDodoKeyAndProduct`, `hasDodoWebhookKey`, `dodoProducts`
+(which offers have a product id).
 
 ## Setup, click by click
 
@@ -46,6 +80,8 @@ the sprint's contents (how many interviews, how long) are decided.
    (test mode). Everything below is created in test mode.
 2. **Products → Create product** → One-time payment. Name `AI interview sprint`, a short description, price in
    INR, tax category **EdTech** (or SaaS). Save, open the product and copy its id (`pdt_…`).
+   Repeat for each tool product in the table above (for example `3 resume audits`, ₹99), one product each, and
+   put each id in its env var. The description you write shows on the pricing page.
 3. **Developer → API Keys → Create API key** (test mode). Copy it now; it is shown once.
 4. **Developer → Webhooks → Add endpoint**:
    - URL: `https://<your-vercel-preview-url>/api/payments/webhook` (Dodo needs a public https URL, so localhost does not
@@ -75,6 +111,16 @@ webhook URL with `?x-vercel-protection-bypass=<secret>`.
 
 The webhook page's **Testing → Send example** checks the signature only; example payloads have no `uid`, so the
 server answers 200 with "payment not started from the app" and grants nothing.
+
+### 3b. Test the tools' paid runs
+
+1. Sign in on the preview (or locally), open **Resume Auditor** and run one audit: it is free and the badge then
+   says the free audit is used.
+2. Run a second audit: the buy box appears. Buy `3 resume audits` with the test card, come back, run again; the
+   badge counts down.
+3. Same for **LinkedIn Optimiser**. **Assignment Solver** shows the buy box straight away.
+4. Firestore `user_entitlements/<your uid>` shows `credits`, `freeUsed` and `solverRuns`.
+To test the free run again, delete the `freeUsed` field in that document.
 
 ### 4. Locally (`npm run dev`)
 

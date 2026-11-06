@@ -13,7 +13,11 @@ import {
 
 type Update = (run: Run) => void;
 
-class StepFailed extends Error {}
+class StepFailed extends Error {
+  constructor(message: string, public paywall = false) {
+    super(message);
+  }
+}
 
 export const newRunId = () => `as_${Date.now().toString(36)}${Math.random().toString(36).slice(2, 8)}`;
 
@@ -54,6 +58,7 @@ const NO_RETRY = new Set([400, 401, 402, 403, 404, 422, 429]);
 
 async function callAgent<T>(run: Run, agent: AgentName, body: Record<string, unknown>, itemId?: string): Promise<T & { usage: StepUsage }> {
   let lastError = '';
+  let paywall = false;
   for (let attempt = 0; attempt < 2; attempt++) {
     const startedAt = Date.now();
     try {
@@ -66,6 +71,8 @@ async function callAgent<T>(run: Run, agent: AgentName, body: Record<string, unk
       if (!res.ok) {
         lastError = data?.error || `The ${agent} step failed (HTTP ${res.status}).`;
         logStep(run, { agent, itemId, model: '', inputTokens: 0, outputTokens: 0, searches: 0, costUsd: 0, latencyMs: Date.now() - startedAt }, lastError);
+        // 402 with `paywall` means no paid runs left (payments on only); the screen shows buy options.
+        paywall = res.status === 402 && typeof data?.paywall === 'string';
         if (NO_RETRY.has(res.status)) break;
         continue;
       }
@@ -76,7 +83,7 @@ async function callAgent<T>(run: Run, agent: AgentName, body: Record<string, unk
       logStep(run, { agent, itemId, model: '', inputTokens: 0, outputTokens: 0, searches: 0, costUsd: 0, latencyMs: Date.now() - startedAt }, lastError);
     }
   }
-  throw new StepFailed(lastError);
+  throw new StepFailed(lastError, paywall);
 }
 
 function logStep(run: Run, step: Omit<StepLog, 'status' | 'at' | 'error'>, error?: string) {
@@ -93,6 +100,7 @@ function logStep(run: Run, step: Omit<StepLog, 'status' | 'at' | 'error'>, error
 function fail(run: Run, agent: AgentName, err: unknown, onUpdate: Update): Run {
   run.agentStatus[agent] = 'failed';
   run.status = 'failed';
+  run.paywall = err instanceof StepFailed && err.paywall;
   run.error = `${agent === 'critique' ? 'Critic' : agent[0].toUpperCase() + agent.slice(1)} step failed: ${(err as Error)?.message || err}`;
   onUpdate(clone(run));
   return run;
