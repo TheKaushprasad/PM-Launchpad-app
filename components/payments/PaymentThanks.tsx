@@ -3,7 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { CheckCircle2, Clock, Loader2, XCircle } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { Button } from '../ui/button';
-import { formatPrice, paymentsApi, type PaymentStatus } from './api';
+import { TOOL_LABELS, formatPrice, paymentsApi, type PaymentStatus, type ToolKey } from './api';
 import { TestModeBanner } from './PricingPage';
 
 // Dodo sends the buyer back here with ?payment_id=…&status=…. The status in the URL is only a hint;
@@ -17,6 +17,8 @@ const PaymentThanks: React.FC = () => {
   const [params] = useSearchParams();
   const paymentId = params.get('payment_id') || '';
   const urlStatus = params.get('status') || '';
+  // Where the buyer came from: a tool page sets this before sending them to checkout.
+  const [next] = useState(() => { try { return sessionStorage.getItem('payment_next') || ''; } catch { return ''; } });
   const [result, setResult] = useState<PaymentStatus | null>(null);
   const [error, setError] = useState('');
   const [timedOut, setTimedOut] = useState(false);
@@ -44,6 +46,17 @@ const PaymentThanks: React.FC = () => {
   }, [user?.uid, paymentId]);
 
   const status = result?.status || 'waiting';
+  const isSprint = !result?.product || result.product === 'interview_sprint';
+  const runsLeft = result
+    ? (['resume', 'linkedin', 'solver'] as ToolKey[])
+      .filter((t) => result[t]?.credits)
+      .map((t) => `${result[t].credits} ${result[t].credits === 1 ? TOOL_LABELS[t].one : TOOL_LABELS[t].many}`)
+      .join(', ')
+    : '';
+  const nextTool = (Object.keys(TOOL_LABELS) as ToolKey[]).find((t) => TOOL_LABELS[t].path === next);
+  const backTo = nextTool
+    ? { path: next, label: `Back to ${TOOL_LABELS[nextTool].name}` }
+    : isSprint ? { path: '/interview-studio', label: 'Go to the AI interview' } : { path: '/tools', label: 'Go to the tools' };
   let body: React.ReactNode;
   if (!paymentId) {
     body = <p className="text-sm text-slate-600">No payment to show. <Link to="/pricing" className="font-bold text-brand-700 underline">Back to pricing</Link></p>;
@@ -57,9 +70,12 @@ const PaymentThanks: React.FC = () => {
         <p className="flex items-center gap-2 text-lg font-black text-emerald-700"><CheckCircle2 className="size-6" /> Payment received</p>
         <p className="text-sm text-slate-700">
           {result?.amount != null && <>You paid {formatPrice(result.amount, result.currency)}. </>}
-          You now have {result?.sprints} interview sprint{result?.sprints === 1 ? '' : 's'}{result?.mode === 'test_mode' ? ' (test mode)' : ''}.
+          {isSprint
+            ? <>You now have {result?.sprints} interview sprint{result?.sprints === 1 ? '' : 's'}</>
+            : <>You now have {runsLeft || 'your new runs'}</>}
+          {result?.mode === 'test_mode' ? ' (test mode)' : ''}.
         </p>
-        <Button asChild variant="brand"><Link to="/interview-studio">Go to the AI interview</Link></Button>
+        <Button asChild variant="brand"><Link to={backTo.path}>{backTo.label}</Link></Button>
       </div>
     );
   } else if (status === 'failed' || status === 'cancelled') {

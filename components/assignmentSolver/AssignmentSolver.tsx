@@ -14,6 +14,7 @@ import { AGENTS, AGENT_LABELS, ITEM_TYPES, type Brief, type ItemType, type Run, 
 import { parseAssignment, runAgents, runCost, runTimeMs } from '../../lib/assignmentSolver/orchestrator';
 import { deleteRun, formatSeconds, formatUsd, loadRuns, saveRun } from '../../lib/assignmentSolver/draft';
 import { DraftReview } from './DraftReview';
+import { ToolPaywall, ToolRunsBadge, useToolCredits } from '../payments/ToolPaywall';
 
 // PM Assignment Solver: the user pastes a take-home assignment, approves what the Parser found,
 // and five agents produce a first draft that the user reviews and edits. "AI drafts, the PM decides."
@@ -202,6 +203,9 @@ export const AssignmentSolver: React.FC = () => {
   const { user } = useAuth();
   const [authOpen, setAuthOpen] = useState(false);
   const [run, setRun] = useState<Run | null>(null);
+  // Paid runs (only when payments are on): one Solver credit per run, no free run.
+  const { credits, refresh: refreshCredits } = useToolCredits();
+  const outOfRuns = credits?.solver ? credits.solver.freeLeft + credits.solver.credits === 0 : false;
   const [history, setHistory] = useState<Run[]>(() => loadRuns());
   const busy = !!run && (run.status === 'parsing' || run.status === 'running');
 
@@ -216,6 +220,7 @@ export const AssignmentSolver: React.FC = () => {
   const start = async (input: SolverInput) => {
     if (!user) return setAuthOpen(true);
     await parseAssignment(input, setRun);
+    refreshCredits();
   };
 
   const approve = async (brief: Brief) => {
@@ -240,7 +245,10 @@ export const AssignmentSolver: React.FC = () => {
           Five AI agents read your take-home assignment, research the company, pick a framework, write a first draft and grade it.
           <span className="font-bold text-slate-900"> AI drafts, the PM decides:</span> you edit every section and add your own insight before you submit.
         </p>
+        <ToolRunsBadge tool="solver" credits={credits} />
       </header>
+
+      {!run && outOfRuns && <ToolPaywall tool="solver" />}
 
       {run && (
         <div className="space-y-2">
@@ -249,7 +257,9 @@ export const AssignmentSolver: React.FC = () => {
         </div>
       )}
 
-      {run?.status === 'failed' && (
+      {run?.status === 'failed' && run.paywall && <ToolPaywall tool="solver" message={run.error?.replace(/^Parse step failed: /, '')} />}
+
+      {run?.status === 'failed' && !run.paywall && (
         <div className="flex items-start gap-3 rounded-xl bg-rose-50 border border-rose-200 p-3 text-sm text-rose-900">
           <AlertTriangle className="size-4 mt-0.5 shrink-0" />
           <div className="space-y-2">

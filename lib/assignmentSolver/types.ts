@@ -190,6 +190,8 @@ export interface Run {
   input: SolverInput;
   status: RunStatus;
   error?: string;
+  /** Set when the server said the account has no Solver runs left (payments on only). */
+  paywall?: boolean;
   agentStatus: Record<AgentName, AgentStatus>;
   brief?: Brief;
   research?: Research;

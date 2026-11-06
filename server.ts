@@ -32,6 +32,8 @@ import { registerAssignmentSolverRoutes } from "./server/assignmentSolver/routes
 import { registerProductBuddyRoutes } from "./server/productBuddy/routes";
 import { registerPaymentRoutes, PAYMENTS_WEBHOOK_PATH, paymentsEnabled } from "./server/payments/routes";
 import { dodoMode, isDodoConfigured, isDodoWebhookConfigured } from "./server/payments/dodo";
+import { requireToolRun, requireRecentLinkedInRun } from "./server/payments/credits";
+import { configuredOffers } from "./server/payments/catalog";
 import { registerEvalDashboardRoutes } from "./server/evalDashboard";
 import { interviewAccessGate, registerInterviewAccessRoutes, saveTesterInterview, attachTesterEvaluation, isInterviewTester } from "./server/interviewTesters";
 import { requireAiAccess, getVerifiedUser, consumeDailyQuota, clientIp } from "./server/security";
@@ -92,6 +94,7 @@ export async function createExpressApp() {
       paymentsMode: dodoMode(),
       hasDodoKeyAndProduct: isDodoConfigured(),
       hasDodoWebhookKey: isDodoWebhookConfigured(),
+      dodoProducts: configuredOffers().map((o) => o.key),
       port: 3000
     });
   });
@@ -315,7 +318,7 @@ export async function createExpressApp() {
   const requireAiAccessUnlessSample: express.RequestHandler = (req, res, next) =>
     req.body?.useSample === true ? next() : requireAiAccess(req, res, next);
 
-  app.post(["/api/analyse-profile", "/api/analyse-profile/"], requireAiAccessUnlessSample, async (req, res) => {
+  app.post(["/api/analyse-profile", "/api/analyse-profile/"], requireAiAccessUnlessSample, requireToolRun("linkedin", { skip: (req) => req.body?.useSample === true || String(req.body?.linkedinUrl || "").includes("example") }), async (req, res) => {
     console.log(`[${new Date().toISOString()}] POST ${req.path} - Analyzing Profile`);
     try {
       const { 
@@ -430,7 +433,7 @@ export async function createExpressApp() {
   });
 
   // 2. Section Rewriter (Headline, About, Experience bullets)
-  app.post(["/api/rewrite", "/api/rewrite/"], requireAiAccess, async (req, res) => {
+  app.post(["/api/rewrite", "/api/rewrite/"], requireAiAccess, requireRecentLinkedInRun, async (req, res) => {
     try {
       const { section, currentText, targetRole = 'Product Manager', focusTag = 'Recruiter-Optimized', customInstructions } = req.body;
 
@@ -821,7 +824,7 @@ Guidelines:
   // ==========================================
   // PM RESUME AUDITOR API ENDPOINT
   // ==========================================
-  app.post("/api/audit-resume", requireAiAccess, async (req, res) => {
+  app.post("/api/audit-resume", requireAiAccess, requireToolRun("resume"), async (req, res) => {
     console.log(`[${new Date().toISOString()}] POST ${req.path} - Auditing PM Resume`);
     try {
       const { resumeText, targetRole = "Product Manager", jobTitle, jobDescription } = req.body;

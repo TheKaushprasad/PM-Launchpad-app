@@ -13,6 +13,8 @@ import { getSampleAnalysis } from '../services/profileAnalyzer';
 import { useAuth } from '../context/AuthContext';
 import { authJsonHeaders } from '../lib/apiClient';
 import { AuthModal } from './auth/AuthModal';
+import { ToolPaywall, ToolRunsBadge, useToolCredits } from './payments/ToolPaywall';
+import { isPaywallResponse } from './payments/api';
 
 interface ContextType {
   isCollapsed: boolean;
@@ -92,6 +94,9 @@ export const LinkedInOptimiser: React.FC = () => {
   
   // Scraper Error & Graceful Fallback Notice
   const [scrapeNotice, setScrapeNotice] = useState<string | null>(null);
+  // Paid runs (only when payments are on): the server answers 402 once the free audit is used.
+  const [paywallMessage, setPaywallMessage] = useState<string | null>(null);
+  const { credits, refresh: refreshCredits } = useToolCredits();
 
   // Analysis result
   const [analysisResult, setAnalysisResult] = useState<LinkedInAnalysisResult | null>(null);
@@ -132,6 +137,7 @@ export const LinkedInOptimiser: React.FC = () => {
     setIsLoading(true);
     setProgress(15);
     setScrapeNotice(null);
+    setPaywallMessage(null);
     setLoadingPhase(params.sourceFileName ? `Analyzing LinkedIn PDF (${params.sourceFileName})...` : 'Segregating profile sections (Headline, About, Experience, Skills)...');
 
     // Progress simulation
@@ -175,6 +181,15 @@ export const LinkedInOptimiser: React.FC = () => {
       });
 
       const data = await response.json();
+      if (!params.useSample) refreshCredits();
+
+      if (isPaywallResponse(response.status, data)) {
+        // Out of runs: show the buy options on the form instead of falling back to the sample.
+        setPaywallMessage(data.error);
+        setIsLoading(false);
+        setViewState('form');
+        return;
+      }
 
       if (data.isBlockedOrPrivate) {
         // Scraper was restricted or profile is private
@@ -304,6 +319,12 @@ export const LinkedInOptimiser: React.FC = () => {
         )}
 
         {/* View 2: Form Input */}
+        {viewState === 'form' && (paywallMessage || credits?.linkedin) && (
+          <div className="mb-6 space-y-3">
+            <ToolRunsBadge tool="linkedin" credits={credits} />
+            {paywallMessage && <ToolPaywall tool="linkedin" message={paywallMessage} onClose={() => setPaywallMessage(null)} />}
+          </div>
+        )}
         {viewState === 'form' && (
           <LinkedInInputForm
             onBackToLanding={() => setViewState('landing')}

@@ -5,6 +5,7 @@ import { consumeDailyQuota, getVerifiedUser } from "../security";
 import { getAppFirestore, isFirebaseAdminConfigured } from "../../services/firebaseAdmin";
 import { cleanBrief, cleanFacts, cleanStrategy, runCritic, runParser, runResearcher, runStrategist, runWriter } from "./agents";
 import { SolverError } from "./gemini";
+import { paymentsEnabled, requirePaidSolverRun, requireToolRun } from "../payments/credits";
 
 // HTTP endpoints for the PM Assignment Solver, one per agent step. Each step is its own request so
 // no request runs near Vercel's 60s limit, and the browser can pause for the user after the Parser.
@@ -32,8 +33,13 @@ export function registerAssignmentSolverRoutes(app: express.Express, requireAiAc
     next();
   };
 
+  // When payments are on, a run costs one Solver credit, spent at the Parser step (given back if it
+  // fails); the later steps only work for that paid run. Off on the live site: the daily limit applies.
+  const paidRun = (agent: string): express.RequestHandler =>
+    agent === "parse" ? requireToolRun("solver", { runId: (req) => cleanSessionId(req.header("X-Solver-Run")) || "" }) : requirePaidSolverRun;
+
   const route = (agent: string, handler: (body: any, res: express.Response) => Promise<Record<string, unknown>>) => {
-    app.post([`/api/assignment-solver/${agent}`, `/api/assignment-solver/${agent}/`], requireAiAccess, costCap, async (req, res) => {
+    app.post([`/api/assignment-solver/${agent}`, `/api/assignment-solver/${agent}/`], requireAiAccess, costCap, paidRun(agent), async (req, res) => {
       try {
         const result = await handler(req.body || {}, res);
         traceIO({ output: result });
@@ -97,7 +103,7 @@ export function registerAssignmentSolverRoutes(app: express.Express, requireAiAc
     const assignment = str(body.assignment, 30000);
     if (assignment.length < 40) throw new SolverError("Paste the assignment text (at least a few sentences) or upload a PDF.", 400);
     const uid = (res.locals.user as { uid?: string } | undefined)?.uid;
-    if (uid && !(await consumeDailyQuota(`solver_runs_${uid}`, runsPerDay()))) {
+    if (uid && !paymentsEnabled() && !(await consumeDailyQuota(`solver_runs_${uid}`, runsPerDay()))) {
       throw new SolverError(`You've used today's ${runsPerDay()} free assignment drafts. Please come back tomorrow.`, 429);
     }
     return runParser({ assignment, company: str(body.company, 120), jobDescription: str(body.jobDescription, 8000), deadline: str(body.deadline, 60) });
