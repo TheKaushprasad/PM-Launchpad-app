@@ -56,7 +56,13 @@ the sprint's contents (how many interviews, how long) are decided.
 ### 2. Vercel (Preview only)
 
 Vercel → project → **Settings → Environment Variables**. Add the five variables above. For each, tick **Preview**
-only (untick Production). Then **Deployments → the PR's preview → ⋯ → Redeploy**.
+only (untick Production). `FIREBASE_SERVICE_ACCOUNT_KEY` must also have **Preview** ticked, or purchases can't be saved.
+Then **Deployments → the PR's preview → ⋯ → Redeploy**. If `/api/health` still shows `paymentsEnabled: false`,
+push any commit to the branch so Vercel builds a fresh preview with the new variables.
+
+Previews sit behind Vercel's login (Deployment Protection), which also blocks Dodo's webhook. Fix: Vercel →
+**Settings → Deployment Protection → Protection Bypass for Automation** → generate a secret, then end the Dodo
+webhook URL with `?x-vercel-protection-bypass=<secret>`.
 
 ### 3. Test a purchase
 
