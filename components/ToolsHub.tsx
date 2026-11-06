@@ -48,10 +48,10 @@ export const ToolsHub: React.FC = () => {
       action: "/tools/resume-auditor",
       cta: "Audit resume"
     },
-    // Local-only until launched (lib/featureFlags.ts).
+    // Can be switched off with VITE_ASSIGNMENT_SOLVER_ENABLED=false (lib/featureFlags.ts).
     ...(isAssignmentSolverEnabled ? [{
       title: "PM Assignment Solver",
-      badge: "Local preview",
+      badge: "New",
       badgeStyle: "bg-violet-50 text-violet-700",
       description: "Five AI agents research, plan, draft and grade your take-home assignment. AI drafts, you decide.",
       iconType: "assignment",

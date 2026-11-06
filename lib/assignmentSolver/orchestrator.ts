@@ -2,7 +2,7 @@ import { authJsonHeaders } from '../apiClient';
 import {
   AGENTS, DEFAULT_COST_LIMIT_USD, MAX_CRITIC_LOOPS,
   type AgentName, type Brief, type ItemStrategy, type Research, type Run, type Section, type SectionReview,
-  type SolverInput, type StepLog, type StepUsage,
+  type RunFeedback, type SolverInput, type StepLog, type StepUsage,
 } from './types';
 
 // The orchestrator for the PM Assignment Solver. It runs in the browser: it calls the agents in
@@ -50,7 +50,7 @@ async function inBatches<T, R>(items: T[], limit: number, fn: (item: T) => Promi
 }
 
 // Errors that a retry can't fix: bad input, signed out, over the cost cap or daily limit.
-const NO_RETRY = new Set([400, 401, 402, 403, 404, 422]);
+const NO_RETRY = new Set([400, 401, 402, 403, 404, 422, 429]);
 
 async function callAgent<T>(run: Run, agent: AgentName, body: Record<string, unknown>, itemId?: string): Promise<T & { usage: StepUsage }> {
   let lastError = '';
@@ -226,4 +226,25 @@ export async function rescoreSection(current: Run, itemId: string, onUpdate: Upd
   run.reviews = (run.reviews || []).map((r) => (r.itemId === itemId ? review : r));
   onUpdate(clone(run));
   return run;
+}
+
+/** Sends the user's rating of a finished run. Only the ratings and a short summary leave the browser. */
+export async function sendFeedback(run: Run, feedback: Omit<RunFeedback, 'sentAt'>, summary: { criticAverage: number; editRatio: number }) {
+  const res = await fetch('/api/assignment-solver/feedback', {
+    method: 'POST',
+    headers: { ...(await authJsonHeaders()), 'X-Solver-Run': run.id },
+    body: JSON.stringify({
+      runId: run.id,
+      ...feedback,
+      run: {
+        company: run.brief?.company || run.input.company,
+        questions: run.brief?.items.length || 0,
+        criticAverage: Math.round(summary.criticAverage * 10) / 10,
+        editRatio: Math.round(summary.editRatio * 100) / 100,
+        costUsd: Math.round(runCost(run) * 1000) / 1000,
+        loops: run.loopCount,
+      },
+    }),
+  });
+  if (!res.ok) throw new Error((await res.json().catch(() => ({})))?.error || 'Could not send your feedback.');
 }
