@@ -16,3 +16,8 @@ export const isAssignmentSolverEnabled = import.meta.env.VITE_ASSIGNMENT_SOLVER_
 // Product Buddy (peer mock-interview matching) is live. To switch it off, set
 // VITE_PRODUCT_BUDDY_ENABLED=false in Vercel and redeploy; the server reads the same variable.
 export const isProductBuddyEnabled = import.meta.env.VITE_PRODUCT_BUDDY_ENABLED !== 'false';
+
+// Payments (Dodo Payments, test mode) are local-only for now: on in `npm run dev`, off on the live
+// site. To try them on a Vercel preview, set VITE_PAYMENTS_ENABLED=true for Preview only and redeploy;
+// the server reads the same variable.
+export const isPaymentsEnabled = import.meta.env.DEV || import.meta.env.VITE_PAYMENTS_ENABLED === 'true';
