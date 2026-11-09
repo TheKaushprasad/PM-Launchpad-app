@@ -9,7 +9,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { AuthModal } from './auth/AuthModal';
-import { isAssignmentSolverEnabled } from '../lib/featureFlags';
+import { isAssignmentSolverEnabled, isPrdCoachEnabled } from '../lib/featureFlags';
 
 export const ToolsHub: React.FC = () => {
   const navigate = useNavigate();
@@ -63,6 +63,22 @@ export const ToolsHub: React.FC = () => {
       ],
       action: "/tools/assignment-solver",
       cta: "Draft an assignment"
+    }] : []),
+    // Local-only until launched (lib/featureFlags.ts).
+    ...(isPrdCoachEnabled ? [{
+      title: "PRD Coach",
+      badge: "Local preview",
+      badgeStyle: "bg-violet-50 text-violet-700",
+      description: "Write your own PRD in seven guided sections. The coach scores each one and tells you what to fix and why.",
+      iconType: "prd",
+      iconContainerStyle: "bg-violet-50 text-violet-700",
+      features: [
+        "Score per section (1-5)",
+        "Specific fixes, with the why",
+        "Example PRD to compare after"
+      ],
+      action: "/tools/prd-coach",
+      cta: "Write a PRD"
     }] : [])
   ];
 
