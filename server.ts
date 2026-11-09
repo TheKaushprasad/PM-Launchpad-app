@@ -1002,12 +1002,16 @@ Return only the JSON object. No preamble, no markdown code fences, no explanatio
   // API Route for AI Mock Interview - Conversational Turn
   // One AI call per candidate answer. The opener is scripted in the browser and voice is
   // fetched separately (only in voice modes), so text chat never spends TTS quota.
-  // The AI interview is hidden on the live site until it is ready (see lib/featureFlags.ts), so its
-  // endpoints refuse there too. Local dev always allows it; VITE_AI_INTERVIEW_ENABLED=true turns it on live.
-  const aiInterviewEnabled = process.env.NODE_ENV !== "production" || process.env.VITE_AI_INTERVIEW_ENABLED === "true";
-  // Invited testers (list edited in the local eval dashboard) can use it before launch.
-  app.use("/api/interview", interviewAccessGate(aiInterviewEnabled));
-  registerInterviewAccessRoutes(app, aiInterviewEnabled);
+  // Text interviews are live; voice interviews are hidden on the live site (see lib/featureFlags.ts), so
+  // Priya's voice endpoint refuses there too. Local dev always allows both; VITE_AI_INTERVIEW_ENABLED=true
+  // turns voice on live and VITE_AI_INTERVIEW_TEXT_ENABLED=false switches text off.
+  const interviewOpen = {
+    voice: process.env.NODE_ENV !== "production" || process.env.VITE_AI_INTERVIEW_ENABLED === "true",
+    text: process.env.NODE_ENV !== "production" || process.env.VITE_AI_INTERVIEW_TEXT_ENABLED !== "false",
+  };
+  // Invited testers (list edited in the local eval dashboard) can use voice before launch.
+  app.use("/api/interview", interviewAccessGate(interviewOpen));
+  registerInterviewAccessRoutes(app, interviewOpen);
   // One trace per interview request: timings, providers, cost and guardrails (server/observability.ts).
   app.use("/api/interview", traceInterviewRequests);
 

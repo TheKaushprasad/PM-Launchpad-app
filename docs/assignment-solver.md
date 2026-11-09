@@ -4,7 +4,7 @@
 
 A PM co-pilot for take-home assignments. The candidate pastes an assignment (or uploads a PDF), checks what the system understood, and five AI agents produce a structured first draft with sourced research, a Critic score per section, and placeholders for the candidate's own insight. The candidate edits, regenerates single sections, and exports. Nothing is submitted for them.
 
-Status: **local only.** It runs with `npm run dev` at `/tools/assignment-solver`. The live site hides it until `VITE_ASSIGNMENT_SOLVER_ENABLED=true` is set in Vercel (Production) and the site is redeployed.
+Status: **live** at `/tools/assignment-solver` (on by default since PR #105). Signed-in users with a verified email get 3 runs a day (`ASSIGNMENT_SOLVER_RUNS_PER_DAY`) while payments are off. To switch it off, set `VITE_ASSIGNMENT_SOLVER_ENABLED=false` in Vercel and redeploy. It needs `GEMINI_INTERVIEW_API_KEY` (paid) in Vercel Production, or runs fail on the free quota.
 
 ## Why
 

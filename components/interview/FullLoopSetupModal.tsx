@@ -5,6 +5,7 @@ import { LEVELS } from '../../data/interviewTracks';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { InterviewModePicker } from './InterviewModePicker';
+import { useVoiceInterviewAvailable } from '../../lib/interviewAccess';
 
 interface FullLoopSetupModalProps {
   isOpen: boolean;
@@ -16,7 +17,9 @@ interface FullLoopSetupModalProps {
 
 /** Setup for a full interview loop: three rounds back to back with one combined verdict. */
 export const FullLoopSetupModal: React.FC<FullLoopSetupModalProps> = ({ isOpen, level, onLevelChange, onClose, onStart }) => {
-  const [mode, setMode] = useState<InterviewMode>('voice');
+  const voiceAvailable = useVoiceInterviewAvailable();
+  const [pickedMode, setMode] = useState<InterviewMode>(voiceAvailable ? 'voice' : 'text');
+  const mode: InterviewMode = voiceAvailable ? pickedMode : 'text';
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => { if (!open) onClose(); }}>

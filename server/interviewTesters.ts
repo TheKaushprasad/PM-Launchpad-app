@@ -1,7 +1,7 @@
 import type { Express, Request, Response, NextFunction } from 'express';
 import { FieldValue } from 'firebase-admin/firestore';
 import { getAppFirestore, isFirebaseAdminConfigured } from '../services/firebaseAdmin';
-import { getVerifiedUser } from './security';
+import { consumeDailyQuota, getVerifiedUser } from './security';
 
 /**
  * Invite-only testers for the AI interview, and the full conversations they agree to share.
@@ -54,16 +54,42 @@ export async function isInterviewTester(email: string | undefined): Promise<bool
   return !!e && (await getTesterEmails()).has(e);
 }
 
+export interface InterviewAvailability {
+  /** Voice interviews (Priya speaks through Sarvam) for everyone: VITE_AI_INTERVIEW_ENABLED=true, or local dev. */
+  voice: boolean;
+  /** Text interviews for everyone: on unless VITE_AI_INTERVIEW_TEXT_ENABLED=false. */
+  text: boolean;
+}
+
+// Only voice interviews call these; text interviews never ask for Priya's spoken voice.
+const VOICE_ONLY_PATHS = new Set(['/tts', '/tts/']);
+const CHAT_PATHS = new Set(['/chat', '/chat/']);
+
+function textTurnsPerDay(): number {
+  const n = Number(process.env.INTERVIEW_TEXT_TURNS_PER_DAY);
+  return Number.isFinite(n) && n > 0 ? Math.floor(n) : 60;
+}
+
 /**
- * Lets /api/interview/* through when the interview is on for everyone, or the signed-in caller
- * is on the tester list (verified email only). Everyone else gets the "coming soon" answer.
+ * Lets /api/interview/* through when voice is on for everyone, or the signed-in caller is on the
+ * tester list (verified email only). When only text interviews are public, everyone else gets every
+ * endpoint except Priya's voice, with a daily cap on Priya's replies (INTERVIEW_TEXT_TURNS_PER_DAY,
+ * default 60, about three interviews) because each reply is a paid Gemini call.
  */
-export function interviewAccessGate(enabledForEveryone: boolean) {
+export function interviewAccessGate(open: InterviewAvailability) {
   return async (req: Request, res: Response, next: NextFunction) => {
-    if (enabledForEveryone) return next();
+    if (open.voice) return next();
     const user = await getVerifiedUser(req);
     if (user?.emailVerified && (await isInterviewTester(user.email))) return next();
-    res.status(503).json({ error: 'The AI interview is coming soon.' });
+    if (!open.text) return res.status(503).json({ error: 'The AI interview is coming soon.' });
+    if (VOICE_ONLY_PATHS.has(req.path)) {
+      return res.status(403).json({ error: 'Voice interviews are coming soon. Text interviews are open.' });
+    }
+    // Signed-out callers are turned away by requireAiAccess on the route itself.
+    if (CHAT_PATHS.has(req.path) && user?.emailVerified && !(await consumeDailyQuota(`interview_text_turns_${user.uid}`, textTurnsPerDay()))) {
+      return res.status(429).json({ error: "You've reached today's limit for mock interviews. Please come back tomorrow." });
+    }
+    next();
   };
 }
 
@@ -135,11 +161,11 @@ export async function attachTesterEvaluation(id: string, evaluation: any): Promi
   }
 }
 
-export function registerInterviewAccessRoutes(app: Express, enabledForEveryone: boolean) {
-  // Tells the browser whether to show the interview studio and the tester consent box.
+export function registerInterviewAccessRoutes(app: Express, open: InterviewAvailability) {
+  // Tells the browser whether to show the interview studio, whether voice mode is offered, and the tester consent box.
   app.get(['/api/interview-access', '/api/interview-access/'], async (req, res) => {
     const user = await getVerifiedUser(req);
     const tester = !!user?.emailVerified && (await isInterviewTester(user.email));
-    res.json({ enabled: enabledForEveryone || tester, tester });
+    res.json({ enabled: open.voice || open.text || tester, voice: open.voice || tester, tester });
   });
 }

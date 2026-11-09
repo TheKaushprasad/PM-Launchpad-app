@@ -11,7 +11,7 @@ import {
   trackBySlug,
   trackFor,
 } from '../../lib/interviewQuestions';
-import { isAiInterviewEnabled } from '../../lib/featureFlags';
+import { isAnyAiInterviewEnabled } from '../../lib/featureFlags';
 
 const DIFFICULTY_STYLES: Record<InterviewScenario['difficulty'], string> = {
   Easy: 'bg-emerald-50 text-emerald-700 border-emerald-200',
@@ -232,19 +232,19 @@ export const InterviewQuestionDetail: React.FC = () => {
         <div className="rounded-2xl bg-[#043C2C] text-white p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <p className="font-extrabold text-lg">
-              {isAiInterviewEnabled ? 'Practise this question out loud' : 'Learn the frameworks behind these answers'}
+              {isAnyAiInterviewEnabled ? 'Practise this question with Priya' : 'Learn the frameworks behind these answers'}
             </p>
             <p className="text-sm text-slate-300">
-              {isAiInterviewEnabled
-                ? 'Answer it to an AI interviewer and get a scored report.'
+              {isAnyAiInterviewEnabled
+                ? 'Answer it to an AI interviewer by typing or recording, and get a scored report.'
                 : 'Free 45-day product management course for beginners. Days 0 to 7 need no sign-up.'}
             </p>
           </div>
           <Link
-            to={isAiInterviewEnabled ? '/interview-studio' : '/dashboard'}
+            to={isAnyAiInterviewEnabled ? '/interview-studio' : '/dashboard'}
             className="shrink-0 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-white text-[#043C2C] font-bold text-sm hover:bg-brand-50 transition-colors"
           >
-            {isAiInterviewEnabled ? 'Start a mock interview' : 'Start the free course'} <ArrowRight className="w-4 h-4" />
+            {isAnyAiInterviewEnabled ? 'Start a mock interview' : 'Start the free course'} <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
 

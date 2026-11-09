@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Loader2, ShieldCheck } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-import { useInterviewAccess, hasEvalConsent, setEvalConsent } from '../../lib/interviewAccess';
+import { useInterviewAccess, hasEvalConsent, setEvalConsent, InterviewVoiceContext } from '../../lib/interviewAccess';
 import { Button } from '../ui/button';
 import { InterviewHub } from './InterviewHub';
 import { InterviewComingSoon } from './InterviewComingSoon';
 
 // Decides what /interview-studio shows: the studio when the interview is on (or the user is an
-// invited tester), otherwise Coming soon. Testers agree once to share their interviews before starting.
+// invited tester), otherwise Coming soon. Voice mode is offered only where it is on (see lib/featureFlags.ts). Testers agree once to share their interviews before starting.
 export const InterviewGate: React.FC = () => {
   const { user } = useAuth();
   const access = useInterviewAccess(user?.uid);
@@ -63,5 +63,9 @@ export const InterviewGate: React.FC = () => {
     );
   }
 
-  return <InterviewHub />;
+  return (
+    <InterviewVoiceContext.Provider value={access.voice}>
+      <InterviewHub />
+    </InterviewVoiceContext.Provider>
+  );
 };

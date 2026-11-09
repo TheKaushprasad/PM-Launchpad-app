@@ -18,6 +18,7 @@ import { LEVELS, getTrackConfig } from '../../data/interviewTracks';
 import { ACTIVE_INTERVIEWER } from '../../data/interviewPersonas';
 import { AccessRequestModal } from './AccessRequestModal';
 import { InterviewModePicker } from './InterviewModePicker';
+import { useVoiceInterviewAvailable } from '../../lib/interviewAccess';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 
@@ -38,7 +39,9 @@ export const SetupModal: React.FC<SetupModalProps> = ({
   onLevelChange,
   onStartSession
 }) => {
-  const [selectedMode, setSelectedMode] = useState<InterviewMode>('voice');
+  const voiceAvailable = useVoiceInterviewAvailable();
+  const [pickedMode, setSelectedMode] = useState<InterviewMode>(voiceAvailable ? 'voice' : 'text');
+  const selectedMode: InterviewMode = voiceAvailable ? pickedMode : 'text';
   const [showAccessRequestModal, setShowAccessRequestModal] = useState<boolean>(false);
   const [hasPromptedPermissions, setHasPromptedPermissions] = useState<boolean>(false);
 

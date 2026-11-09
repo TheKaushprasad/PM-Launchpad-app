@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { isAiInterviewEnabled } from './featureFlags';
+import { createContext, useContext, useEffect, useState } from 'react';
+import { isAiInterviewEnabled, isAnyAiInterviewEnabled } from './featureFlags';
 import { authJsonHeaders } from './apiClient';
 
 // Whether the signed-in user may use the AI interview, and whether they are an invited tester.
@@ -8,12 +8,21 @@ import { authJsonHeaders } from './apiClient';
 
 export interface InterviewAccess {
   loading: boolean;
+  /** The interview studio is open (text, voice, or both). */
   enabled: boolean;
+  /** Voice mode is offered. Off on the live site until VITE_AI_INTERVIEW_ENABLED=true; testers always get it. */
+  voice: boolean;
   tester: boolean;
 }
 
+const initialAccess = { enabled: isAnyAiInterviewEnabled, voice: isAiInterviewEnabled, tester: false };
+
+// Whether voice mode is offered, for the mode pickers inside the studio (provided by InterviewGate).
+export const InterviewVoiceContext = createContext<boolean>(isAiInterviewEnabled);
+export const useVoiceInterviewAvailable = () => useContext(InterviewVoiceContext);
+
 export function useInterviewAccess(uid: string | null | undefined): InterviewAccess {
-  const [state, setState] = useState<InterviewAccess>({ loading: true, enabled: isAiInterviewEnabled, tester: false });
+  const [state, setState] = useState<InterviewAccess>({ loading: true, ...initialAccess });
   useEffect(() => {
     let cancelled = false;
     setState((s) => ({ ...s, loading: true }));
@@ -21,9 +30,16 @@ export function useInterviewAccess(uid: string | null | undefined): InterviewAcc
       try {
         const res = await fetch('/api/interview-access', { headers: await authJsonHeaders() });
         const json = res.ok ? await res.json() : null;
-        if (!cancelled) setState({ loading: false, enabled: isAiInterviewEnabled || !!json?.enabled, tester: !!json?.tester });
+        if (!cancelled) {
+          setState({
+            loading: false,
+            enabled: isAnyAiInterviewEnabled || !!json?.enabled,
+            voice: isAiInterviewEnabled || !!json?.voice,
+            tester: !!json?.tester,
+          });
+        }
       } catch {
-        if (!cancelled) setState({ loading: false, enabled: isAiInterviewEnabled, tester: false });
+        if (!cancelled) setState({ loading: false, ...initialAccess });
       }
     })();
     return () => { cancelled = true; };

@@ -1,8 +1,17 @@
 const env = (import.meta as unknown as { env?: Record<string, string | boolean> }).env || {};
 
-// The AI interview is hidden on the live site until it is ready. It always works in local dev
-// (`npm run dev`); set VITE_AI_INTERVIEW_ENABLED=true in Vercel and redeploy to turn it on live.
+// Voice interviews with Priya (she speaks through Sarvam, which costs credits) are hidden on the live
+// site. They always work in local dev (`npm run dev`); set VITE_AI_INTERVIEW_ENABLED=true in Vercel and
+// redeploy to turn voice on live. The server reads the same variable.
 export const isAiInterviewEnabled = env.DEV === true || env.VITE_AI_INTERVIEW_ENABLED === 'true';
+
+// Text interviews with Priya (type or record answers, she replies in text) are live for everyone.
+// To switch them off, set VITE_AI_INTERVIEW_TEXT_ENABLED=false in Vercel and redeploy; the server
+// reads the same variable.
+export const isAiInterviewTextEnabled = env.DEV === true || env.VITE_AI_INTERVIEW_TEXT_ENABLED !== 'false';
+
+// The interview studio is open when either mode is.
+export const isAnyAiInterviewEnabled = isAiInterviewEnabled || isAiInterviewTextEnabled;
 
 // The PM → AI PM course is local-only for now: on in `npm run dev`, off on the live site.
 // To launch it, set VITE_AI_PM_COURSE_ENABLED=true in Vercel and redeploy. Written with full

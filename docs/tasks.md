@@ -31,7 +31,8 @@ Priority: **P0** blocks safe growth, **P1** important next, **P2** nice to have.
 - [ ] **P2** Completion certificate after Day 45.
 
 ### Career tools and projects
-- [ ] **P1** PM Assignment Solver (local only, docs/assignment-solver.md): run 10 real assignments, score them by hand on the Critic rubric, compare with the Critic, then decide on launch (`VITE_ASSIGNMENT_SOLVER_ENABLED=true`).
+- [ ] **P1** PM Assignment Solver (live, docs/assignment-solver.md): run 10 real assignments, score them by hand on the Critic rubric and compare with the Critic.
+- [ ] **P1** AI interview text mode is live (voice still hidden): watch Gemini spend on the interview key and the `INTERVIEW_TEXT_TURNS_PER_DAY` cap (default 60 Priya replies per user per day).
 - [ ] **P1** More real-world projects (currently 6), especially AI Product and Growth.
 - [ ] **P2** Let users resubmit a project and compare feedback versions.
 - [ ] **P2** Export resume audit and LinkedIn report as PDF.
