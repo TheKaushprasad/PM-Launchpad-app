@@ -1,6 +1,7 @@
 import React from 'react';
 import { Mic, MessageSquare } from 'lucide-react';
 import { InterviewMode } from '../../types/interview';
+import { useVoiceInterviewAvailable } from '../../lib/interviewAccess';
 
 const MODES: { id: InterviewMode; label: string; note: string; Icon: typeof Mic }[] = [
   {
@@ -17,29 +18,43 @@ const MODES: { id: InterviewMode; label: string; note: string; Icon: typeof Mic 
   },
 ];
 
-/** Voice or text interview. Both use the same interviewer, hints and scoring. */
-export const InterviewModePicker: React.FC<{ value: InterviewMode; onChange: (mode: InterviewMode) => void }> = ({ value, onChange }) => (
+/**
+ * Voice or text interview. Both use the same interviewer, hints and scoring. Where voice is not on yet
+ * (the live site, for now) its card shows Coming soon and cannot be picked.
+ */
+export const InterviewModePicker: React.FC<{ value: InterviewMode; onChange: (mode: InterviewMode) => void }> = ({ value, onChange }) => {
+  const voiceAvailable = useVoiceInterviewAvailable();
+  return (
   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2" role="radiogroup" aria-label="Interview mode">
     {MODES.map(({ id, label, note, Icon }) => {
-      const selected = value === id;
+      const locked = id === 'voice' && !voiceAvailable;
+      const selected = value === id && !locked;
       return (
         <button
           key={id}
           type="button"
           role="radio"
           aria-checked={selected}
+          aria-disabled={locked || undefined}
+          disabled={locked}
           onClick={() => onChange(id)}
-          className={`p-4 rounded-2xl border-2 text-left flex items-start gap-3 transition-colors ${selected ? 'border-brand-600 bg-brand-50/50' : 'border-zinc-200 hover:bg-zinc-50'}`}
+          className={`p-4 rounded-2xl border-2 text-left flex items-start gap-3 transition-colors ${selected ? 'border-brand-600 bg-brand-50/50' : locked ? 'border-zinc-200 bg-zinc-50 opacity-70 cursor-not-allowed' : 'border-zinc-200 hover:bg-zinc-50'}`}
         >
           <div className={`p-2 rounded-xl shrink-0 ${selected ? 'bg-brand-600 text-white' : 'bg-zinc-100 text-zinc-500'}`}>
             <Icon className="w-4 h-4" />
           </div>
           <div>
-            <div className="text-sm font-extrabold text-zinc-900">{label}</div>
-            <p className="text-[11px] text-zinc-600 font-medium leading-snug mt-0.5">{note}</p>
+            <div className="text-sm font-extrabold text-zinc-900 flex items-center gap-2">
+              {label}
+              {locked && <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-500 bg-zinc-200 rounded-full px-2 py-0.5">Coming soon</span>}
+            </div>
+            <p className="text-[11px] text-zinc-600 font-medium leading-snug mt-0.5">
+              {locked ? 'Speaking with Priya out loud is coming soon. Text interviews use the same questions, hints and scoring.' : note}
+            </p>
           </div>
         </button>
       );
     })}
   </div>
-);
+  );
+};

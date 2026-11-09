@@ -87,7 +87,7 @@ const STATIC: Record<string, Omit<RouteMeta, 'canonicalPath'>> = {
   },
   '/tools/interview-studio': {
     title: withBrand('AI Mock Interview for Product Managers'),
-    description: 'Practise product manager interviews out loud with an AI interviewer and get scored feedback.',
+    description: 'Practise product manager interviews with an AI interviewer: type or record your answers and get scored feedback.',
   },
 };
 
