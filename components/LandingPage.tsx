@@ -12,6 +12,7 @@ import { useAuth } from '../context/AuthContext';
 import { AuthModal } from './auth/AuthModal';
 import { useScrollReveal } from './motion/useScrollReveal';
 import { usePathProgress } from './motion/usePathProgress';
+import { isAssignmentSolverEnabled } from '../lib/featureFlags';
 
 export const LandingPage: React.FC = () => {
   const navigate = useNavigate();
@@ -311,6 +312,7 @@ export const LandingPage: React.FC = () => {
     { title: "AI Mock Interview Studio", category: "Tools", path: "/interview-studio" },
     { title: "LinkedIn Profile Optimiser", category: "Tools", path: "/tools/linkedin-optimiser" },
     { title: "Resume Auditor & ATS Check", category: "Tools", path: "/resume-auditor" },
+    ...(isAssignmentSolverEnabled ? [{ title: "PM Assignment Solver", category: "Tools", path: "/tools/assignment-solver" }] : []),
     { title: "PM Jobs in India & Remote", category: "Jobs", path: "/jobs" },
     { title: "PM PRD Template & Swipe Files", category: "Resources", path: "/resources" },
     { title: "Product Strategy & Prioritization", category: "Pillars", path: "/dashboard/strategy" },
@@ -521,6 +523,14 @@ export const LandingPage: React.FC = () => {
                     >
                       📄 AI Resume Auditor & ATS
                     </button>
+                    {isAssignmentSolverEnabled && (
+                      <button 
+                        onClick={() => navigate('/tools/assignment-solver')} 
+                        className="w-full text-left px-3 py-2 rounded-xl hover:bg-emerald-50 text-xs font-semibold text-slate-700 hover:text-emerald-800 transition-colors block cursor-pointer"
+                      >
+                        🧩 PM Assignment Solver
+                      </button>
+                    )}
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -731,6 +741,9 @@ export const LandingPage: React.FC = () => {
                 <div className="pl-3 py-1 space-y-1.5 text-xs text-slate-600 border-l-2 border-emerald-100 ml-1">
                   <button onClick={() => { setMobileMenuOpen(false); navigate('/tools/linkedin-optimiser'); }} className="block py-1 hover:text-emerald-700 font-medium">🔗 LinkedIn Profile Optimiser</button>
                   <button onClick={() => { setMobileMenuOpen(false); navigate('/resume-auditor'); }} className="block py-1 hover:text-emerald-700 font-medium">📄 AI Resume Auditor & ATS</button>
+                  {isAssignmentSolverEnabled && (
+                    <button onClick={() => { setMobileMenuOpen(false); navigate('/tools/assignment-solver'); }} className="block py-1 hover:text-emerald-700 font-medium">🧩 PM Assignment Solver</button>
+                  )}
                 </div>
               </div>
               <div className="py-1">
