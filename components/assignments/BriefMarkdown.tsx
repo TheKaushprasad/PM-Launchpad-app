@@ -70,15 +70,20 @@ function parse(md: string): Block[] {
   return blocks;
 }
 
-const INLINE = /\*\*(.+?)\*\*|\*(.+?)\*|\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g;
+const INLINE = /\*\*(.+?)\*\*|\*(.+?)\*|\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)|\((Assumption)\)/g;
 
-function inline(text: string): React.ReactNode[] {
+// `pills` turns "(Assumption)" into a small amber label (used by the AI Product Strategy tool).
+function inline(text: string, pills = false): React.ReactNode[] {
   const out: React.ReactNode[] = [];
   let last = 0;
   for (const m of text.matchAll(INLINE)) {
     if (m.index! > last) out.push(text.slice(last, m.index));
     const key = m.index;
-    if (m[1] !== undefined) out.push(<strong key={key} className="font-bold text-zinc-900">{m[1]}</strong>);
+    if (m[5] !== undefined) {
+      out.push(pills
+        ? <span key={key} className="assumption-pill mx-0.5 inline-block rounded-full border border-amber-300 bg-amber-50 px-1.5 py-px align-middle text-[10px] font-black uppercase tracking-wide text-amber-800">Assumption</span>
+        : m[0]);
+    } else if (m[1] !== undefined) out.push(<strong key={key} className="font-bold text-zinc-900">{pills ? inline(m[1], pills) : m[1]}</strong>);
     else if (m[2] !== undefined) out.push(<em key={key}>{m[2]}</em>);
     else
       out.push(
@@ -94,16 +99,18 @@ function inline(text: string): React.ReactNode[] {
 
 const listClass = (ordered: boolean) => `${ordered ? 'list-decimal' : 'list-disc'} pl-5 space-y-1.5 marker:text-zinc-400`;
 
-export const BriefMarkdown: React.FC<{ source: string }> = ({ source }) => (
-  <div className="space-y-4 text-sm sm:text-[15px] text-zinc-700 leading-relaxed">
+export const BriefMarkdown: React.FC<{ source: string; assumptionPills?: boolean; className?: string }> = ({ source, assumptionPills = false, className }) => {
+  const inl = (text: string) => inline(text, assumptionPills);
+  return (
+  <div className={className || 'space-y-4 text-sm sm:text-[15px] text-zinc-700 leading-relaxed'}>
     {parse(source).map((b, idx) => {
       switch (b.kind) {
         case 'h2':
-          return <h2 key={idx} className="text-lg font-extrabold text-zinc-900 pt-2">{inline(b.text)}</h2>;
+          return <h2 key={idx} className="text-lg font-extrabold text-zinc-900 pt-2">{inl(b.text)}</h2>;
         case 'h3':
-          return <h3 key={idx} className="text-base font-bold text-zinc-900 pt-1">{inline(b.text)}</h3>;
+          return <h3 key={idx} className="text-base font-bold text-zinc-900 pt-1">{inl(b.text)}</h3>;
         case 'p':
-          return <p key={idx}>{inline(b.text)}</p>;
+          return <p key={idx}>{inl(b.text)}</p>;
         case 'list': {
           const Tag = b.ordered ? 'ol' : 'ul';
           return (
@@ -112,11 +119,11 @@ export const BriefMarkdown: React.FC<{ source: string }> = ({ source }) => (
                 const Sub = item.children?.ordered ? 'ol' : 'ul';
                 return (
                   <li key={j}>
-                    {inline(item.text)}
+                    {inl(item.text)}
                     {item.children && (
                       <Sub className={`${listClass(item.children.ordered)} mt-1.5`}>
                         {item.children.items.map((c, k) => (
-                          <li key={k}>{inline(c)}</li>
+                          <li key={k}>{inl(c)}</li>
                         ))}
                       </Sub>
                     )}
@@ -131,12 +138,12 @@ export const BriefMarkdown: React.FC<{ source: string }> = ({ source }) => (
             <div key={idx} className="overflow-x-auto rounded-xl border border-zinc-200">
               <table className="w-full text-left text-sm">
                 <thead className="bg-zinc-50 text-zinc-900">
-                  <tr>{b.head.map((h, j) => <th key={j} className="px-3 py-2 font-bold">{inline(h)}</th>)}</tr>
+                  <tr>{b.head.map((h, j) => <th key={j} className="px-3 py-2 font-bold">{inl(h)}</th>)}</tr>
                 </thead>
                 <tbody>
                   {b.rows.map((r, j) => (
                     <tr key={j} className="border-t border-zinc-100">
-                      {r.map((c, k) => <td key={k} className="px-3 py-2 align-top">{inline(c)}</td>)}
+                      {r.map((c, k) => <td key={k} className="px-3 py-2 align-top">{inl(c)}</td>)}
                     </tr>
                   ))}
                 </tbody>
@@ -146,4 +153,5 @@ export const BriefMarkdown: React.FC<{ source: string }> = ({ source }) => (
       }
     })}
   </div>
-);
+  );
+};

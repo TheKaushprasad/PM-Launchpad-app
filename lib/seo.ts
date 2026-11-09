@@ -85,6 +85,12 @@ const STATIC: Record<string, Omit<RouteMeta, 'canonicalPath'>> = {
     description:
       'Paste a product manager take-home assignment and get a structured first draft with sourced company research, frameworks, metrics and a score for each section. You edit and decide.',
   },
+  // Not in the sitemap yet: the tool is local only (VITE_AI_PRODUCT_STRATEGY_ENABLED).
+  '/tools/ai-product-strategy': {
+    title: withBrand('AI Product Strategy Generator for PMs'),
+    description:
+      'Fill in a real product strategy framework (Strategy Canvas, Vision Board or One-page) for your product, with a tip for every section, labelled assumptions, a quality score and a PDF.',
+  },
   '/tools/interview-studio': {
     title: withBrand('AI Mock Interview for Product Managers'),
     description: 'Practise product manager interviews with an AI interviewer: type or record your answers and get scored feedback.',

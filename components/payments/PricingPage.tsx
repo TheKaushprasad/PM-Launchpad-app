@@ -20,7 +20,7 @@ export const TestModeBanner: React.FC = () => (
 
 const OfferCard: React.FC<{ offer: OfferItem; buying: string; onBuy: (key: string) => void; signedIn: boolean; loading: boolean }> = ({ offer, buying, onBuy, signedIn, loading }) => {
   const tools = Object.entries(offer.credits) as [ToolKey, number][];
-  const Icon = offer.sprints ? Mic : offer.key === 'job_pack' ? Package : tools[0]?.[0] === 'solver' ? ClipboardList : tools[0]?.[0] === 'linkedin' ? Linkedin : FileText;
+  const Icon = offer.sprints ? Mic : offer.key === 'job_pack' ? Package : tools[0]?.[0] === 'solver' || tools[0]?.[0] === 'strategy' ? ClipboardList : tools[0]?.[0] === 'linkedin' ? Linkedin : FileText;
   return (
     <div className={`rounded-2xl border bg-white p-5 flex flex-col gap-3 ${offer.key === 'job_pack' ? 'border-brand-300 ring-2 ring-brand-100' : 'border-slate-200'}`}>
       <div className="flex items-start gap-3">
@@ -94,7 +94,7 @@ const PricingPage: React.FC = () => {
         <section className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
           <p className="font-black text-slate-900 mb-1">Your runs</p>
           <ul className="grid gap-1 sm:grid-cols-3">
-            {(['resume', 'linkedin', 'solver'] as ToolKey[]).map((tool) => {
+            {(['resume', 'linkedin', 'solver', 'strategy'] as ToolKey[]).filter((tool) => credits[tool]).map((tool) => {
               const c = credits[tool]!;
               return <li key={tool}><span className="font-bold">{TOOL_LABELS[tool].name}:</span> {c.credits} paid{c.freeLeft ? ` + ${c.freeLeft} free` : ''}</li>;
             })}

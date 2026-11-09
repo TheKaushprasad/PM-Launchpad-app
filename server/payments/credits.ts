@@ -1,16 +1,17 @@
 import type express from 'express';
 import { FieldValue } from 'firebase-admin/firestore';
 import { getAppFirestore, isFirebaseAdminConfigured } from '../../services/firebaseAdmin';
-import { FREE_RUNS, TOOLS, type ToolKey } from './catalog';
+import { FREE_RUNS, FREE_RUNS_PER_MONTH, TOOLS, type ToolKey } from './catalog';
 import { dodoMode } from './dodo';
 
-// Paid runs for the Resume Auditor, LinkedIn Optimiser and Assignment Solver.
+// Paid runs for the Resume Auditor, LinkedIn Optimiser, Assignment Solver and AI Product Strategy.
 // Only active when payments are on (npm run dev, or VITE_PAYMENTS_ENABLED=true on a Vercel build);
 // on the live site every middleware here just calls next(), so the tools behave exactly as before.
 //
 // user_entitlements/{uid} (server-only), everything kept apart per Dodo mode (test_mode / live_mode):
 //   credits.<mode>.<tool>        paid runs left
 //   freeUsed.<mode>.<tool>       when the account used its free run
+//   freeMonthly.<mode>.<tool>.<YYYY-MM>  free runs used that month (tools in FREE_RUNS_PER_MONTH)
 //   lastRun.<mode>.<tool>        when the last run started (LinkedIn rewrites ride on it)
 //   solverRuns.<mode>.<runId>    Assignment Solver runs that were paid for (later steps check it)
 
@@ -24,17 +25,28 @@ export const paymentsEnabled = () => process.env.NODE_ENV !== 'production' || pr
 const entRef = (uid: string) => getAppFirestore().collection(ENTITLEMENTS).doc(uid);
 const nowIso = () => new Date().toISOString();
 
-export interface ToolCredits { freeLeft: number; credits: number }
+export interface ToolCredits { freeLeft: number; credits: number; freeResetsOn?: string }
+
+/** The current month as YYYY-MM (UTC), and the first day of the next one. */
+const thisMonth = () => new Date().toISOString().slice(0, 7);
+const nextMonthStart = () => {
+  const d = new Date();
+  return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + 1, 1)).toISOString().slice(0, 10);
+};
 export type CreditState = Record<ToolKey, ToolCredits> & { sprints: number };
 
 export function creditStateFrom(data: FirebaseFirestore.DocumentData | undefined): CreditState {
   const mode = dodoMode();
   const state = { sprints: Number(data?.interviewSprints?.[mode]) || 0 } as CreditState;
   for (const tool of TOOLS) {
-    state[tool] = {
-      freeLeft: FREE_RUNS[tool] > 0 && !data?.freeUsed?.[mode]?.[tool] ? FREE_RUNS[tool] : 0,
-      credits: Math.max(0, Number(data?.credits?.[mode]?.[tool]) || 0),
-    };
+    const credits = Math.max(0, Number(data?.credits?.[mode]?.[tool]) || 0);
+    const perMonth = FREE_RUNS_PER_MONTH[tool];
+    if (perMonth) {
+      const used = Number(data?.freeMonthly?.[mode]?.[tool]?.[thisMonth()]) || 0;
+      state[tool] = { freeLeft: Math.max(0, perMonth - used), credits, freeResetsOn: nextMonthStart() };
+    } else {
+      state[tool] = { freeLeft: FREE_RUNS[tool] > 0 && !data?.freeUsed?.[mode]?.[tool] ? FREE_RUNS[tool] : 0, credits };
+    }
   }
   return state;
 }
@@ -43,7 +55,8 @@ export async function getCreditState(uid: string): Promise<CreditState> {
   return creditStateFrom((await entRef(uid).get()).data());
 }
 
-type Spent = 'free' | 'credit';
+// 'month:YYYY-MM' is a monthly free run, so a refund goes back to the month it came from.
+type Spent = 'free' | 'credit' | `month:${string}`;
 
 /** Takes one run: the free run first, then a paid credit. Null when the account has neither. */
 async function takeRun(uid: string, tool: ToolKey, runId?: string): Promise<Spent | null> {
@@ -52,10 +65,12 @@ async function takeRun(uid: string, tool: ToolKey, runId?: string): Promise<Spen
   return getAppFirestore().runTransaction(async (tx) => {
     const data = (await tx.get(ref)).data();
     const state = creditStateFrom(data)[tool];
-    const spent: Spent | null = state.freeLeft > 0 ? 'free' : state.credits > 0 ? 'credit' : null;
+    const monthly = Boolean(FREE_RUNS_PER_MONTH[tool]);
+    const spent: Spent | null = state.freeLeft > 0 ? (monthly ? `month:${thisMonth()}` : 'free') : state.credits > 0 ? 'credit' : null;
     if (!spent) return null;
     const update: Record<string, unknown> = { lastRun: { [mode]: { [tool]: nowIso() } }, updatedAt: nowIso() };
     if (spent === 'free') update.freeUsed = { [mode]: { [tool]: nowIso() } };
+    else if (spent.startsWith('month:')) update.freeMonthly = { [mode]: { [tool]: { [spent.slice(6)]: FieldValue.increment(1) } } };
     else update.credits = { [mode]: { [tool]: FieldValue.increment(-1) } };
     if (runId) {
       // Keep only the most recent paid Solver runs so the document stays small.
@@ -74,15 +89,20 @@ async function giveBack(uid: string, tool: ToolKey, spent: Spent, runId?: string
   const mode = dodoMode();
   const update: Record<string, unknown> = { updatedAt: nowIso() };
   if (spent === 'free') update.freeUsed = { [mode]: { [tool]: FieldValue.delete() } };
+  else if (spent.startsWith('month:')) update.freeMonthly = { [mode]: { [tool]: { [spent.slice(6)]: FieldValue.increment(-1) } } };
   else update.credits = { [mode]: { [tool]: FieldValue.increment(1) } };
   if (runId) update.solverRuns = { [mode]: { [runId]: FieldValue.delete() } };
   await entRef(uid).set(update, { merge: true });
 }
 
-const TOOL_NAMES: Record<ToolKey, string> = { resume: 'resume audit', linkedin: 'LinkedIn audit', solver: 'Assignment Solver run' };
+const TOOL_NAMES: Record<ToolKey, string> = { resume: 'resume audit', linkedin: 'LinkedIn audit', solver: 'Assignment Solver run', strategy: 'AI product strategy' };
 
 function paywall(res: express.Response, tool: ToolKey) {
-  const message = FREE_RUNS[tool] > 0
+  const perMonth = FREE_RUNS_PER_MONTH[tool];
+  const resets = new Date(`${nextMonthStart()}T00:00:00Z`).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', timeZone: 'UTC' });
+  const message = perMonth
+    ? `You used all ${perMonth} free ${TOOL_NAMES[tool]}s this month. They reset on ${resets}. Buy more to keep going.`
+    : FREE_RUNS[tool] > 0
     ? `You've used your free ${TOOL_NAMES[tool]}. Buy more runs to keep going.`
     : `The Assignment Solver is a paid tool. Buy a run to draft your assignment.`;
   return res.status(402).json({ success: false, error: message, paywall: tool });

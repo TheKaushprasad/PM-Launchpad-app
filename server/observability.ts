@@ -178,6 +178,22 @@ export function traceAssignmentSolverRequests(req: Request, res: Response, next:
   });
 }
 
+/**
+ * Express middleware for the AI Product Strategy tool: each step (write, score, rewrite) is one
+ * trace, and all steps of one strategy share its id as their Langfuse session.
+ */
+export function traceProductStrategyRequests(req: Request, res: Response, next: NextFunction) {
+  const parts = req.path.replace(/^\/+|\/+$/g, "").split("/");
+  const step = req.method === "GET" ? "list" : req.method === "PATCH" ? "save" : req.method === "DELETE" ? "delete"
+    : parts[0] === "generate" ? "generate" : parts.includes("regenerate") ? "regenerate-section" : parts[1] || "unknown";
+  startRequestTrace(res, next, {
+    name: `strategy-${step}`,
+    sessionId: cleanSessionId(headerValue(req, "x-strategy-id")),
+    tags: ["product-strategy", `step:${step}`],
+    metadata: { step },
+  });
+}
+
 function startRequestTrace(
   res: Response,
   next: NextFunction,

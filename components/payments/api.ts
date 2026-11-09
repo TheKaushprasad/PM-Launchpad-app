@@ -3,12 +3,13 @@ import { authJsonHeaders } from '../../lib/apiClient';
 // Browser side of /api/payments. The server starts checkout and records payments from Dodo's
 // signed webhook; the browser never decides whether something was paid for.
 
-export type ToolKey = 'resume' | 'linkedin' | 'solver';
+export type ToolKey = 'resume' | 'linkedin' | 'solver' | 'strategy';
 
 export const TOOL_LABELS: Record<ToolKey, { one: string; many: string; path: string; name: string }> = {
   resume: { one: 'resume audit', many: 'resume audits', path: '/tools/resume-auditor', name: 'PM Resume Auditor' },
   linkedin: { one: 'LinkedIn audit', many: 'LinkedIn audits', path: '/tools/linkedin-optimiser', name: 'LinkedIn Optimiser' },
   solver: { one: 'Assignment Solver run', many: 'Assignment Solver runs', path: '/tools/assignment-solver', name: 'Assignment Solver' },
+  strategy: { one: 'AI product strategy', many: 'AI product strategies', path: '/tools/ai-product-strategy', name: 'AI Product Strategy' },
 };
 
 export interface OfferItem {
@@ -29,7 +30,8 @@ export interface Offer {
   error?: string;
 }
 
-export interface ToolCredits { freeLeft: number; credits: number }
+/** freeResetsOn (YYYY-MM-DD) is set for tools whose free runs come back every month. */
+export interface ToolCredits { freeLeft: number; credits: number; freeResetsOn?: string }
 
 export interface Credits {
   enabled: boolean;
@@ -39,6 +41,7 @@ export interface Credits {
   resume?: ToolCredits;
   linkedin?: ToolCredits;
   solver?: ToolCredits;
+  strategy?: ToolCredits;
   error?: string;
 }
 
@@ -52,6 +55,7 @@ export interface PaymentStatus {
   resume: ToolCredits;
   linkedin: ToolCredits;
   solver: ToolCredits;
+  strategy?: ToolCredits;
 }
 
 async function call<T>(method: 'GET' | 'POST', path: string, body?: unknown): Promise<T> {
