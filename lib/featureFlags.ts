@@ -30,3 +30,9 @@ export const isProductBuddyEnabled = import.meta.env.VITE_PRODUCT_BUDDY_ENABLED 
 // site. To try them on a Vercel preview, set VITE_PAYMENTS_ENABLED=true for Preview only and redeploy;
 // the server reads the same variable.
 export const isPaymentsEnabled = import.meta.env.DEV || import.meta.env.VITE_PAYMENTS_ENABLED === 'true';
+
+// The AI Product Strategy tool is local-only for now: on in `npm run dev`, off on the live site.
+// To launch it, set VITE_AI_PRODUCT_STRATEGY_ENABLED=true in Vercel and redeploy; the server reads
+// the same variable. Written with full `import.meta.env.X` paths so the build drops the tool's code
+// entirely when it is off.
+export const isProductStrategyEnabled = import.meta.env.DEV || import.meta.env.VITE_AI_PRODUCT_STRATEGY_ENABLED === 'true';

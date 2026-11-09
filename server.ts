@@ -30,6 +30,7 @@ import { getProjectById } from "./data/realWorldProjects";
 import { discoverJobBoards, getJobDetail, getJobsList, jobsStoreReady, refreshJobs } from "./server/jobs/store";
 import { registerAssignmentSolverRoutes } from "./server/assignmentSolver/routes";
 import { registerProductBuddyRoutes } from "./server/productBuddy/routes";
+import { registerProductStrategyRoutes } from "./server/productStrategy/routes";
 import { registerPaymentRoutes, PAYMENTS_WEBHOOK_PATH, paymentsEnabled } from "./server/payments/routes";
 import { dodoMode, isDodoConfigured, isDodoWebhookConfigured } from "./server/payments/dodo";
 import { requireToolRun, requireRecentLinkedInRun } from "./server/payments/credits";
@@ -1625,6 +1626,7 @@ SUBMISSION>>>`;
   // PM Assignment Solver: five agents draft a take-home assignment
   // ==========================================
   registerAssignmentSolverRoutes(app, requireAiAccess);
+  registerProductStrategyRoutes(app, requireAiAccess);
   registerProductBuddyRoutes(app);
   // Payments via Dodo Payments (test mode; off on the live site unless VITE_PAYMENTS_ENABLED=true)
   registerPaymentRoutes(app);

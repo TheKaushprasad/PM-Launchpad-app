@@ -48,9 +48,9 @@ const PaymentThanks: React.FC = () => {
   const status = result?.status || 'waiting';
   const isSprint = !result?.product || result.product === 'interview_sprint';
   const runsLeft = result
-    ? (['resume', 'linkedin', 'solver'] as ToolKey[])
+    ? (['resume', 'linkedin', 'solver', 'strategy'] as ToolKey[])
       .filter((t) => result[t]?.credits)
-      .map((t) => `${result[t].credits} ${result[t].credits === 1 ? TOOL_LABELS[t].one : TOOL_LABELS[t].many}`)
+      .map((t) => `${result[t]!.credits} ${result[t]!.credits === 1 ? TOOL_LABELS[t].one : TOOL_LABELS[t].many}`)
       .join(', ')
     : '';
   const nextTool = (Object.keys(TOOL_LABELS) as ToolKey[]).find((t) => TOOL_LABELS[t].path === next);

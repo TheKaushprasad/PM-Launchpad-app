@@ -5,7 +5,7 @@ import { isPaymentsEnabled } from '../../lib/featureFlags';
 import { Button } from '../ui/button';
 import { TOOL_LABELS, formatPrice, paymentsApi, type Credits, type OfferItem, type ToolKey } from './api';
 
-// Paid runs for the Resume Auditor, LinkedIn Optimiser and Assignment Solver. Everything here
+// Paid runs for the Resume Auditor, LinkedIn Optimiser, Assignment Solver and AI Product Strategy. Everything here
 // renders nothing unless payments are on (npm run dev, or VITE_PAYMENTS_ENABLED=true), so the live
 // site keeps the tools free. The server decides what is allowed; these only show it.
 
@@ -27,7 +27,13 @@ export const ToolRunsBadge: React.FC<{ tool: ToolKey; credits: Credits | null; c
   if (!isPaymentsEnabled || !c) return null;
   const label = TOOL_LABELS[tool];
   let text: string;
-  if (c.freeLeft > 0) text = `Your first ${label.one} is free${c.credits ? `, then ${c.credits} paid left` : ''}`;
+  if (c.freeResetsOn) {
+    // Free runs that come back each month (AI Product Strategy).
+    const resets = new Date(`${c.freeResetsOn}T00:00:00Z`).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', timeZone: 'UTC' });
+    text = c.freeLeft > 0
+      ? `${c.freeLeft} free ${c.freeLeft === 1 ? label.one : label.many} left this month${c.credits ? ` + ${c.credits} paid` : ''}`
+      : c.credits > 0 ? `${c.credits} paid ${c.credits === 1 ? label.one : label.many} left (free ones reset ${resets})` : `Free ${label.many} used this month. They reset on ${resets}`;
+  } else if (c.freeLeft > 0) text = `Your first ${label.one} is free${c.credits ? `, then ${c.credits} paid left` : ''}`;
   else if (c.credits > 0) text = `${c.credits} ${c.credits === 1 ? label.one : label.many} left`;
   else text = tool === 'solver' ? 'Paid tool: buy a run to start' : `Free ${label.one} used: buy more to keep going`;
   const Icon = c.freeLeft > 0 ? Gift : c.credits > 0 ? Ticket : Lock;
@@ -81,7 +87,7 @@ export const ToolPaywall: React.FC<{ tool: ToolKey; message?: string; onClose?: 
         <span className="rounded-xl bg-amber-100 p-2.5"><Lock className="size-5 text-amber-700" /></span>
         <div className="min-w-0 space-y-1">
           <h2 className="text-lg font-black text-slate-900">Get more {TOOL_LABELS[tool].many}</h2>
-          <p className="text-sm text-slate-700">{message || (tool === 'solver' ? 'The Assignment Solver is a paid tool.' : `You've used your free ${TOOL_LABELS[tool].one}.`)} Each run is one full result; if a run fails, you get it back.</p>
+          <p className="text-sm text-slate-700">{message || (tool === 'solver' ? 'The Assignment Solver is a paid tool.' : tool === 'strategy' ? "You've used this month's free strategies." : `You've used your free ${TOOL_LABELS[tool].one}.`)} Each run is one full result; if a run fails, you get it back.</p>
         </div>
       </div>
 

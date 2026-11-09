@@ -3,11 +3,15 @@
 // on the site come from Dodo, so the page never shows a price Dodo won't charge; `fallbackName` is
 // only used while the Dodo product can't be loaded.
 
-export type ToolKey = 'resume' | 'linkedin' | 'solver';
-export const TOOLS: ToolKey[] = ['resume', 'linkedin', 'solver'];
+export type ToolKey = 'resume' | 'linkedin' | 'solver' | 'strategy';
+export const TOOLS: ToolKey[] = ['resume', 'linkedin', 'solver', 'strategy'];
 
 // One free run per account for these tools; the Assignment Solver has no free run.
-export const FREE_RUNS: Record<ToolKey, number> = { resume: 1, linkedin: 1, solver: 0 };
+export const FREE_RUNS: Record<ToolKey, number> = { resume: 1, linkedin: 1, solver: 0, strategy: 0 };
+
+// Free runs that come back every calendar month (UTC) instead of once per account.
+// The AI Product Strategy tool gives 3 free strategies a month (FRD section 10).
+export const FREE_RUNS_PER_MONTH: Partial<Record<ToolKey, number>> = { strategy: 3 };
 
 export interface OfferDef {
   key: string;
@@ -26,6 +30,8 @@ export const OFFERS: OfferDef[] = [
   { key: 'linkedin_1', envVar: 'DODO_LINKEDIN_PRODUCT_ID', fallbackName: 'LinkedIn profile audit', suggestedPrice: 7900, credits: { linkedin: 1 } },
   { key: 'linkedin_3', envVar: 'DODO_LINKEDIN_PACK_PRODUCT_ID', fallbackName: '3 LinkedIn profile audits', suggestedPrice: 14900, credits: { linkedin: 3 } },
   { key: 'solver_1', envVar: 'DODO_SOLVER_PRODUCT_ID', fallbackName: 'Assignment Solver run', suggestedPrice: 14900, credits: { solver: 1 } },
+  // AI Product Strategy (local only for now). Suggested price is a placeholder until the owner sets one.
+  { key: 'strategy_5', envVar: 'DODO_STRATEGY_PRODUCT_ID', fallbackName: '5 AI product strategies', suggestedPrice: 9900, credits: { strategy: 5 } },
   { key: 'job_pack', envVar: 'DODO_JOB_PACK_PRODUCT_ID', fallbackName: 'Job-ready pack', suggestedPrice: 29900, credits: { resume: 3, linkedin: 3, solver: 2 } },
 ];
 
