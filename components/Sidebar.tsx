@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   LayoutDashboard, BookOpen, Search, BarChart2, Smartphone, 
   Bot, Info, ChevronRight, ChevronDown, Sparkles, Zap, ArrowRight, Code, Briefcase,
-  Library, LogIn, LogOut, Layers, User as UserIcon, Menu, X, FolderKanban, MessagesSquare, GraduationCap, Users
+  Library, LogIn, LogOut, Layers, User as UserIcon, Menu, X, GraduationCap, Users
 } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -34,8 +34,6 @@ const OTHER_NAV_ITEMS = [
   ...(isAiPmCourseEnabled ? [{ label: 'PM → AI PM', icon: GraduationCap, path: '/ai-pm' }] : []),
   { label: 'AI Mock Interview', icon: Sparkles, path: '/interview-studio', badge: isAnyAiInterviewEnabled ? 'AI' : 'Soon' },
   ...(isProductBuddyEnabled ? [{ label: 'Product Buddy', icon: Users, path: '/buddy', badge: 'New' }] : []),
-  { label: 'Interview Questions', icon: MessagesSquare, path: '/interview-questions', badge: 'New' },
-  { label: 'Real-World Projects', icon: FolderKanban, path: '/projects' },
   { label: 'PM Jobs', icon: Briefcase, path: '/jobs', badge: 'New' },
   { label: 'Resources', icon: BookOpen, path: '/resources' },
   { label: 'Career Tools', icon: Zap, path: '/tools' },
