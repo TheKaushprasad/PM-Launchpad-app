@@ -438,3 +438,12 @@ function keepAliveUntil(promise: Promise<unknown>) {
     /* not on Vercel */
   }
 }
+
+export function tracePrdCoachRequests(req: Request, res: Response, next: NextFunction) {
+  const step = req.path.replace(/^\/+|\/+$/g, "").split("/")[0] || "unknown";
+  startRequestTrace(res, next, {
+    name: `prd-coach-${step}`,
+    tags: ["prd-coach", `step:${step}`],
+    metadata: { step },
+  });
+}

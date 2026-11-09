@@ -10,7 +10,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { AuthModal } from './auth/AuthModal';
-import { isAssignmentSolverEnabled, isProductStrategyEnabled } from '../lib/featureFlags';
+import { isAssignmentSolverEnabled, isPrdCoachEnabled, isProductStrategyEnabled } from '../lib/featureFlags';
 
 export const ToolsHub: React.FC = () => {
   const navigate = useNavigate();

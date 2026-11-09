@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, Outlet, 
 import { SeoMeta } from './components/SeoMeta';
 import { Sidebar } from './components/Sidebar';
 import { LandingPage } from './components/LandingPage';
-import { isAiPmCourseEnabled, isAssignmentSolverEnabled, isPaymentsEnabled, isProductBuddyEnabled, isProductStrategyEnabled } from './lib/featureFlags';
+import { isAiPmCourseEnabled, isAssignmentSolverEnabled, isPaymentsEnabled, isPrdCoachEnabled, isProductBuddyEnabled, isProductStrategyEnabled } from './lib/featureFlags';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { Menu, X, AlertTriangle, Loader2 } from 'lucide-react';
 
@@ -64,6 +64,9 @@ const assignmentSolver = AssignmentSolver ? <AssignmentSolver /> : <Navigate to=
 // Local only for now; the build drops the code when VITE_AI_PRODUCT_STRATEGY_ENABLED is off.
 const ProductStrategy = isProductStrategyEnabled ? lazy(() => import('./components/productStrategy/ProductStrategy')) : null;
 const productStrategy = ProductStrategy ? <ProductStrategy /> : <Navigate to="/tools" replace />;
+// The PRD Coach is local-only for now (lib/featureFlags.ts); on the live site its URL goes to the tools hub.
+const PrdCoach = isPrdCoachEnabled ? lazy(() => import('./components/prdCoach/PrdCoach')) : null;
+const prdCoach = PrdCoach ? <PrdCoach /> : <Navigate to="/tools" replace />;
 
 // Product Buddy (peer mock interviews) is live; if switched off, /buddy goes to the dashboard.
 const ProductBuddy = isProductBuddyEnabled ? lazy(() => import('./components/productBuddy/ProductBuddy')) : null;
@@ -360,6 +363,7 @@ const App: React.FC = () => {
                     <Route path="resume-auditor" element={<ResumeAuditor />} />
                     <Route path="assignment-solver" element={assignmentSolver} />
                     <Route path="ai-product-strategy" element={productStrategy} />
+                    <Route path="prd-coach" element={prdCoach} />
                     <Route path="interview-studio" element={interviewStudio} />
                     <Route path="practice" element={interviewStudio} />
                     <Route 

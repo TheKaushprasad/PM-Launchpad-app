@@ -29,6 +29,7 @@ import { deepgramVoiceFor, isDeepgramConfigured, isGroqConfigured, isSarvamConfi
 import { getProjectById } from "./data/realWorldProjects";
 import { discoverJobBoards, getJobDetail, getJobsList, jobsStoreReady, refreshJobs } from "./server/jobs/store";
 import { registerAssignmentSolverRoutes } from "./server/assignmentSolver/routes";
+import { registerPrdCoachRoutes } from "./server/prdCoach/routes";
 import { registerProductBuddyRoutes } from "./server/productBuddy/routes";
 import { registerProductStrategyRoutes } from "./server/productStrategy/routes";
 import { registerPaymentRoutes, PAYMENTS_WEBHOOK_PATH, paymentsEnabled } from "./server/payments/routes";
@@ -1627,6 +1628,7 @@ SUBMISSION>>>`;
   // ==========================================
   registerAssignmentSolverRoutes(app, requireAiAccess);
   registerProductStrategyRoutes(app, requireAiAccess);
+  registerPrdCoachRoutes(app, requireAiAccess);
   registerProductBuddyRoutes(app);
   // Payments via Dodo Payments (test mode; off on the live site unless VITE_PAYMENTS_ENABLED=true)
   registerPaymentRoutes(app);
