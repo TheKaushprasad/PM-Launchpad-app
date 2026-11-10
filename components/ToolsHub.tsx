@@ -3,7 +3,9 @@ import { motion } from 'framer-motion';
 import { 
   ArrowRight, 
   Check,
+  ClipboardList,
   Compass,
+  Puzzle,
   FileText,
   Users
 } from 'lucide-react';
@@ -11,6 +13,95 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { AuthModal } from './auth/AuthModal';
 import { isAssignmentSolverEnabled, isPrdCoachEnabled, isProductStrategyEnabled } from '../lib/featureFlags';
+import { useToolCredits } from './payments/ToolPaywall';
+import type { ToolKey } from './payments/api';
+
+interface Tool {
+  key: ToolKey;
+  title: string;
+  description: string;
+  iconType: string;
+  iconContainerStyle: string;
+  features: string[];
+  action: string;
+  cta: string;
+  isNew?: boolean;
+}
+
+type UsageLine = (key: ToolKey) => { text: string; left: boolean } | null;
+
+const ToolIcon: React.FC<{ type: string }> = ({ type }) => {
+  if (type === 'linkedin') {
+    return (
+      <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
+      </svg>
+    );
+  }
+  if (type === 'strategy') return <Compass className="w-6 h-6 stroke-2" />;
+  if (type === 'assignment') return <Puzzle className="w-6 h-6 stroke-2" />;
+  if (type === 'prd') return <ClipboardList className="w-6 h-6 stroke-2" />;
+  return <FileText className="w-6 h-6 stroke-2" />;
+};
+
+const ToolCard: React.FC<{ tool: Tool; usage: ReturnType<UsageLine>; onOpen: (path: string) => void }> = ({ tool, usage, onOpen }) => (
+  <div
+    onClick={() => onOpen(tool.action)}
+    className="group bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-7 flex flex-col justify-between shadow-2xs hover:shadow-md hover:border-slate-300 transition-all duration-200 cursor-pointer"
+  >
+    <div className="flex flex-col grow">
+      <div className="flex items-center justify-between mb-5">
+        <div className={`w-12 h-12 rounded-2xl ${tool.iconContainerStyle} flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform duration-200`}>
+          <ToolIcon type={tool.iconType} />
+        </div>
+        {tool.isNew && (
+          <span className="px-3 py-1 rounded-full text-xs font-bold tracking-tight bg-[#ECFDF5] text-[#047857]">New</span>
+        )}
+      </div>
+
+      <h3 className="text-xl font-black tracking-tight text-slate-900 mb-1.5 group-hover:text-brand-950 transition-colors">{tool.title}</h3>
+      {usage && (
+        <p className={`text-xs font-bold mb-2 ${usage.left ? 'text-[#047857]' : 'text-slate-400'}`}>{usage.text}</p>
+      )}
+      <p className="text-sm text-slate-500 font-normal leading-relaxed mb-5">{tool.description}</p>
+
+      <ul className="space-y-2.5 mb-7">
+        {tool.features.map((feat) => (
+          <li key={feat} className="flex items-start gap-2.5 text-sm font-semibold text-slate-700">
+            <span className="w-5 h-5 mt-px rounded-full bg-[#059669] flex items-center justify-center shrink-0 text-white shadow-2xs">
+              <Check className="w-3.5 h-3.5 stroke-3" />
+            </span>
+            <span>{feat}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <button
+      type="button"
+      onClick={(e) => {
+        e.stopPropagation();
+        onOpen(tool.action);
+      }}
+      className="w-full py-3.5 px-5 rounded-2xl bg-[#064E3B] hover:bg-[#043C2C] active:scale-[0.98] text-white font-semibold text-sm flex items-center justify-between transition-colors shadow-2xs group/btn cursor-pointer"
+    >
+      <span>{tool.cta}</span>
+      <ArrowRight className="w-4 h-4 transition-transform duration-200 ease-out group-hover/btn:translate-x-1" />
+    </button>
+  </div>
+);
+
+const ToolGroup: React.FC<{ title: string; subtitle: string; tools: Tool[]; columns: string; usageLine: UsageLine; onOpen: (path: string) => void }> = ({ title, subtitle, tools, columns, usageLine, onOpen }) => (
+  <section className="mb-8 sm:mb-10">
+    <div className="mb-4 px-1">
+      <h2 className="text-lg sm:text-xl font-black tracking-tight text-slate-900">{title}</h2>
+      <p className="text-sm text-slate-500">{subtitle}</p>
+    </div>
+    <div data-reveal-stagger className={`grid grid-cols-1 ${columns} gap-5 sm:gap-6 items-stretch`}>
+      {tools.map((tool) => <ToolCard key={tool.key} tool={tool} usage={usageLine(tool.key)} onOpen={onOpen} />)}
+    </div>
+  </section>
+);
 
 export const ToolsHub: React.FC = () => {
   const navigate = useNavigate();
@@ -18,86 +109,80 @@ export const ToolsHub: React.FC = () => {
   const [authModalOpen, setAuthModalOpen] = useState<boolean>(false);
   const [pendingRedirect, setPendingRedirect] = useState<string>('/tools');
 
-  const tools = [
+  // One free use of each tool per month for signed-in users (server/payments/catalog.ts). The line
+  // under each card's title shows what's left, so people know before they click.
+  const { credits } = useToolCredits();
+
+  const getNoticed: Tool[] = [
     {
-      title: "LinkedIn Profile Optimiser",
-      badge: "Stand Out",
-      badgeStyle: "bg-[#ECFDF5] text-[#047857]",
-      description: "Turn your LinkedIn profile into a recruiter-ready profile with AI-powered recommendations.",
-      iconType: "linkedin",
-      iconContainerStyle: "bg-[#ECFDF5] text-[#047857]",
-      features: [
-        "Headline Suggestions", 
-        "About Section Audit", 
-        "Search SEO Check"
-      ],
-      action: "/tools/linkedin-optimiser",
-      cta: "Optimise profile"
+      key: 'linkedin',
+      title: 'LinkedIn Profile Optimiser',
+      description: 'Turn your LinkedIn profile into one that recruiters for PM roles find and read.',
+      iconType: 'linkedin',
+      iconContainerStyle: 'bg-[#ECFDF5] text-[#047857]',
+      features: ['Headline suggestions', 'About section audit', 'Search keywords check'],
+      action: '/tools/linkedin-optimiser',
+      cta: 'Optimise profile',
     },
     {
-      title: "PM Resume Auditor",
-      badge: "Get Feedback",
-      badgeStyle: "bg-[#ECFDF5] text-[#047857]",
-      description: "Find the biggest weaknesses in your PM resume and get high-leverage improvements.",
-      iconType: "resume",
-      iconContainerStyle: "bg-[#ECFDF5] text-[#047857]",
-      features: [
-        "Impact & Metric Scoring (0/10)", 
-        "PM Ownership Framing (0/10)", 
-        "ATS Readability & Bullet Rewrite"
-      ],
-      action: "/tools/resume-auditor",
-      cta: "Audit resume"
+      key: 'resume',
+      title: 'PM Resume Auditor',
+      description: 'Find the biggest gaps in your PM resume and fix them before you apply.',
+      iconType: 'resume',
+      iconContainerStyle: 'bg-[#ECFDF5] text-[#047857]',
+      features: ['Impact and ownership score', 'ATS readability check', 'Bullet rewrites'],
+      action: '/tools/resume-auditor',
+      cta: 'Audit resume',
     },
-    // Can be switched off with VITE_ASSIGNMENT_SOLVER_ENABLED=false (lib/featureFlags.ts).
-    ...(isAssignmentSolverEnabled ? [{
-      title: "PM Assignment Solver",
-      badge: "New",
-      badgeStyle: "bg-violet-50 text-violet-700",
-      description: "Five AI agents research, plan, draft and grade your take-home assignment. AI drafts, you decide.",
-      iconType: "assignment",
-      iconContainerStyle: "bg-violet-50 text-violet-700",
-      features: [
-        "Sourced company research",
-        "Critic score per section",
-        "Edit, regenerate, export"
-      ],
-      action: "/tools/assignment-solver",
-      cta: "Draft an assignment"
-    }] : []),
-    // Can be switched off with VITE_AI_PRODUCT_STRATEGY_ENABLED=false (lib/featureFlags.ts).
-    ...(isProductStrategyEnabled ? [{
-      title: "AI Product Strategy",
-      badge: "New",
-      badgeStyle: "bg-amber-50 text-amber-800",
-      description: "Learn a strategy framework by filling it in for your product. Every section explains why it matters.",
-      iconType: "strategy",
-      iconContainerStyle: "bg-amber-50 text-amber-700",
-      features: [
-        "3 frameworks: Canvas, Vision Board, One-page",
-        "Assumptions labelled, quality score",
-        "Edit, regenerate, download PDF"
-      ],
-      action: "/tools/ai-product-strategy",
-      cta: "Build a strategy"
-    }] : []),
-    // Can be switched off with VITE_PRD_COACH_ENABLED=false (lib/featureFlags.ts).
-    ...(isPrdCoachEnabled ? [{
-      title: "PRD Coach",
-      badge: "New",
-      badgeStyle: "bg-violet-50 text-violet-700",
-      description: "Write your own PRD in seven guided sections. The coach scores each one and tells you what to fix and why.",
-      iconType: "prd",
-      iconContainerStyle: "bg-violet-50 text-violet-700",
-      features: [
-        "Score per section (1-5)",
-        "Specific fixes, with the why",
-        "Example PRD to compare after"
-      ],
-      action: "/tools/prd-coach",
-      cta: "Write a PRD"
-    }] : [])
   ];
+
+  // Each can be switched off with its VITE_*_ENABLED=false flag (lib/featureFlags.ts).
+  const practise: Tool[] = [
+    ...(isAssignmentSolverEnabled ? [{
+      key: 'solver' as const,
+      title: 'PM Assignment Solver',
+      description: 'Get a researched first draft of your take-home assignment, then make it yours.',
+      iconType: 'assignment',
+      iconContainerStyle: 'bg-violet-50 text-violet-700',
+      features: ['Company research with sources', 'A draft for every question', 'Critic score per section'],
+      action: '/tools/assignment-solver',
+      cta: 'Start an assignment',
+      isNew: true,
+    }] : []),
+    ...(isProductStrategyEnabled ? [{
+      key: 'strategy' as const,
+      title: 'AI Product Strategy',
+      description: 'Learn a strategy framework by filling it in for your product.',
+      iconType: 'strategy',
+      iconContainerStyle: 'bg-amber-50 text-amber-700',
+      features: ['3 frameworks: Canvas, Vision Board, One-page', 'Assumptions labelled, quality score', 'Download as PDF'],
+      action: '/tools/ai-product-strategy',
+      cta: 'Build a strategy',
+      isNew: true,
+    }] : []),
+    ...(isPrdCoachEnabled ? [{
+      key: 'prd' as const,
+      title: 'PRD Coach',
+      description: 'Write your own PRD, section by section, and learn what good looks like.',
+      iconType: 'prd',
+      iconContainerStyle: 'bg-sky-50 text-sky-700',
+      features: ['7 guided sections', 'Score and fixes per section, with the why', 'Example PRD to compare after'],
+      action: '/tools/prd-coach',
+      cta: 'Write a PRD',
+      isNew: true,
+    }] : []),
+  ];
+
+  /** "1 free use left this month" / "Used · back on 1 Dec" for signed-in users; nothing otherwise. */
+  const usageLine = (key: ToolKey): { text: string; left: boolean } | null => {
+    const c = credits?.signedIn ? credits[key] : undefined;
+    if (!c) return null;
+    if (c.freeLeft > 0) return { text: `${c.freeLeft} free use left this month`, left: true };
+    if (c.credits > 0) return { text: `${c.credits} paid ${c.credits === 1 ? 'run' : 'runs'} left`, left: true };
+    if (!c.freeResetsOn) return null;
+    const back = new Date(`${c.freeResetsOn}T00:00:00Z`).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', timeZone: 'UTC' });
+    return { text: `Free use used · back on ${back}`, left: false };
+  };
 
   const handleAction = (actionUrl: string) => {
     if (actionUrl.startsWith('http')) {
@@ -181,7 +266,7 @@ export const ToolsHub: React.FC = () => {
               </h1>
 
               <p className="text-slate-300 text-sm sm:text-base leading-relaxed font-normal max-w-lg">
-                Don't just learn. Ship your professional identity. These tools ensure your work gets noticed by the right recruiters.
+                Don't just learn the theory. Fix your resume and LinkedIn, then practise real PM work, with AI feedback on every step.
               </p>
             </div>
 
@@ -279,85 +364,23 @@ export const ToolsHub: React.FC = () => {
           </div>
         </header>
 
-        {/* 2 Main Tool Cards Grid */}
-        <div data-reveal-stagger className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full items-stretch">
-          {tools.map((tool) => (
-            <div 
-              key={tool.title}
-              onClick={() => handleAction(tool.action)}
-              className="group bg-white rounded-3xl border border-slate-200/90 p-7 sm:p-8 flex flex-col justify-between shadow-2xs hover:shadow-md hover:border-slate-300 transition-all duration-200 cursor-pointer"
-            >
-              <div className="flex flex-col grow">
-                {/* Header: Icon + Status Tag */}
-                <div className="flex items-center justify-between mb-5">
-                  <div className={`w-12 h-12 rounded-2xl ${tool.iconContainerStyle} flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform duration-200`}>
-                    {tool.iconType === 'linkedin' ? (
-                      <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
-                        <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
-                      </svg>
-                    ) : tool.iconType === 'strategy' ? (
-                      <Compass className="w-6 h-6 stroke-2" />
-                    ) : (
-                      <FileText className="w-6 h-6 stroke-2" />
-                    )}
-                  </div>
-
-                  <span className={`px-3.5 py-1 rounded-full text-xs font-bold tracking-tight ${tool.badgeStyle}`}>
-                    {tool.badge}
-                  </span>
-                </div>
-
-                {/* Tool Title */}
-                <h2 className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 mb-2 group-hover:text-brand-950 transition-colors">
-                  {tool.title}
-                </h2>
-
-                {/* Description */}
-                <p className="text-sm text-slate-500 font-normal leading-relaxed mb-6">
-                  {tool.description}
-                </p>
-
-                {/* Bullet Features with Solid Emerald Checkmark Icon */}
-                <div className="space-y-3 mb-8">
-                  {tool.features.map((feat) => (
-                    <div key={feat} className="flex items-center gap-2.5 text-xs sm:text-sm font-semibold text-slate-700">
-                      <div className="w-5 h-5 rounded-full bg-[#059669] flex items-center justify-center shrink-0 text-white shadow-2xs">
-                        <Check className="w-3.5 h-3.5 stroke-3" />
-                      </div>
-                      <span>{feat}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Bottom Full-Width CTA Button */}
-              <button 
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleAction(tool.action);
-                }}
-                className="w-full py-4 px-6 rounded-2xl bg-[#064E3B] hover:bg-[#043C2C] active:scale-[0.98] text-white font-semibold text-sm flex items-center justify-between transition-colors shadow-2xs group/btn cursor-pointer"
-              >
-                <span>{tool.cta}</span>
-                <ArrowRight className="w-4 h-4 transition-transform duration-200 ease-out group-hover/btn:translate-x-1" />
-              </button>
-            </div>
-          ))}
-        </div>
+        <ToolGroup title="Get noticed" subtitle="Make recruiters stop on your resume and LinkedIn." tools={getNoticed} columns="lg:grid-cols-2" usageLine={usageLine} onOpen={handleAction} />
+        {practise.length > 0 && (
+          <ToolGroup title="Practise the PM job" subtitle="Do real PM work, with AI feedback on every step." tools={practise} columns={practise.length >= 3 ? 'md:grid-cols-2 xl:grid-cols-3' : 'lg:grid-cols-2'} usageLine={usageLine} onOpen={handleAction} />
+        )}
 
         {/* Bottom Manual Review Banner Card */}
-        <div className="mt-6 sm:mt-7 w-full bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-7 shadow-2xs hover:shadow-md transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-5">
+        <div className="w-full bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-7 shadow-2xs hover:shadow-md transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-5">
           <div className="flex items-center gap-4 sm:gap-5 min-w-0">
             <div className="w-12 h-12 rounded-2xl bg-[#ECFDF5] text-[#047857] flex items-center justify-center shrink-0 shadow-2xs">
               <Users className="w-6 h-6 stroke-2" />
             </div>
             <div className="min-w-0">
               <h3 className="text-base sm:text-lg font-black text-slate-900 tracking-tight leading-snug">
-                Need a manual review?
+                Want a human review?
               </h3>
               <p className="text-xs sm:text-sm text-slate-500 font-normal leading-normal mt-0.5">
-                Get 1-on-1 feedback from a senior PM working at a top tech firm.
+                1-on-1 resume reviews and expert mock interviews. Tell us what you need and we'll get back to you.
               </p>
             </div>
           </div>
@@ -366,9 +389,9 @@ export const ToolsHub: React.FC = () => {
             href="https://docs.google.com/forms/u/0/d/1gntWQiHg_RBueOSOqZzVQiJ4UGfMIvyuAYUsiuxbOUc/preview" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="px-6 py-3.5 rounded-2xl bg-[#ECFDF5] hover:bg-[#A7F3D0] text-[#047857] font-bold text-xs uppercase tracking-wider transition-colors shadow-2xs flex items-center justify-center gap-2 shrink-0 self-start sm:self-auto cursor-pointer"
+            className="px-6 py-3.5 rounded-2xl bg-[#ECFDF5] hover:bg-[#A7F3D0] text-[#047857] font-bold text-sm transition-colors shadow-2xs flex items-center justify-center gap-2 shrink-0 self-start sm:self-auto cursor-pointer"
           >
-            <span>BOOK A REVIEW</span>
+            <span>Request a session</span>
             <ArrowRight className="w-4 h-4" />
           </a>
         </div>
