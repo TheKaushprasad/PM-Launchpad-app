@@ -8,6 +8,7 @@ import {
 import { LinkedInLanding } from './linkedin/LinkedInLanding';
 import { LinkedInInputForm } from './linkedin/LinkedInInputForm';
 import { LinkedInScoreDashboard } from './linkedin/LinkedInScoreDashboard';
+import { ToolFeedbackCard } from './feedback/ToolFeedbackCard';
 import { LinkedInAnalysisResult } from '../types/linkedin';
 import { getSampleAnalysis } from '../services/profileAnalyzer';
 import { useAuth } from '../context/AuthContext';
@@ -345,6 +346,8 @@ export const LinkedInOptimiser: React.FC = () => {
             }}
           />
         )}
+        {/* Optional feedback (skippable); the sample preview isn't asked about */}
+        {viewState === 'dashboard' && analysisResult && analysisResult.sourceType !== 'sample' && <ToolFeedbackCard tool="linkedin" className="mt-6" />}
       </div>
 
       <AuthModal

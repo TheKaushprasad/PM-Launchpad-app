@@ -25,6 +25,7 @@ import { getTrackConfig, normalizeLevel } from "./data/interviewTracks";
 import { runEvaluationEngine } from "./server/evaluatorEngine";
 import { saveInterviewEvaluationServerSide, saveUnscoredInterviewServerSide } from "./server/persistence";
 import { cleanFeedback, saveInterviewFeedback } from "./server/interviewFeedback";
+import { registerToolFeedbackRoutes } from "./server/toolFeedback";
 import { deepgramVoiceFor, isDeepgramConfigured, isGroqConfigured, isSarvamConfigured, synthesizeWithDeepgram, synthesizeWithSarvam, transcribeWithGroq } from "./server/voice";
 import { getProjectById } from "./data/realWorldProjects";
 import { discoverJobBoards, getJobDetail, getJobsList, jobsStoreReady, refreshJobs } from "./server/jobs/store";
@@ -1487,6 +1488,9 @@ Plain text, 1-2 sentences. No markdown.
       res.status(500).json({ error: "Couldn't save this interview." });
     }
   });
+
+  // Optional stars + chips after a tool's result (Resume, LinkedIn, Strategy, PRD Coach): server/toolFeedback.ts
+  registerToolFeedbackRoutes(app);
 
   // Stars + liked / didn't go well, given while the scorecard is being prepared (server/interviewFeedback.ts)
   app.post(["/api/interview/feedback", "/api/interview/feedback/"], async (req, res) => {
