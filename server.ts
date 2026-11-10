@@ -26,7 +26,7 @@ import { runEvaluationEngine } from "./server/evaluatorEngine";
 import { saveInterviewEvaluationServerSide, saveUnscoredInterviewServerSide } from "./server/persistence";
 import { cleanFeedback, saveInterviewFeedback } from "./server/interviewFeedback";
 import { registerToolFeedbackRoutes } from "./server/toolFeedback";
-import { deepgramVoiceFor, isDeepgramConfigured, isGroqConfigured, isSarvamConfigured, synthesizeWithDeepgram, synthesizeWithSarvam, transcribeWithGroq } from "./server/voice";
+import { deepgramVoiceFor, isDeepgramConfigured, isGroqConfigured, isSarvamConfigured, isVartaloopConfigured, synthesizeWithDeepgram, synthesizeWithSarvam, synthesizeWithVartaloop, transcribeWithGroq, VARTALOOP_SAMPLE_RATE, vartaloopVoice } from "./server/voice";
 import { getProjectById } from "./data/realWorldProjects";
 import { discoverJobBoards, getJobDetail, getJobsList, jobsStoreReady, refreshJobs } from "./server/jobs/store";
 import { registerAssignmentSolverRoutes } from "./server/assignmentSolver/routes";
@@ -90,6 +90,7 @@ export async function createExpressApp() {
       interviewPromptsLoaded: arePromptsLoaded(),
       interviewPromptVersion: PROMPT_VERSION,
       hasSarvamKey: isSarvamConfigured(),
+      hasVartaloopKey: isVartaloopConfigured(),
       hasDeepgramKey: isDeepgramConfigured(),
       hasGroqKey: isGroqConfigured(),
       hasLangfuseKeys: isLangfuseConfigured(),
@@ -1199,7 +1200,22 @@ Plain text, 1-2 sentences. No markdown.
         }
       }
 
-      // 2. Deepgram Aura-2: natural US voice, low latency, does not use the Gemini quota
+      // 2. Vartaloop: cheap Indian-English voice (Ananya), backup when Sarvam fails
+      if (isVartaloopConfigured()) {
+        try {
+          const vtTimeLeft = TTS_BUDGET_MS - (Date.now() - ttsStartedAt);
+          const pcm = await traceStep(
+            { kind: "tts", name: "synthesize-speech", provider: "vartaloop", model: vartaloopVoice(), input: text.trim(), chars: text.trim().length },
+            () => synthesizeWithVartaloop(text.trim(), Math.min(8000, vtTimeLeft))
+          );
+          return res.json({ audioBase64: pcm.toString('base64'), format: "pcm", sampleRate: VARTALOOP_SAMPLE_RATE, provider: "vartaloop" });
+        } catch (vtErr: any) {
+          console.warn("[Vartaloop TTS]: Failed, checking fallback...", vtErr?.message);
+          failures.push(`Vartaloop: ${String(vtErr?.message || vtErr).slice(0, 160)}`);
+        }
+      }
+
+      // 3. Deepgram Aura-2: natural US voice, low latency, does not use the Gemini quota
       if (isDeepgramConfigured()) {
         try {
           const deepgramTimeLeft = TTS_BUDGET_MS - (Date.now() - ttsStartedAt);
@@ -1214,7 +1230,7 @@ Plain text, 1-2 sentences. No markdown.
         }
       }
 
-      // 3. Try Gemini TTS (gemini-3.1-flash-tts-preview)
+      // 4. Try Gemini TTS (gemini-3.1-flash-tts-preview)
       const geminiTimeLeft = TTS_BUDGET_MS - (Date.now() - ttsStartedAt);
       if (geminiKey && geminiKey.trim() !== "" && geminiKey !== "undefined" && geminiTimeLeft < 3000) {
         failures.push("Gemini: skipped, not enough time left");
@@ -1254,7 +1270,7 @@ Plain text, 1-2 sentences. No markdown.
         }
       }
 
-      // 4. Try OpenAI TTS (tts-1) if configured
+      // 5. Try OpenAI TTS (tts-1) if configured
       if (openAiKey && openAiKey.trim() !== "" && openAiKey !== "undefined") {
         try {
           const openai = getOpenAI();
