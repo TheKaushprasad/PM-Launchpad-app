@@ -17,6 +17,7 @@ import { authJsonHeaders } from '../lib/apiClient';
 import { AuthModal } from './auth/AuthModal';
 import { ToolPaywall, ToolRunsBadge, useToolCredits } from './payments/ToolPaywall';
 import { isPaywallResponse } from './payments/api';
+import { ToolFeedbackCard } from './feedback/ToolFeedbackCard';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const INITIAL_ROLES = [
@@ -1393,6 +1394,9 @@ export const ResumeAuditor: React.FC = () => {
                 ))}
               </div>
             </div>
+
+            {/* Optional feedback (skippable) */}
+            <ToolFeedbackCard tool="resume" resultId={auditResult.analyzedAt} />
 
             {/* Bottom Actions */}
             <div className="flex justify-center pt-4">

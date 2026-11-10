@@ -9,6 +9,7 @@ import { Label } from '../ui/label';
 import { Textarea } from '../ui/textarea';
 import { BriefMarkdown } from '../assignments/BriefMarkdown';
 import { authJsonHeaders } from '../../lib/apiClient';
+import { ToolFeedbackCard } from '../feedback/ToolFeedbackCard';
 import {
   MIN_SECTION_CHARS, MIN_SECTIONS_FOR_REVIEW, PRD_SECTIONS, attemptedSections, emptySections, prdMarkdown,
   type PrdDraft, type PrdReview, type PrdSectionDef, type PrdSectionReview,
@@ -310,6 +311,9 @@ export const PrdCoach: React.FC = () => {
           {canReview ? `${attempted} of 7 sections written` : `Add the idea and write at least ${MIN_SECTIONS_FOR_REVIEW} sections to get a review (${attempted} so far)`}
         </p>
       </div>
+
+      {/* Optional feedback on the review (skippable) */}
+      {review && !busy && <ToolFeedbackCard key={review.reviewedAt} tool="prd" resultId={review.reviewedAt} />}
 
       {/* Example */}
       {example && (

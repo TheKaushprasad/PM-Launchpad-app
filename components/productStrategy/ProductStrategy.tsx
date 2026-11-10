@@ -8,6 +8,7 @@ import { Button } from '../ui/button';
 import { ToolPaywall, ToolRunsBadge, useToolCredits } from '../payments/ToolPaywall';
 import { StrategyForm } from './StrategyForm';
 import { StrategyPreview } from './StrategyPreview';
+import { ToolFeedbackCard } from '../feedback/ToolFeedbackCard';
 import { StrategyApiError, newStrategyId, strategyApi } from '../../lib/productStrategy/api';
 import { SAMPLE_INPUTS } from '../../lib/productStrategy/sample';
 import { styleById } from '../../lib/productStrategy/styles';
@@ -208,6 +209,7 @@ export const ProductStrategy: React.FC = () => {
           onNew={() => { setRecord(null); setDraft({ inputs: EMPTY_INPUTS, step: 0 }); }}
         />
       )}
+      {record && record.status === 'generated' && !busyText && <ToolFeedbackCard key={record.id} tool="strategy" resultId={record.id} />}
 
       {user && history && history.length > 0 && !busyText && (
         <section className="space-y-2">

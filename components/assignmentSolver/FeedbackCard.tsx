@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CheckCircle2, Loader2, Star } from 'lucide-react';
+import { CheckCircle2, Loader2, Star, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '../ui/button';
 import { Textarea } from '../ui/textarea';
@@ -34,9 +34,19 @@ export const FeedbackCard: React.FC<{ run: Run; criticAverage: number; editRatio
   const [bad, setBad] = useState<string[]>([]);
   const [comment, setComment] = useState('');
   const [sending, setSending] = useState(false);
+  // Feedback is optional: Skip hides the card for this run (remembered on this device).
+  const skipKey = `solverFeedbackSkipped:${run.id}`;
+  const [skipped, setSkipped] = useState(() => {
+    try { return !!localStorage.getItem(skipKey); } catch { return false; }
+  });
+  const skip = () => {
+    try { localStorage.setItem(skipKey, '1'); } catch { /* storage blocked: hidden until reload */ }
+    setSkipped(true);
+  };
   const toggle = (set: React.Dispatch<React.SetStateAction<string[]>>) => (o: string) =>
     set((list) => (list.includes(o) ? list.filter((x) => x !== o) : [...list, o]));
 
+  if (skipped && !run.feedback) return null;
   if (run.feedback) {
     return (
       <div className="flex items-center gap-2 bg-emerald-50 border border-emerald-200 rounded-2xl p-4 text-sm text-emerald-900">
@@ -62,8 +72,12 @@ export const FeedbackCard: React.FC<{ run: Run; criticAverage: number; editRatio
 
   const shown = hover || rating;
   return (
-    <section className="bg-white border border-slate-200/80 rounded-2xl p-4 sm:p-6 space-y-5">
-      <div>
+    <section className="relative bg-white border border-slate-200/80 rounded-2xl p-4 sm:p-6 space-y-5">
+      <button type="button" onClick={skip} aria-label="Skip feedback"
+        className="absolute top-3 right-3 p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100">
+        <X className="size-4" />
+      </button>
+      <div className="pr-8">
         <h2 className="text-lg font-black text-slate-900">How was this draft?</h2>
         <p className="text-sm text-slate-600">Your rating helps us improve the agents. We save only your answers, not your assignment or draft.</p>
       </div>
@@ -94,6 +108,7 @@ export const FeedbackCard: React.FC<{ run: Run; criticAverage: number; editRatio
       <Button variant="brand" disabled={!rating || sending} onClick={submit}>
         {sending && <Loader2 className="size-4 animate-spin" />} Send feedback
       </Button>
+      <Button variant="ghost" className="ml-2" onClick={skip}>Skip</Button>
     </section>
   );
 };
