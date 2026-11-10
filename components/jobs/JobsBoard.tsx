@@ -4,7 +4,7 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { toast } from 'sonner';
 import {
   ArrowRight, Bookmark, BookmarkCheck, Briefcase, CalendarDays, Clock, ExternalLink, Globe, Loader2, MapPin, RotateCcw, Save,
-  Search, UserRound, X,
+  Search, Sparkles, UserRound, X,
 } from 'lucide-react';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { db } from '../../firebase';
@@ -14,6 +14,9 @@ import {
   JOB_BOARD_SOURCES, JOB_LEVELS, JobDetail, JobLevel, JobPreferences, JobSummary, JobsListResponse, WorkMode, tidyCompanyName, tidyLocation,
 } from '../../types/jobs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  JobMatch, MATCH_TARGET_ROLES, PROFILE_EXPERIENCE_OPTIONS, StoredProfile, matchTone, missingMatchDetails, scoreJob, toMatchProfile,
+} from '../../lib/jobMatch';
 
 const WORK_MODES: WorkMode[] = ['Remote', 'Hybrid', 'On-site'];
 const EXPERIENCE_OPTIONS = [
@@ -77,7 +80,8 @@ const TRIGGER_CLASS =
   'w-full lg:w-fit justify-start [&>svg:last-child]:ml-auto gap-2 px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm font-medium text-zinc-800 bg-white shadow-none h-auto';
 
 const SORT_OPTIONS = [
-  { value: 'recent', label: 'Most recent' },
+  { value: 'recent', label: 'Newest' },
+  { value: 'match', label: 'Best match' },
   { value: 'company', label: 'Company A to Z' },
 ] as const;
 type SortKey = (typeof SORT_OPTIONS)[number]['value'];
@@ -147,7 +151,7 @@ const HeroIllustration: React.FC = () => (
 );
 
 export const JobsBoard: React.FC = () => {
-  const { user } = useAuth();
+  const { user, userProfile, updateUserProfileData } = useAuth();
   const [data, setData] = useState<JobsListResponse | null>(null);
   const [loadError, setLoadError] = useState<string | null>(null);
 
@@ -156,6 +160,9 @@ export const JobsBoard: React.FC = () => {
   const [postedWithin, setPostedWithin] = useState(0);
   const [savedOnly, setSavedOnly] = useState(false);
   const [sortBy, setSortBy] = useState<SortKey>('recent');
+  // Once someone picks a sort themselves, Best match no longer switches itself on.
+  const sortPickedRef = useRef(false);
+  const [authForMatch, setAuthForMatch] = useState(false);
   const [expandedCompanies, setExpandedCompanies] = useState<string[]>([]);
   const [visible, setVisible] = useState(PAGE_SIZE);
 
@@ -268,13 +275,37 @@ export const JobsBoard: React.FC = () => {
     return JOB_LEVELS.filter((l) => onBoard.has(l) || prefs.levels.includes(l));
   }, [jobs, prefs.levels]);
 
+  // Best match: a quick fit score from the user's profile (no AI). Location only counts when they've
+  // saved preferences, so the score doesn't shift while they play with the filters.
+  const matchProfile = useMemo(() => (user ? toMatchProfile(userProfile as StoredProfile | null) : null), [user, userProfile]);
+  const savedPrefs = useMemo<JobPreferences | null>(() => (savedPrefsKey ? JSON.parse(savedPrefsKey) : null), [savedPrefsKey]);
+  const matches = useMemo(() => {
+    const map = new Map<string, JobMatch>();
+    if (matchProfile) jobs.forEach((j) => map.set(j.id, scoreJob(j, matchProfile, savedPrefs)));
+    return map;
+  }, [jobs, matchProfile, savedPrefs]);
+
+  // A filled-in profile makes Best match the starting sort, unless they've already picked one.
+  useEffect(() => {
+    if (matchProfile && !sortPickedRef.current) setSortBy('match');
+  }, [matchProfile]);
+
   const filtered = useMemo(() => {
     const list = jobs.filter(
       (j) => matchesOtherFilters(j) && (!prefs.levels.length || prefs.levels.includes(j.level)),
     );
-    // The server already sends newest first, so only the company order needs a re-sort.
-    return sortBy === 'company' ? [...list].sort((a, b) => a.company.localeCompare(b.company)) : list;
-  }, [jobs, matchesOtherFilters, prefs.levels, sortBy]);
+    // The server already sends newest first, so ties in Best match stay newest first (the sort is stable).
+    if (sortBy === 'company') return [...list].sort((a, b) => a.company.localeCompare(b.company));
+    if (sortBy === 'match' && matches.size) return [...list].sort((a, b) => (matches.get(b.id)?.score ?? 0) - (matches.get(a.id)?.score ?? 0));
+    return list;
+  }, [jobs, matchesOtherFilters, prefs.levels, sortBy, matches]);
+
+  const changeSort = (value: SortKey) => {
+    sortPickedRef.current = true;
+    setSortBy(value);
+    if (value === 'match' && !user) setAuthForMatch(true);
+  };
+  const showMatchSetup = sortBy === 'match' && !!user && !matchProfile;
 
   // Folds a company's extra roles behind a "more roles" link. A search shows every match.
   const { shown, moreFor } = useMemo(() => {
@@ -360,7 +391,9 @@ export const JobsBoard: React.FC = () => {
   }, [user, profileLoaded, pendingSave]);
 
   const pendingJob = pendingSave?.kind === 'job' ? jobs.find((j) => j.id === pendingSave.jobId) : undefined;
-  const signUpPurpose = !pendingSave
+  const signUpPurpose = authForMatch
+    ? { title: 'See your best matches', description: 'Sign up and add your experience to see how well each job fits you.' }
+    : !pendingSave
     ? undefined
     : pendingSave.kind === 'job'
       ? {
@@ -385,15 +418,20 @@ export const JobsBoard: React.FC = () => {
       className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-7 pb-20"
     >
       <AuthModal
-        isOpen={authOpen}
+        isOpen={authOpen || authForMatch}
         onClose={() => {
           setAuthOpen(false);
           setPendingSave(null);
+          if (authForMatch && !user) setSortBy('recent');
+          setAuthForMatch(false);
         }}
         initialMode="signup"
         purpose={signUpPurpose}
         redirectTo="/jobs"
-        onSuccess={() => setAuthOpen(false)}
+        onSuccess={() => {
+          setAuthOpen(false);
+          setAuthForMatch(false);
+        }}
       />
 
       <header className="relative w-full bg-linear-to-br from-[#FEF6D8] via-[#FDF0C4] to-[#FBE7A6] rounded-3xl px-6 py-7 sm:px-10 sm:py-9 overflow-hidden border border-amber-200/70 mb-6">
@@ -546,7 +584,7 @@ export const JobsBoard: React.FC = () => {
             <p className="text-sm font-semibold text-zinc-700" aria-live="polite">
               {filtered.length} {filtered.length === 1 ? 'role' : 'roles'} match
             </p>
-            <Select value={sortBy} onValueChange={(v) => setSortBy(v as SortKey)}>
+            <Select value={sortBy} onValueChange={(v) => changeSort(v as SortKey)}>
               <SelectTrigger aria-label="Sort by" className="w-fit gap-1 px-2 py-1 border-0 text-sm text-zinc-600 bg-transparent shadow-none h-auto">
                 <span className="text-zinc-500">Sort by:</span>
                 <SelectValue />
@@ -558,6 +596,13 @@ export const JobsBoard: React.FC = () => {
               </SelectContent>
             </Select>
           </div>
+          {showMatchSetup && (
+            <MatchSetup
+              profile={userProfile as StoredProfile | null}
+              onSave={(details) => updateUserProfileData(details)}
+              onCancel={() => setSortBy('recent')}
+            />
+          )}
           {filtered.length === 0 ? (
             <div className="flex flex-col items-center gap-3 py-16 text-center">
               <p className="text-sm text-slate-600">
@@ -579,6 +624,7 @@ export const JobsBoard: React.FC = () => {
                 <JobCard
                   key={job.id}
                   job={job}
+                  match={matches.get(job.id)}
                   saved={savedIds.includes(job.id)}
                   onToggleSaved={() => toggleSaved(job.id)}
                   onOpen={() => openJob(job.id)}
@@ -609,6 +655,7 @@ export const JobsBoard: React.FC = () => {
           <JobDrawer
             jobId={drawerJobId}
             summary={jobs.find((j) => j.id === drawerJobId)}
+            match={matches.get(drawerJobId)}
             saved={savedIds.includes(drawerJobId)}
             onToggleSaved={() => toggleSaved(drawerJobId)}
             onCloseAutoFocus={(e) => {
@@ -669,14 +716,33 @@ const JobMeta: React.FC<{ job: JobSummary; inCard?: boolean }> = ({ job, inCard 
   );
 };
 
+// Kept to one line on the card; the details panel lists every reason.
+const MatchReasons: React.FC<{ match: JobMatch; className?: string }> = ({ match, className = '' }) => (
+  <ul className={`flex flex-wrap gap-x-3 gap-y-1 text-xs ${className}`} aria-label="Why this match">
+    {match.reasons.map((r) => (
+      <li key={r.text} className={`inline-flex items-center gap-1 ${r.good ? 'text-emerald-700' : 'text-slate-500'}`}>
+        <span aria-hidden="true">{r.good ? '✓' : '·'}</span>
+        {r.text}
+      </li>
+    ))}
+  </ul>
+);
+
+const MatchBadge: React.FC<{ match: JobMatch }> = ({ match }) => (
+  <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold border tabular-nums ${matchTone(match.score)}`}>
+    {match.score}% match
+  </span>
+);
+
 const JobCard: React.FC<{
   job: JobSummary;
+  match?: JobMatch;
   saved: boolean;
   onToggleSaved: () => void;
   onOpen: () => void;
   moreRoles?: number;
   onShowMore: () => void;
-}> = ({ job, saved, onToggleSaved, onOpen, moreRoles, onShowMore }) => {
+}> = ({ job, match, saved, onToggleSaved, onOpen, moreRoles, onShowMore }) => {
   const fresh = isNew(job);
   return (
     <div
@@ -689,6 +755,7 @@ const JobCard: React.FC<{
           {job.level}
         </span>
         <div className="flex items-center gap-2 -mt-1">
+          {match && <MatchBadge match={match} />}
           {fresh && (
             <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
               New today
@@ -712,6 +779,7 @@ const JobCard: React.FC<{
         </div>
       </button>
       <JobMeta job={job} inCard />
+      {match && <MatchReasons match={match} className="mt-2.5" />}
       {moreRoles ? (
         <button
           type="button"
@@ -748,10 +816,11 @@ const JobCard: React.FC<{
 const JobDrawer: React.FC<{
   jobId: string;
   summary?: JobSummary;
+  match?: JobMatch;
   saved: boolean;
   onToggleSaved: () => void;
   onCloseAutoFocus: (e: Event) => void;
-}> = ({ jobId, summary, saved, onToggleSaved, onCloseAutoFocus }) => {
+}> = ({ jobId, summary, match, saved, onToggleSaved, onCloseAutoFocus }) => {
   const [detail, setDetail] = useState<JobDetail | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [attempt, setAttempt] = useState(0);
@@ -795,6 +864,12 @@ const JobDrawer: React.FC<{
         </div>
         <div className="px-5 sm:px-7 py-5">
           {job && <JobMeta job={job} />}
+          {match && (
+            <div className="mt-4 flex flex-wrap items-center gap-3 rounded-xl border border-slate-200 bg-slate-50/70 px-3.5 py-2.5">
+              <MatchBadge match={match} />
+              <MatchReasons match={match} />
+            </div>
+          )}
           {job && (
             <div className="flex flex-wrap gap-3 mt-5">
               <a
@@ -842,5 +917,94 @@ const JobDrawer: React.FC<{
           </div>
         </div>
     </DialogContent>
+  );
+};
+
+// Shown when someone picks Best match but their profile is missing what the score needs.
+const MatchSetup: React.FC<{
+  profile: StoredProfile | null;
+  onSave: (details: { experienceYears?: string; targetRole?: string }) => Promise<unknown> | void;
+  onCancel: () => void;
+}> = ({ profile, onSave, onCancel }) => {
+  const missing = missingMatchDetails(profile);
+  const [experience, setExperience] = useState('');
+  const [targetRole, setTargetRole] = useState('');
+  const [saving, setSaving] = useState(false);
+  const ready = (!missing.experience || experience) && (!missing.targetRole || targetRole);
+
+  const save = async () => {
+    if (!ready || saving) return;
+    setSaving(true);
+    try {
+      await onSave({
+        ...(missing.experience ? { experienceYears: experience } : {}),
+        ...(missing.targetRole ? { targetRole } : {}),
+      });
+    } catch (err: any) {
+      console.warn('[Jobs] Could not save match details:', err?.message);
+      toast.error("Couldn't save your details. Try again.");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  return (
+    <section className="mb-4 rounded-2xl border border-emerald-200 bg-emerald-50/60 p-4 sm:p-5">
+      <div className="flex items-start gap-3 mb-3">
+        <Sparkles className="size-5 text-emerald-700 shrink-0 mt-0.5" />
+        <div>
+          <h2 className="text-sm font-bold text-zinc-900">Add {missing.experience && missing.targetRole ? 'two details' : 'one detail'} to see your match</h2>
+          <p className="text-xs text-zinc-600 mt-0.5">
+            We compare each job's level and experience with yours. Your saved city and remote filters count too. This is saved to your profile.
+          </p>
+        </div>
+      </div>
+      <div className="grid gap-3 sm:grid-cols-[1fr_1fr_auto] sm:items-end">
+        {missing.experience && (
+          <label className="block">
+            <span className="block text-xs font-semibold text-zinc-700 mb-1.5">Your experience</span>
+            <Select value={experience} onValueChange={setExperience}>
+              <SelectTrigger aria-label="Your experience" className="w-full bg-white">
+                <SelectValue placeholder="Choose" />
+              </SelectTrigger>
+              <SelectContent>
+                {PROFILE_EXPERIENCE_OPTIONS.map((o) => (
+                  <SelectItem key={o} value={o}>{o === '0-1 years' ? '0-1 years (student or fresher)' : o}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </label>
+        )}
+        {missing.targetRole && (
+          <label className="block">
+            <span className="block text-xs font-semibold text-zinc-700 mb-1.5">Role you're aiming for</span>
+            <Select value={targetRole} onValueChange={setTargetRole}>
+              <SelectTrigger aria-label="Role you're aiming for" className="w-full bg-white">
+                <SelectValue placeholder="Choose" />
+              </SelectTrigger>
+              <SelectContent>
+                {MATCH_TARGET_ROLES.map((r) => (
+                  <SelectItem key={r} value={r}>{r}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </label>
+        )}
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={save}
+            disabled={!ready || saving}
+            className="inline-flex items-center justify-center gap-1.5 pointer-coarse:min-h-11 px-4 py-2 rounded-xl bg-brand-800 text-white text-sm font-bold hover:bg-brand-900 disabled:opacity-50"
+          >
+            {saving && <Loader2 className="size-4 animate-spin" />}
+            Show my matches
+          </button>
+          <button type="button" onClick={onCancel} className="tap-target px-2 text-xs font-semibold text-slate-500 hover:text-slate-800">
+            Not now
+          </button>
+        </div>
+      </div>
+    </section>
   );
 };
