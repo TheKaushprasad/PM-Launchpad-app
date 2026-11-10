@@ -18,7 +18,7 @@ import { EMPTY_INPUTS, HISTORY_LIMIT, QUALITY_PASS, type StrategyInputs, type St
 // answers a 4-step form, picks one of three framework styles, and gets a strategy where every
 // section says why it matters, made-up numbers are labelled as assumptions, and a quality check
 // scores it. They edit, regenerate sections and download a PDF.
-// Local only for now (VITE_AI_PRODUCT_STRATEGY_ENABLED, lib/featureFlags.ts).
+// Live; VITE_AI_PRODUCT_STRATEGY_ENABLED=false switches it off (lib/featureFlags.ts).
 
 const DRAFT_KEY = 'aps_draft_v1';
 

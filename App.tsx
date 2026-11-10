@@ -61,10 +61,10 @@ const aiPmCourse = AiPmCourse ? <AiPmCourse /> : <Navigate to="/dashboard" repla
 // The PM Assignment Solver is live; when switched off, its URL goes to the tools hub.
 const AssignmentSolver = isAssignmentSolverEnabled ? lazy(() => import('./components/assignmentSolver/AssignmentSolver')) : null;
 const assignmentSolver = AssignmentSolver ? <AssignmentSolver /> : <Navigate to="/tools" replace />;
-// Local only for now; the build drops the code when VITE_AI_PRODUCT_STRATEGY_ENABLED is off.
+// The AI Product Strategy tool is live; VITE_AI_PRODUCT_STRATEGY_ENABLED=false sends its URL to the tools hub.
 const ProductStrategy = isProductStrategyEnabled ? lazy(() => import('./components/productStrategy/ProductStrategy')) : null;
 const productStrategy = ProductStrategy ? <ProductStrategy /> : <Navigate to="/tools" replace />;
-// The PRD Coach is local-only for now (lib/featureFlags.ts); on the live site its URL goes to the tools hub.
+// The PRD Coach is live; VITE_PRD_COACH_ENABLED=false sends its URL to the tools hub.
 const PrdCoach = isPrdCoachEnabled ? lazy(() => import('./components/prdCoach/PrdCoach')) : null;
 const prdCoach = PrdCoach ? <PrdCoach /> : <Navigate to="/tools" replace />;
 

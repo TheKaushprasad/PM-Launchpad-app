@@ -65,10 +65,10 @@ export const ToolsHub: React.FC = () => {
       action: "/tools/assignment-solver",
       cta: "Draft an assignment"
     }] : []),
-    // Local only for now: VITE_AI_PRODUCT_STRATEGY_ENABLED (lib/featureFlags.ts).
+    // Can be switched off with VITE_AI_PRODUCT_STRATEGY_ENABLED=false (lib/featureFlags.ts).
     ...(isProductStrategyEnabled ? [{
       title: "AI Product Strategy",
-      badge: "Preview",
+      badge: "New",
       badgeStyle: "bg-amber-50 text-amber-800",
       description: "Learn a strategy framework by filling it in for your product. Every section explains why it matters.",
       iconType: "strategy",
@@ -80,6 +80,22 @@ export const ToolsHub: React.FC = () => {
       ],
       action: "/tools/ai-product-strategy",
       cta: "Build a strategy"
+    }] : []),
+    // Can be switched off with VITE_PRD_COACH_ENABLED=false (lib/featureFlags.ts).
+    ...(isPrdCoachEnabled ? [{
+      title: "PRD Coach",
+      badge: "New",
+      badgeStyle: "bg-violet-50 text-violet-700",
+      description: "Write your own PRD in seven guided sections. The coach scores each one and tells you what to fix and why.",
+      iconType: "prd",
+      iconContainerStyle: "bg-violet-50 text-violet-700",
+      features: [
+        "Score per section (1-5)",
+        "Specific fixes, with the why",
+        "Example PRD to compare after"
+      ],
+      action: "/tools/prd-coach",
+      cta: "Write a PRD"
     }] : [])
   ];
 

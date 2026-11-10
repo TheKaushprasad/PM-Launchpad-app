@@ -5,10 +5,10 @@ import { consumeDailyQuota } from "../security";
 import { SolverError } from "../assignmentSolver/gemini";
 import { cleanDraft, runExample, runReview } from "./coach";
 
-// HTTP endpoints for the PRD Coach. Local-only for now: on in `npm run dev`, off on the live site
-// unless VITE_PRD_COACH_ENABLED=true (lib/featureFlags.ts reads the same variable).
+// HTTP endpoints for the PRD Coach. Live; VITE_PRD_COACH_ENABLED=false switches it off
+// (lib/featureFlags.ts reads the same variable).
 
-const enabled = () => process.env.NODE_ENV !== "production" || process.env.VITE_PRD_COACH_ENABLED === "true";
+const enabled = () => process.env.VITE_PRD_COACH_ENABLED !== "false";
 
 const perDay = (envVar: string, fallback: number) => {
   const n = Number(process.env[envVar]);

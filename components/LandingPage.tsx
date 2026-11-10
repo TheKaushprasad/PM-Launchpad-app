@@ -12,7 +12,7 @@ import { useAuth } from '../context/AuthContext';
 import { AuthModal } from './auth/AuthModal';
 import { useScrollReveal } from './motion/useScrollReveal';
 import { usePathProgress } from './motion/usePathProgress';
-import { isAssignmentSolverEnabled, isProductStrategyEnabled } from '../lib/featureFlags';
+import { isAssignmentSolverEnabled, isPrdCoachEnabled, isProductStrategyEnabled } from '../lib/featureFlags';
 
 export const LandingPage: React.FC = () => {
   const navigate = useNavigate();
@@ -314,6 +314,7 @@ export const LandingPage: React.FC = () => {
     { title: "Resume Auditor & ATS Check", category: "Tools", path: "/resume-auditor" },
     ...(isAssignmentSolverEnabled ? [{ title: "PM Assignment Solver", category: "Tools", path: "/tools/assignment-solver" }] : []),
     ...(isProductStrategyEnabled ? [{ title: "AI Product Strategy", category: "Tools", path: "/tools/ai-product-strategy" }] : []),
+    ...(isPrdCoachEnabled ? [{ title: "PRD Coach", category: "Tools", path: "/tools/prd-coach" }] : []),
     { title: "PM Jobs in India & Remote", category: "Jobs", path: "/jobs" },
     { title: "PM PRD Template & Swipe Files", category: "Resources", path: "/resources" },
     { title: "Product Strategy & Prioritization", category: "Pillars", path: "/dashboard/strategy" },
@@ -540,6 +541,14 @@ export const LandingPage: React.FC = () => {
                         🧭 AI Product Strategy
                       </button>
                     )}
+                    {isPrdCoachEnabled && (
+                      <button
+                        onClick={() => navigate('/tools/prd-coach')}
+                        className="w-full text-left px-3 py-2 rounded-xl hover:bg-emerald-50 text-xs font-semibold text-slate-700 hover:text-emerald-800 transition-colors block cursor-pointer"
+                      >
+                        📝 PRD Coach
+                      </button>
+                    )}
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -755,6 +764,9 @@ export const LandingPage: React.FC = () => {
                   )}
                   {isProductStrategyEnabled && (
                     <button onClick={() => { setMobileMenuOpen(false); navigate('/tools/ai-product-strategy'); }} className="block py-1 hover:text-emerald-700 font-medium">🧭 AI Product Strategy</button>
+                  )}
+                  {isPrdCoachEnabled && (
+                    <button onClick={() => { setMobileMenuOpen(false); navigate('/tools/prd-coach'); }} className="block py-1 hover:text-emerald-700 font-medium">📝 PRD Coach</button>
                   )}
                 </div>
               </div>

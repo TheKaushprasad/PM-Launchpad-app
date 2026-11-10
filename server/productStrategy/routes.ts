@@ -23,7 +23,7 @@ const MAX_SCORE_RUNS = 3;
 const GENERATIONS_PER_HOUR = 10;
 
 export const productStrategyEnabled = () =>
-  process.env.NODE_ENV !== "production" || process.env.VITE_AI_PRODUCT_STRATEGY_ENABLED === "true";
+  process.env.VITE_AI_PRODUCT_STRATEGY_ENABLED !== "false";
 
 // With payments off (a Vercel preview without VITE_PAYMENTS_ENABLED) there are no credits to spend,
 // so a simple daily limit keeps costs in check instead.

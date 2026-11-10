@@ -17,7 +17,7 @@ import {
 
 // PRD Coach: the learner writes their own PRD in seven guided sections, the coach scores each one and
 // says what to fix and why, and only then can they see an example PRD to compare with.
-// "You write it, the coach reviews it." Local-only for now (lib/featureFlags.ts).
+// "You write it, the coach reviews it." Live; VITE_PRD_COACH_ENABLED=false switches it off.
 
 const STORAGE_KEY = 'prd_coach_v1';
 
@@ -220,7 +220,7 @@ export const PrdCoach: React.FC = () => {
       <AuthModal isOpen={authOpen} onClose={() => setAuthOpen(false)} initialMode="login" redirectTo="/tools/prd-coach" onSuccess={() => setAuthOpen(false)} />
 
       <header className="space-y-2">
-        <p className="text-[11px] font-black uppercase tracking-widest text-brand-600">Career tool · local preview</p>
+        <p className="text-[11px] font-black uppercase tracking-widest text-brand-600">Career tool · beta</p>
         <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">PRD Coach</h1>
         <p className="text-sm sm:text-base text-slate-600 leading-relaxed max-w-3xl">
           Write your own PRD, one section at a time. The coach scores each section, tells you what to fix and why, and then shows an example PRD to compare with.

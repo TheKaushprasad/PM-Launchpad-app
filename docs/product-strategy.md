@@ -1,6 +1,6 @@
 # AI Product Strategy tool
 
-Route: `/tools/ai-product-strategy`. **Local only for now**: on in `npm run dev`, off on the live site.
+Route: `/tools/ai-product-strategy`. **Live** (2026-11-10). To switch it off, set `VITE_AI_PRODUCT_STRATEGY_ENABLED=false` in Vercel and redeploy.
 Built from the owner's FRD (v0.1, 2026-11-09) as a lean V1.
 
 Positioning: "learn a strategy framework by filling it in for your product". The PM Assignment Solver
@@ -56,10 +56,10 @@ instructions" text stripped, off-topic products refused with "This tool only mak
 Firestore collection `product_strategies` (named database), written only by the server through the
 Admin SDK, so no client rules are needed. Needs `FIREBASE_SERVICE_ACCOUNT_KEY` on the server.
 
-## Turning it on
+## Switching it off
 
-Vercel > Settings > Environment Variables: `VITE_AI_PRODUCT_STRATEGY_ENABLED=true` (tick Preview to try
-it on a preview first), then redeploy. Add the page to the sitemap in `lib/seo.ts` at launch.
+It is on by default and in the sitemap. To hide it, set `VITE_AI_PRODUCT_STRATEGY_ENABLED=false` in
+Vercel > Settings > Environment Variables (Production), then redeploy.
 
 ## Left out of V1 (from the FRD)
 
