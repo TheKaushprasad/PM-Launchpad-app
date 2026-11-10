@@ -6,12 +6,13 @@
 export type ToolKey = 'resume' | 'linkedin' | 'solver' | 'strategy';
 export const TOOLS: ToolKey[] = ['resume', 'linkedin', 'solver', 'strategy'];
 
-// One free run per account for these tools; the Assignment Solver has no free run.
-export const FREE_RUNS: Record<ToolKey, number> = { resume: 1, linkedin: 1, solver: 0, strategy: 0 };
+// Free plan: every tool gives one free run per calendar month (India time), on the live site too.
+// After that a run needs a paid credit (only buyable while payments are on).
+// FREE_RUNS (once per account) is kept for older documents and is 0 for every tool now.
+export const FREE_RUNS: Record<ToolKey, number> = { resume: 0, linkedin: 0, solver: 0, strategy: 0 };
 
-// Free runs that come back every calendar month (UTC) instead of once per account.
-// The AI Product Strategy tool gives 3 free strategies a month (FRD section 10).
-export const FREE_RUNS_PER_MONTH: Partial<Record<ToolKey, number>> = { strategy: 3 };
+// Free runs that come back every calendar month instead of once per account.
+export const FREE_RUNS_PER_MONTH: Partial<Record<ToolKey, number>> = { resume: 1, linkedin: 1, solver: 1, strategy: 1 };
 
 export interface OfferDef {
   key: string;

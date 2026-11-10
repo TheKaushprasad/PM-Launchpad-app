@@ -203,7 +203,7 @@ export const AssignmentSolver: React.FC = () => {
   const { user } = useAuth();
   const [authOpen, setAuthOpen] = useState(false);
   const [run, setRun] = useState<Run | null>(null);
-  // Paid runs (only when payments are on): one Solver credit per run, no free run.
+  // One free run a month, then one paid credit per run (paid credits only while payments are on).
   const { credits, refresh: refreshCredits } = useToolCredits();
   const outOfRuns = credits?.solver ? credits.solver.freeLeft + credits.solver.credits === 0 : false;
   const [history, setHistory] = useState<Run[]>(() => loadRuns());

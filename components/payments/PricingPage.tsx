@@ -85,7 +85,7 @@ const PricingPage: React.FC = () => {
       <header className="space-y-2">
         <p className="text-[11px] font-black uppercase tracking-widest text-brand-600">Pricing</p>
         <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Pay only for what you use</h1>
-        <p className="text-sm text-slate-600 max-w-2xl">Your first Resume Auditor and LinkedIn Optimiser runs are free. After that, buy runs one at a time or in packs. A run that fails is given back.</p>
+        <p className="text-sm text-slate-600 max-w-2xl">Every tool gives you one free run each month. After that, buy runs one at a time or in packs. A run that fails is given back.</p>
       </header>
 
       {offer?.mode !== 'live_mode' && <TestModeBanner />}

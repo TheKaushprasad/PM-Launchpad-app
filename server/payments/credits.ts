@@ -4,9 +4,10 @@ import { getAppFirestore, isFirebaseAdminConfigured } from '../../services/fireb
 import { FREE_RUNS, FREE_RUNS_PER_MONTH, TOOLS, type ToolKey } from './catalog';
 import { dodoMode } from './dodo';
 
-// Paid runs for the Resume Auditor, LinkedIn Optimiser, Assignment Solver and AI Product Strategy.
-// Only active when payments are on (npm run dev, or VITE_PAYMENTS_ENABLED=true on a Vercel build);
-// on the live site every middleware here just calls next(), so the tools behave exactly as before.
+// Runs for the Resume Auditor, LinkedIn Optimiser, Assignment Solver and AI Product Strategy.
+// Free plan (always on, live site included): one free run of each tool per calendar month, India time
+// (FREE_RUNS_PER_MONTH in catalog.ts). Paid credits on top can only be bought while payments are on
+// (npm run dev, or VITE_PAYMENTS_ENABLED=true on a Vercel build).
 //
 // user_entitlements/{uid} (server-only), everything kept apart per Dodo mode (test_mode / live_mode):
 //   credits.<mode>.<tool>        paid runs left
@@ -27,12 +28,14 @@ const nowIso = () => new Date().toISOString();
 
 export interface ToolCredits { freeLeft: number; credits: number; freeResetsOn?: string }
 
-/** The current month as YYYY-MM (UTC), and the first day of the next one. */
-const thisMonth = () => new Date().toISOString().slice(0, 7);
-const nextMonthStart = () => {
-  const d = new Date();
-  return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + 1, 1)).toISOString().slice(0, 10);
+/** The current month as YYYY-MM (India time, like the free interviews), and the first day of the next one. */
+const IST_OFFSET_MS = (5 * 60 + 30) * 60 * 1000;
+const istMonthStart = (offset: number) => {
+  const d = new Date(Date.now() + IST_OFFSET_MS);
+  return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + offset, 1)).toISOString().slice(0, 10);
 };
+const thisMonth = () => istMonthStart(0).slice(0, 7);
+const nextMonthStart = () => istMonthStart(1);
 export type CreditState = Record<ToolKey, ToolCredits> & { sprints: number };
 
 export function creditStateFrom(data: FirebaseFirestore.DocumentData | undefined): CreditState {
@@ -98,14 +101,13 @@ async function giveBack(uid: string, tool: ToolKey, spent: Spent, runId?: string
 const TOOL_NAMES: Record<ToolKey, string> = { resume: 'resume audit', linkedin: 'LinkedIn audit', solver: 'Assignment Solver run', strategy: 'AI product strategy' };
 
 function paywall(res: express.Response, tool: ToolKey) {
-  const perMonth = FREE_RUNS_PER_MONTH[tool];
+  const perMonth = FREE_RUNS_PER_MONTH[tool] || 0;
   const resets = new Date(`${nextMonthStart()}T00:00:00Z`).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', timeZone: 'UTC' });
+  const used = perMonth === 1 ? `your free ${TOOL_NAMES[tool]}` : `all ${perMonth} free ${TOOL_NAMES[tool]}s`;
   const message = perMonth
-    ? `You used all ${perMonth} free ${TOOL_NAMES[tool]}s this month. They reset on ${resets}. Buy more to keep going.`
-    : FREE_RUNS[tool] > 0
-    ? `You've used your free ${TOOL_NAMES[tool]}. Buy more runs to keep going.`
-    : `The Assignment Solver is a paid tool. Buy a run to draft your assignment.`;
-  return res.status(402).json({ success: false, error: message, paywall: tool });
+    ? `You have used ${used} for this month. It comes back on ${resets}.${paymentsEnabled() ? ' Buy more to keep going.' : ''}`
+    : `This tool needs a paid run. Buy one to keep going.`;
+  return res.status(402).json({ success: false, error: message, paywall: tool, freeResetsOn: nextMonthStart() });
 }
 
 /**
@@ -114,10 +116,14 @@ function paywall(res: express.Response, tool: ToolKey) {
  */
 export function requireToolRun(tool: ToolKey, opts: { skip?: (req: express.Request) => boolean; runId?: (req: express.Request) => string } = {}): express.RequestHandler {
   return async (req, res, next) => {
-    if (!paymentsEnabled() || opts.skip?.(req)) return next();
+    if (opts.skip?.(req)) return next();
     const uid = (res.locals.user as { uid?: string } | undefined)?.uid;
     if (!uid) return res.status(401).json({ success: false, error: 'Please sign in to use this tool.', requiresAuth: true });
-    if (!isFirebaseAdminConfigured()) return res.status(503).json({ success: false, error: 'Paid runs need FIREBASE_SERVICE_ACCOUNT_KEY on the server.' });
+    if (!isFirebaseAdminConfigured()) {
+      // Can't count runs without the database: let local dev through, refuse paid runs.
+      if (!paymentsEnabled() || process.env.NODE_ENV !== 'production') return next();
+      return res.status(503).json({ success: false, error: 'Runs need FIREBASE_SERVICE_ACCOUNT_KEY on the server.' });
+    }
     const runId = opts.runId?.(req) || undefined;
     let spent: Spent | null;
     try {
@@ -156,7 +162,7 @@ async function entitlementData(res: express.Response) {
 
 /** LinkedIn rewrites come with an audit: allowed for 24 hours after the account's last audit. */
 export const requireRecentLinkedInRun: express.RequestHandler = async (_req, res, next) => {
-  if (!paymentsEnabled()) return next();
+  if (!isFirebaseAdminConfigured()) return next();
   try {
     const data = await entitlementData(res);
     const last = Date.parse(data?.lastRun?.[dodoMode()]?.linkedin || '');
@@ -169,7 +175,7 @@ export const requireRecentLinkedInRun: express.RequestHandler = async (_req, res
 
 /** Later Assignment Solver steps only run for a run whose Parser step was paid for. */
 export const requirePaidSolverRun: express.RequestHandler = async (req, res, next) => {
-  if (!paymentsEnabled()) return next();
+  if (!isFirebaseAdminConfigured()) return next();
   const runId = String(req.header('X-Solver-Run') || '');
   try {
     const data = await entitlementData(res);
@@ -178,5 +184,5 @@ export const requirePaidSolverRun: express.RequestHandler = async (req, res, nex
   } catch (err: any) {
     console.error('[Credits] Could not check the Solver run:', err?.message || err);
   }
-  return res.status(402).json({ success: false, error: 'This run was not paid for. Start a new run from the first step.', paywall: 'solver' });
+  return res.status(402).json({ success: false, error: 'This run was not started properly. Start a new run from the first step.', paywall: 'solver' });
 };

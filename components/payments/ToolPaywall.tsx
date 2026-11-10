@@ -5,16 +5,16 @@ import { isPaymentsEnabled } from '../../lib/featureFlags';
 import { Button } from '../ui/button';
 import { TOOL_LABELS, formatPrice, paymentsApi, type Credits, type OfferItem, type ToolKey } from './api';
 
-// Paid runs for the Resume Auditor, LinkedIn Optimiser, Assignment Solver and AI Product Strategy. Everything here
-// renders nothing unless payments are on (npm run dev, or VITE_PAYMENTS_ENABLED=true), so the live
-// site keeps the tools free. The server decides what is allowed; these only show it.
+// Runs for the Resume Auditor, LinkedIn Optimiser, Assignment Solver and AI Product Strategy. Every
+// account gets one free run of each tool per month (live site too); buy buttons only show while payments
+// are on (npm run dev, or VITE_PAYMENTS_ENABLED=true). The server decides what is allowed; these only show it.
 
 /** The signed-in user's runs for every tool. `refresh` after a run to update the counts. */
 export function useToolCredits() {
   const { user } = useAuth();
   const [credits, setCredits] = useState<Credits | null>(null);
   const refresh = useCallback(() => {
-    if (!isPaymentsEnabled || !user) return setCredits(null);
+    if (!user) return setCredits(null);
     paymentsApi.credits().then(setCredits).catch(() => setCredits(null));
   }, [user?.uid]);
   useEffect(() => { refresh(); }, [refresh]);
@@ -23,8 +23,8 @@ export function useToolCredits() {
 
 /** "1 free run left" / "3 runs left" / "No runs left" next to a tool's main button. */
 export const ToolRunsBadge: React.FC<{ tool: ToolKey; credits: Credits | null; className?: string }> = ({ tool, credits, className = '' }) => {
-  const c = credits?.enabled && credits.signedIn ? credits[tool] : undefined;
-  if (!isPaymentsEnabled || !c) return null;
+  const c = credits?.signedIn ? credits[tool] : undefined;
+  if (!c) return null;
   const label = TOOL_LABELS[tool];
   let text: string;
   if (c.freeResetsOn) {
@@ -32,7 +32,7 @@ export const ToolRunsBadge: React.FC<{ tool: ToolKey; credits: Credits | null; c
     const resets = new Date(`${c.freeResetsOn}T00:00:00Z`).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', timeZone: 'UTC' });
     text = c.freeLeft > 0
       ? `${c.freeLeft} free ${c.freeLeft === 1 ? label.one : label.many} left this month${c.credits ? ` + ${c.credits} paid` : ''}`
-      : c.credits > 0 ? `${c.credits} paid ${c.credits === 1 ? label.one : label.many} left (free ones reset ${resets})` : `Free ${label.many} used this month. They reset on ${resets}`;
+      : c.credits > 0 ? `${c.credits} paid ${c.credits === 1 ? label.one : label.many} left (free use comes back on ${resets})` : `Free use for this month used up. It comes back on ${resets}`;
   } else if (c.freeLeft > 0) text = `Your first ${label.one} is free${c.credits ? `, then ${c.credits} paid left` : ''}`;
   else if (c.credits > 0) text = `${c.credits} ${c.credits === 1 ? label.one : label.many} left`;
   else text = tool === 'solver' ? 'Paid tool: buy a run to start' : `Free ${label.one} used: buy more to keep going`;
@@ -64,7 +64,21 @@ export const ToolPaywall: React.FC<{ tool: ToolKey; message?: string; onClose?: 
       .catch((err) => setError(err.message));
   }, [tool]);
 
-  if (!isPaymentsEnabled) return null;
+  // Payments off (live site): nothing to buy, just say the free run is used up and when it comes back.
+  if (!isPaymentsEnabled) {
+    return (
+      <section className="rounded-2xl border-2 border-amber-300 bg-amber-50/60 p-5 sm:p-6 text-left">
+        <div className="flex items-start gap-3">
+          <span className="rounded-xl bg-amber-100 p-2.5"><Lock className="size-5 text-amber-700" /></span>
+          <div className="min-w-0 space-y-1">
+            <h2 className="text-lg font-black text-slate-900">You have exhausted the free use for this month</h2>
+            <p className="text-sm text-slate-700">{message || `You have used your free ${TOOL_LABELS[tool].one} for this month. It comes back at the start of next month.`}</p>
+          </div>
+        </div>
+        {onClose && <div className="mt-3 flex justify-end"><Button size="sm" variant="ghost" onClick={onClose}>OK</Button></div>}
+      </section>
+    );
+  }
 
   const buy = async (key: string) => {
     if (!user) return setError('Please sign in first.');
@@ -87,7 +101,7 @@ export const ToolPaywall: React.FC<{ tool: ToolKey; message?: string; onClose?: 
         <span className="rounded-xl bg-amber-100 p-2.5"><Lock className="size-5 text-amber-700" /></span>
         <div className="min-w-0 space-y-1">
           <h2 className="text-lg font-black text-slate-900">Get more {TOOL_LABELS[tool].many}</h2>
-          <p className="text-sm text-slate-700">{message || (tool === 'solver' ? 'The Assignment Solver is a paid tool.' : tool === 'strategy' ? "You've used this month's free strategies." : `You've used your free ${TOOL_LABELS[tool].one}.`)} Each run is one full result; if a run fails, you get it back.</p>
+          <p className="text-sm text-slate-700">{message || `You have used your free ${TOOL_LABELS[tool].one} for this month.`} Each run is one full result; if a run fails, you get it back.</p>
         </div>
       </div>
 
