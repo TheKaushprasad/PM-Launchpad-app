@@ -2,6 +2,7 @@ import type { Express, Request, Response, NextFunction } from 'express';
 import { FieldValue } from 'firebase-admin/firestore';
 import { getAppFirestore, isFirebaseAdminConfigured } from '../services/firebaseAdmin';
 import { consumeDailyQuota, getVerifiedUser } from './security';
+import { exhaustedMessage, getInterviewAllowance, unlimitedAllowance, useFreeInterview } from './interviewAllowance';
 
 /**
  * Invite-only testers for the AI interview, and the full conversations they agree to share.
@@ -71,22 +72,42 @@ function textTurnsPerDay(): number {
 }
 
 /**
- * Lets /api/interview/* through when voice is on for everyone, or the signed-in caller is on the
- * tester list (verified email only). When only text interviews are public, everyone else gets every
- * endpoint except Priya's voice, with a daily cap on Priya's replies (INTERVIEW_TEXT_TURNS_PER_DAY,
- * default 60, about three interviews) because each reply is a paid Gemini call.
+ * Lets /api/interview/* through for testers on the list (verified email only). Everyone else: voice
+ * endpoints only when voice is on for everyone; each new interview uses one of the account's free
+ * interviews this month (INTERVIEW_FREE_PER_MONTH, default 2; paid accounts are not limited); and when
+ * only text interviews are public, a daily cap on Priya's replies (INTERVIEW_TEXT_TURNS_PER_DAY,
+ * default 60) because each reply is a paid Gemini call.
  */
 export function interviewAccessGate(open: InterviewAvailability) {
   return async (req: Request, res: Response, next: NextFunction) => {
-    if (open.voice) return next();
     const user = await getVerifiedUser(req);
     if (user?.emailVerified && (await isInterviewTester(user.email))) return next();
-    if (!open.text) return res.status(503).json({ error: 'The AI interview is coming soon.' });
-    if (VOICE_ONLY_PATHS.has(req.path)) {
-      return res.status(403).json({ error: 'Voice interviews are coming soon. Text interviews are open.' });
+    if (!open.voice) {
+      if (!open.text) return res.status(503).json({ error: 'The AI interview is coming soon.' });
+      if (VOICE_ONLY_PATHS.has(req.path)) {
+        return res.status(403).json({ error: 'Voice interviews are coming soon. Text interviews are open.' });
+      }
     }
     // Signed-out callers are turned away by requireAiAccess on the route itself.
-    if (CHAT_PATHS.has(req.path) && user?.emailVerified && !(await consumeDailyQuota(`interview_text_turns_${user.uid}`, textTurnsPerDay()))) {
+    if (!CHAT_PATHS.has(req.path) || !user?.emailVerified) return next();
+
+    // Free plan: a few interviews per month (server/interviewAllowance.ts). Checked before the daily
+    // reply cap so a blocked answer doesn't use up a reply.
+    let start: Awaited<ReturnType<typeof useFreeInterview>>;
+    try {
+      start = await useFreeInterview(user.uid, req.header('X-Interview-Session'));
+    } catch (err: any) {
+      console.error('[Interview] Could not check free interviews:', err?.message || err);
+      return res.status(503).json({ error: 'Could not check your free interviews. Please try again.' });
+    }
+    if (start === 'missing_id') {
+      return res.status(400).json({ error: 'Please reload the page and start the interview again.' });
+    }
+    if (start === 'exhausted') {
+      return res.status(402).json({ error: exhaustedMessage(), freeInterviewsExhausted: true });
+    }
+
+    if (!open.voice && !(await consumeDailyQuota(`interview_text_turns_${user.uid}`, textTurnsPerDay()))) {
       return res.status(429).json({ error: "You've reached today's limit for mock interviews. Please come back tomorrow." });
     }
     next();
@@ -166,6 +187,14 @@ export function registerInterviewAccessRoutes(app: Express, open: InterviewAvail
   app.get(['/api/interview-access', '/api/interview-access/'], async (req, res) => {
     const user = await getVerifiedUser(req);
     const tester = !!user?.emailVerified && (await isInterviewTester(user.email));
-    res.json({ enabled: open.voice || open.text || tester, voice: open.voice || tester, tester });
+    let allowance = null;
+    if (user?.emailVerified) {
+      try {
+        allowance = tester ? unlimitedAllowance() : await getInterviewAllowance(user.uid);
+      } catch (err: any) {
+        console.warn('[Interview] Could not read free interviews:', err?.message || err);
+      }
+    }
+    res.json({ enabled: open.voice || open.text || tester, voice: open.voice || tester, tester, allowance });
   });
 }

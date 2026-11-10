@@ -35,6 +35,10 @@ import { PastScorecardView } from './PastScorecardView';
 import { useAuth } from '../../context/AuthContext';
 import { AuthModal } from '../auth/AuthModal';
 import { ACTIVE_INTERVIEWER } from '../../data/interviewPersonas';
+import { useInterviewAllowance, freeInterviewsUsedUp, freeInterviewsExhaustedText } from '../../lib/interviewAccess';
+import { isPaymentsEnabled } from '../../lib/featureFlags';
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 
 // What a signed-out visitor was trying to do when we asked them to make an account,
 // so the sign-up can name it and the action can carry on once they're in.
@@ -112,9 +116,19 @@ export const InterviewHub: React.FC = () => {
     finished: boolean;
   } | null>(null);
 
+  // Free plan: a few mock interviews a month (counted on the server when the first answer is sent).
+  const { allowance, refresh: refreshAllowance } = useInterviewAllowance();
+  const [limitNotice, setLimitNotice] = useState<'single' | 'loop' | null>(null);
+  const loopRounds = planFullLoop(level).length;
+  const freeLimited = !!allowance && !allowance.unlimited;
+
   const handleStartLoop = () => {
     if (!user) {
       askToSignUp({ kind: 'loop' });
+      return;
+    }
+    if (freeLimited && allowance!.left < loopRounds) {
+      setLimitNotice(allowance!.left <= 0 ? 'single' : 'loop');
       return;
     }
     setShowLoopSetup(true);
@@ -123,6 +137,10 @@ export const InterviewHub: React.FC = () => {
   const handleStartInterview = (sc: InterviewScenario) => {
     if (!user) {
       askToSignUp({ kind: 'case', scenario: sc });
+      return;
+    }
+    if (freeInterviewsUsedUp(allowance)) {
+      setLimitNotice('single');
       return;
     }
     setSetupScenario(sc);
@@ -339,7 +357,7 @@ export const InterviewHub: React.FC = () => {
 
   // Full loop: combined result after the last round
   if (loop?.finished) {
-    return <LoopSummary plan={loop.plan} results={loop.results} level={level} onDone={() => setLoop(null)} />;
+    return <LoopSummary plan={loop.plan} results={loop.results} level={level} onDone={() => { setLoop(null); refreshAllowance(); }} />;
   }
 
   // Full loop: current round
@@ -354,7 +372,7 @@ export const InterviewHub: React.FC = () => {
         level={level}
         loopInfo={{ round: loop.round + 1, total: loop.plan.length }}
         onRoundComplete={handleRoundComplete}
-        onExit={() => setLoop(null)}
+        onExit={() => { setLoop(null); refreshAllowance(); }}
       />
     );
   }
@@ -383,7 +401,7 @@ export const InterviewHub: React.FC = () => {
         persona={activeSession.persona}
         mode={activeSession.mode}
         level={level}
-        onExit={() => setActiveSession(null)}
+        onExit={() => { setActiveSession(null); refreshAllowance(); }}
       />
     );
   }
@@ -605,6 +623,27 @@ export const InterviewHub: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Free plan: interviews left this month */}
+      {user && freeLimited && (
+        <div
+          className={`flex flex-col sm:flex-row sm:items-center justify-between gap-2 rounded-2xl border px-4 py-3 text-sm ${
+            allowance!.left > 0 ? 'border-brand-200/80 bg-brand-50/60 text-zinc-700' : 'border-amber-200 bg-amber-50 text-amber-900'
+          }`}
+        >
+          <p>
+            {allowance!.left > 0 ? (
+              <>
+                <span className="font-bold text-zinc-900">Free plan:</span> {allowance!.left} of {allowance!.limit} mock interview
+                {allowance!.limit === 1 ? '' : 's'} left this month.
+              </>
+            ) : (
+              <span className="font-semibold">{freeInterviewsExhaustedText(allowance!)}</span>
+            )}
+          </p>
+          <span className="text-xs text-zinc-500 shrink-0">Resets on {allowance!.resetsOn}</span>
+        </div>
+      )}
 
       {/* Per-skill progress across past interviews */}
       {user && history.length > 0 && <SkillProgress history={history} />}
@@ -829,6 +868,26 @@ export const InterviewHub: React.FC = () => {
       )}
 
       {/* Auth Modal for Unauthenticated Users */}
+      {/* Free plan used up */}
+      <Dialog open={!!limitNotice && !!allowance} onOpenChange={(open) => { if (!open) setLimitNotice(null); }}>
+        <DialogContent className="sm:max-w-md">
+          <DialogTitle className="text-lg font-black text-zinc-900">
+            {limitNotice === 'loop' ? 'Not enough free interviews for a full loop' : "You've used your free interviews"}
+          </DialogTitle>
+          <DialogDescription className="text-sm leading-relaxed text-zinc-600">
+            {allowance && (limitNotice === 'loop'
+              ? `A full loop is ${loopRounds} interviews back to back, and you have ${allowance.left} free mock interview${allowance.left === 1 ? '' : 's'} left this month. Try a single case instead, or come back on ${allowance.resetsOn}.`
+              : freeInterviewsExhaustedText(allowance))}
+          </DialogDescription>
+          <div className="mt-2 flex flex-col-reverse sm:flex-row gap-2 sm:justify-end">
+            <Button variant="outline" onClick={() => setLimitNotice(null)}>OK</Button>
+            {isPaymentsEnabled && limitNotice === 'single' && (
+              <Button variant="brand" onClick={() => { window.location.href = '/pricing'; }}>See plans</Button>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
+
       <AuthModal
         isOpen={authModalOpen}
         onClose={() => {
