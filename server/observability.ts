@@ -19,7 +19,7 @@ export const USD_TO_INR = 88;
 // Langfuse's model price table, from the model name and token usage.
 const PRICES = {
   // ₹ per 1,000 characters spoken
-  ttsInrPer1kChars: { sarvam: 3, deepgram: 0.03 * USD_TO_INR, openai: 0.015 * USD_TO_INR, gemini: 0 } as Record<string, number>,
+  ttsInrPer1kChars: { sarvam: 3, vartaloop: 0.1, deepgram: 0.03 * USD_TO_INR, openai: 0.015 * USD_TO_INR, gemini: 0 } as Record<string, number>,
   // ₹ per hour of candidate audio
   sttInrPerHour: { groq: 0.04 * USD_TO_INR } as Record<string, number>,
 };
