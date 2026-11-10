@@ -1200,7 +1200,7 @@ Plain text, 1-2 sentences. No markdown.
         }
       }
 
-      // 2. Vartaloop: cheap Indian voice (Mansi), backup when Sarvam fails
+      // 2. Vartaloop: cheap Indian-English voice (Ananya), backup when Sarvam fails
       if (isVartaloopConfigured()) {
         try {
           const vtTimeLeft = TTS_BUDGET_MS - (Date.now() - ttsStartedAt);

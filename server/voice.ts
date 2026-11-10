@@ -66,15 +66,14 @@ export async function synthesizeWithSarvam(text: string, timeoutMs = 6000): Prom
   return Buffer.from(audio, "base64");
 }
 
-/** Vartaloop voice for Priya, picked by the owner on 2026-11-10. VARTALOOP_VOICE overrides it. */
-export const vartaloopVoice = () => process.env.VARTALOOP_VOICE?.trim() || "mansi";
+/** Vartaloop Indian-English voice for Priya, picked by the owner on 2026-11-10. VARTALOOP_VOICE overrides it. */
+export const vartaloopVoice = () => process.env.VARTALOOP_VOICE?.trim() || "ananya";
 
 /** Sample rate of the raw audio Vartaloop returns (16-bit mono PCM). */
 export const VARTALOOP_SAMPLE_RATE = 24000;
 
 /**
  * Returns raw 16-bit mono PCM at 24 kHz for the text from Vartaloop, or throws.
- * Mansi is a Hinglish voice, so numbers are asked for in English words.
  * A busy server answers 503 before any audio (not billed); one quick retry, then the next provider.
  */
 export async function synthesizeWithVartaloop(text: string, timeoutMs = 8000): Promise<Buffer> {
@@ -86,7 +85,7 @@ export async function synthesizeWithVartaloop(text: string, timeoutMs = 8000): P
         "x-api-key": process.env.VARTALOOP_API_KEY!.trim(),
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ text, voice: vartaloopVoice(), format: "pcm16", stream: false, digits: "en" }),
+      body: JSON.stringify({ text, voice: vartaloopVoice(), format: "pcm16", stream: false }),
       signal: AbortSignal.timeout(Math.max(1000, timeoutMs - (Date.now() - startedAt)))
     });
     if (res.status === 503 && attempt === 0 && Date.now() - startedAt < timeoutMs - 3000) {
