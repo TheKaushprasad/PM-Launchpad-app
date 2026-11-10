@@ -4,6 +4,7 @@ import {
   ArrowRight, 
   Check,
   ClipboardList,
+  Mic,
   Compass,
   Puzzle,
   FileText,
@@ -12,12 +13,13 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { AuthModal } from './auth/AuthModal';
-import { isAssignmentSolverEnabled, isPrdCoachEnabled, isProductStrategyEnabled } from '../lib/featureFlags';
+import { isAnyAiInterviewEnabled, isAssignmentSolverEnabled, isPrdCoachEnabled, isProductBuddyEnabled, isProductStrategyEnabled } from '../lib/featureFlags';
+import { useInterviewAccess } from '../lib/interviewAccess';
 import { useToolCredits } from './payments/ToolPaywall';
 import type { ToolKey } from './payments/api';
 
 interface Tool {
-  key: ToolKey;
+  key: ToolKey | 'interview' | 'buddy';
   title: string;
   description: string;
   iconType: string;
@@ -28,7 +30,7 @@ interface Tool {
   isNew?: boolean;
 }
 
-type UsageLine = (key: ToolKey) => { text: string; left: boolean } | null;
+type UsageLine = (key: Tool['key']) => { text: string; left: boolean } | null;
 
 const ToolIcon: React.FC<{ type: string }> = ({ type }) => {
   if (type === 'linkedin') {
@@ -41,35 +43,42 @@ const ToolIcon: React.FC<{ type: string }> = ({ type }) => {
   if (type === 'strategy') return <Compass className="w-6 h-6 stroke-2" />;
   if (type === 'assignment') return <Puzzle className="w-6 h-6 stroke-2" />;
   if (type === 'prd') return <ClipboardList className="w-6 h-6 stroke-2" />;
+  if (type === 'interview') return <Mic className="w-6 h-6 stroke-2" />;
+  if (type === 'buddy') return <Users className="w-6 h-6 stroke-2" />;
   return <FileText className="w-6 h-6 stroke-2" />;
 };
 
+// Compact card: icon + title (+ New), the free-use line, one sentence, two bullets, the button.
 const ToolCard: React.FC<{ tool: Tool; usage: ReturnType<UsageLine>; onOpen: (path: string) => void }> = ({ tool, usage, onOpen }) => (
   <div
     onClick={() => onOpen(tool.action)}
-    className="group bg-white rounded-3xl border border-slate-200/90 p-6 sm:p-7 flex flex-col justify-between shadow-2xs hover:shadow-md hover:border-slate-300 transition-all duration-200 cursor-pointer"
+    className="group bg-white rounded-3xl border border-slate-200/90 p-5 flex flex-col justify-between shadow-2xs hover:shadow-md hover:border-slate-300 transition-all duration-200 cursor-pointer"
   >
     <div className="flex flex-col grow">
-      <div className="flex items-center justify-between mb-5">
-        <div className={`w-12 h-12 rounded-2xl ${tool.iconContainerStyle} flex items-center justify-center shrink-0 shadow-2xs group-hover:scale-105 transition-transform duration-200`}>
+      <div className="flex items-center gap-3 mb-3">
+        <div className={`w-10 h-10 rounded-xl ${tool.iconContainerStyle} flex items-center justify-center shrink-0 [&_svg]:w-5 [&_svg]:h-5 group-hover:scale-105 transition-transform duration-200`}>
           <ToolIcon type={tool.iconType} />
         </div>
-        {tool.isNew && (
-          <span className="px-3 py-1 rounded-full text-xs font-bold tracking-tight bg-[#ECFDF5] text-[#047857]">New</span>
-        )}
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-2">
+            <h3 className="text-base sm:text-lg font-black tracking-tight text-slate-900 leading-tight group-hover:text-brand-950 transition-colors">{tool.title}</h3>
+            {tool.isNew && (
+              <span className="shrink-0 px-2 py-0.5 rounded-full text-[11px] font-bold bg-[#ECFDF5] text-[#047857]">New</span>
+            )}
+          </div>
+          {usage && (
+            <p className={`text-xs font-bold mt-0.5 ${usage.left ? 'text-[#047857]' : 'text-slate-400'}`}>{usage.text}</p>
+          )}
+        </div>
       </div>
 
-      <h3 className="text-xl font-black tracking-tight text-slate-900 mb-1.5 group-hover:text-brand-950 transition-colors">{tool.title}</h3>
-      {usage && (
-        <p className={`text-xs font-bold mb-2 ${usage.left ? 'text-[#047857]' : 'text-slate-400'}`}>{usage.text}</p>
-      )}
-      <p className="text-sm text-slate-500 font-normal leading-relaxed mb-5">{tool.description}</p>
+      <p className="text-sm text-slate-500 leading-relaxed mb-3">{tool.description}</p>
 
-      <ul className="space-y-2.5 mb-7">
-        {tool.features.map((feat) => (
-          <li key={feat} className="flex items-start gap-2.5 text-sm font-semibold text-slate-700">
-            <span className="w-5 h-5 mt-px rounded-full bg-[#059669] flex items-center justify-center shrink-0 text-white shadow-2xs">
-              <Check className="w-3.5 h-3.5 stroke-3" />
+      <ul className="space-y-1.5 mb-5">
+        {tool.features.slice(0, 2).map((feat) => (
+          <li key={feat} className="flex items-start gap-2 text-sm font-semibold text-slate-700">
+            <span className="w-4 h-4 mt-0.5 rounded-full bg-[#059669] flex items-center justify-center shrink-0 text-white">
+              <Check className="w-3 h-3 stroke-3" />
             </span>
             <span>{feat}</span>
           </li>
@@ -83,7 +92,7 @@ const ToolCard: React.FC<{ tool: Tool; usage: ReturnType<UsageLine>; onOpen: (pa
         e.stopPropagation();
         onOpen(tool.action);
       }}
-      className="w-full py-3.5 px-5 rounded-2xl bg-[#064E3B] hover:bg-[#043C2C] active:scale-[0.98] text-white font-semibold text-sm flex items-center justify-between transition-colors shadow-2xs group/btn cursor-pointer"
+      className="w-full py-3 px-4 rounded-xl bg-[#064E3B] hover:bg-[#043C2C] active:scale-[0.98] text-white font-semibold text-sm flex items-center justify-between transition-colors group/btn cursor-pointer"
     >
       <span>{tool.cta}</span>
       <ArrowRight className="w-4 h-4 transition-transform duration-200 ease-out group-hover/btn:translate-x-1" />
@@ -92,12 +101,12 @@ const ToolCard: React.FC<{ tool: Tool; usage: ReturnType<UsageLine>; onOpen: (pa
 );
 
 const ToolGroup: React.FC<{ title: string; subtitle: string; tools: Tool[]; columns: string; usageLine: UsageLine; onOpen: (path: string) => void }> = ({ title, subtitle, tools, columns, usageLine, onOpen }) => (
-  <section className="mb-8 sm:mb-10">
-    <div className="mb-4 px-1">
-      <h2 className="text-lg sm:text-xl font-black tracking-tight text-slate-900">{title}</h2>
+  <section className="mb-7">
+    <div className="mb-3 px-1">
+      <h2 className="text-base sm:text-lg font-black tracking-tight text-slate-900">{title}</h2>
       <p className="text-sm text-slate-500">{subtitle}</p>
     </div>
-    <div data-reveal-stagger className={`grid grid-cols-1 ${columns} gap-5 sm:gap-6 items-stretch`}>
+    <div data-reveal-stagger className={`grid grid-cols-1 ${columns} gap-4 sm:gap-5 items-stretch`}>
       {tools.map((tool) => <ToolCard key={tool.key} tool={tool} usage={usageLine(tool.key)} onOpen={onOpen} />)}
     </div>
   </section>
@@ -120,7 +129,7 @@ export const ToolsHub: React.FC = () => {
       description: 'Turn your LinkedIn profile into one that recruiters for PM roles find and read.',
       iconType: 'linkedin',
       iconContainerStyle: 'bg-[#ECFDF5] text-[#047857]',
-      features: ['Headline suggestions', 'About section audit', 'Search keywords check'],
+      features: ['Headline and About section fixes', 'Search keywords check'],
       action: '/tools/linkedin-optimiser',
       cta: 'Optimise profile',
     },
@@ -130,7 +139,7 @@ export const ToolsHub: React.FC = () => {
       description: 'Find the biggest gaps in your PM resume and fix them before you apply.',
       iconType: 'resume',
       iconContainerStyle: 'bg-[#ECFDF5] text-[#047857]',
-      features: ['Impact and ownership score', 'ATS readability check', 'Bullet rewrites'],
+      features: ['Impact and ownership score', 'ATS check and bullet rewrites'],
       action: '/tools/resume-auditor',
       cta: 'Audit resume',
     },
@@ -144,10 +153,9 @@ export const ToolsHub: React.FC = () => {
       description: 'Get a researched first draft of your take-home assignment, then make it yours.',
       iconType: 'assignment',
       iconContainerStyle: 'bg-violet-50 text-violet-700',
-      features: ['Company research with sources', 'A draft for every question', 'Critic score per section'],
+      features: ['Company research with sources', 'Critic score per section', 'A draft for every question'],
       action: '/tools/assignment-solver',
       cta: 'Start an assignment',
-      isNew: true,
     }] : []),
     ...(isProductStrategyEnabled ? [{
       key: 'strategy' as const,
@@ -155,7 +163,7 @@ export const ToolsHub: React.FC = () => {
       description: 'Learn a strategy framework by filling it in for your product.',
       iconType: 'strategy',
       iconContainerStyle: 'bg-amber-50 text-amber-700',
-      features: ['3 frameworks: Canvas, Vision Board, One-page', 'Assumptions labelled, quality score', 'Download as PDF'],
+      features: ['Canvas, Vision Board or One-page', 'Quality score, download as PDF', 'Assumptions labelled'],
       action: '/tools/ai-product-strategy',
       cta: 'Build a strategy',
       isNew: true,
@@ -166,15 +174,49 @@ export const ToolsHub: React.FC = () => {
       description: 'Write your own PRD, section by section, and learn what good looks like.',
       iconType: 'prd',
       iconContainerStyle: 'bg-sky-50 text-sky-700',
-      features: ['7 guided sections', 'Score and fixes per section, with the why', 'Example PRD to compare after'],
+      features: ['Score and fixes for each section', 'Example PRD to compare with', '7 guided sections'],
       action: '/tools/prd-coach',
       cta: 'Write a PRD',
       isNew: true,
     }] : []),
   ];
 
+  // Practise for the interview itself: the AI mock interview (2 free a month) and peer mocks.
+  const interviews: Tool[] = [
+    ...(isAnyAiInterviewEnabled ? [{
+      key: 'interview' as const,
+      title: 'AI Mock Interview',
+      description: 'Practise a PM interview with Priya, an AI interviewer, and get a scorecard.',
+      iconType: 'interview',
+      iconContainerStyle: 'bg-[#ECFDF5] text-[#047857]',
+      features: ['Product sense, metrics, RCA, strategy and more', 'Scored feedback after every interview'],
+      action: '/tools/interview-studio',
+      cta: 'Start an interview',
+    }] : []),
+    ...(isProductBuddyEnabled ? [{
+      key: 'buddy' as const,
+      title: 'Product Buddy',
+      description: 'Pair up with another aspiring PM and take turns interviewing each other.',
+      iconType: 'buddy',
+      iconContainerStyle: 'bg-violet-50 text-violet-700',
+      features: ['Interviewer gets a question and rubric', 'Video call link sent by email'],
+      action: '/buddy',
+      cta: 'Find a buddy',
+    }] : []),
+  ];
+
+  // Free interviews left this month (2 by default); unlimited accounts (testers) show nothing.
+  const { allowance } = useInterviewAccess(user?.uid);
+
   /** "1 free use left this month" / "Used · back on 1 Dec" for signed-in users; nothing otherwise. */
-  const usageLine = (key: ToolKey): { text: string; left: boolean } | null => {
+  const usageLine = (key: Tool['key']): { text: string; left: boolean } | null => {
+    if (key === 'buddy') return null;
+    if (key === 'interview') {
+      if (!user || !allowance || allowance.unlimited) return null;
+      if (allowance.left > 0) return { text: `${allowance.left} free ${allowance.left === 1 ? 'interview' : 'interviews'} left this month`, left: true };
+      const back = new Date(`${allowance.resetsOn}T00:00:00Z`).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', timeZone: 'UTC' });
+      return { text: `Free interviews used · back on ${back}`, left: false };
+    }
     const c = credits?.signedIn ? credits[key] : undefined;
     if (!c) return null;
     if (c.freeLeft > 0) return { text: `${c.freeLeft} free use left this month`, left: true };
@@ -212,42 +254,8 @@ export const ToolsHub: React.FC = () => {
         transition={{ duration: 0.25, ease: "easeOut" }}
         className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-7 pb-20"
       >
-        {/* Handwritten Annotation */}
-        <div className="flex items-center justify-end mb-3 px-1">
-
-          <div className="hidden sm:flex items-center gap-2 select-none pointer-events-none">
-            {/* Hand-drawn curved arrow pointing to the dark banner */}
-            <svg 
-              className="w-7 h-7 text-brand-600 -rotate-12 translate-y-0.5" 
-              viewBox="0 0 32 32" 
-              fill="none" 
-              stroke="currentColor" 
-              strokeWidth="2" 
-              strokeLinecap="round" 
-              strokeLinejoin="round"
-            >
-              <path d="M 28 6 C 18 8 10 16 8 26 M 8 26 L 6 18 M 8 26 L 16 24" />
-            </svg>
-            <div 
-              style={{ fontFamily: "'Caveat', cursive" }} 
-              className="text-brand-600 text-base lg:text-lg font-bold leading-tight relative pr-4"
-            >
-              <div>Better tools</div>
-              <div>Brighter opportunities.</div>
-              {/* Sparkle dashes at top right */}
-              <div className="absolute -top-1 right-0 text-brand-600">
-                <svg className="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                  <line x1="8" y1="2" x2="8" y2="5" />
-                  <line x1="13" y1="4" x2="10.5" y2="6.5" />
-                  <line x1="14" y1="9" x2="11" y2="9" />
-                </svg>
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* Hero Section Banner */}
-        <header className="relative w-full bg-linear-to-r from-[#032A1F] via-[#043C2C] to-[#064E3B] rounded-3xl p-7 sm:p-9 md:p-11 text-white overflow-hidden shadow-2xl border border-[#065F46]/60 mb-7 sm:mb-8">
+        <header className="relative w-full bg-linear-to-r from-[#032A1F] via-[#043C2C] to-[#064E3B] rounded-3xl p-6 sm:p-8 text-white overflow-hidden shadow-xl border border-[#065F46]/60 mb-7">
           {/* Subtle vibrant background glow shapes */}
           <div 
             className="absolute top-0 right-0 w-[480px] h-[480px] bg-linear-to-bl from-brand-600/25 via-brand-600/15 to-transparent rounded-full blur-[100px] pointer-events-none -translate-y-1/4 translate-x-1/4" 
@@ -260,19 +268,19 @@ export const ToolsHub: React.FC = () => {
 
           <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
             <div className="max-w-xl">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[54px] font-extrabold mb-3 sm:mb-4 tracking-tight leading-[1.08] text-white">
-                Tools to Get <br />
+              <h1 className="text-3xl sm:text-4xl font-extrabold mb-2 sm:mb-3 tracking-tight leading-[1.08] text-white">
+                Tools to Get{' '}
                 <span className="text-[#6EE7B7]">You Hired.</span>
               </h1>
 
               <p className="text-slate-300 text-sm sm:text-base leading-relaxed font-normal max-w-lg">
-                Don't just learn the theory. Fix your resume and LinkedIn, then practise real PM work, with AI feedback on every step.
+                Don't just learn the theory. Fix your resume and LinkedIn, practise real PM work and rehearse interviews, with AI feedback on every step.
               </p>
             </div>
 
             {/* 3D Visual: Document, Magnifying Glass, Floating Tilted Badge & Sparkles */}
             <div className="hidden md:flex items-center justify-center shrink-0 self-center lg:self-auto pr-2">
-              <div className="relative w-72 h-56">
+              <div className="relative w-72 h-56 scale-[0.7] -my-8 origin-center">
                 {/* Decorative Sparkle Crosses */}
                 <div className="absolute top-2 left-6 text-white/70 animate-pulse">
                   <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
@@ -364,9 +372,12 @@ export const ToolsHub: React.FC = () => {
           </div>
         </header>
 
-        <ToolGroup title="Get noticed" subtitle="Make recruiters stop on your resume and LinkedIn." tools={getNoticed} columns="lg:grid-cols-2" usageLine={usageLine} onOpen={handleAction} />
+        <ToolGroup title="Get noticed" subtitle="Make recruiters stop on your resume and LinkedIn." tools={getNoticed} columns="md:grid-cols-2 lg:grid-cols-3" usageLine={usageLine} onOpen={handleAction} />
         {practise.length > 0 && (
-          <ToolGroup title="Practise the PM job" subtitle="Do real PM work, with AI feedback on every step." tools={practise} columns={practise.length >= 3 ? 'md:grid-cols-2 xl:grid-cols-3' : 'lg:grid-cols-2'} usageLine={usageLine} onOpen={handleAction} />
+          <ToolGroup title="Practise the PM job" subtitle="Do real PM work, with AI feedback on every step." tools={practise} columns="md:grid-cols-2 lg:grid-cols-3" usageLine={usageLine} onOpen={handleAction} />
+        )}
+        {interviews.length > 0 && (
+          <ToolGroup title="Practise interviews" subtitle="Rehearse the real thing, with AI or with a peer." tools={interviews} columns="md:grid-cols-2 lg:grid-cols-3" usageLine={usageLine} onOpen={handleAction} />
         )}
 
         {/* Bottom Manual Review Banner Card */}
