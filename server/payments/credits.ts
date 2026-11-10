@@ -1,7 +1,7 @@
 import type express from 'express';
 import { FieldValue } from 'firebase-admin/firestore';
 import { getAppFirestore, isFirebaseAdminConfigured } from '../../services/firebaseAdmin';
-import { FREE_RUNS, FREE_RUNS_PER_MONTH, TOOLS, type ToolKey } from './catalog';
+import { FREE_RUNS, FREE_RUNS_PER_MONTH, TOOLS, offersForTool, type ToolKey } from './catalog';
 import { dodoMode } from './dodo';
 
 // Runs for the Resume Auditor, LinkedIn Optimiser, Assignment Solver and AI Product Strategy.
@@ -98,14 +98,14 @@ async function giveBack(uid: string, tool: ToolKey, spent: Spent, runId?: string
   await entRef(uid).set(update, { merge: true });
 }
 
-const TOOL_NAMES: Record<ToolKey, string> = { resume: 'resume audit', linkedin: 'LinkedIn audit', solver: 'Assignment Solver run', strategy: 'AI product strategy' };
+const TOOL_NAMES: Record<ToolKey, string> = { resume: 'resume audit', linkedin: 'LinkedIn audit', solver: 'Assignment Solver run', strategy: 'AI product strategy', prd: 'PRD review' };
 
 function paywall(res: express.Response, tool: ToolKey) {
   const perMonth = FREE_RUNS_PER_MONTH[tool] || 0;
   const resets = new Date(`${nextMonthStart()}T00:00:00Z`).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', timeZone: 'UTC' });
   const used = perMonth === 1 ? `your free ${TOOL_NAMES[tool]}` : `all ${perMonth} free ${TOOL_NAMES[tool]}s`;
   const message = perMonth
-    ? `You have used ${used} for this month. It comes back on ${resets}.${paymentsEnabled() ? ' Buy more to keep going.' : ''}`
+    ? `You have used ${used} for this month. It comes back on ${resets}.${paymentsEnabled() && offersForTool(tool).length ? ' Buy more to keep going.' : ''}`
     : `This tool needs a paid run. Buy one to keep going.`;
   return res.status(402).json({ success: false, error: message, paywall: tool, freeResetsOn: nextMonthStart() });
 }
@@ -172,6 +172,21 @@ export const requireRecentLinkedInRun: express.RequestHandler = async (_req, res
   }
   return res.status(402).json({ success: false, error: 'Rewrites come with a LinkedIn audit. Run an audit first (it uses one run).', paywall: 'linkedin' });
 };
+
+/** Follow-up steps that come with a run (the PRD Coach's example PRD): allowed for `windowMs` after the account's last run of `tool`. */
+export function requireRecentRun(tool: ToolKey, windowMs: number, message: string): express.RequestHandler {
+  return async (_req, res, next) => {
+    if (!isFirebaseAdminConfigured()) return next();
+    try {
+      const data = await entitlementData(res);
+      const last = Date.parse(data?.lastRun?.[dodoMode()]?.[tool] || '');
+      if (data && Number.isFinite(last) && Date.now() - last < windowMs) return next();
+    } catch (err: any) {
+      console.error(`[Credits] Could not check the last ${tool} run:`, err?.message || err);
+    }
+    return res.status(402).json({ success: false, error: message, paywall: tool });
+  };
+}
 
 /** Later Assignment Solver steps only run for a run whose Parser step was paid for. */
 export const requirePaidSolverRun: express.RequestHandler = async (req, res, next) => {

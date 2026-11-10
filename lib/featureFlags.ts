@@ -31,13 +31,10 @@ export const isProductBuddyEnabled = import.meta.env.VITE_PRODUCT_BUDDY_ENABLED 
 // the server reads the same variable.
 export const isPaymentsEnabled = import.meta.env.DEV || import.meta.env.VITE_PAYMENTS_ENABLED === 'true';
 
-// The AI Product Strategy tool is local-only for now: on in `npm run dev`, off on the live site.
-// To launch it, set VITE_AI_PRODUCT_STRATEGY_ENABLED=true in Vercel and redeploy; the server reads
-// the same variable. Written with full `import.meta.env.X` paths so the build drops the tool's code
-// entirely when it is off.
-export const isProductStrategyEnabled = import.meta.env.DEV || import.meta.env.VITE_AI_PRODUCT_STRATEGY_ENABLED === 'true';
+// The AI Product Strategy tool is live. To switch it off, set VITE_AI_PRODUCT_STRATEGY_ENABLED=false in
+// Vercel and redeploy; the server reads the same variable.
+export const isProductStrategyEnabled = import.meta.env.VITE_AI_PRODUCT_STRATEGY_ENABLED !== 'false';
 
-// The PRD Coach (learners write their own PRD, the AI reviews it) is local-only for now: on in
-// `npm run dev`, off on the live site. To launch it, set VITE_PRD_COACH_ENABLED=true in Vercel and
-// redeploy; the server reads the same variable.
-export const isPrdCoachEnabled = import.meta.env.DEV || import.meta.env.VITE_PRD_COACH_ENABLED === 'true';
+// The PRD Coach (learners write their own PRD, the AI reviews it) is live. To switch it off, set
+// VITE_PRD_COACH_ENABLED=false in Vercel and redeploy; the server reads the same variable.
+export const isPrdCoachEnabled = import.meta.env.VITE_PRD_COACH_ENABLED !== 'false';
