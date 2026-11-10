@@ -8,6 +8,7 @@ import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Textarea } from '../ui/textarea';
 import { BriefMarkdown } from '../assignments/BriefMarkdown';
+import { EXAMPLE_PRD_MARKDOWN, EXAMPLE_PRD_TITLE } from '../../lib/prdCoach/examplePrd';
 import { authJsonHeaders } from '../../lib/apiClient';
 import { ToolFeedbackCard } from '../feedback/ToolFeedbackCard';
 import { ToolPaywall, ToolRunsBadge, useToolCredits } from '../payments/ToolPaywall';
@@ -164,6 +165,8 @@ export const PrdCoach: React.FC = () => {
   const [busy, setBusy] = useState<'review' | 'example' | null>(null);
   const [error, setError] = useState('');
   const [paywall, setPaywall] = useState('');
+  // A ready-made example PRD anyone can open before writing (no AI call, no sign-in).
+  const [showSample, setShowSample] = useState(false);
   // One free review a month (server/payments/catalog.ts); the badge shows what's left.
   const { credits, refresh: refreshCredits } = useToolCredits();
   const outOfRuns = credits?.signedIn && credits.prd ? credits.prd.freeLeft + credits.prd.credits === 0 : false;
@@ -238,9 +241,30 @@ export const PrdCoach: React.FC = () => {
           Write your own PRD, one section at a time. The coach scores each section, tells you what to fix and why, and then shows an example PRD to compare with.
           <span className="font-bold text-slate-900"> You write it, the coach reviews it</span>, so you can explain every line in an interview.
         </p>
-        <ToolRunsBadge tool="prd" credits={credits} />
+        <div className="flex flex-wrap items-center gap-2 pt-1">
+          <Button variant="outline" size="sm" onClick={() => setShowSample((v) => !v)} aria-expanded={showSample}>
+            <BookOpen className="size-4" /> {showSample ? 'Hide the example PRD' : 'See an example PRD'}
+          </Button>
+          <ToolRunsBadge tool="prd" credits={credits} />
+        </div>
         <p className="text-xs text-slate-500">You get one free review a month, so write all seven sections before you ask for it.</p>
       </header>
+
+      {showSample && (
+        <section id="prd-sample" className="bg-white border border-slate-200/80 rounded-2xl p-4 sm:p-6 space-y-3">
+          <div className="flex items-start justify-between gap-3">
+            <div className="space-y-1 min-w-0">
+              <p className="text-[11px] font-black uppercase tracking-widest text-brand-600">Example PRD</p>
+              <h2 className="text-lg font-black text-slate-900">{EXAMPLE_PRD_TITLE}</h2>
+              <p className="text-sm text-slate-500">See what each of the seven sections looks like when it's done well, then write your own for your idea. Numbers marked as assumptions are made up for the example.</p>
+            </div>
+            <Button variant="ghost" size="sm" onClick={() => setShowSample(false)}>Close</Button>
+          </div>
+          <div className="prose-sm text-slate-800 border-t border-slate-100 pt-3">
+            <BriefMarkdown source={EXAMPLE_PRD_MARKDOWN} />
+          </div>
+        </section>
+      )}
 
       {(paywall || (outOfRuns && !review)) && <ToolPaywall tool="prd" message={paywall || undefined} onClose={paywall ? () => setPaywall('') : undefined} />}
 
@@ -319,7 +343,7 @@ export const PrdCoach: React.FC = () => {
         </Button>
         <Button variant="outline" onClick={runExample} disabled={!review || !canReview || !!busy} title={review ? '' : 'Get a review first'}>
           {busy === 'example' ? <Loader2 className="size-4 animate-spin" /> : <BookOpen className="size-4" />}
-          {example ? 'New example PRD' : 'See an example PRD'}
+          {example ? 'New example for my idea' : 'Example for my idea'}
         </Button>
         <Button variant="ghost" onClick={copy} disabled={!attempted}><ClipboardCopy className="size-4" /> Copy</Button>
         <Button variant="ghost" onClick={startOver} disabled={!!busy}><RotateCcw className="size-4" /> Start over</Button>
@@ -335,7 +359,7 @@ export const PrdCoach: React.FC = () => {
       {example && (
         <section className="bg-white border border-slate-200/80 rounded-2xl p-4 sm:p-6 space-y-3">
           <div className="space-y-1">
-            <h2 className="text-lg font-black text-slate-900">Example PRD to compare with</h2>
+            <h2 className="text-lg font-black text-slate-900">Example PRD for your idea</h2>
             <p className="text-sm text-slate-500">Written by AI for the same idea. Compare it with yours section by section, then improve your own in your words. Numbers marked (assumption) are not real data.</p>
           </div>
           <div className="prose-sm text-slate-800">
