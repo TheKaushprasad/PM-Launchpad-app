@@ -3,16 +3,16 @@
 // on the site come from Dodo, so the page never shows a price Dodo won't charge; `fallbackName` is
 // only used while the Dodo product can't be loaded.
 
-export type ToolKey = 'resume' | 'linkedin' | 'solver' | 'strategy';
-export const TOOLS: ToolKey[] = ['resume', 'linkedin', 'solver', 'strategy'];
+export type ToolKey = 'resume' | 'linkedin' | 'solver' | 'strategy' | 'prd';
+export const TOOLS: ToolKey[] = ['resume', 'linkedin', 'solver', 'strategy', 'prd'];
 
 // Free plan: every tool gives one free run per calendar month (India time), on the live site too.
 // After that a run needs a paid credit (only buyable while payments are on).
 // FREE_RUNS (once per account) is kept for older documents and is 0 for every tool now.
-export const FREE_RUNS: Record<ToolKey, number> = { resume: 0, linkedin: 0, solver: 0, strategy: 0 };
+export const FREE_RUNS: Record<ToolKey, number> = { resume: 0, linkedin: 0, solver: 0, strategy: 0, prd: 0 };
 
 // Free runs that come back every calendar month instead of once per account.
-export const FREE_RUNS_PER_MONTH: Partial<Record<ToolKey, number>> = { resume: 1, linkedin: 1, solver: 1, strategy: 1 };
+export const FREE_RUNS_PER_MONTH: Partial<Record<ToolKey, number>> = { resume: 1, linkedin: 1, solver: 1, strategy: 1, prd: 1 };
 
 export interface OfferDef {
   key: string;

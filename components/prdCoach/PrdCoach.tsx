@@ -10,6 +10,7 @@ import { Textarea } from '../ui/textarea';
 import { BriefMarkdown } from '../assignments/BriefMarkdown';
 import { authJsonHeaders } from '../../lib/apiClient';
 import { ToolFeedbackCard } from '../feedback/ToolFeedbackCard';
+import { ToolPaywall, ToolRunsBadge, useToolCredits } from '../payments/ToolPaywall';
 import {
   MIN_SECTION_CHARS, MIN_SECTIONS_FOR_REVIEW, PRD_SECTIONS, attemptedSections, emptySections, prdMarkdown,
   type PrdDraft, type PrdReview, type PrdSectionDef, type PrdSectionReview,
@@ -56,9 +57,13 @@ const SAMPLE_IDEAS = [
   'Helping first-time users of a food delivery app pick a restaurant faster',
 ];
 
+/** A 402 from the server: this month's free review is used up. */
+class PaywallError extends Error {}
+
 async function post<T>(path: string, body: unknown): Promise<T> {
   const res = await fetch(`/api/prd-coach/${path}`, { method: 'POST', headers: await authJsonHeaders(), body: JSON.stringify(body) });
   const data = await res.json().catch(() => ({}));
+  if (res.status === 402) throw new PaywallError(data?.error || 'You have used your free PRD review for this month.');
   if (!res.ok) throw new Error(data?.error || `Something went wrong (HTTP ${res.status}).`);
   return data as T;
 }
@@ -158,6 +163,10 @@ export const PrdCoach: React.FC = () => {
   const [state, setState] = useState<Saved>(() => load());
   const [busy, setBusy] = useState<'review' | 'example' | null>(null);
   const [error, setError] = useState('');
+  const [paywall, setPaywall] = useState('');
+  // One free review a month (server/payments/catalog.ts); the badge shows what's left.
+  const { credits, refresh: refreshCredits } = useToolCredits();
+  const outOfRuns = credits?.signedIn && credits.prd ? credits.prd.freeLeft + credits.prd.credits === 0 : false;
   const { draft, review, example } = state;
 
   useEffect(() => save(state), [state]);
@@ -180,9 +189,11 @@ export const PrdCoach: React.FC = () => {
       setState((s) => ({ ...s, review: next, reviewedText: prdMarkdown(s.draft) }));
       document.getElementById('prd-review')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } catch (e: any) {
-      setError(e.message);
+      if (e instanceof PaywallError) setPaywall(e.message);
+      else setError(e.message);
     } finally {
       setBusy(null);
+      refreshCredits();
     }
   };
 
@@ -194,7 +205,8 @@ export const PrdCoach: React.FC = () => {
       const { markdown } = await post<{ markdown: string }>('example', { draft, reviewed: !!review });
       setState((s) => ({ ...s, example: markdown }));
     } catch (e: any) {
-      setError(e.message);
+      if (e instanceof PaywallError) setPaywall(e.message);
+      else setError(e.message);
     } finally {
       setBusy(null);
     }
@@ -226,7 +238,11 @@ export const PrdCoach: React.FC = () => {
           Write your own PRD, one section at a time. The coach scores each section, tells you what to fix and why, and then shows an example PRD to compare with.
           <span className="font-bold text-slate-900"> You write it, the coach reviews it</span>, so you can explain every line in an interview.
         </p>
+        <ToolRunsBadge tool="prd" credits={credits} />
+        <p className="text-xs text-slate-500">You get one free review a month, so write all seven sections before you ask for it.</p>
       </header>
+
+      {(paywall || (outOfRuns && !review)) && <ToolPaywall tool="prd" message={paywall || undefined} onClose={paywall ? () => setPaywall('') : undefined} />}
 
       {/* The idea */}
       <section className="bg-white border border-slate-200/80 rounded-2xl p-4 sm:p-5 space-y-4">
