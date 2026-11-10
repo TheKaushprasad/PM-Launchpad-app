@@ -4,7 +4,6 @@ import {
   ArrowRight, 
   Check,
   ClipboardList,
-  Mic,
   Compass,
   Puzzle,
   FileText,
@@ -13,13 +12,12 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { AuthModal } from './auth/AuthModal';
-import { isAnyAiInterviewEnabled, isAssignmentSolverEnabled, isPrdCoachEnabled, isProductBuddyEnabled, isProductStrategyEnabled } from '../lib/featureFlags';
-import { useInterviewAccess } from '../lib/interviewAccess';
+import { isAssignmentSolverEnabled, isPrdCoachEnabled, isProductStrategyEnabled } from '../lib/featureFlags';
 import { useToolCredits } from './payments/ToolPaywall';
 import type { ToolKey } from './payments/api';
 
 interface Tool {
-  key: ToolKey | 'interview' | 'buddy';
+  key: ToolKey;
   title: string;
   description: string;
   iconType: string;
@@ -30,7 +28,7 @@ interface Tool {
   isNew?: boolean;
 }
 
-type UsageLine = (key: Tool['key']) => { text: string; left: boolean } | null;
+type UsageLine = (key: ToolKey) => { text: string; left: boolean } | null;
 
 const ToolIcon: React.FC<{ type: string }> = ({ type }) => {
   if (type === 'linkedin') {
@@ -43,8 +41,6 @@ const ToolIcon: React.FC<{ type: string }> = ({ type }) => {
   if (type === 'strategy') return <Compass className="w-6 h-6 stroke-2" />;
   if (type === 'assignment') return <Puzzle className="w-6 h-6 stroke-2" />;
   if (type === 'prd') return <ClipboardList className="w-6 h-6 stroke-2" />;
-  if (type === 'interview') return <Mic className="w-6 h-6 stroke-2" />;
-  if (type === 'buddy') return <Users className="w-6 h-6 stroke-2" />;
   return <FileText className="w-6 h-6 stroke-2" />;
 };
 
@@ -181,42 +177,8 @@ export const ToolsHub: React.FC = () => {
     }] : []),
   ];
 
-  // Practise for the interview itself: the AI mock interview (2 free a month) and peer mocks.
-  const interviews: Tool[] = [
-    ...(isAnyAiInterviewEnabled ? [{
-      key: 'interview' as const,
-      title: 'AI Mock Interview',
-      description: 'Practise a PM interview with Priya, an AI interviewer, and get a scorecard.',
-      iconType: 'interview',
-      iconContainerStyle: 'bg-[#ECFDF5] text-[#047857]',
-      features: ['Product sense, metrics, RCA, strategy and more', 'Scored feedback after every interview'],
-      action: '/tools/interview-studio',
-      cta: 'Start an interview',
-    }] : []),
-    ...(isProductBuddyEnabled ? [{
-      key: 'buddy' as const,
-      title: 'Product Buddy',
-      description: 'Pair up with another aspiring PM and take turns interviewing each other.',
-      iconType: 'buddy',
-      iconContainerStyle: 'bg-violet-50 text-violet-700',
-      features: ['Interviewer gets a question and rubric', 'Video call link sent by email'],
-      action: '/buddy',
-      cta: 'Find a buddy',
-    }] : []),
-  ];
-
-  // Free interviews left this month (2 by default); unlimited accounts (testers) show nothing.
-  const { allowance } = useInterviewAccess(user?.uid);
-
   /** "1 free use left this month" / "Used · back on 1 Dec" for signed-in users; nothing otherwise. */
-  const usageLine = (key: Tool['key']): { text: string; left: boolean } | null => {
-    if (key === 'buddy') return null;
-    if (key === 'interview') {
-      if (!user || !allowance || allowance.unlimited) return null;
-      if (allowance.left > 0) return { text: `${allowance.left} free ${allowance.left === 1 ? 'interview' : 'interviews'} left this month`, left: true };
-      const back = new Date(`${allowance.resetsOn}T00:00:00Z`).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', timeZone: 'UTC' });
-      return { text: `Free interviews used · back on ${back}`, left: false };
-    }
+  const usageLine = (key: ToolKey): { text: string; left: boolean } | null => {
     const c = credits?.signedIn ? credits[key] : undefined;
     if (!c) return null;
     if (c.freeLeft > 0) return { text: `${c.freeLeft} free use left this month`, left: true };
@@ -274,7 +236,7 @@ export const ToolsHub: React.FC = () => {
               </h1>
 
               <p className="text-slate-300 text-sm sm:text-base leading-relaxed font-normal max-w-lg">
-                Don't just learn the theory. Fix your resume and LinkedIn, practise real PM work and rehearse interviews, with AI feedback on every step.
+                Don't just learn the theory. Fix your resume and LinkedIn, then practise real PM work, with AI feedback on every step.
               </p>
             </div>
 
@@ -375,9 +337,6 @@ export const ToolsHub: React.FC = () => {
         <ToolGroup title="Get noticed" subtitle="Make recruiters stop on your resume and LinkedIn." tools={getNoticed} columns="md:grid-cols-2 lg:grid-cols-3" usageLine={usageLine} onOpen={handleAction} />
         {practise.length > 0 && (
           <ToolGroup title="Practise the PM job" subtitle="Do real PM work, with AI feedback on every step." tools={practise} columns="md:grid-cols-2 lg:grid-cols-3" usageLine={usageLine} onOpen={handleAction} />
-        )}
-        {interviews.length > 0 && (
-          <ToolGroup title="Practise interviews" subtitle="Rehearse the real thing, with AI or with a peer." tools={interviews} columns="md:grid-cols-2 lg:grid-cols-3" usageLine={usageLine} onOpen={handleAction} />
         )}
 
         {/* Bottom Manual Review Banner Card */}
