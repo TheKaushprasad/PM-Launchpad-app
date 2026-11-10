@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { isAiInterviewEnabled, isAnyAiInterviewEnabled } from './featureFlags';
 import { authJsonHeaders } from './apiClient';
 
@@ -13,19 +13,51 @@ export interface InterviewAccess {
   /** Voice mode is offered. Off on the live site until VITE_AI_INTERVIEW_ENABLED=true; testers always get it. */
   voice: boolean;
   tester: boolean;
+  /** Free mock interviews left this month (null when signed out or unknown). */
+  allowance: InterviewAllowance | null;
+  /** Reads access and the free interviews left again (after an interview ends). */
+  refresh: () => void;
 }
 
-const initialAccess = { enabled: isAnyAiInterviewEnabled, voice: isAiInterviewEnabled, tester: false };
+/** Free plan: mock interviews per calendar month (server/interviewAllowance.ts). */
+export interface InterviewAllowance {
+  /** Paid account or tester: no monthly limit. */
+  unlimited: boolean;
+  limit: number;
+  used: number;
+  left: number;
+  /** When the free interviews come back, e.g. "1 Dec". */
+  resetsOn: string;
+}
+
+export const freeInterviewsUsedUp = (a: InterviewAllowance | null | undefined) => !!a && !a.unlimited && a.left <= 0;
+
+export function freeInterviewsExhaustedText(a: InterviewAllowance) {
+  return `You have used your ${a.limit} free mock interview${a.limit === 1 ? '' : 's'} for this month. Your free interviews come back on ${a.resetsOn}.`;
+}
+
+const initialAccess = { enabled: isAnyAiInterviewEnabled, voice: isAiInterviewEnabled, tester: false, allowance: null };
 
 // Whether voice mode is offered, for the mode pickers inside the studio (provided by InterviewGate).
 export const InterviewVoiceContext = createContext<boolean>(isAiInterviewEnabled);
 export const useVoiceInterviewAvailable = () => useContext(InterviewVoiceContext);
 
+// Free interviews left this month, for the studio (provided by InterviewGate).
+export const InterviewAllowanceContext = createContext<{ allowance: InterviewAllowance | null; refresh: () => void }>({
+  allowance: null,
+  refresh: () => {},
+});
+export const useInterviewAllowance = () => useContext(InterviewAllowanceContext);
+
 export function useInterviewAccess(uid: string | null | undefined): InterviewAccess {
-  const [state, setState] = useState<InterviewAccess>({ loading: true, ...initialAccess });
+  const [state, setState] = useState<Omit<InterviewAccess, 'refresh'>>({ loading: true, ...initialAccess });
+  const [version, setVersion] = useState(0);
+  const refresh = useCallback(() => setVersion((v) => v + 1), []);
+  const loaded = useRef<string | null | undefined>(undefined);
   useEffect(() => {
     let cancelled = false;
-    setState((s) => ({ ...s, loading: true }));
+    // A refresh keeps the studio on screen; only a new sign-in shows the loading spinner.
+    if (loaded.current !== uid) setState((s) => ({ ...s, loading: true }));
     (async () => {
       try {
         const res = await fetch('/api/interview-access', { headers: await authJsonHeaders() });
@@ -36,15 +68,17 @@ export function useInterviewAccess(uid: string | null | undefined): InterviewAcc
             enabled: isAnyAiInterviewEnabled || !!json?.enabled,
             voice: isAiInterviewEnabled || !!json?.voice,
             tester: !!json?.tester,
+            allowance: json?.allowance && typeof json.allowance.left === 'number' ? json.allowance : null,
           });
+          loaded.current = uid;
         }
       } catch {
         if (!cancelled) setState({ loading: false, ...initialAccess });
       }
     })();
     return () => { cancelled = true; };
-  }, [uid]);
-  return state;
+  }, [uid, version]);
+  return { ...state, refresh };
 }
 
 const consentKey = (uid: string) => `interviewEvalConsent:${uid}`;
