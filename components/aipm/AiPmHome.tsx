@@ -12,7 +12,7 @@ const ProgressBar: React.FC<{ done: number; total: number }> = ({ done, total })
   </div>
 );
 
-const nextDay = (done: number[]) => AI_PM_DAYS.find((d) => !done.includes(d.day))?.day ?? 90;
+const nextDay = (done: number[]) => AI_PM_DAYS.find((d) => !done.includes(d.day))?.day ?? AI_PM_DAYS.length;
 
 export const AiPmOverview: React.FC = () => {
   const { progress } = useAiPmProgress();
@@ -25,7 +25,7 @@ export const AiPmOverview: React.FC = () => {
       <header className="relative bg-[#043C2C] rounded-3xl p-6 sm:p-8 lg:p-10 text-white overflow-hidden border border-[#065F46]/60">
         <div className="absolute top-0 right-1/4 w-96 h-96 bg-brand-600/15 rounded-full blur-3xl pointer-events-none" aria-hidden="true" />
         <div className="relative space-y-4 max-w-3xl">
-          <p className="text-[11px] font-black uppercase tracking-widest text-[#6EE7B7]">90-day course · for working PMs</p>
+          <p className="text-[11px] font-black uppercase tracking-widest text-[#6EE7B7]">104-day course · for working PMs</p>
           <h1 className="text-3xl sm:text-4xl font-black tracking-tight leading-tight">{o.title}</h1>
           <p className="text-slate-300 text-sm sm:text-base leading-relaxed">{o.intro}</p>
           <div className="flex flex-wrap items-center gap-3 pt-2">
@@ -36,13 +36,13 @@ export const AiPmOverview: React.FC = () => {
               {started ? `Continue with Day ${resumeDay}` : 'Start Day 1'} <ArrowRight className="w-4 h-4" />
             </Link>
             <Link to="/ai-pm/plan" className="h-11 px-5 rounded-xl bg-white/10 border border-white/15 font-bold text-sm flex items-center hover:bg-white/15">
-              See the 90-day plan
+              See the 104-day plan
             </Link>
           </div>
           {started && (
             <div className="pt-2 space-y-1.5 max-w-sm">
-              <p className="text-xs text-slate-300 font-bold">{progress.done.length} of 90 days done</p>
-              <ProgressBar done={progress.done.length} total={90} />
+              <p className="text-xs text-slate-300 font-bold">{progress.done.length} of {AI_PM_DAYS.length} days done</p>
+              <ProgressBar done={progress.done.length} total={AI_PM_DAYS.length} />
             </div>
           )}
         </div>
@@ -75,7 +75,7 @@ export const AiPmOverview: React.FC = () => {
       </Section>
 
       <Section title="Outcomes">
-        <p className="text-sm text-slate-500 font-bold">At day 90 you can do these tasks without help.</p>
+        <p className="text-sm text-slate-500 font-bold">At day 104 you can do these tasks without help.</p>
         <div data-reveal-stagger className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {o.outcomes.map((g, i) => (
             <Card key={g.title}>
@@ -87,7 +87,7 @@ export const AiPmOverview: React.FC = () => {
         </div>
       </Section>
 
-      <Section title="What you have at day 90">
+      <Section title="What you have at day 104">
         <div className="grid sm:grid-cols-2 gap-3">
           {AI_PM_PHASES.flatMap((p) =>
             p.artifacts.map((a) => (
@@ -125,7 +125,7 @@ export const AiPmPlan: React.FC = () => {
 
   return (
     <div className="space-y-10">
-      <PageTitle eyebrow="90-day plan" title="Seven phases, 90 days">
+      <PageTitle eyebrow="104-day plan" title="Seven phases, 104 days">
         {o.planIntro}
       </PageTitle>
 

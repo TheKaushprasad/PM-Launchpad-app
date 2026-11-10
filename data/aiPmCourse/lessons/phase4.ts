@@ -1,9 +1,9 @@
 import type { AiPmLesson } from './types';
 
-// Phase 4 (Evals), Days 39–52. Templates T5 (gold eval set) and T6 (error-analysis memo) are in data/aiPmCourse/content.ts.
+// Phase 4 (Evals), Days 48–61. Templates T5 (gold eval set) and T6 (error-analysis memo) are in data/aiPmCourse/content.ts.
 
 export const PHASE4_LESSONS: Record<number, AiPmLesson> = {
-  39: {
+  48: {
     intro: 'Phase 4 is about evals: how you know your AI product is good enough to ship. Many AI PM leaders call this the most important skill in the role.',
     objectives: [
       'Explain why evals are product quality measurement, not model benchmarks.',
@@ -34,11 +34,11 @@ export const PHASE4_LESSONS: Record<number, AiPmLesson> = {
         id: 'strategy',
         title: 'An eval strategy on one page',
         bullets: [
-          { term: 'What good looks like', text: 'The user outcome from your metric tree (Day 33), turned into test criteria.' },
-          { term: 'What to test', text: 'Typical, hard, edge and adversarial cases (Days 41–42, 47).' },
-          { term: 'How to score', text: 'Code checks where possible, rubrics and judges where not (Days 44–46).' },
-          { term: 'When to run', text: 'On every prompt, model or data change, and before every release (Day 49).' },
-          { term: 'Ship rule', text: 'The pass rate and severity limits needed to launch (Day 34).' },
+          { term: 'What good looks like', text: 'The user outcome from your metric tree (Day 42), turned into test criteria.' },
+          { term: 'What to test', text: 'Typical, hard, edge and adversarial cases (Days 50–51, 47).' },
+          { term: 'How to score', text: 'Code checks where possible, rubrics and judges where not (Days 53–55).' },
+          { term: 'When to run', text: 'On every prompt, model or data change, and before every release (Day 58).' },
+          { term: 'Ship rule', text: 'The pass rate and severity limits needed to launch (Day 43).' },
         ],
       },
     ],
@@ -60,7 +60,7 @@ export const PHASE4_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'evals measure your product on your users’ tasks. Without them, every change is a guess.',
   },
 
-  40: {
+  49: {
     intro: 'Before you can fix failures, you need to name them. Today you build an error taxonomy.',
     objectives: [
       'Read real outputs and group failures into categories.',
@@ -98,7 +98,7 @@ export const PHASE4_LESSONS: Record<number, AiPmLesson> = {
         bullets: [
           { text: '“Bad answer” is not a category. It doesn’t tell anyone what to fix.' },
           { text: 'Each category should map to a different owner or fix: data, retrieval, prompt, model or policy.' },
-          { text: 'Keep it short: 5–8 categories. Add a severity (Day 34) to each failure, too.' },
+          { text: 'Keep it short: 5–8 categories. Add a severity (Day 43) to each failure, too.' },
         ],
       },
     ],
@@ -120,7 +120,7 @@ export const PHASE4_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'read real outputs, group the failures, and name each group by the fix it needs.',
   },
 
-  41: {
+  50: {
     intro: 'A golden dataset is your product’s exam paper. Today you write the first 20 questions and their marking scheme.',
     objectives: [
       'Write test cases with input, expected outcome and source evidence.',
@@ -162,7 +162,7 @@ export const PHASE4_LESSONS: Record<number, AiPmLesson> = {
         bullets: [
           { text: 'Real questions: support tickets, search logs, discovery interviews.' },
           { text: 'Expert input: ask the HR team for the questions they get wrong most often.' },
-          { text: 'Your error taxonomy: at least one case per category (Day 40).' },
+          { text: 'Your error taxonomy: at least one case per category (Day 49).' },
           { text: 'Avoid writing only questions you know the system handles well.' },
         ],
       },
@@ -185,7 +185,7 @@ export const PHASE4_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'a golden case is an input plus checkable pass criteria and its source. Write what must be there, what must not, and how it must behave.',
   },
 
-  42: {
+  51: {
     intro: 'Twenty cases show the basics. Fifty, chosen carefully, show where your product breaks.',
     objectives: [
       'Cover typical, difficult, ambiguous, adversarial and underrepresented cases.',
@@ -246,7 +246,7 @@ export const PHASE4_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'a pass rate only means something if the test set is balanced. Include the hard, ambiguous and adversarial cases you can’t afford to miss.',
   },
 
-  43: {
+  52: {
     intro: 'A good-sounding answer isn’t the goal. The user getting their job done is.',
     objectives: [
       'Define task success, partial success and failure for your product.',
@@ -304,7 +304,7 @@ export const PHASE4_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'measure whether users finish the job, not just whether each answer sounds right.',
   },
 
-  44: {
+  53: {
     intro: 'Reviewing every answer by hand doesn’t scale. Today you learn when an LLM can grade another LLM, and how to check it.',
     objectives: [
       'Write a judge rubric with clear, binary or narrow criteria.',
@@ -362,7 +362,7 @@ export const PHASE4_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'an LLM judge is only as trustworthy as its agreement with humans. Narrow, binary rubrics and a human check come first.',
   },
 
-  45: {
+  54: {
     intro: 'Some things don’t need a model to judge them. Today you add cheap, exact code checks.',
     objectives: [
       'Tell checks that need code from checks that need judgement.',
@@ -424,7 +424,7 @@ export const PHASE4_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'if a check can be code, make it code. It is exact, cheap and catches the most visible failures.',
   },
 
-  46: {
+  55: {
     intro: 'For a knowledge assistant, the biggest risk is a confident answer the sources don’t support. Today you measure that.',
     objectives: [
       'Define groundedness and citation quality.',
@@ -486,7 +486,7 @@ export const PHASE4_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'split answers into claims and check each one against the sources. Unsupported claims are where trust breaks.',
   },
 
-  47: {
+  56: {
     intro: 'Some users will try to break your product, on purpose or by accident. Today you attack it before they do.',
     objectives: [
       'Name the main attacks on LLM products, including prompt injection.',
@@ -544,7 +544,7 @@ export const PHASE4_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'treat everything the model reads as possibly hostile, defend in layers, and turn every successful attack into a test case.',
   },
 
-  48: {
+  57: {
     intro: 'An average pass rate can hide a group of users the product fails. Today you look for those gaps.',
     objectives: [
       'Choose segments that matter for your product.',
@@ -604,7 +604,7 @@ export const PHASE4_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'always break the pass rate down by segment. The users you fail are often hidden inside a good average.',
   },
 
-  49: {
+  58: {
     intro: 'Fixing one problem often breaks another. Regression tests and release gates stop that from reaching users.',
     objectives: [
       'Explain regressions in AI products.',
@@ -667,7 +667,7 @@ export const PHASE4_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'compare every release case by case, block any critical regression, and set the bar before you see the results.',
   },
 
-  50: {
+  59: {
     intro: 'Offline evals test what you thought of. Production shows you what you didn’t.',
     objectives: [
       'Choose online signals: corrections, abandonment, escalation, latency, tickets.',
@@ -728,7 +728,7 @@ export const PHASE4_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'online signals are clues, not verdicts. Read the conversations behind them, fix the cause, and add the case to your test set.',
   },
 
-  51: {
+  60: {
     intro: 'You have results. Today you turn them into a short list of fixes worth making.',
     objectives: [
       'Prioritise errors by severity, frequency, user impact and fix cost.',
@@ -786,7 +786,7 @@ export const PHASE4_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'count failures, read them to find root causes, and fix by severity and cost, not just frequency.',
   },
 
-  52: {
+  61: {
     intro: 'This is Gate 4. Today you write the evaluation report and make a release recommendation.',
     objectives: [
       'Communicate readiness, residual risk and known limitations.',
@@ -823,23 +823,23 @@ export const PHASE4_LESSONS: Record<number, AiPmLesson> = {
         id: 'recap',
         title: 'Phase 4 in one page',
         bullets: [
-          { term: 'Strategy and taxonomy (Days 39–40)', text: 'Evals tied to user outcomes; failures grouped by fix.' },
-          { term: 'Test sets (Days 41–43)', text: 'Balanced golden cases with checkable pass criteria and task success.' },
-          { term: 'Scoring (Days 44–46)', text: 'Code checks first, calibrated judges, claim-level groundedness.' },
-          { term: 'Safety and fairness (Days 47–48)', text: 'Adversarial cases and segment gaps.' },
-          { term: 'Release (Days 49–51)', text: 'Regression gates, online signals, error analysis.' },
+          { term: 'Strategy and taxonomy (Days 48–49)', text: 'Evals tied to user outcomes; failures grouped by fix.' },
+          { term: 'Test sets (Days 50–52)', text: 'Balanced golden cases with checkable pass criteria and task success.' },
+          { term: 'Scoring (Days 53–55)', text: 'Code checks first, calibrated judges, claim-level groundedness.' },
+          { term: 'Safety and fairness (Days 56–57)', text: 'Adversarial cases and segment gaps.' },
+          { term: 'Release (Days 58–60)', text: 'Regression gates, online signals, error analysis.' },
         ],
       },
     ],
     quiz: {
       title: 'Phase 4 self-check',
       questions: [
-        { q: 'What do evals measure that benchmarks don’t?', options: ['Model size', 'Your product on your users’ tasks', 'Training speed'], answer: 1, why: 'Day 39.' },
-        { q: 'Which is a good pass criterion?', options: ['“The answer is helpful”', '“States 10 days and cites Leave Policy 2025”'], answer: 1, why: 'Specific and checkable (Day 41).' },
-        { q: 'Judge and human agree on 60%. What next?', options: ['Trust the judge', 'Improve the rubric'], answer: 1, why: 'Day 44.' },
-        { q: 'Which is best checked with code?', options: ['Valid JSON', 'Clarity of explanation'], answer: 0, why: 'Day 45.' },
-        { q: 'A PDF contains hidden instructions for the model. Which threat?', options: ['Indirect prompt injection', 'Length bias'], answer: 0, why: 'Day 47.' },
-        { q: 'Overall pass rate up, one S0 case now fails. Ship?', options: ['Yes', 'No'], answer: 1, why: 'Any S0 failure blocks release (Day 49).' },
+        { q: 'What do evals measure that benchmarks don’t?', options: ['Model size', 'Your product on your users’ tasks', 'Training speed'], answer: 1, why: 'Day 48.' },
+        { q: 'Which is a good pass criterion?', options: ['“The answer is helpful”', '“States 10 days and cites Leave Policy 2025”'], answer: 1, why: 'Specific and checkable (Day 50).' },
+        { q: 'Judge and human agree on 60%. What next?', options: ['Trust the judge', 'Improve the rubric'], answer: 1, why: 'Day 53.' },
+        { q: 'Which is best checked with code?', options: ['Valid JSON', 'Clarity of explanation'], answer: 0, why: 'Day 54.' },
+        { q: 'A PDF contains hidden instructions for the model. Which threat?', options: ['Indirect prompt injection', 'Length bias'], answer: 0, why: 'Day 56.' },
+        { q: 'Overall pass rate up, one S0 case now fails. Ship?', options: ['Yes', 'No'], answer: 1, why: 'Any S0 failure blocks release (Day 58).' },
       ],
     },
     completion: [

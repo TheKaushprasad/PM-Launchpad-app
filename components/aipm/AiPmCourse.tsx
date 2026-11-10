@@ -11,7 +11,7 @@ import {
 
 const TABS = [
   { to: '/ai-pm', label: 'Overview', end: true },
-  { to: '/ai-pm/plan', label: '90-day plan' },
+  { to: '/ai-pm/plan', label: '104-day plan' },
   { to: '/ai-pm/why', label: 'Why this course' },
   { to: '/ai-pm/weeks', label: '12-week summary' },
   { to: '/ai-pm/templates', label: 'Templates' },

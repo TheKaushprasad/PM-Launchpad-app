@@ -1,9 +1,9 @@
 import type { AiPmLesson } from './types';
 
-// Phase 2 (GenAI and LLM systems), Days 15–25.
+// Phase 2 (GenAI and LLM systems), Days 16–32.
 
 export const PHASE2_LESSONS: Record<number, AiPmLesson> = {
-  15: {
+  16: {
     intro: 'Phase 2 starts here. Everything you learned about neural networks now applies to the models behind ChatGPT, Claude and Gemini.',
     objectives: [
       'Explain tokens, next-token prediction, and context windows in plain language.',
@@ -61,7 +61,7 @@ export const PHASE2_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'an LLM predicts likely text, not true text. Design products that give it the right context and check what matters.',
   },
 
-  16: {
+  17: {
     intro: 'Why does a raw language model ramble, while ChatGPT follows instructions? The answer is in how it was trained.',
     objectives: [
       'Describe the main training stages of a modern LLM.',
@@ -87,7 +87,7 @@ export const PHASE2_LESSONS: Record<number, AiPmLesson> = {
           { term: 'Behaviour comes from tuning', text: 'Tone, refusals and format habits come from instruction and preference tuning. Different providers tune differently, so models “feel” different.' },
           { term: 'You rarely train', text: 'Product teams almost never pretrain. You choose a model, write prompts, add your data through retrieval, and occasionally fine-tune.' },
         ],
-        callout: { label: 'Fine-tuning', text: 'Fine-tuning is extra training on your own examples to change behaviour or style. You will compare it with prompting and retrieval on Day 23.' },
+        callout: { label: 'Fine-tuning', text: 'Fine-tuning is extra training on your own examples to change behaviour or style. You will compare it with prompting and retrieval on Day 26.' },
       },
       {
         id: 'explain',
@@ -113,7 +113,7 @@ export const PHASE2_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'pretraining gives knowledge, tuning gives behaviour. Your product adds fresh, company-specific knowledge at question time.',
   },
 
-  17: {
+  18: {
     intro: 'A prompt is not a magic phrase. It is a product specification the model reads on every request.',
     objectives: [
       'Structure a prompt with role, task, context, examples, constraints and output format.',
@@ -176,7 +176,7 @@ export const PHASE2_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'a prompt is a product spec. Give it structure, context and a fallback, and test it like code.',
   },
 
-  18: {
+  20: {
     intro: 'Ask an LLM the same question twice and you may get two different answers. Today you learn why, and how to control it.',
     objectives: [
       'Explain what temperature does in plain language.',
@@ -238,7 +238,7 @@ export const PHASE2_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'use low temperature for facts and higher for ideas, pin model versions, and store important answers instead of hoping to regenerate them.',
   },
 
-  19: {
+  21: {
     intro: 'Your product talks to an LLM through an API. Knowing its shape helps you write better requirements.',
     objectives: [
       'Describe what goes into an LLM API request and what comes back.',
@@ -297,7 +297,7 @@ export const PHASE2_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'ask for structured output, validate it before acting, and design for rate limits, timeouts and cut-off replies from the start.',
   },
 
-  20: {
+  22: {
     intro: 'LLMs can do more than talk. With tool calling, they can ask your system to look things up or take actions.',
     objectives: [
       'Explain how tool (function) calling works step by step.',
@@ -356,7 +356,7 @@ export const PHASE2_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'the model asks; your code decides. Every tool needs permission checks, validation, and confirmation for risky actions.',
   },
 
-  21: {
+  24: {
     intro: 'Keyword search fails when users use different words from your documents. Embeddings search by meaning instead.',
     objectives: [
       'Explain embeddings and semantic similarity in plain language.',
@@ -413,7 +413,7 @@ export const PHASE2_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'semantic search finds meaning, not words. Plan for exact terms, stale duplicates and “not found” from day one.',
   },
 
-  22: {
+  25: {
     intro: 'Today you combine retrieval and generation into the architecture behind most enterprise AI assistants.',
     objectives: [
       'Describe each stage of a RAG system.',
@@ -477,7 +477,7 @@ export const PHASE2_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'RAG grounds answers in your real documents. Its quality depends most on ingestion and retrieval, and its trust on citations.',
   },
 
-  23: {
+  26: {
     intro: 'Prompting, RAG and fine-tuning solve different problems. Choosing the wrong one wastes months.',
     objectives: [
       'Explain what prompting, RAG and fine-tuning each change.',
@@ -529,7 +529,7 @@ export const PHASE2_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'diagnose the failure first: unclear instructions need prompting, missing facts need RAG, and inconsistent behaviour with lots of examples may need fine-tuning.',
   },
 
-  24: {
+  29: {
     intro: 'Agents are the most hyped idea in AI. A PM needs to know when an agent helps and when a simple workflow is better.',
     objectives: [
       'Distinguish a fixed workflow from an agentic loop.',
@@ -588,7 +588,7 @@ export const PHASE2_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'default to a predictable workflow. Use an agent only where the path can’t be known in advance, and fence it with limits and checkpoints.',
   },
 
-  25: {
+  32: {
     intro: 'This is Gate 2. Today you pull Phase 2 together: how to choose a model and an architecture, and how to record the decision.',
     objectives: [
       'Compare models on quality, latency, cost, privacy, context length, deployment and vendor risk.',
@@ -617,23 +617,23 @@ export const PHASE2_LESSONS: Record<number, AiPmLesson> = {
         id: 'recap',
         title: 'Phase 2 in one page',
         bullets: [
-          { term: 'LLMs (Days 15–16)', text: 'Next-token predictors with a knowledge cutoff; fluent is not the same as true.' },
-          { term: 'Prompts and settings (Days 17–18)', text: 'Prompts are versioned specs; low temperature for facts.' },
-          { term: 'APIs and tools (Days 19–20)', text: 'Structured, validated outputs; the app checks every tool call.' },
-          { term: 'Retrieval and RAG (Days 21–22)', text: 'Ground answers in your documents with citations.' },
-          { term: 'Choosing approaches (Days 23–24)', text: 'Prompting, then RAG, then fine-tuning; workflow before agent.' },
+          { term: 'LLMs (Days 16–17)', text: 'Next-token predictors with a knowledge cutoff; fluent is not the same as true.' },
+          { term: 'Prompts and settings (Days 18–20)', text: 'Prompts are versioned specs; low temperature for facts.' },
+          { term: 'APIs and tools (Days 21–22)', text: 'Structured, validated outputs; the app checks every tool call.' },
+          { term: 'Retrieval and RAG (Days 24–25)', text: 'Ground answers in your documents with citations.' },
+          { term: 'Choosing approaches (Days 26–29)', text: 'Prompting, then RAG, then fine-tuning; workflow before agent.' },
         ],
       },
     ],
     quiz: {
       title: 'Phase 2 self-check',
       questions: [
-        { q: 'An assistant confidently invents a policy. Which fix addresses the root cause?', options: ['Raise temperature', 'Ground answers in retrieved policy text', 'Fine-tune on chat logs'], answer: 1, why: 'Hallucinated facts are fixed by giving the model the real facts (Days 15, 22).' },
-        { q: 'Which part of a system must enforce permissions on tool calls?', options: ['The model', 'The application code', 'The prompt'], answer: 1, why: 'The model only requests; the app decides (Day 20).' },
-        { q: 'You need answers from documents that change monthly. What is the default approach?', options: ['Fine-tuning', 'RAG', 'Higher temperature'], answer: 1, why: 'Changing knowledge belongs in retrieval (Day 23).' },
-        { q: 'A semantic search misses exact product codes. What helps?', options: ['Hybrid search with keywords', 'Smaller chunks only', 'A longer prompt'], answer: 0, why: 'Keyword search catches exact terms (Day 21).' },
-        { q: 'A fixed four-step expense approval process. Workflow or agent?', options: ['Workflow', 'Agent'], answer: 0, why: 'Known steps should be fixed (Day 24).' },
-        { q: 'Your provider retires the model you built on. Which criterion covers this risk?', options: ['Latency', 'Vendor risk', 'Context length'], answer: 1, why: 'Plan for model retirement and outages (Day 25).' },
+        { q: 'An assistant confidently invents a policy. Which fix addresses the root cause?', options: ['Raise temperature', 'Ground answers in retrieved policy text', 'Fine-tune on chat logs'], answer: 1, why: 'Hallucinated facts are fixed by giving the model the real facts (Days 16, 22).' },
+        { q: 'Which part of a system must enforce permissions on tool calls?', options: ['The model', 'The application code', 'The prompt'], answer: 1, why: 'The model only requests; the app decides (Day 22).' },
+        { q: 'You need answers from documents that change monthly. What is the default approach?', options: ['Fine-tuning', 'RAG', 'Higher temperature'], answer: 1, why: 'Changing knowledge belongs in retrieval (Day 26).' },
+        { q: 'A semantic search misses exact product codes. What helps?', options: ['Hybrid search with keywords', 'Smaller chunks only', 'A longer prompt'], answer: 0, why: 'Keyword search catches exact terms (Day 24).' },
+        { q: 'A fixed four-step expense approval process. Workflow or agent?', options: ['Workflow', 'Agent'], answer: 0, why: 'Known steps should be fixed (Day 29).' },
+        { q: 'Your provider retires the model you built on. Which criterion covers this risk?', options: ['Latency', 'Vendor risk', 'Context length'], answer: 1, why: 'Plan for model retirement and outages (Day 32).' },
       ],
     },
     completion: [
