@@ -225,17 +225,18 @@ export function registerPaymentRoutes(app: express.Express) {
   });
 }
 
-// Runs left per tool for the signed-in user (free run + paid credits), so tools can show
-// "1 free run left" and the paywall card. Answers { enabled: false } on the live site.
+// Runs left per tool for the signed-in user (free run this month + paid credits), so tools can show
+// "1 free run left this month" and the used-up card. `enabled` says whether runs can be bought;
+// the free monthly runs are counted on the live site too.
 function registerCreditRoutes(app: express.Express) {
   app.get('/api/payments/credits', async (req, res) => {
-    if (!paymentsEnabled()) return res.json({ enabled: false });
-    if (!isFirebaseAdminConfigured()) return res.json({ enabled: true, error: 'FIREBASE_SERVICE_ACCOUNT_KEY is missing.' });
+    const enabled = paymentsEnabled();
+    if (!isFirebaseAdminConfigured()) return res.json({ enabled, error: 'FIREBASE_SERVICE_ACCOUNT_KEY is missing.' });
     const user = await getVerifiedUser(req);
-    if (!user) return res.json({ enabled: true, signedIn: false });
+    if (!user) return res.json({ enabled, signedIn: false });
     try {
       const snap = await db().collection(ENTITLEMENTS).doc(user.uid).get();
-      res.json({ enabled: true, signedIn: true, mode: dodoMode(), ...creditStateFrom(snap.data()) });
+      res.json({ enabled, signedIn: true, mode: dodoMode(), ...creditStateFrom(snap.data()) });
     } catch (err: any) {
       console.error('[Payments] Credits check failed:', err?.message || err);
       res.status(500).json({ error: 'Could not load your runs.' });

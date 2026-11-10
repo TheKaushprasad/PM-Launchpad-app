@@ -20,19 +20,22 @@ Everything is in **test mode**: no real money moves. Payments are **off on the l
 The list lives in `server/payments/catalog.ts`. The price you set in Dodo is the price shown and charged; the
 "suggested" column is only a starting point. A product whose env var is empty is simply not shown.
 
-### Free runs and paid runs (only while payments are on)
+### Free runs and paid runs
 
-- **Resume Auditor** and **LinkedIn Optimiser**: the first run on each account is free, then each run uses one
-  paid credit. The LinkedIn sample preview is always free. LinkedIn rewrites are included for 24 hours after an
-  audit.
-- **Assignment Solver**: no free run. One credit is spent at the first (Parser) step; the later steps only work
-  for that paid run. The 3-runs-a-day limit is skipped while payments are on, since each run is paid.
+- **Free plan (live site too):** every account gets **one free run of each tool per calendar month** (India
+  time): Resume Auditor, LinkedIn Optimiser, Assignment Solver, AI Product Strategy. Change the numbers in
+  `FREE_RUNS_PER_MONTH` (`server/payments/catalog.ts`). When it's used up the tool says "You have exhausted the free
+  use for this month" and when it comes back. AI mock interviews have their own limit (2 a month,
+  `server/interviewAllowance.ts`).
+- After the free run, each run uses one paid credit (buyable only while payments are on).
+- The LinkedIn sample preview is always free. LinkedIn rewrites are included for 24 hours after an audit.
+- **Assignment Solver**: the run is counted at the first (Parser) step; the later steps only work for that run.
+  The 3-runs-a-day limit is skipped while payments are on.
 - If a run fails (server error, blocked LinkedIn profile), the run is given back.
-- Out of runs, the server answers `402` with `paywall: "<tool>"` and the tool shows buy buttons.
+- Out of runs, the server answers `402` with `paywall: "<tool>"`; the tool shows buy buttons (payments on) or
+  the "used up for this month" card (payments off).
 
-On the **live site (payments off) none of this applies**: the tools stay free exactly as before.
-
-Stored in `user_entitlements/{uid}` (per mode): `credits.<mode>.<tool>`, `freeUsed.<mode>.<tool>`,
+Stored in `user_entitlements/{uid}` (per mode): `credits.<mode>.<tool>`, `freeMonthly.<mode>.<tool>.<YYYY-MM>`,
 `lastRun.<mode>.<tool>`, `solverRuns.<mode>.<runId>`. Code: `server/payments/credits.ts`,
 `components/payments/ToolPaywall.tsx`. `GET /api/payments/credits` returns the signed-in user's runs.
 
@@ -120,7 +123,7 @@ server answers 200 with "payment not started from the app" and grants nothing.
    badge counts down.
 3. Same for **LinkedIn Optimiser**. **Assignment Solver** shows the buy box straight away.
 4. Firestore `user_entitlements/<your uid>` shows `credits`, `freeUsed` and `solverRuns`.
-To test the free run again, delete the `freeUsed` field in that document.
+To test the free run again, delete the `freeMonthly` field in that document.
 
 ### 4. Locally (`npm run dev`)
 
