@@ -566,11 +566,36 @@ export function getJobSources(discovered: CompanyBoard[] = []): JobSource[] {
     ...(process.env.JOBS_SHEET_URL?.trim() ? [{ key: 'sheet', label: 'Google Sheet', run: fetchSheet }] : []),
     ...(process.env.FIRECRAWL_API_KEY?.trim()
       ? [
-          { key: 'internshala', label: 'Internshala', run: fetchInternshala },
-          ...SEARCH_SITES.map((site) => ({ key: site.key, label: site.label, run: () => fetchSearchSite(site) })),
+          { key: 'internshala', label: 'Internshala', run: onSearchDay(fetchInternshala) },
+          ...SEARCH_SITES.map((site) => ({ key: site.key, label: site.label, run: onSearchDay(() => fetchSearchSite(site)) })),
         ]
       : []),
   ];
+}
+
+// ---------- Firecrawl budget ----------
+// Firecrawl's free plan gives 1,000 credits a month. Running the five daily searches every day (~660 a month)
+// plus the weekly board discovery (~520 a month) went over that. So by default the daily searches run every
+// other day (~330 a month). On the days in between they are skipped, and the refresh keeps their earlier jobs,
+// just as it does when a search fails (for example when the credits run out).
+// Set FIRECRAWL_SEARCH_EVERY_DAYS=1 in Vercel to run them daily again (for example on a paid plan).
+
+export const SEARCH_SKIPPED_ERROR = 'skipped: Firecrawl searches run every few days to save credits';
+
+export function firecrawlSearchEveryDays(): number {
+  const n = Math.floor(Number(process.env.FIRECRAWL_SEARCH_EVERY_DAYS || 2));
+  return Number.isFinite(n) && n >= 1 ? Math.min(n, 7) : 2;
+}
+
+export function isFirecrawlSearchDay(nowMs = Date.now(), everyDays = firecrawlSearchEveryDays()): boolean {
+  return Math.floor(nowMs / 86400000) % everyDays === 0;
+}
+
+function onSearchDay(run: () => Promise<RawJob[]>): () => Promise<RawJob[]> {
+  return async () => {
+    if (!isFirecrawlSearchDay()) throw new Error(SEARCH_SKIPPED_ERROR);
+    return run();
+  };
 }
 
 // ---------- Filtering + normalising ----------
