@@ -1,7 +1,7 @@
 import React from 'react';
 import { Mic, MessageSquare } from 'lucide-react';
 import { InterviewMode } from '../../types/interview';
-import { useVoiceAllowance, useVoiceInterviewAvailable } from '../../lib/interviewAccess';
+import { useInterviewAllowance, useVoiceAllowance, useVoiceInterviewAvailable } from '../../lib/interviewAccess';
 
 const MODES: { id: InterviewMode; label: string; note: string; Icon: typeof Mic }[] = [
   {
@@ -33,9 +33,17 @@ export const InterviewModePicker: React.FC<{ value: InterviewMode; onChange: (mo
   const lockedNote = !voiceUsedUp
     ? 'Speaking with Priya out loud is coming soon. Text interviews use the same questions, hints and scoring.'
     : voiceLimit!.left <= 0
-      ? `You have used your ${plural(voiceLimit!.limit)} for ${voiceLimit!.year}. Text interviews use the same questions, hints and scoring.`
-      : `A voice loop needs ${plural(needed)}, and you have ${voiceLimit!.left} left for ${voiceLimit!.year}. Pick text, or try a single voice case.`;
-  const voiceLeftNote = voiceAvailable && voiceLimit ? ` ${voiceLimit.left} of ${plural(voiceLimit.limit)} left for ${voiceLimit.year}.` : '';
+      ? `You've used your ${plural(voiceLimit!.limit)}. Text interviews use the same questions and scoring.`
+      : `A voice loop needs ${plural(needed)}. Pick text, or try a single voice case.`;
+  // Shown under the note whenever voice is offered with a limit: "Voice interviews left 2/2".
+  const showVoiceCount = voiceOffered && !!voiceLimit;
+  // Free plan: interviews left this month (testers and paid accounts have no limit, so no count).
+  const { allowance } = useInterviewAllowance();
+  const textCount = allowance && !allowance.unlimited ? { left: allowance.left, limit: allowance.limit } : null;
+  const counts: Partial<Record<InterviewMode, { label: string; left: number; limit: number } | null>> = {
+    voice: showVoiceCount ? { label: 'Voice interviews left', left: voiceLimit!.left, limit: voiceLimit!.limit } : null,
+    text: textCount ? { label: 'Text interviews left', ...textCount } : null,
+  };
   return (
   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2" role="radiogroup" aria-label="Interview mode">
     {MODES.map(({ id, label, note, Icon }) => {
@@ -58,11 +66,21 @@ export const InterviewModePicker: React.FC<{ value: InterviewMode; onChange: (mo
           <div>
             <div className="text-sm font-extrabold text-zinc-900 flex items-center gap-2">
               {label}
-              {locked && <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-500 bg-zinc-200 rounded-full px-2 py-0.5">{voiceUsedUp ? 'Used up' : 'Coming soon'}</span>}
+              {locked && <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-500 bg-zinc-200 rounded-full px-2 py-0.5">{!voiceUsedUp ? 'Coming soon' : voiceLimit!.left <= 0 ? 'Used up' : 'Not enough left'}</span>}
             </div>
             <p className="text-[11px] text-zinc-600 font-medium leading-snug mt-0.5">
-              {locked ? lockedNote : id === 'voice' ? note + voiceLeftNote : note}
+              {locked ? lockedNote : note}
             </p>
+            {counts[id] && (
+              <div className="mt-2 flex items-center gap-2 text-[11px] font-semibold text-zinc-700">
+                <span>{counts[id]!.label}</span>
+                <span
+                  className={`rounded-full px-2 py-0.5 text-[11px] font-extrabold tabular-nums ${counts[id]!.left > 0 ? 'bg-brand-600 text-white' : 'bg-zinc-200 text-zinc-500'}`}
+                >
+                  {counts[id]!.left}/{counts[id]!.limit}
+                </span>
+              </div>
+            )}
           </div>
         </button>
       );
