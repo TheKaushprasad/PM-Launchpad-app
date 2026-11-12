@@ -1,7 +1,7 @@
 import React from 'react';
 import { Mic, MessageSquare } from 'lucide-react';
 import { InterviewMode } from '../../types/interview';
-import { useVoiceInterviewAvailable } from '../../lib/interviewAccess';
+import { useVoiceAllowance, useVoiceInterviewAvailable } from '../../lib/interviewAccess';
 
 const MODES: { id: InterviewMode; label: string; note: string; Icon: typeof Mic }[] = [
   {
@@ -20,10 +20,22 @@ const MODES: { id: InterviewMode; label: string; note: string; Icon: typeof Mic 
 
 /**
  * Voice or text interview. Both use the same interviewer, hints and scoring. Where voice is not on yet
- * (the live site, for now) its card shows Coming soon and cannot be picked.
+ * (the live site, for now) its card shows Coming soon and cannot be picked. Voice is also limited to a
+ * few interviews a year (server/interviewAllowance.ts); `needed` is how many this choice uses (a full
+ * loop uses one per round).
  */
-export const InterviewModePicker: React.FC<{ value: InterviewMode; onChange: (mode: InterviewMode) => void }> = ({ value, onChange }) => {
-  const voiceAvailable = useVoiceInterviewAvailable();
+export const InterviewModePicker: React.FC<{ value: InterviewMode; onChange: (mode: InterviewMode) => void; needed?: number }> = ({ value, onChange, needed = 1 }) => {
+  const voiceOffered = useVoiceInterviewAvailable();
+  const voiceLimit = useVoiceAllowance();
+  const voiceUsedUp = voiceOffered && !!voiceLimit && voiceLimit.left < needed;
+  const voiceAvailable = voiceOffered && !voiceUsedUp;
+  const plural = (n: number) => `${n} voice interview${n === 1 ? '' : 's'}`;
+  const lockedNote = !voiceUsedUp
+    ? 'Speaking with Priya out loud is coming soon. Text interviews use the same questions, hints and scoring.'
+    : voiceLimit!.left <= 0
+      ? `You have used your ${plural(voiceLimit!.limit)} for ${voiceLimit!.year}. Text interviews use the same questions, hints and scoring.`
+      : `A voice loop needs ${plural(needed)}, and you have ${voiceLimit!.left} left for ${voiceLimit!.year}. Pick text, or try a single voice case.`;
+  const voiceLeftNote = voiceAvailable && voiceLimit ? ` ${voiceLimit.left} of ${plural(voiceLimit.limit)} left for ${voiceLimit.year}.` : '';
   return (
   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2" role="radiogroup" aria-label="Interview mode">
     {MODES.map(({ id, label, note, Icon }) => {
@@ -46,10 +58,10 @@ export const InterviewModePicker: React.FC<{ value: InterviewMode; onChange: (mo
           <div>
             <div className="text-sm font-extrabold text-zinc-900 flex items-center gap-2">
               {label}
-              {locked && <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-500 bg-zinc-200 rounded-full px-2 py-0.5">Coming soon</span>}
+              {locked && <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-500 bg-zinc-200 rounded-full px-2 py-0.5">{voiceUsedUp ? 'Used up' : 'Coming soon'}</span>}
             </div>
             <p className="text-[11px] text-zinc-600 font-medium leading-snug mt-0.5">
-              {locked ? 'Speaking with Priya out loud is coming soon. Text interviews use the same questions, hints and scoring.' : note}
+              {locked ? lockedNote : id === 'voice' ? note + voiceLeftNote : note}
             </p>
           </div>
         </button>
