@@ -15,6 +15,8 @@ export interface InterviewAccess {
   tester: boolean;
   /** Free mock interviews left this month (null when signed out or unknown). */
   allowance: InterviewAllowance | null;
+  /** Voice interviews left this year (null when voice isn't offered or there's no limit here). */
+  voiceAllowance: VoiceInterviewAllowance | null;
   /** Reads access and the free interviews left again (after an interview ends). */
   refresh: () => void;
 }
@@ -30,17 +32,37 @@ export interface InterviewAllowance {
   resetsOn: string;
 }
 
+/** Voice interviews per calendar year, for everyone (server/interviewAllowance.ts). */
+export interface VoiceInterviewAllowance {
+  limit: number;
+  used: number;
+  left: number;
+  /** e.g. "2026" */
+  year: string;
+}
+
 export const freeInterviewsUsedUp = (a: InterviewAllowance | null | undefined) => !!a && !a.unlimited && a.left <= 0;
 
 export function freeInterviewsExhaustedText(a: InterviewAllowance) {
   return `You have used your ${a.limit} free mock interview${a.limit === 1 ? '' : 's'} for this month. Your free interviews come back on ${a.resetsOn}.`;
 }
 
-const initialAccess = { enabled: isAnyAiInterviewEnabled, voice: isAiInterviewEnabled, tester: false, allowance: null };
+const initialAccess = { enabled: isAnyAiInterviewEnabled, voice: isAiInterviewEnabled, tester: false, allowance: null, voiceAllowance: null };
 
 // Whether voice mode is offered, for the mode pickers inside the studio (provided by InterviewGate).
 export const InterviewVoiceContext = createContext<boolean>(isAiInterviewEnabled);
 export const useVoiceInterviewAvailable = () => useContext(InterviewVoiceContext);
+
+// Voice interviews left this year (provided by InterviewGate).
+export const VoiceAllowanceContext = createContext<VoiceInterviewAllowance | null>(null);
+export const useVoiceAllowance = () => useContext(VoiceAllowanceContext);
+
+/** Voice can be picked: it is offered and enough voice interviews are left (a full loop needs one per round). */
+export function useVoiceModeOpen(needed = 1): boolean {
+  const offered = useVoiceInterviewAvailable();
+  const voice = useVoiceAllowance();
+  return offered && (!voice || voice.left >= needed);
+}
 
 // Free interviews left this month, for the studio (provided by InterviewGate).
 export const InterviewAllowanceContext = createContext<{ allowance: InterviewAllowance | null; refresh: () => void }>({
@@ -69,6 +91,7 @@ export function useInterviewAccess(uid: string | null | undefined): InterviewAcc
             voice: isAiInterviewEnabled || !!json?.voice,
             tester: !!json?.tester,
             allowance: json?.allowance && typeof json.allowance.left === 'number' ? json.allowance : null,
+            voiceAllowance: json?.voiceAllowance && typeof json.voiceAllowance.left === 'number' ? json.voiceAllowance : null,
           });
           loaded.current = uid;
         }

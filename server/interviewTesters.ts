@@ -2,7 +2,15 @@ import type { Express, Request, Response, NextFunction } from 'express';
 import { FieldValue } from 'firebase-admin/firestore';
 import { getAppFirestore, isFirebaseAdminConfigured } from '../services/firebaseAdmin';
 import { consumeDailyQuota, getVerifiedUser } from './security';
-import { exhaustedMessage, getInterviewAllowance, unlimitedAllowance, useFreeInterview } from './interviewAllowance';
+import {
+  exhaustedMessage,
+  getInterviewAllowance,
+  getVoiceInterviewAllowance,
+  unlimitedAllowance,
+  useFreeInterview,
+  useVoiceInterview,
+  voiceInterviewsExhaustedMessage,
+} from './interviewAllowance';
 
 /**
  * Invite-only testers for the AI interview, and the full conversations they agree to share.
@@ -81,7 +89,31 @@ function textTurnsPerDay(): number {
 export function interviewAccessGate(open: InterviewAvailability) {
   return async (req: Request, res: Response, next: NextFunction) => {
     const user = await getVerifiedUser(req);
-    if (user?.emailVerified && (await isInterviewTester(user.email))) return next();
+    const tester = !!user?.emailVerified && (await isInterviewTester(user.email));
+    const voiceAllowed = open.voice || tester;
+
+    // Voice interviews: a yearly limit for everyone, testers included (server/interviewAllowance.ts).
+    const isTts = VOICE_ONLY_PATHS.has(req.path);
+    const isVoiceAnswer = CHAT_PATHS.has(req.path) && req.header('X-Interview-Mode') === 'voice';
+    if (voiceAllowed && user?.emailVerified && (isTts || isVoiceAnswer)) {
+      // Priya's spoken opener comes before any answer (turn 0): only check, don't count yet.
+      const consume = isVoiceAnswer || Number(req.header('X-Interview-Turn')) > 0;
+      let voice: Awaited<ReturnType<typeof useVoiceInterview>>;
+      try {
+        voice = await useVoiceInterview(user.uid, req.header('X-Interview-Session'), consume);
+      } catch (err: any) {
+        console.error('[Interview] Could not check voice interviews:', err?.message || err);
+        return res.status(503).json({ error: 'Could not check your voice interviews. Please try again.' });
+      }
+      if (voice === 'missing_id') {
+        return res.status(400).json({ error: 'Please reload the page and start the interview again.' });
+      }
+      if (voice === 'exhausted') {
+        return res.status(402).json({ error: voiceInterviewsExhaustedMessage(), voiceInterviewsExhausted: true });
+      }
+    }
+
+    if (tester) return next();
     if (!open.voice) {
       if (!open.text) return res.status(503).json({ error: 'The AI interview is coming soon.' });
       if (VOICE_ONLY_PATHS.has(req.path)) {
@@ -188,13 +220,15 @@ export function registerInterviewAccessRoutes(app: Express, open: InterviewAvail
     const user = await getVerifiedUser(req);
     const tester = !!user?.emailVerified && (await isInterviewTester(user.email));
     let allowance = null;
+    let voiceAllowance = null;
     if (user?.emailVerified) {
       try {
         allowance = tester ? unlimitedAllowance() : await getInterviewAllowance(user.uid);
+        if (open.voice || tester) voiceAllowance = await getVoiceInterviewAllowance(user.uid);
       } catch (err: any) {
         console.warn('[Interview] Could not read free interviews:', err?.message || err);
       }
     }
-    res.json({ enabled: open.voice || open.text || tester, voice: open.voice || tester, tester, allowance });
+    res.json({ enabled: open.voice || open.text || tester, voice: open.voice || tester, tester, allowance, voiceAllowance });
   });
 }

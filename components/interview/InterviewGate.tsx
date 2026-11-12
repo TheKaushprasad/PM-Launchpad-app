@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Loader2, ShieldCheck } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-import { useInterviewAccess, hasEvalConsent, setEvalConsent, InterviewVoiceContext, InterviewAllowanceContext } from '../../lib/interviewAccess';
+import { useInterviewAccess, hasEvalConsent, setEvalConsent, InterviewVoiceContext, InterviewAllowanceContext, VoiceAllowanceContext } from '../../lib/interviewAccess';
 import { Button } from '../ui/button';
 import { InterviewHub } from './InterviewHub';
 import { InterviewComingSoon } from './InterviewComingSoon';
@@ -65,9 +65,11 @@ export const InterviewGate: React.FC = () => {
 
   return (
     <InterviewVoiceContext.Provider value={access.voice}>
-      <InterviewAllowanceContext.Provider value={{ allowance: access.allowance, refresh: access.refresh }}>
-        <InterviewHub />
-      </InterviewAllowanceContext.Provider>
+      <VoiceAllowanceContext.Provider value={access.voiceAllowance}>
+        <InterviewAllowanceContext.Provider value={{ allowance: access.allowance, refresh: access.refresh }}>
+          <InterviewHub />
+        </InterviewAllowanceContext.Provider>
+      </VoiceAllowanceContext.Provider>
     </InterviewVoiceContext.Provider>
   );
 };
