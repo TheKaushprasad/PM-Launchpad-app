@@ -6,13 +6,13 @@ import { RealInterviews } from './RealInterviews';
 import { Button } from '../ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import type { DashboardCaseRow, InterviewerRunSummary, ScoringRunSummary } from '../../server/evalDashboard';
+import type { DashboardCaseRow, EvalRunSummary, InterviewerRunSummary, ScoringRunSummary, ToolRunSummary } from '../../server/evalDashboard';
 
 // Local eval dashboard: shows the reports that `npm run eval` and `npm run eval:interviewer` save in
 // eval/results/. Only in `npm run dev` (App.tsx), and the server route only answers on localhost
 // (server/evalDashboard.ts). It only reads saved files, so opening it never calls Gemini.
 
-type Run = ScoringRunSummary | InterviewerRunSummary;
+type Run = EvalRunSummary;
 interface EvalData { resultsDir: string; runs: Run[]; unreadable: string[] }
 
 const fmtDate = (iso: string) =>
@@ -306,6 +306,109 @@ function InterviewerView({ runs }: { runs: InterviewerRunSummary[] }) {
   );
 }
 
+const TOOL_FILTERS = [
+  { value: 'all', label: 'All tools' },
+  { value: 'prd', label: 'PRD Coach' },
+  { value: 'strategy', label: 'AI Product Strategy' },
+  { value: 'solver', label: 'Assignment Solver' },
+];
+
+/** Runs of `npm run eval:tools`: PRD Coach, AI Product Strategy and Assignment Solver golden cases. */
+function ToolsView({ runs }: { runs: ToolRunSummary[] }) {
+  const [tool, setTool] = useState('all');
+  const shown = tool === 'all' ? runs : runs.filter((r) => r.tool === tool);
+  const [selectedFile, setSelectedFile] = useState<string | undefined>(undefined);
+  const selected = shown.find((r) => r.file === selectedFile) ?? shown[0];
+  // The same case in the previous run of the same tool, to show how its score moved.
+  const prev = useMemo(() => {
+    const out: Record<string, number | undefined> = {};
+    if (!selected) return out;
+    for (const r of runs) {
+      if (r.tool !== selected.tool || r.startedAt >= selected.startedAt) continue;
+      for (const row of r.rows) if (out[row.caseId] === undefined && typeof row.score === 'number') out[row.caseId] = row.score;
+    }
+    return out;
+  }, [runs, selected]);
+
+  return (
+    <div className="space-y-6">
+      <div className="flex flex-wrap items-center gap-3">
+        <Select value={tool} onValueChange={(v) => { setTool(v); setSelectedFile(undefined); }}>
+          <SelectTrigger className="w-56"><SelectValue /></SelectTrigger>
+          <SelectContent>{TOOL_FILTERS.map((t) => <SelectItem key={t.value} value={t.value}>{t.label}</SelectItem>)}</SelectContent>
+        </Select>
+        <span className="text-xs text-slate-500">Run with <code>npm run eval:tools -- --tool prd</code> (or strategy, solver), then press Refresh.</span>
+      </div>
+
+      {!selected ? (
+        <p className="text-sm text-slate-500">No tool eval runs saved yet.</p>
+      ) : (
+        <>
+          <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
+            <table className="w-full text-sm">
+              <thead className="bg-slate-50 text-left text-xs uppercase tracking-wide text-slate-500">
+                <tr><th className="px-3 py-2">When</th><th className="px-3 py-2">Tool</th><th className="px-3 py-2">Cases passed</th><th className="px-3 py-2">Gemini calls</th><th className="px-3 py-2">Cost (est.)</th></tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {shown.map((r) => (
+                  <tr key={r.file} onClick={() => setSelectedFile(r.file)} className={`cursor-pointer hover:bg-slate-50 ${r.file === selected.file ? 'bg-emerald-50' : ''}`}>
+                    <td className="px-3 py-2 whitespace-nowrap text-slate-800">{fmtDate(r.startedAt)}</td>
+                    <td className="px-3 py-2 text-slate-700">{r.toolLabel}</td>
+                    <td className="px-3 py-2 tabular-nums text-slate-900"><PassMark passed={r.passed === r.cases} label={`${r.passed}/${r.cases}`} /></td>
+                    <td className="px-3 py-2 tabular-nums text-slate-700">{r.calls}</td>
+                    <td className="px-3 py-2 tabular-nums text-slate-700">₹{(r.costUsd * 88).toFixed(2)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="space-y-3">
+            {selected.rows.map((r) => {
+              const before = prev[r.caseId];
+              const delta = typeof r.score === 'number' && typeof before === 'number' ? Math.round((r.score - before) * 10) / 10 : undefined;
+              return (
+                <div key={r.caseId} className="rounded-xl border border-slate-200 bg-white p-4">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div className="font-medium text-slate-900">
+                      {r.name} <span className="font-mono text-xs text-slate-400">{r.caseId}</span>
+                      <span className="ml-2 whitespace-nowrap rounded bg-slate-100 px-1.5 py-0.5 text-xs text-slate-600">{r.kind} · {r.category}</span>
+                    </div>
+                    {r.status === 'error' ? <PassMark passed={false} label="Error" /> : <PassMark passed={r.status === 'pass'} />}
+                  </div>
+                  <p className="mt-2 text-sm text-slate-700">
+                    {r.summary}
+                    {delta !== undefined && delta !== 0 && (
+                      <span className={`ml-2 text-xs ${delta > 0 ? 'text-emerald-700' : 'text-rose-700'}`}>{delta > 0 ? '+' : ''}{delta} since last run</span>
+                    )}
+                  </p>
+                  {r.error && <p className="mt-2 text-sm text-amber-700">{r.error}</p>}
+                  {r.failures.length > 0 && <ul className="mt-2 list-disc pl-5 text-sm text-rose-700">{r.failures.map((f) => <li key={f}>{f}</li>)}</ul>}
+                  {r.judge && r.judge.length > 0 && (
+                    <ul className="mt-2 space-y-1 text-sm">
+                      {r.judge.map((j) => (
+                        <li key={j.criterion} className={j.pass ? 'text-slate-600' : 'text-rose-700'}>
+                          {j.pass ? '✓' : '✗'} {j.criterion} <span className="text-slate-400">({j.reason})</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  {r.output && (
+                    <details className="mt-2">
+                      <summary className="cursor-pointer text-xs font-medium text-slate-500">What the tool returned</summary>
+                      <pre className="mt-2 max-h-96 overflow-auto whitespace-pre-wrap rounded-lg bg-slate-50 p-3 text-xs text-slate-700">{r.output}</pre>
+                    </details>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
 /** Invite list for the AI interview: these people can use it on the live site before launch. */
 function TestersView() {
   const [emails, setEmails] = useState<string[] | null>(null);
@@ -421,6 +524,7 @@ export default function EvalDashboard() {
 
   const scoring = (data?.runs.filter((r) => r.kind === 'scoring') ?? []) as ScoringRunSummary[];
   const interviewer = (data?.runs.filter((r) => r.kind === 'interviewer') ?? []) as InterviewerRunSummary[];
+  const tools = (data?.runs.filter((r) => r.kind === 'tool') ?? []) as ToolRunSummary[];
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -450,7 +554,7 @@ export default function EvalDashboard() {
           <div className="rounded-xl border border-slate-200 bg-white p-6 text-sm text-slate-700">
             <FolderOpen className="mb-2 size-5 text-slate-400" />
             No saved runs in <code>{data.resultsDir}</code> yet. Run <code>npm run eval -- --track rca --delay 15</code> or{' '}
-            <code>npm run eval:interviewer</code>, then press Refresh.
+            <code>npm run eval:interviewer</code> or <code>npm run eval:tools -- --tool prd</code>, then press Refresh.
           </div>
         )}
 
@@ -458,12 +562,14 @@ export default function EvalDashboard() {
           <TabsList>
             <TabsTrigger value="scoring">Scoring ({scoring.length})</TabsTrigger>
             <TabsTrigger value="interviewer">Interviewer ({interviewer.length})</TabsTrigger>
+            <TabsTrigger value="tools">Tools ({tools.length})</TabsTrigger>
             <TabsTrigger value="real">Real interviews</TabsTrigger>
             <TabsTrigger value="testers">Testers</TabsTrigger>
             <TabsTrigger value="feedback">Feedback</TabsTrigger>
           </TabsList>
           <TabsContent value="scoring" className="pt-4">{data && data.runs.length > 0 && <ScoringView runs={scoring} />}</TabsContent>
           <TabsContent value="interviewer" className="pt-4">{data && data.runs.length > 0 && <InterviewerView runs={interviewer} />}</TabsContent>
+          <TabsContent value="tools" className="pt-4"><ToolsView runs={tools} /></TabsContent>
           <TabsContent value="real" className="pt-4"><RealInterviews /></TabsContent>
           <TabsContent value="testers" className="pt-4"><TestersView /></TabsContent>
           <TabsContent value="feedback" className="pt-4"><InterviewFeedbackView /></TabsContent>

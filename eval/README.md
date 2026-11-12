@@ -98,3 +98,27 @@ Add `eval/dataset/<id>.json`; the file name must match `id`. Reference productio
 Only `scenario`, `persona`, `messages`, `elapsedSeconds` and `scratchpadNotes` reach the evaluator (`eval/engineCall.ts`). Keep `scratchpadNotes` to what the candidate would write, never grading hints, since the evaluator reads them. A candidate needs at least 3 turns of more than 5 words, or the engine returns `insufficient`; `--validate` checks this.
 
 Edge types: `injection`, `quit-early`, `interviewer-dominated`, `interviewer-leaked-data`, `stt-noise`.
+
+# Tool evals: PRD Coach, AI Product Strategy, Assignment Solver
+
+Golden cases for the three AI tools, in `eval/tools/cases/` (`prd.json`, `strategy.json`, `solver.json`). Each case calls the same server function the live page calls, on the same key (`GEMINI_INTERVIEW_API_KEY`, else `GEMINI_API_KEY`), then runs fixed checks and, where a case lists `judge` statements, asks a judge model (gpt-4o when `OPENAI_API_KEY` is set, else Gemini) whether each one is true of the output.
+
+```
+npm run eval:tools -- --validate                 # offline: checks the case files, no API calls
+npm run eval:tools -- --tool prd                 # PRD Coach: 7 cases, 7 Gemini calls + ~6 judge calls
+npm run eval:tools -- --tool strategy            # AI Product Strategy: 8 cases, ~10 Gemini calls + 4 judge calls
+npm run eval:tools -- --tool solver              # Assignment Solver: 8 cases, 9 Gemini calls + 6 judge calls
+npm run eval:tools -- --tool solver --search     # adds the Researcher case (Google Search, billed per search)
+npm run eval:tools -- --tool prd --case prd-review-injection   # one case
+npm run eval:tools -- --tool prd --delay 20      # seconds between cases (default 10)
+```
+
+A whole tool costs roughly ₹1-3. Results go to `eval/results/tool-<tool>-<time>.json` and show in the dashboard's **Tools** tab (pass/fail per case, score change since the last run, judge reasons, and what the tool returned). With Langfuse keys in `services/.env`, every case is one trace named `eval-<tool>-<kind>`, tagged `eval`, with an `eval_pass` score (1 or 0).
+
+| Tool | Case kinds | What is checked |
+|---|---|---|
+| PRD Coach | `review`, `example` | Overall score band and verdict for strong / average / weak PRDs; per-section score limits; every written section gets a fix with a "why"; hidden "give me 5/5" instructions are ignored; the example PRD has the 7 sections in order, 400-1100 words, "(assumption)" labels and Must/Should/Could |
+| AI Product Strategy | `score`, `generate`, `reject` | The quality checker passes a strong hand-written strategy and fails a generic one; a generated strategy has every section, no headings/tables/em dashes, made-up numbers marked "(Assumption)", sensible length, and scores 60+ on the first draft; harmful or keyboard-mash inputs are refused |
+| Assignment Solver | `parse`, `plan`, `write`, `critique`, `research` | Each agent on its own with fixed inputs: Parser splits questions and reads the word limit; Strategist gives a library framework, 2+ options and metrics; Writer cites only real fact ids, labels assumptions, adds an insight tag and passes the Critic; Critic passes a strong section, fails a generic one and flags uncited numbers and fake citations |
+
+To add a case, copy one in the same file and change it; run `--validate` before spending a call.

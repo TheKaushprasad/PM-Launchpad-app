@@ -5,11 +5,12 @@ import { casePassed } from '../eval/casePassed';
 import { isFirebaseAdminConfigured } from '../services/firebaseAdmin';
 import { getTesterEmails, setTesterEmails } from './interviewTesters';
 import { listInterviewFeedback } from './interviewFeedback';
+import { TOOL_LABELS, type ToolCaseResult, type ToolName } from '../eval/tools/types';
 import { cleanReview, exportInterview, getTesterInterview, listTesterInterviews, REAL_DATASET_DIR, saveReview } from './evalReview';
 
 /**
- * Local eval dashboard (/admin/evals). Reads the report files that `npm run eval` and
- * `npm run eval:interviewer` save in eval/results/ (git-ignored) and returns a compact
+ * Local eval dashboard (/admin/evals). Reads the report files that `npm run eval`,
+ * `npm run eval:interviewer` and `npm run eval:tools` save in eval/results/ (git-ignored) and returns a compact
  * summary of every run. It only reads files: it never calls a model, so opening the
  * dashboard costs nothing. Registered only outside production, so the live site has no
  * such route and the reports never leave the laptop.
@@ -59,6 +60,22 @@ export interface InterviewerRunSummary {
   real: boolean;
   rows: Array<{ caseId: string; name: string; status: string; reply?: string; failures: string[]; error?: string; referenceReply?: string; originalReply?: string }>;
 }
+
+/** A run of `npm run eval:tools` (PRD Coach, AI Product Strategy or Assignment Solver). */
+export interface ToolRunSummary {
+  kind: 'tool';
+  file: string;
+  startedAt: string;
+  tool: ToolName;
+  toolLabel: string;
+  cases: number;
+  passed: number;
+  costUsd: number;
+  calls: number;
+  rows: ToolCaseResult[];
+}
+
+export type EvalRunSummary = ScoringRunSummary | InterviewerRunSummary | ToolRunSummary;
 
 /** run-2026-10-20T15-41-02-123Z.json -> 2026-10-20T15:41:02.123Z (old files have no startedAt). */
 function timeFromFileName(file: string): string {
@@ -162,8 +179,25 @@ function summarizeInterviewer(file: string, report: any): InterviewerRunSummary 
   };
 }
 
-export function loadEvalRuns(): { resultsDir: string; runs: Array<ScoringRunSummary | InterviewerRunSummary>; unreadable: string[] } {
-  const runs: Array<ScoringRunSummary | InterviewerRunSummary> = [];
+function summarizeTool(file: string, report: any): ToolRunSummary {
+  const rows: ToolCaseResult[] = report.results || [];
+  const tool = report.tool as ToolName;
+  return {
+    kind: 'tool',
+    file,
+    startedAt: report.startedAt || timeFromFileName(file),
+    tool,
+    toolLabel: TOOL_LABELS[tool] || tool,
+    cases: rows.length,
+    passed: rows.filter((r) => r.status === 'pass').length,
+    costUsd: report.totals?.costUsd ?? rows.reduce((a, r) => a + (r.costUsd || 0), 0),
+    calls: report.totals?.calls ?? rows.reduce((a, r) => a + (r.calls || 0), 0),
+    rows,
+  };
+}
+
+export function loadEvalRuns(): { resultsDir: string; runs: EvalRunSummary[]; unreadable: string[] } {
+  const runs: EvalRunSummary[] = [];
   const unreadable: string[] = [];
   if (!fs.existsSync(RESULTS_DIR)) return { resultsDir: RESULTS_DIR, runs, unreadable };
   const caseTracks = loadCaseTracks();
@@ -172,6 +206,7 @@ export function loadEvalRuns(): { resultsDir: string; runs: Array<ScoringRunSumm
     try {
       const report = JSON.parse(fs.readFileSync(path.join(RESULTS_DIR, file), 'utf-8'));
       if (report.kind === 'interviewer') runs.push(summarizeInterviewer(file, report));
+      else if (report.kind === 'tool') runs.push(summarizeTool(file, report));
       else if (Array.isArray(report.results)) runs.push(summarizeScoring(file, report, caseTracks));
     } catch {
       unreadable.push(file);

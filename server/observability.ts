@@ -447,3 +447,66 @@ export function tracePrdCoachRequests(req: Request, res: Response, next: NextFun
     metadata: { step },
   });
 }
+
+// ---------- evals (eval/tools/runner.ts) ----------
+
+/**
+ * Runs one eval case as its own Langfuse trace (name "eval-<tool>-<kind>", tag "eval"), so every
+ * Gemini call the case makes shows up nested under it, exactly like a real request. Without
+ * Langfuse keys it just runs `fn`. `fn` gets the trace id, for scoreEvalTrace.
+ */
+export async function traceEvalCase<T>(
+  opts: { name: string; tags: string[]; metadata: Record<string, unknown>; input?: unknown },
+  fn: (traceId?: string) => Promise<T>
+): Promise<T> {
+  const state: RequestTrace = {
+    name: opts.name,
+    // Evals have no HTTP request; withUser only reads res.locals.user, which is empty here.
+    res: { locals: {} } as unknown as Response,
+    startedAt: Date.now(),
+    guardrails: [],
+    metadata: { ...opts.metadata },
+    steps: [],
+  };
+  if (!spanProcessor) return storage.run(state, () => fn(undefined));
+  let root: LangfuseSpan | undefined;
+  try {
+    root = propagateAttributes({ traceName: opts.name, tags: opts.tags, metadata: opts.metadata as Record<string, string> }, () =>
+      startObservation(opts.name, { input: text(opts.input) }, { asType: "span" })
+    );
+  } catch (err: any) {
+    console.warn("[obs] Could not start an eval trace:", err?.message || err);
+  }
+  if (!root) return storage.run(state, () => fn(undefined));
+  state.root = root;
+  const span = root;
+  return otelContext.with(otelTrace.setSpan(otelContext.active(), span.otelSpan), () =>
+    storage.run(state, async () => {
+      try {
+        return await fn(span.traceId);
+      } finally {
+        try { span.end(); } catch { /* tracing is best effort */ }
+      }
+    })
+  );
+}
+
+/** Puts a 1/0 (or any number) score on an eval trace, e.g. eval_pass, so failed cases can be filtered. */
+export function scoreEvalTrace(traceId: string | undefined, name: string, value: number, comment?: string) {
+  if (!scoreClient || !traceId) return;
+  try {
+    scoreClient.score.create({ traceId, name, value, dataType: "NUMERIC", comment: comment?.slice(0, 500) });
+  } catch (err: any) {
+    console.warn("[obs] Could not send an eval score:", err?.message || err);
+  }
+}
+
+/** Waits until every trace and score has been sent. Call before a script exits. */
+export async function flushObservability() {
+  try {
+    await spanProcessor?.forceFlush();
+    await scoreClient?.flush();
+  } catch (err: any) {
+    console.warn("[obs] Langfuse flush failed:", err?.message || err);
+  }
+}
