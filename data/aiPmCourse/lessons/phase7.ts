@@ -1,9 +1,9 @@
 import type { AiPmLesson } from './types';
 
-// Phase 7 (Portfolio and interview readiness), Days 79–90. Templates T8–T10 are in data/aiPmCourse/content.ts.
+// Phase 7 (Portfolio and interview readiness), Days 93–104. Templates T8–T10 are in data/aiPmCourse/content.ts.
 
 export const PHASE7_LESSONS: Record<number, AiPmLesson> = {
-  79: {
+  93: {
     intro: 'Phase 7 turns 78 days of work into proof hiring managers can see. It starts with the story of your project.',
     objectives: [
       'Structure a case study from discovery to outcome.',
@@ -17,12 +17,12 @@ export const PHASE7_LESSONS: Record<number, AiPmLesson> = {
         table: {
           head: ['Section', 'What it shows', 'Evidence from your work'],
           rows: [
-            ['Problem and user', 'You start from users, not technology', 'Discovery summary (Day 28)'],
-            ['Why AI', 'Judgement about when AI fits', 'AI-vs-rules decision (Day 29)'],
-            ['Design and architecture', 'Technical fluency', 'Architecture and model decision (Day 25), trust copy (Day 35)'],
-            ['Evaluation', 'You can measure quality', 'Golden set, eval report (Day 52)'],
-            ['Build and launch', 'You can ship safely', 'Demo, readiness review (Day 68)'],
-            ['Business', 'You think about value and cost', 'Unit economics, memo (Days 73, 78)'],
+            ['Problem and user', 'You start from users, not technology', 'Discovery summary (Day 35)'],
+            ['Why AI', 'Judgement about when AI fits', 'AI-vs-rules decision (Day 38)'],
+            ['Design and architecture', 'Technical fluency', 'Architecture and model decision (Day 32), trust copy (Day 44)'],
+            ['Evaluation', 'You can measure quality', 'Golden set, eval report (Day 61)'],
+            ['Build and launch', 'You can ship safely', 'Demo, readiness review (Day 80)'],
+            ['Business', 'You think about value and cost', 'Unit economics, memo (Days 85, 78)'],
             ['Lessons and limits', 'Honesty and growth', 'What failed and what you would change'],
           ],
         },
@@ -60,7 +60,7 @@ export const PHASE7_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'a case study is evidence, not a story about effort. Show the decision, the proof, and the honest limits.',
   },
 
-  80: {
+  94: {
     intro: 'A short demo shows more than a long document. Today you script a 3–5 minute walkthrough.',
     objectives: [
       'Plan a demo that shows the real workflow and its safeguards.',
@@ -116,7 +116,7 @@ export const PHASE7_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'a great AI demo shows the happy path, the safeguards and the evidence, and explains the decisions behind them.',
   },
 
-  81: {
+  95: {
     intro: 'Today you write the full case study, ready to publish.',
     objectives: [
       'Write the case study from your outline.',
@@ -169,7 +169,7 @@ export const PHASE7_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'write for a two-minute reader: summary first, decisions with reasons, numbers and visuals, and honest limits.',
   },
 
-  82: {
+  96: {
     intro: 'Your resume needs to show AI PM evidence in six seconds. Today you rewrite it.',
     objectives: [
       'Write evidence-based bullets without overclaiming.',
@@ -229,7 +229,7 @@ export const PHASE7_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'every resume bullet should be a claim you can defend for ten minutes in an interview.',
   },
 
-  83: {
+  97: {
     intro: 'Recruiters search LinkedIn. Today you make your profile and one post show your AI PM work.',
     objectives: [
       'Write a profile headline and summary that position you clearly.',
@@ -284,7 +284,7 @@ export const PHASE7_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'share specific lessons from real work, link to proof, and let the evidence do the claiming.',
   },
 
-  84: {
+  98: {
     intro: 'AI product sense questions test whether you can design an AI product from scratch under time pressure. Today you practise one.',
     objectives: [
       'Use a structure for AI product sense cases.',
@@ -342,7 +342,7 @@ export const PHASE7_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'stand out by asking whether AI is needed, designing for when it’s wrong, and measuring quality as well as usage.',
   },
 
-  85: {
+  99: {
     intro: 'AI system design questions test whether you can explain how an AI product works and the trade-offs behind it.',
     objectives: [
       'Draw an AI system from user request to response.',
@@ -402,7 +402,7 @@ export const PHASE7_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'draw the happy path first, then explain each choice with a reason: permissions, model, checks and evals.',
   },
 
-  86: {
+  100: {
     intro: 'Expect at least one interview question on how you would measure an AI product. Today you prepare a strong answer.',
     objectives: [
       'Answer metrics and eval questions with a clear structure.',
@@ -458,7 +458,7 @@ export const PHASE7_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'answer metrics questions from the user goal down, separate outcomes from quality and guardrails, and prove it with your own numbers.',
   },
 
-  87: {
+  101: {
     intro: 'Design cases test whether you can create an AI experience users trust. Today you practise one with template T10.',
     objectives: [
       'Design an AI experience with controls and uncertainty handling.',
@@ -520,7 +520,7 @@ export const PHASE7_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'a strong AI design keeps users in control, shows uncertainty honestly, and has a recovery path for every failure.',
   },
 
-  88: {
+  102: {
     intro: 'Behavioural rounds decide many AI PM offers. Today you prepare five stories from real experience.',
     objectives: [
       'Write stories using STAR (situation, task, action, result).',
@@ -578,7 +578,7 @@ export const PHASE7_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'five short, real STAR stories, heavy on your actions and clear on results, cover most behavioural questions.',
   },
 
-  89: {
+  103: {
     intro: 'Practice is how interviews get easier. Today you do a full mock and find your biggest gaps.',
     objectives: [
       'Run a realistic mock covering product, technical, metrics and leadership.',
@@ -593,10 +593,10 @@ export const PHASE7_LESSONS: Record<number, AiPmLesson> = {
           head: ['Part', 'Time', 'Question type'],
           rows: [
             ['Background', '5 min', 'Your 90-second story and follow-ups'],
-            ['Product sense', '20 min', 'Design an AI feature (Day 84)'],
-            ['Technical', '15 min', 'System design or “how does RAG work?” (Day 85)'],
-            ['Metrics', '10 min', 'How would you measure it? (Day 86)'],
-            ['Behavioural', '10 min', 'One or two STAR stories (Day 88)'],
+            ['Product sense', '20 min', 'Design an AI feature (Day 98)'],
+            ['Technical', '15 min', 'System design or “how does RAG work?” (Day 99)'],
+            ['Metrics', '10 min', 'How would you measure it? (Day 100)'],
+            ['Behavioural', '10 min', 'One or two STAR stories (Day 102)'],
           ],
         },
       },
@@ -613,7 +613,7 @@ export const PHASE7_LESSONS: Record<number, AiPmLesson> = {
         id: 'score',
         title: 'Scoring',
         paragraphs: ['Score each part 1–5 on structure, depth, AI judgement and communication. Record the session if you can; watching yourself is uncomfortable but very useful.'],
-        callout: { label: 'Gaps', text: 'Choose the three gaps that would most change the outcome, not the easiest to fix. Each becomes part of your 30-day plan on Day 90.' },
+        callout: { label: 'Gaps', text: 'Choose the three gaps that would most change the outcome, not the easiest to fix. Each becomes part of your 30-day plan on Day 104.' },
       },
     ],
     quiz: {
@@ -633,8 +633,8 @@ export const PHASE7_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'mock interviews turn knowledge into performance. Score honestly and fix the gaps that matter most.',
   },
 
-  90: {
-    intro: 'Day 90. This is the final gate: check your portfolio, compare yourself with real job descriptions, and plan your next 30 days.',
+  104: {
+    intro: 'Day 104. This is the final gate: check your portfolio, compare yourself with real job descriptions, and plan your next 30 days.',
     objectives: [
       'Complete the final portfolio checklist.',
       'Build a skills matrix from five real AI PM job descriptions.',
@@ -682,12 +682,12 @@ export const PHASE7_LESSONS: Record<number, AiPmLesson> = {
     quiz: {
       title: 'Final self-check',
       questions: [
-        { q: 'What should a case study lead with?', options: ['Your effort', 'A summary with numbers and decisions'], answer: 1, why: 'Day 79–81.' },
-        { q: 'Which resume bullet is stronger?', options: ['“AI expert”', '“Raised grounded answers from 68% to 86% via error analysis”'], answer: 1, why: 'Day 82.' },
-        { q: 'What makes an AI product sense answer stand out?', options: ['Comparing a non-AI option and handling failures', 'Using the newest model'], answer: 0, why: 'Day 84.' },
-        { q: 'Why RAG over fine-tuning for changing policies?', options: ['Freshness and citations', 'It is always cheaper'], answer: 0, why: 'Day 85.' },
-        { q: 'How do you make an LLM judge trustworthy?', options: ['Check agreement with humans', 'Use temperature 1'], answer: 0, why: 'Day 86.' },
-        { q: 'Which gaps go in the 30-day plan?', options: ['The easiest', 'Most-requested skills with the lowest ratings'], answer: 1, why: 'Day 90.' },
+        { q: 'What should a case study lead with?', options: ['Your effort', 'A summary with numbers and decisions'], answer: 1, why: 'Day 93–95.' },
+        { q: 'Which resume bullet is stronger?', options: ['“AI expert”', '“Raised grounded answers from 68% to 86% via error analysis”'], answer: 1, why: 'Day 96.' },
+        { q: 'What makes an AI product sense answer stand out?', options: ['Comparing a non-AI option and handling failures', 'Using the newest model'], answer: 0, why: 'Day 98.' },
+        { q: 'Why RAG over fine-tuning for changing policies?', options: ['Freshness and citations', 'It is always cheaper'], answer: 0, why: 'Day 99.' },
+        { q: 'How do you make an LLM judge trustworthy?', options: ['Check agreement with humans', 'Use temperature 1'], answer: 0, why: 'Day 100.' },
+        { q: 'Which gaps go in the 30-day plan?', options: ['The easiest', 'Most-requested skills with the lowest ratings'], answer: 1, why: 'Day 104.' },
       ],
     },
     completion: [

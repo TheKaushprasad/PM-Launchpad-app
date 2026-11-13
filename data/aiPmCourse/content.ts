@@ -9,7 +9,7 @@ export interface AiPmTable {
 export const AI_PM_OVERVIEW = {
   title: 'PM → AI PM: Full Curriculum',
   intro:
-    'A build-first curriculum, with a 90-day day-by-day plan and a 12-week summary, for a working PM who wants an AI PM role. You already know PM craft. This curriculum adds only the AI layer on top. Every module ends in a shipped artifact, because every JD that we read asks for proof of execution, not certificates.',
+    'A build-first curriculum, with a 104-day day-by-day plan and a 12-week summary, for a working PM who wants an AI PM role. You already know PM craft. This curriculum adds only the AI layer on top. Every module ends in a shipped artifact, because every JD that we read asks for proof of execution, not certificates.',
   howBuilt:
     'Around 30 live or recent AI PM, GenAI PM and AI Product Builder postings (Oct 2026 snapshot) were read across four employer types: frontier labs (Anthropic), Indian AI and SaaS companies (Sarvam AI, HCLTech, Bengaluru startups), global enterprises (JPMorgan, ServiceNow, Microsoft, SoFi) and builder-first teams (Foundever, Paralect, Beewise). That was combined with 8 widely shared LinkedIn and newsletter roadmaps. Five YouTube talks and courses refine it (see Reading and videos).',
   whoFor: [
@@ -20,7 +20,7 @@ export const AI_PM_OVERVIEW = {
   thesis:
     'The job is normal product management plus a second job: running features whose output is probabilistic, whose quality is a distribution, and whose cost scales with usage. The curriculum spends most of its time on that second job. A demo is not a product. Each gate measures users and impact, not demos.',
   goal:
-    'In 90 days, a working PM becomes an AI PM who is ready to interview and has proof. At the end, you can own an AI feature from problem to production. You can show one connected case to a hiring manager, and you can defend each decision in that case with a number.',
+    'In 104 days, a working PM becomes an AI PM who is ready to interview and has proof. At the end, you can own an AI feature from problem to production. You can show one connected case to a hiring manager, and you can defend each decision in that case with a number.',
   whyGoal:
     'AI PM JDs do not ask for certificates. They ask for 3 things: hands-on LLM fluency, ownership of AI quality through evals, and one shipped AI feature. Recruiters say that candidates who start with the model, not with the eval set and the rollback plan, have not done the job yet. This course closes that gap for a PM who already knows discovery, specs, metrics and stakeholders.',
   outcomes: [
@@ -103,7 +103,7 @@ export const AI_PM_OVERVIEW = {
     { title: 'Pass/fail checklists', text: 'Each phase ends with a checklist. Move on once every check is true.' },
   ],
   planIntro:
-    'A build-first plan for working PMs: about 45–60 minutes a day for 90 days, in seven phases that each end with a gate. The goal is practical AI product judgment, not mastering every technical discipline. You learn technical concepts deeply enough to make decisions and work with engineers; coding every component is not required.',
+    'A build-first plan for working PMs: about 45–60 minutes a day for 104 days, in seven phases that each end with a gate. The goal is practical AI product judgment, not mastering every technical discipline. You learn technical concepts deeply enough to make decisions and work with engineers; coding every component is not required.',
 };
 
 export const AI_PM_WHY = {
@@ -220,7 +220,7 @@ export const AI_PM_WEEK_PHASES: { title: string; weeks: AiPmWeek[]; gate: string
 ];
 
 export const AI_PM_WEEKS_INTRO =
-  'Plan on 10–12 hours a week. Each week has one concept block and one build; the build is what goes in the portfolio. Phases end with a gate: don’t move on until you can pass it. This is the summary view; the 90-day plan is the day-by-day version you work through.';
+  'Plan on 10–12 hours a week. Each week has one concept block and one build; the build is what goes in the portfolio. Phases end with a gate: don’t move on until you can pass it. This is the summary view; the 104-day plan is the day-by-day version you work through.';
 
 export const AI_PM_TEMPLATES: { id: string; name: string; fields: string[] }[] = [
   { id: 'T1', name: 'PRD on a page', fields: ['Problem, user, job', 'Why AI', 'Success metric and ship rule', 'Worst error', 'Cost per task', 'Latency budget', 'Launch and kill criteria'] },

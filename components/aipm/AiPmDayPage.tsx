@@ -202,7 +202,7 @@ export const AiPmDayPage: React.FC = () => {
         </div>
         <div className="w-40 sm:w-64">
           <div className="flex items-center justify-between text-[11px] font-semibold text-zinc-500 mb-1">
-            <span>Day {day.day} of 90</span>
+            <span>Day {day.day} of {AI_PM_DAYS.length}</span>
             <span>{coursePercent}% done</span>
           </div>
           <div className="h-2 w-full rounded-full bg-zinc-200 overflow-hidden">
@@ -313,7 +313,7 @@ export const AiPmDayPage: React.FC = () => {
             </Card>
           )}
 
-          {day.day === 82 && (
+          {day.day === 96 && (
             <Card className="bg-amber-50/50 border-amber-200/70">
               <h2 className="font-bold text-zinc-900 flex items-center gap-2 mb-2">
                 <Lightbulb className="w-4 h-4 text-amber-600" /> Example background line

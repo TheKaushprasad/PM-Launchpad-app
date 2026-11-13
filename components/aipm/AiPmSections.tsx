@@ -69,7 +69,7 @@ export const AiPmWeeks: React.FC = () => (
 export const AiPmTemplates: React.FC = () => (
   <div className="space-y-8">
     <PageTitle eyebrow="Templates" title="T1 to T10">
-      Copy each template into your notebook. The 90-day plan says when to use each one.
+      Copy each template into your notebook. The 104-day plan says when to use each one.
     </PageTitle>
     <div data-reveal-stagger className="grid md:grid-cols-2 gap-4">
       {AI_PM_TEMPLATES.map((t) => (
@@ -100,7 +100,7 @@ export const AiPmSkills: React.FC = () => {
   return (
     <div className="space-y-8">
       <PageTitle eyebrow="Skills checklist" title="Score yourself 0 to 3">
-        Tick an item only when you can show an artifact for it. Score yourself on day 3 and again on day 90. Your scores are saved in this browser.
+        Tick an item only when you can show an artifact for it. Score yourself on day 3 and again on day 104. Your scores are saved in this browser.
       </PageTitle>
       <div className="flex flex-wrap gap-2 text-xs">
         {AI_PM_SKILL_SCALE.map((s) => (

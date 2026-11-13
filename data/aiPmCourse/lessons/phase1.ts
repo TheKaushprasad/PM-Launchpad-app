@@ -1,9 +1,9 @@
 import type { AiPmLesson } from './types';
 
-// Phase 1 (AI/ML foundations), Days 5–14. Days 1–4 are hand-built in content/aiPm/.
+// Phase 1 (AI/ML foundations), Days 6–15. Days 1–4 are hand-built in content/aiPm/.
 
 export const PHASE1_LESSONS: Record<number, AiPmLesson> = {
-  5: {
+  6: {
     intro: 'On Day 3 you met classification and regression. Today you learn how their outputs become product decisions.',
     objectives: [
       'Tell whether a product problem needs a category or a number.',
@@ -46,7 +46,7 @@ export const PHASE1_LESSONS: Record<number, AiPmLesson> = {
           { term: 'Higher threshold', text: 'Flags fewer innocent cases, but misses more real ones. Use it when a false alarm is expensive, such as blocking a paying customer.' },
           { term: 'Middle band', text: 'Many products add a third path: auto-approve low scores, auto-block high scores, and send the uncertain middle to a human.' },
         ],
-        quote: 'You will learn to measure these trade-offs with precision and recall on Day 7.',
+        quote: 'You will learn to measure these trade-offs with precision and recall on Day 8.',
       },
     ],
     quiz: {
@@ -66,7 +66,7 @@ export const PHASE1_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'a model gives a score; the product decides what to do with it. Choosing the threshold is a product decision driven by which mistake costs more.',
   },
 
-  6: {
+  7: {
     intro: 'Many of the AI features people use every day are not chatbots. They decide what to show first.',
     objectives: [
       'Explain ranking, retrieval, and recommendation in plain language.',
@@ -129,8 +129,8 @@ export const PHASE1_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'ranking systems learn whatever you reward. The PM chooses the signals and metrics, and those choices shape what users see.',
   },
 
-  7: {
-    intro: 'On Day 5 you set a threshold. Today you learn how to measure what that threshold does.',
+  8: {
+    intro: 'On Day 6 you set a threshold. Today you learn how to measure what that threshold does.',
     objectives: [
       'Read a confusion matrix and name false positives and false negatives.',
       'Explain precision and recall in plain language.',
@@ -192,7 +192,7 @@ export const PHASE1_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'accuracy alone hides the mistakes that matter. Name the cost of each mistake, then choose precision or recall on purpose.',
   },
 
-  8: {
+  9: {
     intro: 'A model that scores well in testing can still fail with real users. Today you learn why.',
     objectives: [
       'Explain overfitting and underfitting with an everyday analogy.',
@@ -248,7 +248,7 @@ export const PHASE1_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'a test score is only as good as the test. Ask what data it was measured on, and plan to watch for drift after launch.',
   },
 
-  9: {
+  10: {
     intro: 'You don’t need to build a neural network, but you do need a mental model of one to work with ML teams.',
     objectives: [
       'Explain what a neural network does in five plain sentences.',
@@ -277,7 +277,7 @@ export const PHASE1_LESSONS: Record<number, AiPmLesson> = {
           'In a photo model, early layers learn edges, middle layers learn shapes such as eyes and wheels, and later layers learn whole objects such as faces and cars. Nobody programs these steps; the network learns them from examples.',
           'This is why neural networks work so well on images, audio, and language, where writing the rules by hand is almost impossible.',
         ],
-        callout: { tone: 'violet', label: 'Connection to LLMs', text: 'Large language models are very large neural networks trained on text. You will study them from Day 15.' },
+        callout: { tone: 'violet', label: 'Connection to LLMs', text: 'Large language models are very large neural networks trained on text. You will study them from Day 16.' },
       },
       {
         id: 'implications',
@@ -310,7 +310,7 @@ export const PHASE1_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'a neural network is layers of adjustable weights that learn patterns from examples. That power comes with big data needs and decisions that are hard to explain.',
   },
 
-  10: {
+  11: {
     intro: 'Yesterday you saw what a neural network is. Today you see how it learns.',
     objectives: [
       'Explain what a loss function measures.',
@@ -370,7 +370,7 @@ export const PHASE1_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'training lowers whatever the loss measures. Make sure that measure matches what users actually need.',
   },
 
-  11: {
+  12: {
     intro: 'Training happens once in a while; inference happens every time a user asks for something. They cost money in different ways.',
     objectives: [
       'Distinguish training (learning) from inference (making predictions).',
@@ -436,7 +436,7 @@ export const PHASE1_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'training is a one-off bill; inference is a per-request bill that grows with users. Design for both speed and cost from day one.',
   },
 
-  12: {
+  13: {
     intro: 'Deep learning is powerful, but it is not always the right answer. Today you learn to compare it with a simple baseline.',
     objectives: [
       'Explain where deep learning works best and where it struggles.',
@@ -501,7 +501,7 @@ export const PHASE1_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'deep learning earns its place only when it clearly beats a simple baseline by enough to justify its cost and risk.',
   },
 
-  13: {
+  14: {
     intro: 'Every AI system fails sometimes. A PM’s job is to know how it will fail and plan for it before launch.',
     objectives: [
       'Recognise six common AI failure modes.',
@@ -561,10 +561,10 @@ export const PHASE1_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'plan for failure before launch. For every risk, know how you will detect it, not just how you will prevent it.',
   },
 
-  14: {
+  15: {
     intro: 'This is Gate 1. Today you pull Phase 1 together and check you are ready for LLMs and generative AI.',
     objectives: [
-      'Explain the core AI/ML concepts from Days 1–13 in your own words.',
+      'Explain the core AI/ML concepts from Days 1–14 in your own words.',
       'Distinguish model training from inference.',
       'Defend an approach choice (rules, predictive ML, or GenAI) for a real problem.',
     ],
@@ -578,13 +578,13 @@ export const PHASE1_LESSONS: Record<number, AiPmLesson> = {
             ['AI vs traditional software (Day 2)', 'Use rules when logic is clear; ML to predict from data; GenAI to understand or create language.'],
             ['Types of ML (Day 3)', 'Supervised needs labels, unsupervised finds patterns, reinforcement learns from rewards.'],
             ['Data and labels (Day 4)', 'Check data is enough, representative, fresh, and consistently labelled; watch for leakage.'],
-            ['Scores and thresholds (Day 5)', 'The model scores; the product sets the threshold based on which mistake costs more.'],
-            ['Ranking (Day 6)', 'What you optimise is what users see.'],
-            ['Precision and recall (Day 7)', 'Choose based on the cost of false positives vs false negatives.'],
-            ['Generalisation (Day 8)', 'Test on unseen, realistic data and monitor for drift.'],
-            ['Neural networks and training (Days 9–10)', 'Layers of weights that learn by lowering a loss; they learn what you measure.'],
-            ['Training vs inference (Day 11)', 'Training is a one-off bill; inference is per request and grows with users.'],
-            ['Baselines and failure modes (Days 12–13)', 'Beat a simple baseline first; plan how you will detect failures.'],
+            ['Scores and thresholds (Day 6)', 'The model scores; the product sets the threshold based on which mistake costs more.'],
+            ['Ranking (Day 7)', 'What you optimise is what users see.'],
+            ['Precision and recall (Day 8)', 'Choose based on the cost of false positives vs false negatives.'],
+            ['Generalisation (Day 9)', 'Test on unseen, realistic data and monitor for drift.'],
+            ['Neural networks and training (Days 10–11)', 'Layers of weights that learn by lowering a loss; they learn what you measure.'],
+            ['Training vs inference (Day 12)', 'Training is a one-off bill; inference is per request and grows with users.'],
+            ['Baselines and failure modes (Days 13–14)', 'Beat a simple baseline first; plan how you will detect failures.'],
           ],
         },
       },
@@ -605,9 +605,9 @@ export const PHASE1_LESSONS: Record<number, AiPmLesson> = {
         { q: 'A store applies a fixed 10% discount to orders over ₹2,000. What should it use?', options: ['Traditional rules', 'Predictive ML', 'Generative AI'], answer: 0, why: 'The logic is fixed and known; a rule is exact and cheap (Day 2).' },
         { q: 'You want to group users by behaviour, with no predefined segments.', options: ['Supervised learning', 'Unsupervised learning', 'Reinforcement learning'], answer: 1, why: 'There are no labels; you are finding structure (Day 3).' },
         { q: 'A churn model uses a field that is only filled in after a customer cancels.', options: ['Overfitting', 'Leakage', 'Underfitting'], answer: 1, why: 'The model sees information that won’t exist at prediction time (Day 4).' },
-        { q: 'Wrongly blocking a paying customer is very costly. Which metric should you favour?', options: ['Precision', 'Recall'], answer: 0, why: 'When the model flags, it must be right (Day 7).' },
-        { q: 'Your AI bill rises every month as users grow. Which phase drives this cost?', options: ['Training', 'Inference'], answer: 1, why: 'Inference costs scale with requests (Day 11).' },
-        { q: 'A model has been quietly wrong for weeks with no alert. What is this called?', options: ['Silent failure', 'Calibration', 'Cold start'], answer: 0, why: 'It failed without anyone noticing (Day 13).' },
+        { q: 'Wrongly blocking a paying customer is very costly. Which metric should you favour?', options: ['Precision', 'Recall'], answer: 0, why: 'When the model flags, it must be right (Day 8).' },
+        { q: 'Your AI bill rises every month as users grow. Which phase drives this cost?', options: ['Training', 'Inference'], answer: 1, why: 'Inference costs scale with requests (Day 12).' },
+        { q: 'A model has been quietly wrong for weeks with no alert. What is this called?', options: ['Silent failure', 'Calibration', 'Cold start'], answer: 0, why: 'It failed without anyone noticing (Day 14).' },
       ],
     },
     completion: [

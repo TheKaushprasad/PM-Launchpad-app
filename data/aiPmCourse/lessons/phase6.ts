@@ -1,9 +1,9 @@
 import type { AiPmLesson } from './types';
 
-// Phase 6 (Production, scale and strategy), Days 69–78.
+// Phase 6 (Production, scale and strategy), Days 81–92.
 
 export const PHASE6_LESSONS: Record<number, AiPmLesson> = {
-  69: {
+  81: {
     intro: 'Phase 6 is about running an AI product as a business. It starts with what happens when something goes wrong at 2 a.m.',
     objectives: [
       'Define ownership and service expectations for an AI product.',
@@ -65,7 +65,7 @@ export const PHASE6_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'decide who owns what before anything breaks, and write down the first steps for each AI incident type.',
   },
 
-  70: {
+  82: {
     intro: 'What works for 100 users can be slow and expensive for 100,000. Today you plan for scale.',
     objectives: [
       'Estimate load and concurrency.',
@@ -121,7 +121,7 @@ export const PHASE6_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'route, cache and batch to cut cost, but every saving has a quality risk you must test.',
   },
 
-  71: {
+  83: {
     intro: 'AI products drift: users ask new things, documents change, and providers update models. Today you set up monitoring that notices.',
     objectives: [
       'Monitor quality, traffic mix, data changes, tool failures and model versions.',
@@ -159,7 +159,7 @@ export const PHASE6_LESSONS: Record<number, AiPmLesson> = {
         id: 'alerts',
         title: 'Good alerts',
         bullets: [
-          { text: 'Each alert has an owner and a runbook step (Day 69).' },
+          { text: 'Each alert has an owner and a runbook step (Day 81).' },
           { text: 'Too many alerts get ignored. Start with a few that matter.' },
           { text: 'Review weekly: sample 20 conversations even when no alert fires.' },
         ],
@@ -183,7 +183,7 @@ export const PHASE6_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'watch inputs, data and model versions, alert on a few things that matter, and read real conversations every week.',
   },
 
-  72: {
+  84: {
     intro: 'Did your AI feature actually cause the improvement? Today you design an experiment that can tell.',
     objectives: [
       'Tell correlation from causal impact.',
@@ -242,7 +242,7 @@ export const PHASE6_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'only a comparison group shows what your feature caused. Set metrics, guardrails, duration and the decision rule before you start.',
   },
 
-  73: {
+  85: {
     intro: 'AI features have real running costs per use. Today you check the business still works when usage grows.',
     objectives: [
       'Calculate cost per successful task and gross margin.',
@@ -280,7 +280,7 @@ export const PHASE6_LESSONS: Record<number, AiPmLesson> = {
         id: 'improve',
         title: 'Improving margin',
         bullets: [
-          { text: 'Lower cost per task: routing, caching, shorter context (Day 70).' },
+          { text: 'Lower cost per task: routing, caching, shorter context (Day 82).' },
           { text: 'Raise success rate: failed tasks cost money and earn nothing.' },
           { text: 'Fair-use limits for extreme usage.' },
           { text: 'Price on value: hours saved or tickets avoided.' },
@@ -304,7 +304,7 @@ export const PHASE6_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'an AI feature must earn more than it costs per user, including the heaviest users. Price and limit accordingly.',
   },
 
-  74: {
+  88: {
     intro: 'Responsible AI becomes real when principles turn into requirements, owners and reviews. Today you make that translation.',
     objectives: [
       'Turn responsible-AI principles into product requirements.',
@@ -363,7 +363,7 @@ export const PHASE6_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'responsible AI is a set of requirements with owners and tests, not a statement of values.',
   },
 
-  75: {
+  89: {
     intro: 'Large customers often ask where their data will live and who runs the model. Today you compare deployment options.',
     objectives: [
       'Compare SaaS, private cloud, self-hosted and regional deployments.',
@@ -419,7 +419,7 @@ export const PHASE6_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'deployment is chosen by the customer’s data rules, budget and operations, and it limits which models you can use.',
   },
 
-  76: {
+  90: {
     intro: 'Models and prompts will change many times after launch. Today you plan how to change them safely.',
     objectives: [
       'Version models, prompts and data together.',
@@ -444,7 +444,7 @@ export const PHASE6_LESSONS: Record<number, AiPmLesson> = {
         table: {
           head: ['Step', 'What happens'],
           rows: [
-            ['1. Offline evals', 'Full regression suite and release gates (Day 49)'],
+            ['1. Offline evals', 'Full regression suite and release gates (Day 58)'],
             ['2. Shadow test', 'New version runs on real traffic in the background; users see the old one'],
             ['3. Canary', 'Real users get the new version, for example 5% first'],
             ['4. Watch', 'Compare quality, cost and latency between the two'],
@@ -479,7 +479,7 @@ export const PHASE6_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'pin versions, test changes offline and on a small slice of traffic, and be able to roll back in minutes.',
   },
 
-  77: {
+  91: {
     intro: 'You can’t do everything. Today you build a roadmap that balances reliability, adoption, cost and strategy.',
     objectives: [
       'Prioritise across reliability, adoption, cost and strategic value.',
@@ -517,7 +517,7 @@ export const PHASE6_LESSONS: Record<number, AiPmLesson> = {
         bullets: [
           { text: 'Name what you are not doing and why.' },
           { text: 'Show dependencies: “Leave actions need the HR system API from the platform team.”' },
-          { text: 'Tie each item to a metric from your tree (Day 33).' },
+          { text: 'Tie each item to a metric from your tree (Day 42).' },
         ],
       },
     ],
@@ -539,7 +539,7 @@ export const PHASE6_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'fix trust before expanding reach, tie every roadmap item to a metric, and say clearly what you are not doing.',
   },
 
-  78: {
+  92: {
     intro: 'This is Gate 6. Today you write a one-page memo asking leadership to scale, iterate or stop.',
     objectives: [
       'Communicate value, evidence, risks and investment in one page.',
@@ -567,23 +567,23 @@ export const PHASE6_LESSONS: Record<number, AiPmLesson> = {
         id: 'recap',
         title: 'Phase 6 in one page',
         bullets: [
-          { term: 'Operations (Days 69, 71)', text: 'Runbooks, owners, monitoring and drift.' },
-          { term: 'Scale and economics (Days 70, 73)', text: 'Routing, caching, margins and pricing.' },
-          { term: 'Evidence (Day 72)', text: 'Experiments that show causal impact.' },
-          { term: 'Governance and deployment (Days 74–76)', text: 'Risk owners, deployment choices, safe model changes.' },
-          { term: 'Strategy (Day 77)', text: 'Roadmap that puts reliability before reach.' },
+          { term: 'Operations (Days 81, 71)', text: 'Runbooks, owners, monitoring and drift.' },
+          { term: 'Scale and economics (Days 82, 73)', text: 'Routing, caching, margins and pricing.' },
+          { term: 'Evidence (Day 84)', text: 'Experiments that show causal impact.' },
+          { term: 'Governance and deployment (Days 88–90)', text: 'Risk owners, deployment choices, safe model changes.' },
+          { term: 'Strategy (Day 91)', text: 'Roadmap that puts reliability before reach.' },
         ],
       },
     ],
     quiz: {
       title: 'Phase 6 self-check',
       questions: [
-        { q: 'Answers worsen right after a provider’s model update. First step?', options: ['Pin the previous version and run evals', 'Rewrite the prompt'], answer: 0, why: 'Day 69.' },
-        { q: '10,000 requests a day at $0.01; 60% routed to a model at $0.001. New daily cost?', options: ['$46', '$100'], answer: 0, why: '4,000 × 0.01 + 6,000 × 0.001 = $40 + $6 (Day 70).' },
-        { q: 'Users start asking about a new benefits scheme. Which drift?', options: ['Input drift', 'Model drift'], answer: 0, why: 'Day 71.' },
-        { q: 'What shows your feature caused the change?', options: ['Before/after comparison', 'A randomised control group'], answer: 1, why: 'Day 72.' },
-        { q: 'Price ₹400 a seat, AI cost ₹100. Gross margin?', options: ['75%', '25%'], answer: 0, why: 'Day 73.' },
-        { q: 'Why pin model versions?', options: ['So behaviour only changes when you release', 'To make answers longer'], answer: 0, why: 'Day 76.' },
+        { q: 'Answers worsen right after a provider’s model update. First step?', options: ['Pin the previous version and run evals', 'Rewrite the prompt'], answer: 0, why: 'Day 81.' },
+        { q: '10,000 requests a day at $0.01; 60% routed to a model at $0.001. New daily cost?', options: ['$46', '$100'], answer: 0, why: '4,000 × 0.01 + 6,000 × 0.001 = $40 + $6 (Day 82).' },
+        { q: 'Users start asking about a new benefits scheme. Which drift?', options: ['Input drift', 'Model drift'], answer: 0, why: 'Day 83.' },
+        { q: 'What shows your feature caused the change?', options: ['Before/after comparison', 'A randomised control group'], answer: 1, why: 'Day 84.' },
+        { q: 'Price ₹400 a seat, AI cost ₹100. Gross margin?', options: ['75%', '25%'], answer: 0, why: 'Day 85.' },
+        { q: 'Why pin model versions?', options: ['So behaviour only changes when you release', 'To make answers longer'], answer: 0, why: 'Day 90.' },
       ],
     },
     completion: [
