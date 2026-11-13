@@ -1,9 +1,9 @@
 import type { AiPmLesson } from './types';
 
-// Phase 5 (Build a prototype), Days 53–68. Template T7 (run log) is in data/aiPmCourse/content.ts.
+// Phase 5 (Build a prototype), Days 62–80. Template T7 (run log) is in data/aiPmCourse/content.ts.
 
 export const PHASE5_LESSONS: Record<number, AiPmLesson> = {
-  53: {
+  62: {
     intro: 'Phase 5 is where you build. You don’t need to be an engineer: AI app builders and no-code tools are enough for a working slice.',
     objectives: [
       'Choose the smallest end-to-end slice that is still useful.',
@@ -38,10 +38,10 @@ export const PHASE5_LESSONS: Record<number, AiPmLesson> = {
         id: 'milestones',
         title: 'Milestones for the next two weeks',
         bullets: [
-          { term: 'Days 54–56', text: 'Instructions, structured output, and the happy path working.' },
-          { term: 'Days 57–60', text: 'Retrieval, permissions, safe actions and fallbacks.' },
-          { term: 'Days 61–64', text: 'Logging, evals, one measured improvement, usability tests.' },
-          { term: 'Days 65–68', text: 'Security, enterprise controls, launch plan and the demo.' },
+          { term: 'Days 66–68', text: 'Instructions, structured output, and the happy path working.' },
+          { term: 'Days 69–72', text: 'Retrieval, permissions, safe actions and fallbacks.' },
+          { term: 'Days 73–76', text: 'Logging, evals, one measured improvement, usability tests.' },
+          { term: 'Days 77–80', text: 'Security, enterprise controls, launch plan and the demo.' },
         ],
       },
     ],
@@ -63,7 +63,7 @@ export const PHASE5_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'build the thinnest slice that goes all the way from input to task done, with the simplest tool that lets you test it.',
   },
 
-  54: {
+  66: {
     intro: 'The system prompt is your product’s rulebook. Today you write it like a spec, and version it like code.',
     objectives: [
       'Separate system rules, user input, retrieved context and output requirements.',
@@ -90,7 +90,7 @@ export const PHASE5_LESSONS: Record<number, AiPmLesson> = {
         title: 'Version your prompts',
         bullets: [
           { text: 'Give every prompt a version number (v1, v2…) and keep a short change note.' },
-          { text: 'Log which version produced each answer (Day 61).' },
+          { text: 'Log which version produced each answer (Day 73).' },
           { text: 'Change one thing at a time, so you know what caused a difference.' },
         ],
       },
@@ -119,7 +119,7 @@ export const PHASE5_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'write the prompt like a spec, separate data from instructions, and never change it without tests.',
   },
 
-  55: {
+  67: {
     intro: 'Free text is fine for people. Software needs structure. Today you make outputs machine-readable and check them.',
     objectives: [
       'Define an output schema for your product.',
@@ -139,7 +139,7 @@ export const PHASE5_LESSONS: Record<number, AiPmLesson> = {
             ['confidence', 'one of: high, low', 'Required'],
           ],
         },
-        paragraphs: ['The UI uses status to choose which screen state to show (Day 35), and citations to show sources.'],
+        paragraphs: ['The UI uses status to choose which screen state to show (Day 44), and citations to show sources.'],
       },
       {
         id: 'validate',
@@ -179,7 +179,7 @@ export const PHASE5_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'make outputs structured, validate them before use, and fall back safely when they fail.',
   },
 
-  56: {
+  68: {
     intro: 'Today you make it work end to end: input, AI response, feedback, task done.',
     objectives: [
       'Connect input, AI response, user feedback and task completion.',
@@ -193,7 +193,7 @@ export const PHASE5_LESSONS: Record<number, AiPmLesson> = {
         bullets: [
           { term: '1. Input', text: 'The user asks a question or starts the task.' },
           { term: '2. AI response', text: 'Your prompt, model and schema produce an answer.' },
-          { term: '3. Show it well', text: 'Answer, sources and the right state from Day 35.' },
+          { term: '3. Show it well', text: 'Answer, sources and the right state from Day 44.' },
           { term: '4. Feedback', text: 'Thumbs up or down, and “report a wrong answer”.' },
           { term: '5. Task done', text: 'A clear next step: open the policy, apply in the portal, contact HR.' },
         ],
@@ -232,7 +232,7 @@ export const PHASE5_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'get the happy path working end to end, log every run, and fix the worst problem first.',
   },
 
-  57: {
+  69: {
     intro: 'Now ground the answers in your documents, and show users where each answer came from.',
     objectives: [
       'Plan ingestion: which documents, how they are split and updated.',
@@ -246,7 +246,7 @@ export const PHASE5_LESSONS: Record<number, AiPmLesson> = {
         table: {
           head: ['Decision', 'Example choice'],
           rows: [
-            ['Which documents', 'Only the approved, owned sources from Day 32'],
+            ['Which documents', 'Only the approved, owned sources from Day 41'],
             ['How to split them', 'By policy section, so each chunk is one topic'],
             ['What metadata to keep', 'Title, section, date, office, who can access it'],
             ['How to update', 'Re-index when an owner publishes a new version'],
@@ -267,7 +267,7 @@ export const PHASE5_LESSONS: Record<number, AiPmLesson> = {
       {
         id: 'citations',
         title: 'Showing sources',
-        paragraphs: ['Show document name, section and date next to each answer, with a link to open it. Apply your citation rules from Day 46.'],
+        paragraphs: ['Show document name, section and date next to each answer, with a link to open it. Apply your citation rules from Day 55.'],
       },
     ],
     quiz: {
@@ -287,7 +287,7 @@ export const PHASE5_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'test retrieval on its own. If the right passage never reaches the model, the answer can’t be right.',
   },
 
-  58: {
+  70: {
     intro: 'A knowledge assistant must never show users documents they couldn’t open themselves. Today you enforce that.',
     objectives: [
       'Apply least privilege to data and tools.',
@@ -345,7 +345,7 @@ export const PHASE5_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'access control lives in code, before retrieval. A prompt is never a permission system.',
   },
 
-  59: {
+  71: {
     intro: 'When your AI can take actions, mistakes stop being just wrong words. Today you make actions safe.',
     objectives: [
       'Write a tool contract: inputs, permissions and side effects.',
@@ -403,7 +403,7 @@ export const PHASE5_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'the model proposes, the server decides. Match confirmation and approval to how hard the action is to undo.',
   },
 
-  60: {
+  72: {
     intro: 'Today you build what happens when things go wrong: missing information, uncertainty, errors and requests you don’t support.',
     objectives: [
       'Implement abstention, fallback and escalation states.',
@@ -437,7 +437,7 @@ export const PHASE5_LESSONS: Record<number, AiPmLesson> = {
           { text: 'Ask questions with no answer in the documents.' },
           { text: 'Switch off the API key or network to see the error state.' },
           { text: 'Ask sensitive questions and check they escalate.' },
-          { text: 'Check the fallback text matches what you wrote on Days 34–35.' },
+          { text: 'Check the fallback text matches what you wrote on Days 43–44.' },
         ],
       },
     ],
@@ -459,7 +459,7 @@ export const PHASE5_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'the unhappy paths decide whether users trust you. Build them, word them carefully, and check humans can handle the escalations.',
   },
 
-  61: {
+  73: {
     intro: 'If you can’t see what happened, you can’t fix it. Today you plan logging and a simple dashboard.',
     objectives: [
       'Decide what to log for each request.',
@@ -524,7 +524,7 @@ export const PHASE5_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'log versions, sources, latency, cost and feedback for every request, and protect the personal data inside them.',
   },
 
-  62: {
+  74: {
     intro: 'Today you run your golden set against the real prototype for the first time.',
     objectives: [
       'Run the golden set against the current prototype.',
@@ -584,7 +584,7 @@ export const PHASE5_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'run the full golden set with fixed settings and record a baseline. Every improvement is measured against it.',
   },
 
-  63: {
+  75: {
     intro: 'It is tempting to tweak prompts forever. Today you make one fix, chosen by evidence, and measure it.',
     objectives: [
       'Choose the next fix from failure patterns, not hunches.',
@@ -641,7 +641,7 @@ export const PHASE5_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'one evidence-based change, measured on the full set, beats a dozen prompt tweaks.',
   },
 
-  64: {
+  76: {
     intro: 'Evals tell you if answers are right. Usability tests tell you if people can actually use them.',
     objectives: [
       'Run usability sessions with realistic tasks.',
@@ -677,7 +677,7 @@ export const PHASE5_LESSONS: Record<number, AiPmLesson> = {
       {
         id: 'summarise',
         title: 'Summarising findings',
-        paragraphs: ['List each issue with how many participants hit it, its severity and a proposed fix. Compare with your trust moments from Day 30: did the design work where you expected?'],
+        paragraphs: ['List each issue with how many participants hit it, its severity and a proposed fix. Compare with your trust moments from Day 39: did the design work where you expected?'],
       },
     ],
     quiz: {
@@ -698,7 +698,7 @@ export const PHASE5_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'watch real people do real tasks. Correct answers that nobody trusts or understands still fail.',
   },
 
-  65: {
+  77: {
     intro: 'Before you share an AI prototype, check it doesn’t leak data, secrets or harmful outputs.',
     objectives: [
       'Review data minimisation, retention and secrets.',
@@ -717,7 +717,7 @@ export const PHASE5_LESSONS: Record<number, AiPmLesson> = {
             ['Secrets', 'Are API keys on the server only, never in the browser or prompt?'],
             ['Injection', 'Are documents and user input treated as data? Are actions confirmed?'],
             ['Sensitive outputs', 'Can it output personal data, credentials or harmful advice?'],
-            ['Access', 'Do the Day 58 permission tests pass?'],
+            ['Access', 'Do the Day 70 permission tests pass?'],
             ['Third parties', 'Which vendors process the data, and where?'],
           ],
         },
@@ -757,7 +757,7 @@ export const PHASE5_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'keep keys on the server, send the model only what it needs, and fix every S0 issue before anyone else sees the demo.',
   },
 
-  66: {
+  78: {
     intro: 'If your product served many companies, one customer’s data must never reach another. Today you plan that, plus enterprise controls.',
     objectives: [
       'Explain tenant isolation and how to test it.',
@@ -816,7 +816,7 @@ export const PHASE5_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'tag and filter everything by tenant, test with two fake customers, and give admins control over sources, features and data.',
   },
 
-  67: {
+  79: {
     intro: 'A launch is a process, not a moment. Today you plan a staged rollout you can reverse.',
     objectives: [
       'Plan a staged rollout with success criteria for each stage.',
@@ -844,7 +844,7 @@ export const PHASE5_LESSONS: Record<number, AiPmLesson> = {
           { term: 'Owner', text: 'One named person accountable for quality after launch.' },
           { term: 'Support', text: 'Where users report problems, and who responds.' },
           { term: 'Rollback', text: 'A switch to turn the feature off or return to the previous version in minutes.' },
-          { term: 'Monitoring', text: 'The Day 61 dashboard with alert thresholds.' },
+          { term: 'Monitoring', text: 'The Day 73 dashboard with alert thresholds.' },
           { term: 'Communication', text: 'What users are told: scope, limits, how to give feedback.' },
         ],
         callout: { label: 'Rollback triggers', text: 'Decide in advance: for example, any S0 incident, or thumbs-down above 15% for a day, triggers rollback.' },
@@ -872,7 +872,7 @@ export const PHASE5_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'launch in stages, with criteria to move on, a named owner, and a tested rollback with triggers agreed in advance.',
   },
 
-  68: {
+  80: {
     intro: 'This is Gate 5. Today you demo your working prototype and decide whether it is ready to share.',
     objectives: [
       'Review quality, usability, safety, reliability and cost together.',
@@ -886,13 +886,13 @@ export const PHASE5_LESSONS: Record<number, AiPmLesson> = {
         table: {
           head: ['Area', 'Evidence'],
           rows: [
-            ['Quality', 'Golden set results vs gates (Days 62–63)'],
-            ['Usability', 'Usability findings and fixes (Day 64)'],
-            ['Safety', 'Access, action and security tests (Days 58–59, 65)'],
-            ['Reliability', 'Fallbacks and error handling (Day 60)'],
-            ['Observability', 'Logging and dashboard (Day 61)'],
+            ['Quality', 'Golden set results vs gates (Days 74–75)'],
+            ['Usability', 'Usability findings and fixes (Day 76)'],
+            ['Safety', 'Access, action and security tests (Days 70–71, 65)'],
+            ['Reliability', 'Fallbacks and error handling (Day 72)'],
+            ['Observability', 'Logging and dashboard (Day 73)'],
             ['Cost', 'Real cost per task from your run log'],
-            ['Launch', 'Rollout and rollback plan (Day 67)'],
+            ['Launch', 'Rollout and rollback plan (Day 79)'],
           ],
         },
       },
@@ -910,22 +910,22 @@ export const PHASE5_LESSONS: Record<number, AiPmLesson> = {
         id: 'recap',
         title: 'Phase 5 in one page',
         bullets: [
-          { term: 'Build (Days 53–57)', text: 'Thin slice, versioned prompt, schema, happy path, retrieval.' },
-          { term: 'Safety (Days 58–60)', text: 'Permissions in code, safe actions, fallbacks.' },
-          { term: 'Evidence (Days 61–64)', text: 'Logging, baseline evals, one measured fix, usability tests.' },
-          { term: 'Readiness (Days 65–67)', text: 'Security, enterprise controls, staged launch.' },
+          { term: 'Build (Days 62–69)', text: 'Thin slice, versioned prompt, schema, happy path, retrieval.' },
+          { term: 'Safety (Days 70–72)', text: 'Permissions in code, safe actions, fallbacks.' },
+          { term: 'Evidence (Days 73–76)', text: 'Logging, baseline evals, one measured fix, usability tests.' },
+          { term: 'Readiness (Days 77–79)', text: 'Security, enterprise controls, staged launch.' },
         ],
       },
     ],
     quiz: {
       title: 'Phase 5 self-check',
       questions: [
-        { q: 'Best first slice?', options: ['Every HR topic', 'One narrow task, end to end'], answer: 1, why: 'Day 53.' },
-        { q: 'Where should access control be enforced?', options: ['In the prompt', 'In code, before retrieval'], answer: 1, why: 'Day 58.' },
-        { q: 'Who decides whether a tool call runs?', options: ['The model', 'The server'], answer: 1, why: 'Day 59.' },
-        { q: '400 cases a day, 10% escalate, 3 minutes each. Reviewer time?', options: ['120 minutes', '1,200 minutes'], answer: 0, why: '400 × 0.1 × 3 = 120 (Day 60).' },
-        { q: 'After a fix, what do you re-run?', options: ['Only the failed cases', 'The full golden set'], answer: 1, why: 'Day 63.' },
-        { q: 'Where must API keys live?', options: ['In the browser', 'On the server'], answer: 1, why: 'Day 65.' },
+        { q: 'Best first slice?', options: ['Every HR topic', 'One narrow task, end to end'], answer: 1, why: 'Day 62.' },
+        { q: 'Where should access control be enforced?', options: ['In the prompt', 'In code, before retrieval'], answer: 1, why: 'Day 70.' },
+        { q: 'Who decides whether a tool call runs?', options: ['The model', 'The server'], answer: 1, why: 'Day 71.' },
+        { q: '400 cases a day, 10% escalate, 3 minutes each. Reviewer time?', options: ['120 minutes', '1,200 minutes'], answer: 0, why: '400 × 0.1 × 3 = 120 (Day 72).' },
+        { q: 'After a fix, what do you re-run?', options: ['Only the failed cases', 'The full golden set'], answer: 1, why: 'Day 75.' },
+        { q: 'Where must API keys live?', options: ['In the browser', 'On the server'], answer: 1, why: 'Day 77.' },
       ],
     },
     completion: [

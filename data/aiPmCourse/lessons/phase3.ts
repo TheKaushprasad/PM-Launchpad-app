@@ -1,9 +1,9 @@
 import type { AiPmLesson } from './types';
 
-// Phase 3 (Discovery and AI product definition), Days 26–38. Templates T1–T4 are in data/aiPmCourse/plan.ts.
+// Phase 3 (Discovery and AI product definition), Days 33–47. Templates T1–T4 are in data/aiPmCourse/plan.ts.
 
 export const PHASE3_LESSONS: Record<number, AiPmLesson> = {
-  26: {
+  33: {
     intro: 'Phase 3 starts here: turning an AI idea into a real product plan.',
     objectives: [
       'Choose a narrow, valuable problem for a specific user.',
@@ -59,7 +59,7 @@ export const PHASE3_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'a narrow problem for a specific user beats a broad AI vision. If you can’t measure it, it is too broad.',
   },
 
-  27: {
+  34: {
     intro: 'Before building, learn from real users. Today you plan discovery that doesn’t lead them to the answer you want.',
     objectives: [
       'Write interview questions about past behaviour, not opinions about your idea.',
@@ -119,7 +119,7 @@ export const PHASE3_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'ask what people did last time, not what they would do. Their behaviour is evidence; their politeness is not.',
   },
 
-  28: {
+  35: {
     intro: 'You have notes from conversations. Today you turn them into evidence a team can act on.',
     objectives: [
       'Separate observed behaviour from opinions.',
@@ -174,7 +174,7 @@ export const PHASE3_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'workarounds and repeated behaviour are your strongest evidence. Report what surprised you and what argued against your idea.',
   },
 
-  29: {
+  38: {
     intro: 'You have a validated problem. Before writing an AI PRD, prove that AI is the right tool for it.',
     objectives: [
       'Compare an AI solution against simpler alternatives.',
@@ -236,7 +236,7 @@ export const PHASE3_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'AI must beat the simpler fix. Write down the assumption that would sink it, and test that first.',
   },
 
-  30: {
+  39: {
     intro: 'Users don’t just need correct answers. They need to know when to trust them, and what to do when they are wrong.',
     objectives: [
       'Apply five principles of human-AI interaction.',
@@ -297,7 +297,7 @@ export const PHASE3_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'design for the first wrong answer, not just the happy path. Sources, honest uncertainty and easy correction keep trust.',
   },
 
-  31: {
+  40: {
     intro: 'Time to write it down. An AI PRD looks like a normal PRD plus the parts that make AI different.',
     objectives: [
       'Structure an AI PRD using the T1 and T2 templates.',
@@ -309,7 +309,7 @@ export const PHASE3_LESSONS: Record<number, AiPmLesson> = {
         id: 'same',
         title: 'What stays the same',
         bullets: [
-          { text: 'Problem, users and evidence (from Days 26–28).' },
+          { text: 'Problem, users and evidence (from Days 33–35).' },
           { text: 'Scope, non-goals and requirements.' },
           { text: 'Open questions and dependencies.' },
         ],
@@ -320,12 +320,12 @@ export const PHASE3_LESSONS: Record<number, AiPmLesson> = {
         table: {
           head: ['Section', 'Why AI needs it'],
           rows: [
-            ['Why AI', 'Proves AI beats simpler options (Day 29).'],
+            ['Why AI', 'Proves AI beats simpler options (Day 38).'],
             ['Quality targets', 'AI is never 100% right; say how right it must be, for example 90% of answers grounded.'],
-            ['Worst error and failure handling', 'Defines what must never happen and what happens when it does (Day 34).'],
+            ['Worst error and failure handling', 'Defines what must never happen and what happens when it does (Day 43).'],
             ['Human in the loop', 'When a person reviews or takes over, and whether they have capacity.'],
-            ['Data and privacy', 'Which data the model sees and who can access what (Day 32).'],
-            ['Cost and latency', 'Cost per task and speed targets (Day 37).'],
+            ['Data and privacy', 'Which data the model sees and who can access what (Day 41).'],
+            ['Cost and latency', 'Cost per task and speed targets (Day 46).'],
             ['Ship and kill criteria', 'The evidence needed to launch, and to stop.'],
           ],
         },
@@ -335,7 +335,7 @@ export const PHASE3_LESSONS: Record<number, AiPmLesson> = {
         id: 'v1',
         title: 'PRD v1 is a draft',
         paragraphs: [
-          'Version 1 will have gaps, and that is expected. Days 32–37 fill in data, metrics, failure handling, trust copy and cost. Day 38 is PRD v2.',
+          'Version 1 will have gaps, and that is expected. Days 41–46 fill in data, metrics, failure handling, trust copy and cost. Day 47 is PRD v2.',
         ],
       },
     ],
@@ -357,7 +357,7 @@ export const PHASE3_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'an AI PRD adds why AI, quality targets, failure handling, human review, data, cost, and kill criteria to a normal PRD.',
   },
 
-  32: {
+  41: {
     intro: 'On Day 4 you listed your data sources. Today you judge whether that data is ready for a real product.',
     objectives: [
       'Assess data on permissions, quality, freshness, retention and ownership.',
@@ -415,7 +415,7 @@ export const PHASE3_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'AI quality is capped by data quality. Fix, cut or filter data problems before you tune the model.',
   },
 
-  33: {
+  42: {
     intro: 'You can’t show AI made things better without knowing how things were before.',
     objectives: [
       'Set a non-AI baseline for an AI product.',
@@ -473,7 +473,7 @@ export const PHASE3_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'measure the “before”, link quality to user and business outcomes, and set guardrails and success thresholds before you launch.',
   },
 
-  34: {
+  43: {
     intro: 'Your AI will be wrong sometimes. Today you decide which mistakes are acceptable and what happens when they occur.',
     objectives: [
       'Classify errors by severity, from harmless to critical.',
@@ -528,7 +528,7 @@ export const PHASE3_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'decide in advance which mistakes are tolerable, how often, and exactly what the product says when it can’t answer.',
   },
 
-  35: {
+  44: {
     intro: 'The words on the screen decide whether users trust your AI appropriately. Today you write them.',
     objectives: [
       'Write UI copy that explains sources, limits and uncertainty.',
@@ -587,7 +587,7 @@ export const PHASE3_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'honest, specific copy makes AI mistakes forgivable. Promise less, show sources, and always offer a next step.',
   },
 
-  36: {
+  45: {
     intro: 'Voice and chat feel natural, but conversations have their own failure modes. Today you design for them, or decide they are out of scope.',
     objectives: [
       'Design turn-taking, clarification and repair in a conversation.',
@@ -647,7 +647,7 @@ export const PHASE3_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'good conversations clarify, repair and remember. Add voice only when your users’ context truly calls for it.',
   },
 
-  37: {
+  46: {
     intro: 'A great AI feature that costs more than it earns will be switched off. Today you check it is viable.',
     objectives: [
       'Estimate tokens, cost per task and monthly cost.',
@@ -711,7 +711,7 @@ export const PHASE3_LESSONS: Record<number, AiPmLesson> = {
     takeaway: 'estimate cost per successful task and latency per step early, with assumptions written down. Viability is a product requirement.',
   },
 
-  38: {
+  47: {
     intro: 'This is Gate 3. Today you add enterprise requirements and submit PRD v2.',
     objectives: [
       'Cover security, permissions, auditability, integrations and rollout.',
@@ -739,23 +739,23 @@ export const PHASE3_LESSONS: Record<number, AiPmLesson> = {
         id: 'recap',
         title: 'Phase 3 in one page',
         bullets: [
-          { term: 'Problem and discovery (Days 26–28)', text: 'A narrow problem backed by behaviour, not opinions.' },
-          { term: 'Why AI (Day 29)', text: 'AI beats the simpler fix, with a tested assumption.' },
-          { term: 'Trust and UX (Days 30, 35, 36)', text: 'Sources, honest uncertainty, easy correction.' },
-          { term: 'PRD, data and metrics (Days 31–33)', text: 'A measurable PRD with a baseline, guardrails and ready data.' },
-          { term: 'Failure and cost (Days 34, 37)', text: 'Graded failures with fallbacks; viable cost and latency.' },
+          { term: 'Problem and discovery (Days 33–35)', text: 'A narrow problem backed by behaviour, not opinions.' },
+          { term: 'Why AI (Day 38)', text: 'AI beats the simpler fix, with a tested assumption.' },
+          { term: 'Trust and UX (Days 39, 35, 36)', text: 'Sources, honest uncertainty, easy correction.' },
+          { term: 'PRD, data and metrics (Days 40–42)', text: 'A measurable PRD with a baseline, guardrails and ready data.' },
+          { term: 'Failure and cost (Days 43, 37)', text: 'Graded failures with fallbacks; viable cost and latency.' },
         ],
       },
     ],
     quiz: {
       title: 'Phase 3 self-check',
       questions: [
-        { q: 'Which is the best discovery question?', options: ['“Would you use an AI for this?”', '“Tell me about the last time this happened.”', '“Is this frustrating?”'], answer: 1, why: 'Past behaviour is evidence (Day 27).' },
-        { q: 'A simple FAQ would answer 80% of questions. What should you do?', options: ['Build the AI anyway', 'Start with the simpler fix and use AI for the rest', 'Cancel the project'], answer: 1, why: 'AI should solve what the simple fix can’t (Day 29).' },
-        { q: 'Which is a guardrail metric?', options: ['Daily active users', 'Access-control violations', 'Revenue'], answer: 1, why: 'It must stay near zero while you optimise the primary metric (Day 33).' },
-        { q: 'The assistant reveals another employee’s salary. Which severity?', options: ['S0', 'S2', 'S3'], answer: 0, why: 'Privacy breach: critical (Day 34).' },
-        { q: 'Best empty-state copy?', options: ['“Ask me anything!”', '“Ask about leave, payroll or IT. I answer from company policies.”'], answer: 1, why: 'Sets scope and source (Day 35).' },
-        { q: 'Company A’s documents must never appear for Company B. Which requirement?', options: ['Latency', 'Tenant isolation', 'Streaming'], answer: 1, why: 'Data separation between customers (Day 38).' },
+        { q: 'Which is the best discovery question?', options: ['“Would you use an AI for this?”', '“Tell me about the last time this happened.”', '“Is this frustrating?”'], answer: 1, why: 'Past behaviour is evidence (Day 34).' },
+        { q: 'A simple FAQ would answer 80% of questions. What should you do?', options: ['Build the AI anyway', 'Start with the simpler fix and use AI for the rest', 'Cancel the project'], answer: 1, why: 'AI should solve what the simple fix can’t (Day 38).' },
+        { q: 'Which is a guardrail metric?', options: ['Daily active users', 'Access-control violations', 'Revenue'], answer: 1, why: 'It must stay near zero while you optimise the primary metric (Day 42).' },
+        { q: 'The assistant reveals another employee’s salary. Which severity?', options: ['S0', 'S2', 'S3'], answer: 0, why: 'Privacy breach: critical (Day 43).' },
+        { q: 'Best empty-state copy?', options: ['“Ask me anything!”', '“Ask about leave, payroll or IT. I answer from company policies.”'], answer: 1, why: 'Sets scope and source (Day 44).' },
+        { q: 'Company A’s documents must never appear for Company B. Which requirement?', options: ['Latency', 'Tenant isolation', 'Streaming'], answer: 1, why: 'Data separation between customers (Day 47).' },
       ],
     },
     completion: [

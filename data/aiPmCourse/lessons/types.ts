@@ -1,4 +1,4 @@
-// Shape of a written lesson for the PM → AI PM course. Days 5–90 are written as data in this folder and drawn by
+// Shape of a written lesson for the PM → AI PM course. Days 5–104 are written as data in this folder and drawn by
 // content/aiPm/AiPmLesson.tsx; Days 1–4 have hand-built components in content/aiPm/.
 
 export interface LessonCard {

@@ -213,7 +213,7 @@ export const AiPmDay4Content = () => {
           <p><span className="font-bold text-zinc-900">Example:</span> a churn model uses the field “cancellation reason”. It predicts churn almost perfectly, because that field is only filled in after a customer has already cancelled.</p>
           <p><span className="font-bold text-zinc-900">PM question:</span> for every feature, ask “Would we actually know this at the moment we need the prediction?”</p>
         </div>
-        <p className="text-xs text-zinc-500">You’ll study leakage and other failure modes in depth on Day 13.</p>
+        <p className="text-xs text-zinc-500">You’ll study leakage and other failure modes in depth on Day 14.</p>
       </section>
 
       <section id="quiz" className="scroll-mt-32 space-y-3">
