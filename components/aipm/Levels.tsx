@@ -13,6 +13,7 @@ import { PageTitle, Section, Card, Prose, Bullets, DataTable, Checklist } from '
 import { useLevel1Progress, type Level1Progress } from './levelProgress';
 import { Article } from './Article';
 import { QuizPanel } from './QuizPanel';
+import { LessonNotes } from './LessonNotes';
 
 const ALL_LESSONS: { week: L1Week; lesson: L1Lesson }[] = LEVEL1_WEEKS.flatMap((week) => week.lessons.map((lesson) => ({ week, lesson })));
 const lessonPath = (id: string) => `/ai-pm/level-1/lesson/${id.replace('.', '-')}`;
@@ -366,6 +367,8 @@ export const Level1LessonPage: React.FC = () => {
         {l.material}
       </InfoCard>
 
+      <LessonNotes lessonId={l.id} />
+
       <div className="flex flex-wrap items-center gap-3 pt-2">
         <button
           type="button"
@@ -402,6 +405,7 @@ export const Level1LessonPage: React.FC = () => {
 
 const ArticleLessonPage: React.FC<{ idx: number }> = ({ idx }) => {
   const { progress, passQuiz } = useLevel1Progress();
+  const [tab, setTab] = useState<'quiz' | 'notes'>('quiz');
   const { week, lesson: l } = ALL_LESSONS[idx];
   const prev = ALL_LESSONS[idx - 1];
   const next = ALL_LESSONS[idx + 1];
@@ -443,7 +447,22 @@ const ArticleLessonPage: React.FC<{ idx: number }> = ({ idx }) => {
           <Article source={l.body ?? ''} skipHeading={l.title} />
         </article>
         <aside id="lesson-quiz" className="scroll-mt-16 lg:sticky lg:top-16 lg:max-h-[calc(100vh-5rem)] lg:overflow-y-auto no-scrollbar space-y-3">
-          {l.quiz && <QuizPanel quiz={l.quiz} passed={passed} onPass={() => passQuiz(l.id)} />}
+          <div className="grid grid-cols-2 gap-1 rounded-xl bg-slate-100 p-1" role="tablist">
+            {(['quiz', 'notes'] as const).map((t) => (
+              <button
+                key={t}
+                type="button"
+                role="tab"
+                aria-selected={tab === t}
+                onClick={() => setTab(t)}
+                className={`h-9 rounded-lg text-xs font-black transition-colors ${tab === t ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}
+              >
+                {t === 'quiz' ? (passed ? 'Quiz ✓' : 'Quiz') : 'My notes'}
+              </button>
+            ))}
+          </div>
+          {tab === 'quiz' && l.quiz && <QuizPanel quiz={l.quiz} passed={passed} onPass={() => passQuiz(l.id)} />}
+          {tab === 'notes' && <LessonNotes lessonId={l.id} />}
           {nextLink && (
             passed ? (
               <Link to={nextLink.to} className="tap-target flex items-center justify-between gap-2 rounded-2xl bg-[#064E3B] text-white px-4 py-3 text-sm font-black hover:bg-[#065F46]">
