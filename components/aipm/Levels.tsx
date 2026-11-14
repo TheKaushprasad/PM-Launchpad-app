@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, Navigate, useParams } from 'react-router-dom';
 import {
-  ArrowLeft, ArrowRight, BookOpen, Bookmark, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Circle, Clock, Hammer, HelpCircle, Lightbulb, ListChecks, PlayCircle, ShoppingBag, Timer,
+  ArrowLeft, ArrowRight, BookOpen, Bookmark, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Circle, Clock, Hammer, HelpCircle, Lightbulb, ListChecks, Play, PlayCircle, ShoppingBag, Timer,
 } from 'lucide-react';
 import { LEVEL1_WEEKS, LEVEL2_WEEKS } from '../../data/aiPmCourse/levels';
 import type { L1Lesson, L1Week } from '../../data/aiPmCourse/levelTypes';
@@ -375,46 +375,72 @@ export const Level1LessonPage: React.FC = () => {
 // Layout follows the owner's reference (2026-11-14): top bar with Bookmark, Mark Done and day arrows; text on the left;
 // on the right, Course material (video cards), Personal notes, then the optional quiz as a collapsed section.
 
-const VideoCard: React.FC<{ id: string; title: string; done: boolean; onToggle: () => void }> = ({ id, title, done, onToggle }) => {
-  const [playing, setPlaying] = useState(false);
-  return (
-    <div className={`rounded-xl border p-2.5 space-y-2 ${done ? 'border-emerald-300 bg-emerald-50/40' : 'border-slate-200 bg-slate-50/60'}`}>
-      <div className="relative aspect-video rounded-lg overflow-hidden bg-zinc-900">
-        {playing ? (
-          <iframe
-            src={`https://www.youtube.com/embed/${id}?autoplay=1`}
-            title={title}
-            className="absolute inset-0 w-full h-full"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
-        ) : (
-          <button type="button" onClick={() => setPlaying(true)} className="group absolute inset-0" aria-label={`Play ${title}`}>
-            <img src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`} alt="" loading="lazy" onError={(e) => { e.currentTarget.style.visibility = 'hidden'; }} className="w-full h-full object-cover" />
-            <span className="absolute inset-0 flex items-center justify-center">
-              <span className="size-11 rounded-full bg-[#064E3B]/90 group-hover:bg-[#064E3B] flex items-center justify-center shadow-lg">
-                <PlayCircle className="size-6 text-white" />
-              </span>
-            </span>
-          </button>
-        )}
-      </div>
-      <p className="text-[13px] font-bold text-slate-900 leading-snug px-0.5">{title}</p>
-      <div className="flex items-center justify-between gap-2 px-0.5">
-        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Video lesson</span>
-        <button
-          type="button"
-          onClick={onToggle}
-          className={`inline-flex items-center gap-1 h-7 px-2.5 rounded-lg border text-[11px] font-black ${
-            done ? 'border-emerald-300 bg-emerald-100 text-emerald-800' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
-          }`}
-        >
-          {done ? <CheckCircle2 className="size-3.5" /> : <Circle className="size-3.5" />} {done ? 'Completed' : 'Mark complete'}
-        </button>
-      </div>
+// Same pattern as the 45-day course (LessonDetail): one big player above the text, and the Course material cards
+// pick which video plays in it.
+const VideoCard: React.FC<{ id: string; title: string; active: boolean; done: boolean; onPlay: () => void; onToggle: () => void }> = ({ id, title, active, done, onPlay, onToggle }) => (
+  <div
+    role="button"
+    tabIndex={0}
+    aria-pressed={active}
+    onClick={onPlay}
+    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onPlay(); } }}
+    className={`group w-full flex flex-col gap-2 p-2 rounded-xl border cursor-pointer select-none transition-all ${
+      active ? 'bg-brand-50 border-brand-200 ring-2 ring-brand-100' : 'bg-slate-50 border-slate-100 hover:bg-white hover:border-brand-100'
+    }`}
+  >
+    <div className="relative aspect-video rounded-lg overflow-hidden bg-zinc-800">
+      <img src={`https://i.ytimg.com/vi/${id}/mqdefault.jpg`} alt="" loading="lazy" onError={(e) => { e.currentTarget.style.visibility = 'hidden'; }} className={`w-full h-full object-cover ${active ? 'opacity-80' : 'opacity-60'}`} />
+      <span className="absolute inset-0 flex items-center justify-center">
+        <span className={`size-8 rounded-full flex items-center justify-center text-white shadow-md transition-all ${active ? 'bg-brand-600 scale-105' : 'bg-black/40 group-hover:bg-brand-600'}`}>
+          <Play className="size-3.5 fill-current" />
+        </span>
+      </span>
+      {active && <span className="absolute top-1.5 left-1.5 rounded-md bg-brand-600 px-1.5 py-0.5 text-[10px] font-black uppercase tracking-widest text-white">Now playing</span>}
     </div>
-  );
-};
+    <p className={`text-xs font-bold leading-tight line-clamp-2 px-0.5 ${active ? 'text-brand-900' : 'text-slate-700'}`}>{title}</p>
+    <div className="flex items-center justify-between gap-2 px-0.5">
+      <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Video lesson</span>
+      <button
+        type="button"
+        onClick={(e) => { e.stopPropagation(); onToggle(); }}
+        className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[11px] font-bold border ${
+          done ? 'text-emerald-700 bg-emerald-50 border-emerald-200' : 'text-slate-500 hover:text-brand-600 bg-white border-slate-200'
+        }`}
+      >
+        {done ? <CheckCircle2 className="size-3" /> : <Circle className="size-3" />} {done ? 'Completed' : 'Mark complete'}
+      </button>
+    </div>
+  </div>
+);
+
+const VideoPlayer: React.FC<{ id: string; title: string; autoplay: boolean; done: boolean; onToggle: () => void }> = ({ id, title, autoplay, done, onToggle }) => (
+  <section aria-label="Video player" className="bg-zinc-900 rounded-2xl overflow-hidden shadow-lg border border-zinc-800">
+    <div className="bg-zinc-800/50 px-3 py-2 flex items-center justify-between gap-2 border-b border-zinc-700/50">
+      <p className="min-w-0 flex items-center gap-1.5 text-[11px] font-black text-zinc-400 uppercase tracking-widest">
+        <span className="size-2 rounded-full bg-red-500 shrink-0" /> <span className="truncate">{title}</span>
+      </p>
+      <button
+        type="button"
+        onClick={onToggle}
+        className={`shrink-0 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold border ${
+          done ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' : 'bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border-zinc-700'
+        }`}
+      >
+        <CheckCircle2 className="size-3.5" /> {done ? 'Video completed' : 'Mark video complete'}
+      </button>
+    </div>
+    <div className="aspect-video w-full">
+      <iframe
+        key={id}
+        src={`https://www.youtube.com/embed/${id}${autoplay ? '?autoplay=1' : ''}`}
+        title={title}
+        className="w-full h-full"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      />
+    </div>
+  </section>
+);
 
 const ArticleLessonPage: React.FC<{ idx: number }> = ({ idx }) => {
   const { progress, passQuiz, toggleLesson, toggleBookmark, toggleVideo } = useLevel1Progress();
@@ -427,6 +453,10 @@ const ArticleLessonPage: React.FC<{ idx: number }> = ({ idx }) => {
   const videos = articleVideos(l.body ?? '');
   const pos = week.lessons.findIndex((x) => x.id === l.id);
   const isLastInWeek = pos === week.lessons.length - 1;
+  // First video is loaded (not playing) when the page opens; picking a card plays that one.
+  const [current, setCurrent] = useState<{ id: string; autoplay: boolean } | null>(null);
+  const active = videos.find((v) => v.id === current?.id) ?? videos[0];
+  const play = (id: string) => setCurrent({ id, autoplay: true });
   const courseMaterial = (cls: string) =>
     videos.length > 0 && (
             <section aria-label="Course material" className={`rounded-2xl border border-slate-200 bg-white shadow-sm p-4 space-y-3 ${cls}`}>
@@ -438,7 +468,9 @@ const ArticleLessonPage: React.FC<{ idx: number }> = ({ idx }) => {
               </div>
               {videos.map((v) => {
                 const key = `${l.id}:${v.id}`;
-                return <VideoCard key={v.id} id={v.id} title={v.title} done={!!progress.videosDone?.[key]} onToggle={() => toggleVideo(key)} />;
+                return (
+                  <VideoCard key={v.id} id={v.id} title={v.title} active={v.id === active?.id} done={!!progress.videosDone?.[key]} onPlay={() => play(v.id)} onToggle={() => toggleVideo(key)} />
+                );
               })}
             </section>
     );
@@ -494,10 +526,21 @@ const ArticleLessonPage: React.FC<{ idx: number }> = ({ idx }) => {
       </header>
 
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-start">
-        {courseMaterial('lg:hidden')}
-        <article className="min-w-0 rounded-3xl bg-white border border-slate-200/80 p-5 sm:p-8">
-          <Article source={l.body ?? ''} skipHeading={l.title} hideVideos />
-        </article>
+        <div className="min-w-0 space-y-4">
+          {active && (
+            <VideoPlayer
+              id={active.id}
+              title={active.title}
+              autoplay={!!current?.autoplay && current.id === active.id}
+              done={!!progress.videosDone?.[`${l.id}:${active.id}`]}
+              onToggle={() => toggleVideo(`${l.id}:${active.id}`)}
+            />
+          )}
+          {courseMaterial('lg:hidden')}
+          <article className="rounded-3xl bg-white border border-slate-200/80 p-5 sm:p-8">
+            <Article source={l.body ?? ''} skipHeading={l.title} hideVideos />
+          </article>
+        </div>
         <aside className="space-y-4">
           {courseMaterial('hidden lg:block')}
           <LessonNotes lessonId={l.id} subtitle={`${lessonLabel(l)} takeaways`} />
