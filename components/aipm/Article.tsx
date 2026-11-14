@@ -103,9 +103,14 @@ const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(
 export const articleHeadings = (src: string) =>
   parse(src).filter((b): b is { t: 'h2'; text: string } => b.t === 'h2').map((b) => ({ id: slug(b.text), text: b.text }));
 
-export const Article: React.FC<{ source: string; skipHeading?: string }> = ({ source, skipHeading }) => {
+// The lesson's videos, in order (shown in the Course material card instead of inside the text).
+export const articleVideos = (src: string) =>
+  parse(src).filter((b): b is { t: 'video'; id: string; title: string } => b.t === 'video').map(({ id, title }) => ({ id, title }));
+
+export const Article: React.FC<{ source: string; skipHeading?: string; hideVideos?: boolean }> = ({ source, skipHeading, hideVideos }) => {
   let skipped = false;
   const blocks = parse(source).filter((b) => {
+    if (hideVideos && b.t === 'video') return false;
     // The lesson title is already shown above the article, so drop its first repeat.
     if (!skipped && b.t === 'h2' && skipHeading && b.text.toLowerCase() === skipHeading.toLowerCase()) { skipped = true; return false; }
     return true;

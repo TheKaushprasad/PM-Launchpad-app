@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, Navigate, useParams } from 'react-router-dom';
 import {
-  ArrowLeft, ArrowRight, BookOpen, CheckCircle2, Circle, Clock, Hammer, HelpCircle, Lightbulb, ListChecks, Lock, PlayCircle, ShoppingBag, Timer,
+  ArrowLeft, ArrowRight, BookOpen, Bookmark, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Circle, Clock, Hammer, HelpCircle, Lightbulb, ListChecks, PlayCircle, ShoppingBag, Timer,
 } from 'lucide-react';
 import { LEVEL1_WEEKS, LEVEL2_WEEKS } from '../../data/aiPmCourse/levels';
 import type { L1Lesson, L1Week } from '../../data/aiPmCourse/levelTypes';
@@ -11,7 +11,7 @@ import {
 } from '../../data/aiPmCourse/levelsOverview';
 import { PageTitle, Section, Card, Prose, Bullets, DataTable, Checklist } from './ui';
 import { useLevel1Progress, type Level1Progress } from './levelProgress';
-import { Article } from './Article';
+import { Article, articleVideos } from './Article';
 import { QuizPanel } from './QuizPanel';
 import { LessonNotes } from './LessonNotes';
 
@@ -20,18 +20,8 @@ const lessonPath = (id: string) => `/ai-pm/level-1/lesson/${id.replace('.', '-')
 const milestonePath = (n: number) => `/ai-pm/level-1/milestone/${n}`;
 const weekPath = (n: number) => `/ai-pm/level-1/week/${n}`;
 
-// Quizzes are mandatory: a lesson with a quiz is done only when the quiz is passed, and every lesson (and milestone)
-// after an unpassed quiz stays locked.
-const lessonDone = (p: Level1Progress, l: L1Lesson) => (l.quiz ? !!p.quizPassed?.[l.id] : p.lessonsDone.includes(l.id));
-const blockingIndex = (p: Level1Progress) => {
-  const i = ALL_LESSONS.findIndex(({ lesson }) => lesson.quiz && !p.quizPassed?.[lesson.id]);
-  return i < 0 ? Infinity : i;
-};
-const lessonLocked = (p: Level1Progress, id: string) => ALL_LESSONS.findIndex((x) => x.lesson.id === id) > blockingIndex(p);
-const milestoneLocked = (p: Level1Progress, week: number) => {
-  const b = blockingIndex(p);
-  return b !== Infinity && ALL_LESSONS[b].week.n <= week;
-};
+// Quizzes are optional (owner, 2026-11-14): a lesson is done when the learner marks it done.
+const lessonDone = (p: Level1Progress, l: L1Lesson) => p.lessonsDone.includes(l.id);
 const lessonLabel = (l: L1Lesson) => (l.day !== undefined ? `Day ${l.day}` : `Lesson ${l.id}`);
 
 const LevelBadge: React.FC<{ level: 1 | 2 }> = ({ level }) => (
@@ -211,7 +201,6 @@ export const Level1WeekPage: React.FC = () => {
   const { progress, milestoneDone } = useLevel1Progress();
   if (!w) return <Navigate to="/ai-pm/level-1" replace />;
   const mDone = milestoneDone(w.n, w.milestone.doneWhen.length);
-  const mLocked = milestoneLocked(progress, w.n);
   return (
     <div className="space-y-8">
       <Link to="/ai-pm/level-1" className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-900">
@@ -223,21 +212,20 @@ export const Level1WeekPage: React.FC = () => {
       <Section title="Lessons">
         <div className="grid sm:grid-cols-3 gap-3">
           {w.lessons.map((l) => {
-            const locked = lessonLocked(progress, l.id);
             const done = lessonDone(progress, l);
             return (
-              <Link key={l.id} to={lessonPath(l.id)} className={`group block ${locked ? 'opacity-60' : ''}`}>
+              <Link key={l.id} to={lessonPath(l.id)} className="group block">
                 <Card className="h-full group-hover:border-brand-300 transition-colors space-y-2">
                   <div className="flex items-center justify-between">
                     <span className="text-[11px] font-black uppercase tracking-widest text-brand-600">{lessonLabel(l)}</span>
-                    {done ? <CheckCircle2 className="size-4 text-emerald-600" /> : locked ? <Lock className="size-4 text-slate-400" /> : <Circle className="size-4 text-slate-300" />}
+                    {done ? <CheckCircle2 className="size-4 text-emerald-600" /> : <Circle className="size-4 text-slate-300" />}
                   </div>
                   <h3 className="font-black text-slate-900 leading-snug group-hover:text-brand-700">{l.title}</h3>
                   <p className="text-xs text-slate-500 font-bold flex flex-wrap items-center gap-x-3 gap-y-1">
                     <span className="inline-flex items-center gap-1"><Clock className="size-3.5" /> About {l.minutes} min</span>
                     {l.quiz && (
-                      <span className={`inline-flex items-center gap-1 ${done ? 'text-emerald-700' : 'text-violet-700'}`}>
-                        <ListChecks className="size-3.5" /> {done ? 'Quiz passed' : 'Quiz required'}
+                      <span className={`inline-flex items-center gap-1 ${progress.quizPassed?.[l.id] ? 'text-emerald-700' : 'text-violet-700'}`}>
+                        <ListChecks className="size-3.5" /> {progress.quizPassed?.[l.id] ? 'Quiz passed' : 'Quiz'}
                       </span>
                     )}
                   </p>
@@ -252,7 +240,7 @@ export const Level1WeekPage: React.FC = () => {
           <Card className="bg-amber-50/50 border-amber-200/70 group-hover:border-amber-300 flex items-start gap-3">
             <Hammer className="size-5 text-amber-600 shrink-0 mt-0.5" />
             <div className="flex-1 space-y-1">
-              <p className="text-[11px] font-black uppercase tracking-widest text-amber-700">Milestone {w.n}{mDone ? ' · done' : mLocked ? ' · pass this week’s quizzes first' : ''}</p>
+              <p className="text-[11px] font-black uppercase tracking-widest text-amber-700">Milestone {w.n}{mDone ? ' · done' : ''}</p>
               <h3 className="font-black text-slate-900 group-hover:text-amber-800">{w.milestone.title}</h3>
               <p className="text-sm text-slate-600">{w.milestone.doneWhen.length} “Done when” checks</p>
             </div>
@@ -273,24 +261,6 @@ const InfoCard: React.FC<{ icon: React.ReactNode; label: string; tone: string; c
   </div>
 );
 
-// Shown in place of a lesson (or milestone) that comes after a quiz the learner has not passed yet.
-const LockedNotice: React.FC<{ what: string }> = ({ what }) => {
-  const { progress } = useLevel1Progress();
-  const b = ALL_LESSONS[blockingIndex(progress)];
-  return (
-    <div className="max-w-xl mx-auto text-center space-y-4 py-12">
-      <div className="mx-auto size-12 rounded-2xl bg-violet-50 border border-violet-100 flex items-center justify-center"><Lock className="size-5 text-violet-600" /></div>
-      <h1 className="text-xl sm:text-2xl font-black text-slate-900">{what} is locked</h1>
-      <p className="text-sm text-slate-600 leading-relaxed">
-        Quizzes are required. Pass the quiz for {lessonLabel(b.lesson)}: {b.lesson.title} to unlock what comes next.
-      </p>
-      <Link to={lessonPath(b.lesson.id)} className="tap-target inline-flex items-center gap-2 h-11 px-5 rounded-xl bg-[#064E3B] text-white text-sm font-black hover:bg-[#065F46]">
-        Go to {lessonLabel(b.lesson)} <ArrowRight className="size-4" />
-      </Link>
-    </div>
-  );
-};
-
 export const Level1LessonPage: React.FC = () => {
   const { lesson } = useParams();
   const id = (lesson ?? '').replace('-', '.');
@@ -298,7 +268,6 @@ export const Level1LessonPage: React.FC = () => {
   const { progress, isLessonDone, toggleLesson } = useLevel1Progress();
   const [showAnswer, setShowAnswer] = useState(false);
   if (idx < 0) return <Navigate to="/ai-pm/level-1" replace />;
-  if (lessonLocked(progress, id)) return <LockedNotice what={lessonLabel(ALL_LESSONS[idx].lesson)} />;
   const { week, lesson: l } = ALL_LESSONS[idx];
   if (l.body) return <ArticleLessonPage key={l.id} idx={idx} />;
   const prev = ALL_LESSONS[idx - 1];
@@ -401,94 +370,171 @@ export const Level1LessonPage: React.FC = () => {
   );
 };
 
-// ---------------------------------------------------------------- Article lesson (Week 1: the owner's own text + required quiz)
+// ---------------------------------------------------------------- Article lesson (Week 1: the owner's own text)
+
+// Layout follows the owner's reference (2026-11-14): top bar with Bookmark, Mark Done and day arrows; text on the left;
+// on the right, Course material (video cards), Personal notes, then the optional quiz as a collapsed section.
+
+const VideoCard: React.FC<{ id: string; title: string; done: boolean; onToggle: () => void }> = ({ id, title, done, onToggle }) => {
+  const [playing, setPlaying] = useState(false);
+  return (
+    <div className={`rounded-xl border p-2.5 space-y-2 ${done ? 'border-emerald-300 bg-emerald-50/40' : 'border-slate-200 bg-slate-50/60'}`}>
+      <div className="relative aspect-video rounded-lg overflow-hidden bg-zinc-900">
+        {playing ? (
+          <iframe
+            src={`https://www.youtube.com/embed/${id}?autoplay=1`}
+            title={title}
+            className="absolute inset-0 w-full h-full"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        ) : (
+          <button type="button" onClick={() => setPlaying(true)} className="group absolute inset-0" aria-label={`Play ${title}`}>
+            <img src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`} alt="" loading="lazy" onError={(e) => { e.currentTarget.style.visibility = 'hidden'; }} className="w-full h-full object-cover" />
+            <span className="absolute inset-0 flex items-center justify-center">
+              <span className="size-11 rounded-full bg-[#064E3B]/90 group-hover:bg-[#064E3B] flex items-center justify-center shadow-lg">
+                <PlayCircle className="size-6 text-white" />
+              </span>
+            </span>
+          </button>
+        )}
+      </div>
+      <p className="text-[13px] font-bold text-slate-900 leading-snug px-0.5">{title}</p>
+      <div className="flex items-center justify-between gap-2 px-0.5">
+        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Video lesson</span>
+        <button
+          type="button"
+          onClick={onToggle}
+          className={`inline-flex items-center gap-1 h-7 px-2.5 rounded-lg border text-[11px] font-black ${
+            done ? 'border-emerald-300 bg-emerald-100 text-emerald-800' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
+          }`}
+        >
+          {done ? <CheckCircle2 className="size-3.5" /> : <Circle className="size-3.5" />} {done ? 'Completed' : 'Mark complete'}
+        </button>
+      </div>
+    </div>
+  );
+};
 
 const ArticleLessonPage: React.FC<{ idx: number }> = ({ idx }) => {
-  const { progress, passQuiz } = useLevel1Progress();
-  const [tab, setTab] = useState<'quiz' | 'notes'>('quiz');
+  const { progress, passQuiz, toggleLesson, toggleBookmark, toggleVideo } = useLevel1Progress();
   const { week, lesson: l } = ALL_LESSONS[idx];
   const prev = ALL_LESSONS[idx - 1];
   const next = ALL_LESSONS[idx + 1];
-  const isLastInWeek = week.lessons[week.lessons.length - 1].id === l.id;
-  const passed = lessonDone(progress, l);
+  const done = lessonDone(progress, l);
+  const bookmarked = progress.bookmarks?.includes(l.id) ?? false;
+  const quizPassed = !!progress.quizPassed?.[l.id];
+  const videos = articleVideos(l.body ?? '');
   const pos = week.lessons.findIndex((x) => x.id === l.id);
-  const nextLink = isLastInWeek
-    ? { to: milestonePath(week.n), label: `Build milestone ${week.n}` }
-    : next ? { to: lessonPath(next.lesson.id), label: `${lessonLabel(next.lesson)}: ${next.lesson.title}` } : null;
+  const isLastInWeek = pos === week.lessons.length - 1;
+  const courseMaterial = (cls: string) =>
+    videos.length > 0 && (
+            <section aria-label="Course material" className={`rounded-2xl border border-slate-200 bg-white shadow-sm p-4 space-y-3 ${cls}`}>
+              <div className="flex items-center justify-between">
+                <h2 className="text-sm font-black text-slate-900 flex items-center gap-1.5"><BookOpen className="size-4 text-brand-600" /> Course Material</h2>
+                <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 bg-slate-100 rounded-md px-1.5 py-0.5">
+                  {videos.length} {videos.length === 1 ? 'item' : 'items'}
+                </span>
+              </div>
+              {videos.map((v) => {
+                const key = `${l.id}:${v.id}`;
+                return <VideoCard key={v.id} id={v.id} title={v.title} done={!!progress.videosDone?.[key]} onToggle={() => toggleVideo(key)} />;
+              })}
+            </section>
+    );
+  const navBtn = 'size-8 flex items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100 hover:text-slate-900';
   return (
-    <div className="space-y-6">
-      <Link to={weekPath(week.n)} className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-900">
-        <ArrowLeft className="size-3.5" /> Week {week.n}: {week.title}
-      </Link>
+    <div className="space-y-5">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <Link to={weekPath(week.n)} className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-900">
+          <ArrowLeft className="size-3.5" /> Week {week.n}: {week.title}
+        </Link>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => toggleBookmark(l.id)}
+            aria-pressed={bookmarked}
+            className={`inline-flex items-center gap-1.5 h-9 px-3 rounded-xl border text-xs font-black ${
+              bookmarked ? 'border-amber-300 bg-amber-50 text-amber-800' : 'border-slate-200 bg-white text-slate-700 hover:border-slate-300'
+            }`}
+          >
+            <Bookmark className={`size-3.5 ${bookmarked ? 'fill-amber-500 text-amber-600' : ''}`} /> {bookmarked ? 'Bookmarked' : 'Bookmark'}
+          </button>
+          <button
+            type="button"
+            onClick={() => toggleLesson(l.id)}
+            aria-pressed={done}
+            className={`inline-flex items-center gap-1.5 h-9 px-3.5 rounded-xl text-xs font-black ${
+              done ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-[#064E3B] text-white hover:bg-[#065F46]'
+            }`}
+          >
+            <CheckCircle2 className="size-3.5" /> {done ? 'Done' : 'Mark Done'}
+          </button>
+          <div className="inline-flex items-center h-9 rounded-xl border border-slate-200 bg-white px-0.5">
+            {prev ? (
+              <Link to={lessonPath(prev.lesson.id)} className={navBtn} aria-label={`Previous: ${lessonLabel(prev.lesson)}`}><ChevronLeft className="size-4" /></Link>
+            ) : <span className={`${navBtn} opacity-30`}><ChevronLeft className="size-4" /></span>}
+            <span className="px-1.5 text-[11px] font-black uppercase tracking-widest text-slate-600">{lessonLabel(l)}</span>
+            {next ? (
+              <Link to={lessonPath(next.lesson.id)} className={navBtn} aria-label={`Next: ${lessonLabel(next.lesson)}`}><ChevronRight className="size-4" /></Link>
+            ) : <span className={`${navBtn} opacity-30`}><ChevronRight className="size-4" /></span>}
+          </div>
+        </div>
+      </div>
+
       <header className="space-y-3 max-w-3xl">
         <p className="text-[11px] font-black uppercase tracking-widest text-brand-600">Level 1 · Week {week.n} · {lessonLabel(l)}</p>
         <h1 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">{l.title}</h1>
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-xs font-bold text-slate-500">
           <span className="inline-flex items-center gap-1"><Clock className="size-3.5" /> About {l.minutes} min read</span>
-          <span className={`inline-flex items-center gap-1 ${passed ? 'text-emerald-700' : 'text-violet-700'}`}>
-            <ListChecks className="size-3.5" /> {passed ? 'Quiz passed' : 'Quiz required to finish'}
-          </span>
+          {videos.length > 0 && <span className="inline-flex items-center gap-1"><PlayCircle className="size-3.5" /> {videos.length} {videos.length === 1 ? 'video' : 'videos'}</span>}
           <span>Lesson {pos + 1} of {week.lessons.length}</span>
-          {l.quiz && (
-            <button
-              type="button"
-              onClick={() => document.getElementById('lesson-quiz')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-              className="lg:hidden text-violet-700 underline underline-offset-2"
-            >
-              Jump to quiz
-            </button>
-          )}
         </div>
         <ProgressBar done={week.lessons.filter((x) => lessonDone(progress, x)).length} total={week.lessons.length} />
       </header>
 
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start">
-        <article className="min-w-0 max-w-3xl rounded-3xl bg-white border border-slate-200/80 p-5 sm:p-8">
-          <Article source={l.body ?? ''} skipHeading={l.title} />
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-start">
+        {courseMaterial('lg:hidden')}
+        <article className="min-w-0 rounded-3xl bg-white border border-slate-200/80 p-5 sm:p-8">
+          <Article source={l.body ?? ''} skipHeading={l.title} hideVideos />
         </article>
-        <aside id="lesson-quiz" className="scroll-mt-16 lg:sticky lg:top-16 lg:max-h-[calc(100vh-5rem)] lg:overflow-y-auto no-scrollbar space-y-3">
-          <div className="grid grid-cols-2 gap-1 rounded-xl bg-slate-100 p-1" role="tablist">
-            {(['quiz', 'notes'] as const).map((t) => (
-              <button
-                key={t}
-                type="button"
-                role="tab"
-                aria-selected={tab === t}
-                onClick={() => setTab(t)}
-                className={`h-9 rounded-lg text-xs font-black transition-colors ${tab === t ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-800'}`}
-              >
-                {t === 'quiz' ? (passed ? 'Quiz ✓' : 'Quiz') : 'My notes'}
-              </button>
-            ))}
-          </div>
-          {tab === 'quiz' && l.quiz && <QuizPanel quiz={l.quiz} passed={passed} onPass={() => passQuiz(l.id)} />}
-          {tab === 'notes' && <LessonNotes lessonId={l.id} />}
-          {nextLink && (
-            passed ? (
-              <Link to={nextLink.to} className="tap-target flex items-center justify-between gap-2 rounded-2xl bg-[#064E3B] text-white px-4 py-3 text-sm font-black hover:bg-[#065F46]">
-                <span>Next: {nextLink.label}</span> <ArrowRight className="size-4 shrink-0" />
-              </Link>
-            ) : (
-              <div className="flex items-center gap-2 rounded-2xl border border-dashed border-slate-300 px-4 py-3 text-xs font-bold text-slate-500">
-                <Lock className="size-3.5 shrink-0" /> Next: {nextLink.label}. Unlocks when you pass the quiz.
+        <aside className="space-y-4">
+          {courseMaterial('hidden lg:block')}
+          <LessonNotes lessonId={l.id} subtitle={`${lessonLabel(l)} takeaways`} />
+          {l.quiz && (
+            <details className="group rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+              <summary className="list-none cursor-pointer px-4 py-3 flex items-center justify-between gap-2 hover:bg-slate-50">
+                <span className="text-sm font-black text-slate-900 flex items-center gap-1.5">
+                  <ListChecks className="size-4 text-violet-600" /> Quiz
+                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">optional</span>
+                </span>
+                <span className="flex items-center gap-2 text-xs font-bold">
+                  <span className={quizPassed ? 'text-emerald-700' : 'text-slate-500'}>{quizPassed ? 'Passed ✓' : `${l.quiz.length} questions`}</span>
+                  <ChevronDown className="size-4 text-slate-400 transition-transform group-open:rotate-180" />
+                </span>
+              </summary>
+              <div className="border-t border-slate-100">
+                <QuizPanel quiz={l.quiz} passed={quizPassed} onPass={() => passQuiz(l.id)} bare />
               </div>
-            )
+            </details>
           )}
         </aside>
       </div>
 
-      <nav className="flex items-center justify-between gap-3 border-t border-slate-200/80 pt-5 max-w-3xl">
+      <nav className="flex items-center justify-between gap-3 border-t border-slate-200/80 pt-5">
         {prev ? (
           <Link to={lessonPath(prev.lesson.id)} className="text-xs font-bold text-slate-500 hover:text-slate-900 inline-flex items-center gap-1.5">
             <ArrowLeft className="size-3.5" /> {lessonLabel(prev.lesson)}
           </Link>
         ) : <span />}
-        {nextLink && passed ? (
-          <Link to={nextLink.to} className="text-xs font-black text-brand-700 hover:text-brand-900 inline-flex items-center gap-1.5">
-            {isLastInWeek ? nextLink.label : lessonLabel(next.lesson)} <ArrowRight className="size-3.5" />
+        {isLastInWeek ? (
+          <Link to={milestonePath(week.n)} className="text-xs font-black text-amber-700 hover:text-amber-900 inline-flex items-center gap-1.5">
+            Build milestone {week.n} <ArrowRight className="size-3.5" />
           </Link>
-        ) : nextLink ? (
-          <span className="text-xs font-bold text-slate-400 inline-flex items-center gap-1.5"><Lock className="size-3.5" /> Pass the quiz to continue</span>
+        ) : next ? (
+          <Link to={lessonPath(next.lesson.id)} className="text-xs font-black text-brand-700 hover:text-brand-900 inline-flex items-center gap-1.5">
+            {lessonLabel(next.lesson)}: {next.lesson.title} <ArrowRight className="size-3.5" />
+          </Link>
         ) : <span />}
       </nav>
     </div>
@@ -502,7 +548,6 @@ export const Level1MilestonePage: React.FC = () => {
   const w = LEVEL1_WEEKS.find((x) => x.n === Number(week));
   const { progress, toggleCheck, milestoneDone } = useLevel1Progress();
   if (!w) return <Navigate to="/ai-pm/level-1" replace />;
-  if (milestoneLocked(progress, w.n)) return <LockedNotice what={`Build milestone ${w.n}`} />;
   const nextWeek = LEVEL1_WEEKS.find((x) => x.n === w.n + 1);
   const done = milestoneDone(w.n, w.milestone.doneWhen.length);
   return (

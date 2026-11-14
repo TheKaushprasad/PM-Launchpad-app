@@ -12,7 +12,7 @@ const loadAll = (): Record<string, string> => {
   }
 };
 
-export const LessonNotes: React.FC<{ lessonId: string }> = ({ lessonId }) => {
+export const LessonNotes: React.FC<{ lessonId: string; subtitle?: string }> = ({ lessonId, subtitle }) => {
   const [text, setText] = useState(() => loadAll()[lessonId] ?? '');
   const [saved, setSaved] = useState(true);
 
@@ -33,22 +33,30 @@ export const LessonNotes: React.FC<{ lessonId: string }> = ({ lessonId }) => {
   }, [text, saved, lessonId]);
 
   return (
-    <section aria-label="My notes" className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
-      <header className="px-4 py-3 border-b border-amber-100 bg-amber-50 flex items-center justify-between gap-2">
-        <label htmlFor={`notes-${lessonId}`} className="text-[11px] font-black uppercase tracking-widest text-amber-800 flex items-center gap-1.5">
-          <StickyNote className="size-4" /> My notes
-        </label>
-        <span className="text-[11px] font-bold text-slate-400">{saved ? (text.trim() ? 'Saved' : '') : 'Saving…'}</span>
+    <section aria-label="Personal notes" className="rounded-2xl border border-slate-200 bg-white shadow-sm p-4 space-y-3">
+      <header className="flex items-start justify-between gap-2">
+        <div className="flex items-start gap-2.5">
+          <span className="size-8 rounded-lg bg-emerald-50 border border-emerald-100 flex items-center justify-center shrink-0">
+            <StickyNote className="size-4 text-emerald-700" />
+          </span>
+          <div>
+            <label htmlFor={`notes-${lessonId}`} className="block text-sm font-black text-slate-900">Personal Notes</label>
+            {subtitle && <p className="text-[11px] text-slate-500">{subtitle}</p>}
+          </div>
+        </div>
+        <span className="inline-flex items-center h-6 px-2 rounded-md border border-slate-200 text-[11px] font-bold text-slate-500">
+          {saved ? 'Saved' : 'Saving…'}
+        </span>
       </header>
       <textarea
         id={`notes-${lessonId}`}
         value={text}
         onChange={(e) => { setText(e.target.value); setSaved(false); }}
-        placeholder="Write what you learned, questions, or ideas for your product…"
+        placeholder="Write down your key learnings, frameworks, or interview takeaways for this day. Notes auto-save as you type..."
         rows={6}
-        className="block w-full resize-y px-4 py-3 text-sm leading-relaxed text-slate-800 placeholder:text-slate-400 focus:outline-none"
+        className="block w-full resize-y rounded-xl border border-slate-200 bg-slate-50/60 px-3 py-2.5 text-sm leading-relaxed text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-brand-300 focus:bg-white"
       />
-      <p className="px-4 pb-3 text-[11px] text-slate-400">Saved in this browser only.</p>
+      <p className="text-[11px] text-slate-400">Saved in this browser only.</p>
     </section>
   );
 };
