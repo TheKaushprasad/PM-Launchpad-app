@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { CheckCircle2, ListChecks, RotateCcw, XCircle } from 'lucide-react';
 import type { QuizQuestion } from '../../data/aiPmCourse/levelTypes';
 
-// Lesson quiz. Every question must be answered correctly to pass; wrong answers can be changed and checked again.
-// Passing is what finishes the lesson and unlocks the next one.
+// Optional lesson quiz. Passing means every answer is correct; wrong answers can be changed and checked again.
 
 const sameSet = (a: number[], b: number[]) => a.length === b.length && a.every((x) => b.includes(x));
 
-export const QuizPanel: React.FC<{ quiz: QuizQuestion[]; passed: boolean; onPass: () => void }> = ({ quiz, passed, onPass }) => {
+// `bare` drops the panel's own frame and header, for use inside another card (the lesson's collapsible quiz).
+export const QuizPanel: React.FC<{ quiz: QuizQuestion[]; passed: boolean; onPass: () => void; bare?: boolean }> = ({ quiz, passed, onPass, bare }) => {
   const [picked, setPicked] = useState<number[][]>(() => quiz.map((q) => (passed ? q.answer : [])));
   const [checked, setChecked] = useState(passed);
 
@@ -34,15 +34,15 @@ export const QuizPanel: React.FC<{ quiz: QuizQuestion[]; passed: boolean; onPass
   };
 
   return (
-    <section aria-label="Lesson quiz" className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
-      <header className={`px-4 py-3 border-b flex items-center justify-between gap-2 ${passed ? 'bg-emerald-50 border-emerald-100' : 'bg-violet-50 border-violet-100'}`}>
+    <section aria-label="Lesson quiz" className={bare ? '' : 'rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden'}>
+      {!bare && <header className={`px-4 py-3 border-b flex items-center justify-between gap-2 ${passed ? 'bg-emerald-50 border-emerald-100' : 'bg-violet-50 border-violet-100'}`}>
         <p className={`text-[11px] font-black uppercase tracking-widest flex items-center gap-1.5 ${passed ? 'text-emerald-700' : 'text-violet-700'}`}>
-          <ListChecks className="size-4" /> {passed ? 'Quiz passed' : 'Quiz · required'}
+          <ListChecks className="size-4" /> {passed ? 'Quiz passed' : 'Quiz · optional'}
         </p>
         <span className="text-xs font-black text-slate-500 tabular-nums">{checked ? `${score} / ${quiz.length}` : `${quiz.length} questions`}</span>
-      </header>
+      </header>}
       {!passed && (
-        <p className="px-4 pt-3 text-xs text-slate-500 leading-relaxed">Answer every question correctly to finish this lesson and unlock the next one.</p>
+        <p className="px-4 pt-3 text-xs text-slate-500 leading-relaxed">Optional. Check what you learned; you can change wrong answers and check again.</p>
       )}
       <ol className="p-4 space-y-5">
         {quiz.map((q, qi) => {
@@ -107,7 +107,7 @@ export const QuizPanel: React.FC<{ quiz: QuizQuestion[]; passed: boolean; onPass
         </div>
       )}
       {passed && (
-        <p className="px-4 pb-4 text-sm font-bold text-emerald-700 flex items-center gap-1.5"><CheckCircle2 className="size-4" /> All correct. This lesson is done.</p>
+        <p className="px-4 pb-4 text-sm font-bold text-emerald-700 flex items-center gap-1.5"><CheckCircle2 className="size-4" /> All correct. Well done.</p>
       )}
     </section>
   );

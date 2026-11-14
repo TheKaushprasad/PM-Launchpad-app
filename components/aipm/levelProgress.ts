@@ -6,10 +6,12 @@ const STORAGE_KEY = 'aipm_level1_v1';
 export interface Level1Progress {
   lessonsDone: string[]; // lesson ids such as "1.2"
   checks: Record<string, boolean>; // "m1-0" = milestone 1, "Done when" item 0
-  quizPassed: Record<string, boolean>; // lesson id -> quiz passed (lessons with a quiz are done only when it is passed)
+  quizPassed: Record<string, boolean>; // lesson id -> quiz passed (quizzes are optional)
+  bookmarks: string[]; // lesson ids
+  videosDone: Record<string, boolean>; // "lessonId:videoId" -> marked complete
 }
 
-const empty: Level1Progress = { lessonsDone: [], checks: {}, quizPassed: {} };
+const empty: Level1Progress = { lessonsDone: [], checks: {}, quizPassed: {}, bookmarks: [], videosDone: {} };
 
 const load = (): Level1Progress => {
   try {
@@ -42,9 +44,11 @@ export const useLevel1Progress = () => {
   const progress = useSyncExternalStore(subscribe, () => state);
   return {
     progress,
-    // A lesson with a quiz is done only once its quiz is passed.
-    isLessonDone: (id: string, hasQuiz = false) => (hasQuiz ? !!progress.quizPassed[id] : progress.lessonsDone.includes(id)),
+    isLessonDone: (id: string) => progress.lessonsDone.includes(id),
     passQuiz: (id: string) => save({ ...state, quizPassed: { ...state.quizPassed, [id]: true } }),
+    toggleBookmark: (id: string) =>
+      save({ ...state, bookmarks: state.bookmarks.includes(id) ? state.bookmarks.filter((x) => x !== id) : [...state.bookmarks, id] }),
+    toggleVideo: (key: string) => save({ ...state, videosDone: { ...state.videosDone, [key]: !state.videosDone[key] } }),
     toggleLesson: (id: string) =>
       save({
         ...state,
