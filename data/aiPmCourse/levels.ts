@@ -1,45 +1,13 @@
 import type { L1Week, L2Week } from './levelTypes';
+import { WEEK1_LESSONS } from './week1';
 
 // Level 1: AI-enabled PM. Free, self-serve, days 1 to 35. Text from the owner's "AI PM in 90 Days: Level 1 + Level 2" plan
-// (2026-11-13). Check-question answers and the embedded videos were added by Claude; the owner should review them.
+// (2026-11-13). Week 1 is the owner's own Day 0 to 5 text (2026-11-14), see ./week1. Check-question answers and the embedded videos were added by Claude; the owner should review them.
 export const LEVEL1_WEEKS: L1Week[] = [
   {
-    n: 1, title: "AI fit and how LLMs work", start: 1, end: 7,
-    goal: "You can decide when a problem needs AI, explain how an LLM works and fails, and estimate what it costs.",
-    lessons: [
-      {
-        id: "1.1", title: "AI types and when to use AI", minutes: 30,
-        outcomes: ["Tell AI, ML, deep learning and generative AI apart.", "Use 5 fit questions to decide if a problem needs AI."],
-        topics: ["AI, ML, deep learning and generative AI, and how they nest.", "Predictive AI (labels and scores), generative AI (new content), agentic AI (actions toward a goal).", "The model produces a prediction. The product decides what to do with it.", "The 5 fit questions: How much error can users accept? Is the data there? What does an error cost? What latency and cost can we accept? Must we explain the decision?", "Rules win when logic is clear and stable. AI wins when the task is open-ended or the patterns are complex."],
-        example: "Map each ShopAssist feature (FAQ answers, order lookup, fraud flag, refund) to rules, ML, generative AI or agent.",
-        tryIt: "List 5 AI features in apps you use and name the AI type behind each.",
-        material: "Current PDF module 1 (pages 1 to 4). Videos: A Brief History of AI and 6 Concepts You Need to Know About Modern AI.",
-        videos: [{ id: "mUw27wG7uFA", title: "6 Concepts You Need to Know About Modern AI" }],
-        check: "Your refund limit is a fixed rule of 5,000 rupees. Should an LLM enforce it?",
-        answer: "No. A fixed limit is a clear, stable rule, so it belongs in code. The LLM can explain the limit to the customer, but the application enforces it.",
-      },
-      {
-        id: "1.2", title: "How LLMs work and fail", minutes: 30,
-        outcomes: ["Explain how an LLM generates text one token at a time.", "Explain hallucination and why the same input can give different outputs."],
-        topics: ["Next-token prediction. Tokens are words or parts of words.", "Training gives the model patterns up to a cutoff date. It does not know your private or recent data.", "The context window holds the information for one request.", "Temperature: why outputs vary.", "Hallucination: confident, plausible and wrong. No single fix removes it.", "Uneven capability: strong on hard tasks, weak on some easy ones."],
-        example: "ShopAssist cannot know this week's refund policy from training. The policy must go into the context.",
-        tryIt: "Run the same prompt 5 times and compare the outputs.",
-        material: "Current PDF module 2 (pages 5 to 11 and 21 to 23). Video: Intro to Large Language Models.",
-        videos: [{ id: "zjkBMFhNj_g", title: "[1hr Talk] Intro to Large Language Models (Andrej Karpathy)" }],
-        check: "You paste a new policy into the prompt and the model uses it. Did the model's weights change?",
-        answer: "No. The weights stay the same. The policy sits in the context window for that one request, and the model reads it there.",
-      },
-      {
-        id: "1.3", title: "Models, tokens and cost", minutes: 30,
-        outcomes: ["Compare models on quality, cost and latency.", "Calculate cost per request."],
-        topics: ["Small vs large models. Reasoning models cost more and take longer.", "Pricing per million input and output tokens.", "Cost per request = (input tokens x input price + output tokens x output price) / 1,000,000.", "Indian languages often use more tokens per word, so they cost more.", "Benchmarks help you shortlist. Your own test inputs decide.", "Set a spend limit before you build."],
-        example: "Estimate ShopAssist cost per 1,000 conversations on 2 models.",
-        tryIt: "Count the tokens of one message in English and in Hindi with a public tokenizer.",
-        material: "Current model pricing pages (linked on the lesson page and checked each quarter).",
-        check: "A model is 10% better on a benchmark and 4 times the price. What do you need to know before you switch?",
-        answer: "Check whether it is better on your own test inputs, what it costs per 1,000 requests at your volume, how its latency compares, and whether the gain changes anything users notice.",
-      },
-    ],
+    n: 1, title: "AI PM basics, LLMs and prompting", start: 0, end: 7,
+    goal: "You know what an AI PM does, how AI, machine learning and LLMs work and fail, and how to write and test a prompt.",
+    lessons: WEEK1_LESSONS,
     milestone: { title: "Product brief and model choice", build: ["Write a one-page product brief: user, problem, what the AI handles, what humans handle, and answers to the 5 fit questions.", "Collect 10 real inputs from your target users.", "Run the 10 inputs on 2 or 3 models and score the answers.", "Estimate cost per 1,000 requests and choose a model.", "Set a monthly spend limit in your model provider account."], doneWhen: ["The brief passes the product rules.", "The model choice has evidence from your own inputs.", "The spend limit is active."], submit: "Product brief and model comparison sheet." },
   },
   {

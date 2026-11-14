@@ -1,8 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { ExternalLink, CheckCircle2, Circle } from 'lucide-react';
-import type { AiPmTable } from '../../data/aiPmCourse/content';
-import { AI_PM_RESOURCES } from '../../data/aiPmCourse/resources';
+import { CheckCircle2, Circle } from 'lucide-react';
+import type { AiPmTable } from '../../data/aiPmCourse/levelTypes';
 
 export const PageTitle: React.FC<{ eyebrow?: string; title: string; children?: React.ReactNode }> = ({ eyebrow, title, children }) => (
   <header className="space-y-2">
@@ -61,35 +59,6 @@ export const DataTable: React.FC<{ table: AiPmTable; firstColBold?: boolean }> =
       </table>
     </div>
   </div>
-);
-
-export const ResourceLink: React.FC<{ id: string; detail?: string }> = ({ id, detail }) => {
-  const r = AI_PM_RESOURCES[id];
-  if (!r) return null;
-  const body = (
-    <>
-      <span className="font-bold text-slate-900 group-hover:text-brand-700">{r.title}</span>
-      <span className="text-slate-500"> — {r.by}</span>
-      {detail && <span className="text-slate-400"> · {detail}</span>}
-    </>
-  );
-  return r.url ? (
-    <a href={r.url} target="_blank" rel="noopener noreferrer" className="group inline-flex items-start gap-1.5 text-sm leading-relaxed">
-      <span>{body}</span>
-      <ExternalLink className="w-3.5 h-3.5 mt-1 shrink-0 text-slate-400 group-hover:text-brand-600" />
-    </a>
-  ) : (
-    <span className="text-sm leading-relaxed">{body}</span>
-  );
-};
-
-export const TemplateChip: React.FC<{ id: string }> = ({ id }) => (
-  <Link
-    to={`/ai-pm/templates#${id.toLowerCase()}`}
-    className="inline-flex items-center px-2.5 py-1 rounded-lg bg-brand-50 text-brand-700 border border-brand-100 text-xs font-black hover:bg-brand-100"
-  >
-    Template {id}
-  </Link>
 );
 
 export const Checklist: React.FC<{
