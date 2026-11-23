@@ -10,7 +10,7 @@ export interface InterviewAccess {
   loading: boolean;
   /** The interview studio is open (text, voice, or both). */
   enabled: boolean;
-  /** Voice mode is offered. Off on the live site until VITE_AI_INTERVIEW_ENABLED=true; testers always get it. */
+  /** Voice mode is offered. On unless VITE_AI_INTERVIEW_ENABLED=false; testers always get it. */
   voice: boolean;
   tester: boolean;
   /** Free mock interviews left this month (null when signed out or unknown). */

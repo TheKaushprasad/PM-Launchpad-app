@@ -32,7 +32,7 @@ Priority: **P0** blocks safe growth, **P1** important next, **P2** nice to have.
 
 ### Career tools and projects
 - [ ] **P1** PM Assignment Solver (live, docs/assignment-solver.md): run 10 real assignments, score them by hand on the Critic rubric and compare with the Critic.
-- [ ] **P1** AI interview text mode is live (voice still hidden): watch Gemini spend on the interview key and the `INTERVIEW_TEXT_TURNS_PER_DAY` cap (default 60 Priya replies per user per day).
+- [ ] **P1** AI interview text and voice modes are live (voice since 2026-11-23, 2 per account per year): watch Gemini spend on the interview key, Sarvam credits, and the daily caps `INTERVIEW_TEXT_TURNS_PER_DAY` (60 Priya replies) and `INTERVIEW_TTS_PER_DAY` (80 spoken lines).
 - [ ] **P1** More real-world projects (currently 6), especially AI Product and Growth.
 - [ ] **P2** Let users resubmit a project and compare feedback versions.
 - [ ] **P2** Export resume audit and LinkedIn report as PDF.

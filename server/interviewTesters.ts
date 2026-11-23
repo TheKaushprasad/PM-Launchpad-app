@@ -64,7 +64,7 @@ export async function isInterviewTester(email: string | undefined): Promise<bool
 }
 
 export interface InterviewAvailability {
-  /** Voice interviews (Priya speaks through Sarvam) for everyone: VITE_AI_INTERVIEW_ENABLED=true, or local dev. */
+  /** Voice interviews (Priya speaks through Sarvam) for everyone: on unless VITE_AI_INTERVIEW_ENABLED=false. */
   voice: boolean;
   /** Text interviews for everyone: on unless VITE_AI_INTERVIEW_TEXT_ENABLED=false. */
   text: boolean;
@@ -74,6 +74,13 @@ export interface InterviewAvailability {
 const VOICE_ONLY_PATHS = new Set(['/tts', '/tts/']);
 const CHAT_PATHS = new Set(['/chat', '/chat/']);
 
+// Priya's spoken lines per user per day (each one is a paid Sarvam call). A 30-minute voice interview
+// needs roughly 20-30; the default leaves room for two interviews and replays.
+function ttsPerDay(): number {
+  const n = Number(process.env.INTERVIEW_TTS_PER_DAY);
+  return Number.isFinite(n) && n > 0 ? Math.floor(n) : 80;
+}
+
 function textTurnsPerDay(): number {
   const n = Number(process.env.INTERVIEW_TEXT_TURNS_PER_DAY);
   return Number.isFinite(n) && n > 0 ? Math.floor(n) : 60;
@@ -82,9 +89,9 @@ function textTurnsPerDay(): number {
 /**
  * Lets /api/interview/* through for testers on the list (verified email only). Everyone else: voice
  * endpoints only when voice is on for everyone; each new interview uses one of the account's free
- * interviews this month (INTERVIEW_FREE_PER_MONTH, default 2; paid accounts are not limited); and when
- * only text interviews are public, a daily cap on Priya's replies (INTERVIEW_TEXT_TURNS_PER_DAY,
- * default 60) because each reply is a paid Gemini call.
+ * interviews this month (INTERVIEW_FREE_PER_MONTH, default 2; paid accounts are not limited); and a
+ * daily cap on Priya's replies, text and voice (INTERVIEW_TEXT_TURNS_PER_DAY, default 60), because each
+ * reply is a paid Gemini call.
  */
 export function interviewAccessGate(open: InterviewAvailability) {
   return async (req: Request, res: Response, next: NextFunction) => {
@@ -120,6 +127,10 @@ export function interviewAccessGate(open: InterviewAvailability) {
         return res.status(403).json({ error: 'Voice interviews are coming soon. Text interviews are open.' });
       }
     }
+    // Priya's voice: a daily cap so the voice endpoint can't be used as a free text-to-speech service.
+    if (isTts && user?.emailVerified && !(await consumeDailyQuota(`interview_tts_${user.uid}`, ttsPerDay()))) {
+      return res.status(429).json({ error: "You've reached today's limit for Priya's voice. Please come back tomorrow, or switch to a text interview." });
+    }
     // Signed-out callers are turned away by requireAiAccess on the route itself.
     if (!CHAT_PATHS.has(req.path) || !user?.emailVerified) return next();
 
@@ -139,7 +150,8 @@ export function interviewAccessGate(open: InterviewAvailability) {
       return res.status(402).json({ error: exhaustedMessage(), freeInterviewsExhausted: true });
     }
 
-    if (!open.voice && !(await consumeDailyQuota(`interview_text_turns_${user.uid}`, textTurnsPerDay()))) {
+    // Kept on when voice opens too: it is the only cap on replies inside one interview.
+    if (!(await consumeDailyQuota(`interview_text_turns_${user.uid}`, textTurnsPerDay()))) {
       return res.status(429).json({ error: "You've reached today's limit for mock interviews. Please come back tomorrow." });
     }
     next();

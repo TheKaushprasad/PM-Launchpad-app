@@ -1,9 +1,9 @@
 const env = (import.meta as unknown as { env?: Record<string, string | boolean> }).env || {};
 
-// Voice interviews with Priya (she speaks through Sarvam, which costs credits) are hidden on the live
-// site. They always work in local dev (`npm run dev`); set VITE_AI_INTERVIEW_ENABLED=true in Vercel and
-// redeploy to turn voice on live. The server reads the same variable.
-export const isAiInterviewEnabled = env.DEV === true || env.VITE_AI_INTERVIEW_ENABLED === 'true';
+// Voice interviews with Priya (she speaks through Sarvam, which costs credits) are live for everyone,
+// limited to a few per account per year (server/interviewAllowance.ts). To switch voice off, set
+// VITE_AI_INTERVIEW_ENABLED=false in Vercel and redeploy; the server reads the same variable.
+export const isAiInterviewEnabled = env.DEV === true || env.VITE_AI_INTERVIEW_ENABLED !== 'false';
 
 // Text interviews with Priya (type or record answers, she replies in text) are live for everyone.
 // To switch them off, set VITE_AI_INTERVIEW_TEXT_ENABLED=false in Vercel and redeploy; the server
