@@ -430,19 +430,40 @@ export function parseCsv(text: string): string[][] {
   return rows.filter((r) => r.some((c) => c.trim()));
 }
 
-/** "13/10/2026" (day first) or "10/13/2026" (US sheets, month first), or anything Date understands. */
-export function sheetDate(value: string): string | undefined {
-  const m = value.trim().match(/^(\d{1,2})[/.-](\d{1,2})[/.-](\d{4})$/);
-  if (!m) return toIsoDate(value);
-  const iso = (month: string, day: string) => {
-    const mm = Number(month);
-    const dd = Number(day);
-    if (mm < 1 || mm > 12 || dd < 1 || dd > 31) return undefined;
-    const date = toIsoDate(`${m[3]}-${month.padStart(2, '0')}-${day.padStart(2, '0')}T00:00:00Z`);
-    // A posted date can't be in the future, so that reading is the wrong way round.
-    return date && Date.parse(date) <= Date.now() + 86400000 ? date : undefined;
-  };
-  return iso(m[2], m[1]) || iso(m[1], m[2]);
+const SLASH_DATE = /^(\d{1,2})[/.-](\d{1,2})[/.-](\d{4})$/;
+
+/**
+ * Which way round a sheet writes "11/6/2026". Google exports dates in the sheet's own
+ * locale, so the whole column uses one order: any part over 12 settles it. If every
+ * date is ambiguous, day first (Indian sheets).
+ */
+export function sheetDateOrder(values: string[]): 'dmy' | 'mdy' {
+  for (const v of values) {
+    const m = v.trim().match(SLASH_DATE);
+    if (!m) continue;
+    if (Number(m[1]) > 12) return 'dmy';
+    if (Number(m[2]) > 12) return 'mdy';
+  }
+  return 'dmy';
+}
+
+/**
+ * "13/10/2026" or "10/13/2026" (order from sheetDateOrder), or anything Date understands.
+ * A date in the future is a typo (often from dragging the cell down, which adds a day per
+ * row), so it counts as no date and the job is aged from when we first saw it.
+ */
+export function sheetDate(value: string, order: 'dmy' | 'mdy' = 'dmy', nowMs = Date.now()): string | undefined {
+  const m = value.trim().match(SLASH_DATE);
+  let date: string | undefined;
+  if (m) {
+    const [mm, dd] = order === 'dmy' ? [m[2], m[1]] : [m[1], m[2]];
+    if (Number(mm) < 1 || Number(mm) > 12 || Number(dd) < 1 || Number(dd) > 31) return undefined;
+    date = toIsoDate(`${m[3]}-${mm.padStart(2, '0')}-${dd.padStart(2, '0')}T00:00:00Z`);
+  } else {
+    date = toIsoDate(value);
+  }
+  // One day of slack: the sheet's "today" can be ahead of UTC midnight (India).
+  return date && Date.parse(date) <= nowMs + 86400000 ? date : undefined;
 }
 
 // Header names in the sheet (case and spacing don't matter).
@@ -465,6 +486,7 @@ async function fetchSheet(): Promise<RawJob[]> {
   const idx = Object.fromEntries(Object.entries(SHEET_COLUMNS).map(([k, names]) => [k, col(names)])) as Record<keyof typeof SHEET_COLUMNS, number>;
   if (idx.title < 0 || idx.url < 0) throw new Error('sheet needs "Title" and "Apply link" columns');
   const cell = (r: string[], i: number) => (i >= 0 ? (r[i] || '').trim() : '');
+  const dateOrder = sheetDateOrder(rows.slice(1).map((r) => cell(r, idx.postedAt)));
   return rows.slice(1).map((r) => {
     const url = cell(r, idx.url);
     const location = cell(r, idx.location);
@@ -476,7 +498,7 @@ async function fetchSheet(): Promise<RawJob[]> {
       title: cell(r, idx.title),
       locationText: location,
       workModeHint: cell(r, idx.workMode),
-      postedAt: sheetDate(cell(r, idx.postedAt)),
+      postedAt: sheetDate(cell(r, idx.postedAt), dateOrder),
       url,
       descriptionText: cell(r, idx.description),
       expText: cell(r, idx.experience),

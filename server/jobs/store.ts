@@ -115,7 +115,12 @@ export async function refreshJobs({ dryRun = false } = {}): Promise<RefreshSumma
     const key = dedupeKey(job.company, job.title, job.cities);
     if (byKey.has(key) || ids.has(job.id)) continue;
     const prev = prevById.get(job.id);
-    if (prev) job.firstSeenAt = prev.firstSeenAt;
+    if (prev) {
+      // No posted date from the feed (normalizeRawJob filled in "now"): keep the day we
+      // first saw it, so an undated job doesn't look brand new on every refresh.
+      if (job.postedAt === job.firstSeenAt) job.postedAt = prev.firstSeenAt;
+      job.firstSeenAt = prev.firstSeenAt;
+    }
     byKey.set(key, job);
     ids.add(job.id);
   }
