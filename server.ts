@@ -1006,11 +1006,10 @@ Return only the JSON object. No preamble, no markdown code fences, no explanatio
   // API Route for AI Mock Interview - Conversational Turn
   // One AI call per candidate answer. The opener is scripted in the browser and voice is
   // fetched separately (only in voice modes), so text chat never spends TTS quota.
-  // Text interviews are live; voice interviews are hidden on the live site (see lib/featureFlags.ts), so
-  // Priya's voice endpoint refuses there too. Local dev always allows both; VITE_AI_INTERVIEW_ENABLED=true
-  // turns voice on live and VITE_AI_INTERVIEW_TEXT_ENABLED=false switches text off.
+  // Text and voice interviews are both live (see lib/featureFlags.ts). Local dev always allows both;
+  // VITE_AI_INTERVIEW_ENABLED=false switches voice off live and VITE_AI_INTERVIEW_TEXT_ENABLED=false text.
   const interviewOpen = {
-    voice: process.env.NODE_ENV !== "production" || process.env.VITE_AI_INTERVIEW_ENABLED === "true",
+    voice: process.env.NODE_ENV !== "production" || process.env.VITE_AI_INTERVIEW_ENABLED !== "false",
     text: process.env.NODE_ENV !== "production" || process.env.VITE_AI_INTERVIEW_TEXT_ENABLED !== "false",
   };
   // Invited testers (list edited in the local eval dashboard) can use voice before launch.
@@ -1169,6 +1168,10 @@ Plain text, 1-2 sentences. No markdown.
       const { text, personaId = 'maya', voiceGender = 'female' } = req.body;
       if (!text || !text.trim()) {
         return res.status(400).json({ error: "Missing text for voice synthesis" });
+      }
+      // Priya's replies are a few sentences; refuse anything far longer (each character costs Sarvam credits).
+      if (typeof text !== 'string' || text.length > 2500) {
+        return res.status(400).json({ error: "That reply is too long to speak." });
       }
 
       const geminiKey = getInterviewGeminiKey();

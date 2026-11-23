@@ -19,8 +19,8 @@ const MODES: { id: InterviewMode; label: string; note: string; Icon: typeof Mic 
 ];
 
 /**
- * Voice or text interview. Both use the same interviewer, hints and scoring. Where voice is not on yet
- * (the live site, for now) its card shows Coming soon and cannot be picked. Voice is also limited to a
+ * Voice or text interview. Both use the same interviewer, hints and scoring. Where voice is switched off
+ * (VITE_AI_INTERVIEW_ENABLED=false) its card shows Coming soon and cannot be picked. Voice is also limited to a
  * few interviews a year (server/interviewAllowance.ts); `needed` is how many this choice uses (a full
  * loop uses one per round).
  */
